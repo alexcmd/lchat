@@ -168,6 +168,7 @@ footer>*{max-width:780px;margin-left:auto;margin-right:auto}
 .pill.ent[data-type=task]{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 50%,transparent)}
 .pill.ent[data-type=chat]{color:var(--acc);border-color:color-mix(in srgb,var(--acc) 45%,transparent)}
 .pill.ent[data-type=new]{cursor:default}
+.pill.ent[data-type=issue]{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent)}
 /* sidebar list */
 #tasksNav{border-top:1px solid var(--line);padding:6px 8px 8px;font-size:13px;max-height:38%;overflow-y:auto;flex:none}
 #tasksNav .tkh{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:6px 8px 4px;user-select:none}
@@ -340,7 +341,7 @@ function agentPrompt(){
   return `You are lchat, a capable assistant running locally on the user's computer. Today is ${d.toDateString()}, local time ${d.toLocaleTimeString()}. Working directory: ${CWD}. bash runs there and remembers cd for the rest of this chat; read_file and write_file resolve relative paths from it. When the task is about a project or folder somewhere else, cd into it first (or use absolute paths); do not cd around without a reason.
 System: ${SYSINFO||'unknown (lchat-web did not report it)'}
 Write commands for THIS system: use its native package manager and the tools listed as installed, respect its notes (for example a read-only root filesystem), and when a help card shows per-distro variants pick the one for this system's family.
-You can call tools to act on the machine and the web: run bash commands, read and write files, search and fetch web pages, list/focus/minimize/close desktop windows, and take screenshots (which you can see). You also remember past conversations with the user: use the recall tool when they refer to something from before. For any Linux command-line, scripting or system task and for any error message, call linux_help FIRST: it returns verified step-by-step cards with exact commands; build your commands and scripts from them (replace <PLACEHOLDERS> with real values) instead of guessing.
+You can call tools to act on the machine and the web: run bash commands, read and write files, search and fetch web pages, list/focus/minimize/close desktop windows, and take screenshots (which you can see). For questions about this machine's current state (slow, disk, memory, battery, network/IP/Wi-Fi/VPN, audio, GPU, Docker/Kubernetes, failed services, errors) call system_facts FIRST: it is read-only and needs no approval. You also remember past conversations with the user: use the recall tool when they refer to something from before. For any Linux command-line, scripting or system task and for any error message, call linux_help FIRST: it returns verified step-by-step cards with exact commands; build your commands and scripts from them (replace <PLACEHOLDERS> with real values) instead of guessing.
 Work step by step: call a tool, look at the result, then decide the next step. Do not list the home directory (ls ~) to orient yourself: the System line and the request already give the context; start with the command that tests the exact path, unit, file or error named in the request. Prefer one tool call at a time. For web research make ONE web_search call that lists several differently worded queries in its queries array. Image links from a search are only links: call download on an image before you describe it, and never describe an image you have not seen. Never guess facts you can check with a tool. If a tool fails, read the error and try a different approach. When the task is done, give a short, direct final answer without calling more tools.`;
 }
 
@@ -548,7 +549,8 @@ async function go(){
   saveChat(H);                   // the chat shows up in History right away
   // auto-retrieval: a small model rarely calls linux_help on its own, so look the request up once per user turn
   // and put the best cards into this turn's system prompt (only when they clearly match)
-  let helpCards='';
+  let helpCards='',sysAlerts='';
+  if(agent)try{const st=await (await fetch('/api/sysstate',{headers:{'X-LChat-Token':TOKEN},signal:AbortSignal.timeout(2000)})).json();sysAlerts=st.alerts||''}catch(e){}
   // small talk ("hello", "thanks") has nothing to look up
   // "how to ..." is a question, not a task: explain with the exact commands, ask for missing values, ask before
   // running. For such a turn the tools that change the machine are not offered at all.
@@ -569,7 +571,7 @@ async function go(){
   try{
     for(;;){
       steps++;
-      const sys=[agent?agentPrompt():'',howTo?'The user asked HOW to do something. Do not run anything. Answer in this order: 1) one line on what the commands do; 2) the exact command(s), based on the help cards when there are any, with every <PLACEHOLDER> filled from the user\'s message where it gives the value; 3) a short list of the values the user still has to give you (for each: what it is and how to find it, e.g. the discover command); 4) warnings for anything destructive; 5) end by asking whether you should run it for them. bash and write_file are not available in this turn.':'',helpCards?'Help cards that match the user\'s request, already looked up for you with linux_help (verified commands; follow and adapt them, replacing <PLACEHOLDERS>). Do not call linux_help again for the same request; call it only for a different sub-task:\n\n'+helpCards:'',$('#sys').value.trim()].filter(Boolean).join('\n\n');
+      const sys=[agent?agentPrompt():'',agent&&sysAlerts?'Machine warnings right now (take them into account when they are relevant to the request): '+sysAlerts:'',howTo?'The user asked HOW to do something. Do not run anything. Answer in this order: 1) one line on what the commands do; 2) the exact command(s), based on the help cards when there are any, with every <PLACEHOLDER> filled from the user\'s message where it gives the value; 3) a short list of the values the user still has to give you (for each: what it is and how to find it, e.g. the discover command); 4) warnings for anything destructive; 5) end by asking whether you should run it for them. bash and write_file are not available in this turn.':'',helpCards?'Help cards that match the user\'s request, already looked up for you with linux_help (verified commands; follow and adapt them, replacing <PLACEHOLDERS>). Do not call linux_help again for the same request; call it only for a different sub-task:\n\n'+helpCards:'',$('#sys').value.trim()].filter(Boolean).join('\n\n');
       const req={messages:(sys?[{role:'system',content:sys}]:[]).concat(fitContext(H,lastPrompt)),stream:true,stream_options:{include_usage:true},
         chat_template_kwargs:{enable_thinking:$('#think').checked}};
       // how-to turn: nothing that changes the machine; and no second card lookup when the cards are already given
@@ -767,38 +769,79 @@ async function openChat(id){
   scroll(true);inp.focus();chatOpened();
 }
 
-// ---------- navigation: every chat has its own URL (#/chat/<id>, task threads too); back/forward and reload work ----------
-let navFromHash=false;
-const entityOf=id=>String(id).startsWith('task-')?'task':'chat';
-const isSaved=()=>msgs.length>0||HIST.some(c=>c.id===CHAT_ID);
-function showEntity(){
-  const b=$('#entity');if(!b)return;const t=isSaved()?entityOf(CHAT_ID):'new';b.dataset.type=t;
-  b.textContent=t==='new'?'NEW CHAT':`${t.toUpperCase()} · ${CHAT_ID.length>14?CHAT_ID.slice(0,14)+'…':CHAT_ID}`;
-  b.title=t==='new'?'New chat, not saved yet':`${t} id: ${CHAT_ID}\nclick to copy a link to it`;
+// ---------- navigation: chats, tasks and issues (errors/events) each have a URL ----------
+//   #/chat/<chat id>   a chat           #/task/<task id>   a scheduled task's thread
+//   #/issue/<fp>       the chat about a system issue (unlinked: a new chat with the issue prompt, not sent)
+// back/forward and reload work; the badge in the top bar shows the open entity's type and id.
+let navFromHash=false,unsavedId=null,pendingIssue=null;   // pendingIssue: {fp, chatId, prompt} for one unsaved chat
+const ENT={tasks:[],issues:[]};
+async function loadEntities(){
+  const [t,i]=await Promise.all([api('/api/tasks').catch(()=>null),api('/api/issues').catch(()=>null)]);
+  ENT.tasks=(t&&Array.isArray(t.tasks))?t.tasks:[];ENT.issues=(i&&Array.isArray(i.groups))?i.groups:[];
 }
-let unsavedId=null;   // the new chat that "#/" currently stands for
-function syncUrl(){   // reflect the open chat in the address bar; a new chat's first save replaces its "#/" entry
+const isSaved=()=>msgs.length>0||HIST.some(c=>c.id===CHAT_ID);
+function entity(){   // {type: new|chat|task|issue, id, label}
+  if(!isSaved())return {type:'new'};
+  const t=ENT.tasks.find(x=>x.chat_id===CHAT_ID);
+  if(t||String(CHAT_ID).startsWith('task-'))return {type:'task',id:t?String(t.id):CHAT_ID,label:t&&t.title};
+  const g=ENT.issues.find(x=>x.chat_id===CHAT_ID);
+  if(g)return {type:'issue',id:g.fp,label:g.title||(g.unit+': '+g.template)};
+  return {type:'chat',id:CHAT_ID,label:CHAT_TITLE};
+}
+const routeOf=e=>e.type==='new'?'#/':`#/${e.type}/${encodeURIComponent(e.id)}`;
+function showEntity(){
+  const b=$('#entity');if(!b)return;const e=entity();b.dataset.type=e.type;
+  b.textContent=e.type==='new'?'NEW CHAT':`${e.type.toUpperCase()} · ${e.id.length>14?e.id.slice(0,14)+'…':e.id}`;
+  b.title=e.type==='new'?'New chat, not saved yet':`${e.type} id: ${e.id}${e.label?'\n'+e.label:''}\nchat id: ${CHAT_ID}\nclick to copy a link`;
+}
+function syncUrl(){   // reflect the open entity in the address bar; a new chat's first save replaces its "#/" entry
+  // a chat started from #/issue/<fp> is linked to that issue on its first save, and only that chat
+  if(pendingIssue&&pendingIssue.chatId!==CHAT_ID){if(inp.value===pendingIssue.prompt){inp.value='';inp.oninput()}pendingIssue=null}
+  if(pendingIssue&&isSaved()){const fp=pendingIssue.fp;pendingIssue=null;
+    api('/api/issues/link',{fp,chat_id:CHAT_ID}).catch(()=>{});const g=ENT.issues.find(x=>x.fp===fp);if(g)g.chat_id=CHAT_ID}
   showEntity();if(navFromHash)return;
-  const saved=isSaved(),h=saved?'#/chat/'+encodeURIComponent(CHAT_ID):'#/';
+  const saved=isSaved(),h=routeOf(entity());
   if(!saved)unsavedId=CHAT_ID;
   if(location.hash===h)return;
   const replace=!location.hash||location.hash==='#'||(location.hash==='#/'&&saved&&CHAT_ID===unsavedId);
   if(replace)history.replaceState(null,'',h);else history.pushState(null,'',h);
 }
-document.addEventListener('lchat:chatopen',syncUrl);
+document.addEventListener('lchat:chatopen',()=>{syncUrl();loadEntities().then(syncUrl)});
+setInterval(()=>{if(!document.hidden)loadEntities().then(showEntity)},30000);
 async function navigate(){
-  const m=/^#\/chat\/(.+)$/.exec(location.hash);navFromHash=true;
-  try{if(m){const id=decodeURIComponent(m[1]);if(id!==CHAT_ID)await openChat(id)}else if(msgs.length||busy){freshChat();unsavedId=CHAT_ID}}
-  finally{navFromHash=false;showEntity()}
+  const m=/^#\/(chat|task|issue)\/(.+)$/.exec(location.hash);navFromHash=true;
+  // leaving a prefilled issue chat: drop the pending link and the prompt we put in the input (not the user's own text)
+  if(pendingIssue){if(inp.value===pendingIssue.prompt){inp.value='';inp.oninput()}pendingIssue=null}
+  try{
+    if(!m){if(msgs.length||busy){freshChat();unsavedId=CHAT_ID}return}
+    const kind=m[1],id=decodeURIComponent(m[2]);
+    if(kind==='chat'){if(id!==CHAT_ID)await openChat(id);return}
+    await loadEntities();
+    if(kind==='task'){
+      const t=ENT.tasks.find(x=>String(x.id)===id);
+      if(t&&t.chat_id){if(t.chat_id!==CHAT_ID)await openChat(t.chat_id)}
+      else{freshChat();$('#chatTitle').textContent=t?`task ${id}: no runs yet`:`task ${id} not found`}
+      return;
+    }
+    const g=ENT.issues.find(x=>x.fp===id);   // issue
+    if(g&&g.chat_id){if(g.chat_id!==CHAT_ID)await openChat(g.chat_id);return}
+    freshChat();
+    if(!g){$('#chatTitle').textContent=`issue ${id} not found`;return}
+    let d=null;try{d=await api('/api/issues/chat',{fp:id})}catch{}
+    if(d&&d.chat_id){await openChat(d.chat_id);return}
+    CHAT_TITLE=String((d&&d.title)||g.title||g.unit||'issue').slice(0,80);$('#chatTitle').textContent=CHAT_TITLE;
+    if(d&&d.prompt){inp.value=d.prompt;inp.oninput()}   // prefilled, not sent: a link never starts a model run
+    pendingIssue={fp:id,chatId:CHAT_ID,prompt:inp.value};
+  }finally{navFromHash=false;showEntity()}
 }
 window.addEventListener('popstate',navigate);
 $('#entity').onclick=()=>{
   if(!isSaved())return;const b=$('#entity'),t=b.textContent;
-  const u=location.origin+location.pathname+'#/chat/'+encodeURIComponent(CHAT_ID);
+  const u=location.origin+location.pathname+routeOf(entity());
   (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>{b.textContent='link copied'},()=>{b.textContent=CHAT_ID})
     .finally(()=>setTimeout(()=>{b.textContent=t},1400));
 };
-hello();refreshHistory().then(()=>{if(/^#\/chat\//.test(location.hash))navigate();else syncUrl()});inp.focus();
+hello();Promise.all([refreshHistory(),loadEntities()]).then(()=>{if(/^#\/(chat|task|issue)\//.test(location.hash))navigate();else syncUrl()});inp.focus();
 // ===== issues (lchat_watch) =====
 // System issues found by bin/lchat_watch.py (static rules, no LLM). Polls /api/issues; "Chat" opens the chat
 // linked to the issue group, or starts one with a server-built prompt and links it.

@@ -133,6 +133,15 @@ TOOLS = {
                      platform={"type": "string", "enum": ["linux", "macos", "any"],
                                "description": "default linux (this machine)", "optional": True}),
                    False),
+    "system_facts": ("Read-only facts about this machine's CURRENT state, no approval needed. Call it FIRST when the "
+                     "user asks why the machine is slow, about free disk or memory, battery, network/IP/Wi-Fi/DNS, VPN, "
+                     "audio, GPU/drivers, Docker/Podman containers, Kubernetes, failed services or recent errors, "
+                     "instead of writing bash for it. topic overview = disk, memory, load, battery and warnings.",
+                     P("", topic={"type": "string", "enum": ["overview", "processes", "disk", "memory", "battery",
+                                                             "network", "vpn", "containers", "kubernetes", "audio",
+                                                             "gpu", "errors", "all"],
+                                  "description": "default overview", "optional": True}),
+                     False),
     "screenshot": ("Take a screenshot and look at it. target='screen' for the whole screen, 'active' for the "
                    "focused window, or a window title substring / id from list_windows.",
                    P("", target={"type": "string", "description": "screen | active | <window title or id>",
@@ -141,62 +150,460 @@ TOOLS = {
 }
 
 
-import platform as _platform, shutil as _shutil
+import platform as _platform, shutil as _shutil, glob as _glob, sys
+from concurrent.futures import ThreadPoolExecutor as _Pool
 
+MACOS = sys.platform == "darwin"
 # native package manager per os-release family (ID, then ID_LIKE)
 _PKG_BY_FAMILY = [("arch", "pacman"), ("debian", "apt"), ("ubuntu", "apt"), ("fedora", "dnf"), ("rhel", "dnf"),
                   ("suse", "zypper"), ("opensuse", "zypper"), ("alpine", "apk"), ("gentoo", "emerge"),
-                  ("void", "xbps-install"), ("nixos", "nix")]
+                  ("void", "xbps-install"), ("nix", "nix"), ("nixos", "nix")]
+_PMS = ("pacman", "apt", "dnf", "zypper", "apk", "emerge", "xbps-install", "nix", "flatpak", "snap", "brew", "port",
+        "paru", "yay", "pip", "pipx", "uv", "distrobox")
+_CONTAINERS = ("docker", "podman", "nerdctl", "colima", "lima")
+_K8S = ("kubectl", "helm", "k3s", "minikube", "kind", "k9s")
+_VPN_TOOLS = ("tailscale", "wg", "openvpn", "openconnect", "nordvpn", "mullvad", "protonvpn", "warp-cli")
+# a service or Finder-started app gets a minimal PATH: look in the usual install prefixes too
+_EXTRA_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/home/linuxbrew/.linuxbrew/bin",
+               os.path.expanduser("~/.linuxbrew/bin"), os.path.expanduser("~/.local/bin"), "/snap/bin",
+               "/Applications/Docker.app/Contents/Resources/bin", "/Applications/Tailscale.app/Contents/MacOS"]
+_VERSION_ARGS = {"pacman": ["-V"], "kubectl": ["version", "--client"], "helm": ["version", "--short"],
+                 "minikube": ["version"], "kind": ["version"], "k9s": ["version", "-s"], "colima": ["version"],
+                 "lima": ["--version"], "tailscale": ["version"], "nordvpn": ["version"], "mullvad": ["version"]}
+_PORTABLE_CHASSIS = {"8", "9", "10", "11", "14", "30", "31", "32"}   # SMBIOS: portable, laptop, notebook, handheld...
 
 
-def system_info():
-    """One paragraph about this machine for the agent prompt: OS/distro, kernel, desktop, package managers,
-    read-only rootfs, CPU/RAM. Detected once at start-up; every probe is optional."""
-    osr = {}
+def _cmd(argv, timeout=3):
+    """stdout of a probe command, '' when it is missing, fails or is slow."""
     try:
-        for line in open("/etc/os-release", encoding="utf-8"):
-            k, _, v = line.strip().partition("=")
-            osr[k] = v.strip('"')
+        return subprocess.run(argv, capture_output=True, text=True, errors="replace", timeout=timeout,
+                              stdin=subprocess.DEVNULL).stdout.strip()
+    except Exception:
+        return ""
+
+
+def _read(path):
+    try:
+        return open(path, encoding="utf-8", errors="replace").read().strip()
     except OSError:
-        pass
+        return ""
+
+
+def _find(name):
+    """path of a command: PATH, then the usual prefixes, then /opt/<x>/[bin/]name."""
+    p = _shutil.which(name)
+    if p:
+        return p
+    for d in _EXTRA_DIRS + sorted(_glob.glob("/opt/*/bin")) + sorted(_glob.glob("/opt/*")):
+        c = os.path.join(d, name)
+        if os.path.isfile(c) and os.access(c, os.X_OK):
+            return c
+    return None
+
+
+def _version(name, path):
+    out = _cmd([path] + _VERSION_ARGS.get(name, ["--version"]), timeout=4)
+    v = re.search(r"\d+\.\d+(?:\.\d+)?", out)
+    return f"{name} {v.group(0) if v else '?'} at {path}"
+
+
+def _timezone():
+    tz = os.path.realpath("/etc/localtime")
+    return tz.split("zoneinfo/", 1)[1] if "zoneinfo/" in tz else os.environ.get("TZ", "")
+
+
+def _linux_os():
+    osr = {}
+    for line in _read("/etc/os-release").splitlines():
+        k, _, v = line.partition("=")
+        osr[k] = v.strip('"')
     ids = [osr.get("ID", "")] + osr.get("ID_LIKE", "").split()
-    native = next((pm for fam in ids for f, pm in _PKG_BY_FAMILY if fam == f and _shutil.which(pm)), None)
-    present = [pm for pm in ("pacman", "apt", "dnf", "zypper", "apk", "emerge", "xbps-install", "nix", "flatpak",
-                             "snap", "brew", "paru", "yay", "pip", "pipx", "distrobox") if _shutil.which(pm)]
     name = osr.get("PRETTY_NAME") or osr.get("NAME") or _platform.system()
     ver = osr.get("VERSION_ID", "")
     fam = ", ".join(x for x in ids[1:] if x) or ids[0] or "unknown"
-    parts = [f"OS: {name}{' ' + ver if ver and ver not in name else ''} (id {ids[0] or '?'}, family {fam})"
-             + (f", variant {osr['VARIANT_ID']}" if osr.get("VARIANT_ID") else ""),
-             f"kernel {_platform.release()} {_platform.machine()}"]
+    desc = (f"OS: {name}{' ' + ver if ver and ver not in name else ''} (id {ids[0] or '?'}, family {fam})"
+            + (f", variant {osr['VARIANT_ID']}" if osr.get("VARIANT_ID") else ""))
+    native = next((pm for fam_ in ids for f, pm in _PKG_BY_FAMILY if fam_ == f and _shutil.which(pm)), None)
+    return desc, native
+
+
+def _linux_gpu():
+    short = lambda v: re.sub(r"^(Advanced Micro Devices|NVIDIA|Intel|Matrox|ASPEED|VMware|Red Hat|Qualcomm).*", r"\1", v)
+    names = [f"{f[2]} ({short(f[1]).replace('Advanced Micro Devices', 'AMD')})" for l in _cmd(["lspci", "-mm"]).splitlines()
+             if re.search(r'"(VGA|3D|Display)', l) for f in [re.findall(r'"([^"]*)"', l)] if len(f) >= 3]
+    drivers = sorted({m.group(1) for f in _glob.glob("/sys/class/drm/card[0-9]*/device/uevent")
+                      for m in [re.search(r"^DRIVER=(\S+)", _read(f), re.M)] if m})
+    if not names and not drivers:
+        return ""
+    return "GPU " + ("; ".join(names) or "?") + (f" (driver {', '.join(drivers)})" if drivers else "")
+
+
+def _linux_hw():
+    bats = _glob.glob("/sys/class/power_supply/BAT*")
+    chassis = _read("/sys/class/dmi/id/chassis_type")
+    model = " ".join(x for x in (_read("/sys/class/dmi/id/sys_vendor"), _read("/sys/class/dmi/id/product_name"))
+                     if x and "o be filled" not in x)
+    kind = "laptop/handheld (has a battery)" if bats or chassis in _PORTABLE_CHASSIS else "desktop (no battery)"
+    return f"hardware {model + ', ' if model else ''}{kind}"
+
+
+def _vpn_ifaces():
+    return sorted(n for n in os.listdir("/sys/class/net")
+                  if re.match(r"(wg|tun|tap|tailscale|ppp|proton|nordlynx|mullvad|utun|ipsec|zt)", n)) \
+        if os.path.isdir("/sys/class/net") else []
+
+
+def _linux_stack():
+    parts = []
+    srv = re.search(r"Server Name:\s*(.+)", _cmd(["pactl", "info"]))
+    if srv:
+        parts.append(f"audio {srv.group(1).strip()}")
+    elif _shutil.which("pipewire"):
+        parts.append("audio PipeWire")
+    nets = [u for u, st in zip(("NetworkManager", "iwd", "systemd-networkd", "connman"),
+                               _cmd(["systemctl", "is-active", "NetworkManager", "iwd", "systemd-networkd",
+                                     "connman"]).split()) if st == "active"]
+    if nets:
+        parts.append("network " + ", ".join(nets))
+    init = _read("/proc/1/comm")
+    if init:
+        parts.append(f"init {init}")
+    return parts
+
+
+def _vpn_summary():
+    """configured VPN connections (names only) and which are up."""
+    conf = []
+    if MACOS:
+        for l in _cmd(["scutil", "--nc", "list"]).splitlines():
+            m = re.search(r"\((\w+)\).*\"([^\"]+)\"(?:\s*\[([^\]]+)\])?", l)   # * (Connected) id .. "Name" [PPP/L2TP]
+            if m:
+                conf.append(f"{m.group(2)} ({m.group(3) + ', ' if m.group(3) else ''}{m.group(1).lower()})")
+    else:
+        for l in _cmd(["nmcli", "-t", "-f", "NAME,TYPE,ACTIVE", "connection", "show"]).splitlines():
+            f = l.split(":")   # NAME may contain ':'; TYPE and ACTIVE are the last two fields
+            if len(f) >= 3 and re.search(r"vpn|wireguard", f[-2]):
+                conf.append(f"{':'.join(f[:-2])} ({f[-2]}{', active' if f[-1] == 'yes' else ''})")
+        for u in _cmd(["systemctl", "list-units", "--all", "--plain", "--no-legend", "wg-quick@*", "openvpn*@*",
+                       "openvpn-client@*"]).splitlines():
+            f = u.split()
+            if f:
+                conf.append(f"{f[0]} ({f[2]})")
+    up = _vpn_ifaces()
+    ts = _find("tailscale")
+    if ts:
+        st = _cmd([ts, "status", "--peers=false"], timeout=3)
+        conf.append("tailscale (" + ("connected" if re.match(r"\d+\.\d+\.\d+\.\d+", st) else
+                                     "stopped" if "stopped" in st.lower() else "not running") + ")")
+    if not conf and not up:
+        return ""
+    return ("VPN: " + (", ".join(dict.fromkeys(conf)) or "none configured")
+            + (f"; tunnel interfaces up: {', '.join(up)}" if up else ""))
+
+
+def _docker_daemon():
+    socks = [os.environ.get("DOCKER_HOST", "").replace("unix://", ""), "/var/run/docker.sock", "/run/docker.sock",
+             os.path.expanduser("~/.docker/run/docker.sock"), os.path.expanduser("~/.colima/default/docker.sock")]
+    s = next((s for s in socks if s and os.path.exists(s)), None)
+    if not s:
+        return "daemon not running (no socket)"
+    return "daemon running" + ("" if os.access(s, os.R_OK | os.W_OK) else ", socket needs root (use sudo or the docker group)")
+
+
+def _mac_os():
+    v = _cmd(["sw_vers", "-productVersion"]) or _platform.mac_ver()[0]
+    b = _cmd(["sw_vers", "-buildVersion"])
+    chip = _cmd(["sysctl", "-n", "machdep.cpu.brand_string"])
+    model = _cmd(["sysctl", "-n", "hw.model"])
+    arm = _cmd(["sysctl", "-n", "hw.optional.arm64"]) == "1"
+    rosetta = _cmd(["sysctl", "-n", "sysctl.proc_translated"]) == "1"
+    batt = "InternalBattery" in _cmd(["pmset", "-g", "batt"])
+    desc = (f"OS: macOS {v or '?'}{' (' + b + ')' if b else ''}" + ("; NOTE lchat runs under Rosetta (x86_64 Python) "
+            "but the machine is arm64: brew lives in /opt/homebrew" if rosetta else ""))
+    hw = (f"hardware {'Apple Silicon' if arm else 'Intel'} Mac{' ' + model if model else ''}"
+          f"{', ' + chip if chip else ''}, {'laptop (has a battery)' if batt else 'desktop (no battery)'}")
+    loc = _cmd(["defaults", "read", "-g", "AppleLocale"])
+    return desc, [hw, "audio CoreAudio", "init launchd"] + ([f"locale {loc}"] if loc else [])
+
+
+def system_info():
+    """One paragraph about this machine for the agent prompt: OS, kernel, hardware model and kind, GPU,
+    audio/network stack, VPNs, package managers / container / kubernetes tools with version and location,
+    locale, read-only rootfs, CPU/RAM. Linux and macOS. Detected once at start-up; every probe is optional
+    and time-limited; the slow ones (version queries) run in parallel."""
+    with _Pool(10) as pool:
+        def tools(names):
+            return [pool.submit(_version, n, p) for n in names for p in [_find(n)] if p]
+        f_pms, f_ctr, f_k8s, f_vpnt = tools(_PMS), tools(_CONTAINERS), tools(_K8S), tools(_VPN_TOOLS)
+        f_vpn = pool.submit(_vpn_summary)
+        if MACOS:
+            f_os, f_gpu, f_stack = pool.submit(_mac_os), None, None
+        else:
+            f_os, f_gpu, f_stack = pool.submit(_linux_os), pool.submit(_linux_gpu), pool.submit(_linux_stack)
+        os_desc, extra = f_os.result()
+        pms = [f.result() for f in f_pms]
+        parts = [os_desc, f"kernel {_platform.system()} {_platform.release()} {_platform.machine()}"]
+        if MACOS:
+            native = "brew" if any(p.startswith("brew ") for p in pms) else None
+            parts += extra
+        else:
+            native = extra
+            parts.append(_linux_hw())
+            if f_gpu.result():
+                parts.append(f_gpu.result())
+            parts += f_stack.result()
+        if f_vpn.result():
+            parts.append(f_vpn.result())
+        ctr = [f.result() for f in f_ctr]
+        k8s = [f.result() for f in f_k8s]
+        vpnt = [f.result() for f in f_vpnt]
     de, st = os.environ.get("XDG_CURRENT_DESKTOP", ""), os.environ.get("XDG_SESSION_TYPE", "")
     if de or st:
         parts.append(f"desktop {de or '?'} on {st or '?'}")
-    pk = f"native package manager: {native}" if native else "native package manager: unknown"
-    if present:
-        pk += f" (installed: {', '.join(present)})"
-    parts.append(pk)
+    parts.append(f"native package manager: {native or 'unknown'}" + (f" (installed: {', '.join(pms)})" if pms else ""))
+    if ctr:
+        dk = " - docker " + _docker_daemon() if any(c.startswith("docker ") for c in ctr) else ""
+        parts.append(f"containers: {', '.join(ctr)}{dk}")
+    if k8s:
+        ctx = _cmd([_find("kubectl"), "config", "current-context"]) if _find("kubectl") else ""
+        parts.append(f"kubernetes: {', '.join(k8s)}" + (f", current context {ctx}" if ctx else ", no kube context"))
+    if vpnt:
+        parts.append(f"VPN tools: {', '.join(vpnt)}")
+    if not MACOS:
+        loc = os.environ.get("LC_ALL") or os.environ.get("LANG", "")
+        if loc:
+            parts.append(f"locale {loc}")
+    tz = _timezone()
+    if tz:
+        parts.append(f"timezone {tz}")
     if _shutil.which("steamos-readonly"):
-        try:
-            ro = subprocess.run(["steamos-readonly", "status"], capture_output=True, text=True, timeout=5).stdout.strip()
-        except Exception:
-            ro = ""
+        ro = _cmd(["steamos-readonly", "status"], timeout=5)
         if ro:
             parts.append(f"SteamOS read-only root filesystem: {ro} - system packages installed with pacman are wiped "
                          "by OS updates; prefer flatpak (apps), distrobox, pip --user or ~/.local for tools, and "
                          "only use `sudo steamos-readonly disable` + pacman when the user agrees")
     try:
-        mem = next(int(l.split()[1]) for l in open("/proc/meminfo") if l.startswith("MemTotal")) // 1024
-        cpu = next((l.split(":", 1)[1].strip() for l in open("/proc/cpuinfo") if l.startswith("model name")), "")
+        if MACOS:
+            mem, cpu = int(_cmd(["sysctl", "-n", "hw.memsize"]) or 0) // 2**20, ""   # chip named in hardware part
+        else:
+            mem = next(int(l.split()[1]) for l in open("/proc/meminfo") if l.startswith("MemTotal")) // 1024
+            cpu = next((l.split(":", 1)[1].strip() for l in open("/proc/cpuinfo") if l.startswith("model name")), "")
         parts.append(f"{os.cpu_count()} CPUs{' (' + cpu + ')' if cpu else ''}, {mem / 1024:.0f} GiB RAM")
     except Exception:
         pass
     parts.append(f"shell {os.path.basename(os.environ.get('SHELL', 'bash'))} (the bash tool runs bash), "
-                 f"user {os.environ.get('USER', '?')}, sudo {'available' if _shutil.which('sudo') else 'missing'}")
+                 f"user {os.environ.get('USER', '?')}, "
+                 f"sudo {'present (ask the user before using it)' if _shutil.which('sudo') else 'missing'}")
     return "; ".join(parts) + "."
 
 
 SYSTEM_INFO = system_info()
+
+
+# ---------------- live machine state ----------------
+def _mem_state():
+    """(available fraction or None, pressure note or '')"""
+    if MACOS:
+        lvl = _cmd(["sysctl", "-n", "kern.memorystatus_level"])   # % of memory free, as the kernel rates it
+        return (int(lvl) / 100 if lvl.isdigit() else None), ""
+    mi = {}
+    for l in _read("/proc/meminfo").splitlines():
+        k, _, v = l.partition(":")
+        if v.split():
+            mi[k] = int(v.split()[0])
+    psi = re.search(r"some avg10=([\d.]+)", _read("/proc/pressure/memory"))
+    avail = mi.get("MemAvailable", 0) / mi["MemTotal"] if mi.get("MemTotal") else None
+    return avail, (f"memory pressure {float(psi.group(1)):.0f}% (last 10 s)" if psi and float(psi.group(1)) >= 10 else "")
+
+
+def _battery():
+    """(percent, discharging) or None"""
+    if MACOS:
+        m = re.search(r"(\d+)%;\s*(\w+)", _cmd(["pmset", "-g", "batt"]))
+        return (int(m.group(1)), m.group(2).lower() == "discharging") if m else None
+    for b in sorted(_glob.glob("/sys/class/power_supply/BAT*")):
+        cap = _read(b + "/capacity")
+        if cap.isdigit():
+            return int(cap), _read(b + "/status").lower() == "discharging"
+    return None
+
+
+def _pct(du):
+    return du.used / ((du.used + du.free) or 1)   # as df computes Use% (reserved blocks excluded)
+
+
+def _disks():
+    seen, out = set(), []
+    for p in ("/", os.path.expanduser("~")) + (("/System/Volumes/Data",) if MACOS else ()):
+        try:
+            st = os.stat(p)
+            if st.st_dev in seen:
+                continue
+            seen.add(st.st_dev)
+            out.append((p, _shutil.disk_usage(p)))
+        except OSError:
+            pass
+    return out
+
+
+_ALERTS = [0.0, ""]
+
+
+def sys_alerts():
+    """One short line of warnings about the machine's current state, '' when everything looks normal.
+    Cheap (no subprocess on Linux), cached 10 s; the page adds it to every turn's system prompt."""
+    if time.time() - _ALERTS[0] < 10:
+        return _ALERTS[1]
+    warn = []
+    for p, du in _disks():
+        free = du.free / 2**30
+        if _pct(du) >= 0.9 or free < 1:
+            warn.append(f"disk {p} {_pct(du):.0%} used, {free:.1f} GiB free")
+    avail, psi = _mem_state()
+    if avail is not None and avail < 0.1:
+        warn.append(f"low memory: {avail:.0%} available")
+    if psi:
+        warn.append(psi)
+    try:
+        l1 = os.getloadavg()[0]
+        if l1 > 1.5 * (os.cpu_count() or 1):
+            warn.append(f"high CPU load {l1:.1f} on {os.cpu_count()} CPUs")
+    except OSError:
+        pass
+    b = _battery()
+    if b and b[1] and b[0] <= 15:
+        warn.append(f"battery {b[0]}% and discharging")
+    _ALERTS[:] = [time.time(), "; ".join(warn)]
+    return _ALERTS[1]
+
+
+_MAC_RE = re.compile(r"\b[0-9a-f]{2}(?::[0-9a-f]{2}){5}\b", re.I)
+
+
+def _sh(cmd, timeout=8):
+    """a fixed probe pipeline through bash (never model input); tools outside PATH are found via _EXTRA_PATH."""
+    env = dict(os.environ, PATH=os.environ.get("PATH", "") + ":" + _EXTRA_PATH)
+    try:
+        r = subprocess.run(["bash", "-c", cmd], capture_output=True, text=True, errors="replace", timeout=timeout,
+                           stdin=subprocess.DEVNULL, env=env)
+        return (r.stdout + r.stderr).strip()
+    except subprocess.TimeoutExpired:
+        return "(timed out)"
+
+
+_EXTRA_PATH = ":".join(dict.fromkeys(os.path.dirname(p) for n in _CONTAINERS + _K8S + _VPN_TOOLS + ("brew",)
+                                     for p in [_find(n)] if p))
+
+_KUBE = ("if ! command -v kubectl >/dev/null; then echo 'kubectl not installed'; else echo '### contexts'; kubectl config "
+         "get-contexts 2>&1 | head -10; echo '### nodes'; kubectl get nodes -o wide --request-timeout=5s 2>&1 | head -10; "
+         "echo '### pods not running'; kubectl get pods -A --request-timeout=5s "
+         "--field-selector=status.phase!=Running,status.phase!=Succeeded 2>&1 | head -15; fi")
+_TS = ("if ! command -v tailscale >/dev/null; then echo 'tailscale not installed'; else tailscale status --peers=false "
+       "2>&1 | awk 'NR==1 && $1 ~ /^[0-9]/ {print \"connected as\", $2, $1, \"(\" $4 \")\"; exit} NR==1 {print}'; fi")
+_FACTS = {   # topic -> [(title, linux pipeline, macOS pipeline)]; '' = not on that platform
+    "processes": [("top by CPU", "ps -eo pid,pcpu,pmem,rss,comm --sort=-pcpu | head -11",
+                   "ps -Ao pid,pcpu,pmem,rss,comm -r | head -11"),
+                  ("top by memory", "ps -eo pid,pcpu,pmem,rss,comm --sort=-rss | head -8",
+                   "ps -Ao pid,pcpu,pmem,rss,comm -m | head -8")],
+    "disk": [("filesystems", "df -hPT -x tmpfs -x devtmpfs -x squashfs -x overlay -x efivarfs 2>/dev/null", "df -hl"),
+             ("block devices", "lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS 2>/dev/null | head -30",
+              "diskutil list | head -40")],
+    "memory": [("memory", "free -h", "sysctl -n hw.memsize | awk '{printf \"total %.1f GiB\\n\", $1/2^30}'; "
+                "memory_pressure -Q 2>/dev/null | tail -1; vm_stat | head -10"),
+               ("swap", "swapon --show 2>/dev/null; cat /proc/pressure/memory", "sysctl -n vm.swapusage"),
+               ("load", "uptime", "uptime")],
+    "battery": [("battery", "for b in /sys/class/power_supply/BAT*; do [ -d $b ] || continue; f=$(cat $b/energy_full "
+                 "$b/charge_full 2>/dev/null | head -1); d=$(cat $b/energy_full_design $b/charge_full_design "
+                 "2>/dev/null | head -1); echo \"$(basename $b): $(cat $b/capacity)% $(cat $b/status), health "
+                 "$(( ${f:-0} * 100 / ${d:-1} ))%, cycles $(cat $b/cycle_count 2>/dev/null)\"; done; "
+                 "for a in /sys/class/power_supply/A*; do [ -d $a ] && echo \"$(basename $a) online=$(cat $a/online)\"; "
+                 "done; command -v powerprofilesctl >/dev/null && echo \"power profile: $(powerprofilesctl get)\"",
+                 "pmset -g batt; pmset -g | grep -iE 'lowpowermode|powernap'; pmset -g therm")],
+    "network": [("interfaces", "ip -br addr", "ifconfig | grep -E '^[a-z]|inet'"),
+                ("devices", "nmcli -t -f DEVICE,TYPE,STATE device 2>/dev/null",
+                 "networksetup -listnetworkserviceorder | grep -E '^\\([0-9]'"),
+                ("route to the internet", "ip route get 1.1.1.1 | head -1; ip route show default",
+                 "route -n get default | grep -E 'gateway|interface'"),
+                ("wifi", "nmcli -t -f ACTIVE,SSID,SIGNAL,FREQ,SECURITY dev wifi 2>/dev/null | grep '^yes' || "
+                 "iw dev 2>/dev/null | grep -E 'ssid|channel'",
+                 "networksetup -getairportnetwork en0; networksetup -getairportpower en0"),
+                ("dns", "resolvectl dns 2>/dev/null | grep -vE '^Global:\\s*$' || grep nameserver /etc/resolv.conf",
+                 "scutil --dns | grep nameserver | sort -u | head -6"),
+                ("public IP (via ifconfig.me)", "echo \"IPv4 $(curl -4 -s --max-time 4 https://ifconfig.me || echo "
+                 "none)\"; echo \"IPv6 $(curl -6 -s --max-time 4 https://ifconfig.me || echo none)\"",
+                 "echo \"IPv4 $(curl -4 -s --max-time 4 https://ifconfig.me || echo none)\"; echo \"IPv6 $(curl -6 "
+                 "-s --max-time 4 https://ifconfig.me || echo none)\"")],
+    "vpn": [("configured VPN connections", "nmcli -t -f NAME,TYPE,ACTIVE,DEVICE connection show 2>/dev/null | "
+             "grep -iE ':(vpn|wireguard):' ; systemctl list-units --all --plain --no-legend 'wg-quick@*' 'openvpn*' "
+             "2>/dev/null", "scutil --nc list"),
+            ("tunnel interfaces up", "ip -br link | grep -E '^(wg|tun|tap|tailscale|ppp|proton|nordlynx|mullvad|zt)' "
+             "| awk '{print $1, $2}'", "ifconfig -lu | tr ' ' '\\n' | grep -E '^(utun|ipsec|ppp)'"),
+            ("tailscale", _TS, _TS),
+            ("internet traffic goes via", "ip route get 1.1.1.1 | head -1", "route -n get 1.1.1.1 | grep interface")],
+    "containers": [("docker", "if ! command -v docker >/dev/null; then echo 'docker not installed'; elif o=$(docker ps -a "
+                    "--format '{{.Names}}\\t{{.Image}}\\t{{.Status}}' 2>&1); then echo \"${o:-no containers}\" | head -20; "
+                    "docker info --format 'server {{.ServerVersion}}, root {{.DockerRootDir}}' 2>&1 | head -1; "
+                    "else echo \"$o\" | head -2; fi",
+                    "command -v docker >/dev/null && { docker ps -a --format '{{.Names}}\\t{{.Image}}\\t{{.Status}}' "
+                    "2>&1 | head -20; docker context ls 2>&1 | head -5; }"),
+                   ("podman", "if ! command -v podman >/dev/null; then echo 'podman not installed'; else o=$(podman ps -a --format '{{.Names}}\\t{{.Image}}\\t"
+                    "{{.Status}}' 2>&1); echo \"${o:-no containers}\" | head -20; fi",
+                    "command -v podman >/dev/null || echo 'podman not installed'; command -v podman >/dev/null && podman machine list 2>&1 | head -5"),
+                   ("distrobox", "command -v distrobox >/dev/null && distrobox list 2>&1 | head -15", "")],
+    "kubernetes": [("kubectl", _KUBE, _KUBE)],
+    "audio": [("audio server", "pactl info 2>/dev/null | grep -E 'Server Name|Default Sink|Default Source'",
+               "system_profiler SPAudioDataType 2>/dev/null | grep -E '^\\s{8}[^ ].*:$|Default (Output|Input)'"),
+              ("outputs", "pactl list short sinks 2>/dev/null", ""),
+              ("services", "systemctl --user is-active pipewire pipewire-pulse wireplumber 2>/dev/null | paste -sd' ' "
+               "| sed 's/^/pipewire pipewire-pulse wireplumber: /'", "")],
+    "gpu": [("gpu", "lspci -k 2>/dev/null | grep -EA3 'VGA|3D|Display' | grep -v Subsystem",
+             "system_profiler SPDisplaysDataType 2>/dev/null | grep -vi serial | head -30"),
+            ("vulkan", "command -v vulkaninfo >/dev/null && vulkaninfo --summary 2>/dev/null | "
+             "grep -E 'deviceName|driverName|apiVersion' | head -6", ""),
+            ("displays", "for c in /sys/class/drm/card*-*; do [ \"$(cat $c/status 2>/dev/null)\" = connected ] && "
+             "echo \"$(basename $c) $(head -1 $c/modes 2>/dev/null)\"; done", "")],
+    "errors": [("failed services", "systemctl --failed --no-legend --plain 2>/dev/null; systemctl --user --failed "
+                "--no-legend --plain 2>/dev/null", "launchctl list | awk '$2 != 0 && $2 != \"-\"' | head -15"),
+               ("recent errors (this boot)", "journalctl -p err -b -n 15 --no-pager -o short 2>/dev/null",
+                "log show --last 5m --style compact --predicate 'messageType == error' 2>/dev/null | tail -15")],
+}
+FACT_TOPICS = ["overview"] + list(_FACTS) + ["all"]
+
+
+def _overview():
+    alerts = sys_alerts()
+    lines = [f"WARNINGS: {alerts}" if alerts else "no warnings (disk, memory, load, battery look normal)"]
+    lines += [f"disk {p}: {_pct(du):.0%} used, {du.free / 2**30:.1f} GiB free of {du.total / 2**30:.0f} GiB"
+              for p, du in _disks()]
+    avail, _ = _mem_state()
+    if avail is not None:
+        lines.append(f"memory available {avail:.0%}")
+    try:
+        lines.append("load {:.2f} {:.2f} {:.2f} on {} CPUs".format(*os.getloadavg(), os.cpu_count()))
+    except OSError:
+        pass
+    b = _battery()
+    if b:
+        lines.append(f"battery {b[0]}%{' discharging' if b[1] else ''}")
+    return "## overview\n" + "\n".join(lines)
+
+
+def t_system_facts(topic="overview", *, sess, alive):
+    if topic not in FACT_TOPICS:
+        return {"text": f"error: unknown topic {topic!r}; one of {', '.join(FACT_TOPICS)}", "error": True}
+    out = [_overview()] if topic in ("overview", "all") else []
+    for t in (list(_FACTS) if topic == "all" else [] if topic == "overview" else [topic]):
+        sec = [f"## {t}"]
+        for title, lin, mac in _FACTS[t]:
+            cmd = mac if MACOS else lin
+            if cmd:
+                sec.append(f"### {title}\n" + (_MAC_RE.sub("<mac>", _sh(cmd, timeout=12)) or "(nothing)"))
+            if not alive():
+                raise Cancelled()
+        out.append("\n".join(sec))
+    if topic == "overview":
+        out.append("More detail: system_facts with topic " + " | ".join(FACT_TOPICS[1:]))
+    return {"text": clip("\n\n".join(out))}
 
 
 def tool_schemas():
@@ -892,7 +1299,7 @@ def t_linux_help(query, k=3, platform=None, min_score=None, pool=12, *, sess, al
                          f"commands marked needs root need sudo.\n\n{note}{body}")}
 
 
-IMPL = {"bash": t_bash, "read_file": t_read_file, "write_file": t_write_file,
+IMPL = {"system_facts": t_system_facts, "bash": t_bash, "read_file": t_read_file, "write_file": t_write_file,
         "web_search": t_web_search, "web_fetch": t_web_fetch, "list_windows": t_list_windows,
         "window_action": t_window_action, "screenshot": t_screenshot, "recall": t_recall, "download": t_download,
         "linux_help": t_linux_help}
@@ -1037,6 +1444,10 @@ class H(http.server.BaseHTTPRequestHandler):
                 self._json(*sched_get(path, urllib.parse.parse_qs(self.path.split("?", 1)[1] if "?" in self.path else "")))
             except (ValueError, RuntimeError) as e:
                 self._json(400, {"error": str(e)})
+        elif path == "/api/sysstate":
+            if not self._authed():
+                return self._json(403, {"error": "forbidden"})
+            self._json(200, {"alerts": sys_alerts() if TOOLS_ON else ""})
         elif path == "/api/cwd":   # the working directory of one session (the page uses the chat id)
             if not self._authed():
                 return self._json(403, {"error": "forbidden"})
