@@ -80,6 +80,10 @@ DB_COLUMNS = (
 )
 
 OOM_RE = re.compile(r"Out of memory|oom-kill|Killed process", re.IGNORECASE)
+# userspace OOM killers log their kills at info level, so they get their own unfiltered journal stream
+OOM_DAEMONS = ("earlyoom", "systemd-oomd")
+EARLYOOM_KILL_RE = re.compile(r'sending SIG(?:TERM|KILL) to process (\d+) uid \d+ "([^"]+)"')
+OOMD_KILL_RE = re.compile(r"^Killed (\S+) due to (memory|swap)")
 # first line of a multi-line kernel report (OOM dump, oops, WARN, BUG); the lines that follow belong to it
 KREPORT_START_RE = re.compile(r"invoked oom-killer|Call Trace:|^WARNING: CPU|^BUG:|Oops:|^Mem-Info:|^-+\[ cut here \]")
 KREPORT_SECONDS = 5.0
@@ -293,6 +297,9 @@ def parse_journal_json(line):
     if rec is None:
         return None
     msg = _decode_field(rec.get("MESSAGE"))
+    ident = str(rec.get("SYSLOG_IDENTIFIER", ""))
+    if ident in OOM_DAEMONS:
+        return _oom_daemon_event(rec, ident, msg, line)
     msgid = str(rec.get("MESSAGE_ID", "")).strip()
     trusted = rec.get("_COMM") == "systemd" or str(rec.get("_PID", "")) == "1"
     unit_keys = (("USER_UNIT", "UNIT") if trusted else ()) + (
@@ -331,6 +338,26 @@ def parse_journal_json(line):
     except (KeyError, TypeError, ValueError):
         ts = time.time()
     return _event(ts, "journal", unit, severity, kind or "log", msg, line)
+def _oom_daemon_event(rec, ident, msg, line):
+    """A kill by earlyoom / systemd-oomd -> oom Event for the victim; their other chatter -> None."""
+    if not str(rec.get("_COMM", "")).startswith(ident[:15]):   # _COMM is set by journald: no spoofing
+        return None
+    victim = None
+    m = EARLYOOM_KILL_RE.search(msg)
+    if ident == "earlyoom" and m:
+        victim = m.group(2)
+    m = OOMD_KILL_RE.search(msg)
+    if ident == "systemd-oomd" and m:
+        victim = m.group(1).rstrip("/").rsplit("/", 1)[-1]
+    if not victim:
+        return None
+    try:
+        ts = int(rec["__REALTIME_TIMESTAMP"]) / 1e6
+    except (KeyError, TypeError, ValueError):
+        ts = time.time()
+    return _event(ts, "journal", victim, "error", "oom", f"{victim} killed by {ident} (low memory)", line)
+
+
 _SYSLOG_CLASSIC_RE = re.compile(
     r"^([A-Z][a-z]{2})\s+(\d{1,2})\s+(\d{2}:\d{2}:\d{2})\s+(\S+)\s+([^\s:\[]+)(?:\[\d+\])?:\s?(.*)$"
 )
@@ -1113,6 +1140,13 @@ class Watcher:
                     self._journal_handler("journal", "journal_cursor"),
                     cursor_key="journal_cursor",
                 )
+                self._add_source("oom-killers", mode="journalctl -t " + " -t ".join(OOM_DAEMONS))
+                self._start_stream(
+                    "oom-killers",
+                    lambda: self._journal_argv("journal_oom_cursor", False, oom=True),
+                    self._journal_handler("oom-killers", "journal_oom_cursor"),
+                    cursor_key="journal_oom_cursor",
+                )
             else:
                 self._add_source(
                     "journal-user", mode="journalctl --user (no system journal access)"
@@ -1169,9 +1203,11 @@ class Watcher:
                 seen.add((d, n))  # ignore reports that already exist at start()
         self._start_poll("crash-reports", self._make_crash_poll(dirs, seen))
 
-    def _journal_argv(self, key, user_mode):
+    def _journal_argv(self, key, user_mode, oom=False):
         """Built fresh on every (re)start, so a bad saved cursor is dropped and not reused."""
         argv = ["journalctl", "-f", "-o", "json", "-p", "warning", "--no-pager"]
+        if oom:   # all priorities, OOM-killer daemons only
+            argv = ["journalctl", "-f", "-o", "json", "--no-pager"] + [a for d in OOM_DAEMONS for a in ("-t", d)]
         if user_mode:
             argv.insert(1, "--user")
         saved = self._get_meta(key)
@@ -1755,6 +1791,13 @@ def _scan_linux(since):
     )
     if rc != 0:
         notes.append(f"journalctl rc={rc}: {(err or '').strip()[:200]}")
+    if not jargs:   # OOM-killer kills are logged at info level
+        rc2, out2, _ = _run_capture(
+            ["journalctl", f"--since={since}", "-o", "json", "--no-pager"]
+            + [a for d in OOM_DAEMONS for a in ("-t", d)],
+            timeout=60,
+        )
+        out += "\n" + (out2 if rc2 == 0 else "")
     for line in out.splitlines():
         ev = parse_journal_json(line)
         if ev:

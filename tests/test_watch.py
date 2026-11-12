@@ -1100,3 +1100,36 @@ class KernelReportFoldTests(unittest.TestCase):
         temps = sorted(g["template"] for g in w.list(limit=None))
         self.assertEqual(len(temps), 2, temps)   # Killed process + the later Free swap
         w.stop()
+
+
+
+class OomDaemonTests(unittest.TestCase):
+    def rec(self, ident, comm, msg, prio="6"):
+        import json as _j
+        return _j.dumps({"__REALTIME_TIMESTAMP": "1794517000000000", "PRIORITY": prio, "SYSLOG_IDENTIFIER": ident,
+                         "_COMM": comm, "MESSAGE": msg})
+
+    def test_earlyoom_kill_is_oom_for_victim(self):
+        ev = lw.parse_journal_json(self.rec("earlyoom", "earlyoom",
+            'sending SIGTERM to process 199107 uid 1000 "llama": oom_score 934, oom_score_adj 200, VmRSS 630 MiB'))
+        self.assertEqual((ev["kind"], ev["unit"], ev["severity"]), ("oom", "llama", "error"))
+
+    def test_systemd_oomd_kill(self):
+        ev = lw.parse_journal_json(self.rec("systemd-oomd", "systemd-oomd",
+            "Killed /user.slice/user-1000.slice/user@1000.service/app.slice/app-firefox-123.scope due to memory "
+            "pressure for /user.slice/user-1000.slice/user@1000.service being 65.23% > 50.00% for > 20s"))
+        self.assertEqual((ev["kind"], ev["unit"]), ("oom", "app-firefox-123.scope"))
+
+    def test_chatter_and_spoofed_sender_dropped(self):
+        self.assertIsNone(lw.parse_journal_json(self.rec("earlyoom", "earlyoom",
+            "low memory! at or below SIGTERM limits: mem  2.70%, swap  4.75%", prio="4")))
+        self.assertIsNone(lw.parse_journal_json(self.rec("earlyoom", "evil",
+            'sending SIGTERM to process 1 uid 0 "sshd": oom_score 1')))
+
+    def test_argv_has_no_priority_filter(self):
+        import tempfile as _t
+        w = lw.Watcher(os.path.join(_t.mkdtemp(), "i.db"), notify=False)
+        argv = w._journal_argv("journal_oom_cursor", False, oom=True)
+        self.assertNotIn("-p", argv)
+        self.assertIn("earlyoom", argv)
+        w.stop()
