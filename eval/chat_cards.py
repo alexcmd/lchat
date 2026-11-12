@@ -21,6 +21,7 @@ import re
 import sys
 import time
 import urllib.request
+import urllib.error
 
 SCENARIOS = [  # (question, card ids of which at least one should come back; [] = no expectation)
     (
@@ -128,7 +129,7 @@ def sandbox(fix, cmd, timeout=60):
             "--bind", fix, HOME, "--unshare-all", "--die-with-parent", "--chdir", HOME,
             "--setenv", "HOME", HOME, "timeout", str(timeout), "bash", "-c", cmd]
     try:
-        r = subprocess.run(argv, capture_output=True, text=True, timeout=timeout + 10)
+        r = subprocess.run(argv, capture_output=True, text=True, errors="replace", timeout=timeout + 10)
         out = (r.stdout + r.stderr)[-6000:]
         return f"{out}\n[exit code {r.returncode}]"
     except subprocess.TimeoutExpired:
@@ -147,10 +148,17 @@ def sandbox_tool(fix, name, args):
 
 
 def call(path, body=None, timeout=900):
-    req = urllib.request.Request(WEB + path, json.dumps(body).encode() if body is not None else None,
-                                 {"Content-Type": "application/json", "Origin": WEB})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read())
+    """POST/GET to lchat-web; a busy chat server can answer 502/503, so retry 3 times with backoff."""
+    for attempt in range(4):
+        req = urllib.request.Request(WEB + path, json.dumps(body).encode() if body is not None else None,
+                                     {"Content-Type": "application/json", "Origin": WEB})
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            if e.code not in (502, 503, 504) or attempt == 3:
+                raise
+            time.sleep(10 * (attempt + 1))
 
 
 def system_prompt(cwd, cards):

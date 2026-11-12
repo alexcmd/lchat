@@ -88,7 +88,7 @@ details.think div{white-space:pre-wrap}
 .btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
 .meta{font-size:12px;color:var(--mut);margin-top:6px}
 p.dim{color:var(--mut);font-size:12px;margin:4px 0}
-.phases{list-style:none;margin:8px 0 0;padding:0;font-size:12px;color:var(--mut);font-family:"JetBrains Mono",ui-monospace,monospace}.phases li{margin:1px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.phases li::before{display:inline-block;width:1.4em}.phases li.run{color:var(--warn)}.phases li.run::before{content:'●';animation:pulse 1s ease-in-out infinite}.phases li.ok::before{content:'✓';color:var(--ok)}.phases li.err::before{content:'✕';color:var(--bad)}.phases li.skip::before{content:'–'}
+.phases{list-style:none;margin:8px 0 0;padding:0;font-size:12px;color:var(--mut);font-family:"JetBrains Mono",ui-monospace,monospace}.phases li{margin:1px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.phases li::before{display:inline-block;width:1.4em}.phases li.run{color:var(--warn)}.phases li.run::before{content:'●';animation:pulse 1s ease-in-out infinite}.phases li.ok::before{content:'✓';color:var(--ok)}.phases li.err::before{content:'✕';color:var(--bad)}.phases li.skip::before{content:'–'}.phases li.retry{color:var(--acc)}.phases li.retry::before{content:'↻'}
 .state{font-size:12px;margin-top:6px;font-weight:600}.state.run{color:var(--warn)}.state.run::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:6px;animation:pulse 1s ease-in-out infinite}.state.ok{color:var(--ok)}.state.err{color:var(--bad)}.state.stop{color:var(--mut)}
 @keyframes pulse{50%{opacity:.25}}
 .err{color:var(--bad)}
@@ -360,7 +360,7 @@ async function streamStep(req,wrap){
   }
   calls=calls.filter(Boolean);
   calls.forEach((c,i)=>{if(!c.id)c.id='call_'+Date.now()+'_'+i});
-  return {out,reason,calls,usage,timings,finish};
+  return {out,reason,calls,usage,timings,finish,seg};
 }
 
 // ---------- tool card + execution ----------
@@ -391,7 +391,7 @@ async function runTool(call,wrap,skip){
   const SENSITIVE=/(^|\/)(\.ssh|\.gnupg|\.aws|\.kube|\.password-store|\.mozilla|\.config\/(google-chrome|chromium)|\.local\/share\/keyrings)(\/|$)|\.env$|\.pem$|\.key$|id_[a-z0-9]+$|token|secret|passw|auth\.json$|\/proc\/[^/]+\/environ/i;
   const risky=(meta.approval&&!(name==='window_action'&&args.action!=='close'))||(name==='read_file'&&SENSITIVE.test(args.path||''));
   if(ctrl.signal.aborted)throw new DOMException('aborted','AbortError');
-  if(risky&&!$('#auto').checked){
+  if(risky&&(!$('#auto').checked||meta.approval==='always')){   // 'always': asks even with auto-approve on
     st.textContent='needs approval';card.classList.add('open','asking');if(curPhase)curPhase.extra=' — waiting for your approval';
     const ask=document.createElement('div');ask.className='ask';
     ask.innerHTML='<span style="flex:1">Run this?</span><button class="btn pri">Run</button><button class="btn">Deny</button>';
@@ -437,6 +437,7 @@ function fitContext(list,lastPrompt){
 // ---------- agent loop ----------
 async function go(){
   const text=inp.value.trim();if(!text&&!imgs.length)return;
+  if(window.lchat.onSend&&window.lchat.onSend(text,CHAT_ID)===true){inp.value='';inp.oninput();return}   // e.g. task threads
   $('#hello')?.remove();
   let sendImgs=imgs;
   if(imgs.length&&!VISION){sendImgs=[]}
@@ -465,30 +466,37 @@ async function go(){
   const maxSteps=Math.max(1,+$('#steps').value||20);
   let tin=0,tout=0,steps=0,tps=null;
   const turnStart=H.length;
-  const seen=[];let repeats=0;   // loop guard state for this turn: {key,step,text}
+  const seen=[];let repeats=0,nudges=0;   // nudges: corrective follow-ups this turn (max 2)   // loop guard state for this turn: {key,step,text}
   let endState=['done','ok'];
   saveChat(H);                   // the chat shows up in History right away
   // auto-retrieval: a small model rarely calls linux_help on its own, so look the request up once per user turn
   // and put the best cards into this turn's system prompt (only when they clearly match)
   let helpCards='';
   // small talk ("hello", "thanks") has nothing to look up
+  // "how to ..." is a question, not a task: explain with the exact commands, ask for missing values, ask before
+  // running. For such a turn the tools that change the machine are not offered at all.
+  const howTo=/^\s*(how\s+(to|do\s+i|can\s+i|do\s+you|would\s+i|should\s+i)\b|what('?s|\s+is)\s+the\s+(command|way)\b|which\s+command\b|как\s|каким\s+образом|какой\s+командой|какая\s+команда)/i.test(text);
+  const ACT_TOOLS=new Set(['bash','write_file','window_action']);
   const smallTalk=/^\s*(hi|hello|hey|yo|thanks|thank you|thx|ok|okay|yes|no|good (morning|evening|night)|bye|привет|здравствуй\S*|спасибо|ок|да|нет|пока)[\s!.,?)]*$/i.test(text)
     ||(text.trim().split(/\s+/).length<3&&!/[\/|$~<>=_.-]|\d/.test(text));
   if(agent&&!smallTalk&&toolOn('linux_help')&&TOOLS.some(t=>t.name==='linux_help')){
     setState('working…');const ph=phase('looking up help cards');
+    // pool 8: same top cards on the eval set, ~3x faster than the tool default; give up after 6 s (busy GPU)
+    const lk=new AbortController(),lkT=setTimeout(()=>lk.abort(),6000);ctrl.signal.addEventListener('abort',()=>lk.abort());
     try{const r=await (await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},
-      body:JSON.stringify({name:'linux_help',args:{query:text.slice(0,500),k:2,min_score:0.5},session:SID,chat:CHAT_ID}),signal:ctrl.signal})).json();
-      if(r&&r.text&&!r.error)helpCards=r.text;}catch(e){}   // no cards: the turn goes on without them
+      body:JSON.stringify({name:'linux_help',args:{query:text.slice(0,500),k:2,min_score:0.5,pool:8},session:SID,chat:CHAT_ID}),signal:lk.signal})).json();
+      if(r&&r.text&&!r.error)helpCards=r.text;}catch(e){}finally{clearTimeout(lkT)}   // no cards: the turn goes on without them
     const titles=[...helpCards.matchAll(/^## (.+?)  \[/gm)].map(m=>m[1]);
-    ph.end(titles.length?`help cards: ${titles.length} added: ${titles.join('; ')}`:'help cards: none match',titles.length?'ok':'skip');
+    ph.end(titles.length?`help cards: ${titles.length} added: ${titles.join('; ')}`:(lk.signal.aborted&&!ctrl.signal.aborted?'help cards: lookup too slow, skipped':'help cards: none match'),titles.length?'ok':'skip');
   }
   try{
     for(;;){
       steps++;
-      const sys=[agent?agentPrompt():'',helpCards?'Help cards that match the user\'s request (verified commands; follow and adapt them, replacing <PLACEHOLDERS>):\n\n'+helpCards:'',$('#sys').value.trim()].filter(Boolean).join('\n\n');
+      const sys=[agent?agentPrompt():'',howTo?'The user asked HOW to do something. Do not run anything. Answer in this order: 1) one line on what the commands do; 2) the exact command(s), based on the help cards when there are any, with every <PLACEHOLDER> filled from the user\'s message where it gives the value; 3) a short list of the values the user still has to give you (for each: what it is and how to find it, e.g. the discover command); 4) warnings for anything destructive; 5) end by asking whether you should run it for them. bash and write_file are not available in this turn.':'',helpCards?'Help cards that match the user\'s request, already looked up for you with linux_help (verified commands; follow and adapt them, replacing <PLACEHOLDERS>). Do not call linux_help again for the same request; call it only for a different sub-task:\n\n'+helpCards:'',$('#sys').value.trim()].filter(Boolean).join('\n\n');
       const req={messages:(sys?[{role:'system',content:sys}]:[]).concat(fitContext(H,lastPrompt)),stream:true,stream_options:{include_usage:true},
         chat_template_kwargs:{enable_thinking:$('#think').checked}};
-      if(agent)req.tools=enabledTools().map(t=>t.schema);
+      // how-to turn: nothing that changes the machine; and no second card lookup when the cards are already given
+      if(agent)req.tools=enabledTools().filter(t=>!(howTo&&(ACT_TOOLS.has(t.name)||(t.name==='linux_help'&&helpCards)))).map(t=>t.schema);
       if($('#temp').value!=='')req.temperature=+$('#temp').value;
       if($('#maxt').value!=='')req.max_tokens=+$('#maxt').value;
       const thinkPh=phase(`step ${steps}`,true);
@@ -501,6 +509,17 @@ async function go(){
       const am={role:'assistant',content:s.out};
       if(s.reason)am.reasoning_content=s.reason;
       if(s.calls.length)am.tool_calls=s.calls;
+      // corrective nudges (max 2 per turn), each removes the bad step from view and asks again:
+      //  - no answer at all after tool calls (only thinking, or nothing)
+      //  - a tool call written as text ({"query": ...} or <tool_call>) instead of an answer
+      //  - a how-to answer without any command in it ("Let me first check..." with no tools allowed)
+      const nudge=(why,ask)=>{nudges++;s.seg?.remove();const li=document.createElement('li');li.className='retry';
+        li.textContent='retry: '+why;phasesEl.appendChild(li);H.push({role:'user',content:ask})};
+      if(!s.calls.length&&agent&&nudges<2){
+        if(!s.out.trim()&&steps>1){nudge('no answer after the tool calls; asking for the final answer','Give me your final answer now, in plain words, based on the tool results above.');continue}
+        if(/^\s*(\{[\s\S]*\}|<tool_call>[\s\S]*)\s*$/.test(s.out)){nudge('the model wrote a tool call as text; asking for a plain answer','That was not an answer. Reply to my question in plain words now, without calling tools.');continue}
+        if(howTo&&!/`|^\s*\$ /m.test(s.out)){nudge('the answer had no commands; asking for them','Show the exact command(s) now in a code block, filled in with what you know from my message, list what you still need from me, and ask whether I want you to run it.');continue}
+      }
       if(!s.out&&!s.calls.length&&!s.reason){note('empty reply');endState=['empty reply','err'];break}
       H.push(am);saveChat(H);
       if(s.finish==='length'){note('Reply cut off: it hit the max-tokens limit or the context is full.');break}
@@ -514,6 +533,8 @@ async function go(){
         if(prev){
           repeats++;
           skip=`ALREADY RAN: you made this exact ${c.function.name} call at step ${prev.step} of this turn. It was NOT run again. Its result was:\n${clipRes(prev.text)}\n\nDo not repeat it. Use that result, try a genuinely different approach (check the System line in your instructions for this machine's package manager and tools), or give the user your answer.`;
+        }else if(c.function.name==='linux_help'&&helpCards&&similar('q:'+String((parseArgs(c)||{}).query||''),'q:'+text)>=0.3){
+          skip='The help cards for this request were already looked up and are in your instructions above (linux_help ran automatically before this turn). Use them now; call linux_help only for a different sub-task.';
         }else if(key)near=seen.find(x=>x.key.split(':')[0]===key.split(':')[0]&&similar(x.key,key)>=0.6);
         const r=await runTool(c,wrap,skip);
         toolPh.end(r.repeat?toolPh.li.textContent.replace(/ · \d+s$/,'')+' — repeat, not run':undefined,
@@ -570,6 +591,7 @@ function textOf(c){return typeof c==='string'?c:(c||[]).map(x=>x.type==='text'?x
 let saveQ=Promise.resolve();
 function saveChat(H){
   if(H!==msgs||!H.length)return saveQ;
+  if(String(CHAT_ID).startsWith('task-'))return saveQ;   // task threads are written only by the server (scheduler)
   if(!CHAT_TITLE){const u=H.find(m=>m.role==='user');CHAT_TITLE=(u?textOf(u.content):'chat').replace(/\s+/g,' ').slice(0,80)}
   const snap=H.slice(),id=CHAT_ID,title=CHAT_TITLE;
   // a step still in progress: give its open tool calls a placeholder result so the saved chat stays valid

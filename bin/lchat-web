@@ -864,12 +864,13 @@ def cards_worker():
 AUTO_MIN_SCORE = 0.5   # auto-retrieval (the page, before each user turn) injects cards only above this
 
 
-def t_linux_help(query, k=3, platform=None, min_score=None, *, sess, alive):
+def t_linux_help(query, k=3, platform=None, min_score=None, pool=12, *, sess, alive):
     """min_score (used by the page's auto-retrieval): return nothing unless the best card's rerank score reaches it."""
     if CARDS is None:
         return {"text": "error: lchat-cards is not installed (run install.sh)", "error": True}
     k = max(1, min(int(k or 3), 6))
-    hits, scores, how = CARDS.search(query, k, platform, embed_url=a.embed, rerank_url=a.rerank)
+    pool = max(k, min(int(pool or 12), 24))   # rerank cost grows with the pool (~0.3 s per card under load)
+    hits, scores, how = CARDS.search(query, k, platform, pool=pool, embed_url=a.embed, rerank_url=a.rerank)
     if how == "empty":
         return {"text": "the card store is empty: run `lchat-cards sync`"}
     if not hits:
