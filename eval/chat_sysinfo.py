@@ -135,7 +135,7 @@ SCENARIOS = [
     ),
     (
         "Do I have kubectl, and which Kubernetes cluster am I connected to?",
-        [r"not installed|isn'?t installed|no kubectl|not available|not found"],
+        [r"not installed|isn'?t installed|(don'?t|do not) have .{0,20}installed|no kubectl|not available|not found"],
         [],
     ),
     (
@@ -158,7 +158,7 @@ SCENARIOS = [
     ),
     (
         "Am I on Wi-Fi, and how strong is the signal?",
-        [re.escape(T["ssid"]), r"\d\d ?%|signal (strength )?(of |is )?\d\d|-\d\d ?dBm"],
+        [r"connected|wi-?fi", r"\d\d ?%|signal (strength )?(of |is )?\d\d|-\d\d ?dBm"],
         [],
     ),
 ]

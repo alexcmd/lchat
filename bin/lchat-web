@@ -256,7 +256,11 @@ def _vpn_ifaces():
 def _linux_stack():
     parts = []
     srv = re.search(r"Server Name:\s*(.+)", _cmd(["pactl", "info"]))
-    if srv:
+    if srv and "pipewire" in srv.group(1).lower():
+        v = re.search(r"PipeWire ([\d.]+)", srv.group(1))
+        parts.append(f"audio PipeWire{' ' + v.group(1) if v else ''} (pipewire-pulse emulates PulseAudio, so pactl works - "
+                     "restart audio with `systemctl --user restart pipewire pipewire-pulse wireplumber`, never pulseaudio -k)")
+    elif srv:
         parts.append(f"audio {srv.group(1).strip()}")
     elif _shutil.which("pipewire"):
         parts.append("audio PipeWire")
@@ -342,7 +346,10 @@ def system_info():
             f_os, f_gpu, f_stack = pool.submit(_linux_os), pool.submit(_linux_gpu), pool.submit(_linux_stack)
         os_desc, extra = f_os.result()
         pms = [f.result() for f in f_pms]
-        parts = [os_desc, f"kernel {_platform.system()} {_platform.release()} {_platform.machine()}"]
+        arch = _platform.machine()
+        dl = "x86_64/amd64" if arch in ("x86_64", "AMD64") else "arm64/aarch64" if arch in ("arm64", "aarch64") else arch
+        parts = [os_desc, f"kernel {_platform.system()} {_platform.release()}",
+                 f"CPU architecture {arch}: pick {dl} downloads and builds"]
         if MACOS:
             native = "brew" if any(p.startswith("brew ") for p in pms) else None
             parts += extra
@@ -629,7 +636,8 @@ _FACTS = {   # topic -> [(title, linux pipeline, macOS pipeline)]; '' = not on t
                  "networksetup -listnetworkserviceorder | grep -E '^\\([0-9]'"),
                 ("route to the internet", "ip route get 1.1.1.1 | head -1; ip route show default",
                  "route -n get default | grep -E 'gateway|interface'"),
-                ("wifi", "nmcli -t -f ACTIVE,SSID,SIGNAL,FREQ,SECURITY dev wifi 2>/dev/null | grep '^yes' || "
+                ("wifi", "nmcli -t -f ACTIVE,SSID,SIGNAL,FREQ,SECURITY dev wifi 2>/dev/null | awk -F: '$1==\"yes\" {print "
+                 "\"connected to Wi-Fi network \\\"\" $2 \"\\\", signal \" $3 \"%, \" $4 \", security \" $5; f=1} END {exit !f}' || "
                  "iw dev 2>/dev/null | grep -E 'ssid|channel'",
                  "networksetup -getairportnetwork en0; networksetup -getairportpower en0"),
                 ("dns", "resolvectl dns 2>/dev/null | grep -vE '^Global:\\s*$' || grep nameserver /etc/resolv.conf",
