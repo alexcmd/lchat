@@ -163,6 +163,11 @@ footer>*{max-width:780px;margin-left:auto;margin-right:auto}
 /* tasks */
 #tasksNav[hidden]{display:none}
 #chatBar[hidden]{display:none}
+/* entity badge: type + id of what is open */
+.pill.ent{font:600 11px/1.6 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.3px;color:var(--mut);cursor:copy;white-space:nowrap}
+.pill.ent[data-type=task]{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 50%,transparent)}
+.pill.ent[data-type=chat]{color:var(--acc);border-color:color-mix(in srgb,var(--acc) 45%,transparent)}
+.pill.ent[data-type=new]{cursor:default}
 /* sidebar list */
 #tasksNav{border-top:1px solid var(--line);padding:6px 8px 8px;font-size:13px;max-height:38%;overflow-y:auto;flex:none}
 #tasksNav .tkh{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:6px 8px 4px;user-select:none}
@@ -241,7 +246,7 @@ footer>*{max-width:780px;margin-left:auto;margin-right:auto}
   <div id="scrim"></div>
   <main id="main">
     <div id="bar"><button class="ibtn" id="sideBtn" title="Sidebar">☰</button>
-      <span class="title" id="chatTitle">New chat</span><span class="sp"></span>
+      <span class="title" id="chatTitle">New chat</span><span class="pill ent" id="entity" data-type="new">NEW CHAT</span><span class="sp"></span>
       <span class="pill" id="cwdBtn" title="Working directory of this chat (bash runs here). Click to change.">📁 …</span>
       <span class="pill" id="agentPill" title="Agent mode: click to toggle">agent off</span></div>
     <div id="chatBar" hidden></div>
@@ -271,7 +276,8 @@ footer>*{max-width:780px;margin-left:auto;margin-right:auto}
   </div></div>
 </div>
 <script>
-const TOKEN=decodeURIComponent(location.hash.slice(1)); // token is only in the URL printed by lchat-web, never served
+// --token mode: the token comes in the URL fragment once and is kept for this tab (the fragment is then used for routes)
+const TOKEN=(()=>{const h=location.hash.slice(1);try{if(h&&!h.startsWith('/'))sessionStorage.setItem('lchat.token',decodeURIComponent(h));return sessionStorage.getItem('lchat.token')||''}catch{return h&&!h.startsWith('/')?decodeURIComponent(h):''}})();
 const $=s=>document.querySelector(s);
 const log=$('#log'),inp=$('#in'),send=$('#send'),att=$('#att');
 const SID=Math.random().toString(36).slice(2);
@@ -689,7 +695,7 @@ function saveChat(H){
 }
 // sidebar chat list: grouped by age like ChatGPT, filtered by the search box, refreshed after every save
 let HIST=[],refreshT=null;
-function refreshSoon(){clearTimeout(refreshT);refreshT=setTimeout(refreshHistory,600)}
+function refreshSoon(){clearTimeout(refreshT);refreshT=setTimeout(()=>refreshHistory().then(syncUrl),600)}
 async function refreshHistory(){
   try{const l=await api('/api/history');if(Array.isArray(l)){HIST=l;renderHistory()}else $('#chatList').innerHTML='<div class="empty">history unavailable</div>'}
   catch{$('#chatList').innerHTML='<div class="empty">history unavailable</div>'}
@@ -761,7 +767,38 @@ async function openChat(id){
   scroll(true);inp.focus();chatOpened();
 }
 
-hello();refreshHistory();inp.focus();
+// ---------- navigation: every chat has its own URL (#/chat/<id>, task threads too); back/forward and reload work ----------
+let navFromHash=false;
+const entityOf=id=>String(id).startsWith('task-')?'task':'chat';
+const isSaved=()=>msgs.length>0||HIST.some(c=>c.id===CHAT_ID);
+function showEntity(){
+  const b=$('#entity');if(!b)return;const t=isSaved()?entityOf(CHAT_ID):'new';b.dataset.type=t;
+  b.textContent=t==='new'?'NEW CHAT':`${t.toUpperCase()} · ${CHAT_ID.length>14?CHAT_ID.slice(0,14)+'…':CHAT_ID}`;
+  b.title=t==='new'?'New chat, not saved yet':`${t} id: ${CHAT_ID}\nclick to copy a link to it`;
+}
+let unsavedId=null;   // the new chat that "#/" currently stands for
+function syncUrl(){   // reflect the open chat in the address bar; a new chat's first save replaces its "#/" entry
+  showEntity();if(navFromHash)return;
+  const saved=isSaved(),h=saved?'#/chat/'+encodeURIComponent(CHAT_ID):'#/';
+  if(!saved)unsavedId=CHAT_ID;
+  if(location.hash===h)return;
+  const replace=!location.hash||location.hash==='#'||(location.hash==='#/'&&saved&&CHAT_ID===unsavedId);
+  if(replace)history.replaceState(null,'',h);else history.pushState(null,'',h);
+}
+document.addEventListener('lchat:chatopen',syncUrl);
+async function navigate(){
+  const m=/^#\/chat\/(.+)$/.exec(location.hash);navFromHash=true;
+  try{if(m){const id=decodeURIComponent(m[1]);if(id!==CHAT_ID)await openChat(id)}else if(msgs.length||busy){freshChat();unsavedId=CHAT_ID}}
+  finally{navFromHash=false;showEntity()}
+}
+window.addEventListener('popstate',navigate);
+$('#entity').onclick=()=>{
+  if(!isSaved())return;const b=$('#entity'),t=b.textContent;
+  const u=location.origin+location.pathname+'#/chat/'+encodeURIComponent(CHAT_ID);
+  (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>{b.textContent='link copied'},()=>{b.textContent=CHAT_ID})
+    .finally(()=>setTimeout(()=>{b.textContent=t},1400));
+};
+hello();refreshHistory().then(()=>{if(/^#\/chat\//.test(location.hash))navigate();else syncUrl()});inp.focus();
 // ===== issues (lchat_watch) =====
 // System issues found by bin/lchat_watch.py (static rules, no LLM). Polls /api/issues; "Chat" opens the chat
 // linked to the issue group, or starts one with a server-built prompt and links it.
