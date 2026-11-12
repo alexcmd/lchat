@@ -83,6 +83,27 @@ if ! command -v llama >/dev/null && ! command -v llama-server >/dev/null; then
   fi
 fi
 
+# KDE: let the screenshot tool capture one window without focusing it. KWin's ScreenShot2 API only answers programs
+# whose .desktop file lists it, matched by executable path, so a private copy of the Python interpreter (a small stub
+# that loads the system libpython) gets that entry and runs only bin/lchat_shot.py. No new power: spectacle can already
+# capture the whole screen. Re-run install.sh after a Python upgrade; until then lchat falls back to focusing the window.
+if command -v kbuildsycoca6 >/dev/null && command -v spectacle >/dev/null; then
+  say "window capture helper (KWin ScreenShot2)"
+  install -m 644 "$REPO/bin/lchat_shot.py" "$SHARE/lchat_shot.py"
+  install -m 755 "$(readlink -f "$(command -v python3)")" "$SHARE/lchat-shot"
+  mkdir -p "$HOME/.local/share/applications"
+  cat > "$HOME/.local/share/applications/lchat-shot.desktop" <<EOF
+[Desktop Entry]
+Type=Application
+Name=lchat window capture
+Comment=Lets lchat's screenshot tool capture one window without focusing it (KWin ScreenShot2)
+Exec=$SHARE/lchat-shot
+NoDisplay=true
+X-KDE-DBUS-Restricted-Interfaces=org.kde.KWin.ScreenShot2
+EOF
+  kbuildsycoca6 >/dev/null 2>&1 || true
+fi
+
 for t in pdftotext spectacle qdbus; do
   command -v "$t" >/dev/null || echo "note: $t not found - the tools that use it will report an error"
 done

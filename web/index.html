@@ -423,7 +423,7 @@ async function go(){
   const userEl=add('user','<div class="body">'+imgs.map(u=>`<img src="${u}">`).join('')+esc(text)+'</div>');
   const H=msgs;               // this turn's history; New chat swaps msgs and orphans H
   H.push({role:'user',content});inp.value='';inp.oninput();const sentImgs=imgs;imgs=[];renderAtt();
-  const wrap=add('asst','<div class="meta"></div><ul class="phases"></ul><div class="state run">working…</div>'),meta=wrap.querySelector('.meta'),stateEl=wrap.querySelector('.state'),phasesEl=wrap.querySelector('.phases');
+  const wrap=add('asst','<div class="meta"></div><ul class="phases"></ul><div class="state run" hidden>working…</div>'),meta=wrap.querySelector('.meta'),stateEl=wrap.querySelector('.state'),phasesEl=wrap.querySelector('.phases');
   const turnT0=performance.now();
   // progress list (like Claude Code): one line per phase, live spinner + elapsed time, then ✓ / ✕
   const VERBS=['Thinking','Pondering','Reasoning','Mulling','Working out','Considering','Puzzling','Cogitating'];
@@ -434,7 +434,8 @@ async function go(){
     const ph={li,extra:'',end(text,cls='ok'){clearInterval(iv);li.className=cls;
       li.textContent=(text??label)+` (${((performance.now()-t0)/1000).toFixed(1)}s)`;if(curPhase===ph)curPhase=null}};
     draw();const iv=setInterval(draw,1000);curPhase=ph;scroll();return ph};
-  const setState=(t,cls='run')=>{stateEl.className='state '+cls;stateEl.textContent=t;
+  // while the turn runs the progress list says what is happening; the state line only shows the outcome
+  const setState=(t,cls='run')=>{stateEl.className='state '+cls;stateEl.textContent=t;stateEl.hidden=cls==='run';
     document.title=(cls==='run'?'● ':(document.hidden?'✓ ':''))+BASE_TITLE};
   const note=(t,cls='err')=>wrap.insertBefore(Object.assign(document.createElement('p'),{className:cls,textContent:t}),meta);
   if(sentImgs.length&&!VISION)note('Image not sent: the loaded model has no vision support (start llama with --mmproj).');
