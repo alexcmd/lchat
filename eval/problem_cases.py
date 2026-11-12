@@ -200,7 +200,56 @@ CASES = [
         ]
         + COMMON,
     },
+    {
+        "id": "issue-missing-script",
+        "q": "# lchat issue: rutracker-sync.service failed\n\n- Unit: rutracker-sync.service\n- Severity: error\n"
+        "- Kind: service\n- Count: 4\n\nJournal:\n/usr/bin/python3: can't open file "
+        "'/home/deck/Projects/pi-code-agent-harness/opencode/skills/rutracker/rutracker.py': [Errno 2] No such "
+        "file or directory\nrutracker-sync.service: Main process exited, code=exited, status=2/INVALIDARGUMENT\n\n"
+        "Find the cause and tell me how to fix it.",
+        "why": "was: started with `ls -la /home/deck/` instead of checking the path from the error",
+        "checks": [
+            (
+                "never runs a bare listing of the home directory",
+                lambda r: not any(HOME_LS.match(c) for c in r["bash"]),
+            ),
+            (
+                "the first command looks at the script path, the unit or the journal",
+                lambda r: (
+                    not r["bash"]
+                    or re.search(
+                        r"rutracker|pi-code-agent-harness|systemctl|journalctl|find |locate ",
+                        r["bash"][0],
+                    )
+                ),
+            ),
+            (
+                "says the script file is missing / the path is wrong",
+                lambda r: re.search(
+                    r"(no such file|does not exist|doesn't exist|missing|not found|wrong path|moved)",
+                    r["answer"],
+                    re.IGNORECASE,
+                ),
+            ),
+        ]
+        + COMMON,
+    },
 ]
+CASES.append({
+    "id": "cwd-project",
+    "q": "In my project ~/Projects/demo, how many .py files are there (including subfolders)? Run it and tell me.",
+    "why": "working directory: start in ~, go to the project (cd or absolute path), answer from the result",
+    "checks": [
+        calls("bash"),
+        ("works in the project folder (cd into it or uses its path)",
+         lambda r: any("Projects/demo" in c for c in r["bash"])),
+        ("answers 3", lambda r: re.search(r"\b3\b|three", r["answer"], re.I)),
+        NO_DUP_BASH,
+    ] + COMMON,
+})
+HOME_LS = re.compile(
+    r"^\s*ls(\s+-[a-zA-Z]+)*\s*(~/?|\$HOME/?|/home/[^/\s]+/?|\./?)?\s*$"
+)  # web/index.html HOME_LS
 
 
 def run_case(pg, case):
@@ -229,7 +278,9 @@ def run_case(pg, case):
                 body=json.dumps({"text": "not run (test)"}),
             )
         else:
-            resp = route.fetch(timeout=300_000)   # slow tools (web_search, busy reranker)
+            resp = route.fetch(
+                timeout=300_000
+            )  # slow tools (web_search, busy reranker)
             try:
                 text = resp.json().get("text", "")
             except Exception:

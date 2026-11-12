@@ -33,6 +33,8 @@ def make_fixture():
     for n in ("notes.txt", "work/report.odt"):
         w(f"Documents/{n}", n * 50)
     os.makedirs(os.path.join(f, "backup"), exist_ok=True)
+    for n in ("main.py", "util.py", "tests/test_util.py", "README.md", "notes.txt"):   # a small project
+        w(f"Projects/demo/{n}", "print('x')\n" if n.endswith(".py") else "text\n")
     return f
 
 

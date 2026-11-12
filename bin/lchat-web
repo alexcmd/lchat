@@ -1037,6 +1037,11 @@ class H(http.server.BaseHTTPRequestHandler):
                 self._json(*sched_get(path, urllib.parse.parse_qs(self.path.split("?", 1)[1] if "?" in self.path else "")))
             except (ValueError, RuntimeError) as e:
                 self._json(400, {"error": str(e)})
+        elif path == "/api/cwd":   # the working directory of one session (the page uses the chat id)
+            if not self._authed():
+                return self._json(403, {"error": "forbidden"})
+            q = urllib.parse.parse_qs(self.path.split("?", 1)[1] if "?" in self.path else "")
+            self._json(200, {"cwd": session(q.get("session", [""])[0])["cwd"], "default": DEFAULT_CWD})
         elif path == "/api/tools":
             self._json(200, {"enabled": TOOLS_ON, "cwd": DEFAULT_CWD, "system": SYSTEM_INFO,
                              "tools": tool_schemas() if TOOLS_ON else []})
@@ -1084,6 +1089,19 @@ class H(http.server.BaseHTTPRequestHandler):
             except Exception as e:
                 self._json(400, {"error": f"{type(e).__name__}: {e}"})
             return
+        if self.path == "/api/cwd":   # set a session's working directory (must be an existing directory)
+            body = self._body()
+            if not self._authed():
+                return self._json(403, {"error": "forbidden"})
+            try:
+                req = json.loads(body or b"{}")
+                d = os.path.realpath(os.path.expanduser(str(req.get("cwd") or DEFAULT_CWD)))
+                if not os.path.isdir(d):
+                    return self._json(400, {"error": f"not a directory: {d}"})
+                session(req.get("session"))["cwd"] = d
+                return self._json(200, {"cwd": d})
+            except ValueError:
+                return self._json(400, {"error": "bad JSON"})
         if self.path == "/api/tool":
             body = self._body()
             if not self._authed():

@@ -242,6 +242,7 @@ footer>*{max-width:780px;margin-left:auto;margin-right:auto}
   <main id="main">
     <div id="bar"><button class="ibtn" id="sideBtn" title="Sidebar">☰</button>
       <span class="title" id="chatTitle">New chat</span><span class="sp"></span>
+      <span class="pill" id="cwdBtn" title="Working directory of this chat (bash runs here). Click to change.">📁 …</span>
       <span class="pill" id="agentPill" title="Agent mode: click to toggle">agent off</span></div>
     <div id="chatBar" hidden></div>
     <div id="log"></div>
@@ -276,8 +277,17 @@ const log=$('#log'),inp=$('#in'),send=$('#send'),att=$('#att');
 const SID=Math.random().toString(36).slice(2);
 let curPhase=null;   // the running progress-list line of the current turn (see phase() in go)
 const BASE_TITLE=document.title;document.addEventListener('visibilitychange',()=>{if(!document.hidden&&document.title.startsWith('✓ '))document.title=BASE_TITLE});
-let msgs=[],imgs=[],ctrl=null,busy=false,TOOLS=[],CWD='',SYSINFO='',pendingAsks=[],VISION=true,NCTX=0,lastPrompt=0;
+let msgs=[],imgs=[],ctrl=null,busy=false,TOOLS=[],CWD='',DEFAULT_DIR='',SYSINFO='',pendingAsks=[],VISION=true,NCTX=0,lastPrompt=0;
 const S={get(k,d){try{return localStorage.getItem('lchat.'+k)??d}catch{return d}},set(k,v){try{localStorage.setItem('lchat.'+k,v)}catch{}}};
+
+// ---------- working directory (per chat; the server keeps it per session = chat id) ----------
+const shortPath=p=>String(p||'').replace(/^\/home\/[^\/]+/,'~').replace(/^\/Users\/[^\/]+/,'~');
+function setCwd(d){CWD=d||CWD;const b=$('#cwdBtn');if(b){b.textContent='📁 '+(shortPath(CWD)||'~');b.title='Working directory of this chat: '+CWD+' (bash runs here). Click to change.'}}
+$('#cwdBtn').onclick=async()=>{
+  const v=prompt('Working directory for this chat (bash runs here):',CWD);if(!v||!v.trim())return;
+  try{const r=await api('/api/cwd',{session:CHAT_ID,cwd:v.trim()});if(r.cwd)setCwd(r.cwd);else alert(r.error||'could not change directory')}
+  catch(e){alert('could not change directory: '+e.message)}
+};
 
 // ---------- settings ----------
 $('#sys').value=S.get('sys','');$('#temp').value=S.get('temp','');$('#maxt').value=S.get('maxt','');$('#steps').value=S.get('steps','20');
@@ -312,7 +322,7 @@ fetch('/props').then(r=>r.json()).then(p=>{
   $('#model').textContent=name+(ctx?` · ctx ${ctx}`:'')+(p.modalities?.vision?' · vision':'');
 }).catch(()=>$('#model').textContent='llama unreachable');
 fetch('/api/tools').then(r=>r.json()).then(d=>{
-  TOOLS=d.tools||[];CWD=d.cwd||'';SYSINFO=d.system||'';$('#sysInfo').textContent='System: '+(SYSINFO||'not reported by lchat-web');
+  TOOLS=d.tools||[];DEFAULT_DIR=d.cwd||'';if(!msgs.length)setCwd(DEFAULT_DIR);SYSINFO=d.system||'';$('#sysInfo').textContent='System: '+(SYSINFO||'not reported by lchat-web');
   const ts=$('#toolset');ts.innerHTML=TOOLS.length?'Tools:':'Tools disabled by server';
   for(const t of TOOLS){const l=document.createElement('label');l.innerHTML=`<input type="checkbox" ${toolOn(t.name)?'checked':''}> ${t.name}${t.approval?' ⚠':''}`;
     l.querySelector('input').onchange=e=>{S.set('tool.'+t.name,e.target.checked?'1':'0');pill()};ts.appendChild(l)}
@@ -321,11 +331,11 @@ fetch('/api/tools').then(r=>r.json()).then(d=>{
 
 function agentPrompt(){
   const d=new Date();
-  return `You are lchat, a capable assistant running locally on the user's computer. Today is ${d.toDateString()}, local time ${d.toLocaleTimeString()}. Shell working directory: ${CWD}.
+  return `You are lchat, a capable assistant running locally on the user's computer. Today is ${d.toDateString()}, local time ${d.toLocaleTimeString()}. Working directory: ${CWD}. bash runs there and remembers cd for the rest of this chat; read_file and write_file resolve relative paths from it. When the task is about a project or folder somewhere else, cd into it first (or use absolute paths); do not cd around without a reason.
 System: ${SYSINFO||'unknown (lchat-web did not report it)'}
 Write commands for THIS system: use its native package manager and the tools listed as installed, respect its notes (for example a read-only root filesystem), and when a help card shows per-distro variants pick the one for this system's family.
 You can call tools to act on the machine and the web: run bash commands, read and write files, search and fetch web pages, list/focus/minimize/close desktop windows, and take screenshots (which you can see). You also remember past conversations with the user: use the recall tool when they refer to something from before. For any Linux command-line, scripting or system task and for any error message, call linux_help FIRST: it returns verified step-by-step cards with exact commands; build your commands and scripts from them (replace <PLACEHOLDERS> with real values) instead of guessing.
-Work step by step: call a tool, look at the result, then decide the next step. Prefer one tool call at a time. For web research make ONE web_search call that lists several differently worded queries in its queries array. Image links from a search are only links: call download on an image before you describe it, and never describe an image you have not seen. Never guess facts you can check with a tool. If a tool fails, read the error and try a different approach. When the task is done, give a short, direct final answer without calling more tools.`;
+Work step by step: call a tool, look at the result, then decide the next step. Do not list the home directory (ls ~) to orient yourself: the System line and the request already give the context; start with the command that tests the exact path, unit, file or error named in the request. Prefer one tool call at a time. For web research make ONE web_search call that lists several differently worded queries in its queries array. Image links from a search are only links: call download on an image before you describe it, and never describe an image you have not seen. Never guess facts you can check with a tool. If a tool fails, read the error and try a different approach. When the task is done, give a short, direct final answer without calling more tools.`;
 }
 
 // ---------- loop guard: the same tool call twice in one turn is not run again ----------
@@ -342,6 +352,8 @@ function callKey(c){
   return n+':'+JSON.stringify(o);
 }
 const toks=k=>new Set(k.toLowerCase().split(/[^a-z0-9_.\/-]+/).filter(Boolean));
+// a bare listing of the home directory as the first step of a turn (the model's habit to "orient itself")
+const HOME_LS=/^\s*ls(\s+-[a-zA-Z]+)*\s*(~\/?|\$HOME\/?|\/home\/[^\/\s]+\/?|\.\/?)?\s*$/;
 function similar(a,b){const A=toks(a),B=toks(b);let i=0;for(const x of A)if(B.has(x))i++;return i/Math.max(1,A.size+B.size-i)}
 const clipRes=t=>{t=String(t);return t.length>1500?t.slice(0,1000)+'\n…\n'+t.slice(-400):t};
 
@@ -465,7 +477,7 @@ async function runTool(call,wrap,skip){
   const t0=performance.now();
   let r;
   try{
-    r=await (await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},body:JSON.stringify({name,args,session:SID,chat:CHAT_ID}),signal:ctrl.signal})).json();
+    r=await (await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},body:JSON.stringify({name,args,session:CHAT_ID,chat:CHAT_ID}),signal:ctrl.signal})).json();
   }catch(e){if(e.name==='AbortError')throw e;r={text:'error: '+e.message,error:true}}
   const secs=((performance.now()-t0)/1000).toFixed(1)+'s';
   const pre=document.createElement('pre');pre.textContent=r.text;res.appendChild(pre);
@@ -525,7 +537,7 @@ async function go(){
   const maxSteps=Math.max(1,+$('#steps').value||20);
   let tin=0,tout=0,steps=0,tps=null;
   const turnStart=H.length;
-  const seen=[];let repeats=0,nudges=0;   // nudges: corrective follow-ups this turn (max 2)   // loop guard state for this turn: {key,step,text}
+  const seen=[];let repeats=0,nudges=0,dry=0,forceAnswer=false,forced=false;   // nudges: corrective follow-ups this turn (max 2)   // loop guard state for this turn: {key,step,text}
   let endState=['done','ok'];
   saveChat(H);                   // the chat shows up in History right away
   // auto-retrieval: a small model rarely calls linux_help on its own, so look the request up once per user turn
@@ -543,7 +555,7 @@ async function go(){
     // pool 8: same top cards on the eval set, ~3x faster than the tool default; give up after 6 s (busy GPU)
     const lk=new AbortController(),lkT=setTimeout(()=>lk.abort(),6000);ctrl.signal.addEventListener('abort',()=>lk.abort());
     try{const r=await (await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},
-      body:JSON.stringify({name:'linux_help',args:{query:text.slice(0,500),k:2,min_score:0.5,pool:8},session:SID,chat:CHAT_ID}),signal:lk.signal})).json();
+      body:JSON.stringify({name:'linux_help',args:{query:text.slice(0,500),k:2,min_score:0.5,pool:8},session:CHAT_ID,chat:CHAT_ID}),signal:lk.signal})).json();
       if(r&&r.text&&!r.error)helpCards=r.text;}catch(e){}finally{clearTimeout(lkT)}   // no cards: the turn goes on without them
     const titles=[...helpCards.matchAll(/^## (.+?)  \[/gm)].map(m=>m[1]);
     ph.end(titles.length?`help cards: ${titles.length} added: ${titles.join('; ')}`:(lk.signal.aborted&&!ctrl.signal.aborted?'help cards: lookup too slow, skipped':'help cards: none match'),titles.length?'ok':'skip');
@@ -555,7 +567,8 @@ async function go(){
       const req={messages:(sys?[{role:'system',content:sys}]:[]).concat(fitContext(H,lastPrompt)),stream:true,stream_options:{include_usage:true},
         chat_template_kwargs:{enable_thinking:$('#think').checked}};
       // how-to turn: nothing that changes the machine; and no second card lookup when the cards are already given
-      if(agent)req.tools=enabledTools().filter(t=>!(howTo&&(ACT_TOOLS.has(t.name)||(t.name==='linux_help'&&helpCards)))).map(t=>t.schema);
+      if(forceAnswer&&!forced){forced=true;const m={role:'user',content:'You have checked enough. Answer me now from the results above, without calling tools.'};H.push(m);req.messages.push(m)}
+      if(agent&&!forceAnswer)req.tools=enabledTools().filter(t=>!(howTo&&(ACT_TOOLS.has(t.name)||(t.name==='linux_help'&&helpCards)))).map(t=>t.schema);
       if($('#temp').value!=='')req.temperature=+$('#temp').value;
       if($('#maxt').value!=='')req.max_tokens=+$('#maxt').value;
       const thinkPh=phase(`step ${steps}`,true);
@@ -592,14 +605,25 @@ async function go(){
         if(prev){
           repeats++;
           skip=`ALREADY RAN: you made this exact ${c.function.name} call at step ${prev.step} of this turn. It was NOT run again. Its result was:\n${clipRes(prev.text)}\n\nDo not repeat it. Use that result, try a genuinely different approach (check the System line in your instructions for this machine's package manager and tools), or give the user your answer.`;
+        }else if(c.function.name==='bash'&&HOME_LS.test(String((parseArgs(c)||{}).command||''))&&!seen.some(x=>x.key.startsWith('bash:'))&&!/home (folder|dir)|~\/?\s|домашн/i.test(text)){
+          skip='Not run: listing the whole home directory does not help with this request. Run the command that checks the exact path, unit, file or error from the request instead (for example ls -l <that path>), or ask the user.';
         }else if(c.function.name==='linux_help'&&helpCards&&similar('q:'+String((parseArgs(c)||{}).query||''),'q:'+text)>=0.3){
           skip='The help cards for this request were already looked up and are in your instructions above (linux_help ran automatically before this turn). Use them now; call linux_help only for a different sub-task.';
         }else if(key)near=seen.find(x=>x.key.split(':')[0]===key.split(':')[0]&&similar(x.key,key)>=0.6);
         const r=await runTool(c,wrap,skip);
+        {const m=/\[cwd ([^\]]+)\]\s*$/.exec(r.text||'');if(m)setCwd(m[1])}   // bash reports where it ended up
         toolPh.end(r.repeat?toolPh.li.textContent.replace(/ · \d+s$/,'')+' — repeat, not run':undefined,
           r.repeat?'skip':(r.denied||r.error||/^(error|search failed|fetch failed)/i.test(r.text||''))?'err':'ok');
         if(!prev&&key)seen.push({key,step:steps,text:r.text});
         if(near&&!r.repeat)r.text+=`\n\nNOTE: this is almost the same as your call at step ${near.step} of this turn. Do not keep re-running variations of one command: use the results you have, change approach, or answer.`;
+        // dry streak: checks that keep finding nothing ARE the answer ("nothing listens on 8000"); after 3 say so,
+        // after 5 the next step gets no tools and must answer
+        if(c.function.name==='bash'&&!r.repeat){
+          const out=(r.text||'').replace(/\n?\[exit [^\]]*\] \[cwd [^\]]*\]\s*$/,'').trim();
+          if(!out||out==='(no output)'||/^(no |not found|nothing|none\b)/i.test(out)||/^\S*:? ?(no such|not found)/i.test(out))dry++;else dry=0;
+          if(dry>=3)r.text+=`\n\nNOTE: your last ${dry} checks all found nothing. That is the answer (for example: nothing matches, nothing is listening, the file does not exist). Stop checking and tell the user what you found.`;
+          if(dry>=5)forceAnswer=true;
+        }
         if(H!==msgs)return;
         const tc=r.image&&VISION?[{type:'text',text:r.text},{type:'image_url',image_url:{url:r.image}}]
           :r.text+(r.image?'\n(image not shown: the loaded model has no vision support - start llama with the mmproj file)':'');
@@ -642,7 +666,7 @@ async function go(){
 const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 let CHAT_ID=newId(),CHAT_TITLE='';
 const chatOpened=()=>document.dispatchEvent(new CustomEvent('lchat:chatopen',{detail:{chatId:CHAT_ID}}));
-function newChat(){CHAT_ID=newId();CHAT_TITLE='';$('#chatTitle').textContent='New chat';chatOpened()}
+function newChat(){CHAT_ID=newId();CHAT_TITLE='';setCwd(DEFAULT_DIR);$('#chatTitle').textContent='New chat';chatOpened()}
 const api=(path,body)=>fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},body:body&&JSON.stringify(body)}).then(r=>r.json());
 function textOf(c){return typeof c==='string'?c:(c||[]).map(x=>x.type==='text'?x.text:'[image]').join(' ')}
 // Saved after the user message and after every step, so a turn cut short (page reload, server restart, error)
@@ -731,6 +755,9 @@ async function openChat(id){
       }
     }
   }
+  // the chat's working directory = where its last bash call ended (tool results end with [cwd ...])
+  let last=DEFAULT_DIR;for(const m of msgs)if(m.role==='tool'){const x=/\[cwd ([^\]]+)\]\s*$/.exec(textOf(m.content));if(x)last=x[1]}
+  api('/api/cwd',{session:CHAT_ID,cwd:last}).then(r=>setCwd(r.cwd||DEFAULT_DIR)).catch(()=>setCwd(DEFAULT_DIR));
   scroll(true);inp.focus();chatOpened();
 }
 
