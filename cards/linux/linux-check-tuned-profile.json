@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-tuned-profile",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check the active system performance tuning profile",
+ "summary": "Show which performance tuning profile is currently active on your Linux system. This helps you understand if the system is optimized for power saving, balanced use, or high performance.",
+ "aliases": [
+  {
+   "text": "check tuned profile",
+   "lang": "en"
+  },
+  {
+   "text": "show active tuning profile",
+   "lang": "en"
+  },
+  {
+   "text": "what is my tuned profile",
+   "lang": "en"
+  },
+  {
+   "text": "linux performance profile status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить профиль tuned",
+   "lang": "ru"
+  },
+  {
+   "text": "какой профиль производительности",
+   "lang": "ru"
+  },
+  {
+   "text": "активный профиль tuned",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "tuned"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the currently active performance tuning profile.",
+   "cmd": "tuned-adm active",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/tuned-adm.md",
+  "title": "tldr-pages: tuned-adm",
+  "license": "CC-BY-4.0"
+ }
+}

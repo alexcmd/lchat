@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-remove-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a package and its dependencies on Arch Linux",
+ "summary": "Uninstall a specific software package and remove any dependencies that are no longer needed by other packages.",
+ "aliases": [
+  {
+   "text": "remove package arch",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall software arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman remove",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет арх",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить программу в арх",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman -Rs",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified package and its dependencies. Replace <PACKAGE_NAME> with the name of the software you want to remove.",
+   "cmd": "sudo pacman -Rs <PACKAGE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the package to remove",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the package if you removed it by mistake.",
+   "cmd": "sudo pacman -S <PACKAGE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the package to reinstall",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Removing packages requires administrator privileges.",
+  "Check the list of packages to be removed before confirming to ensure you don't delete something important."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman.md",
+  "title": "tldr-pages: pacman",
+  "license": "CC-BY-4.0"
+ }
+}

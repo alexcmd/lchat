@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "wireplumber-inspect-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Inspect WirePlumber device properties",
+ "summary": "Find the ID and properties of an audio device or node to use in configuration rules. This helps identify the correct name for matching rules.",
+ "aliases": [
+  {
+   "text": "find wireplumber device id",
+   "lang": "en"
+  },
+  {
+   "text": "inspect audio device pipewire",
+   "lang": "en"
+  },
+  {
+   "text": "wpctl status",
+   "lang": "en"
+  },
+  {
+   "text": "get node name wireplumber",
+   "lang": "en"
+  },
+  {
+   "text": "узнать id устройства wireplumber",
+   "lang": "ru"
+  },
+  {
+   "text": "свойства аудио устройства pipewire",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "wireplumber"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all devices and nodes managed by WirePlumber to find the ID of the target interface.",
+   "cmd": "wpctl status",
+   "risk": "low"
+  },
+  {
+   "explain": "Inspect the specific object using its ID to view properties like node.name or device.name.",
+   "cmd": "wpctl inspect <OBJECT_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OBJECT_ID",
+     "description": "The numeric ID of the device or node from wpctl status output.",
+     "example": "48",
+     "discover_cmd": "wpctl status"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/WirePlumber#Obtain_interface_name_for_rules_matching",
+  "title": "WirePlumber",
+  "revision_id": 887718,
+  "license": "GFDL-1.3-or-later"
+ }
+}

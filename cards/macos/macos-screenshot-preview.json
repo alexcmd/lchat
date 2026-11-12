@@ -1,0 +1,50 @@
+{
+ "schema_version": 2,
+ "id": "macos-screenshot-preview",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Take a screenshot and open it in Preview",
+ "summary": "Capture the screen and immediately open the image in the Preview app instead of saving it to a file. This is useful for quick edits or copying.",
+ "aliases": [
+  {
+   "text": "screenshot to preview",
+   "lang": "en"
+  },
+  {
+   "text": "open screenshot in preview",
+   "lang": "en"
+  },
+  {
+   "text": "screencapture -P",
+   "lang": "en"
+  },
+  {
+   "text": "screenshot edit mac",
+   "lang": "en"
+  },
+  {
+   "text": "screenshot clipboard mac",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the screencapture command with the -P flag. This captures the screen and opens the result in Preview.",
+   "cmd": "screencapture -P",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/screencapture.md",
+  "title": "tldr-pages: screencapture",
+  "license": "CC-BY-4.0"
+ }
+}

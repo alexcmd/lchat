@@ -1,0 +1,168 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-retry-command-backoff",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Retry a command several times with a growing wait between tries",
+  "summary": "Runs a command again when it fails, waiting a little longer each time (2, 4, 8 seconds and so on), and stops with an error after the last allowed try.",
+  "aliases": [
+    {
+      "text": "retry command bash",
+      "lang": "en"
+    },
+    {
+      "text": "repeat command if it fails bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash retry 5 times",
+      "lang": "en"
+    },
+    {
+      "text": "exponential backoff bash script",
+      "lang": "en"
+    },
+    {
+      "text": "bash retry with delay between attempts",
+      "lang": "en"
+    },
+    {
+      "text": "bash script that retries a failed command",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт который повторяет команду 5 раз если она упала",
+      "lang": "ru"
+    },
+    {
+      "text": "повторить команду если ошибка в bash",
+      "lang": "ru"
+    },
+    {
+      "text": "bash повторные попытки с задержкой",
+      "lang": "ru"
+    },
+    {
+      "text": "как сделать retry в bash скрипте",
+      "lang": "ru"
+    },
+    {
+      "text": "повторять команду пока не получится, с увеличивающейся паузой",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "retry.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "retry.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "retry.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Run a command that always fails, with one-second waits to keep the test short. You see each attempt, then the final message.",
+      "risk": "low",
+      "cmd": "BASE_DELAY=1 ./<FILE> <MAX_TRIES> ls /no/such/dir; echo exit code $?",
+      "expect": "attempt 1 failed (exit code 2), retrying in 1s, attempt 2 failed, retrying in 2s, giving up after 3 attempts (last exit code 2), then exit code 2",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "retry.sh"
+        },
+        {
+          "name": "MAX_TRIES",
+          "description": "How many times to try in total, at least 1",
+          "example": "3"
+        }
+      ]
+    },
+    {
+      "explain": "Create a command that fails twice and succeeds on the third try. It keeps its count in count.txt.",
+      "risk": "low",
+      "cmd": "printf '#!/usr/bin/env bash\\nn=$(cat count.txt 2>/dev/null || echo 0)\\nn=$((n + 1))\\necho \"$n\" > count.txt\\n(( n >= 3 ))\\n' > flaky.sh && chmod +x flaky.sh",
+      "expect": "No output. flaky.sh now exists and can be run."
+    },
+    {
+      "explain": "Retry the flaky command. It succeeds on attempt 3, so the script exits with code 0.",
+      "risk": "low",
+      "cmd": "BASE_DELAY=0 ./<FILE> <MAX_TRIES> ./flaky.sh; echo exit code $?",
+      "expect": "success on attempt 3, then exit code 0",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "retry.sh"
+        },
+        {
+          "name": "MAX_TRIES",
+          "description": "How many times to try in total, at least 1",
+          "example": "3"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "Retry only commands that are safe to repeat. A copy or a payment can happen twice if the first try actually worked but reported an error.",
+    "Always set a maximum number of tries. Without one, a permanent error repeats forever.",
+    "The command's output appears on every try, so a command that prints a lot fills the screen fast."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "retry.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# retry.sh - run a command up to MAX_TRIES times, waiting longer after each failure.\n# Usage: ./retry.sh MAX_TRIES COMMAND [ARGS...]\n# The first wait is BASE_DELAY seconds (environment variable, default 2).\n# The wait doubles after every failure: 2s, 4s, 8s, ...\n# Exit code: 0 when the command succeeded, otherwise the command's last exit code.\n\nset -euo pipefail\n\nBASE_DELAY=${BASE_DELAY:-2}\n\nif (( $# < 2 )); then\n    echo \"usage: $0 MAX_TRIES COMMAND [ARGS...]\" >&2\n    exit 2\nfi\nMAX_TRIES=$1\nshift\n\nif ! [[ $MAX_TRIES =~ ^[1-9][0-9]*$ ]]; then\n    echo \"error: MAX_TRIES must be a whole number of 1 or more\" >&2\n    exit 2\nfi\n\ndelay=$BASE_DELAY\nattempt=1\nwhile true; do\n    # \"status=0; cmd || status=$?\" records the exit code without\n    # letting set -e stop the script when the command fails.\n    status=0\n    \"$@\" || status=$?\n    if (( status == 0 )); then\n        echo \"success on attempt $attempt\" >&2\n        exit 0\n    fi\n    if (( attempt >= MAX_TRIES )); then\n        echo \"giving up after $attempt attempts (last exit code $status)\" >&2\n        exit \"$status\"\n    fi\n    echo \"attempt $attempt failed (exit code $status), retrying in ${delay}s\" >&2\n    sleep \"$delay\"\n    delay=$((delay * 2))\n    attempt=$((attempt + 1))\ndone\n",
+    "usage": "./retry.sh MAX_TRIES COMMAND [ARGS...]"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

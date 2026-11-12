@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-file-attributes",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List extended attributes of a file",
+ "summary": "Files on macOS can have hidden metadata called extended attributes. You can view these attributes to see tags, quarantine status, or other system flags.",
+ "aliases": [
+  {
+   "text": "list file attributes mac",
+   "lang": "en"
+  },
+  {
+   "text": "show xattr mac",
+   "lang": "en"
+  },
+  {
+   "text": "view extended attributes",
+   "lang": "en"
+  },
+  {
+   "text": "check file metadata mac",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть атрибуты файла",
+   "lang": "ru"
+  },
+  {
+   "text": "список расширенных атрибутов",
+   "lang": "ru"
+  },
+  {
+   "text": "xattr list",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the key:value pairs of extended attributes for the specified file. This helps you identify hidden metadata like quarantine flags or Finder tags.",
+   "cmd": "xattr -l <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to inspect",
+     "example": "~/Downloads/installer.dmg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/xattr.md",
+  "title": "tldr-pages: xattr",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-gsettings-range",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show allowed values for a GNOME setting",
+ "summary": "Use gsettings to display the range of allowed values for a specific key. This is particularly helpful for enum keys to see valid options.",
+ "aliases": [
+  {
+   "text": "show allowed values gnome setting",
+   "lang": "en"
+  },
+  {
+   "text": "gsettings range",
+   "lang": "en"
+  },
+  {
+   "text": "valid options gnome key",
+   "lang": "en"
+  },
+  {
+   "text": "допустимые значения настройки gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "gsettings range значения",
+   "lang": "ru"
+  },
+  {
+   "text": "какие значения можно для ключа gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "cinnamon",
+   "mate"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the schema-allowed values for a specific key. Replace the placeholders with the actual schema ID and key name.",
+   "cmd": "gsettings range <SCHEMA_ID> <KEY_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCHEMA_ID",
+     "description": "The schema ID, e.g., org.gnome.desktop.interface",
+     "example": "org.gnome.desktop.interface"
+    },
+    {
+     "name": "KEY_NAME",
+     "description": "The key name, e.g., gtk-theme",
+     "example": "gtk-theme"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gsettings.md",
+  "title": "tldr-pages: gsettings",
+  "license": "CC-BY-4.0"
+ }
+}

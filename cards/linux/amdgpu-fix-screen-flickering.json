@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "amdgpu-fix-screen-flickering",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix screen flickering or white screen on AMDGPU",
+ "summary": "Resolve screen flickering or white/gray screen when changing resolution or connecting external monitors by disabling SG display.",
+ "error_patterns": [
+  "screen flickers or stays white"
+ ],
+ "aliases": [
+  {
+   "text": "amd screen flickering",
+   "lang": "en"
+  },
+  {
+   "text": "white screen amd gpu",
+   "lang": "en"
+  },
+  {
+   "text": "flickering when connecting monitor",
+   "lang": "en"
+  },
+  {
+   "text": "мерцание экрана amd",
+   "lang": "ru"
+  },
+  {
+   "text": "белый экран при подключении монитора",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add the kernel parameter amdgpu.sg_display=0 to disable SG display.",
+   "cmd": "",
+   "gui": "Edit your bootloader configuration (e.g., GRUB) to add 'amdgpu.sg_display=0' to the kernel command line.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the system.",
+   "cmd": "sudo reboot",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the kernel parameter from the bootloader configuration.",
+   "cmd": "",
+   "gui": "Edit your bootloader configuration to remove 'amdgpu.sg_display=0'.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Requires editing bootloader configuration and rebooting."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/AMDGPU#Screen_flickering_white/gray",
+  "title": "AMDGPU",
+  "revision_id": 888488,
+  "license": "GFDL-1.3-or-later"
+ }
+}

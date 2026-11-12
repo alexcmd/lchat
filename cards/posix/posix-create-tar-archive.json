@@ -1,0 +1,114 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-tar-archive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a tar archive of files or folders",
+ "summary": "Bundle multiple files or directories into a single .tar file. You can also create compressed archives (.tar.gz or .tar.xz) to save space.",
+ "aliases": [
+  {
+   "text": "create tar archive",
+   "lang": "en"
+  },
+  {
+   "text": "zip folder into tar",
+   "lang": "en"
+  },
+  {
+   "text": "make tarball",
+   "lang": "en"
+  },
+  {
+   "text": "compress files to tar",
+   "lang": "en"
+  },
+  {
+   "text": "tar command create",
+   "lang": "en"
+  },
+  {
+   "text": "создать архив tar",
+   "lang": "ru"
+  },
+  {
+   "text": "упаковать в tar",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать тарбол",
+   "lang": "ru"
+  },
+  {
+   "text": "закомпрессировать в tar.gz",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create a standard uncompressed .tar archive containing the specified files or directories.",
+   "cmd": "tar cf <TARGET_ARCHIVE> <FILES_OR_DIRS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TARGET_ARCHIVE",
+     "description": "The name of the new archive file to create (e.g., backup.tar)",
+     "example": "backup.tar"
+    },
+    {
+     "name": "FILES_OR_DIRS",
+     "description": "The files or directories to include in the archive",
+     "example": "documents photos"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Create a gzip-compressed .tar.gz archive, which is smaller and faster to transfer.",
+     "cmd": "tar czf <TARGET_ARCHIVE> <FILES_OR_DIRS>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "TARGET_ARCHIVE",
+       "description": "The name of the new archive file to create (e.g., backup.tar.gz)",
+       "example": "backup.tar.gz"
+      },
+      {
+       "name": "FILES_OR_DIRS",
+       "description": "The files or directories to include in the archive",
+       "example": "documents photos"
+      }
+     ]
+    },
+    {
+     "explain": "Create a compressed archive using the extension to determine the compression method (e.g., .tar.xz for xz compression).",
+     "cmd": "tar caf <TARGET_ARCHIVE> <FILES_OR_DIRS>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "TARGET_ARCHIVE",
+       "description": "The name of the new archive file to create (e.g., backup.tar.xz)",
+       "example": "backup.tar.xz"
+      },
+      {
+       "name": "FILES_OR_DIRS",
+       "description": "The files or directories to include in the archive",
+       "example": "documents photos"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tar.md",
+  "title": "tldr-pages: tar",
+  "license": "CC-BY-4.0"
+ }
+}

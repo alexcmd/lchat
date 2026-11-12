@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-cpu-json",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show CPU information in JSON format",
+ "summary": "Output CPU architecture details as JSON, useful for scripts or programmatic processing.",
+ "aliases": [
+  {
+   "text": "cpu json",
+   "lang": "en"
+  },
+  {
+   "text": "lscpu json",
+   "lang": "en"
+  },
+  {
+   "text": "cpu info json",
+   "lang": "en"
+  },
+  {
+   "text": "cpu json формат",
+   "lang": "ru"
+  },
+  {
+   "text": "lscpu json",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о cpu в json",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the JSON flag to output CPU information in a structured JSON format.",
+   "cmd": "lscpu --json",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lscpu.md",
+  "title": "tldr-pages: lscpu",
+  "license": "CC-BY-4.0"
+ }
+}

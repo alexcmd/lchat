@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "ext4-enable-casefold",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable case-insensitive mode on ext4",
+ "summary": "Enable the casefold feature to allow case-insensitive directory operations, useful for Wine and some games.",
+ "aliases": [
+  {
+   "text": "ext4 case insensitive",
+   "lang": "en"
+  },
+  {
+   "text": "enable casefold ext4",
+   "lang": "en"
+  },
+  {
+   "text": "wine case insensitive ext4",
+   "lang": "en"
+  },
+  {
+   "text": "регистронезависимый ext4",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Identify the device path of the ext4 filesystem",
+  "Ensure the partition is not the /boot partition used by GRUB"
+ ],
+ "steps": [
+  {
+   "explain": "Enable the casefold feature on the filesystem.",
+   "cmd": "sudo tune2fs -O casefold <DEVICE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The block device path",
+     "discover_cmd": "lsblk"
+    }
+   ]
+  },
+  {
+   "explain": "Enable the case-insensitive attribute on a specific empty directory.",
+   "cmd": "chattr +F <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the empty directory to make case-insensitive",
+     "example": "/mnt/data/games"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Disabling casefold is not reliably supported by tune2fs due to potential bugs. It is recommended to back up data and reformat if you need to remove this feature.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "GRUB does not support casefold. Enabling it on /boot will make the system unbootable.",
+  "Casefold is incompatible with overlayfs, which may break Docker or Podman.",
+  "The directory must be empty when applying the attribute.",
+  "This feature cannot be reliably turned off once enabled."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Ext4#Enabling_case-insensitive_mode",
+  "title": "Ext4",
+  "revision_id": 876860,
+  "license": "GFDL-1.3-or-later"
+ }
+}

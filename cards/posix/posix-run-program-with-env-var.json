@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "posix-run-program-with-env-var",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a program with a specific environment variable",
+ "summary": "Execute a command with one or more environment variables set temporarily. This is often used to change settings like locale or proxy for a single command.",
+ "aliases": [
+  {
+   "text": "set env var for command",
+   "lang": "en"
+  },
+  {
+   "text": "run with variable",
+   "lang": "en"
+  },
+  {
+   "text": "env variable command",
+   "lang": "en"
+  },
+  {
+   "text": "запустить с переменной окружения",
+   "lang": "ru"
+  },
+  {
+   "text": "env для команды",
+   "lang": "ru"
+  },
+  {
+   "text": "установить переменную для запуска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use env to set a variable=value pair before the program name. The variable is only active for this specific command execution.",
+   "cmd": "env <VARIABLE>=<VALUE> <PROGRAM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VARIABLE",
+     "description": "The name of the environment variable to set",
+     "example": "LANG"
+    },
+    {
+     "name": "VALUE",
+     "description": "The value to assign to the variable",
+     "example": "en_US.UTF-8"
+    },
+    {
+     "name": "PROGRAM",
+     "description": "The command or program to run",
+     "example": "ls"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/env.md",
+  "title": "tldr-pages: env",
+  "license": "CC-BY-4.0"
+ }
+}

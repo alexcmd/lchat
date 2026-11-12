@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-preview-file-quicklook",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Preview a file using QuickLook from the terminal",
+ "summary": "Use the command line to open the QuickLook preview window for a file, just like pressing the Spacebar in Finder. This is useful for quickly checking file contents without opening the full application.",
+ "aliases": [
+  {
+   "text": "preview file terminal",
+   "lang": "en"
+  },
+  {
+   "text": "quicklook command line",
+   "lang": "en"
+  },
+  {
+   "text": "see file without opening",
+   "lang": "en"
+  },
+  {
+   "text": "qlmanage preview",
+   "lang": "en"
+  },
+  {
+   "text": "просмотр файла в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "quicklook через консоль",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть файл не открывая",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run qlmanage with the -p flag followed by the path to the file you want to preview. This opens the QuickLook window.",
+   "cmd": "qlmanage -p <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to preview",
+     "example": "~/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/qlmanage.md",
+  "title": "tldr-pages: qlmanage",
+  "license": "CC-BY-4.0"
+ }
+}

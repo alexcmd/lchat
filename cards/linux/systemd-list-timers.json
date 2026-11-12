@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "systemd-list-timers",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List active systemd timers",
+ "summary": "View a list of all currently active systemd timers, showing when they will run next and which services they trigger.",
+ "aliases": [
+  {
+   "text": "list systemd timers",
+   "lang": "en"
+  },
+  {
+   "text": "check active timers",
+   "lang": "en"
+  },
+  {
+   "text": "show scheduled tasks systemd",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl list timers",
+   "lang": "en"
+  },
+  {
+   "text": "list systemd timers",
+   "lang": "ru"
+  },
+  {
+   "text": "check active timers",
+   "lang": "ru"
+  },
+  {
+   "text": "show scheduled tasks systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl list timers",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all currently active timers.",
+   "cmd": "systemctl list-timers",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "systemctl list-timers",
+   "expect": "A table listing timers with columns for NEXT, LEFT, LAST, PASSED, UNIT, and ACTIVATES."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd/Timers#Management",
+  "title": "Systemd/Timers",
+  "revision_id": 865775,
+  "license": "GFDL-1.3-or-later"
+ }
+}

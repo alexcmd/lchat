@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "posix-copy-files-interactive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy files with overwrite confirmation",
+ "summary": "Copy files matching a pattern (like all .txt files) but ask for confirmation before overwriting existing files.",
+ "aliases": [
+  {
+   "text": "copy files interactive",
+   "lang": "en"
+  },
+  {
+   "text": "cp -i",
+   "lang": "en"
+  },
+  {
+   "text": "copy with prompt",
+   "lang": "en"
+  },
+  {
+   "text": "copy files ask before overwrite",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat s podtverzhdeniem",
+   "lang": "ru"
+  },
+  {
+   "text": "cp s zaprosom",
+   "lang": "ru"
+  },
+  {
+   "text": "kopirovat s prosvom",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy files matching the pattern to the target directory. You will be prompted before any existing file is overwritten.",
+   "cmd": "cp -i <FILE_PATTERN> <TARGET_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_PATTERN",
+     "description": "Pattern of files to copy, e.g. *.txt",
+     "example": "*.txt"
+    },
+    {
+     "name": "TARGET_DIRECTORY",
+     "description": "Path to the destination directory",
+     "example": "backup/"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag for interactive mode.",
+     "cmd": "cp -i <FILE_PATTERN> <TARGET_DIRECTORY>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE_PATTERN",
+       "description": "Pattern of files to copy, e.g. *.txt",
+       "example": "*.txt"
+      },
+      {
+       "name": "TARGET_DIRECTORY",
+       "description": "Path to the destination directory",
+       "example": "backup/"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cp.md",
+  "title": "tldr-pages: cp",
+  "license": "CC-BY-4.0"
+ }
+}

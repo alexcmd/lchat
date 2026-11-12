@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "macos-follow-file-changes",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Follow changes to a file in real-time",
+ "summary": "Watch a file for new content as it is written. This is useful for monitoring log files. Press Ctrl+C to stop watching.",
+ "aliases": [
+  {
+   "text": "follow log file",
+   "lang": "en"
+  },
+  {
+   "text": "tail -f",
+   "lang": "en"
+  },
+  {
+   "text": "watch file changes",
+   "lang": "en"
+  },
+  {
+   "text": "monitor log",
+   "lang": "en"
+  },
+  {
+   "text": "sledit za faylom",
+   "lang": "ru"
+  },
+  {
+   "text": "tail -f",
+   "lang": "ru"
+  },
+  {
+   "text": "monitoring logov",
+   "lang": "ru"
+  },
+  {
+   "text": "sledit za izmeneniyami",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the last lines of the file and keep reading it as new lines are added. Press Ctrl+C to stop.",
+   "cmd": "tail -f <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file to monitor",
+     "example": "~/Desktop/log.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Keep reading the file even if it is rotated or temporarily inaccessible (useful for some log systems).",
+     "cmd": "tail -F <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file to monitor",
+       "example": "~/Desktop/log.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tail.md",
+  "title": "tldr-pages: tail",
+  "license": "CC-BY-4.0"
+ }
+}

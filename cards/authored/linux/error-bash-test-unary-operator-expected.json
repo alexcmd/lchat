@@ -1,0 +1,125 @@
+{
+ "schema_version": 2,
+ "id": "error-bash-test-unary-operator-expected",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix bash '[: ==: unary operator expected' in an if-test",
+ "summary": "Bash prints this error when a variable inside an if [ ... ] test is empty or contains spaces, so the test loses an argument and fails. Putting double quotes around the variable keeps it as one word and fixes the test.",
+ "aliases": [
+  {
+   "text": "unary operator expected bash",
+   "lang": "en"
+  },
+  {
+   "text": "bash unary operator expected error",
+   "lang": "en"
+  },
+  {
+   "text": "[: ==: unary operator expected",
+   "lang": "en"
+  },
+  {
+   "text": "bash if empty variable error",
+   "lang": "en"
+  },
+  {
+   "text": "bash too many arguments in if",
+   "lang": "en"
+  },
+  {
+   "text": "shell script if test variable error",
+   "lang": "en"
+  },
+  {
+   "text": "bash test command breaks with empty variable",
+   "lang": "en"
+  },
+  {
+   "text": "унарный оператор ожидается bash",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка unary operator expected в скрипте",
+   "lang": "ru"
+  },
+  {
+   "text": "bash if пустая переменная ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "bash too many arguments ошибка в if",
+   "lang": "ru"
+  },
+  {
+   "text": "баш скрипт ошибка в условии if",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка [: ==: unary operator expected",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "[: ==: unary operator expected",
+  "unary operator expected",
+  "[: too many arguments"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A bash script (or a command) with an if [ ... ] test that compares a variable"
+ ],
+ "steps": [
+  {
+   "explain": "Find the test line in your script. Look for '[ $' followed by a variable name without quotes. grep prints the line number first.",
+   "cmd": "grep -n '\\[ \\$' <SCRIPT>",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "The script file that shows the error",
+     "example": "backup.sh",
+     "discover_cmd": "ls *.sh"
+    }
+   ],
+   "expect": "One or more lines such as 3:if [ $name == \"bob\" ]; then, with the line number before the colon.",
+   "risk": "low"
+  },
+  {
+   "explain": "Open the script in a text editor and go to that line. Put double quotes around the variable and use a single = for string comparison, for example if [ \"$name\" = \"bob\" ]; then. Save the file.",
+   "risk": "low"
+  },
+  {
+   "explain": "Check the fixed comparison with an empty variable. The test should print no and no error.",
+   "cmd": "name=; [ \"$name\" = bob ] && echo yes || echo no",
+   "expect": "Prints: no",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Check the same comparison with a value that contains a space. The quotes keep it as one word, so no 'too many arguments' error appears.",
+     "cmd": "name=\"Anna Smith\"; [ \"$name\" = bob ] && echo yes || echo no",
+     "expect": "Prints: no",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "name=; [ \"$name\" = bob ] && echo yes || echo no",
+   "expect": "Prints no, and no line with 'unary operator expected' appears."
+  }
+ ],
+ "risk": "low",
+ "warnings": [],
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "nvidia-fix-no-screens-found-multi-gpu",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'no screens found' with multiple GPUs",
+ "summary": "If X fails with 'no screens found' on systems with multiple GPUs, you must specify the BusID of the discrete card in the X configuration.",
+ "aliases": [
+  {
+   "text": "no screens found nvidia",
+   "lang": "en"
+  },
+  {
+   "text": "xorg no devices detected nvidia",
+   "lang": "en"
+  },
+  {
+   "text": "multiple gpus xorg fail",
+   "lang": "en"
+  },
+  {
+   "text": "нет экранов найдено nvidia",
+   "lang": "ru"
+  },
+  {
+   "text": "busid nvidia xorg",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "no screens found",
+  "No devices detected"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "You have multiple GPUs (e.g., Intel integrated + NVIDIA discrete)."
+ ],
+ "steps": [
+  {
+   "explain": "Find the BusID of your NVIDIA card using lspci.",
+   "cmd": "lspci -d ::03xx",
+   "risk": "low",
+   "expect": "Output lists GPUs, e.g., '01:00.0 VGA compatible controller: NVIDIA Corporation...'"
+  },
+  {
+   "explain": "Create or edit /etc/X11/xorg.conf.d/10-nvidia.conf. Add a Device section with the Driver 'nvidia' and the BusID. Note: Convert hex BusID from lspci to decimal (e.g., 01:00.0 becomes PCI:1:0:0, 5e:00.0 becomes PCI:94:0:0).",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the Xorg configuration file.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "BusID formatting is critical. Hex from lspci must be converted to decimal for the config file."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#X_fails_with_%22no_screens_found%22_when_using_multiple_GPUs",
+  "title": "NVIDIA/Troubleshooting",
+  "revision_id": 887471,
+  "license": "GFDL-1.3-or-later"
+ }
+}

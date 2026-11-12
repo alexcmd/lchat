@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "macos-toggle-bluetooth-cli",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Turn Bluetooth on or off via terminal",
+ "summary": "Use the `m` command-line tool to toggle Bluetooth connectivity without opening System Settings. This is handy for quickly disabling Bluetooth to save battery or enable it for connecting devices.",
+ "aliases": [
+  {
+   "text": "turn off bluetooth terminal",
+   "lang": "en"
+  },
+  {
+   "text": "disable bluetooth mac command",
+   "lang": "en"
+  },
+  {
+   "text": "enable bluetooth mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "m bluetooth off",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth toggle cli",
+   "lang": "en"
+  },
+  {
+   "text": "выключить блютуз через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "включить блютуз командой",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить bluetooth мак",
+   "lang": "ru"
+  },
+  {
+   "text": "блютуз терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to turn off Bluetooth. Replace off with on to enable it.",
+   "cmd": "m bluetooth <STATE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "STATE",
+     "description": "Use off to disable Bluetooth, or on to enable it.",
+     "example": "off"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/m.md",
+  "title": "tldr-pages: m",
+  "license": "CC-BY-4.0"
+ }
+}

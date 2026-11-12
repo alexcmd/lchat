@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-run-program-unset-env-var",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a program with a specific environment variable removed",
+ "summary": "Execute a command while temporarily removing a specific environment variable. This helps test if a program behaves differently without a certain setting.",
+ "aliases": [
+  {
+   "text": "unset env var for command",
+   "lang": "en"
+  },
+  {
+   "text": "remove variable for run",
+   "lang": "en"
+  },
+  {
+   "text": "env -u command",
+   "lang": "en"
+  },
+  {
+   "text": "убрать переменную окружения для команды",
+   "lang": "ru"
+  },
+  {
+   "text": "unset env для запуска",
+   "lang": "ru"
+  },
+  {
+   "text": "env unset variable",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --unset flag followed by the variable name to remove it from the environment for this specific command.",
+   "cmd": "env -u <VARIABLE> <PROGRAM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VARIABLE",
+     "description": "The name of the environment variable to remove",
+     "example": "EDITOR"
+    },
+    {
+     "name": "PROGRAM",
+     "description": "The command or program to run",
+     "example": "git"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/env.md",
+  "title": "tldr-pages: env",
+  "license": "CC-BY-4.0"
+ }
+}

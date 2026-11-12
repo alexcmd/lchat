@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-file-tags",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add tags to a file or folder",
+ "summary": "Use the `tag` command to add one or more tags to a file or folder. Tags help you organize and find items in Finder and Spotlight.",
+ "aliases": [
+  {
+   "text": "add tags to file mac",
+   "lang": "en"
+  },
+  {
+   "text": "tag file terminal",
+   "lang": "en"
+  },
+  {
+   "text": "add multiple tags file",
+   "lang": "en"
+  },
+  {
+   "text": "как добавить теги файлу",
+   "lang": "ru"
+  },
+  {
+   "text": "теги для файла терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить тег папке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add one or more tags to a file. Separate multiple tags with commas.",
+   "cmd": "tag --add <TAG_NAMES> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TAG_NAMES",
+     "description": "One or more tag names, separated by commas (no spaces after commas).",
+     "example": "work,important"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the file or folder to tag.",
+     "example": "~/Documents/report.pdf"
+    }
+   ],
+   "expect": "The command completes without output, indicating success."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tag.md",
+  "title": "tldr-pages: tag",
+  "license": "CC-BY-4.0"
+ }
+}

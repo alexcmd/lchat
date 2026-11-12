@@ -1,0 +1,171 @@
+{
+ "schema_version": 2,
+ "id": "error-operation-not-permitted-immutable",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Operation not permitted' on a file that cannot be changed or deleted, even as root",
+ "summary": "The file has the immutable attribute, so nobody can change, rename or delete it, not even root, until the attribute is removed. Check the file's attributes, then clear the immutable flag.",
+ "error_patterns": [
+  "Operation not permitted",
+  "cannot remove"
+ ],
+ "aliases": [
+  {
+   "text": "operation not permitted even as root",
+   "lang": "en"
+  },
+  {
+   "text": "file is immutable linux",
+   "lang": "en"
+  },
+  {
+   "text": "cannot delete file operation not permitted",
+   "lang": "en"
+  },
+  {
+   "text": "how to unlock a file linux",
+   "lang": "en"
+  },
+  {
+   "text": "chattr -i remove immutable",
+   "lang": "en"
+  },
+  {
+   "text": "cannot remove file even with sudo",
+   "lang": "en"
+  },
+  {
+   "text": "операция не позволена файл нельзя удалить",
+   "lang": "ru"
+  },
+  {
+   "text": "не могу удалить файл даже от root linux",
+   "lang": "ru"
+  },
+  {
+   "text": "неизменяемый файл linux как снять",
+   "lang": "ru"
+  },
+  {
+   "text": "файл защищен от изменения linux",
+   "lang": "ru"
+  },
+  {
+   "text": "chattr -i как разблокировать файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "chattr",
+   "lsattr"
+  ]
+ },
+ "prerequisites": [
+  "Know the path of the file or folder that cannot be changed",
+  "Administrator (sudo) rights for the unlock step"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether the file has the immutable flag. Look at the first column of the output: a letter i there means the flag is set. Run this in the folder that holds the file.",
+   "cmd": "lsattr <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The file that cannot be changed or deleted",
+     "example": "notes.txt",
+     "discover_cmd": "lsattr -a"
+    }
+   ],
+   "expect": "A line like ----i---------e------- notes.txt. The letter i means the file is immutable. Without i, the error has another cause (see warnings).",
+   "alternatives": [
+    {
+     "explain": "Check the folder itself. An immutable folder blocks creating, renaming and deleting files inside it, even when the files are not immutable.",
+     "cmd": "lsattr -d <DIR>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "DIR",
+       "description": "The folder that holds the file",
+       "example": "/home/user/shared"
+      }
+     ],
+     "expect": "A line like ----i---------e------- /home/user/shared with the i letter."
+    }
+   ]
+  },
+  {
+   "explain": "Remove the immutable flag from the file. Only root can do this, so sudo is needed. Do it only for a file you know should be unlocked.",
+   "cmd": "sudo chattr -i <FILE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The file that cannot be changed or deleted",
+     "example": "notes.txt",
+     "discover_cmd": "lsattr -a"
+    }
+   ],
+   "expect": "No output when it works. Then the file can be changed again.",
+   "alternatives": [
+    {
+     "explain": "If step 1 showed the i letter on the folder, remove the flag from the folder instead.",
+     "cmd": "sudo chattr -i <DIR>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "DIR",
+       "description": "The folder that holds the file",
+       "example": "/home/user/shared"
+      }
+     ],
+     "expect": "No output when it works."
+    }
+   ]
+  },
+  {
+   "explain": "Now edit, rename or delete the file as you normally would. Run the check again if you want to confirm the flag is gone.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lsattr <FILE>",
+   "expect": "No i in the first column, for example --------------e------- notes.txt"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Set the immutable flag again to lock the file back, if you want it protected again.",
+   "cmd": "sudo chattr +i <FILE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The file to lock again",
+     "example": "notes.txt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Only remove the flag if you know who set it. Some files are locked on purpose by a backup tool, a package or a security program, and unlocking them can break that setup.",
+  "Other causes of 'Operation not permitted' exist: the append-only flag (letter a in the same output) lets you add to a file but not change or delete it, and a file owned by another user needs sudo. This card covers only the immutable i flag."
+ ],
+ "risk": "medium",
+ "updated": "2026-10-24",
+ "source": {
+  "url": "https://manpages.debian.org/chattr",
+  "title": "chattr manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

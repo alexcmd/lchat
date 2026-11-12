@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-reconfigure-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reconfigure an installed package",
+ "summary": "Use dpkg-reconfigure to change the settings of a package that is already installed on your system. This often opens a configuration screen where you can adjust options like keyboard layout or timezone.",
+ "aliases": [
+  {
+   "text": "reconfigure package",
+   "lang": "en"
+  },
+  {
+   "text": "change package settings",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg reconfigure",
+   "lang": "en"
+  },
+  {
+   "text": "fix package configuration",
+   "lang": "en"
+  },
+  {
+   "text": "перенастроить пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить настройки пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg-reconfigure",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The package you want to configure must already be installed."
+ ],
+ "steps": [
+  {
+   "explain": "Run dpkg-reconfigure followed by the name of the package you want to adjust. This will launch the package's configuration interface.",
+   "cmd": "sudo dpkg-reconfigure <PACKAGE_NAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the installed package to reconfigure.",
+     "example": "keyboard-configuration",
+     "discover_cmd": "dpkg -l"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct command to undo a reconfiguration. You may need to manually revert changes in the configuration files or reinstall the package.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Changing package configuration can affect system behavior. Ensure you understand the options before saving changes."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dpkg-reconfigure.md",
+  "title": "tldr-pages: dpkg-reconfigure",
+  "license": "CC-BY-4.0"
+ }
+}

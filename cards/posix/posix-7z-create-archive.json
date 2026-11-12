@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-7z-create-archive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a 7z archive",
+ "summary": "Use the 7z command to compress files or directories into a .7z archive. This format typically offers better compression than zip.",
+ "aliases": [
+  {
+   "text": "create 7z archive",
+   "lang": "en"
+  },
+  {
+   "text": "compress files with 7z",
+   "lang": "en"
+  },
+  {
+   "text": "make 7z file",
+   "lang": "en"
+  },
+  {
+   "text": "7z add files",
+   "lang": "en"
+  },
+  {
+   "text": "создать архив 7z",
+   "lang": "ru"
+  },
+  {
+   "text": "запаковать в 7z",
+   "lang": "ru"
+  },
+  {
+   "text": "сжать файлы 7z",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add the specified file or directory to a new or existing 7z archive.",
+   "cmd": "7z a <ARCHIVE_PATH> <FILE_OR_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ARCHIVE_PATH",
+     "description": "Path to the archive file (e.g., backup.7z)",
+     "example": "backup.7z"
+    },
+    {
+     "name": "FILE_OR_DIR",
+     "description": "Path to the file or directory to compress",
+     "example": "my_folder"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/7z.md",
+  "title": "tldr-pages: 7z",
+  "license": "CC-BY-4.0"
+ }
+}

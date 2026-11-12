@@ -1,0 +1,150 @@
+{
+ "schema_version": 2,
+ "id": "posix-open-man-page",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Open the manual page for a command",
+ "summary": "Every standard command has a manual page that explains what it does and lists its options. You open it in the terminal, scroll and search inside it, and close it when you are done.",
+ "aliases": [
+  {
+   "text": "man command linux",
+   "lang": "en"
+  },
+  {
+   "text": "how to read man page",
+   "lang": "en"
+  },
+  {
+   "text": "linux command manual in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "terminal help for a command",
+   "lang": "en"
+  },
+  {
+   "text": "show manual of a command",
+   "lang": "en"
+  },
+  {
+   "text": "man ls",
+   "lang": "en"
+  },
+  {
+   "text": "how to scroll man page",
+   "lang": "en"
+  },
+  {
+   "text": "mac terminal command manual",
+   "lang": "en"
+  },
+  {
+   "text": "man страница линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "как открыть man страницу",
+   "lang": "ru"
+  },
+  {
+   "text": "мануал по команде в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "справка по команде linux терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "как прочитать инструкцию к команде",
+   "lang": "ru"
+  },
+  {
+   "text": "как листать man страницу",
+   "lang": "ru"
+  },
+  {
+   "text": "man команда mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the name of the command you want to read about, for example ls",
+  "The manual pages are installed; on minimal Linux systems or containers install the man-db and man-pages packages (Fedora also needs util-linux)"
+ ],
+ "steps": [
+  {
+   "explain": "Check that a manual page exists for the command. This only prints the file path of the page and does not open it.",
+   "cmd": "man -w <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "Name of the command you want to read about",
+     "example": "ls"
+    }
+   ],
+   "expect": "A file path such as /usr/share/man/man1/ls.1.gz on Linux or /usr/share/man/man1/ls.1 on macOS. 'No manual entry' means there is no page under that name."
+  },
+  {
+   "explain": "Open the manual page. It fills the window and the top line shows the command name and the section number in parentheses, for example LS(1); section 1 holds user commands.",
+   "cmd": "man <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "Name of the command you want to read about",
+     "example": "ls"
+    }
+   ],
+   "expect": "Headings such as NAME, SYNOPSIS, DESCRIPTION and OPTIONS. The page is shown in a pager, so you can scroll it.",
+   "alternatives": [
+    {
+     "explain": "Open the page from one specific manual section. Use it when a name has pages in several sections, for example printf is both a command and a C library function.",
+     "cmd": "man <SECTION> <COMMAND>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SECTION",
+       "description": "Manual section number: 1 for user commands, 5 for file formats, 8 for admin commands",
+       "example": "1"
+      },
+      {
+       "name": "COMMAND",
+       "description": "Name of the command you want to read about",
+       "example": "printf"
+      }
+     ],
+     "expect": "The same page layout, taken only from the chosen section."
+    }
+   ]
+  },
+  {
+   "explain": "Read and search inside the page. Space or PageDown scrolls down, b or PageUp scrolls up, and the arrow keys move one line. Type / and a word then Enter to search, and n jumps to the next match.",
+   "risk": "low"
+  },
+  {
+   "explain": "Close the manual and return to the shell prompt by pressing q.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "man -w ls",
+   "expect": "Prints the file path of the ls manual page and returns to the prompt."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/man",
+  "title": "man manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

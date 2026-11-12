@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "snap-update-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update all Snap packages",
+ "summary": "Manually refresh all installed snap packages to their latest versions.",
+ "aliases": [
+  {
+   "text": "update snaps",
+   "lang": "en"
+  },
+  {
+   "text": "snap refresh",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade snap packages",
+   "lang": "en"
+  },
+  {
+   "text": "обновить snap",
+   "lang": "ru"
+  },
+  {
+   "text": "snap refresh команда",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить снапы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "snapd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Refresh all installed snaps to the latest available versions.",
+   "cmd": "sudo snap refresh",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Progress bars for each snap being updated."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Snaps are updated automatically by default. To revert a specific snap to a previous revision, use 'sudo snap revert <SNAP_NAME>'.",
+   "cmd": "",
+   "risk": "low",
+   "gui": "Open a terminal and run: sudo snap revert <SNAP_NAME>"
+  }
+ ],
+ "warnings": [
+  "Snaps are refreshed automatically according to the snap refresh.timer setting."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Snap#Updating",
+  "title": "Snap",
+  "revision_id": 861445,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-disk-space",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check disk space usage",
+ "summary": "Use the `df` command to see how much space is used and available on your filesystems. By default, it shows usage in 512-byte blocks, but you can switch to kilobytes for easier reading.",
+ "aliases": [
+  {
+   "text": "check disk space",
+   "lang": "en"
+  },
+  {
+   "text": "how much space left",
+   "lang": "en"
+  },
+  {
+   "text": "df command",
+   "lang": "en"
+  },
+  {
+   "text": "disk usage",
+   "lang": "en"
+  },
+  {
+   "text": "проверить место на диске",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько места осталось",
+   "lang": "ru"
+  },
+  {
+   "text": "df команда",
+   "lang": "ru"
+  },
+  {
+   "text": "использование диска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `df` to list all filesystems and their disk usage in 512-byte blocks.",
+   "cmd": "df",
+   "risk": "low"
+  },
+  {
+   "explain": "Run `df -k` to display the same information but using 1024-byte (kilobyte) units, which is often easier to read.",
+   "cmd": "df -k",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Run `df -P` to display information in a portable format, which ensures consistent output across different systems.",
+     "cmd": "df -P",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/df.md",
+  "title": "tldr-pages: df",
+  "license": "CC-BY-4.0"
+ }
+}

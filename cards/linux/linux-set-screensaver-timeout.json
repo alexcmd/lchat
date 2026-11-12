@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-screensaver-timeout",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set screensaver timeout to 60 minutes",
+ "summary": "Configure the screensaver to start only after 60 minutes of inactivity. This keeps your screen active for longer periods.",
+ "aliases": [
+  {
+   "text": "set screensaver timeout",
+   "lang": "en"
+  },
+  {
+   "text": "screensaver after 60 minutes",
+   "lang": "en"
+  },
+  {
+   "text": "change screensaver delay",
+   "lang": "en"
+  },
+  {
+   "text": "xset s 3600",
+   "lang": "en"
+  },
+  {
+   "text": "настроить таймер заставки",
+   "lang": "ru"
+  },
+  {
+   "text": "заставка через час",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить время скринсейвера",
+   "lang": "ru"
+  },
+  {
+   "text": "xset s 3600 3600",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xset"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the screensaver to activate after 3600 seconds (60 minutes) of inactivity.",
+   "cmd": "xset s 3600 3600",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xset.md",
+  "title": "tldr-pages: xset",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "posix-pipx-install-python-app",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Install a Python command-line tool using pipx",
+ "summary": "Use pipx to install Python applications in isolated environments. This makes the tool available in your terminal without affecting your main Python installation.",
+ "aliases": [
+  {
+   "text": "install python tool with pipx",
+   "lang": "en"
+  },
+  {
+   "text": "pipx install",
+   "lang": "en"
+  },
+  {
+   "text": "how to install black with pipx",
+   "lang": "en"
+  },
+  {
+   "text": "install python cli app",
+   "lang": "en"
+  },
+  {
+   "text": "pipx install package",
+   "lang": "en"
+  },
+  {
+   "text": "установить python утилиту через pipx",
+   "lang": "ru"
+  },
+  {
+   "text": "pipx install",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить black через pipx",
+   "lang": "ru"
+  },
+  {
+   "text": "установка python приложений",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "pipx is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Install the specified Python package. pipx creates an isolated virtual environment for it and adds the executable to your PATH.",
+   "cmd": "pipx install <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the Python package to install (e.g., black, httpx-cli)",
+     "example": "black"
+    }
+   ],
+   "expect": "The package is installed and a success message appears."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pipx.md",
+  "title": "tldr-pages: pipx",
+  "license": "CC-BY-4.0"
+ }
+}

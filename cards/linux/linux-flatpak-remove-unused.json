@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-flatpak-remove-unused",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove unused Flatpak runtimes and apps",
+ "summary": "Clean up Flatpak by removing applications and runtimes that are no longer needed.",
+ "aliases": [
+  {
+   "text": "clean flatpak",
+   "lang": "en"
+  },
+  {
+   "text": "remove unused flatpak",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak cleanup",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak remove unused",
+   "lang": "en"
+  },
+  {
+   "text": "очистить flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить неиспользуемые flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak cleanup unused",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Removes all Flatpak applications and runtimes that are not currently in use.",
+   "cmd": "flatpak remove --unused",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flatpak.md",
+  "title": "tldr-pages: flatpak",
+  "license": "CC-BY-4.0"
+ }
+}

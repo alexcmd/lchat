@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "posix-make-rm-interactive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Make rm command ask for confirmation",
+ "summary": "Create an alias that makes the 'rm' (remove) command ask for confirmation before deleting files. This helps prevent accidental data loss.",
+ "aliases": [
+  {
+   "text": "rm interactive",
+   "lang": "en"
+  },
+  {
+   "text": "ask before delete",
+   "lang": "en"
+  },
+  {
+   "text": "safe rm",
+   "lang": "en"
+  },
+  {
+   "text": "rm s podtverzhdeniem",
+   "lang": "ru"
+  },
+  {
+   "text": "bezopasny rm",
+   "lang": "ru"
+  },
+  {
+   "text": "sprashivat pered udaleniem",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Alias 'rm' to 'rm --interactive' so it prompts you before deleting each file.",
+   "cmd": "alias rm=\"rm --interactive\"",
+   "risk": "low",
+   "expect": "No output is displayed. Future 'rm' commands will prompt for confirmation."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/alias.md",
+  "title": "tldr-pages: alias",
+  "license": "CC-BY-4.0"
+ }
+}

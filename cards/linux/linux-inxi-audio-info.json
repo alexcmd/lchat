@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-inxi-audio-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show audio hardware details",
+ "summary": "Use inxi with the audio flag to see information about your sound cards and audio devices.",
+ "aliases": [
+  {
+   "text": "check audio info",
+   "lang": "en"
+  },
+  {
+   "text": "inxi audio",
+   "lang": "en"
+  },
+  {
+   "text": "sound card details",
+   "lang": "en"
+  },
+  {
+   "text": "какая звуковая карта",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о звуке",
+   "lang": "ru"
+  },
+  {
+   "text": "inxi audio",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "inxi is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run inxi with the --audio flag to print a summary of system audio.",
+   "cmd": "inxi --audio",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/inxi.md",
+  "title": "tldr-pages: inxi",
+  "license": "CC-BY-4.0"
+ }
+}

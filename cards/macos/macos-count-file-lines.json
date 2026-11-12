@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-count-file-lines",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Count lines in a file",
+ "summary": "Use the `wc` command to count the number of lines in a text file. This is useful for checking the size of logs, code files, or documents.",
+ "aliases": [
+  {
+   "text": "count lines in file",
+   "lang": "en"
+  },
+  {
+   "text": "how many lines in file",
+   "lang": "en"
+  },
+  {
+   "text": "wc -l",
+   "lang": "en"
+  },
+  {
+   "text": "count lines",
+   "lang": "en"
+  },
+  {
+   "text": "сколько строк в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать строки",
+   "lang": "ru"
+  },
+  {
+   "text": "wc l",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `wc` command with the `-l` flag followed by the path to your file to count the lines.",
+   "cmd": "wc -l <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to count lines in.",
+     "example": "~/Documents/notes.txt"
+    }
+   ],
+   "expect": "The terminal will output the number of lines followed by the filename."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/wc.md",
+  "title": "tldr-pages: wc",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,114 @@
+{
+ "schema_version": 2,
+ "id": "posix-rsync-copy-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy a file or directory with rsync",
+ "summary": "Use rsync to copy files or directories. It is efficient because it only transfers changes, making it great for backups or moving large folders.",
+ "aliases": [
+  {
+   "text": "rsync copy file",
+   "lang": "en"
+  },
+  {
+   "text": "copy directory with rsync",
+   "lang": "en"
+  },
+  {
+   "text": "rsync backup folder",
+   "lang": "en"
+  },
+  {
+   "text": "sync files rsync",
+   "lang": "en"
+  },
+  {
+   "text": "rsync copy directory",
+   "lang": "en"
+  },
+  {
+   "text": "rsync перенести файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать папку rsync",
+   "lang": "ru"
+  },
+  {
+   "text": "синхронизация файлов rsync",
+   "lang": "ru"
+  },
+  {
+   "text": "rsync резервная копия",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy a file or directory from source to destination. Use --dry-run first to see what would happen without actually copying.",
+   "cmd": "rsync <SOURCE> <DESTINATION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE",
+     "description": "Path to the file or directory to copy",
+     "example": "~/Documents"
+    },
+    {
+     "name": "DESTINATION",
+     "description": "Path to the destination folder",
+     "example": "/Volumes/Backup"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use archive mode to preserve permissions, ownership, and timestamps, and to copy directories recursively.",
+     "cmd": "rsync --archive <SOURCE> <DESTINATION>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SOURCE",
+       "description": "Path to the file or directory to copy",
+       "example": "~/Documents"
+      },
+      {
+       "name": "DESTINATION",
+       "description": "Path to the destination folder",
+       "example": "/Volumes/Backup"
+      }
+     ]
+    },
+    {
+     "explain": "Compress data during transfer and show progress. Useful for slow connections or large files.",
+     "cmd": "rsync --compress --verbose --human-readable --partial --progress <SOURCE> <DESTINATION>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SOURCE",
+       "description": "Path to the file or directory to copy",
+       "example": "~/Documents"
+      },
+      {
+       "name": "DESTINATION",
+       "description": "Path to the destination folder",
+       "example": "/Volumes/Backup"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rsync.md",
+  "title": "tldr-pages: rsync",
+  "license": "CC-BY-4.0"
+ }
+}

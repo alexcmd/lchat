@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "partition-choose-gpt-mbr",
+ "platform": "linux",
+ "kind": "concept",
+ "title": "Choose between GPT and MBR partitioning",
+ "summary": "Understand when to use GPT (modern, UEFI) versus MBR (legacy, BIOS) partitioning schemes.",
+ "aliases": [
+  {
+   "text": "gpt vs mbr",
+   "lang": "en"
+  },
+  {
+   "text": "which partition table to use",
+   "lang": "en"
+  },
+  {
+   "text": "uefi gpt or bios mbr",
+   "lang": "en"
+  },
+  {
+   "text": "gpt mbr difference",
+   "lang": "en"
+  },
+  {
+   "text": "gpt или mbr",
+   "lang": "ru"
+  },
+  {
+   "text": "какую таблицу разделов выбрать",
+   "lang": "ru"
+  },
+  {
+   "text": "разница gpt mbr",
+   "lang": "ru"
+  },
+  {
+   "text": "uefi требует gpt",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use GPT if you are using UEFI booting, have a disk larger than 2 TiB, or want modern features like unlimited primary partitions. Use MBR only if you must dual-boot with Windows using Legacy BIOS or have very old hardware that does not support GPT.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Partitioning#Choosing_between_GPT_and_MBR",
+  "title": "Partitioning",
+  "revision_id": 883019,
+  "license": "GFDL-1.3-or-later"
+ }
+}

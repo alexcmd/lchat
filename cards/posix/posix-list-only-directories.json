@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-only-directories",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List only directories",
+ "summary": "Show only the folders in a directory, hiding regular files.",
+ "aliases": [
+  {
+   "text": "list only folders",
+   "lang": "en"
+  },
+  {
+   "text": "show directories only",
+   "lang": "en"
+  },
+  {
+   "text": "ls directories",
+   "lang": "en"
+  },
+  {
+   "text": "kak posmotret tolko papki",
+   "lang": "ru"
+  },
+  {
+   "text": "spisok direktoriy",
+   "lang": "ru"
+  },
+  {
+   "text": "ls -d",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List only directories in the current folder.",
+   "cmd": "ls -d */",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ls.md",
+  "title": "tldr-pages: ls",
+  "license": "CC-BY-4.0"
+ }
+}

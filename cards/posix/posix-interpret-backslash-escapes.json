@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-interpret-backslash-escapes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print text with interpreted backslash escapes",
+ "summary": "Use echo to display text containing special characters like tabs or newlines. The -e flag enables the interpretation of backslash sequences.",
+ "aliases": [
+  {
+   "text": "echo with tabs",
+   "lang": "en"
+  },
+  {
+   "text": "print tab character",
+   "lang": "en"
+  },
+  {
+   "text": "echo -e",
+   "lang": "en"
+  },
+  {
+   "text": "interpret backslash escapes",
+   "lang": "en"
+  },
+  {
+   "text": "вывести табуляцию",
+   "lang": "ru"
+  },
+  {
+   "text": "echo с табуляцией",
+   "lang": "ru"
+  },
+  {
+   "text": "эхо -e",
+   "lang": "ru"
+  },
+  {
+   "text": "спецсимволы в echo",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -e flag with echo to enable interpretation of backslash escapes like \\t for tab or \\n for newline.",
+   "cmd": "echo -e \"<TEXT_WITH_ESCAPES>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TEXT_WITH_ESCAPES",
+     "description": "Text containing backslash escape sequences",
+     "example": "Column 1\\tColumn 2"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/echo.md",
+  "title": "tldr-pages: echo",
+  "license": "CC-BY-4.0"
+ }
+}

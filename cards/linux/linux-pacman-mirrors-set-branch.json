@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-mirrors-set-branch",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Switch Pacman branch",
+ "summary": "Change your system's package branch to stable, testing, or unstable. This is an advanced action that changes which version of packages you receive.",
+ "aliases": [
+  {
+   "text": "switch pacman branch",
+   "lang": "en"
+  },
+  {
+   "text": "change pacman branch",
+   "lang": "en"
+  },
+  {
+   "text": "set pacman branch",
+   "lang": "en"
+  },
+  {
+   "text": "сменить ветку pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "переключить ветку pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman-mirrors set branch",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "pacman-mirrors"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Switch to a different branch (stable, unstable, or testing). This requires administrator rights and will change your package sources.",
+   "cmd": "sudo pacman-mirrors --api --set-branch <BRANCH>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "BRANCH",
+     "description": "The branch to switch to: stable, unstable, or testing.",
+     "example": "stable"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Switch back to the previous branch using the same command with the original branch name.",
+   "cmd": "sudo pacman-mirrors --api --set-branch <PREVIOUS_BRANCH>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PREVIOUS_BRANCH",
+     "description": "The branch you were on before switching.",
+     "example": "stable"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Switching branches can lead to system instability if you are not familiar with the process. Ensure you understand the implications of moving between stable, testing, and unstable.",
+  "After switching, you must synchronize your database and update your system using 'sudo pacman -Syyu'."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman-mirrors.md",
+  "title": "tldr-pages: pacman-mirrors",
+  "license": "CC-BY-4.0"
+ }
+}

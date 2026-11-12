@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "macos-filter-top-by-user",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show only processes for a specific user",
+ "summary": "Use the `top` command with the `-user` flag to filter the process list so it only shows processes owned by a specific username. This is useful for isolating activity for one account.",
+ "aliases": [
+  {
+   "text": "top filter by user",
+   "lang": "en"
+  },
+  {
+   "text": "show my processes only",
+   "lang": "en"
+  },
+  {
+   "text": "top -user",
+   "lang": "en"
+  },
+  {
+   "text": "processes for username",
+   "lang": "en"
+  },
+  {
+   "text": "filter top by owner",
+   "lang": "en"
+  },
+  {
+   "text": "top tolko moi protsessy",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat protsessy polzovatelya",
+   "lang": "ru"
+  },
+  {
+   "text": "top -user",
+   "lang": "ru"
+  },
+  {
+   "text": "filtr protsessov po imeni",
+   "lang": "ru"
+  },
+  {
+   "text": "kakie protsessy u menya",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `top` with the `-user` flag followed by the username to display only processes owned by that user.",
+   "cmd": "top -user <USERNAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username whose processes you want to see.",
+     "example": "john",
+     "discover_cmd": "whoami"
+    }
+   ],
+   "expect": "The process list appears, filtered to show only processes owned by the specified user."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/top.md",
+  "title": "tldr-pages: top",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-monitor-processes-top"
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "linux-gsettings-set-value",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change a GNOME setting value",
+ "summary": "Use gsettings to change the value of a specific GNOME configuration key. The command validates the value against the schema, so it will fail if the value is invalid.",
+ "aliases": [
+  {
+   "text": "change gnome setting",
+   "lang": "en"
+  },
+  {
+   "text": "gsettings set",
+   "lang": "en"
+  },
+  {
+   "text": "modify gnome config",
+   "lang": "en"
+  },
+  {
+   "text": "изменить настройку gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "gsettings set значение",
+   "lang": "ru"
+  },
+  {
+   "text": "как поменять настройку в gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "cinnamon",
+   "mate"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set a new value for a specific key within a schema. Replace the placeholders with the actual schema ID, key name, and the desired value.",
+   "cmd": "gsettings set <SCHEMA_ID> <KEY_NAME> <VALUE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCHEMA_ID",
+     "description": "The schema ID, e.g., org.gnome.desktop.interface",
+     "example": "org.gnome.desktop.interface"
+    },
+    {
+     "name": "KEY_NAME",
+     "description": "The key name, e.g., gtk-theme",
+     "example": "gtk-theme"
+    },
+    {
+     "name": "VALUE",
+     "description": "The new value for the key",
+     "example": "'Adwaita-dark'"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gsettings.md",
+  "title": "tldr-pages: gsettings",
+  "license": "CC-BY-4.0"
+ }
+}

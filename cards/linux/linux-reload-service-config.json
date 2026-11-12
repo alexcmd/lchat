@@ -1,0 +1,106 @@
+{
+ "schema_version": 2,
+ "id": "linux-reload-service-config",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reload a service's configuration without restarting it",
+ "summary": "Apply changes to a service's configuration file (like a web server config) without stopping and starting the service. This keeps the service running and avoids downtime.",
+ "aliases": [
+  {
+   "text": "reload service config",
+   "lang": "en"
+  },
+  {
+   "text": "apply config changes without restart",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl reload",
+   "lang": "en"
+  },
+  {
+   "text": "nginx reload config",
+   "lang": "en"
+  },
+  {
+   "text": "apache reload config",
+   "lang": "en"
+  },
+  {
+   "text": "перезагрузить конфиг сервиса",
+   "lang": "ru"
+  },
+  {
+   "text": "применить конфиг без перезапуска",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl reload",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "prerequisites": [
+  "You have edited the service's configuration file.",
+  "The service supports reloading (most daemons like nginx, apache, ssh do)."
+ ],
+ "steps": [
+  {
+   "explain": "Reload the configuration for a specific system service. Replace <SERVICE> with the name of the service (e.g., nginx, apache2, ssh).",
+   "cmd": "sudo systemctl reload <SERVICE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SERVICE",
+     "description": "The name of the service to reload (e.g., nginx, apache2).",
+     "example": "nginx"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Reload a user-level service (like pipewire) instead of a system service.",
+     "cmd": "systemctl reload <SERVICE> --user",
+     "needs_root": false,
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SERVICE",
+       "description": "The name of the user service to reload.",
+       "example": "pipewire"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "If the service does not support reloading, this command will fail. You may need to restart the service instead.",
+  "This does not reload systemd unit files. If you changed a .service file, use 'systemctl daemon-reload' first."
+ ],
+ "rollback": [
+  {
+   "explain": "If the reload causes issues, restart the service to apply the configuration cleanly. Note: The restart command is not on this page, so consult the systemctl restart documentation or use the system's service management GUI.",
+   "risk": "medium"
+  }
+ ],
+ "see_also": [
+  "systemd-daemon-reload",
+  "linux-restart-system-service"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-reload.md",
+  "title": "tldr-pages: systemctl-reload",
+  "license": "CC-BY-4.0"
+ }
+}

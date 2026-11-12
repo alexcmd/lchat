@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-firmware-history",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show firmware update history",
+ "summary": "View a log of past firmware updates applied to your system, including dates and versions.",
+ "aliases": [
+  {
+   "text": "firmware update history",
+   "lang": "en"
+  },
+  {
+   "text": "fwupdmgr get-history",
+   "lang": "en"
+  },
+  {
+   "text": "when was bios updated",
+   "lang": "en"
+  },
+  {
+   "text": "история обновлений прошивки",
+   "lang": "ru"
+  },
+  {
+   "text": "fwupdmgr история",
+   "lang": "ru"
+  },
+  {
+   "text": "когда обновлялся биос",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "fwupd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the history of firmware updates.",
+   "cmd": "fwupdmgr get-history",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/fwupdmgr.md",
+  "title": "tldr-pages: fwupdmgr",
+  "license": "CC-BY-4.0"
+ }
+}

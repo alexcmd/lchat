@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "posix-search-process-by-name",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Search for a process by name",
+ "summary": "Find a specific running process by searching for its name or command string. This filters the process list to show only matching entries.",
+ "aliases": [
+  {
+   "text": "find process by name",
+   "lang": "en"
+  },
+  {
+   "text": "search for running app",
+   "lang": "en"
+  },
+  {
+   "text": "ps grep",
+   "lang": "en"
+  },
+  {
+   "text": "is chrome running",
+   "lang": "en"
+  },
+  {
+   "text": "check if process exists",
+   "lang": "en"
+  },
+  {
+   "text": "check if app is running",
+   "lang": "en"
+  },
+  {
+   "text": "запущен ли процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск процесса",
+   "lang": "ru"
+  },
+  {
+   "text": "search for process",
+   "lang": "en"
+  },
+  {
+   "text": "grep process",
+   "lang": "en"
+  },
+  {
+   "text": "найти процесс по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "grep ps",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all processes and filter the output using grep. The brackets around the first letter prevent grep from matching its own command line.",
+   "cmd": "ps aux | grep <STRING>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "STRING",
+     "description": "The name or part of the command of the process you are looking for. Use brackets around the first letter, e.g., [c]hrome.",
+     "example": "[c]hrome"
+    }
+   ],
+   "expect": "Lines from the process list that contain the search string."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ps.md",
+  "title": "tldr-pages: ps",
+  "license": "CC-BY-4.0"
+ }
+}

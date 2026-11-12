@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "linux-firewall-block-interface",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Block all traffic on an interface",
+ "summary": "Move a network interface to the 'block' zone to drop all incoming and outgoing traffic on that interface.",
+ "aliases": [
+  {
+   "text": "block network interface",
+   "lang": "en"
+  },
+  {
+   "text": "disable network interface firewall",
+   "lang": "en"
+  },
+  {
+   "text": "firewall-cmd change interface",
+   "lang": "en"
+  },
+  {
+   "text": "block all traffic on interface",
+   "lang": "en"
+  },
+  {
+   "text": "заблокировать сетевой интерфейс",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить интерфейс firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "firewall-cmd --change-interface",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "firewalld"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Move the specified interface to the 'block' zone permanently. This blocks all communication on that interface.",
+   "cmd": "sudo firewall-cmd --permanent --zone block --change-interface <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The network interface to block (e.g., enp1s0, eth0)",
+     "example": "enp1s0"
+    }
+   ]
+  },
+  {
+   "explain": "Reload firewalld to apply the change.",
+   "cmd": "sudo firewall-cmd --reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Move the interface back to its original zone (usually 'public' or 'home').",
+   "cmd": "sudo firewall-cmd --permanent --zone <ORIGINAL_ZONE> --change-interface <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ORIGINAL_ZONE",
+     "description": "The zone the interface was in before (e.g., public)",
+     "example": "public"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface to restore",
+     "example": "enp1s0"
+    }
+   ]
+  },
+  {
+   "explain": "Reload firewalld to apply the rollback.",
+   "cmd": "sudo firewall-cmd --reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Blocking an interface will disconnect you from the network if it is your primary connection.",
+  "Ensure you have an alternative way to access the system (e.g., console) before blocking the active interface."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/firewall-cmd.md",
+  "title": "tldr-pages: firewall-cmd",
+  "license": "CC-BY-4.0"
+ }
+}

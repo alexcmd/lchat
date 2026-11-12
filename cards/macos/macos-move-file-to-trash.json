@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "macos-move-file-to-trash",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Move files or folders to the Trash",
+ "summary": "Use the `trash` command to move files or directories to the macOS Trash. This is a safer alternative to `rm` because you can restore items from the Trash later.",
+ "aliases": [
+  {
+   "text": "move file to trash",
+   "lang": "en"
+  },
+  {
+   "text": "delete file to trash",
+   "lang": "en"
+  },
+  {
+   "text": "trash command mac",
+   "lang": "en"
+  },
+  {
+   "text": "put file in bin",
+   "lang": "en"
+  },
+  {
+   "text": "удалить файл в корзину",
+   "lang": "ru"
+  },
+  {
+   "text": "команда trash mac",
+   "lang": "ru"
+  },
+  {
+   "text": "переместить в корзину",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The `trash` command must be installed (often via Homebrew: `brew install trash`)"
+ ],
+ "steps": [
+  {
+   "explain": "Move a specific file or directory to the Trash.",
+   "cmd": "trash <FILE_OR_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_OR_DIR",
+     "description": "Path to the file or directory you want to trash",
+     "example": "~/Documents/report.pdf"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Move multiple files or directories at once.",
+     "cmd": "trash <FILE_OR_DIR_1> <FILE_OR_DIR_2>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE_OR_DIR_1",
+       "description": "Path to the first item",
+       "example": "~/file1.txt"
+      },
+      {
+       "name": "FILE_OR_DIR_2",
+       "description": "Path to the second item",
+       "example": "~/file2.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Move items to the Trash and show verbose output to confirm what was moved.",
+     "cmd": "trash --verbose <FILE_OR_DIR>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE_OR_DIR",
+       "description": "Path to the file or directory",
+       "example": "~/Documents/report.pdf"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/trash.md",
+  "title": "tldr-pages: trash",
+  "license": "CC-BY-4.0"
+ }
+}

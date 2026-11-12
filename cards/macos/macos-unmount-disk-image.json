@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-unmount-disk-image",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Unmount a disk image",
+ "summary": "Safely eject a mounted disk image volume from your Mac.",
+ "aliases": [
+  {
+   "text": "unmount dmg",
+   "lang": "en"
+  },
+  {
+   "text": "eject disk image",
+   "lang": "en"
+  },
+  {
+   "text": "detach volume",
+   "lang": "en"
+  },
+  {
+   "text": "отключить образ диска",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь dmg",
+   "lang": "ru"
+  },
+  {
+   "text": "отмонтировать образ",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unmounts the volume associated with the disk image, removing it from the desktop.",
+   "cmd": "hdiutil detach /Volumes/<VOLUME_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VOLUME_NAME",
+     "description": "Name of the mounted volume (usually the name of the image without extension)",
+     "example": "App"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/hdiutil.md",
+  "title": "tldr-pages: hdiutil",
+  "license": "CC-BY-4.0"
+ }
+}

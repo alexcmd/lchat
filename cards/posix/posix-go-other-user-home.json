@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "posix-go-other-user-home",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Go to another user's home directory",
+ "summary": "Navigate to the home folder of a different user on the system.",
+ "aliases": [
+  {
+   "text": "cd other user home",
+   "lang": "en"
+  },
+  {
+   "text": "go to user home",
+   "lang": "en"
+  },
+  {
+   "text": "cd ~username",
+   "lang": "en"
+  },
+  {
+   "text": "another user directory",
+   "lang": "en"
+  },
+  {
+   "text": "home of specified user",
+   "lang": "en"
+  },
+  {
+   "text": "домашняя папка другого пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "cd в чужой дом",
+   "lang": "ru"
+  },
+  {
+   "text": "cd ~username",
+   "lang": "ru"
+  },
+  {
+   "text": "перейти в дом юзера",
+   "lang": "ru"
+  },
+  {
+   "text": "директория другого пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the current directory to the home directory of the specified user.",
+   "cmd": "cd ~<USERNAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username whose home directory you want to enter.",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cd.md",
+  "title": "tldr-pages: cd",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "systemd-cancel-jobs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Cancel pending systemd jobs",
+ "summary": "Cancel jobs that are stuck or waiting, which can help if shutdown or suspend is hanging.",
+ "aliases": [
+  {
+   "text": "cancel systemd jobs",
+   "lang": "en"
+  },
+  {
+   "text": "stop pending jobs",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl cancel",
+   "lang": "en"
+  },
+  {
+   "text": "shutdown stuck",
+   "lang": "en"
+  },
+  {
+   "text": "отменить задания systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "завис выключение",
+   "lang": "ru"
+  },
+  {
+   "text": "системctl cancel",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Cancel all pending jobs.",
+   "cmd": "sudo systemctl cancel",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "No output if successful."
+  },
+  {
+   "explain": "If a specific service like suspend is stuck, stop it explicitly.",
+   "cmd": "sudo systemctl stop systemd-suspend.service",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The service stops."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct rollback. If you canceled a necessary job, you may need to restart the service or reboot.",
+   "cmd": "sudo systemctl restart <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the service you want to restart.",
+     "example": "systemd-suspend"
+    }
+   ],
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Canceling jobs can leave the system in an inconsistent state. Use only if the system is unresponsive to normal commands."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd#Troubleshooting",
+  "title": "Systemd",
+  "revision_id": 887711,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-trusted-ca-cert",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add a CA certificate to trusted settings",
+ "summary": "Add a Certificate Authority (CA) certificate to your user's trust settings. This tells your Mac to trust certificates signed by this CA.",
+ "aliases": [
+  {
+   "text": "add trusted cert",
+   "lang": "en"
+  },
+  {
+   "text": "trust ca certificate",
+   "lang": "en"
+  },
+  {
+   "text": "add ca cert",
+   "lang": "en"
+  },
+  {
+   "text": "security add-trusted-cert",
+   "lang": "en"
+  },
+  {
+   "text": "добавить доверенный сертификат",
+   "lang": "ru"
+  },
+  {
+   "text": "доверять сертификату",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить ca сертификат",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add a CA certificate to the per-user Trust Settings.",
+   "cmd": "security add-trusted-cert -k <USER_KEYCHAIN> <CA_CERT_FILE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USER_KEYCHAIN",
+     "description": "The path to the user's keychain database.",
+     "example": "~/Library/Keychains/login.keychain-db"
+    },
+    {
+     "name": "CA_CERT_FILE",
+     "description": "The path to the CA certificate file.",
+     "example": "~/Downloads/ca-cert.pem"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the CA certificate from the per-user Trust Settings.",
+   "cmd": "security remove-trusted-cert <CA_CERT_FILE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "CA_CERT_FILE",
+     "description": "The path to the CA certificate file to remove.",
+     "example": "~/Downloads/ca-cert.pem"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Only add certificates from trusted sources. Adding a malicious CA certificate can compromise your security."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/security.md",
+  "title": "tldr-pages: security",
+  "license": "CC-BY-4.0"
+ }
+}

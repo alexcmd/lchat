@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-spacer-to-dock",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add a spacer to the Dock",
+ "summary": "Use dockutil to add a spacer tile to the Dock. Spacers help organize apps into groups. You can choose regular, small, or flexible spacers.",
+ "aliases": [
+  {
+   "text": "add spacer to dock",
+   "lang": "en"
+  },
+  {
+   "text": "dockutil spacer",
+   "lang": "en"
+  },
+  {
+   "text": "dock separator",
+   "lang": "en"
+  },
+  {
+   "text": "добавить разделитель в док",
+   "lang": "ru"
+  },
+  {
+   "text": "dockutil разделитель",
+   "lang": "ru"
+  },
+  {
+   "text": "разделить док на группы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "dockutil is installed (usually via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Adds a spacer tile to the Dock. You can specify the type (spacer, small-spacer, flex-spacer), the section (usually apps), and place it after a specific item.",
+   "cmd": "dockutil --add '' --type <SPACER_TYPE> --section <SECTION> --after <DOCK_ITEM_LABEL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SPACER_TYPE",
+     "description": "Type of spacer: spacer, small-spacer, or flex-spacer",
+     "example": "spacer"
+    },
+    {
+     "name": "SECTION",
+     "description": "The Dock section to add to, usually 'apps'",
+     "example": "apps"
+    },
+    {
+     "name": "DOCK_ITEM_LABEL",
+     "description": "The label of the item to place the spacer after",
+     "example": "Safari"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dockutil.md",
+  "title": "tldr-pages: dockutil",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,129 @@
+{
+ "schema_version": 2,
+ "id": "linux-clean-old-logs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete old journal logs",
+ "summary": "Use journalctl to delete journal logs older than a specified time. This helps free up disk space by removing old log entries.",
+ "aliases": [
+  {
+   "text": "delete old logs",
+   "lang": "en"
+  },
+  {
+   "text": "clean journal logs",
+   "lang": "en"
+  },
+  {
+   "text": "vacuum journal",
+   "lang": "en"
+  },
+  {
+   "text": "remove old logs",
+   "lang": "en"
+  },
+  {
+   "text": "free disk space logs",
+   "lang": "en"
+  },
+  {
+   "text": "journalctl vacuum",
+   "lang": "en"
+  },
+  {
+   "text": "clear old logs",
+   "lang": "en"
+  },
+  {
+   "text": "delete logs older than",
+   "lang": "en"
+  },
+  {
+   "text": "clean up logs",
+   "lang": "en"
+  },
+  {
+   "text": "reduce log size",
+   "lang": "en"
+  },
+  {
+   "text": "удалить старые логи",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить журнал",
+   "lang": "ru"
+  },
+  {
+   "text": "vacuum journal",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить старые записи",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место логами",
+   "lang": "ru"
+  },
+  {
+   "text": "journalctl vacuum",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить старые логи",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить логи старше",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать старые логи",
+   "lang": "ru"
+  },
+  {
+   "text": "уменьшить размер логов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete journal logs which are older than the specified time (e.g., 2 days).",
+   "cmd": "journalctl --vacuum-time <TIME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "TIME",
+     "description": "Time duration (e.g., 2d, 1week, 1month)",
+     "example": "2d"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This permanently deletes old log entries. Ensure you do not need them for debugging."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct command to restore deleted logs. Ensure you have backups if needed.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/journalctl.md",
+  "title": "tldr-pages: journalctl",
+  "license": "CC-BY-4.0"
+ }
+}

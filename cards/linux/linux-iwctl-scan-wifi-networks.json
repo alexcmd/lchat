@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "linux-iwctl-scan-wifi-networks",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Scan for Wi-Fi networks using iwctl",
+ "summary": "Use iwctl to scan for available Wi-Fi networks and list them. This is useful when you need to see what networks are in range without using a graphical interface.",
+ "aliases": [
+  {
+   "text": "iwctl scan wifi",
+   "lang": "en"
+  },
+  {
+   "text": "list wifi networks iwctl",
+   "lang": "en"
+  },
+  {
+   "text": "iwctl get networks",
+   "lang": "en"
+  },
+  {
+   "text": "scan for wifi linux iwctl",
+   "lang": "en"
+  },
+  {
+   "text": "iwctl station scan",
+   "lang": "en"
+  },
+  {
+   "text": "найти wifi сети iwctl",
+   "lang": "ru"
+  },
+  {
+   "text": "iwctl список сетей",
+   "lang": "ru"
+  },
+  {
+   "text": "просмотреть wifi iwctl",
+   "lang": "ru"
+  },
+  {
+   "text": "iwctl сканирование сетей",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "iwd"
+  ]
+ },
+ "prerequisites": [
+  "iwd is installed and running",
+  "You know your Wi-Fi interface name (station)"
+ ],
+ "steps": [
+  {
+   "explain": "Start a scan for Wi-Fi networks using your Wi-Fi interface (station).",
+   "cmd": "iwctl station <STATION> scan",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "STATION",
+     "description": "The name of your Wi-Fi interface, e.g., wlan0 or phy0",
+     "example": "wlan0",
+     "discover_cmd": "iwctl station list"
+    }
+   ]
+  },
+  {
+   "explain": "Display the list of networks found by the scan.",
+   "cmd": "iwctl station <STATION> get-networks",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "STATION",
+     "description": "The name of your Wi-Fi interface, e.g., wlan0 or phy0",
+     "example": "wlan0",
+     "discover_cmd": "iwctl station list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/iwctl.md",
+  "title": "tldr-pages: iwctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-iw-scan-wifi-networks",
+  "nmcli-list-wifi-networks"
+ ]
+}

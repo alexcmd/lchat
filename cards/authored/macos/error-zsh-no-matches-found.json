@@ -1,0 +1,112 @@
+{
+ "schema_version": 2,
+ "id": "error-zsh-no-matches-found",
+ "platform": "macos",
+ "kind": "error",
+ "title": "zsh: no matches found - wildcard or brackets in a command",
+ "summary": "zsh stops a command when a * or [ ] pattern matches no file in the folder, and prints 'no matches found'. Put the pattern in quotes so zsh passes it on unchanged, and the command searches for the files itself.",
+ "aliases": [
+  {
+   "text": "zsh no matches found",
+   "lang": "en"
+  },
+  {
+   "text": "mac terminal no matches found",
+   "lang": "en"
+  },
+  {
+   "text": "why does terminal say no matches found",
+   "lang": "en"
+  },
+  {
+   "text": "zsh no matches found asterisk",
+   "lang": "en"
+  },
+  {
+   "text": "zsh wildcard error",
+   "lang": "en"
+  },
+  {
+   "text": "zsh brackets error on mac",
+   "lang": "en"
+  },
+  {
+   "text": "terminal error with star symbol",
+   "lang": "en"
+  },
+  {
+   "text": "почему терминал пишет no matches found",
+   "lang": "ru"
+  },
+  {
+   "text": "zsh ошибка со звездочкой",
+   "lang": "ru"
+  },
+  {
+   "text": "zsh ошибка квадратные скобки",
+   "lang": "ru"
+  },
+  {
+   "text": "zsh ругается на звездочку в команде",
+   "lang": "ru"
+  },
+  {
+   "text": "как экранировать звездочку в zsh",
+   "lang": "ru"
+  },
+  {
+   "text": "терминал mac не находит файлы по маске",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "no matches found"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal open on a Mac (the default shell is zsh)"
+ ],
+ "steps": [
+  {
+   "explain": "Look at the file names in the current folder. If the files you want are not listed here, the pattern has nothing to match and zsh reports the error.",
+   "cmd": "ls -la",
+   "risk": "low",
+   "expect": "A list of the files and folders in the current folder, one per line."
+  },
+  {
+   "explain": "Put the pattern in single quotes. zsh then passes it to find unchanged, and find looks for matching names itself, so zsh no longer stops the command. Replace <PATTERN> with the pattern you typed and keep the quotes.",
+   "cmd": "find . -name '<PATTERN>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "The file name pattern that caused the error, with * ? [ ] characters.",
+     "example": "*.log",
+     "discover_cmd": "ls -la"
+    }
+   ],
+   "expect": "Paths that match the pattern, each starting with ./. If no file matches, nothing is printed and there is no error.",
+   "alternatives": [
+    {
+     "explain": "Put a backslash in front of each * ? [ ] character instead of using quotes. This works for a short pattern.",
+     "cmd": "find . -name \\*.log",
+     "risk": "low",
+     "expect": "The same list of matching paths as the quoted version."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "see_also": [],
+ "source": {
+  "url": "x-man-page://zsh",
+  "title": "zsh manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

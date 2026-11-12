@@ -1,0 +1,152 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-single-instance-flock",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Stop a bash script from running twice at the same time",
+  "summary": "Uses a lock file so that only one copy of the script can work at a time. A second copy sees that the lock is taken and exits, and the lock is released automatically when the first copy ends.",
+  "aliases": [
+    {
+      "text": "only one instance of a script bash",
+      "lang": "en"
+    },
+    {
+      "text": "prevent a bash script from running twice",
+      "lang": "en"
+    },
+    {
+      "text": "flock bash example",
+      "lang": "en"
+    },
+    {
+      "text": "lock file in bash script",
+      "lang": "en"
+    },
+    {
+      "text": "bash script is already running",
+      "lang": "en"
+    },
+    {
+      "text": "stop second copy of script bash",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт нельзя запускать два раза",
+      "lang": "ru"
+    },
+    {
+      "text": "как запретить запуск второй копии скрипта",
+      "lang": "ru"
+    },
+    {
+      "text": "bash lock файл чтобы скрипт не запускался параллельно",
+      "lang": "ru"
+    },
+    {
+      "text": "flock пример в bash",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт который не даёт запустить себя повторно пока работает",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "single-instance.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "single-instance.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "single-instance.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Start one copy in the background with its own lock file, then start a second copy while the first is still busy. The second copy refuses to run and exits with code 1.",
+      "risk": "low",
+      "cmd": "LOCK_FILE=./demo.lock ./<FILE> & sleep 1; LOCK_FILE=./demo.lock ./<FILE>; echo exit code $?; wait",
+      "expect": "The second copy prints another copy is already running (lock file: ./demo.lock), exiting, then exit code 1. The first copy prints work finished.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "single-instance.sh"
+        }
+      ]
+    },
+    {
+      "explain": "After the first copy has finished, the lock is free again and a new run works.",
+      "risk": "low",
+      "cmd": "LOCK_FILE=./demo.lock ./<FILE>",
+      "expect": "lock acquired (pid ...), then work finished",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "single-instance.sh"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "Child programs inherit the lock. If the script starts a program in the background that keeps running after the script ends, the lock stays taken. Close the lock file in that child with 9>&-.",
+    "flock comes from util-linux and is available on Linux. On macOS, use a lock folder created with mkdir instead.",
+    "The default lock file is in /tmp, which all users can see. On a shared computer, set LOCK_FILE to a path only your user can write."
+  ],
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man1/flock.1.html",
+    "title": "flock(1) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "single-instance.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# single-instance.sh - run a job only when no other copy of this script is running.\n# Usage: ./single-instance.sh\n# The lock file is $LOCK_FILE (default: /tmp/single-instance.lock).\n# flock holds the lock while the file stays open, so the lock is released\n# automatically when the script ends, even after a crash.\n\nset -euo pipefail\n\nLOCK_FILE=${LOCK_FILE:-/tmp/single-instance.lock}\n\n# Open the lock file on file descriptor 9, then try to lock it without waiting (-n).\nexec 9>\"$LOCK_FILE\"\nif ! flock -n 9; then\n    echo \"another copy is already running (lock file: $LOCK_FILE), exiting\" >&2\n    exit 1\nfi\n\necho \"lock acquired (pid $$), doing the work for 3 seconds...\"\nsleep 3\necho \"work finished\"\n",
+    "usage": "LOCK_FILE=/path/to/lock ./single-instance.sh"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

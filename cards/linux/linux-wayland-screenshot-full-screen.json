@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-wayland-screenshot-full-screen",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Take a full-screen screenshot on Wayland",
+ "summary": "Capture the entire screen and save it as an image file. By default, the file is saved to your Pictures folder or the current directory.",
+ "aliases": [
+  {
+   "text": "take screenshot wayland",
+   "lang": "en"
+  },
+  {
+   "text": "grim screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "full screen capture linux",
+   "lang": "en"
+  },
+  {
+   "text": "make screenshot on wayland",
+   "lang": "en"
+  },
+  {
+   "text": "grim full screen",
+   "lang": "en"
+  },
+  {
+   "text": "сделать скриншот wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "grim скриншот",
+   "lang": "ru"
+  },
+  {
+   "text": "скриншот всего экрана linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как сделать скриншот в wayland",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "grim"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run grim to capture all connected displays and save the image to the default location.",
+   "cmd": "grim",
+   "risk": "low",
+   "expect": "A screenshot file is created in your Pictures folder or current directory."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/grim.md",
+  "title": "tldr-pages: grim",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-stop-launch-agent",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Stop a running launch agent or daemon",
+ "summary": "Kill the process associated with a specific launch agent or daemon if it is currently running. This does not unload the agent, so it may restart based on its configuration.",
+ "aliases": [
+  {
+   "text": "stop launch agent",
+   "lang": "en"
+  },
+  {
+   "text": "kill background process mac",
+   "lang": "en"
+  },
+  {
+   "text": "terminate launchd task",
+   "lang": "en"
+  },
+  {
+   "text": "остановить агент запуска",
+   "lang": "ru"
+  },
+  {
+   "text": "убить фоновый процесс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send a stop signal to the process associated with the specified launch agent or daemon.",
+   "cmd": "launchctl stop <AGENT_LABEL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "AGENT_LABEL",
+     "description": "The label defined inside the plist file",
+     "example": "com.example.myagent"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/launchctl.md",
+  "title": "tldr-pages: launchctl",
+  "license": "CC-BY-4.0"
+ }
+}

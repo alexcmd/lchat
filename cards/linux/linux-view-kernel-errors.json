@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-view-kernel-errors",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show only kernel error messages",
+ "summary": "Filter the kernel log to show only error-level messages. This helps quickly identify critical hardware or driver failures without scrolling through informational messages.",
+ "aliases": [
+  {
+   "text": "kernel errors only",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg errors",
+   "lang": "en"
+  },
+  {
+   "text": "filter kernel log errors",
+   "lang": "en"
+  },
+  {
+   "text": "check for kernel failures",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg err",
+   "lang": "en"
+  },
+  {
+   "text": "kernel error log",
+   "lang": "en"
+  },
+  {
+   "text": "ошибки ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "dmesg ошибки",
+   "lang": "ru"
+  },
+  {
+   "text": "только ошибки ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "сбои драйверов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --level flag with 'err' to display only error messages from the kernel.",
+   "cmd": "sudo dmesg --level err",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dmesg.md",
+  "title": "tldr-pages: dmesg",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,128 @@
+{
+ "schema_version": 2,
+ "id": "linux-flatpak-remote-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show information about an app in a Flatpak remote",
+ "summary": "Use this command to see details about an application or runtime available in a specific Flatpak remote repository, such as its version and description.",
+ "aliases": [
+  {
+   "text": "flatpak remote info",
+   "lang": "en"
+  },
+  {
+   "text": "check flatpak app details",
+   "lang": "en"
+  },
+  {
+   "text": "show flatpak remote app info",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak remote-info",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak info remote",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak remote info",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о приложении flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "показать данные remote flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak remote-info",
+   "lang": "ru"
+  },
+  {
+   "text": "детали приложения в репозитории flatpak",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command with the name of the remote (e.g., flathub) and the application ID (e.g., org.gnome.Calculator) to view its details.",
+   "cmd": "flatpak remote-info <REMOTE_NAME> <APP_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REMOTE_NAME",
+     "description": "The name of the Flatpak remote repository",
+     "example": "flathub",
+     "discover_cmd": "flatpak remotes"
+    },
+    {
+     "name": "APP_ID",
+     "description": "The application ID (e.g., org.gnome.Calculator)",
+     "example": "org.gnome.Calculator",
+     "discover_cmd": "flatpak search <keyword>"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show a log of previous versions for the application.",
+     "cmd": "flatpak remote-info --log <REMOTE_NAME> <APP_ID>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "REMOTE_NAME",
+       "description": "The name of the Flatpak remote repository",
+       "example": "flathub"
+      },
+      {
+       "name": "APP_ID",
+       "description": "The application ID",
+       "example": "org.gnome.Calculator"
+      }
+     ]
+    },
+    {
+     "explain": "Show information about a specific commit instead of the latest version.",
+     "cmd": "flatpak remote-info --commit <COMMIT> <REMOTE_NAME> <APP_ID>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COMMIT",
+       "description": "The specific commit hash",
+       "example": "1234567890abcdef"
+      },
+      {
+       "name": "REMOTE_NAME",
+       "description": "The name of the Flatpak remote repository",
+       "example": "flathub"
+      },
+      {
+       "name": "APP_ID",
+       "description": "The application ID",
+       "example": "org.gnome.Calculator"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flatpak-remote-info.md",
+  "title": "tldr-pages: flatpak-remote-info",
+  "license": "CC-BY-4.0"
+ }
+}

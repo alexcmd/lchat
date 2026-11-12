@@ -1,0 +1,152 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-check-dependencies-before-run",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Check that the programs a bash script needs are installed before it runs",
+  "summary": "Looks up each program your script depends on. If one is missing, the script tells you which ones to install and stops before doing any work.",
+  "aliases": [
+    {
+      "text": "check if a program is installed bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash script check required commands",
+      "lang": "en"
+    },
+    {
+      "text": "command -v example",
+      "lang": "en"
+    },
+    {
+      "text": "how to test if a command exists in bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash verify dependencies before running",
+      "lang": "en"
+    },
+    {
+      "text": "bash stop if command not found",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт проверяет что нужные программы установлены",
+      "lang": "ru"
+    },
+    {
+      "text": "как проверить что команда есть в системе bash",
+      "lang": "ru"
+    },
+    {
+      "text": "bash проверка зависимостей перед запуском",
+      "lang": "ru"
+    },
+    {
+      "text": "проверить установлена ли программа в скрипте",
+      "lang": "ru"
+    },
+    {
+      "text": "bash если команды нет то ошибка",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "check-deps.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "check-deps.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "check-deps.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check three programs. tar and gzip are normally installed; nosuchtool42 is a made-up name that is not installed.",
+      "risk": "low",
+      "cmd": "./<FILE> tar gzip nosuchtool42; echo exit code $?",
+      "expect": "found: tar, found: gzip, missing: nosuchtool42, install these before running the script: nosuchtool42, then exit code 1",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "check-deps.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check only the programs that exist. The script reports that all dependencies were found.",
+      "risk": "low",
+      "cmd": "./<FILE> tar gzip",
+      "expect": "found: tar (path), found: gzip (path), all dependencies found",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "check-deps.sh"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "command -v also finds aliases and shell functions. Check the exact program name that the script will run.",
+    "The check shows that a program exists, not that its version works or that it is the right program.",
+    "Put the check at the top of your script, so it stops before it changes any file."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "check-deps.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# check-deps.sh - make sure the programs your script needs are installed.\n# Usage: ./check-deps.sh PROGRAM [PROGRAM...]\n# Prints each program as found or missing. Exit code: 0 when all are found, 1 when any is missing.\n\nset -euo pipefail\n\nif (( $# == 0 )); then\n    echo \"usage: $0 PROGRAM [PROGRAM...]\" >&2\n    exit 2\nfi\n\nmissing=()\nfor prog in \"$@\"; do\n    # command -v prints the path of a program that can be run. If it is not\n    # found, it prints nothing and returns a non-zero exit code.\n    if path=$(command -v \"$prog\"); then\n        echo \"found:   $prog ($path)\"\n    else\n        echo \"missing: $prog\" >&2\n        missing+=(\"$prog\")\n    fi\ndone\n\nif (( ${#missing[@]} > 0 )); then\n    echo \"install these before running the script: ${missing[*]}\" >&2\n    exit 1\nfi\necho \"all dependencies found\"\n",
+    "usage": "./check-deps.sh PROGRAM [PROGRAM...]"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

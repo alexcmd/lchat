@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-hostname",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set the system hostname",
+ "summary": "Change the name of your computer on the network using hostnamectl.",
+ "aliases": [
+  {
+   "text": "change hostname",
+   "lang": "en"
+  },
+  {
+   "text": "set computer name",
+   "lang": "en"
+  },
+  {
+   "text": "hostnamectl",
+   "lang": "en"
+  },
+  {
+   "text": "изменить имя хоста",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить имя компьютера",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the hostname permanently. Replace <HOSTNAME> with your desired name.",
+   "cmd": "sudo hostnamectl hostname <HOSTNAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "HOSTNAME",
+     "description": "The new hostname for the system",
+     "example": "my-laptop"
+    }
+   ]
+  },
+  {
+   "explain": "Verify the change.",
+   "cmd": "hostnamectl",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Set the hostname back to the previous value.",
+   "cmd": "sudo hostnamectl hostname <OLD_HOSTNAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "OLD_HOSTNAME",
+     "description": "The previous hostname",
+     "example": "archlinux"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing the hostname may affect network services or authentication if they rely on the old name."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Network_configuration#Set_the_hostname",
+  "title": "Network configuration",
+  "revision_id": 884253,
+  "license": "GFDL-1.3-or-later"
+ }
+}

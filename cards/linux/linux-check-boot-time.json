@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-boot-time",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check how long the system took to boot",
+ "summary": "See the total time your Linux computer took to start up. This helps you understand if your boot process is slow.",
+ "aliases": [
+  {
+   "text": "check boot time",
+   "lang": "en"
+  },
+  {
+   "text": "how long did boot take",
+   "lang": "en"
+  },
+  {
+   "text": "systemd analyze boot time",
+   "lang": "en"
+  },
+  {
+   "text": "slow boot linux",
+   "lang": "en"
+  },
+  {
+   "text": "проверить время загрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько грузится линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "systemd analyze",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the analyze command to see the total startup time.",
+   "cmd": "systemd-analyze",
+   "risk": "low",
+   "expect": "Output showing kernel, initrd, and userspace boot times."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemd-analyze.md",
+  "title": "tldr-pages: systemd-analyze",
+  "license": "CC-BY-4.0"
+ }
+}

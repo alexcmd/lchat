@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "system-time-fix-clock-offset",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix clock showing wrong time (UTC/Local mismatch)",
+ "summary": "Correct the system and hardware clock if they are out of sync due to a mismatch between UTC and local time settings.",
+ "aliases": [
+  {
+   "text": "clock wrong after reboot",
+   "lang": "en"
+  },
+  {
+   "text": "time offset error",
+   "lang": "en"
+  },
+  {
+   "text": "fix dual boot time",
+   "lang": "en"
+  },
+  {
+   "text": "время сбивается после перезагрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "неправильное время после выключения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ntp",
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Ensure the time zone is set correctly.",
+   "cmd": "sudo timedatectl set-timezone <AREA_LOCATION>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "AREA_LOCATION",
+     "description": "Your correct time zone",
+     "example": "Europe/Berlin"
+    }
+   ]
+  },
+  {
+   "explain": "Synchronize the system clock with the network, ignoring large deviations.",
+   "cmd": "sudo ntpd -qg",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Write the corrected system time to the hardware clock.",
+   "cmd": "sudo hwclock --systohc",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Revert hardware clock to previous state (if known) or re-sync.",
+   "cmd": "sudo hwclock --systohc",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "This process requires the 'ntp' package to be installed."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/System_time#Troubleshooting",
+  "title": "System time",
+  "revision_id": 887572,
+  "license": "GFDL-1.3-or-later"
+ }
+}

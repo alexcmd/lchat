@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-system-bell",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable the system bell sound",
+ "summary": "Turn off the audible beep (bell) that some applications or terminal errors might trigger. This prevents unexpected loud sounds.",
+ "aliases": [
+  {
+   "text": "disable system bell",
+   "lang": "en"
+  },
+  {
+   "text": "turn off beep sound",
+   "lang": "en"
+  },
+  {
+   "text": "stop terminal beep",
+   "lang": "en"
+  },
+  {
+   "text": "xset bell off",
+   "lang": "en"
+  },
+  {
+   "text": "отключить системный динамик",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить писк",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать звук ошибки",
+   "lang": "ru"
+  },
+  {
+   "text": "xset b off",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xset"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command to disable the X server's bell sound.",
+   "cmd": "xset b off",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xset.md",
+  "title": "tldr-pages: xset",
+  "license": "CC-BY-4.0"
+ }
+}

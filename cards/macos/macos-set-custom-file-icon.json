@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-custom-file-icon",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set a custom icon for a file or folder",
+ "summary": "Use the `fileicon` tool to assign a custom image as the icon for a specific file or directory. This changes how the item appears in Finder.",
+ "aliases": [
+  {
+   "text": "change file icon mac",
+   "lang": "en"
+  },
+  {
+   "text": "custom folder icon mac",
+   "lang": "en"
+  },
+  {
+   "text": "set custom icon terminal",
+   "lang": "en"
+  },
+  {
+   "text": "fileicon set",
+   "lang": "en"
+  },
+  {
+   "text": "изменить иконку файла mac",
+   "lang": "ru"
+  },
+  {
+   "text": "кастомная иконка папки",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить иконку через терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The `fileicon` tool must be installed (e.g., via Homebrew).",
+  "You need a valid image file (usually .png or .icns) to use as the icon."
+ ],
+ "steps": [
+  {
+   "explain": "Run the `fileicon set` command, specifying the target file or directory and the path to the image file you want to use as the icon.",
+   "cmd": "fileicon set <FILE_OR_DIRECTORY> <ICON_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or folder you want to change the icon for.",
+     "example": "~/Documents/MyFolder"
+    },
+    {
+     "name": "ICON_FILE",
+     "description": "Path to the image file (e.g., .png or .icns) to use as the new icon.",
+     "example": "~/Pictures/custom_icon.png"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/fileicon.md",
+  "title": "tldr-pages: fileicon",
+  "license": "CC-BY-4.0"
+ }
+}

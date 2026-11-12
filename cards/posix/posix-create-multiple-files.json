@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-multiple-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create multiple files with numbered or lettered names",
+ "summary": "Use brace expansion with touch to create several files at once, such as file1, file2, etc., or filea, fileb, etc. This saves you from typing the command multiple times.",
+ "aliases": [
+  {
+   "text": "create multiple files",
+   "lang": "en"
+  },
+  {
+   "text": "touch multiple files",
+   "lang": "en"
+  },
+  {
+   "text": "create numbered files",
+   "lang": "en"
+  },
+  {
+   "text": "batch create files",
+   "lang": "en"
+  },
+  {
+   "text": "создать несколько файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "touch несколько файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "создать файлы с номерами",
+   "lang": "ru"
+  },
+  {
+   "text": "пакетное создание файлов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use brace expansion {1..10} to create files named file1 through file10. The shell expands this into ten separate arguments for touch.",
+   "cmd": "touch <FILE>{1..10}",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The base name for the files",
+     "example": "test"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use brace expansion {a..z} to create files named filea through filez.",
+     "cmd": "touch <FILE>{a..z}",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The base name for the files",
+       "example": "test"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/touch.md",
+  "title": "tldr-pages: touch",
+  "license": "CC-BY-4.0"
+ }
+}

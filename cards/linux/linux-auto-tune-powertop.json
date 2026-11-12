@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "linux-auto-tune-powertop",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Automatically tune power settings with powertop",
+ "summary": "Apply optimal power-saving settings to your system automatically. This can help extend battery life on laptops.",
+ "aliases": [
+  {
+   "text": "powertop auto tune",
+   "lang": "en"
+  },
+  {
+   "text": "optimize battery linux",
+   "lang": "en"
+  },
+  {
+   "text": "powertop --auto-tune",
+   "lang": "en"
+  },
+  {
+   "text": "save battery linux",
+   "lang": "en"
+  },
+  {
+   "text": "автонастройка powertop",
+   "lang": "ru"
+  },
+  {
+   "text": "оптимизировать батарею linux",
+   "lang": "ru"
+  },
+  {
+   "text": "powertop авто",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "powertop installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run powertop with the --auto-tune flag to apply recommended power-saving settings. This requires root privileges.",
+   "cmd": "sudo powertop --auto-tune",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reboot the system to revert power settings to defaults if issues occur.",
+   "cmd": "sudo reboot",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This changes system power settings. If your system becomes unstable or peripherals stop working, reboot to revert."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/powertop.md",
+  "title": "tldr-pages: powertop",
+  "license": "CC-BY-4.0"
+ }
+}

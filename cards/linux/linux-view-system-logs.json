@@ -1,0 +1,153 @@
+{
+ "schema_version": 2,
+ "id": "linux-view-system-logs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "View system logs",
+ "summary": "Use journalctl to view the system logs. You can see the latest messages, filter by time, or follow new entries as they appear.",
+ "aliases": [
+  {
+   "text": "view system logs",
+   "lang": "en"
+  },
+  {
+   "text": "check system logs",
+   "lang": "en"
+  },
+  {
+   "text": "journalctl",
+   "lang": "en"
+  },
+  {
+   "text": "see logs",
+   "lang": "en"
+  },
+  {
+   "text": "system log viewer",
+   "lang": "en"
+  },
+  {
+   "text": "show recent logs",
+   "lang": "en"
+  },
+  {
+   "text": "follow logs",
+   "lang": "en"
+  },
+  {
+   "text": "logs since yesterday",
+   "lang": "en"
+  },
+  {
+   "text": "filter logs by time",
+   "lang": "en"
+  },
+  {
+   "text": "view logs",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть системные логи",
+   "lang": "ru"
+  },
+  {
+   "text": "журнал системы",
+   "lang": "ru"
+  },
+  {
+   "text": "journalctl",
+   "lang": "ru"
+  },
+  {
+   "text": "логи linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть логи",
+   "lang": "ru"
+  },
+  {
+   "text": "последние логи",
+   "lang": "ru"
+  },
+  {
+   "text": "следить за логами",
+   "lang": "ru"
+  },
+  {
+   "text": "логи за вчера",
+   "lang": "ru"
+  },
+  {
+   "text": "фильтр логов по времени",
+   "lang": "ru"
+  },
+  {
+   "text": "просмотр логов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the latest log entries. By default, it shows all messages. You can limit the number of lines or follow new messages in real-time.",
+   "cmd": "journalctl",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show the last N lines of the log.",
+     "cmd": "journalctl --lines <NUMBER_OF_LINES>",
+     "placeholders": [
+      {
+       "name": "NUMBER_OF_LINES",
+       "description": "Number of lines to show",
+       "example": "50"
+      }
+     ]
+    },
+    {
+     "explain": "Show the last N lines and keep printing new messages as they arrive (like tail -f).",
+     "cmd": "journalctl --lines <NUMBER_OF_LINES> --follow",
+     "placeholders": [
+      {
+       "name": "NUMBER_OF_LINES",
+       "description": "Number of lines to show initially",
+       "example": "20"
+      }
+     ]
+    },
+    {
+     "explain": "Show messages from a specific time range (e.g., since yesterday).",
+     "cmd": "journalctl --since <START_TIME> --until <END_TIME>",
+     "placeholders": [
+      {
+       "name": "START_TIME",
+       "description": "Start time (e.g., 'yesterday', 'today', '2 hours ago')",
+       "example": "yesterday"
+      },
+      {
+       "name": "END_TIME",
+       "description": "End time (e.g., 'now', '2023-10-27 12:00:00')",
+       "example": "now"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/journalctl.md",
+  "title": "tldr-pages: journalctl",
+  "license": "CC-BY-4.0"
+ }
+}

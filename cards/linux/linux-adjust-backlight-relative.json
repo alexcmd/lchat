@@ -1,0 +1,91 @@
+{
+ "schema_version": 2,
+ "id": "linux-adjust-backlight-relative",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Increase or decrease screen backlight by a percentage",
+ "summary": "Adjust your screen brightness up or down by a specific amount relative to the current level. Useful for fine-tuning without knowing the exact target percentage.",
+ "aliases": [
+  {
+   "text": "increase screen brightness",
+   "lang": "en"
+  },
+  {
+   "text": "decrease screen brightness",
+   "lang": "en"
+  },
+  {
+   "text": "make screen brighter",
+   "lang": "en"
+  },
+  {
+   "text": "make screen darker",
+   "lang": "en"
+  },
+  {
+   "text": "adjust backlight by 20",
+   "lang": "en"
+  },
+  {
+   "text": "увеличить яркость экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "уменьшить яркость экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать экран ярче",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать экран темнее",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "light"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -A flag to add a percentage to the current brightness, or -U to subtract it. Replace <PERCENTAGE> with the amount to change.",
+   "cmd": "light -A <PERCENTAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PERCENTAGE",
+     "description": "The amount to change brightness by (e.g., 10 or 20).",
+     "example": "20"
+    }
+   ],
+   "expect": "The screen brightness increases by the specified percentage.",
+   "alternatives": [
+    {
+     "explain": "Use the -U flag to subtract a percentage from the current brightness.",
+     "cmd": "light -U <PERCENTAGE>",
+     "placeholders": [
+      {
+       "name": "PERCENTAGE",
+       "description": "The amount to change brightness by (e.g., 10 or 20).",
+       "example": "20"
+      }
+     ],
+     "expect": "The screen brightness decreases by the specified percentage."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/light.md",
+  "title": "tldr-pages: light",
+  "license": "CC-BY-4.0"
+ }
+}

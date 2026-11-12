@@ -1,0 +1,127 @@
+{
+ "schema_version": 2,
+ "id": "posix-compare-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compare two files to see differences",
+ "summary": "Use the diff command to see exactly what changed between two versions of a file. It shows lines that were added, removed, or modified.",
+ "aliases": [
+  {
+   "text": "compare two files",
+   "lang": "en"
+  },
+  {
+   "text": "see differences between files",
+   "lang": "en"
+  },
+  {
+   "text": "diff command",
+   "lang": "en"
+  },
+  {
+   "text": "what changed in file",
+   "lang": "en"
+  },
+  {
+   "text": "сравнить два файла",
+   "lang": "ru"
+  },
+  {
+   "text": "разница между файлами",
+   "lang": "ru"
+  },
+  {
+   "text": "команда diff",
+   "lang": "ru"
+  },
+  {
+   "text": "что изменилось в файле",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run diff with the paths to the two files you want to compare. The output lists the changes needed to turn the first file into the second.",
+   "cmd": "diff <OLD_FILE> <NEW_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OLD_FILE",
+     "description": "Path to the original or older version of the file",
+     "example": "config.old"
+    },
+    {
+     "name": "NEW_FILE",
+     "description": "Path to the new or modified version of the file",
+     "example": "config.new"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Ignore differences in whitespace (spaces and tabs) to focus on content changes.",
+     "cmd": "diff --ignore-all-space <OLD_FILE> <NEW_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "OLD_FILE",
+       "description": "Path to the original file",
+       "example": "config.old"
+      },
+      {
+       "name": "NEW_FILE",
+       "description": "Path to the new file",
+       "example": "config.new"
+      }
+     ]
+    },
+    {
+     "explain": "Show the differences side by side in two columns instead of a list.",
+     "cmd": "diff --side-by-side <OLD_FILE> <NEW_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "OLD_FILE",
+       "description": "Path to the original file",
+       "example": "config.old"
+      },
+      {
+       "name": "NEW_FILE",
+       "description": "Path to the new file",
+       "example": "config.new"
+      }
+     ]
+    },
+    {
+     "explain": "Show differences in unified format, which is compact and commonly used in patches.",
+     "cmd": "diff --unified <OLD_FILE> <NEW_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "OLD_FILE",
+       "description": "Path to the original file",
+       "example": "config.old"
+      },
+      {
+       "name": "NEW_FILE",
+       "description": "Path to the new file",
+       "example": "config.new"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/diff.md",
+  "title": "tldr-pages: diff",
+  "license": "CC-BY-4.0"
+ }
+}

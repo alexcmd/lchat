@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-run-multiple-applescript-commands",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run multiple AppleScript commands in one go",
+ "summary": "Execute several AppleScript commands sequentially in a single Terminal call by chaining multiple -e flags. This is handy for running a short sequence of actions.",
+ "aliases": [
+  {
+   "text": "run multiple applescript commands",
+   "lang": "en"
+  },
+  {
+   "text": "osascript multiple -e",
+   "lang": "en"
+  },
+  {
+   "text": "chain applescript commands",
+   "lang": "en"
+  },
+  {
+   "text": "несколько команд applescript",
+   "lang": "ru"
+  },
+  {
+   "text": "osascript несколько команд",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use multiple -e flags to run several AppleScript commands in order. Each command is enclosed in single quotes.",
+   "cmd": "osascript -e '<APPLESCRIPT_COMMAND_1>' -e '<APPLESCRIPT_COMMAND_2>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APPLESCRIPT_COMMAND_1",
+     "description": "The first AppleScript command",
+     "example": "say \"Hello\""
+    },
+    {
+     "name": "APPLESCRIPT_COMMAND_2",
+     "description": "The second AppleScript command",
+     "example": "say \"world\""
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/osascript.md",
+  "title": "tldr-pages: osascript",
+  "license": "CC-BY-4.0"
+ }
+}

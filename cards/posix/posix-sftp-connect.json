@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "posix-sftp-connect",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Connect to a remote server with SFTP",
+ "summary": "Open an interactive file transfer session with a remote computer over SSH. Once connected, you can browse and copy files between your computer and the server.",
+ "aliases": [
+  {
+   "text": "sftp connect",
+   "lang": "en"
+  },
+  {
+   "text": "secure file transfer",
+   "lang": "en"
+  },
+  {
+   "text": "sftp login",
+   "lang": "en"
+  },
+  {
+   "text": "connect to server sftp",
+   "lang": "en"
+  },
+  {
+   "text": "подключиться к sftp",
+   "lang": "ru"
+  },
+  {
+   "text": "sftp соединение",
+   "lang": "ru"
+  },
+  {
+   "text": "безопасная передача файлов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start an SFTP session by specifying the remote username and host. You will be prompted for a password or use your SSH key.",
+   "cmd": "sftp <REMOTE_USER>@<REMOTE_HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REMOTE_USER",
+     "description": "Username on the remote server"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "IP address or domain name of the remote server"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Connect to a specific port if the server does not use the default SSH port (22).",
+     "cmd": "sftp -P <REMOTE_PORT> <REMOTE_USER>@<REMOTE_HOST>",
+     "placeholders": [
+      {
+       "name": "REMOTE_PORT",
+       "description": "Port number for SSH/SFTP"
+      },
+      {
+       "name": "REMOTE_USER",
+       "description": "Username on the remote server"
+      },
+      {
+       "name": "REMOTE_HOST",
+       "description": "IP address or domain name of the remote server"
+      }
+     ]
+    },
+    {
+     "explain": "Connect using a host alias defined in your SSH configuration file (~/.ssh/config).",
+     "cmd": "sftp <HOST_ALIAS>",
+     "placeholders": [
+      {
+       "name": "HOST_ALIAS",
+       "description": "Host name defined in ~/.ssh/config"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sftp.md",
+  "title": "tldr-pages: sftp",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "macos-send-notification-cli",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Send a macOS notification from the Terminal",
+ "summary": "Use terminal-notifier to display a standard macOS notification banner with a custom title and message. This is useful for scripts that need to alert you when a task finishes.",
+ "aliases": [
+  {
+   "text": "send notification from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "terminal notifier mac",
+   "lang": "en"
+  },
+  {
+   "text": "script notification macos",
+   "lang": "en"
+  },
+  {
+   "text": "pop up notification mac",
+   "lang": "en"
+  },
+  {
+   "text": "отправить уведомление из терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "terminal notifier мак",
+   "lang": "ru"
+  },
+  {
+   "text": "скрипт уведомление макос",
+   "lang": "ru"
+  },
+  {
+   "text": "всплывающее уведомление мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "terminal-notifier"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run terminal-notifier with a title and message to display a notification banner.",
+   "cmd": "terminal-notifier -group <GROUP_ID> -title <TITLE> -message '<MESSAGE>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "GROUP_ID",
+     "description": "A unique identifier to group notifications together",
+     "example": "my-script"
+    },
+    {
+     "name": "TITLE",
+     "description": "The bold title of the notification",
+     "example": "Download Complete"
+    },
+    {
+     "name": "MESSAGE",
+     "description": "The body text of the notification",
+     "example": "Your file is ready"
+    }
+   ],
+   "expect": "A macOS notification banner appears in the top right corner.",
+   "alternatives": [
+    {
+     "explain": "Display piped data with a sound.",
+     "cmd": "echo '<MESSAGE>' | terminal-notifier -sound <SOUND_NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "MESSAGE",
+       "description": "The text to display in the notification",
+       "example": "Piped Message Data!"
+      },
+      {
+       "name": "SOUND_NAME",
+       "description": "The name of the system sound to play",
+       "example": "default"
+      }
+     ],
+     "expect": "The notification appears and plays the specified sound."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/terminal-notifier.md",
+  "title": "tldr-pages: terminal-notifier",
+  "license": "CC-BY-4.0"
+ }
+}

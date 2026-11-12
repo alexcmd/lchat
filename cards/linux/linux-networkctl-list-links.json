@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-networkctl-list-links",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List network links and their status",
+ "summary": "Show a list of all network interfaces (links) on the system and their current state, such as whether they are up or down.",
+ "aliases": [
+  {
+   "text": "list network links",
+   "lang": "en"
+  },
+  {
+   "text": "check network interfaces status",
+   "lang": "en"
+  },
+  {
+   "text": "networkctl list",
+   "lang": "en"
+  },
+  {
+   "text": "show network devices",
+   "lang": "en"
+  },
+  {
+   "text": "список сетевых интерфейсов",
+   "lang": "ru"
+  },
+  {
+   "text": "статус сетевых карт",
+   "lang": "ru"
+  },
+  {
+   "text": "networkctl список",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-networkd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run networkctl without arguments to list all existing network links and their status.",
+   "cmd": "networkctl",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/networkctl.md",
+  "title": "tldr-pages: networkctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-network-interfaces",
+  "linux-check-network-connection-status"
+ ]
+}

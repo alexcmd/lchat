@@ -1,0 +1,110 @@
+{
+ "schema_version": 2,
+ "id": "macos-python3-which-versions",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find out which python3 is running on this Mac",
+ "summary": "A Mac can have several copies of Python 3: the one that comes with Xcode Command Line Tools, one from Homebrew, and one from python.org. These commands list every copy the Terminal can find and show each version.",
+ "aliases": [
+  {
+   "text": "which python3 mac",
+   "lang": "en"
+  },
+  {
+   "text": "where is python3 on mac",
+   "lang": "en"
+  },
+  {
+   "text": "multiple python versions on mac",
+   "lang": "en"
+  },
+  {
+   "text": "what python version is on my mac",
+   "lang": "en"
+  },
+  {
+   "text": "which python is running in terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "python3 version macos terminal",
+   "lang": "en"
+  },
+  {
+   "text": "how many pythons installed on macos",
+   "lang": "en"
+  },
+  {
+   "text": "какой python3 стоит на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "где python3 на mac",
+   "lang": "ru"
+  },
+  {
+   "text": "какая версия python на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "несколько версий python на macos",
+   "lang": "ru"
+  },
+  {
+   "text": "какой python запускается в терминале mac",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить версию python3 в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько python установлено на mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List every python3 the Terminal can find, in the order it searches them. The first line is the copy that runs when you type python3.",
+   "cmd": "which -a python3",
+   "risk": "low",
+   "expect": "Paths such as /usr/bin/python3 (Xcode tools), /opt/homebrew/bin/python3 (Homebrew). Nothing printed means no python3 on PATH."
+  },
+  {
+   "explain": "Show the version of the python3 that runs by default. Note: on a Mac without Command Line Tools, /usr/bin/python3 may open a dialog asking to install them; you can cancel it.",
+   "cmd": "python3 --version",
+   "risk": "low",
+   "expect": "A line like 'Python 3.x.y'. Which copy this is depends on the first path from the previous step.",
+   "alternatives": [
+    {
+     "explain": "Show the version of one specific copy from the list. Copy a path from the previous step into <PYTHON_PATH>.",
+     "cmd": "<PYTHON_PATH> --version",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PYTHON_PATH",
+       "description": "A full path to a python3 file, one of the lines printed by 'which -a python3'",
+       "example": "/opt/homebrew/bin/python3",
+       "discover_cmd": "which -a python3"
+      }
+     ],
+     "expect": "A line like 'Python 3.x.y' for that exact copy."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://which",
+  "title": "which manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

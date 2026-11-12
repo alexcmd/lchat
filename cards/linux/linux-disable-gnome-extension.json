@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-gnome-extension",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable a GNOME extension",
+ "summary": "Turn off a specific GNOME Shell extension without uninstalling it. This is useful if an extension is causing issues or you just want to temporarily stop using it.",
+ "aliases": [
+  {
+   "text": "disable gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "turn off gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "deactivate gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "выключить расширение gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить расширение gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить расширение gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the disable command with the specific extension ID to turn it off.",
+   "cmd": "gnome-extensions disable \"<EXTENSION_ID>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "EXTENSION_ID",
+     "description": "The unique ID of the extension to disable",
+     "example": "user-theme@gnome-shell-extensions.gcampax.github.com",
+     "discover_cmd": "gnome-extensions list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gnome-extensions.md",
+  "title": "tldr-pages: gnome-extensions",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-gnome-extensions"
+ ]
+}

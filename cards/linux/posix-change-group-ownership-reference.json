@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-group-ownership-reference",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Match group ownership to a reference file",
+ "summary": "Use chgrp with the reference flag to copy the group ownership from one file to another.",
+ "aliases": [
+  {
+   "text": "chgrp reference",
+   "lang": "en"
+  },
+  {
+   "text": "copy group ownership",
+   "lang": "en"
+  },
+  {
+   "text": "match group to file",
+   "lang": "en"
+  },
+  {
+   "text": "скопировать группу файла",
+   "lang": "ru"
+  },
+  {
+   "text": "chgrp reference",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --reference flag to specify a file whose group ownership will be copied to the target.",
+   "cmd": "chgrp --reference <REFERENCE_FILE> <FILE_OR_DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "REFERENCE_FILE",
+     "description": "Path to the file with the desired group",
+     "example": "template.txt"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the target file or directory",
+     "example": "new_file.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Change the group back to its original value.",
+   "cmd": "chgrp <ORIGINAL_GROUP> <FILE_OR_DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_GROUP",
+     "description": "The original group name"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the target file or directory"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure the reference file has the correct group before running this command."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chgrp.md",
+  "title": "tldr-pages: chgrp",
+  "license": "CC-BY-4.0"
+ }
+}

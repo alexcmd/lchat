@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-firmware-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List devices supported for firmware updates",
+ "summary": "Show which hardware components on your computer are managed by fwupd and can receive firmware updates.",
+ "aliases": [
+  {
+   "text": "list firmware devices",
+   "lang": "en"
+  },
+  {
+   "text": "fwupdmgr get-devices",
+   "lang": "en"
+  },
+  {
+   "text": "what devices support firmware update",
+   "lang": "en"
+  },
+  {
+   "text": "список устройств прошивки",
+   "lang": "ru"
+  },
+  {
+   "text": "fwupdmgr устройства",
+   "lang": "ru"
+  },
+  {
+   "text": "какие устройства обновляются",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "fwupd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display all devices detected by fwupd.",
+   "cmd": "fwupdmgr get-devices",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/fwupdmgr.md",
+  "title": "tldr-pages: fwupdmgr",
+  "license": "CC-BY-4.0"
+ }
+}

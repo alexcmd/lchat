@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "nmcli-show-networking-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show NetworkManager networking status",
+ "summary": "Check if networking is enabled and see the current connectivity state using NetworkManager.",
+ "aliases": [
+  {
+   "text": "check network status nmcli",
+   "lang": "en"
+  },
+  {
+   "text": "is networking enabled",
+   "lang": "en"
+  },
+  {
+   "text": "networkmanager status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус сети nmcli",
+   "lang": "ru"
+  },
+  {
+   "text": "включен ли интернет",
+   "lang": "ru"
+  },
+  {
+   "text": "состояние сети",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the overall networking status managed by NetworkManager.",
+   "cmd": "nmcli networking",
+   "risk": "low",
+   "expect": "Output showing whether networking is enabled or disabled."
+  },
+  {
+   "explain": "Check the current connectivity state (e.g., full, limited, none).",
+   "cmd": "nmcli networking connectivity check",
+   "risk": "low",
+   "expect": "Output indicating the connectivity state, such as 'full' or 'none'."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-networking.md",
+  "title": "tldr-pages: nmcli-networking",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "nmcli-list-network-devices",
+  "nm-list-connections"
+ ]
+}

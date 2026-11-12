@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-search-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search for packages using dnf",
+ "summary": "Find available software packages by searching for keywords in their name or description.",
+ "aliases": [
+  {
+   "text": "search package dnf",
+   "lang": "en"
+  },
+  {
+   "text": "dnf search",
+   "lang": "en"
+  },
+  {
+   "text": "find software fedora",
+   "lang": "en"
+  },
+  {
+   "text": "dnf find package",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf поиск",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти программу fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for packages matching the given keywords.",
+   "cmd": "dnf search <KEYWORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYWORD",
+     "description": "Keyword to search for",
+     "example": "browser"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Search using multiple keywords.",
+     "cmd": "dnf search <KEYWORD1> <KEYWORD2>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "KEYWORD1",
+       "description": "First keyword",
+       "example": "web"
+      },
+      {
+       "name": "KEYWORD2",
+       "description": "Second keyword",
+       "example": "browser"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf.md",
+  "title": "tldr-pages: dnf",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,152 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-select-numbered-menu",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Build a numbered menu in a bash script that the user chooses from",
+  "summary": "Shows a list of actions with numbers. The user types a number, the action runs, and the menu appears again until the user picks Quit.",
+  "aliases": [
+    {
+      "text": "bash menu select",
+      "lang": "en"
+    },
+    {
+      "text": "numbered menu in a bash script",
+      "lang": "en"
+    },
+    {
+      "text": "bash script choose option from a list",
+      "lang": "en"
+    },
+    {
+      "text": "select command bash example",
+      "lang": "en"
+    },
+    {
+      "text": "text menu in bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash script with menu and quit",
+      "lang": "en"
+    },
+    {
+      "text": "простое меню в bash скрипте",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт с выбором действия по номеру",
+      "lang": "ru"
+    },
+    {
+      "text": "bash меню с номерами",
+      "lang": "ru"
+    },
+    {
+      "text": "как сделать меню в консоли bash",
+      "lang": "ru"
+    },
+    {
+      "text": "выбрать пункт меню в bash скрипте",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "menu.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "menu.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "menu.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Start the menu and type 3 to see the disk space, then 4 to quit. Type nothing else in this step.",
+      "risk": "low",
+      "cmd": "./<FILE>",
+      "expect": "A numbered list of four actions, then Choose an action (number): and the output of df",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "menu.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Test the menu without typing by piping the choices in: 2 counts the files, 9 is wrong, 4 quits.",
+      "risk": "low",
+      "cmd": "printf '2\\n9\\n4\\n' | ./<FILE>",
+      "expect": "files in ...: N, please type a number from the list, then bye",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "menu.sh"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "An answer that is not on the list leaves the choice empty. Always handle the * case, as this script does.",
+    "The case patterns must match the menu text exactly, including apostrophes and spaces.",
+    "select reads from standard input, so a pipe works too. This is handy for testing, but a menu meant for people needs a terminal."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "menu.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# menu.sh - a numbered menu built with the select command.\n# Usage: ./menu.sh\n# Type a number to run that action. The menu appears again until you choose Quit.\n\nset -euo pipefail\n\nPS3=\"Choose an action (number): \"   # the prompt that select shows\n\n# select prints the numbered list, reads a number and stores the chosen text in $choice.\nselect choice in \"Show today's date\" \"Count files here\" \"Show disk space\" \"Quit\"; do\n    case $choice in\n        \"Show today's date\")\n            date '+%Y-%m-%d' ;;\n        \"Count files here\")\n            echo \"files in $PWD: $(find . -maxdepth 1 -type f | wc -l | tr -d ' ')\" ;;\n        \"Show disk space\")\n            df -h . ;;\n        \"Quit\")\n            echo \"bye\"\n            break ;;\n        *)\n            # A number that is not on the list leaves $choice empty.\n            echo \"please type a number from the list\" ;;\n    esac\ndone\n# End of input (Ctrl+D) also ends the loop; exit cleanly in that case.\nexit 0\n",
+    "usage": "./menu.sh"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

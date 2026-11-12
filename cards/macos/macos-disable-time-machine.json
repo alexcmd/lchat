@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-disable-time-machine",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Disable automatic Time Machine backups",
+ "summary": "Turn off automatic backups for your Mac using the command line. This stops Time Machine from running in the background.",
+ "aliases": [
+  {
+   "text": "disable time machine",
+   "lang": "en"
+  },
+  {
+   "text": "turn off time machine",
+   "lang": "en"
+  },
+  {
+   "text": "stop automatic backups",
+   "lang": "en"
+  },
+  {
+   "text": "выключить time machine",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить резервное копирование",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить бэкапы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command to disable automatic Time Machine backups. You need administrator privileges.",
+   "cmd": "sudo tmutil disable",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo this change and re-enable automatic backups, run this command.",
+   "cmd": "sudo tmutil enable",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Disabling backups means your files will not be automatically saved. Ensure you have another backup method if needed."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tmutil.md",
+  "title": "tldr-pages: tmutil",
+  "license": "CC-BY-4.0"
+ }
+}

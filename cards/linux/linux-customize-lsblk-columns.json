@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "linux-customize-lsblk-columns",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Customize lsblk output columns",
+ "summary": "Add specific information columns like serial number, model, or rotation status to the lsblk output.",
+ "aliases": [
+  {
+   "text": "lsblk serial number",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk model",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk output columns",
+   "lang": "en"
+  },
+  {
+   "text": "show disk serial",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk -o",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk серийный номер",
+   "lang": "ru"
+  },
+  {
+   "text": "lsblk модель",
+   "lang": "ru"
+  },
+  {
+   "text": "lsblk -o",
+   "lang": "ru"
+  },
+  {
+   "text": "кастомные колонки lsblk",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the output flag with a plus sign to add extra columns to the default lsblk output. Replace <COLUMNS> with a comma-separated list of column names.",
+   "cmd": "lsblk --output +<COLUMNS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COLUMNS",
+     "description": "Comma-separated list of column names to add (e.g., NAME,ROTA,SERIAL,MODEL,TRAN,TYPE,SIZE,FSTYPE,MOUNTPOINT).",
+     "example": "SERIAL,MODEL"
+    }
+   ],
+   "expect": "The output includes the default columns plus the requested extra columns.",
+   "alternatives": [
+    {
+     "explain": "Omit the plus sign to display ONLY the specified columns, hiding the default ones.",
+     "cmd": "lsblk --output <COLUMNS>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COLUMNS",
+       "description": "Comma-separated list of column names to display exclusively.",
+       "example": "NAME,SIZE,FSTYPE"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lsblk.md",
+  "title": "tldr-pages: lsblk",
+  "license": "CC-BY-4.0"
+ }
+}

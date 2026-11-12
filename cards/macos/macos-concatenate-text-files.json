@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "macos-concatenate-text-files",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Combine multiple text files into one",
+ "summary": "Merge the contents of several text files into a single output file. This is useful for creating a single document from multiple chapters or sections.",
+ "aliases": [
+  {
+   "text": "combine text files",
+   "lang": "en"
+  },
+  {
+   "text": "merge rtf files",
+   "lang": "en"
+  },
+  {
+   "text": "textutil cat",
+   "lang": "en"
+  },
+  {
+   "text": "объединить текстовые файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "склеить rtf файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "textutil объединение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Concatenate all matching files in the current directory into a single output file with a specified title.",
+   "cmd": "textutil -cat <FORMAT> -title \"<TITLE>\" -output <OUTPUT_FILE> <INPUT_PATTERN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FORMAT",
+     "description": "The format of the output file (e.g., html, txt, rtf)",
+     "example": "html"
+    },
+    {
+     "name": "TITLE",
+     "description": "The title to set for the output document",
+     "example": "My Combined Document"
+    },
+    {
+     "name": "OUTPUT_FILE",
+     "description": "Path to the new combined file",
+     "example": "index.html"
+    },
+    {
+     "name": "INPUT_PATTERN",
+     "description": "Pattern for input files (e.g., *.rtf)",
+     "example": "*.rtf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/textutil.md",
+  "title": "tldr-pages: textutil",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-app-bundle-id",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get the bundle identifier of an application",
+ "summary": "Find the unique bundle identifier for an installed application. This ID is often needed for advanced automation or when using the 'open -b' command.",
+ "aliases": [
+  {
+   "text": "get app bundle id",
+   "lang": "en"
+  },
+  {
+   "text": "find bundle identifier mac",
+   "lang": "en"
+  },
+  {
+   "text": "osascript id of app",
+   "lang": "en"
+  },
+  {
+   "text": "bundle id приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать bundle id",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use osascript to query the bundle identifier of a specific application by name.",
+   "cmd": "osascript -e 'id of app \"<APP_NAME>\"'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_NAME",
+     "description": "Name of the application",
+     "example": "Safari"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/osascript.md",
+  "title": "tldr-pages: osascript",
+  "license": "CC-BY-4.0"
+ }
+}

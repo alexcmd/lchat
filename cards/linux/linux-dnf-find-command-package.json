@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-find-command-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find which package provides a command using dnf",
+ "summary": "Identify which package you need to install to get a specific command-line tool.",
+ "aliases": [
+  {
+   "text": "dnf provides command",
+   "lang": "en"
+  },
+  {
+   "text": "which package has command",
+   "lang": "en"
+  },
+  {
+   "text": "dnf find command",
+   "lang": "en"
+  },
+  {
+   "text": "command not found dnf",
+   "lang": "en"
+  },
+  {
+   "text": "dnf какой пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "какой пакет дает команду",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf provides",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for packages that provide the specified command.",
+   "cmd": "dnf provides <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "Name of the command to find",
+     "example": "git"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf.md",
+  "title": "tldr-pages: dnf",
+  "license": "CC-BY-4.0"
+ }
+}

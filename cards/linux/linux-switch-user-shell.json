@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "linux-switch-user-shell",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Switch to another user's shell",
+ "summary": "Use the `su` command to switch your current terminal session to another user, such as root. You will need to enter that user's password.",
+ "aliases": [
+  {
+   "text": "switch user",
+   "lang": "en"
+  },
+  {
+   "text": "become root",
+   "lang": "en"
+  },
+  {
+   "text": "su command",
+   "lang": "en"
+  },
+  {
+   "text": "change user terminal",
+   "lang": "en"
+  },
+  {
+   "text": "login as another user",
+   "lang": "en"
+  },
+  {
+   "text": "переключить пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "стать рут",
+   "lang": "ru"
+  },
+  {
+   "text": "команда су",
+   "lang": "ru"
+  },
+  {
+   "text": "войти как другой пользователь",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `su` to switch to the root user, or `su <username>` to switch to a specific user. You will be prompted for that user's password.",
+   "cmd": "su",
+   "risk": "medium",
+   "needs_root": false,
+   "alternatives": [
+    {
+     "explain": "Switch to a specific user by name.",
+     "cmd": "su <USERNAME>",
+     "placeholders": [
+      {
+       "name": "USERNAME",
+       "description": "The name of the user you want to switch to."
+      }
+     ]
+    },
+    {
+     "explain": "Switch to a specific user and simulate a full login shell (loads their environment variables).",
+     "cmd": "su - <USERNAME>",
+     "placeholders": [
+      {
+       "name": "USERNAME",
+       "description": "The name of the user you want to switch to."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Type `exit` or press Ctrl+D to leave the other user's shell and return to your own.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "You must know the password of the user you are switching to.",
+  "Switching to root gives you full control over the system; be careful with commands."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/su.md",
+  "title": "tldr-pages: su",
+  "license": "CC-BY-4.0"
+ }
+}

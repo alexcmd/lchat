@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-simulate-mac-cleanup",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Simulate mac-cleanup to see what will be removed",
+ "summary": "Run mac-cleanup in dry-run mode to preview which caches and junk files would be deleted without actually removing them. This is a safe way to check what the tool does.",
+ "aliases": [
+  {
+   "text": "mac cleanup dry run",
+   "lang": "en"
+  },
+  {
+   "text": "preview mac cleanup",
+   "lang": "en"
+  },
+  {
+   "text": "see what mac cleanup deletes",
+   "lang": "en"
+  },
+  {
+   "text": "mac cleanup simulate",
+   "lang": "en"
+  },
+  {
+   "text": "просмотреть очистку мака",
+   "lang": "ru"
+  },
+  {
+   "text": "что удалит mac cleanup",
+   "lang": "ru"
+  },
+  {
+   "text": "тестовая очистка мака",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --dry-run flag to simulate the cleanup process. The tool will list the files it would remove but will not delete them.",
+   "cmd": "mac-cleanup --dry-run",
+   "risk": "low",
+   "expect": "A list of files and directories that would be removed is displayed, but no files are actually deleted."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mac-cleanup.md",
+  "title": "tldr-pages: mac-cleanup",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-run-mac-cleanup"
+ ]
+}

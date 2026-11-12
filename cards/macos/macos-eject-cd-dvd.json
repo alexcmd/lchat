@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "macos-eject-cd-dvd",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Eject a CD or DVD",
+ "summary": "Eject a physical CD or DVD from the optical drive. This command unmounts the volume and physically ejects the disc.",
+ "aliases": [
+  {
+   "text": "eject cd mac",
+   "lang": "en"
+  },
+  {
+   "text": "eject dvd",
+   "lang": "en"
+  },
+  {
+   "text": "diskutil eject",
+   "lang": "en"
+  },
+  {
+   "text": "vytolknut disk",
+   "lang": "ru"
+  },
+  {
+   "text": "izvlech cd",
+   "lang": "ru"
+  },
+  {
+   "text": "diskutil eject",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Eject the CD or DVD located at the specified disk identifier. Replace <DISK> with the identifier of the optical drive (e.g., /dev/disk3).",
+   "cmd": "diskutil eject <DISK>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DISK",
+     "description": "The disk identifier of the optical drive, e.g., /dev/disk3",
+     "example": "/dev/disk3",
+     "discover_cmd": "diskutil list"
+    }
+   ],
+   "expect": "The disc is physically ejected from the drive."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/diskutil.md",
+  "title": "tldr-pages: diskutil",
+  "license": "CC-BY-4.0"
+ }
+}

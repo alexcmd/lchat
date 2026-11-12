@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-xcode-command-line-tools",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install Xcode Command Line Tools",
+ "summary": "Install the essential command-line tools for developers (like git, make, and clang) without installing the full Xcode IDE. This is often required when setting up a development environment on macOS.",
+ "aliases": [
+  {
+   "text": "install xcode command line tools",
+   "lang": "en"
+  },
+  {
+   "text": "xcode-select install",
+   "lang": "en"
+  },
+  {
+   "text": "install developer tools mac",
+   "lang": "en"
+  },
+  {
+   "text": "set up git mac",
+   "lang": "en"
+  },
+  {
+   "text": "установить xcode command line tools",
+   "lang": "ru"
+  },
+  {
+   "text": "установить инструменты разработчика mac",
+   "lang": "ru"
+  },
+  {
+   "text": "xcode select install",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command to trigger the installation of the Xcode Command Line Tools. A system dialog will appear asking you to confirm the installation.",
+   "cmd": "xcode-select --install",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/xcode-select.md",
+  "title": "tldr-pages: xcode-select",
+  "license": "CC-BY-4.0"
+ }
+}

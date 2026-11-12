@@ -1,0 +1,110 @@
+{
+ "schema_version": 2,
+ "id": "macos-track-file-opens",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Track which processes open files on your Mac",
+ "summary": "Use opensnoop to see which applications are opening files in real time. This helps you identify which app is accessing a specific file or directory.",
+ "aliases": [
+  {
+   "text": "track file opens",
+   "lang": "en"
+  },
+  {
+   "text": "which app opens file",
+   "lang": "en"
+  },
+  {
+   "text": "monitor file access",
+   "lang": "en"
+  },
+  {
+   "text": "opensnoop mac",
+   "lang": "en"
+  },
+  {
+   "text": "who is opening this file",
+   "lang": "en"
+  },
+  {
+   "text": "отслеживать открытие файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "какое приложение открывает файл",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг доступа к файлам",
+   "lang": "ru"
+  },
+  {
+   "text": "opensnoop",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start tracking all file opens on the system. This shows every file access event in real time.",
+   "cmd": "sudo opensnoop",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "A stream of lines showing PID, UID, and filename for every file open event."
+  },
+  {
+   "explain": "To track only a specific process by its name, use the -n flag.",
+   "cmd": "sudo opensnoop -n \"<PROCESS_NAME>\"",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_NAME",
+     "description": "The name of the process to track (e.g., Safari, Finder).",
+     "example": "Safari"
+    }
+   ],
+   "expect": "Only file opens by the specified process are shown."
+  },
+  {
+   "explain": "To track only a specific process by its PID, use the -p flag.",
+   "cmd": "sudo opensnoop -p <PROCESS_ID>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_ID",
+     "description": "The Process ID (PID) of the process to track.",
+     "example": "1234"
+    }
+   ],
+   "expect": "Only file opens by the process with that PID are shown."
+  },
+  {
+   "explain": "To see which processes are opening a specific file, use the -f flag.",
+   "cmd": "sudo opensnoop -f <FILE_PATH>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_PATH",
+     "description": "The full path to the file you want to monitor.",
+     "example": "/Users/username/Documents/report.pdf"
+    }
+   ],
+   "expect": "Lines showing which processes are opening the specified file."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/opensnoop.md",
+  "title": "tldr-pages: opensnoop",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-resume-download-wget",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Resume an interrupted download with wget",
+ "summary": "If a download was interrupted, use the continue flag to resume it from where it left off instead of starting over.",
+ "aliases": [
+  {
+   "text": "resume download wget",
+   "lang": "en"
+  },
+  {
+   "text": "continue wget download",
+   "lang": "en"
+  },
+  {
+   "text": "wget resume broken download",
+   "lang": "en"
+  },
+  {
+   "text": "restart interrupted download",
+   "lang": "en"
+  },
+  {
+   "text": "продолжить загрузку wget",
+   "lang": "ru"
+  },
+  {
+   "text": "wget возобновить скачивание",
+   "lang": "ru"
+  },
+  {
+   "text": "как продолжить прерванную загрузку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the continue flag to resume an incomplete download of the specified URL.",
+   "cmd": "wget --continue <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "URL",
+     "description": "The URL of the file that was partially downloaded",
+     "example": "https://example.com/foo"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wget.md",
+  "title": "tldr-pages: wget",
+  "license": "CC-BY-4.0"
+ }
+}

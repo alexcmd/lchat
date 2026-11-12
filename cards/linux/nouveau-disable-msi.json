@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "nouveau-disable-msi",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable MSI for Nouveau driver",
+ "summary": "Append a kernel parameter to disable Message Signaled Interrupts (MSI) if the Nouveau module fails to load or X server fails to start.",
+ "aliases": [
+  {
+   "text": "nouveau disable msi",
+   "lang": "en"
+  },
+  {
+   "text": "nouveau.config=NvMSI=0",
+   "lang": "en"
+  },
+  {
+   "text": "nouveau module load fail fix",
+   "lang": "en"
+  },
+  {
+   "text": "x server nouveau start fail",
+   "lang": "en"
+  },
+  {
+   "text": "отключить msi nouveau",
+   "lang": "ru"
+  },
+  {
+   "text": "nouveau не грузится msi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Edit your bootloader config (e.g., /etc/default/grub) and add 'nouveau.config=NvMSI=0' to the kernel command line, then update bootloader.",
+   "cmd": "",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove 'nouveau.config=NvMSI=0' from kernel parameters and update bootloader.",
+   "cmd": "",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Requires reboot to take effect."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Nouveau#Disable_MSI",
+  "title": "Nouveau",
+  "revision_id": 884148,
+  "license": "GFDL-1.3-or-later"
+ }
+}

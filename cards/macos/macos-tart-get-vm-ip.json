@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-tart-get-vm-ip",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get IP address of a running Tart VM",
+ "summary": "Retrieves the IP address assigned to a running virtual machine, which is needed for SSH connections or network access.",
+ "aliases": [
+  {
+   "text": "tart vm ip address",
+   "lang": "en"
+  },
+  {
+   "text": "get ip of tart vm",
+   "lang": "en"
+  },
+  {
+   "text": "tart ip",
+   "lang": "en"
+  },
+  {
+   "text": "ip адрес виртуалки tart",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать ip tart",
+   "lang": "ru"
+  },
+  {
+   "text": "tart ip vm",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Displays the IP address of the specified running VM.",
+   "cmd": "tart ip <VM_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VM_NAME",
+     "description": "Name of the running virtual machine",
+     "example": "my-vm",
+     "discover_cmd": "tart list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tart.md",
+  "title": "tldr-pages: tart",
+  "license": "CC-BY-4.0"
+ }
+}

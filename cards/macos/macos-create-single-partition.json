@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "macos-create-single-partition",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create a single partition on a disk",
+ "summary": "Reformat a disk and create one partition that fills the entire available space. You can specify the filesystem type and the name of the new partition.",
+ "aliases": [
+  {
+   "text": "create one partition on disk",
+   "lang": "en"
+  },
+  {
+   "text": "format disk with single partition",
+   "lang": "en"
+  },
+  {
+   "text": "make one big partition",
+   "lang": "en"
+  },
+  {
+   "text": "diskutil partitionDisk 1",
+   "lang": "en"
+  },
+  {
+   "text": "создать один раздел на диске",
+   "lang": "ru"
+  },
+  {
+   "text": "форматировать диск одним разделом",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать один большой раздел",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reformat the disk and create a single partition using the specified filesystem and name, occupying all free space.",
+   "cmd": "diskutil partitionDisk <DISK_DEVICE> 1 <PARTITION_SCHEME> <FILESYSTEM> <PARTITION_NAME>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "DISK_DEVICE",
+     "description": "The identifier of the disk to partition (e.g., /dev/disk2).",
+     "example": "/dev/disk2",
+     "discover_cmd": "diskutil list"
+    },
+    {
+     "name": "PARTITION_SCHEME",
+     "description": "The partition scheme: APM, MBR, or GPT.",
+     "example": "GPT"
+    },
+    {
+     "name": "FILESYSTEM",
+     "description": "The filesystem type for the partition (e.g., APFS, HFS+, FAT32).",
+     "example": "APFS",
+     "discover_cmd": "diskutil listFilesystems"
+    },
+    {
+     "name": "PARTITION_NAME",
+     "description": "The name to assign to the new partition.",
+     "example": "MyVolume"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This command will erase all existing data on the disk.",
+  "Verify the disk identifier carefully before running."
+ ],
+ "rollback": [
+  {
+   "explain": "Data erased by this command cannot be recovered using standard tools. Restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/diskutil-partitiondisk.md",
+  "title": "tldr-pages: diskutil-partitiondisk",
+  "license": "CC-BY-4.0"
+ }
+}

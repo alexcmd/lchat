@@ -1,0 +1,140 @@
+{
+ "schema_version": 2,
+ "id": "linux-usb-drive-not-visible-diagnose",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if Linux detects a plugged-in USB drive",
+ "summary": "Find out whether the system sees the USB device at all and whether the drive has a partition. This tells a hardware or cable problem apart from a mounting problem. The commands only read information and change nothing.",
+ "aliases": [
+  {
+   "text": "usb drive not showing up linux",
+   "lang": "en"
+  },
+  {
+   "text": "usb stick not detected",
+   "lang": "en"
+  },
+  {
+   "text": "flash drive not recognized linux",
+   "lang": "en"
+  },
+  {
+   "text": "usb not recognized ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "usb drive not visible",
+   "lang": "en"
+  },
+  {
+   "text": "lsusb not showing my drive",
+   "lang": "en"
+  },
+  {
+   "text": "usb stick plugged in but nothing happens",
+   "lang": "en"
+  },
+  {
+   "text": "usb not detected linux",
+   "lang": "en"
+  },
+  {
+   "text": "флешка не видна linux",
+   "lang": "ru"
+  },
+  {
+   "text": "флешка не определяется",
+   "lang": "ru"
+  },
+  {
+   "text": "usb флешка не отображается",
+   "lang": "ru"
+  },
+  {
+   "text": "флешку не видит система",
+   "lang": "ru"
+  },
+  {
+   "text": "usb не виден в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "флешка не определяется ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "флешка вставлена но не видна",
+   "lang": "ru"
+  },
+  {
+   "text": "usb накопитель не обнаруживается",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The USB drive and a USB port on the computer itself (not a hub) to try",
+  "The lsusb command comes from the usbutils package; if it is missing, install that package first"
+ ],
+ "steps": [
+  {
+   "explain": "List the USB devices the kernel currently sees, before you plug in the drive. The first lines are usually the built-in controllers (root hubs).",
+   "cmd": "lsusb",
+   "risk": "low",
+   "expect": "One line per device in the form 'Bus 001 Device 002: ID 0781:5581 Vendor name'. Remember how many lines there are."
+  },
+  {
+   "explain": "Plug the drive directly into a USB port on the computer, not into a hub or extension cable, and wait about 5 seconds.",
+   "risk": "low"
+  },
+  {
+   "explain": "List the USB devices again. A new line that names your drive's brand means the kernel detects the device, so the port, cable and drive work at this level.",
+   "cmd": "lsusb",
+   "risk": "low",
+   "expect": "A new line with your drive's brand or product name. If no new line appears, the cable, port or drive is the likely problem.",
+   "alternatives": [
+    {
+     "explain": "Show the same devices as a tree. A drive listed under a hub line is connected through that hub.",
+     "cmd": "lsusb -t",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Check whether the drive has a disk and a partition the system can read. A disk without a partition line, or a partition without a filesystem type, cannot be mounted.",
+   "cmd": "lsblk -f",
+   "risk": "low",
+   "expect": "A disk line such as sdb with a child line such as sdb1 whose FSTYPE is vfat, exfat, ntfs or ext4. A child line with an empty FSTYPE means the filesystem is not recognized."
+  },
+  {
+   "explain": "Read the latest kernel messages about USB to see errors from the moment the drive was plugged in.",
+   "cmd": "journalctl -k -n 30 | grep -i usb",
+   "risk": "low",
+   "expect": "Lines such as 'new high-speed USB device' or 'USB Mass Storage device detected' mean the kernel reacted. Repeated errors about the device descriptor point to a cable, port or power problem."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/lsusb",
+  "title": "lsusb manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

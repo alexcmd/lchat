@@ -1,0 +1,172 @@
+{
+ "schema_version": 2,
+ "id": "error-pip-no-matching-distribution",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix pip's 'Could not find a version' error for a package",
+ "summary": "pip stops with 'No matching distribution found' when it cannot find the package under that name. Usually the name is misspelled or is not on pypi.org. Check the name on pypi.org, then install it again inside a virtual environment.",
+ "aliases": [
+  {
+   "text": "No matching distribution found",
+   "lang": "en"
+  },
+  {
+   "text": "pip could not find a version that satisfies the requirement",
+   "lang": "en"
+  },
+  {
+   "text": "pip install no matching distribution found",
+   "lang": "en"
+  },
+  {
+   "text": "pip cannot find package",
+   "lang": "en"
+  },
+  {
+   "text": "pip install package not found",
+   "lang": "en"
+  },
+  {
+   "text": "pip wrong package name error",
+   "lang": "en"
+  },
+  {
+   "text": "pip No matching distribution found ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "pip не находит пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "pip could not find a version что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "pip install не нашел пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "pip install ошибка пакет не найден",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "ERROR: Could not find a version that satisfies the requirement",
+  "ERROR: No matching distribution found"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window",
+  "The exact name of the Python package you want, as written in its instructions",
+  "An internet connection, because pip downloads from pypi.org"
+ ],
+ "steps": [
+  {
+   "explain": "Check the Python version. pip installs packages for the Python you run it with. Any Python 3 works for this check.",
+   "cmd": "python3 --version",
+   "risk": "low",
+   "expect": "A line like Python 3.12.3. Any version starting with 3 is fine."
+  },
+  {
+   "explain": "Check whether pip exists for this Python. If you see No module named pip, that is fine: the virtual environment in a later step brings its own pip.",
+   "cmd": "python3 -m pip --version",
+   "risk": "low",
+   "expect": "A line like pip 24.0 from ... (python 3.12). Or: /usr/bin/python3: No module named pip."
+  },
+  {
+   "explain": "Ask pypi.org which versions exist under this name. If a list appears, the name is correct. If you see No matching distribution found, the name is wrong, or the package is not on pypi.org.",
+   "cmd": "python3 -m pip index versions <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The package name exactly as the instructions give it. Names are case-insensitive, but spelling and dashes matter.",
+     "example": "requests"
+    }
+   ],
+   "expect": "A line like requests (2.32.3) and then Available versions: ... . If the name is wrong: ERROR: No matching distribution found for <PACKAGE>."
+  },
+  {
+   "explain": "If the name was wrong, find the correct one. Search for the project on pypi.org in a web browser and copy the name shown on its page. Then go back to the check above with the new name.",
+   "risk": "low",
+   "gui": "Open https://pypi.org in a browser, type the package name or part of its description in the search box, and read the project name on the result page."
+  },
+  {
+   "explain": "Create a virtual environment: a private folder with its own pip. The package goes into that folder, so the system Python stays untouched.",
+   "cmd": "python3 -m venv <VENV_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "Folder to create for the virtual environment. It must not exist yet.",
+     "example": "~/venvs/demo",
+     "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+    }
+   ],
+   "expect": "No output. The folder appears with a bin directory inside. If you see ensurepip is not available, install python3-venv as described in error-pip-externally-managed."
+  },
+  {
+   "explain": "Install the package with the name you checked. The pip inside the virtual environment is used, so the system Python is not changed. If the error appears again, the name is still wrong.",
+   "cmd": "<VENV_DIR>/bin/python -m pip install <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "The folder created in the previous step.",
+     "example": "~/venvs/demo",
+     "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+    },
+    {
+     "name": "PACKAGE",
+     "description": "The package name you checked on pypi.org.",
+     "example": "requests"
+    }
+   ],
+   "expect": "Either Successfully installed <PACKAGE>-<VERSION>, or Requirement already satisfied if it was installed before.",
+   "alternatives": [
+    {
+     "explain": "Same install, run through the pip program of the virtual environment directly.",
+     "cmd": "<VENV_DIR>/bin/pip install <PACKAGE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "VENV_DIR",
+       "description": "The folder created in the previous step.",
+       "example": "~/venvs/demo",
+       "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+      },
+      {
+       "name": "PACKAGE",
+       "description": "The package name you checked on pypi.org.",
+       "example": "requests"
+      }
+     ],
+     "expect": "Either Successfully installed <PACKAGE>-<VERSION>, or Requirement already satisfied if it was installed before."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "<VENV_DIR>/bin/python -m pip show <PACKAGE>",
+   "expect": "A block that starts with Name: followed by the package name, and a Version: line."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Do not fix this error with sudo pip install or pip install --break-system-packages. Those write into the system Python. Use the virtual environment instead."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/python3",
+  "title": "python3 manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

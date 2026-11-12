@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "posix-ssh-jump-host",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Connect to a server through a jump host",
+ "summary": "Use SSH jumping to connect to a final destination server via an intermediate 'jump' server. This is useful when the final server is not directly accessible from your network.",
+ "aliases": [
+  {
+   "text": "ssh jump host",
+   "lang": "en"
+  },
+  {
+   "text": "ssh proxy jump",
+   "lang": "en"
+  },
+  {
+   "text": "ssh -J",
+   "lang": "en"
+  },
+  {
+   "text": "connect via jump server",
+   "lang": "en"
+  },
+  {
+   "text": "ssh через прыжок",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh jump",
+   "lang": "ru"
+  },
+  {
+   "text": "подключение через промежуточный сервер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -J flag to specify the jump host. The SSH client will connect to the jump host first, then tunnel through it to the final remote host.",
+   "cmd": "ssh <USERNAME>@<REMOTE_HOST> -J <JUMP_USER>@<JUMP_HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username on the final remote server"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "The hostname or IP of the final remote server"
+    },
+    {
+     "name": "JUMP_USER",
+     "description": "The username on the jump host"
+    },
+    {
+     "name": "JUMP_HOST",
+     "description": "The hostname or IP of the jump host"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh.md",
+  "title": "tldr-pages: ssh",
+  "license": "CC-BY-4.0"
+ }
+}

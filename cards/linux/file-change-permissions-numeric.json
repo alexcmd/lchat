@@ -1,0 +1,122 @@
+{
+ "schema_version": 2,
+ "id": "file-change-permissions-numeric",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change file permissions using numeric method",
+ "summary": "Use chmod with a 3-digit number to set read, write, and execute permissions for owner, group, and others simultaneously. Common defaults are 755 for directories and 644 for files.",
+ "aliases": [
+  {
+   "text": "chmod 755",
+   "lang": "en"
+  },
+  {
+   "text": "chmod 644",
+   "lang": "en"
+  },
+  {
+   "text": "numeric permissions linux",
+   "lang": "en"
+  },
+  {
+   "text": "octal chmod",
+   "lang": "en"
+  },
+  {
+   "text": "изменить права числами",
+   "lang": "ru"
+  },
+  {
+   "text": "chmod 777",
+   "lang": "ru"
+  },
+  {
+   "text": "права доступа в цифрах",
+   "lang": "ru"
+  },
+  {
+   "text": "numeric permissions linux/en",
+   "lang": "en"
+  },
+  {
+   "text": "права доступа в цифрах/ru",
+   "lang": "ru"
+  },
+  {
+   "text": "set permissions numeric",
+   "lang": "en"
+  },
+  {
+   "text": "octal permissions",
+   "lang": "en"
+  },
+  {
+   "text": "chmod numbers",
+   "lang": "en"
+  },
+  {
+   "text": "установить права числами",
+   "lang": "ru"
+  },
+  {
+   "text": "права доступа 755",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set permissions using a 3-digit octal number. Each digit represents owner, group, and others. r=4, w=2, x=1.",
+   "cmd": "chmod <OCTAL> <FILENAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "OCTAL",
+     "description": "3-digit octal permission value (e.g., 755 for rwxr-xr-x, 644 for rw-r--r--).",
+     "example": "755"
+    },
+    {
+     "name": "FILENAME",
+     "description": "Path to the file or directory.",
+     "example": "myfile.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore original permissions if known.",
+   "cmd": "chmod <ORIGINAL_OCTAL> <FILENAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_OCTAL",
+     "description": "The original 3-digit octal permission value.",
+     "example": "644"
+    },
+    {
+     "name": "FILENAME",
+     "description": "Path to the file.",
+     "example": "myfile.txt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Using 777 gives everyone full access and is a security risk.",
+  "Verify current permissions with 'stat -c %a <FILENAME>' before changing."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/File_permissions_and_attributes#Numeric_method",
+  "title": "File permissions and attributes",
+  "revision_id": 885848,
+  "license": "GFDL-1.3-or-later"
+ }
+}

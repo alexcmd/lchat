@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-gnu-or-bsd-tools",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check whether sed is GNU (Linux) or BSD (macOS)",
+ "summary": "Linux and macOS ship different versions of sed, the text editing tool. Check which one you have, because some options work only on one of them.",
+ "aliases": [
+  {
+   "text": "gnu or bsd sed",
+   "lang": "en"
+  },
+  {
+   "text": "which sed version do i have",
+   "lang": "en"
+  },
+  {
+   "text": "is sed gnu or bsd",
+   "lang": "en"
+  },
+  {
+   "text": "sed --version not working mac",
+   "lang": "en"
+  },
+  {
+   "text": "linux vs mac sed difference",
+   "lang": "en"
+  },
+  {
+   "text": "check sed version",
+   "lang": "en"
+  },
+  {
+   "text": "какая версия sed",
+   "lang": "ru"
+  },
+  {
+   "text": "sed gnu или bsd",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать версию sed",
+   "lang": "ru"
+  },
+  {
+   "text": "sed на маке и на линуксе разница",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить версию sed",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Ask sed for its version. On Linux the first line says 'sed (GNU sed)' followed by a version number, which means GNU sed. On macOS use the variant instead, because macOS sed does not support --version.",
+   "cmd": "sed --version | head -1",
+   "variants": {
+    "macos": "man sed | col -b | head -1"
+   },
+   "risk": "low",
+   "expect": "Linux: a line like 'sed (GNU sed) 4.9', which means GNU sed. macOS (variant): a line ending in 'General Commands Manual', which means BSD sed."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/sed",
+  "title": "sed manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

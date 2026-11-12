@@ -1,0 +1,147 @@
+{
+ "schema_version": 2,
+ "id": "posix-cron-syntax-explain",
+ "platform": "posix",
+ "kind": "concept",
+ "title": "Read and write cron time fields",
+ "summary": "cron runs a command on a schedule. Each scheduled job is one line in your crontab: five time fields (minute, hour, day of month, month, day of week) followed by the command, or a shortcut such as @daily.",
+ "aliases": [
+  {
+   "text": "cron time format",
+   "lang": "en"
+  },
+  {
+   "text": "what do the five stars in cron mean",
+   "lang": "en"
+  },
+  {
+   "text": "crontab syntax explained",
+   "lang": "en"
+  },
+  {
+   "text": "cron every 5 minutes",
+   "lang": "en"
+  },
+  {
+   "text": "what does */5 mean in crontab",
+   "lang": "en"
+  },
+  {
+   "text": "cron @daily what is it",
+   "lang": "en"
+  },
+  {
+   "text": "how to read a crontab schedule",
+   "lang": "en"
+  },
+  {
+   "text": "schedule a command on linux with cron",
+   "lang": "en"
+  },
+  {
+   "text": "крон формат времени",
+   "lang": "ru"
+  },
+  {
+   "text": "что значат пять звёздочек в crontab",
+   "lang": "ru"
+  },
+  {
+   "text": "синтаксис crontab объяснение",
+   "lang": "ru"
+  },
+  {
+   "text": "крон каждые 5 минут",
+   "lang": "ru"
+  },
+  {
+   "text": "что значит */5 в crontab",
+   "lang": "ru"
+  },
+  {
+   "text": "cron @daily что это такое",
+   "lang": "ru"
+  },
+  {
+   "text": "как читать расписание crontab",
+   "lang": "ru"
+  },
+  {
+   "text": "кронтаб расписание linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "crontab"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check that the crontab tool exists. If nothing is printed, cron is not installed: on Debian, Ubuntu and Mint install the cron package, on Fedora and Arch install cronie. macOS has crontab built in.",
+   "cmd": "command -v crontab",
+   "risk": "low",
+   "expect": "A path such as /usr/bin/crontab."
+  },
+  {
+   "explain": "Show the jobs already scheduled for your user. This only reads the table. On a new account it prints 'no crontab for <USER>' and exits with status 1; that is normal.",
+   "cmd": "crontab -l",
+   "risk": "low",
+   "expect": "Your existing job lines, or 'no crontab for <USER>' if you have none yet."
+  },
+  {
+   "explain": "Read the time fields in the manual. Look for the list 'minute 0-59', 'hour 0-23', 'day of month 1-31', 'month 1-12' and 'day of week 0-7' with its note that 0 and 7 are both Sunday. The output is long; the first line says CRONTAB(5).",
+   "cmd": "man 5 crontab | col -b",
+   "risk": "low",
+   "expect": "A long text whose first line starts with 'CRONTAB(5)', containing the field ranges listed above."
+  },
+  {
+   "explain": "Each job is one line: minute, hour, day of month, month, day of week, then the command. '*' means any value. Example: '30 2 * * *' runs at 02:30 every day.",
+   "risk": "low"
+  },
+  {
+   "explain": "Inside a field you can use a list such as 1,15, a range such as 1-5 (inclusive), or a step such as */5. So '*/5 * * * *' runs every 5 minutes, and '0 9 * * 1-5' runs at 09:00 Monday to Friday.",
+   "risk": "low"
+  },
+  {
+   "explain": "Month and day of week also accept names: jan, feb ... and mon, tue ... (case does not matter). Sunday is 0 or 7 in the day of week field, or sun.",
+   "risk": "low"
+  },
+  {
+   "explain": "Shortcuts replace the five fields: @reboot runs the command once when the machine starts. Example line: '@daily echo hello', which runs once a day.",
+   "risk": "low"
+  },
+  {
+   "explain": "Meanings of the shortcuts: @hourly = '0 * * * *', @daily = '0 0 * * *', @weekly = '0 0 * * 0', @monthly = '0 0 1 * *', @yearly or @annually = '0 0 1 1 *'.",
+   "risk": "low"
+  },
+  {
+   "explain": "Add or change jobs with crontab -e, which opens your editor on your table. Add one line per job, save and quit; the table is installed when you save. Lines that start with # are comments and are ignored.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "crontab -l",
+   "expect": "Your job lines exactly as you typed them, for example '30 2 * * * echo hello'."
+  }
+ ],
+ "warnings": [
+  "cron runs jobs with a short PATH and no terminal: use full paths such as /usr/bin/python3 in a job, and send its output to a file.",
+  "A percent sign % in a crontab command means newline, so write it as \\% (the manual explains this).",
+  "crontab -r removes your whole table without asking. Run crontab -l first and look at what you would lose.",
+  "A job that is due while the computer is asleep may be skipped. For macOS, launchd is the built-in scheduler for your own jobs: plist files in ~/Library/LaunchAgents loaded with launchctl. cron also works on macOS."
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/crontab",
+  "title": "crontab manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

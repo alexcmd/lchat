@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "sysrq-reboot-unresponsive",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reboot unresponsive system using SysRq",
+ "summary": "Use the Magic SysRq key sequence to safely reboot a frozen Linux system. This is safer than holding the power button as it syncs disks and unmounts filesystems.",
+ "aliases": [
+  {
+   "text": "sysrq reboot",
+   "lang": "en"
+  },
+  {
+   "text": "reisub",
+   "lang": "en"
+  },
+  {
+   "text": "force reboot linux",
+   "lang": "en"
+  },
+  {
+   "text": "system frozen reboot",
+   "lang": "en"
+  },
+  {
+   "text": "sysrq b",
+   "lang": "en"
+  },
+  {
+   "text": "перезагрузка sysrq",
+   "lang": "ru"
+  },
+  {
+   "text": "система зависла перезагрузка",
+   "lang": "ru"
+  },
+  {
+   "text": "reisub",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "SysRq must be enabled (see 'Enable full SysRq key functionality')."
+ ],
+ "steps": [
+  {
+   "explain": "Press and hold Alt. Press and release SysRq (or Print Screen). Then press and release each letter in the order R-E-I-S-U-B, waiting about 1 second between each.",
+   "gui": "Hold Alt, press Print Screen/SysRq, then press R, E, I, S, U, B in sequence.",
+   "risk": "high"
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "This action reboots the system. There is no rollback once the reboot starts.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "This will force a reboot. Ensure you have saved your work if possible, though the system is likely unresponsive.",
+  "On some laptops, you may need to use Fn+SysRq or Ctrl+Alt+SysRq."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Keyboard_shortcuts#Rebooting",
+  "title": "Keyboard shortcuts",
+  "revision_id": 886036,
+  "license": "GFDL-1.3-or-later"
+ }
+}

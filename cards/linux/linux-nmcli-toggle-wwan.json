@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-toggle-wwan",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Turn mobile broadband (WWAN) on or off",
+ "summary": "Enable or disable the WWAN (mobile broadband) radio switch. Use this to save battery or disconnect from cellular networks.",
+ "aliases": [
+  {
+   "text": "turn wwan off",
+   "lang": "en"
+  },
+  {
+   "text": "enable mobile broadband",
+   "lang": "en"
+  },
+  {
+   "text": "disable wwan",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli wwan on",
+   "lang": "en"
+  },
+  {
+   "text": "выключить wwan",
+   "lang": "ru"
+  },
+  {
+   "text": "включить wwan",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli wwan off",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Turn the WWAN radio switch on or off. Replace <STATE> with 'on' to enable or 'off' to disable.",
+   "cmd": "nmcli radio wwan <STATE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "STATE",
+     "description": "The state to set: 'on' or 'off'",
+     "example": "on"
+    }
+   ],
+   "expect": "The command completes without error. Cellular connectivity changes immediately."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, set the WWAN radio switch back to its previous state.",
+   "cmd": "nmcli radio wwan <PREVIOUS_STATE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PREVIOUS_STATE",
+     "description": "The state WWAN was in before (on or off)",
+     "example": "on"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Turning WWAN off will disconnect you from any active cellular data connections."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-radio.md",
+  "title": "tldr-pages: nmcli-radio",
+  "license": "CC-BY-4.0"
+ }
+}

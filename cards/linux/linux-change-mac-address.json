@@ -1,0 +1,116 @@
+{
+ "schema_version": 2,
+ "id": "linux-change-mac-address",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change the MAC address of a network interface",
+ "summary": "Modify the hardware (MAC) address of a network interface. This is often used for privacy or testing purposes.",
+ "aliases": [
+  {
+   "text": "change mac address",
+   "lang": "en"
+  },
+  {
+   "text": "spoof mac address",
+   "lang": "en"
+  },
+  {
+   "text": "set mac address",
+   "lang": "en"
+  },
+  {
+   "text": "ip link address",
+   "lang": "en"
+  },
+  {
+   "text": "change hardware address",
+   "lang": "en"
+  },
+  {
+   "text": "change mac address",
+   "lang": "ru"
+  },
+  {
+   "text": "spoof mac address",
+   "lang": "ru"
+  },
+  {
+   "text": "set mac address",
+   "lang": "ru"
+  },
+  {
+   "text": "ip link address",
+   "lang": "ru"
+  },
+  {
+   "text": "change hardware address",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `sudo ip link set` with the `address` option to set a new MAC address.",
+   "cmd": "sudo ip link set <INTERFACE> address <MAC_ADDRESS>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface.",
+     "example": "eth0",
+     "discover_cmd": "ip link"
+    },
+    {
+     "name": "MAC_ADDRESS",
+     "description": "The new MAC address in format xx:xx:xx:xx:xx:xx.",
+     "example": "ff:ff:ff:ff:ff:ff"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short form `sudo ip l s` with `a` for address.",
+     "cmd": "sudo ip l s <INTERFACE> a <MAC_ADDRESS>",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The name of the network interface.",
+       "example": "eth0",
+       "discover_cmd": "ip link"
+      },
+      {
+       "name": "MAC_ADDRESS",
+       "description": "The new MAC address in format xx:xx:xx:xx:xx:xx.",
+       "example": "ff:ff:ff:ff:ff:ff"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To restore the original MAC address, you typically need to reboot the system or reload the driver, as the original address is stored in hardware/firmware. There is no direct command to revert to the permanent MAC address via `ip link`.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Changing the MAC address can disrupt network connectivity and may violate network policies.",
+  "The change is temporary and will be lost after a reboot.",
+  "Requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-link.md",
+  "title": "tldr-pages: ip-link",
+  "license": "CC-BY-4.0"
+ }
+}

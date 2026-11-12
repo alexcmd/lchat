@@ -1,0 +1,129 @@
+{
+ "schema_version": 2,
+ "id": "linux-bluetooth-adapter-check-blocked-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if the Bluetooth adapter is on and not blocked",
+ "summary": "Check three things in order: the Bluetooth service is running, the radio is not switched off by rfkill, and the adapter is powered on. These read-only checks change nothing.",
+ "aliases": [
+  {
+   "text": "check bluetooth is on linux",
+   "lang": "en"
+  },
+  {
+   "text": "is bluetooth turned on linux",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth adapter is blocked",
+   "lang": "en"
+  },
+  {
+   "text": "rfkill bluetooth blocked",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth service running linux",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth soft blocked linux",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth adapter powered off linux",
+   "lang": "en"
+  },
+  {
+   "text": "bluetoothctl show powered",
+   "lang": "en"
+  },
+  {
+   "text": "проверить включен ли bluetooth linux",
+   "lang": "ru"
+  },
+  {
+   "text": "bluetooth заблокирован rfkill",
+   "lang": "ru"
+  },
+  {
+   "text": "служба bluetooth работает linux",
+   "lang": "ru"
+  },
+  {
+   "text": "bluetooth адаптер выключен linux",
+   "lang": "ru"
+  },
+  {
+   "text": "блютуз заблокирован soft blocked",
+   "lang": "ru"
+  },
+  {
+   "text": "включен ли блютуз на линуксе",
+   "lang": "ru"
+  },
+  {
+   "text": "bluetoothctl показать питание адаптера",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bluez",
+   "systemd"
+  ]
+ },
+ "prerequisites": [
+  "A computer with a Bluetooth adapter",
+  "A terminal window"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the Bluetooth service is running. Look for 'Active: active (running)'. If it says inactive or failed, the service is stopped and the other checks will not help.",
+   "cmd": "systemctl status bluetooth --no-pager",
+   "expect": "Active: active (running)",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Print only the one-word state of the service. The answer 'active' means it runs.",
+     "cmd": "systemctl is-active bluetooth",
+     "expect": "active"
+    }
+   ]
+  },
+  {
+   "explain": "Check whether rfkill has blocked the radio. 'Soft blocked: no' and 'Hard blocked: no' mean it is free. 'Soft blocked: yes' means software turned it off. 'Hard blocked: yes' means a hardware switch or function key is off. 'command not found' means install the rfkill package first.",
+   "cmd": "rfkill list bluetooth",
+   "expect": "Soft blocked: no and Hard blocked: no",
+   "risk": "low"
+  },
+  {
+   "explain": "Check that the Bluetooth adapter is powered on. 'Powered: yes' means the adapter is on. 'Powered: no' means it is off. 'No default controller available' means the system found no Bluetooth adapter at all.",
+   "cmd": "bluetoothctl show",
+   "expect": "Powered: yes, and a Controller line with a MAC address",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "systemctl is-active bluetooth",
+   "expect": "active"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-rfkill-list-devices",
+  "linux-rfkill-unblock-device",
+  "linux-bluetooth-scan-devices"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/bluetoothctl",
+  "title": "bluetoothctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

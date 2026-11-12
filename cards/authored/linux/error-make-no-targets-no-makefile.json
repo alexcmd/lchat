@@ -1,0 +1,146 @@
+{
+ "schema_version": 2,
+ "id": "error-make-no-targets-no-makefile",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix make: No targets specified and no makefile found",
+ "summary": "make looks for a build file named Makefile in the folder where you run it. This error means that folder has no build file, so make has nothing to build. Go to the project folder, or run make with that folder as a parameter.",
+ "aliases": [
+  {
+   "text": "make: *** No targets specified and no makefile found",
+   "lang": "en"
+  },
+  {
+   "text": "make no targets specified",
+   "lang": "en"
+  },
+  {
+   "text": "make no makefile found stop",
+   "lang": "en"
+  },
+  {
+   "text": "why does make fail in empty folder",
+   "lang": "en"
+  },
+  {
+   "text": "makefile not found linux",
+   "lang": "en"
+  },
+  {
+   "text": "what does make no targets mean",
+   "lang": "en"
+  },
+  {
+   "text": "make error no makefile",
+   "lang": "en"
+  },
+  {
+   "text": "make: нет цели и makefile",
+   "lang": "ru"
+  },
+  {
+   "text": "make ошибка no targets specified",
+   "lang": "ru"
+  },
+  {
+   "text": "make не нашел makefile",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка make в папке без makefile",
+   "lang": "ru"
+  },
+  {
+   "text": "мейк ошибка makefile linux",
+   "lang": "ru"
+  },
+  {
+   "text": "что значит make no makefile found",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "make: *** No targets specified and no makefile found."
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "make"
+  ]
+ },
+ "prerequisites": [
+  "make is installed (check with make --version)"
+ ],
+ "steps": [
+  {
+   "explain": "Show the folder you are in now. make only looks for a build file in the current folder.",
+   "cmd": "pwd",
+   "risk": "low",
+   "expect": "A path such as /home/you/Downloads. If it is not your project folder, go to step 3."
+  },
+  {
+   "explain": "List the files here. A build file is named Makefile, makefile or GNUmakefile. If none of these names is in the list, make cannot run here.",
+   "cmd": "ls -la",
+   "risk": "low",
+   "expect": "No Makefile, makefile or GNUmakefile in the list means this folder is not the project folder."
+  },
+  {
+   "explain": "Go to the project folder, the one that holds the Makefile. Run the discover command to list the places where a Makefile is found, then put the folder path (not the file name) in <PROJECT_DIR>.",
+   "cmd": "cd <PROJECT_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROJECT_DIR",
+     "description": "Folder that contains the Makefile, not the file itself",
+     "example": "/home/you/projects/myapp",
+     "discover_cmd": "find ~ -maxdepth 4 \\( -name Makefile -o -name makefile -o -name GNUmakefile \\) -not -path '*/.*'"
+    }
+   ],
+   "expect": "The prompt changes to the project folder. Run pwd to confirm."
+  },
+  {
+   "explain": "Run make in the project folder. With no target, make runs the first target in the Makefile, which is usually the build.",
+   "cmd": "make",
+   "risk": "low",
+   "expect": "The build output of the Makefile is printed (for a simple Makefile, its echo line) and the command ends without an error line.",
+   "alternatives": [
+    {
+     "explain": "Run make on the project folder from any folder, without changing into it.",
+     "cmd": "make -C <PROJECT_DIR>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROJECT_DIR",
+       "description": "Folder that contains the Makefile",
+       "example": "/home/you/projects/myapp",
+       "discover_cmd": "find ~ -maxdepth 4 \\( -name Makefile -o -name makefile -o -name GNUmakefile \\) -not -path '*/.*'"
+      }
+     ],
+     "expect": "make runs inside that folder and prints the build commands."
+    }
+   ]
+  },
+  {
+   "explain": "If the project has no Makefile at all, it may use another build method. Look for a README or INSTALL file and follow its build instructions.",
+   "cmd": "ls README* INSTALL*",
+   "risk": "low",
+   "expect": "A file such as README.md (read it with cat README.md). 'No such file or directory' for both means no README or INSTALL here."
+  }
+ ],
+ "risk": "low",
+ "verify": [
+  {
+   "cmd": "make --version",
+   "expect": "GNU Make followed by a version number. make is installed, so the error comes from the folder, not from a missing program."
+  }
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/make",
+  "title": "make manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

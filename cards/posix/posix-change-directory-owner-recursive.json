@@ -1,0 +1,119 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-directory-owner-recursive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Recursively change owner of a directory",
+ "summary": "Use chown with the recursive flag to change the owner of a directory and all files and subdirectories inside it.",
+ "aliases": [
+  {
+   "text": "chown recursive",
+   "lang": "en"
+  },
+  {
+   "text": "change owner recursively",
+   "lang": "en"
+  },
+  {
+   "text": "chown -R",
+   "lang": "en"
+  },
+  {
+   "text": "change all files owner",
+   "lang": "en"
+  },
+  {
+   "text": "chown рекурсивно",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить владельца всех файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "chown -R",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --recursive flag (or -R) to apply the ownership change to the directory and everything inside it.",
+   "cmd": "sudo chown -R <USER> <DIRECTORY>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USER",
+     "description": "The new owner's username",
+     "example": "john"
+    },
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the directory",
+     "example": "/home/john/project"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag -R for the same recursive effect.",
+     "cmd": "sudo chown -R <USER> <DIRECTORY>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "USER",
+       "description": "The new owner's username",
+       "example": "john"
+      },
+      {
+       "name": "DIRECTORY",
+       "description": "Path to the directory",
+       "example": "/home/john/project"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, recursively restore the original owner. Be careful to specify the correct original user.",
+   "cmd": "sudo chown -R <ORIGINAL_USER> <DIRECTORY>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_USER",
+     "description": "The previous owner's username",
+     "example": "root"
+    },
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the directory",
+     "example": "/home/john/project"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Recursive changes affect all contents. Ensure you are targeting the correct directory.",
+  "Incorrect ownership can break applications or system services relying on those files."
+ ],
+ "see_also": [
+  "posix-change-file-owner",
+  "file-change-ownership"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chown.md",
+  "title": "tldr-pages: chown",
+  "license": "CC-BY-4.0"
+ }
+}

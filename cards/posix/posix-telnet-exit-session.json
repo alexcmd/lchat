@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "posix-telnet-exit-session",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Exit a Telnet session",
+ "summary": "Learn how to properly close a Telnet connection. You can type a command or use a keyboard shortcut to terminate the session.",
+ "aliases": [
+  {
+   "text": "exit telnet",
+   "lang": "en"
+  },
+  {
+   "text": "quit telnet",
+   "lang": "en"
+  },
+  {
+   "text": "close telnet connection",
+   "lang": "en"
+  },
+  {
+   "text": "telnet escape character",
+   "lang": "en"
+  },
+  {
+   "text": "выйти из telnet",
+   "lang": "ru"
+  },
+  {
+   "text": "закрыть telnet",
+   "lang": "ru"
+  },
+  {
+   "text": "как выйти из telnet",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Type 'quit' to exit the interactive telnet session.",
+   "cmd": "quit",
+   "risk": "low"
+  },
+  {
+   "explain": "Press Ctrl+] to enter the telnet prompt, then type 'quit' or 'close' to exit. This is the default escape sequence.",
+   "cmd": "<Ctrl ]>",
+   "risk": "low",
+   "expect": "telnet> "
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/telnet.md",
+  "title": "tldr-pages: telnet",
+  "license": "CC-BY-4.0"
+ }
+}

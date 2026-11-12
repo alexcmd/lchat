@@ -1,0 +1,162 @@
+{
+ "schema_version": 2,
+ "id": "script-error-permission-denied",
+ "platform": "posix",
+ "kind": "error",
+ "title": "Fix 'Permission denied' when running a script",
+ "summary": "Running a script gives Permission denied when the file is not marked as runnable. You can check the file's permissions and add the run permission to fix it.",
+ "aliases": [
+  {
+   "text": "permission denied when running script",
+   "lang": "en"
+  },
+  {
+   "text": "./script.sh permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "bash script permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "how to make a script executable",
+   "lang": "en"
+  },
+  {
+   "text": "shell script not executable",
+   "lang": "en"
+  },
+  {
+   "text": "chmod +x script won't run",
+   "lang": "en"
+  },
+  {
+   "text": "permission denied скрипт",
+   "lang": "ru"
+  },
+  {
+   "text": "не запускается скрипт sh отказано в доступе",
+   "lang": "ru"
+  },
+  {
+   "text": "как сделать скрипт исполняемым",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка permission denied при запуске скрипта",
+   "lang": "ru"
+  },
+  {
+   "text": "как дать права на запуск скрипта",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Permission denied",
+  "permission denied"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You have a script file in a folder you can open in Terminal",
+  "You own the script file or can change its permissions"
+ ],
+ "steps": [
+  {
+   "explain": "Look at the file's permissions. The first column shows the rights: r means read, w means write, x means run. If there is no x in the first group of characters, the system refuses to run the file.",
+   "cmd": "ls -l <SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "File name of the script in the current folder.",
+     "example": "myscript.sh",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "A line like -rw-r--r-- ... myscript.sh. No x in the first 10 characters means the file is not executable."
+  },
+  {
+   "explain": "Add the run permission for everyone. This changes only the file's permission bits, not its contents.",
+   "cmd": "chmod +x <SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "File name of the script in the current folder.",
+     "example": "myscript.sh",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "No output means it worked.",
+   "alternatives": [
+    {
+     "explain": "Add the run permission only for your own user account, not for other users.",
+     "cmd": "chmod u+x <SCRIPT>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SCRIPT",
+       "description": "File name of the script in the current folder.",
+       "example": "myscript.sh",
+       "discover_cmd": "ls"
+      }
+     ],
+     "expect": "No output means it worked."
+    }
+   ]
+  },
+  {
+   "explain": "Run the script. It should start now, without the Permission denied message.",
+   "cmd": "./<SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "File name of the script in the current folder, without the ./ part.",
+     "example": "myscript.sh",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "The script's own output appears and there is no Permission denied line.",
+   "alternatives": [
+    {
+     "explain": "Run the script through bash without changing its permissions. Bash reads the file itself, so the run permission is not needed.",
+     "cmd": "bash <SCRIPT>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SCRIPT",
+       "description": "File name of the script in the current folder.",
+       "example": "myscript.sh",
+       "discover_cmd": "ls"
+      }
+     ],
+     "expect": "The script's own output appears."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls -l <SCRIPT>",
+   "expect": "The first group of characters now contains x, for example -rwxr-xr-x."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Make a script executable only if you trust where it came from. A script runs with your permissions and can change files on your computer.",
+  "On a USB stick or network drive mounted with the noexec option, chmod does not help. Use the bash alternative in the last step."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/chmod",
+  "title": "chmod manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

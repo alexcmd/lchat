@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-sort-file-unique",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sort a file and remove duplicate lines",
+ "summary": "Sort the lines of a text file and keep only one copy of each unique line. This removes duplicates while sorting.",
+ "aliases": [
+  {
+   "text": "sort unique",
+   "lang": "en"
+  },
+  {
+   "text": "sort remove duplicates",
+   "lang": "en"
+  },
+  {
+   "text": "sort file unique lines",
+   "lang": "en"
+  },
+  {
+   "text": "sort deduplicate",
+   "lang": "en"
+  },
+  {
+   "text": "sortieren eindeutig",
+   "lang": "de"
+  },
+  {
+   "text": "ordenar unico",
+   "lang": "es"
+  },
+  {
+   "text": "sortir unique",
+   "lang": "fr"
+  },
+  {
+   "text": "sort unique lines",
+   "lang": "en"
+  },
+  {
+   "text": "sort remove dupes",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --unique flag to sort the file and discard duplicate lines.",
+   "cmd": "sort --unique <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file with potential duplicates.",
+     "example": "list.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sort.md",
+  "title": "tldr-pages: sort",
+  "license": "CC-BY-4.0"
+ }
+}

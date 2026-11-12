@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-fix-sink-suspended",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Failed to create sink input: sink is suspended' error",
+ "summary": "If you receive errors about a suspended sink and have no sound, deleting user-specific PulseAudio folders often resolves the issue.",
+ "error_patterns": [
+  "Failed to create sink input: sink is suspended"
+ ],
+ "aliases": [
+  {
+   "text": "sink is suspended error",
+   "lang": "en"
+  },
+  {
+   "text": "pulseaudio sink suspended",
+   "lang": "en"
+  },
+  {
+   "text": "no sound sink suspended",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка sink is suspended",
+   "lang": "ru"
+  },
+  {
+   "text": "pulseaudio нет звука",
+   "lang": "ru"
+  },
+  {
+   "text": "sink suspended fix",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove user-specific PulseAudio configuration and cookie files. This forces PulseAudio to recreate them.",
+   "cmd": "rm -r ~/.pulse ~/.pulse-cookie ~/.config/pulse",
+   "risk": "medium",
+   "needs_root": false
+  },
+  {
+   "explain": "Restart PulseAudio to apply changes.",
+   "cmd": "pulseaudio -k",
+   "risk": "low",
+   "needs_root": false
+  },
+  {
+   "explain": "Start PulseAudio again.",
+   "cmd": "pulseaudio --start",
+   "risk": "low",
+   "needs_root": false
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore configuration from backup if available. Otherwise, PulseAudio will use defaults.",
+   "cmd": "",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This will reset per-application volume settings."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio/Troubleshooting#Failed_to_create_sink_input:_sink_is_suspended",
+  "title": "PulseAudio/Troubleshooting",
+  "revision_id": 883273,
+  "license": "GFDL-1.3-or-later"
+ }
+}

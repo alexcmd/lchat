@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "alsa-enable-software-mixing",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable ALSA software mixing (dmix)",
+ "summary": "Software mixing allows multiple applications to play sound simultaneously on cards that do not support hardware mixing. This is often needed for digital outputs like S/PDIF.",
+ "aliases": [
+  {
+   "text": "alsa dmix",
+   "lang": "en"
+  },
+  {
+   "text": "enable software mixing alsa",
+   "lang": "en"
+  },
+  {
+   "text": "multiple apps sound alsa",
+   "lang": "en"
+  },
+  {
+   "text": "alsa simultaneous audio",
+   "lang": "en"
+  },
+  {
+   "text": "dmix config",
+   "lang": "en"
+  },
+  {
+   "text": "alsa микширование",
+   "lang": "ru"
+  },
+  {
+   "text": "несколько звуков одновременно linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "alsa-utils package is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Add the following to /etc/asound.conf or ~/.asoundrc:\npcm.dsp {\n    type plug\n    slave.pcm \"dmix\"\n}",
+   "risk": "medium"
+  },
+  {
+   "explain": "Restart applications using sound for the changes to take effect.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the added block from /etc/asound.conf or ~/.asoundrc.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Incorrect configuration can break audio output. Ensure you have a backup of your configuration file."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture#Software_mixing",
+  "title": "Advanced Linux Sound Architecture",
+  "revision_id": 886507,
+  "license": "GFDL-1.3-or-later"
+ }
+}

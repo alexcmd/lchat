@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "linux-zypper-update-package-list",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update the list of available packages with zypper",
+ "summary": "Refresh the local cache of available software so that you can install or upgrade to the latest versions.",
+ "aliases": [
+  {
+   "text": "zypper refresh",
+   "lang": "en"
+  },
+  {
+   "text": "update package list suse",
+   "lang": "en"
+  },
+  {
+   "text": "refresh zypper cache",
+   "lang": "en"
+  },
+  {
+   "text": "обновить список пакетов zypper",
+   "lang": "ru"
+  },
+  {
+   "text": "zypper ref",
+   "lang": "ru"
+  },
+  {
+   "text": "синхронизировать репозитории suse",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "opensuse"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Synchronize the list of packages and versions available from your configured repositories.",
+   "cmd": "sudo zypper refresh",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Use the short form 'ref' instead of 'refresh'.",
+     "cmd": "sudo zypper ref",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo for refreshing the package list; it simply updates the local cache with current repository data.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This command requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/zypper.md",
+  "title": "tldr-pages: zypper",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-bleachbit-preview-clean",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Preview files to be deleted by BleachBit",
+ "summary": "Use BleachBit to see which junk files will be removed before actually deleting them. This helps you avoid accidentally deleting important data.",
+ "aliases": [
+  {
+   "text": "preview bleachbit files",
+   "lang": "en"
+  },
+  {
+   "text": "see what bleachbit deletes",
+   "lang": "en"
+  },
+  {
+   "text": "bleachbit dry run",
+   "lang": "en"
+  },
+  {
+   "text": "просмотреть что удалит bleachbit",
+   "lang": "ru"
+  },
+  {
+   "text": "что удалит bleachbit",
+   "lang": "ru"
+  },
+  {
+   "text": "предпросмотр очистки bleachbit",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List available cleaner options to find the names you need for the preset.",
+   "cmd": "bleachbit --list-cleaners",
+   "risk": "low",
+   "expect": "A list of cleaner names and their options."
+  },
+  {
+   "explain": "Preview the files that will be deleted for specific cleaners without actually deleting them.",
+   "cmd": "bleachbit --preview --preset <CLEANER_OPTIONS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CLEANER_OPTIONS",
+     "description": "Space-separated list of cleaner options, e.g., 'firefox.cache firefox.cookies'",
+     "example": "firefox.cache"
+    }
+   ],
+   "expect": "A list of files and changes that would be made."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/bleachbit.md",
+  "title": "tldr-pages: bleachbit",
+  "license": "CC-BY-4.0"
+ }
+}

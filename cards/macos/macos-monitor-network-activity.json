@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-monitor-network-activity",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Monitor network activity on macOS",
+ "summary": "Use the nettop command to see which apps are using the network and how much data they are sending or receiving. It updates in real time, similar to Activity Monitor's Network tab.",
+ "aliases": [
+  {
+   "text": "monitor network activity",
+   "lang": "en"
+  },
+  {
+   "text": "check network usage",
+   "lang": "en"
+  },
+  {
+   "text": "nettop",
+   "lang": "en"
+  },
+  {
+   "text": "which app is using internet",
+   "lang": "en"
+  },
+  {
+   "text": "network monitor mac",
+   "lang": "en"
+  },
+  {
+   "text": "monitoring seti",
+   "lang": "ru"
+  },
+  {
+   "text": "kakoy app iset internet",
+   "lang": "ru"
+  },
+  {
+   "text": "nettop macos",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit setevuyu aktivnost",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run nettop to start monitoring TCP and UDP sockets from all network interfaces. The output updates continuously.",
+   "cmd": "nettop",
+   "risk": "low",
+   "expect": "A live list of processes and their network connections appears in the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/nettop.md",
+  "title": "tldr-pages: nettop",
+  "license": "CC-BY-4.0"
+ }
+}

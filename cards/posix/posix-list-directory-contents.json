@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-directory-contents",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List files in a directory",
+ "summary": "Show the contents of the current directory or a specific path. You can choose to see hidden files, detailed information like size and permissions, or sort by time or size.",
+ "aliases": [
+  {
+   "text": "list files",
+   "lang": "en"
+  },
+  {
+   "text": "show directory contents",
+   "lang": "en"
+  },
+  {
+   "text": "ls command",
+   "lang": "en"
+  },
+  {
+   "text": "see what is in folder",
+   "lang": "en"
+  },
+  {
+   "text": "list all files",
+   "lang": "en"
+  },
+  {
+   "text": "kak posmotret soderzhimoe papki",
+   "lang": "ru"
+  },
+  {
+   "text": "spisok faylov",
+   "lang": "ru"
+  },
+  {
+   "text": "ls command",
+   "lang": "ru"
+  },
+  {
+   "text": "chto v pape",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List files in the current directory, one per line.",
+   "cmd": "ls -1",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "List all files, including hidden ones (those starting with a dot).",
+     "cmd": "ls -a"
+    },
+    {
+     "explain": "List files in long format with human-readable sizes (KB, MB, GB).",
+     "cmd": "ls -lh"
+    }
+   ]
+  },
+  {
+   "explain": "To list a specific directory, add the path. Use placeholders for your specific folder.",
+   "cmd": "ls <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the directory you want to list",
+     "example": "Documents"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ls.md",
+  "title": "tldr-pages: ls",
+  "license": "CC-BY-4.0"
+ }
+}

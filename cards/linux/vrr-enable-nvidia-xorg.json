@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "vrr-enable-nvidia-xorg",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable Variable Refresh Rate (VRR) on NVIDIA with Xorg",
+ "summary": "Enable G-Sync or G-Sync Compatible mode on NVIDIA GPUs using the nvidia-settings GUI.",
+ "aliases": [
+  {
+   "text": "enable vrr nvidia xorg",
+   "lang": "en"
+  },
+  {
+   "text": "gsync nvidia xorg",
+   "lang": "en"
+  },
+  {
+   "text": "adaptive sync nvidia xorg",
+   "lang": "en"
+  },
+  {
+   "text": "включить vrr nvidia xorg",
+   "lang": "ru"
+  },
+  {
+   "text": "гсинк nvidia xorg",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "nvidia-settings",
+   "nvidia-driver"
+  ]
+ },
+ "prerequisites": [
+  "Monitor supports G-Sync or G-Sync Compatible",
+  "NVIDIA driver installed"
+ ],
+ "steps": [
+  {
+   "explain": "Open nvidia-settings.",
+   "cmd": "nvidia-settings",
+   "risk": "low"
+  },
+  {
+   "explain": "Navigate to your GPU (e.g., GPU 0) and select your monitor (e.g., DP-0). Check 'G-SYNC Mode Available'. If it says 'G-SYNC Unvalidated', proceed to the next step.",
+   "gui": "Select GPU > Select Monitor > Check G-SYNC Mode Available",
+   "risk": "low"
+  },
+  {
+   "explain": "Go to 'X Server Display Configuration'. Click 'Advanced'. Check 'Allow G-SYNC on monitor not validated as G-SYNC Compatible'. Click 'Apply'.",
+   "gui": "X Server Display Configuration > Advanced > Check 'Allow G-SYNC on monitor not validated as G-SYNC Compatible' > Apply",
+   "risk": "medium"
+  },
+  {
+   "explain": "Go to 'OpenGL settings'. Check 'Allow G-SYNC/G-SYNC Compatible'. Optionally check 'show G-SYNC indicator'. Click 'Apply'.",
+   "gui": "OpenGL settings > Check 'Allow G-SYNC/G-SYNC Compatible' > Apply",
+   "risk": "medium"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Uncheck the G-SYNC options in nvidia-settings and click Apply.",
+   "gui": "Uncheck G-SYNC options > Apply",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "If a monitor did fail NVIDIA's certification to be G-SYNC compatible, there may be issues with the experience such as poor image quality, flickering, or lack of VRR activation."
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Variable_refresh_rate#Via_nvidia-settings",
+  "title": "Variable refresh rate",
+  "revision_id": 887484,
+  "license": "GFDL-1.3-or-later"
+ }
+}

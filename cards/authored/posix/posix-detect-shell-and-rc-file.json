@@ -1,0 +1,121 @@
+{
+ "schema_version": 2,
+ "id": "posix-detect-shell-and-rc-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find out which shell you use and which startup file to edit",
+ "summary": "Check which shell runs in your terminal and which settings file it reads when it starts. Do this before you add an alias, a PATH entry or a variable, so you edit the right file. All checks only read information.",
+ "aliases": [
+  {
+   "text": "which rc file to edit bashrc or zshrc",
+   "lang": "en"
+  },
+  {
+   "text": "bashrc or zshrc which one to use",
+   "lang": "en"
+  },
+  {
+   "text": "where to add alias in terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "which file to put PATH export in on mac",
+   "lang": "en"
+  },
+  {
+   "text": "what shell am I using and which config file to edit",
+   "lang": "en"
+  },
+  {
+   "text": "bash_profile or bashrc which file",
+   "lang": "en"
+  },
+  {
+   "text": "which config file for my shell",
+   "lang": "en"
+  },
+  {
+   "text": "какой rc файл редактировать bashrc или zshrc",
+   "lang": "ru"
+  },
+  {
+   "text": "bashrc или zshrc какой выбрать",
+   "lang": "ru"
+  },
+  {
+   "text": "куда писать alias в терминале на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "в какой файл добавить PATH на macos",
+   "lang": "ru"
+  },
+  {
+   "text": "какой у меня shell и какой файл настроек менять",
+   "lang": "ru"
+  },
+  {
+   "text": "в какой файл писать настройки оболочки bash zsh",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open"
+ ],
+ "steps": [
+  {
+   "explain": "Show the login shell saved for your account. A new terminal usually starts this shell, but the window you are in may run another one. Read-only.",
+   "cmd": "echo $SHELL",
+   "risk": "low",
+   "expect": "A path such as /bin/zsh (usual on macOS) or /bin/bash (usual on Linux)."
+  },
+  {
+   "explain": "Ask ps for the name of the program running this terminal, the process with ID $$. This is the shell you type into right now. Read-only.",
+   "cmd": "ps -p $$ -o comm=",
+   "risk": "low",
+   "expect": "bash or zsh. On macOS a login shell may show with a dash, such as -zsh. If you see 'ps: command not found', use the alternative.",
+   "alternatives": [
+    {
+     "explain": "Print the name the shell was started with. Works without ps. In an interactive terminal it matches the running shell.",
+     "cmd": "echo $0",
+     "risk": "low",
+     "expect": "bash or -zsh, the name of the shell in this window."
+    }
+   ]
+  },
+  {
+   "explain": "Check that the shell you plan to configure is installed. A settings file for a shell you do not have does nothing. Read-only.",
+   "cmd": "command -v zsh",
+   "risk": "low",
+   "expect": "A path such as /bin/zsh if zsh is installed. If it is missing, nothing is printed and the exit status is 1.",
+   "alternatives": [
+    {
+     "explain": "The same check for bash.",
+     "cmd": "command -v bash",
+     "risk": "low",
+     "expect": "A path such as /bin/bash. If it is missing, nothing is printed."
+    }
+   ]
+  },
+  {
+   "explain": "List the startup files that already exist in your home folder. Pick the one for your shell: zsh uses ~/.zshrc; bash uses ~/.bashrc on Linux and ~/.bash_profile on macOS; ~/.profile is read by many shells for login settings. Edit only that file.",
+   "cmd": "for f in ~/.bashrc ~/.bash_profile ~/.profile ~/.zshrc ~/.zprofile; do [ -e \"$f\" ] && echo \"$f\"; done",
+   "risk": "low",
+   "expect": "Full paths such as /home/you/.bashrc, one per line, only for files that exist. Nothing printed means none exists yet; create the file when you first add a setting."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

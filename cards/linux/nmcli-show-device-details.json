@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "nmcli-show-device-details",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show detailed network device info",
+ "summary": "Display detailed information about a specific network interface, such as its status, IP address, and driver.",
+ "aliases": [
+  {
+   "text": "show network device info",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli device show",
+   "lang": "en"
+  },
+  {
+   "text": "network interface details",
+   "lang": "en"
+  },
+  {
+   "text": "показать информацию о сетевом интерфейсе",
+   "lang": "ru"
+  },
+  {
+   "text": "детали сетевого устройства",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli show device",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show detailed information for a specific network device.",
+   "cmd": "nmcli device show <DEVICE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The name of the network interface (e.g., wlan0, eth0)",
+     "example": "wlan0",
+     "discover_cmd": "nmcli device"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-device.md",
+  "title": "tldr-pages: nmcli-device",
+  "license": "CC-BY-4.0"
+ }
+}

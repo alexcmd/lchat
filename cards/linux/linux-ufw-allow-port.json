@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-ufw-allow-port",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Allow incoming traffic on a specific port",
+ "summary": "Configure UFW to allow incoming connections to a specific port. You can add a comment to identify the service running on that port.",
+ "aliases": [
+  {
+   "text": "allow port ufw",
+   "lang": "en"
+  },
+  {
+   "text": "open port firewall",
+   "lang": "en"
+  },
+  {
+   "text": "ufw allow 80",
+   "lang": "en"
+  },
+  {
+   "text": "разрешить порт ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть порт файрвол",
+   "lang": "ru"
+  },
+  {
+   "text": "разрешить входящие соединения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Allow incoming traffic on a specific port and add a comment for clarity.",
+   "cmd": "sudo ufw allow <PORT> comment \"<SERVICE>\"",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "The port number to allow (e.g., 80, 443, 5432).",
+     "example": "80"
+    },
+    {
+     "name": "SERVICE",
+     "description": "A short name for the service running on this port.",
+     "example": "Nginx"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the rule by its number. First, find the number using 'sudo ufw status numbered'.",
+   "cmd": "sudo ufw delete <RULE_NUMBER>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "RULE_NUMBER",
+     "description": "The index number of the rule to delete.",
+     "example": "1",
+     "discover_cmd": "sudo ufw status numbered"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Opening ports exposes services to the network. Ensure the service is secure and necessary."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ufw.md",
+  "title": "tldr-pages: ufw",
+  "license": "CC-BY-4.0"
+ }
+}

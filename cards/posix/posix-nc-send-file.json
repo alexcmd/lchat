@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "posix-nc-send-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Send a file to another computer using netcat",
+ "summary": "Use netcat to transfer a file directly between two computers over the network. One computer listens on a port, and the other connects to send the file.",
+ "aliases": [
+  {
+   "text": "send file with nc",
+   "lang": "en"
+  },
+  {
+   "text": "netcat file transfer",
+   "lang": "en"
+  },
+  {
+   "text": "copy file over network nc",
+   "lang": "en"
+  },
+  {
+   "text": "отправить файл через nc",
+   "lang": "ru"
+  },
+  {
+   "text": "netcat передача файла",
+   "lang": "ru"
+  },
+  {
+   "text": "передать файл по сети nc",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "On the receiving computer, start a netcat listener on a specific port and redirect the output to a file where the received data will be saved.",
+   "cmd": "nc < <FILENAME> -l -p <PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILENAME",
+     "description": "The name of the file to send (used in the sending step, but defined here for context of the pair)",
+     "example": "image.png"
+    },
+    {
+     "name": "PORT",
+     "description": "The TCP port number to listen on",
+     "example": "8080"
+    }
+   ]
+  },
+  {
+   "explain": "On the sending computer, connect to the receiver's IP address and port, and redirect the file content into the connection.",
+   "cmd": "nc <HOST> <PORT> > <RECEIVED_FILENAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The IP address or hostname of the receiving computer",
+     "example": "192.168.1.5"
+    },
+    {
+     "name": "PORT",
+     "description": "The same port number used by the listener",
+     "example": "8080"
+    },
+    {
+     "name": "RECEIVED_FILENAME",
+     "description": "The name of the file to create on the receiving side",
+     "example": "received_image.png"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nc.md",
+  "title": "tldr-pages: nc",
+  "license": "CC-BY-4.0"
+ }
+}

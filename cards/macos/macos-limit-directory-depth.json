@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-limit-directory-depth",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Limit directory listing depth",
+ "summary": "Use `du` to see disk usage for a directory and its subdirectories, but only up to a specific number of levels deep. This helps avoid overwhelming output from deeply nested folders.",
+ "aliases": [
+  {
+   "text": "du depth mac",
+   "lang": "en"
+  },
+  {
+   "text": "limit directory levels du",
+   "lang": "en"
+  },
+  {
+   "text": "du -d mac",
+   "lang": "en"
+  },
+  {
+   "text": "размер папок по уровням",
+   "lang": "ru"
+  },
+  {
+   "text": "du глубина",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `du -h -d` followed by the number of levels and the directory path to show sizes only for that many levels deep.",
+   "cmd": "du -h -d <LEVELS> <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LEVELS",
+     "description": "The maximum depth of subdirectories to list.",
+     "example": "1"
+    },
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the folder you want to measure.",
+     "example": "~/Documents"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/du.md",
+  "title": "tldr-pages: du",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-check-directory-size"
+ ]
+}

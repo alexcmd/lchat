@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-create-missing-xdg-dirs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Create missing XDG user directories",
+ "summary": "Recreate standard user folders (Desktop, Documents, etc.) if they are missing from your home directory.",
+ "aliases": [
+  {
+   "text": "create missing folders",
+   "lang": "en"
+  },
+  {
+   "text": "restore xdg directories",
+   "lang": "en"
+  },
+  {
+   "text": "xdg force create",
+   "lang": "en"
+  },
+  {
+   "text": "fix missing desktop folder",
+   "lang": "en"
+  },
+  {
+   "text": "создать недостающие папки",
+   "lang": "ru"
+  },
+  {
+   "text": "восстановить папки пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "xdg force",
+   "lang": "ru"
+  },
+  {
+   "text": "нет папки рабочий стол",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Force the creation of any standard XDG directories that do not currently exist.",
+   "cmd": "xdg-user-dirs-update --force",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xdg-user-dirs-update.md",
+  "title": "tldr-pages: xdg-user-dirs-update",
+  "license": "CC-BY-4.0"
+ }
+}

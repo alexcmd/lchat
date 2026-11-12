@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "macos-display-current-date",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Display the current date and time in the terminal",
+ "summary": "Show the current date and time in your Terminal. You can choose a standard format, a universal ISO format, or a numeric timestamp.",
+ "aliases": [
+  {
+   "text": "show current date mac",
+   "lang": "en"
+  },
+  {
+   "text": "what is the date terminal",
+   "lang": "en"
+  },
+  {
+   "text": "display time in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "date command mac",
+   "lang": "en"
+  },
+  {
+   "text": "kakaya segodnya data terminal",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat datu v terminale",
+   "lang": "ru"
+  },
+  {
+   "text": "tekuwaya data mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the current date and time using the default format for your region.",
+   "cmd": "date +%c",
+   "risk": "low",
+   "expect": "The current date and time, e.g., 'Mon Oct 23 10:30:00 AM 2023'."
+  },
+  {
+   "explain": "Display the current date and time in UTC using the ISO 8601 format, which is standard for logs and programming.",
+   "cmd": "date -u +%Y-%m-%dT%H:%M:%SZ",
+   "risk": "low",
+   "expect": "The current UTC time, e.g., '2023-10-23T14:30:00Z'.",
+   "alternatives": [
+    {
+     "explain": "Display the current time as a Unix timestamp (seconds since Jan 1, 1970).",
+     "cmd": "date +%s",
+     "risk": "low",
+     "expect": "A large number representing the current time, e.g., '1698071400'."
+    }
+   ]
+  },
+  {
+   "explain": "Convert a specific Unix timestamp into a readable date and time.",
+   "cmd": "date -r <UNIX_TIMESTAMP>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UNIX_TIMESTAMP",
+     "description": "The Unix timestamp (seconds since epoch) you want to convert.",
+     "example": "1473305798"
+    }
+   ],
+   "expect": "The readable date corresponding to the timestamp."
+  },
+  {
+   "explain": "Calculate and display a date relative to the current time (e.g., 1 day forward, 20 minutes back).",
+   "cmd": "date -v <OFFSET> -v <OFFSET>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OFFSET",
+     "description": "Time offset, e.g., '+1d' for 1 day forward, '-20m' for 20 minutes back.",
+     "example": "+1d"
+    }
+   ],
+   "expect": "The calculated future or past date."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/date.md",
+  "title": "tldr-pages: date",
+  "license": "CC-BY-4.0"
+ }
+}

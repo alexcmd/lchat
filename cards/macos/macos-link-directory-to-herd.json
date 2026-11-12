@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-link-directory-to-herd",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Link current directory to Laravel Herd",
+ "summary": "Link your current project folder to Herd so it becomes accessible via a local domain. This allows you to develop PHP applications locally.",
+ "aliases": [
+  {
+   "text": "link folder to herd",
+   "lang": "en"
+  },
+  {
+   "text": "herd link",
+   "lang": "en"
+  },
+  {
+   "text": "add project to herd",
+   "lang": "en"
+  },
+  {
+   "text": "привязать папку к herd",
+   "lang": "ru"
+  },
+  {
+   "text": "herd link",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить проект в herd",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Link the current working directory to Herd. Ensure you are in your project folder before running this.",
+   "cmd": "herd link",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/herd.md",
+  "title": "tldr-pages: herd",
+  "license": "CC-BY-4.0"
+ }
+}

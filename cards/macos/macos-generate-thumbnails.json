@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "macos-generate-thumbnails",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Generate image thumbnails using QuickLook",
+ "summary": "Create PNG thumbnail images for a set of files (like JPEGs) using the system's QuickLook engine. This is useful for creating preview images for a gallery or folder.",
+ "aliases": [
+  {
+   "text": "create thumbnails terminal",
+   "lang": "en"
+  },
+  {
+   "text": "generate png thumbnails",
+   "lang": "en"
+  },
+  {
+   "text": "qlmanage thumbnails",
+   "lang": "en"
+  },
+  {
+   "text": "batch resize images terminal",
+   "lang": "en"
+  },
+  {
+   "text": "создать превью картинок",
+   "lang": "ru"
+  },
+  {
+   "text": "генерация миниатюр в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "qlmanage -t",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use qlmanage with the -t flag to generate thumbnails. Specify the files (e.g., *.jpg), the size (-s), and the output directory.",
+   "cmd": "qlmanage <FILES> -t -s <SIZE> <OUTPUT_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILES",
+     "description": "Pattern or list of files to generate thumbnails for",
+     "example": "*.jpg"
+    },
+    {
+     "name": "SIZE",
+     "description": "Width of the thumbnail in pixels",
+     "example": "300"
+    },
+    {
+     "name": "OUTPUT_DIR",
+     "description": "Directory where the thumbnails will be saved",
+     "example": "./thumbnails"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/qlmanage.md",
+  "title": "tldr-pages: qlmanage",
+  "license": "CC-BY-4.0"
+ }
+}

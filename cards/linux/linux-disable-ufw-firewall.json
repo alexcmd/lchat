@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-ufw-firewall",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable the UFW firewall",
+ "summary": "Turn off the UFW firewall and prevent it from starting automatically on boot. This removes the system's firewall protection, so only do this if you are troubleshooting network issues or replacing the firewall.",
+ "aliases": [
+  {
+   "text": "disable ufw",
+   "lang": "en"
+  },
+  {
+   "text": "turn off firewall linux",
+   "lang": "en"
+  },
+  {
+   "text": "stop ufw firewall",
+   "lang": "en"
+  },
+  {
+   "text": "otklyuchit ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "vyklyuchit firewall linux",
+   "lang": "ru"
+  },
+  {
+   "text": "kak vyklyuchit ufw",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "UFW is installed and currently active"
+ ],
+ "steps": [
+  {
+   "explain": "Simulate the disable command to see what would happen without actually changing anything. This is a safe way to check if the command works.",
+   "cmd": "sudo ufw --dry-run disable",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Output showing what would be disabled, but no changes made."
+  },
+  {
+   "explain": "Unload and disable the UFW firewall. This stops the firewall immediately and prevents it from starting on boot.",
+   "cmd": "sudo ufw disable",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Firewall stopped and disabled on system startup."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Re-enable the UFW firewall to restore protection. This command is not on the current page, so consult the UFW documentation or use the enable command if available.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Disabling the firewall exposes your system to network threats. Only do this temporarily for troubleshooting.",
+  "Ensure you have another firewall or security measure in place if you keep it disabled."
+ ],
+ "see_also": [
+  "linux-enable-ufw-firewall",
+  "linux-check-ufw-status"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ufw-disable.md",
+  "title": "tldr-pages: ufw-disable",
+  "license": "CC-BY-4.0"
+ }
+}

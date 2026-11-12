@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-check-all-radios",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check status of all radio switches",
+ "summary": "View the status of all network radio switches (Wi-Fi and WWAN) at once. This gives a quick overview of your wireless hardware state.",
+ "aliases": [
+  {
+   "text": "check all radios",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli radio status",
+   "lang": "en"
+  },
+  {
+   "text": "network radio status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить все радиомодули",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli radio",
+   "lang": "ru"
+  },
+  {
+   "text": "статус wifi и wwan",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the status of both Wi-Fi and WWAN radio switches.",
+   "cmd": "nmcli radio",
+   "risk": "low",
+   "expect": "A list showing the status of Wi-Fi and WWAN."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-radio.md",
+  "title": "tldr-pages: nmcli-radio",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-nmcli-check-wifi-status",
+  "linux-nmcli-check-wwan-status"
+ ]
+}

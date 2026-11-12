@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "intel-fix-washed-out-colors-x11",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix washed out colors on Intel GPU (X11)",
+ "summary": "Set the Broadcast RGB mode to Full for your display output using xrandr to fix washed out colors on Intel GPUs under X11.",
+ "aliases": [
+  {
+   "text": "washed out colors intel x11",
+   "lang": "en"
+  },
+  {
+   "text": "fix color range intel",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr broadcast rgb",
+   "lang": "en"
+  },
+  {
+   "text": "blurred colors arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "исправить цвета на intel",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "Identify your output name using xrandr.",
+   "cmd": "xrandr",
+   "risk": "low"
+  },
+  {
+   "explain": "Set the Broadcast RGB property to Full for your output. Replace <OUTPUT_NAME> with the name from the previous step (e.g., HDMI-1, eDP-1).",
+   "cmd": "xrandr --output <OUTPUT_NAME> --set \"Broadcast RGB\" \"Full\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_NAME",
+     "description": "The name of your display output (e.g., HDMI-1, eDP-1)",
+     "discover_cmd": "xrandr"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Intel_graphics#Fix_colors_for_X11/Xorg",
+  "title": "Intel graphics",
+  "revision_id": 888441,
+  "license": "GFDL-1.3-or-later"
+ }
+}

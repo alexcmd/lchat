@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-hardware-model",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check Mac hardware model and CPU details",
+ "summary": "Use the sysctl command to find out your Mac's specific model identifier and CPU information. This is useful for checking compatibility or identifying your machine.",
+ "aliases": [
+  {
+   "text": "check mac model",
+   "lang": "en"
+  },
+  {
+   "text": "what cpu do i have",
+   "lang": "en"
+  },
+  {
+   "text": "mac hardware info",
+   "lang": "en"
+  },
+  {
+   "text": "sysctl hw.model",
+   "lang": "en"
+  },
+  {
+   "text": "какая модель мака",
+   "lang": "ru"
+  },
+  {
+   "text": "какой процессор в маке",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о железе mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the Apple model identifier (e.g., MacBookPro18,1).",
+   "cmd": "sysctl -n hw.model",
+   "risk": "low",
+   "expect": "The model identifier string of your Mac."
+  },
+  {
+   "explain": "Display the CPU brand string (e.g., Apple M1 Pro).",
+   "cmd": "sysctl -n machdep.cpu.brand_string",
+   "risk": "low",
+   "expect": "The name of your CPU."
+  },
+  {
+   "explain": "Display available CPU features like MMX, SSE, AES.",
+   "cmd": "sysctl -n machdep.cpu.features",
+   "risk": "low",
+   "expect": "A list of supported CPU instruction sets."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sysctl.md",
+  "title": "tldr-pages: sysctl",
+  "license": "CC-BY-4.0"
+ }
+}

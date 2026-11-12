@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-directory-size",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check the size of a directory",
+ "summary": "Use `du` to see how much disk space a folder and its contents are using. You can choose human-readable units like MB or GB.",
+ "aliases": [
+  {
+   "text": "check folder size",
+   "lang": "en"
+  },
+  {
+   "text": "how big is this directory",
+   "lang": "en"
+  },
+  {
+   "text": "disk usage of folder",
+   "lang": "en"
+  },
+  {
+   "text": "du command",
+   "lang": "en"
+  },
+  {
+   "text": "размер папки",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько занимает папка",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить размер директории",
+   "lang": "ru"
+  },
+  {
+   "text": "du размер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `du` with the `-sh` flags to get a single summary line for the directory in human-readable format (e.g., 1.5G).",
+   "cmd": "du -sh <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the directory you want to check.",
+     "example": "~/Documents",
+     "discover_cmd": "ls"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show sizes for the directory and all its subdirectories in human-readable format.",
+     "cmd": "du -h <DIRECTORY>",
+     "placeholders": [
+      {
+       "name": "DIRECTORY",
+       "description": "The path to the directory you want to check.",
+       "example": "~/Documents",
+       "discover_cmd": "ls"
+      }
+     ]
+    },
+    {
+     "explain": "Show sizes for the directory and all files and subdirectories within it.",
+     "cmd": "du -ah <DIRECTORY>",
+     "placeholders": [
+      {
+       "name": "DIRECTORY",
+       "description": "The path to the directory you want to check.",
+       "example": "~/Documents",
+       "discover_cmd": "ls"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/du.md",
+  "title": "tldr-pages: du",
+  "license": "CC-BY-4.0"
+ }
+}

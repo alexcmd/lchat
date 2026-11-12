@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-scsi-devices-size",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List SCSI devices with human-readable size",
+ "summary": "Use lsscsi with the --size flag to see a list of SCSI devices along with their storage capacity in a human-readable format (e.g., GB, TB).",
+ "aliases": [
+  {
+   "text": "list scsi devices size",
+   "lang": "en"
+  },
+  {
+   "text": "show scsi drive capacity",
+   "lang": "en"
+  },
+  {
+   "text": "lsscsi -s",
+   "lang": "en"
+  },
+  {
+   "text": "scsi device size",
+   "lang": "en"
+  },
+  {
+   "text": "list scsi devices size",
+   "lang": "ru"
+  },
+  {
+   "text": "show scsi drive capacity",
+   "lang": "ru"
+  },
+  {
+   "text": "lsscsi -s",
+   "lang": "ru"
+  },
+  {
+   "text": "scsi device size",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsscsi with the --size flag to display SCSI devices with their capacity in human-readable units.",
+   "cmd": "lsscsi --size",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lsscsi.md",
+  "title": "tldr-pages: lsscsi",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "bluetooth-fix-corsair-mouse-pairing",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix Corsair Dark Core RGB Pro pairing failure",
+ "summary": "If a Corsair Dark Core mouse fails to pair with an AuthenticationCanceled error, limit the Bluetooth adapter to 1M PHY mode.",
+ "aliases": [
+  {
+   "text": "corsair dark core pairing failed",
+   "lang": "en"
+  },
+  {
+   "text": "authentication canceled bluetooth",
+   "lang": "en"
+  },
+  {
+   "text": "corsair mouse not pairing",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth 2m phy issue",
+   "lang": "en"
+  },
+  {
+   "text": "corsair мышь не подключается",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка аутентификации bluetooth",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bluez"
+  ]
+ },
+ "prerequisites": [
+  "Mouse is in pairing mode",
+  "Bluetooth adapter supports LE"
+ ],
+ "steps": [
+  {
+   "explain": "Check the current PHY settings of the adapter.",
+   "cmd": "btmgmt phy",
+   "risk": "low"
+  },
+  {
+   "explain": "Set the adapter to use only 1M PHY modes, removing LE2M and Coded PHY options. This command forces the adapter to use the more compatible 1M PHY.",
+   "cmd": "sudo btmgmt phy BR1M1SLOT BR1M3SLOT BR1M5SLOT EDR2M1SLOT EDR2M3SLOT EDR2M5SLOT EDR3M1SLOT EDR3M3SLOT EDR3M5SLOT LE1MTX LE1MRX",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "If the mouse is already listed, remove it using bluetoothctl.",
+   "risk": "low"
+  },
+  {
+   "explain": "Put the mouse in pairing mode (switch off, hold profile button, switch to BT) and pair it again using bluetoothctl or your desktop settings.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This setting limits ALL LE devices on the adapter to 1M PHY.",
+  "The kernel may reset this setting on reboot or Bluetooth toggle."
+ ],
+ "rollback": [
+  {
+   "explain": "Restore default PHY settings by powering the adapter off and on, or rebooting.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Bluetooth_mouse#Corsair_Dark_Core_RGB_Pro_fails_to_pair",
+  "title": "Bluetooth mouse",
+  "revision_id": 886731,
+  "license": "GFDL-1.3-or-later"
+ }
+}

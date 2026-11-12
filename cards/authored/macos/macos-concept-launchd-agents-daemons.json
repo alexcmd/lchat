@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "macos-concept-launchd-agents-daemons",
+ "platform": "macos",
+ "kind": "concept",
+ "title": "Understand launchd, launch agents and launch daemons on a Mac",
+ "summary": "launchd is the macOS system manager that starts background programs and keeps them running. Agents run for one user after they log in, while daemons run once for the whole system, usually from startup.",
+ "aliases": [
+  {
+   "text": "what is launchd on mac",
+   "lang": "en"
+  },
+  {
+   "text": "what are launch agents and launch daemons",
+   "lang": "en"
+  },
+  {
+   "text": "difference between launchd agent and daemon",
+   "lang": "en"
+  },
+  {
+   "text": "where are background services stored on mac",
+   "lang": "en"
+  },
+  {
+   "text": "launchd process what is it",
+   "lang": "en"
+  },
+  {
+   "text": "что такое launchd на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое launch agent и launch daemon",
+   "lang": "ru"
+  },
+  {
+   "text": "разница между агентом и демоном в macos",
+   "lang": "ru"
+  },
+  {
+   "text": "где лежат фоновые службы на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "launchd что это за процесс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "launchd is the system manager of macos. It is the first process the Mac starts at boot, and it starts and supervises the background programs that the system and apps need. You do not run launchd yourself.",
+   "risk": "low"
+  },
+  {
+   "explain": "A launch agent runs for one user, after that user logs in. Lists the agents you installed or that apps added for your account. Each .plist file is one agent.",
+   "cmd": "ls ~/Library/LaunchAgents",
+   "risk": "low",
+   "expect": "A list of .plist file names, or 'No such file or directory' if you have no personal agents."
+  },
+  {
+   "explain": "A launch daemon is a system-wide service. It runs once for the whole Mac and does not need anyone to be logged in. Lists the daemons installed by the administrator or by apps.",
+   "cmd": "ls /Library/LaunchDaemons",
+   "risk": "low",
+   "expect": "A list of .plist file names. The list can be empty on a clean Mac."
+  },
+  {
+   "explain": "Shows the jobs launchd has loaded right now, including agents and daemons. The Label column names each job, and PID shows its process number while it runs, or '-' when it is not running at the moment.",
+   "cmd": "launchctl list",
+   "risk": "low",
+   "expect": "A table with three columns: the PID (shown while the job runs), the last exit status and the job label. One row per loaded job."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-list-launch-agents",
+  "macos-load-launch-agent",
+  "macos-unload-launch-agent",
+  "macos-start-launch-agent",
+  "macos-stop-launch-agent"
+ ],
+ "source": {
+  "url": "x-man-page://launchd",
+  "title": "launchd manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

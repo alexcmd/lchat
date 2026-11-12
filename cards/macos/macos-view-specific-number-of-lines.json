@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-specific-number-of-lines",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View a specific number of lines from the start of a file",
+ "summary": "Use the `head` command with the `-n` flag to specify exactly how many lines to display from the beginning of a file.",
+ "aliases": [
+  {
+   "text": "head 5 lines",
+   "lang": "en"
+  },
+  {
+   "text": "show first 20 lines",
+   "lang": "en"
+  },
+  {
+   "text": "head -n mac",
+   "lang": "en"
+  },
+  {
+   "text": "custom number of lines head",
+   "lang": "en"
+  },
+  {
+   "text": "сколько строк показать head",
+   "lang": "ru"
+  },
+  {
+   "text": "head -n 10",
+   "lang": "ru"
+  },
+  {
+   "text": "первые 5 строк файла",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить количество строк head",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the `-n` (or `--lines`) flag followed by the number of lines you want to see, then the file path.",
+   "cmd": "head -n <NUMBER> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NUMBER",
+     "description": "The number of lines to display.",
+     "example": "5"
+    },
+    {
+     "name": "FILE",
+     "description": "The path to the text file.",
+     "example": "~/Documents/notes.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "You can also use the long form `--lines` instead of `-n`.",
+     "cmd": "head --lines <NUMBER> <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "NUMBER",
+       "description": "The number of lines to display.",
+       "example": "5"
+      },
+      {
+       "name": "FILE",
+       "description": "The path to the text file.",
+       "example": "~/Documents/notes.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/head.md",
+  "title": "tldr-pages: head",
+  "license": "CC-BY-4.0"
+ }
+}

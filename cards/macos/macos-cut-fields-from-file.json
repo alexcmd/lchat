@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "macos-cut-fields-from-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Extract specific fields or characters from a file",
+ "summary": "Use the `cut` command to extract specific columns or characters from a text file. This is useful for pulling out just the data you need from structured files like CSVs or logs.",
+ "aliases": [
+  {
+   "text": "extract column from file",
+   "lang": "en"
+  },
+  {
+   "text": "cut fields from csv",
+   "lang": "en"
+  },
+  {
+   "text": "get specific characters from file",
+   "lang": "en"
+  },
+  {
+   "text": "извлечь колонку из файла",
+   "lang": "ru"
+  },
+  {
+   "text": "cut по разделителю",
+   "lang": "ru"
+  },
+  {
+   "text": "вырезать столбец из файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Extract specific characters (e.g., 5th to 10th) from each line of a file.",
+   "cmd": "cut -c 5-10 <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to process",
+     "example": "data.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Extract specific fields (columns) separated by a delimiter (default is TAB).",
+     "cmd": "cut -f 2,6 <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the text file you want to process",
+       "example": "data.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/cut.md",
+  "title": "tldr-pages: cut",
+  "license": "CC-BY-4.0"
+ }
+}

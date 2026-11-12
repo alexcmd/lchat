@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "macos-cut-fields-from-command-output",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Extract specific fields from command output",
+ "summary": "Use `cut` with pipes to filter the output of another command. This helps you clean up long command outputs by showing only the relevant columns or characters.",
+ "aliases": [
+  {
+   "text": "cut command output",
+   "lang": "en"
+  },
+  {
+   "text": "filter command output columns",
+   "lang": "en"
+  },
+  {
+   "text": "cut from pipe",
+   "lang": "en"
+  },
+  {
+   "text": "обрезать вывод команды",
+   "lang": "ru"
+  },
+  {
+   "text": "cut из пайпа",
+   "lang": "ru"
+  },
+  {
+   "text": "выделить колонку из вывода",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of a command to `cut` to extract specific fields using a delimiter.",
+   "cmd": "<COMMAND> | cut -d \"<DELIMITER>\" -f <FIELDS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command whose output you want to filter",
+     "example": "ls -l"
+    },
+    {
+     "name": "DELIMITER",
+     "description": "The character separating fields (e.g., \",\" or \" \")",
+     "example": " "
+    },
+    {
+     "name": "FIELDS",
+     "description": "Field numbers to extract (e.g., \"1-3\" for first three fields)",
+     "example": "1-3"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Extract specific characters from each line of the command output.",
+     "cmd": "<COMMAND> | cut -c <CHARACTERS>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The command whose output you want to filter",
+       "example": "echo \"Hello World\""
+      },
+      {
+       "name": "CHARACTERS",
+       "description": "Character positions to extract (e.g., \"5\" or \"5-10\")",
+       "example": "5"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/cut.md",
+  "title": "tldr-pages: cut",
+  "license": "CC-BY-4.0"
+ }
+}

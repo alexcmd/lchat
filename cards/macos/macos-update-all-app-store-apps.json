@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-update-all-app-store-apps",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Update all Mac App Store apps",
+ "summary": "Install all pending updates for applications installed from the Mac App Store. This keeps your apps up to date without opening the App Store interface.",
+ "aliases": [
+  {
+   "text": "update all app store apps",
+   "lang": "en"
+  },
+  {
+   "text": "mas upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "update mac apps",
+   "lang": "en"
+  },
+  {
+   "text": "обновить все приложения app store",
+   "lang": "ru"
+  },
+  {
+   "text": "mas upgrade",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить mac приложения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mas"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install all pending updates for Mac App Store applications.",
+   "cmd": "mas upgrade",
+   "risk": "medium",
+   "expect": "All outdated apps are updated."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "You cannot easily downgrade apps via mas. If an update causes issues, you may need to reinstall an older version from a backup or contact the developer.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Updating apps may require an active internet connection and a signed-in Apple ID."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mas.md",
+  "title": "tldr-pages: mas",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-charger-wattage",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check connected charger wattage",
+ "summary": "See the maximum wattage negotiated between your Mac, the cable, and the power adapter.",
+ "aliases": [
+  {
+   "text": "check charger wattage",
+   "lang": "en"
+  },
+  {
+   "text": "how many watts is my charger",
+   "lang": "en"
+  },
+  {
+   "text": "mac charging speed watts",
+   "lang": "en"
+  },
+  {
+   "text": "проверить мощность зарядки",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько ватт дает зарядка",
+   "lang": "ru"
+  },
+  {
+   "text": "wattage macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query power data and extract the wattage value.",
+   "cmd": "system_profiler SPPowerDataType | awk '/Wattage/ {print $3}'",
+   "risk": "low",
+   "expect": "A number representing the wattage (e.g., 96)."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/system_profiler.md",
+  "title": "tldr-pages: system_profiler",
+  "license": "CC-BY-4.0"
+ }
+}

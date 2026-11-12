@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-system-hardware-software-info",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View basic hardware and software information",
+ "summary": "Display a quick overview of your Mac's hardware (model, CPU, memory) and software (OS version, uptime) directly in the Terminal.",
+ "aliases": [
+  {
+   "text": "view mac hardware info",
+   "lang": "en"
+  },
+  {
+   "text": "check mac specs",
+   "lang": "en"
+  },
+  {
+   "text": "system_profiler hardware",
+   "lang": "en"
+  },
+  {
+   "text": "show mac model and cpu",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть характеристики мака",
+   "lang": "ru"
+  },
+  {
+   "text": "какой у меня процессор на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "system_profiler SPHardwareDataType",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run system_profiler with specific data types to get a concise report on hardware and software.",
+   "cmd": "system_profiler SPHardwareDataType SPSoftwareDataType",
+   "risk": "low",
+   "expect": "A list of hardware details (Model, Chip, Memory) and software details (System Version, Kernel Version, Uptime)."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/system_profiler.md",
+  "title": "tldr-pages: system_profiler",
+  "license": "CC-BY-4.0"
+ }
+}

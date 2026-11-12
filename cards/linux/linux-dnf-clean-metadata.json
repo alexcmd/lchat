@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-clean-metadata",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clean DNF repository metadata",
+ "summary": "Removes the repository metadata (lists of available packages) from the cache. DNF will download this information again the next time you check for updates.",
+ "aliases": [
+  {
+   "text": "clean dnf metadata",
+   "lang": "en"
+  },
+  {
+   "text": "remove dnf metadata",
+   "lang": "en"
+  },
+  {
+   "text": "dnf clean metadata",
+   "lang": "en"
+  },
+  {
+   "text": "clear repo metadata dnf",
+   "lang": "en"
+  },
+  {
+   "text": "почистить метаданные dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf clean metadata",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить списки пакетов fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to remove repository metadata.",
+   "cmd": "sudo dnf clean metadata",
+   "risk": "low",
+   "needs_root": true
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf-clean.md",
+  "title": "tldr-pages: dnf-clean",
+  "license": "CC-BY-4.0"
+ }
+}

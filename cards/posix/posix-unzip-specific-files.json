@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-unzip-specific-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Extract specific files from a Zip archive",
+ "summary": "Extract only selected files from a .zip archive, ignoring the rest of the contents.",
+ "aliases": [
+  {
+   "text": "extract specific files from zip",
+   "lang": "en"
+  },
+  {
+   "text": "unzip one file",
+   "lang": "en"
+  },
+  {
+   "text": "extract single file from archive",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать один файл из архива",
+   "lang": "ru"
+  },
+  {
+   "text": "unzip конкретный файл",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь файл из zip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Extract only the specified files from the archive. The -j flag ensures files are extracted without their directory structure.",
+   "cmd": "unzip -j <ARCHIVE> <FILE_IN_ARCHIVE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ARCHIVE",
+     "description": "Path to the .zip file",
+     "example": "backup.zip"
+    },
+    {
+     "name": "FILE_IN_ARCHIVE",
+     "description": "Path to the file inside the archive (e.g. folder/file.txt)",
+     "example": "docs/readme.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/unzip.md",
+  "title": "tldr-pages: unzip",
+  "license": "CC-BY-4.0"
+ }
+}

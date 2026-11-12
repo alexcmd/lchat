@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-convert-image-color-profile",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Convert image color profile to RGB",
+ "summary": "Use `sips` to convert an image from CMYK to RGB color space. This is useful for preparing images for web or screen display.",
+ "aliases": [
+  {
+   "text": "convert cmyk to rgb",
+   "lang": "en"
+  },
+  {
+   "text": "change color profile",
+   "lang": "en"
+  },
+  {
+   "text": "fix image colors",
+   "lang": "en"
+  },
+  {
+   "text": "rgb conversion",
+   "lang": "en"
+  },
+  {
+   "text": "конвертировать cmyk в rgb",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить цветовой профиль",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `sips` with `--matchTo` pointing to the Generic RGB Profile and `--out` to specify an output directory. This prevents modifying the original file.",
+   "cmd": "sips --matchTo \"/System/Library/ColorSync/Profiles/Generic RGB Profile.icc\" <IMAGE_FILE> --out <OUTPUT_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IMAGE_FILE",
+     "description": "Path to the source image",
+     "example": "image.tiff"
+    },
+    {
+     "name": "OUTPUT_DIR",
+     "description": "Directory to save the converted image",
+     "example": "~/Desktop"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sips.md",
+  "title": "tldr-pages: sips",
+  "license": "CC-BY-4.0"
+ }
+}

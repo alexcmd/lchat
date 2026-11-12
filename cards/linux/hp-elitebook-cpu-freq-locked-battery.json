@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "hp-elitebook-cpu-freq-locked-battery",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix CPU frequency locked at 400MHz on HP EliteBook 845 G10",
+ "summary": "On HP EliteBook 845 G10 with AMD Ryzen 7 PRO 7840HS, the CPU may lock to 400-544MHz when unplugged from AC power. Blacklisting the amd_pmf module fixes this.",
+ "aliases": [
+  {
+   "text": "hp elitebook cpu slow on battery",
+   "lang": "en"
+  },
+  {
+   "text": "cpu locked 400mhz hp elitebook",
+   "lang": "en"
+  },
+  {
+   "text": "amd_pmf issue hp elitebook",
+   "lang": "en"
+  },
+  {
+   "text": "hp elitebook 845 g10 cpu throttle",
+   "lang": "en"
+  },
+  {
+   "text": "процессор тормозит hp elitebook",
+   "lang": "ru"
+  },
+  {
+   "text": "cpu 400 мhz hp elitebook",
+   "lang": "ru"
+  },
+  {
+   "text": "amd_pmf блокировка частоты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "HP EliteBook 845 G10 with AMD Ryzen 7 PRO 7840HS"
+ ],
+ "steps": [
+  {
+   "explain": "Create a modprobe configuration file to blacklist the amd-pmf module.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the system to apply the module blacklist.",
+   "cmd": "sudo systemctl reboot",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the blacklist entry from /etc/modprobe.d/cpufreq.conf and reboot.",
+   "cmd": "sudo systemctl reboot",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This disables the AMD Platform Management Framework, which may affect other power management features."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Laptop/HP#CPU_Freq_locked_at_400-500MHz_after_AC_power_unplugged",
+  "title": "Laptop/HP",
+  "revision_id": 887988,
+  "license": "GFDL-1.3-or-later"
+ }
+}

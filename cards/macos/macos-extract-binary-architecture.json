@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "macos-extract-binary-architecture",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Extract a specific architecture from a universal binary",
+ "summary": "If you have a universal binary (containing code for multiple CPUs), you can extract just the version for one architecture, such as Apple Silicon (arm64) or Intel (x86_64). This creates a smaller, single-architecture file.",
+ "aliases": [
+  {
+   "text": "extract arm64 from universal binary",
+   "lang": "en"
+  },
+  {
+   "text": "lipo thin",
+   "lang": "en"
+  },
+  {
+   "text": "get intel version of app",
+   "lang": "en"
+  },
+  {
+   "text": "извлечь архитектуру из универсального бинарника",
+   "lang": "ru"
+  },
+  {
+   "text": "lipo thin macos",
+   "lang": "ru"
+  },
+  {
+   "text": "получить версию для apple silicon",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `lipo` with `-thin` to extract the code for a specific architecture from a universal binary and save it to a new file.",
+   "cmd": "lipo <BINARY_FILE> -thin <ARCHITECTURE> -output <OUTPUT_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "BINARY_FILE",
+     "description": "Path to the universal binary file",
+     "example": "/Applications/MyApp.app/Contents/MacOS/MyApp"
+    },
+    {
+     "name": "ARCHITECTURE",
+     "description": "The architecture to extract (e.g., arm64, x86_64, arm64e)",
+     "example": "arm64"
+    },
+    {
+     "name": "OUTPUT_FILE",
+     "description": "Path where the extracted single-architecture file will be saved",
+     "example": "/tmp/MyApp-arm64"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/lipo.md",
+  "title": "tldr-pages: lipo",
+  "license": "CC-BY-4.0"
+ }
+}

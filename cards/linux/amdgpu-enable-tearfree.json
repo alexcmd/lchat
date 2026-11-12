@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "amdgpu-enable-tearfree",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable TearFree rendering for AMDGPU in Xorg",
+ "summary": "Reduce screen tearing by enabling hardware page flipping via Xorg configuration or temporary xrandr command.",
+ "aliases": [
+  {
+   "text": "amd tearfree",
+   "lang": "en"
+  },
+  {
+   "text": "fix screen tearing amd",
+   "lang": "en"
+  },
+  {
+   "text": "xorg tearfree amdgpu",
+   "lang": "en"
+  },
+  {
+   "text": "убрать разрывы экрана amd",
+   "lang": "ru"
+  },
+  {
+   "text": "tearfree настройка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "Xorg display server",
+  "amdgpu driver installed"
+ ],
+ "steps": [
+  {
+   "explain": "Identify your display output name (e.g., HDMI-A-0, DisplayPort-0).",
+   "cmd": "xrandr -q",
+   "risk": "low",
+   "expect": "List of connected outputs."
+  },
+  {
+   "explain": "Enable TearFree for the specific output. Replace <OUTPUT_NAME> with the name from the previous step.",
+   "cmd": "xrandr --output <OUTPUT_NAME> --set TearFree on",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_NAME",
+     "description": "The name of the display output (e.g., HDMI-A-0)",
+     "example": "HDMI-A-0",
+     "discover_cmd": "xrandr -q"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Permanently enable TearFree by creating an Xorg configuration file.",
+     "cmd": "",
+     "gui": "Create /etc/X11/xorg.conf.d/20-amdgpu.conf with content: Section \"OutputClass\" Identifier \"AMD\" MatchDriver \"amdgpu\" Driver \"amdgpu\" Option \"TearFree\" \"true\" EndSection",
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Disable TearFree temporarily.",
+   "cmd": "",
+   "gui": "Run xrandr --output <OUTPUT_NAME> --set TearFree off",
+   "risk": "low"
+  },
+  {
+   "explain": "Remove the configuration file if created.",
+   "cmd": "",
+   "gui": "Delete /etc/X11/xorg.conf.d/20-amdgpu.conf",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Permanent configuration requires creating a file in /etc/X11/xorg.conf.d/ and restarting Xorg."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/AMDGPU#Tear_free_rendering",
+  "title": "AMDGPU",
+  "revision_id": 888488,
+  "license": "GFDL-1.3-or-later"
+ }
+}

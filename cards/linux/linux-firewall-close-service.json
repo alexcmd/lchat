@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "linux-firewall-close-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Permanently close a service in firewall",
+ "summary": "Block traffic for a specific service in a firewall zone permanently.",
+ "aliases": [
+  {
+   "text": "close port in firewall",
+   "lang": "en"
+  },
+  {
+   "text": "block service in firewall",
+   "lang": "en"
+  },
+  {
+   "text": "firewall-cmd remove service",
+   "lang": "en"
+  },
+  {
+   "text": "close firewall port",
+   "lang": "en"
+  },
+  {
+   "text": "закрыть порт в firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "заблокировать сервис firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "firewall-cmd --remove-service",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "firewalld"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove a service from the permanent configuration of a specific zone. This does not take effect until you reload firewalld.",
+   "cmd": "sudo firewall-cmd --permanent --zone <ZONE> --remove-service <SERVICE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ZONE",
+     "description": "The firewall zone to modify",
+     "example": "public"
+    },
+    {
+     "name": "SERVICE",
+     "description": "The service name to block",
+     "example": "http"
+    }
+   ]
+  },
+  {
+   "explain": "Reload firewalld to apply the permanent changes immediately.",
+   "cmd": "sudo firewall-cmd --reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Add the service back to the permanent configuration.",
+   "cmd": "sudo firewall-cmd --permanent --zone <ZONE> --add-service <SERVICE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ZONE",
+     "description": "The firewall zone modified",
+     "example": "public"
+    },
+    {
+     "name": "SERVICE",
+     "description": "The service name restored",
+     "example": "http"
+    }
+   ]
+  },
+  {
+   "explain": "Reload firewalld to apply the rollback.",
+   "cmd": "sudo firewall-cmd --reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Closing a service might disconnect legitimate users or applications relying on it."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/firewall-cmd.md",
+  "title": "tldr-pages: firewall-cmd",
+  "license": "CC-BY-4.0"
+ }
+}

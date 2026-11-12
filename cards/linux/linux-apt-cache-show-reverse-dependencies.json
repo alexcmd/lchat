@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-cache-show-reverse-dependencies",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show packages that depend on a package",
+ "summary": "Find out which other installed or available packages rely on this specific package.",
+ "aliases": [
+  {
+   "text": "reverse dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "what uses this package",
+   "lang": "en"
+  },
+  {
+   "text": "apt-cache rdepends",
+   "lang": "en"
+  },
+  {
+   "text": "packages depending on",
+   "lang": "en"
+  },
+  {
+   "text": "обратные зависимости",
+   "lang": "ru"
+  },
+  {
+   "text": "кто использует этот пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "зависимые пакеты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List packages that require the specified package as a dependency.",
+   "cmd": "apt-cache rdepends <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package",
+     "example": "libc6"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-cache.md",
+  "title": "tldr-pages: apt-cache",
+  "license": "CC-BY-4.0"
+ }
+}

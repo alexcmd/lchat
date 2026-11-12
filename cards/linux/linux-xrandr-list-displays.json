@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "linux-xrandr-list-displays",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List connected displays and available resolutions",
+ "summary": "Show which monitors are connected to your computer and what screen resolutions they support. This is the first step before changing any display settings.",
+ "aliases": [
+  {
+   "text": "list displays linux",
+   "lang": "en"
+  },
+  {
+   "text": "check connected monitors",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr list outputs",
+   "lang": "en"
+  },
+  {
+   "text": "what resolutions are available",
+   "lang": "en"
+  },
+  {
+   "text": "show screen info linux",
+   "lang": "en"
+  },
+  {
+   "text": "spiski monitorov linux",
+   "lang": "ru"
+  },
+  {
+   "text": "kakie monitory podklyucheny",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr query",
+   "lang": "ru"
+  },
+  {
+   "text": "razresheniya ekrana linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xrandr"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the X server to display the current state of all outputs, including connected monitors and their supported resolutions.",
+   "cmd": "xrandr --query",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Short form of the query command.",
+     "cmd": "xrandr -q",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xrandr.md",
+  "title": "tldr-pages: xrandr",
+  "license": "CC-BY-4.0"
+ }
+}

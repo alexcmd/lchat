@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "posix-brew-install-package",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Install a software package using Homebrew",
+ "summary": "Use Homebrew to install command-line tools (formulae) or graphical applications (casks). This is the standard way to add new software on macOS and many Linux distributions.",
+ "aliases": [
+  {
+   "text": "install package with brew",
+   "lang": "en"
+  },
+  {
+   "text": "brew install",
+   "lang": "en"
+  },
+  {
+   "text": "how to install app with homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "add software via brew",
+   "lang": "en"
+  },
+  {
+   "text": "установить программу через brew",
+   "lang": "ru"
+  },
+  {
+   "text": "brew install пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить софт через homebrew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "prerequisites": [
+  "Homebrew is installed on the system"
+ ],
+ "steps": [
+  {
+   "explain": "Install the latest stable version of a specific formula (command-line tool) or cask (graphical app).",
+   "cmd": "brew install <PACKAGE_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the formula or cask to install",
+     "example": "wget",
+     "discover_cmd": "brew search <SEARCH_TERM>"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "brew list",
+   "expect": "The installed package name appears in the list"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Homebrew does not provide a simple undo command on this page. To remove the package, you must use the uninstall command manually.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Installing software modifies your system. Ensure you trust the source of the package."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/brew.md",
+  "title": "tldr-pages: brew",
+  "license": "CC-BY-4.0"
+ }
+}

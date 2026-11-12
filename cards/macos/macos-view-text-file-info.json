@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-text-file-info",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View information about a text file",
+ "summary": "Check details about a text file such as its format, size, and encoding using the `textutil` command. This helps identify what kind of file you have before converting it.",
+ "aliases": [
+  {
+   "text": "textutil info",
+   "lang": "en"
+  },
+  {
+   "text": "check text file format",
+   "lang": "en"
+  },
+  {
+   "text": "view rtf file info",
+   "lang": "en"
+  },
+  {
+   "text": "какая информация о текстовом файле",
+   "lang": "ru"
+  },
+  {
+   "text": "textutil info",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить формат текстового файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display metadata and format information about the specified file.",
+   "cmd": "textutil -info <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file (e.g., .rtf, .txt, .html)",
+     "example": "document.rtf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/textutil.md",
+  "title": "tldr-pages: textutil",
+  "license": "CC-BY-4.0"
+ }
+}

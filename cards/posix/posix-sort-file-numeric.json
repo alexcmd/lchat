@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-sort-file-numeric",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sort lines of a text file numerically",
+ "summary": "Sort the lines of a text file by numeric value instead of alphabetically. Useful for lists of numbers where '10' should come after '2'.",
+ "aliases": [
+  {
+   "text": "sort numbers",
+   "lang": "en"
+  },
+  {
+   "text": "numeric sort",
+   "lang": "en"
+  },
+  {
+   "text": "sort file numerically",
+   "lang": "en"
+  },
+  {
+   "text": "sort by number",
+   "lang": "en"
+  },
+  {
+   "text": "sortieren numerisch",
+   "lang": "de"
+  },
+  {
+   "text": "ordenar numerico",
+   "lang": "es"
+  },
+  {
+   "text": "sortir numerique",
+   "lang": "fr"
+  },
+  {
+   "text": "sort numbers list",
+   "lang": "en"
+  },
+  {
+   "text": "sort numeric order",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --numeric-sort flag to sort lines based on their numeric value.",
+   "cmd": "sort --numeric-sort <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file containing numbers.",
+     "example": "scores.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sort.md",
+  "title": "tldr-pages: sort",
+  "license": "CC-BY-4.0"
+ }
+}

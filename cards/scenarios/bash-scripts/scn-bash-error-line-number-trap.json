@@ -1,0 +1,163 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-error-line-number-trap",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Show the line number and command where a bash script failed",
+  "summary": "Adds a trap that runs whenever a command fails. It prints the failing command and its line number in the script, which makes a broken script much quicker to debug.",
+  "aliases": [
+    {
+      "text": "bash trap ERR line number",
+      "lang": "en"
+    },
+    {
+      "text": "show line number when a bash script fails",
+      "lang": "en"
+    },
+    {
+      "text": "bash error handling with trap",
+      "lang": "en"
+    },
+    {
+      "text": "debug bash script which line failed",
+      "lang": "en"
+    },
+    {
+      "text": "trap err lineno bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash script print failing command",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт показывает номер строки где ошибка",
+      "lang": "ru"
+    },
+    {
+      "text": "как найти в bash скрипте строку с ошибкой",
+      "lang": "ru"
+    },
+    {
+      "text": "bash обработка ошибок trap ERR",
+      "lang": "ru"
+    },
+    {
+      "text": "bash скрипт при ошибке печатает команду и номер строки",
+      "lang": "ru"
+    },
+    {
+      "text": "отладка bash скрипта номер строки",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "error-trap.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "error-trap.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "error-trap.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Create two settings files: one with a port line and one without.",
+      "risk": "low",
+      "cmd": "printf 'port=8080\\n' > good.conf && printf 'host=example\\n' > bad.conf",
+      "expect": "No output. good.conf and bad.conf now exist."
+    },
+    {
+      "explain": "Check the file that has the port line. Nothing fails, so the trap stays silent.",
+      "risk": "low",
+      "cmd": "./<FILE> good.conf; echo exit code $?",
+      "expect": "checking good.conf, port setting found, exit code 0",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "error-trap.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the file without the port line. The failing grep is reported with its line number.",
+      "risk": "low",
+      "cmd": "./<FILE> <CONFIG_FILE>; echo exit code $?",
+      "expect": "error: 'grep -q ...' failed with exit code 1 at line 21, then exit code 1",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "error-trap.sh"
+        },
+        {
+          "name": "CONFIG_FILE",
+          "description": "The settings file to check",
+          "example": "bad.conf"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "The ERR trap does not fire for a command in an if or while condition, or for a command followed by || or &&. Handle those expected failures yourself.",
+    "set -E makes the trap work inside functions too. Without it, a failure inside a function may go unreported.",
+    "$LINENO gives the line number of the failing command. The number changes when you add or remove lines above it."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "error-trap.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# error-trap.sh - report the line number and command of any failing command.\n# Usage: ./error-trap.sh CONFIG_FILE\n# It checks that CONFIG_FILE contains a line starting with port=.\n# set -E lets the ERR trap work inside functions too.\n\nset -Eeuo pipefail\n\n# on_error runs when any command fails. Read $? first: anything else\n# that runs before it would overwrite the exit code.\non_error() {\n    local exit_code=$?\n    local line=$1                    # the trap passes $LINENO as the first argument\n    echo \"error: '$BASH_COMMAND' failed with exit code $exit_code at line $line\" >&2\n    exit \"$exit_code\"\n}\ntrap 'on_error $LINENO' ERR\n\ncheck_port() {\n    # grep -q prints nothing and returns 1 when there is no match.\n    grep -q '^port=' \"$1\"\n}\n\necho \"checking $1\"\ncheck_port \"$1\"\necho \"port setting found\"\n",
+    "usage": "./error-trap.sh CONFIG_FILE"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

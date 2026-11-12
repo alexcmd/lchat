@@ -1,0 +1,127 @@
+{
+ "schema_version": 2,
+ "id": "posix-move-rename-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Move or rename a file or directory",
+ "summary": "Use the mv command to move files to a new location or rename them. If the target is a directory, the file is moved inside it; otherwise, it is renamed.",
+ "aliases": [
+  {
+   "text": "move file",
+   "lang": "en"
+  },
+  {
+   "text": "rename file",
+   "lang": "en"
+  },
+  {
+   "text": "mv command",
+   "lang": "en"
+  },
+  {
+   "text": "переместить файл",
+   "lang": "ru"
+  },
+  {
+   "text": "переименовать файл",
+   "lang": "ru"
+  },
+  {
+   "text": "команда mv",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Move a file or directory to a new path. If the target path does not exist as a directory, the source is renamed to the target name.",
+   "cmd": "mv <SOURCE> <TARGET>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE",
+     "description": "Path to the file or directory you want to move or rename",
+     "example": "old_name.txt"
+    },
+    {
+     "name": "TARGET",
+     "description": "New name or path for the file/directory",
+     "example": "new_name.txt"
+    }
+   ]
+  },
+  {
+   "explain": "Move a file or directory into an existing directory. The filename remains unchanged.",
+   "cmd": "mv <SOURCE> <EXISTING_DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE",
+     "description": "Path to the file or directory you want to move",
+     "example": "file.txt"
+    },
+    {
+     "name": "EXISTING_DIRECTORY",
+     "description": "Path to the destination directory",
+     "example": "/home/user/documents"
+    }
+   ]
+  },
+  {
+   "explain": "Move multiple files into an existing directory at once.",
+   "cmd": "mv <SOURCE_1> <SOURCE_2> <EXISTING_DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE_1",
+     "description": "Path to the first file",
+     "example": "file1.txt"
+    },
+    {
+     "name": "SOURCE_2",
+     "description": "Path to the second file",
+     "example": "file2.txt"
+    },
+    {
+     "name": "EXISTING_DIRECTORY",
+     "description": "Path to the destination directory",
+     "example": "/home/user/documents"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Move the file back to its original location using the reverse mv command.",
+   "cmd": "mv <TARGET> <SOURCE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "TARGET",
+     "description": "Current path of the moved file",
+     "example": "new_name.txt"
+    },
+    {
+     "name": "SOURCE",
+     "description": "Original path of the file",
+     "example": "old_name.txt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Moving a file overwrites the target if it already exists, unless you use flags like --interactive or --no-clobber."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/mv.md",
+  "title": "tldr-pages: mv",
+  "license": "CC-BY-4.0"
+ }
+}

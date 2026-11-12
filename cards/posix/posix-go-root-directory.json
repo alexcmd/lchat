@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-go-root-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Go to the root directory",
+ "summary": "Navigate to the top-level directory of the file system.",
+ "aliases": [
+  {
+   "text": "cd root",
+   "lang": "en"
+  },
+  {
+   "text": "go to root directory",
+   "lang": "en"
+  },
+  {
+   "text": "cd /",
+   "lang": "en"
+  },
+  {
+   "text": "top level directory",
+   "lang": "en"
+  },
+  {
+   "text": "filesystem root",
+   "lang": "en"
+  },
+  {
+   "text": "корневая директория",
+   "lang": "ru"
+  },
+  {
+   "text": "cd /",
+   "lang": "ru"
+  },
+  {
+   "text": "в корень",
+   "lang": "ru"
+  },
+  {
+   "text": "главная папка системы",
+   "lang": "ru"
+  },
+  {
+   "text": "перейти в корень",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the current directory to the root directory.",
+   "cmd": "cd /",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cd.md",
+  "title": "tldr-pages: cd",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,163 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-count-extensions-arrays",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Count how many files of each type a folder contains",
+  "summary": "Walks through a folder and tallies the files by extension, such as how many .txt or .py files there are. It uses an associative array (a list with text keys) and an ordinary array.",
+  "aliases": [
+    {
+      "text": "count file types in a folder bash",
+      "lang": "en"
+    },
+    {
+      "text": "count files by extension bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash associative array example",
+      "lang": "en"
+    },
+    {
+      "text": "how many txt and md files are in a folder script",
+      "lang": "en"
+    },
+    {
+      "text": "bash array tutorial with files",
+      "lang": "en"
+    },
+    {
+      "text": "bash script statistics of file extensions",
+      "lang": "en"
+    },
+    {
+      "text": "подсчитать файлы по расширению bash",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт который считает сколько файлов каждого типа в папке",
+      "lang": "ru"
+    },
+    {
+      "text": "bash массивы ассоциативные пример",
+      "lang": "ru"
+    },
+    {
+      "text": "сколько .txt и .py файлов в каталоге скрипт",
+      "lang": "ru"
+    },
+    {
+      "text": "статистика расширений файлов в папке скрипт",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "count-extensions.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "count-extensions.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "count-extensions.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Create a small folder tree with several file types, including a name with a space.",
+      "risk": "low",
+      "cmd": "mkdir -p project/src project/docs && touch project/a.txt project/B.TXT project/src/main.py \"project/src/my module.py\" project/docs/readme.md project/Makefile",
+      "expect": "No output. The folder project now holds six files."
+    },
+    {
+      "explain": "Count the files by extension. Upper and lower case count together.",
+      "risk": "low",
+      "cmd": "./<FILE> <FOLDER>",
+      "expect": "EXTENSION FILES, then txt 2, py 2, md 1, and (none) 1 for Makefile, in alphabetical order",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "count-extensions.sh"
+        },
+        {
+          "name": "FOLDER",
+          "description": "The folder to count, here the test folder",
+          "example": "project"
+        }
+      ]
+    },
+    {
+      "explain": "Try an empty folder. The script reports that it found no files.",
+      "risk": "low",
+      "cmd": "mkdir empty && ./<FILE> empty",
+      "expect": "no files found in empty",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "count-extensions.sh"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "Associative arrays need bash 4 or newer. macOS ships bash 3.2, where declare -A does not exist; install a newer bash first.",
+    "A file without a dot is counted as (none). A name such as .bashrc counts as the extension bashrc.",
+    "The count includes files in all subfolders, because find searches recursively."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "count-extensions.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# count-extensions.sh - count files per extension with an associative array.\n# Usage: ./count-extensions.sh DIRECTORY\n# Searches the folder recursively. Extensions are compared in lower case.\n# Needs bash 4 or newer (associative arrays, ${var,,}).\n\nset -euo pipefail\n\nif (( $# != 1 )) || [[ ! -d $1 ]]; then\n    echo \"usage: $0 DIRECTORY\" >&2\n    exit 2\nfi\nDIR=$1\n\n# An associative array maps a text key (the extension) to a number (the count).\ndeclare -A count=()\n# A normal (indexed) array keeps the list of extensions we have seen.\nseen=()\n\n# find -print0 ends each name with a NUL byte, and read -d '' splits on NUL,\n# so names with spaces or other odd characters stay in one piece.\nwhile IFS= read -r -d '' file; do\n    base=${file##*/}                  # the file name without its folder\n    if [[ $base == *.* ]]; then\n        ext=${base##*.}               # everything after the last dot\n    else\n        ext=\"(none)\"\n    fi\n    ext=${ext,,}                      # lower case: TXT and txt are the same\n\n    if [[ -z ${count[$ext]+set} ]]; then   # first time we see this extension\n        seen+=(\"$ext\")\n        count[$ext]=0\n    fi\n    current=${count[$ext]}\n    count[$ext]=$((current + 1))\ndone < <(find \"$DIR\" -type f -print0)\n\nif (( ${#seen[@]} == 0 )); then\n    echo \"no files found in $DIR\"\n    exit 0\nfi\n\n# Print the extensions in alphabetical order, one per line.\nmapfile -t sorted < <(printf '%s\\n' \"${seen[@]}\" | sort)\nprintf '%-10s %s\\n' \"EXTENSION\" \"FILES\"\nfor ext in \"${sorted[@]}\"; do\n    printf '%-10s %s\\n' \"$ext\" \"${count[$ext]}\"\ndone\n",
+    "usage": "./count-extensions.sh DIRECTORY"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

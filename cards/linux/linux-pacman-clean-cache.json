@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-clean-cache",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clear the pacman cache on Arch Linux",
+ "summary": "Remove all downloaded package files from the cache to free up disk space. This deletes the .pkg.tar.zst files stored by pacman.",
+ "aliases": [
+  {
+   "text": "clear pacman cache",
+   "lang": "en"
+  },
+  {
+   "text": "clean package cache arch",
+   "lang": "en"
+  },
+  {
+   "text": "free disk space arch",
+   "lang": "en"
+  },
+  {
+   "text": "очистить кэш pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить кэш пакетов арх",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman -Scc",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Empty the entire pacman cache. This removes all downloaded package files.",
+   "cmd": "sudo pacman -Scc",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "The cache cannot be restored once deleted. You will need to re-download packages if you need to reinstall them.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Clearing the cache means you cannot reinstall a package without downloading it again.",
+  "This action requires administrator privileges."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman.md",
+  "title": "tldr-pages: pacman",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-file-with-less",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View a text file page by page",
+ "summary": "Open a text file in the terminal to read it comfortably, scrolling through it without opening a heavy editor.",
+ "aliases": [
+  {
+   "text": "view file in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "read text file command line",
+   "lang": "en"
+  },
+  {
+   "text": "how to open file in less",
+   "lang": "en"
+  },
+  {
+   "text": "scroll through log file terminal",
+   "lang": "en"
+  },
+  {
+   "text": "less command usage",
+   "lang": "en"
+  },
+  {
+   "text": "как открыть файл в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "читать текстовый файл в консоли",
+   "lang": "ru"
+  },
+  {
+   "text": "команда less",
+   "lang": "ru"
+  },
+  {
+   "text": "просмотр лога в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the specified file in the `less` viewer.",
+   "cmd": "less <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to read",
+     "example": "notes.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/less.md",
+  "title": "tldr-pages: less",
+  "license": "CC-BY-4.0"
+ }
+}

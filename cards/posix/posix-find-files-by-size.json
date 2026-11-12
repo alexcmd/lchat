@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-files-by-size",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find files by size range",
+ "summary": "Find files that are larger or smaller than specific sizes, optionally limiting how deep the search goes.",
+ "aliases": [
+  {
+   "text": "find files by size",
+   "lang": "en"
+  },
+  {
+   "text": "find large files",
+   "lang": "en"
+  },
+  {
+   "text": "find files bigger than 10mb",
+   "lang": "en"
+  },
+  {
+   "text": "как найти файлы по размеру",
+   "lang": "ru"
+  },
+  {
+   "text": "найти большие файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск файлов по весу",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Find files in the directory with a size between the specified limits. Use -maxdepth to limit recursion.",
+   "cmd": "find <DIRECTORY> -maxdepth <DEPTH> -size <MIN_SIZE> -size <MAX_SIZE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The folder to search in",
+     "example": "."
+    },
+    {
+     "name": "DEPTH",
+     "description": "Maximum depth to search (e.g. 1 for current dir only)",
+     "example": "1"
+    },
+    {
+     "name": "MIN_SIZE",
+     "description": "Minimum size (e.g. +500k for >500KB)",
+     "example": "+500k"
+    },
+    {
+     "name": "MAX_SIZE",
+     "description": "Maximum size (e.g. -10M for <10MB)",
+     "example": "-10M"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/find.md",
+  "title": "tldr-pages: find",
+  "license": "CC-BY-4.0"
+ }
+}

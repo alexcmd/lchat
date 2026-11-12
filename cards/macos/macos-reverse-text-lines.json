@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "macos-reverse-text-lines",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Reverse the characters in each line of a text file or command output",
+ "summary": "Use the `rev` command to flip the order of characters in every line of a file or the output of another command. This is often used for simple text transformations or debugging.",
+ "aliases": [
+  {
+   "text": "reverse text lines mac",
+   "lang": "en"
+  },
+  {
+   "text": "flip characters in file",
+   "lang": "en"
+  },
+  {
+   "text": "rev command macos",
+   "lang": "en"
+  },
+  {
+   "text": "reverse string terminal",
+   "lang": "en"
+  },
+  {
+   "text": "kak povernut tekst na make",
+   "lang": "ru"
+  },
+  {
+   "text": "povernut stroki v file",
+   "lang": "ru"
+  },
+  {
+   "text": "rev komanda macos",
+   "lang": "ru"
+  },
+  {
+   "text": "obratnyy tekst terminal",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `rev` followed by the path to your file to print the reversed lines to the terminal.",
+   "cmd": "rev <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the text file you want to reverse.",
+     "example": "~/Documents/notes.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Pipe the output of any command into `rev` to reverse its output line by line.",
+     "cmd": "<COMMAND> | rev",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The command whose output you want to reverse.",
+       "example": "ls"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/rev.md",
+  "title": "tldr-pages: rev",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-keyboard-layouts",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List available keyboard layouts and options",
+ "summary": "Find the correct codes for keyboard layouts, variants, and switching options using localectl. Use these codes with setxkbmap to configure your keyboard.",
+ "aliases": [
+  {
+   "text": "list keyboard layouts",
+   "lang": "en"
+  },
+  {
+   "text": "find keyboard layout codes",
+   "lang": "en"
+  },
+  {
+   "text": "show available keymaps",
+   "lang": "en"
+  },
+  {
+   "text": "list x11 keymap options",
+   "lang": "en"
+  },
+  {
+   "text": "какие есть раскладки клавиатуры",
+   "lang": "ru"
+  },
+  {
+   "text": "список раскладок клавиатуры",
+   "lang": "ru"
+  },
+  {
+   "text": "коды раскладок клавиатуры",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "List all available keyboard layouts.",
+   "cmd": "localectl list-x11-keymap-layouts",
+   "risk": "low"
+  },
+  {
+   "explain": "List variants for a specific layout (e.g., 'de' for German).",
+   "cmd": "localectl list-x11-keymap-variants <LAYOUT_CODE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LAYOUT_CODE",
+     "description": "The layout code to list variants for.",
+     "example": "de",
+     "discover_cmd": "localectl list-x11-keymap-layouts"
+    }
+   ]
+  },
+  {
+   "explain": "List available switching options (like Alt+Caps to switch layouts).",
+   "cmd": "localectl list-x11-keymap-options | grep grp:",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/setxkbmap.md",
+  "title": "tldr-pages: setxkbmap",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-set-keyboard-layout",
+  "linux-list-keymaps"
+ ]
+}

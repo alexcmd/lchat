@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "posix-npm-install-package",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Install a specific npm package",
+ "summary": "Add a new package to your project. You can specify a version or install it as a development dependency.",
+ "aliases": [
+  {
+   "text": "add package to project",
+   "lang": "en"
+  },
+  {
+   "text": "install specific package",
+   "lang": "en"
+  },
+  {
+   "text": "npm install package",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить пакет в проект",
+   "lang": "ru"
+  },
+  {
+   "text": "npm install",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the latest version of a package and add it to your dependencies.",
+   "cmd": "npm install <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the npm package to install",
+     "example": "lodash"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Install a specific version of the package.",
+     "cmd": "npm install <PACKAGE_NAME>@<VERSION>",
+     "placeholders": [
+      {
+       "name": "PACKAGE_NAME",
+       "description": "The name of the npm package",
+       "example": "lodash"
+      },
+      {
+       "name": "VERSION",
+       "description": "The specific version to install",
+       "example": "4.17.21"
+      }
+     ]
+    },
+    {
+     "explain": "Install the package as a development dependency (not included in production builds).",
+     "cmd": "npm install <PACKAGE_NAME> --save-dev",
+     "placeholders": [
+      {
+       "name": "PACKAGE_NAME",
+       "description": "The name of the npm package",
+       "example": "jest"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/npm.md",
+  "title": "tldr-pages: npm",
+  "license": "CC-BY-4.0"
+ }
+}

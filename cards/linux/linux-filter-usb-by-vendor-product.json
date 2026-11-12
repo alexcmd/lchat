@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-filter-usb-by-vendor-product",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Filter USB devices by vendor and product ID",
+ "summary": "Show only USB devices that match a specific vendor and product ID, useful for finding a particular device.",
+ "aliases": [
+  {
+   "text": "find usb by id",
+   "lang": "en"
+  },
+  {
+   "text": "lsusb vendor product",
+   "lang": "en"
+  },
+  {
+   "text": "filter usb devices",
+   "lang": "en"
+  },
+  {
+   "text": "usb by vendor id",
+   "lang": "en"
+  },
+  {
+   "text": "search usb device id",
+   "lang": "en"
+  },
+  {
+   "text": "найти usb по id",
+   "lang": "ru"
+  },
+  {
+   "text": "фильтр usb устройств",
+   "lang": "ru"
+  },
+  {
+   "text": "lsusb vendor product",
+   "lang": "ru"
+  },
+  {
+   "text": "usb по производителю",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use lsusb with the -d flag to show only devices matching the specified vendor and product ID. Replace <VENDOR> and <PRODUCT> with the hexadecimal IDs.",
+   "cmd": "lsusb -d <VENDOR>:<PRODUCT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VENDOR",
+     "description": "The vendor ID (hexadecimal)",
+     "example": "046d",
+     "discover_cmd": "lsusb"
+    },
+    {
+     "name": "PRODUCT",
+     "description": "The product ID (hexadecimal)",
+     "example": "c52b",
+     "discover_cmd": "lsusb"
+    }
+   ],
+   "expect": "Only the USB device(s) matching the given vendor and product ID are listed."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lsusb.md",
+  "title": "tldr-pages: lsusb",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-mirrors-list-countries",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List available mirror countries",
+ "summary": "See a list of countries that have mirror servers available for your package manager. You can use this list to choose which countries to use for faster downloads.",
+ "aliases": [
+  {
+   "text": "list pacman mirror countries",
+   "lang": "en"
+  },
+  {
+   "text": "available mirror countries",
+   "lang": "en"
+  },
+  {
+   "text": "pacman mirrors country list",
+   "lang": "en"
+  },
+  {
+   "text": "список стран зеркал pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "доступные страны зеркал",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman-mirrors country list",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "pacman-mirrors"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to list all countries with available mirrors.",
+   "cmd": "pacman-mirrors --country-list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman-mirrors.md",
+  "title": "tldr-pages: pacman-mirrors",
+  "license": "CC-BY-4.0"
+ }
+}

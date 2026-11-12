@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-zip-archive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a Zip archive from files or folders",
+ "summary": "Use the zip command to bundle files or directories into a single compressed .zip file. You can include entire folders by adding the recursive flag.",
+ "aliases": [
+  {
+   "text": "create zip archive",
+   "lang": "en"
+  },
+  {
+   "text": "compress folder to zip",
+   "lang": "en"
+  },
+  {
+   "text": "zip files command",
+   "lang": "en"
+  },
+  {
+   "text": "make a zip file",
+   "lang": "en"
+  },
+  {
+   "text": "archive directory",
+   "lang": "en"
+  },
+  {
+   "text": "создать архив zip",
+   "lang": "ru"
+  },
+  {
+   "text": "запаковать папку в zip",
+   "lang": "ru"
+  },
+  {
+   "text": "команда zip",
+   "lang": "ru"
+  },
+  {
+   "text": "сжать файлы в архив",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the zip command with the output archive name and the files or directories you want to include. Add the -r flag to include directories recursively.",
+   "cmd": "zip -r <OUTPUT_ZIP> <FILES_OR_DIRS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_ZIP",
+     "description": "Path to the new .zip archive to create",
+     "example": "backup.zip"
+    },
+    {
+     "name": "FILES_OR_DIRS",
+     "description": "Paths to files or directories to add to the archive",
+     "example": "photos/ notes.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/zip.md",
+  "title": "tldr-pages: zip",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-open-files-by-pid",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List files opened by a specific process ID",
+ "summary": "Use lsof to see all files currently opened by a specific process ID (PID). This is useful when you already know the PID from another tool like ps or top.",
+ "aliases": [
+  {
+   "text": "list files by pid",
+   "lang": "en"
+  },
+  {
+   "text": "lsof pid",
+   "lang": "en"
+  },
+  {
+   "text": "files opened by pid",
+   "lang": "en"
+  },
+  {
+   "text": "what files does pid use",
+   "lang": "en"
+  },
+  {
+   "text": "какие файлы открыты по pid",
+   "lang": "ru"
+  },
+  {
+   "text": "lsof pid",
+   "lang": "ru"
+  },
+  {
+   "text": "открытые файлы по pid",
+   "lang": "ru"
+  },
+  {
+   "text": "что использует pid",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsof with the -p flag and the process ID to list all files opened by that specific process.",
+   "cmd": "lsof -p <PID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PID",
+     "description": "The process ID number",
+     "example": "1234"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/lsof.md",
+  "title": "tldr-pages: lsof",
+  "license": "CC-BY-4.0"
+ }
+}

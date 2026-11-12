@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "linux-nala-history",
+ "platform": "linux",
+ "kind": "task",
+ "title": "View nala transaction history",
+ "summary": "Display a list of all past package installations, removals, and upgrades performed with nala.",
+ "aliases": [
+  {
+   "text": "nala history",
+   "lang": "en"
+  },
+  {
+   "text": "view nala history",
+   "lang": "en"
+  },
+  {
+   "text": "nala transaction log",
+   "lang": "en"
+  },
+  {
+   "text": "история nala",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть историю nala",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ],
+  "requires": [
+   "nala"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the history of all transactions.",
+   "cmd": "nala history",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nala.md",
+  "title": "tldr-pages: nala",
+  "license": "CC-BY-4.0"
+ }
+}

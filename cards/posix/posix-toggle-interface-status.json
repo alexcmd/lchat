@@ -1,0 +1,140 @@
+{
+ "schema_version": 2,
+ "id": "posix-toggle-interface-status",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Enable or disable a network interface",
+ "summary": "Turn a network interface on or off using ifconfig. This is useful for troubleshooting or temporarily disconnecting from a network.",
+ "aliases": [
+  {
+   "text": "disable network interface",
+   "lang": "en"
+  },
+  {
+   "text": "enable network interface",
+   "lang": "en"
+  },
+  {
+   "text": "ifconfig down",
+   "lang": "en"
+  },
+  {
+   "text": "ifconfig up",
+   "lang": "en"
+  },
+  {
+   "text": "отключить сетевой интерфейс",
+   "lang": "ru"
+  },
+  {
+   "text": "включить сетевой интерфейс",
+   "lang": "ru"
+  },
+  {
+   "text": "ifconfig eth0 down",
+   "lang": "ru"
+  },
+  {
+   "text": "turn off ethernet",
+   "lang": "en"
+  },
+  {
+   "text": "turn on wifi",
+   "lang": "en"
+  },
+  {
+   "text": "ip link set up",
+   "lang": "en"
+  },
+  {
+   "text": "ip link set down",
+   "lang": "en"
+  },
+  {
+   "text": "ip link up",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "To disable an interface, use the 'down' keyword. This requires root privileges.",
+   "cmd": "sudo ifconfig <INTERFACE_NAME> down",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The name of the network interface, e.g., eth0, wlan0.",
+     "example": "eth0"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "To enable an interface, use the 'up' keyword.",
+     "cmd": "sudo ifconfig <INTERFACE_NAME> up",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "INTERFACE_NAME",
+       "description": "The name of the network interface, e.g., eth0, wlan0.",
+       "example": "eth0"
+      }
+     ]
+    },
+    {
+     "explain": "Use `sudo ip link set` followed by the interface name and `up` or `down` to change its state.",
+     "cmd": "sudo ip link set <INTERFACE> <STATE>",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The name of the network interface (e.g., eth0, wlan0).",
+       "example": "eth0",
+       "discover_cmd": "ip link"
+      },
+      {
+       "name": "STATE",
+       "description": "The desired state: 'up' to enable, 'down' to disable.",
+       "example": "up"
+      }
+     ],
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To re-enable the interface if you disabled it, use the 'up' command.",
+   "cmd": "sudo ifconfig <INTERFACE_NAME> up",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The name of the network interface.",
+     "example": "eth0"
+    }
+   ],
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Disabling an interface will disconnect you from the network associated with it. Ensure you have another way to access the system if you are working remotely."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ifconfig.md",
+  "title": "tldr-pages: ifconfig",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "eth-enable-interface"
+ ]
+}

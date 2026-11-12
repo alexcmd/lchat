@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "linux-networkctl-up-interface",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Bring network devices up",
+ "summary": "Activate one or more network interfaces, bringing them up to establish connectivity.",
+ "aliases": [
+  {
+   "text": "bring up network interface",
+   "lang": "en"
+  },
+  {
+   "text": "enable network device",
+   "lang": "en"
+  },
+  {
+   "text": "networkctl up",
+   "lang": "en"
+  },
+  {
+   "text": "activate network card",
+   "lang": "en"
+  },
+  {
+   "text": "включить сетевой интерфейс",
+   "lang": "ru"
+  },
+  {
+   "text": "поднять сеть",
+   "lang": "ru"
+  },
+  {
+   "text": "networkctl up",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-networkd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo to bring the specified network interfaces up. Replace <INTERFACE> with the name of the interface (e.g., eth0, wlan0).",
+   "cmd": "sudo networkctl up <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface to bring up.",
+     "example": "eth0",
+     "discover_cmd": "networkctl"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo this, bring the interface down again.",
+   "cmd": "sudo networkctl down <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface to bring down.",
+     "example": "eth0",
+     "discover_cmd": "networkctl"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Bringing an interface down or up may temporarily disconnect you from the network."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/networkctl.md",
+  "title": "tldr-pages: networkctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-toggle-interface-status"
+ ]
+}

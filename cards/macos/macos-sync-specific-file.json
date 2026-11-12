@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "macos-sync-specific-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Force a specific file to be written to disk",
+ "summary": "Use the `sync` command with a file path to ensure that changes to that specific file are immediately saved to the physical disk, rather than waiting for the system to do it later.",
+ "aliases": [
+  {
+   "text": "sync specific file",
+   "lang": "en"
+  },
+  {
+   "text": "flush file to disk",
+   "lang": "en"
+  },
+  {
+   "text": "save file immediately",
+   "lang": "en"
+  },
+  {
+   "text": "sync file path",
+   "lang": "en"
+  },
+  {
+   "text": "force write file",
+   "lang": "en"
+  },
+  {
+   "text": "синхронизировать файл",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительно сохранить файл",
+   "lang": "ru"
+  },
+  {
+   "text": "sync конкретного файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run sync followed by the path to the file you want to force-write to the disk.",
+   "cmd": "sync <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The full path to the file you want to sync.",
+     "example": "/Users/username/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sync.md",
+  "title": "tldr-pages: sync",
+  "license": "CC-BY-4.0"
+ }
+}

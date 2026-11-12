@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-kernel-variables",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List all kernel state variables",
+ "summary": "Show all available kernel variables and their current values using sysctl. This provides a comprehensive view of the system's kernel configuration.",
+ "aliases": [
+  {
+   "text": "list kernel variables",
+   "lang": "en"
+  },
+  {
+   "text": "show all sysctl",
+   "lang": "en"
+  },
+  {
+   "text": "kernel state info",
+   "lang": "en"
+  },
+  {
+   "text": "sysctl -a",
+   "lang": "en"
+  },
+  {
+   "text": "показать все переменные ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "список sysctl",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all available kernel variables and their values.",
+   "cmd": "sysctl -a",
+   "risk": "low",
+   "expect": "A long list of kernel parameters and their current settings."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sysctl.md",
+  "title": "tldr-pages: sysctl",
+  "license": "CC-BY-4.0"
+ }
+}

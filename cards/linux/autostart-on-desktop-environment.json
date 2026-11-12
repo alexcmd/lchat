@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "autostart-on-desktop-environment",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Autostart applications on desktop environment startup",
+ "summary": "Most desktop environments support XDG Autostart. You can add applications to autostart via the desktop environment's settings or by placing .desktop files in ~/.config/autostart.",
+ "aliases": [
+  {
+   "text": "autostart in gnome",
+   "lang": "en"
+  },
+  {
+   "text": "autostart in kde",
+   "lang": "en"
+  },
+  {
+   "text": "add to startup apps",
+   "lang": "en"
+  },
+  {
+   "text": "xdg autostart",
+   "lang": "en"
+  },
+  {
+   "text": "автозапуск в гном",
+   "lang": "ru"
+  },
+  {
+   "text": "автозапуск в кде",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить в автозагрузку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "kde",
+   "xfce",
+   "cinnamon",
+   "mate",
+   "lxqt"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Place a .desktop file for your application in ~/.config/autostart/. Most desktop environments also have a GUI setting to manage autostart applications.",
+   "risk": "low",
+   "gui": "Look for 'Startup Applications' or 'Autostart' in your desktop environment's settings menu and add your application there."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Autostarting#On_desktop_environment_startup",
+  "title": "Autostarting",
+  "revision_id": 882811,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,107 @@
+{
+ "schema_version": 2,
+ "id": "fs-create-ext4",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Create an ext4 file system on a partition",
+ "summary": "Format a partition with the ext4 file system, which is the standard choice for Linux data partitions. This erases all existing data on the target partition.",
+ "aliases": [
+  {
+   "text": "format partition ext4",
+   "lang": "en"
+  },
+  {
+   "text": "mkfs.ext4",
+   "lang": "en"
+  },
+  {
+   "text": "create linux file system",
+   "lang": "en"
+  },
+  {
+   "text": "format disk for linux",
+   "lang": "en"
+  },
+  {
+   "text": "отформатировать раздел ext4",
+   "lang": "ru"
+  },
+  {
+   "text": "создать файловую систему ext4",
+   "lang": "ru"
+  },
+  {
+   "text": "mkfs.ext4 команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The target partition is unmounted.",
+  "You have backed up any data you want to keep on this partition."
+ ],
+ "steps": [
+  {
+   "explain": "Identify the device name of the partition you want to format (e.g., /dev/sda1).",
+   "cmd": "lsblk -f",
+   "risk": "low"
+  },
+  {
+   "explain": "Unmount the partition if it is currently mounted.",
+   "cmd": "sudo umount <DEVICE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The device path of the partition, e.g., /dev/sda1",
+     "example": "/dev/sda1",
+     "discover_cmd": "lsblk -f"
+    }
+   ]
+  },
+  {
+   "explain": "Create a new ext4 file system on the specified partition. This destroys all existing data on the partition.",
+   "cmd": "sudo mkfs.ext4 <DEVICE>",
+   "needs_root": true,
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The device path of the partition, e.g., /dev/sda1",
+     "example": "/dev/sda1",
+     "discover_cmd": "lsblk -f"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lsblk -f",
+   "expect": "The FSTYPE column for the target device shows 'ext4'."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Data recovery after formatting is difficult and not guaranteed. Restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Formatting a partition erases all data on it. Ensure you have selected the correct device.",
+  "Do not format a partition that is currently in use or mounted."
+ ],
+ "risk": "high",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/File_systems#Create_a_file_system",
+  "title": "File systems",
+  "revision_id": 884914,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-arp-table",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show neighbors (ARP table)",
+ "summary": "Display the ARP table to see which IP addresses correspond to which MAC addresses on your local network.",
+ "aliases": [
+  {
+   "text": "show arp table",
+   "lang": "en"
+  },
+  {
+   "text": "list neighbors",
+   "lang": "en"
+  },
+  {
+   "text": "ip neighbor",
+   "lang": "en"
+  },
+  {
+   "text": "check local network devices",
+   "lang": "en"
+  },
+  {
+   "text": "таблица arp",
+   "lang": "ru"
+  },
+  {
+   "text": "показать соседей",
+   "lang": "ru"
+  },
+  {
+   "text": "ip neighbor show",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `ip neighbor` command to display the ARP table (neighbors).",
+   "cmd": "ip neighbor",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Use the short form `ip n` for the same output.",
+     "cmd": "ip n",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip.md",
+  "title": "tldr-pages: ip",
+  "license": "CC-BY-4.0"
+ }
+}

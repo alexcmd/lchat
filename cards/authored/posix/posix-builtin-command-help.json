@@ -1,0 +1,128 @@
+{
+ "schema_version": 2,
+ "id": "posix-builtin-command-help",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Get help for a shell builtin like cd",
+ "summary": "Commands such as cd are built into the shell itself, so --help and the man command often show nothing useful for them. The shell's own help text describes them instead.",
+ "aliases": [
+  {
+   "text": "help for cd command",
+   "lang": "en"
+  },
+  {
+   "text": "what does cd do",
+   "lang": "en"
+  },
+  {
+   "text": "shell builtin help",
+   "lang": "en"
+  },
+  {
+   "text": "bash help cd",
+   "lang": "en"
+  },
+  {
+   "text": "cd --help not working",
+   "lang": "en"
+  },
+  {
+   "text": "no manual entry for cd",
+   "lang": "en"
+  },
+  {
+   "text": "zsh run-help command",
+   "lang": "en"
+  },
+  {
+   "text": "справка по команде cd",
+   "lang": "ru"
+  },
+  {
+   "text": "cd --help не работает",
+   "lang": "ru"
+  },
+  {
+   "text": "что делает команда cd",
+   "lang": "ru"
+  },
+  {
+   "text": "встроенная команда shell справка",
+   "lang": "ru"
+  },
+  {
+   "text": "хелп по cd в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether the command is built into the shell. Output 'is a shell builtin' means yes; output with a path such as /usr/bin/ls means it is a separate program, so use its --help or man page instead.",
+   "cmd": "type <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "Name of the command you want help for",
+     "example": "cd",
+     "discover_cmd": "bash -c 'compgen -b'"
+    }
+   ],
+   "expect": "For cd: 'cd is a shell builtin'. For a separate program: a path such as /usr/bin/ls."
+  },
+  {
+   "explain": "Show the built-in help text of the shell command. On macOS, the default shell zsh has no 'help' command; use the macOS variant to open the zsh builtins page, press / and type the command name to find it, then q to quit.",
+   "cmd": "help <COMMAND>",
+   "variants": {
+    "macos": "man zshbuiltins"
+   },
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "Name of the shell builtin, e.g. cd, echo or pwd",
+     "example": "cd",
+     "discover_cmd": "bash -c 'compgen -b'"
+    }
+   ],
+   "expect": "Text starting with the name and usage, e.g. 'cd: cd [-L|[-P [-e]] [-@]] [dir]' on Linux, then a description. Press q to leave the pager if one opens.",
+   "alternatives": [
+    {
+     "explain": "Bash only: print just the usage line of the builtin (on macOS bash 3.2 this is also the only short form).",
+     "cmd": "help -s <COMMAND>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "Name of the shell builtin",
+       "example": "cd"
+      }
+     ],
+     "expect": "cd: cd [-L|[-P [-e]] [-@]] [dir] on Linux; macOS bash shows 'cd: cd [-L|-P] [dir]'."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "type cd",
+   "expect": "cd is a shell builtin"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

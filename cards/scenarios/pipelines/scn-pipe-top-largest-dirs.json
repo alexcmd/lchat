@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-top-largest-dirs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find the biggest folders inside a directory",
+ "summary": "List the folders inside a directory with their total sizes, sort them from largest to smallest, and show the top few. Use it when a disk is full and you need to see what takes the space.",
+ "aliases": [
+  {
+   "text": "top 10 largest folders",
+   "lang": "en"
+  },
+  {
+   "text": "what folder takes the most space linux",
+   "lang": "en"
+  },
+  {
+   "text": "du sort largest directories",
+   "lang": "en"
+  },
+  {
+   "text": "find biggest directories in home",
+   "lang": "en"
+  },
+  {
+   "text": "which folder is using all my disk space",
+   "lang": "en"
+  },
+  {
+   "text": "show biggest subfolders",
+   "lang": "en"
+  },
+  {
+   "text": "какие папки занимают больше всего места",
+   "lang": "ru"
+  },
+  {
+   "text": "найти самые большие папки linux",
+   "lang": "ru"
+  },
+  {
+   "text": "топ самых больших папок",
+   "lang": "ru"
+  },
+  {
+   "text": "что занимает место на диске linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "du -h prints the size of each item inside DIR in human units (K, M, G). --max-depth=1 stops at the first level. 2>/dev/null hides messages about folders you cannot read. sort -rh sorts the sizes largest first and head keeps the top lines.",
+   "cmd": "du -h --max-depth=1 <DIR> 2>/dev/null | sort -rh | head -n <TOP_N>",
+   "risk": "low",
+   "expect": "Lines such as 2.9M  data/projects/app, largest first. The line for DIR itself shows the total of everything inside it.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder to inspect",
+     "example": "data"
+    },
+    {
+     "name": "TOP_N",
+     "description": "How many lines to show",
+     "example": "10"
+    }
+   ]
+  },
+  {
+   "explain": "Look inside the biggest sub-folder with the same command. Replace SUBDIR with a path from the previous list.",
+   "cmd": "du -h --max-depth=1 <SUBDIR> 2>/dev/null | sort -rh | head -n <TOP_N>",
+   "risk": "low",
+   "expect": "The same kind of list, one level deeper.",
+   "placeholders": [
+    {
+     "name": "SUBDIR",
+     "description": "A folder from the previous list",
+     "example": "data/projects"
+    },
+    {
+     "name": "TOP_N",
+     "description": "How many lines to show",
+     "example": "10"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "du reads every file in the folder, so on a big disk it can take several minutes."
+ ],
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/du.1.html",
+  "title": "du(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

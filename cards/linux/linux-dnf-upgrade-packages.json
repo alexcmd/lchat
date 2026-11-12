@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-upgrade-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Upgrade installed packages using dnf",
+ "summary": "Update all installed software to their latest available versions.",
+ "aliases": [
+  {
+   "text": "dnf upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "update packages dnf",
+   "lang": "en"
+  },
+  {
+   "text": "dnf update",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade software fedora",
+   "lang": "en"
+  },
+  {
+   "text": "обновить пакеты dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf обновление",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить систему fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Upgrade all installed packages to the newest available versions.",
+   "cmd": "sudo dnf upgrade",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Use the short form 'up' instead of 'upgrade'.",
+     "cmd": "sudo dnf up",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no simple command to downgrade packages. You may need to reinstall specific older versions manually if an update causes issues.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Upgrading packages requires administrator rights.",
+  "It is recommended to close all applications before upgrading."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf.md",
+  "title": "tldr-pages: dnf",
+  "license": "CC-BY-4.0"
+ }
+}

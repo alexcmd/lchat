@@ -1,0 +1,160 @@
+{
+ "schema_version": 2,
+ "id": "error-git-not-a-repository",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'fatal: not a git repository' by entering or creating a project",
+ "summary": "Git works only inside a project folder that has a hidden .git folder. This error means the folder you are in, and no folder above it, is not a git repository. Go into your project folder, or create a repository in it.",
+ "aliases": [
+  {
+   "text": "fatal not a git repository",
+   "lang": "en"
+  },
+  {
+   "text": "fatal: not a git repository what to do",
+   "lang": "en"
+  },
+  {
+   "text": "git says not a git repository",
+   "lang": "en"
+  },
+  {
+   "text": "git status fatal not a git repository",
+   "lang": "en"
+  },
+  {
+   "text": "why does git say not a repo",
+   "lang": "en"
+  },
+  {
+   "text": "git error not a repo in this folder",
+   "lang": "en"
+  },
+  {
+   "text": "how to create git repo in folder",
+   "lang": "en"
+  },
+  {
+   "text": "git command does not work in my folder",
+   "lang": "en"
+  },
+  {
+   "text": "fatal not a git repository по-русски",
+   "lang": "ru"
+  },
+  {
+   "text": "fatal: not a git repository что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "git пишет not a git repository",
+   "lang": "ru"
+  },
+  {
+   "text": "почему git пишет что это не репозиторий",
+   "lang": "ru"
+  },
+  {
+   "text": "git не работает в папке ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "фатал не git репозиторий",
+   "lang": "ru"
+  },
+  {
+   "text": "как создать git репозиторий в папке",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "fatal: not a git repository (or any of the parent directories): .git"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "git"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the folder you are in. Git looks for a .git folder here and in the folders above it.",
+   "cmd": "pwd",
+   "risk": "low",
+   "expect": "A full path such as /home/user/Documents, the folder you are in."
+  },
+  {
+   "explain": "List all files, including hidden ones. A project folder that is a repository contains a .git entry. If you see only ordinary files, this folder is not a repository.",
+   "cmd": "ls -a",
+   "risk": "low",
+   "expect": "A list starting with . and .. . A .git entry appears only inside a repository."
+  },
+  {
+   "explain": "Ask git whether a folder above this one is a repository. If one is found, git prints its top folder. If none is found, git prints the error.",
+   "cmd": "git rev-parse --show-toplevel",
+   "risk": "low",
+   "expect": "Either the path of the repository top folder, or 'fatal: not a git repository (or any of the parent directories): .git'."
+  },
+  {
+   "explain": "Go into the project folder, the one that holds the .git folder. Use a folder name from your own list of folders.",
+   "cmd": "cd <PROJECT_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROJECT_DIR",
+     "description": "Path to the project folder that contains the .git folder",
+     "example": "~/Projects/demo",
+     "discover_cmd": "ls -d ~/*/"
+    }
+   ],
+   "expect": "No output. Run pwd again to confirm the folder changed.",
+   "alternatives": [
+    {
+     "explain": "The folder is a new project with no repository yet: create one in the current folder. Do not do this in your home folder.",
+     "cmd": "git init",
+     "risk": "low",
+     "expect": "Creates a hidden .git folder and prints 'Initialized empty Git repository in ...'."
+    },
+    {
+     "explain": "The project is stored online: download a copy of it into a new folder. Git creates a folder named after the project, so run cd into it afterwards.",
+     "cmd": "git clone <REPO_URL>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "REPO_URL",
+       "description": "Address of the repository, for example from the Clone button on the website",
+       "example": "https://github.com/user/project.git"
+      }
+     ],
+     "expect": "Prints 'Cloning into ...' and creates a new folder with the project files."
+    }
+   ]
+  },
+  {
+   "explain": "Check that git now works in this folder. A repository prints its branch.",
+   "cmd": "git status",
+   "risk": "low",
+   "expect": "A line starting with 'On branch' and no 'fatal:' line. A new repository also prints 'No commits yet'."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Do not run git init in your home folder: git would then track all your files in one repository."
+ ],
+ "verify": [
+  {
+   "cmd": "git rev-parse --is-inside-work-tree",
+   "expect": "Prints 'true' when you are inside a repository."
+  }
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/git",
+  "title": "git manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

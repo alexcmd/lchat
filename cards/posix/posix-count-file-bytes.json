@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "posix-count-file-bytes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Count the number of bytes in a file",
+ "summary": "Use the wc command to count the exact size of a file in bytes. This is useful for checking file sizes without using ls or stat.",
+ "aliases": [
+  {
+   "text": "count bytes in file",
+   "lang": "en"
+  },
+  {
+   "text": "file size in bytes",
+   "lang": "en"
+  },
+  {
+   "text": "wc bytes",
+   "lang": "en"
+  },
+  {
+   "text": "how many bytes in file",
+   "lang": "en"
+  },
+  {
+   "text": "count bytes",
+   "lang": "en"
+  },
+  {
+   "text": "сколько байт в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "размер файла в байтах",
+   "lang": "ru"
+  },
+  {
+   "text": "wc -c",
+   "lang": "ru"
+  },
+  {
+   "text": "количество байт в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько байт",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать байты",
+   "lang": "ru"
+  },
+  {
+   "text": "wc c",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wc with the --bytes flag followed by the path to your file. This prints the total number of bytes in the file.",
+   "cmd": "wc -c <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to measure in bytes",
+     "example": "image.png"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag -c instead of --bytes.",
+     "cmd": "wc -c <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file you want to measure in bytes",
+       "example": "image.png"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wc.md",
+  "title": "tldr-pages: wc",
+  "license": "CC-BY-4.0"
+ }
+}

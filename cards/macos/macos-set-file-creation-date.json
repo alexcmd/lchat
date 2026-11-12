@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-file-creation-date",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set the creation date of a file",
+ "summary": "Change the 'created' timestamp of one or more files to a specific date and time. This is useful for organizing files by when they were originally made, rather than when they were copied.",
+ "aliases": [
+  {
+   "text": "change file creation date",
+   "lang": "en"
+  },
+  {
+   "text": "set file created date",
+   "lang": "en"
+  },
+  {
+   "text": "change date created on mac",
+   "lang": "en"
+  },
+  {
+   "text": "изменить дату создания файла",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить дату создания на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "setfile creation date",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the setfile command with the -d flag to set the creation date. Replace <DATE_TIME> with the desired date in MM/DD/YYYY HH:MM:SS format and <FILE_PATH> with the path to the file.",
+   "cmd": "setfile -d \"<DATE_TIME>\" <FILE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DATE_TIME",
+     "description": "The new creation date and time in MM/DD/YYYY HH:MM:SS format",
+     "example": "01/01/2023 12:00:00"
+    },
+    {
+     "name": "FILE_PATH",
+     "description": "Path to the file(s) to modify",
+     "example": "~/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/setfile.md",
+  "title": "tldr-pages: setfile",
+  "license": "CC-BY-4.0"
+ }
+}

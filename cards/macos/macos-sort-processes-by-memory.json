@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-sort-processes-by-memory",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Sort processes by memory usage",
+ "summary": "Display running processes ordered by the amount of memory they are using. Helps identify which apps are consuming the most RAM.",
+ "aliases": [
+  {
+   "text": "sort processes by memory",
+   "lang": "en"
+  },
+  {
+   "text": "highest memory usage",
+   "lang": "en"
+  },
+  {
+   "text": "which app uses most ram",
+   "lang": "en"
+  },
+  {
+   "text": "ps -m",
+   "lang": "en"
+  },
+  {
+   "text": "memory hog",
+   "lang": "en"
+  },
+  {
+   "text": "сортировка по памяти",
+   "lang": "ru"
+  },
+  {
+   "text": "кто ест память",
+   "lang": "ru"
+  },
+  {
+   "text": "самые тяжелые процессы",
+   "lang": "ru"
+  },
+  {
+   "text": "ps -m mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List processes sorted by memory usage.",
+   "cmd": "ps -m",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/ps.md",
+  "title": "tldr-pages: ps",
+  "license": "CC-BY-4.0"
+ }
+}

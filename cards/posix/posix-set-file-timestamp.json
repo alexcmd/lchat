@@ -1,0 +1,134 @@
+{
+ "schema_version": 2,
+ "id": "posix-set-file-timestamp",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Set a file's timestamp to a specific date and time",
+ "summary": "Use touch with the -t option to change a file's modification time to a specific date and time. This is useful for organizing files or testing scripts that depend on file dates.",
+ "aliases": [
+  {
+   "text": "change file date",
+   "lang": "en"
+  },
+  {
+   "text": "set file timestamp",
+   "lang": "en"
+  },
+  {
+   "text": "touch specific date",
+   "lang": "en"
+  },
+  {
+   "text": "change modification time",
+   "lang": "en"
+  },
+  {
+   "text": "изменить дату файла",
+   "lang": "ru"
+  },
+  {
+   "text": "установить время файла",
+   "lang": "ru"
+  },
+  {
+   "text": "touch конкретная дата",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить время модификации",
+   "lang": "ru"
+  },
+  {
+   "text": "change date modified on mac",
+   "lang": "en"
+  },
+  {
+   "text": "сменить дату изменения на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "change file modification date",
+   "lang": "en"
+  },
+  {
+   "text": "set file modified date",
+   "lang": "en"
+  },
+  {
+   "text": "изменить дату изменения файла",
+   "lang": "ru"
+  },
+  {
+   "text": "setfile modification date",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -t option followed by the date in YYYYMMDDHHMM.SS format. Add -c to prevent creating the file if it doesn't exist.",
+   "cmd": "touch -c -t <DATE> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DATE",
+     "description": "Date and time in YYYYMMDDHHMM.SS format",
+     "example": "202310271430.00"
+    },
+    {
+     "name": "FILE",
+     "description": "The file to update",
+     "example": "notes.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the -d option to set the timestamp by parsing a human-readable string like 'last year' or '5 hours ago'.",
+     "cmd": "touch -d \"<DATE_STRING>\" <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "DATE_STRING",
+       "description": "Human-readable date string",
+       "example": "last year"
+      },
+      {
+       "name": "FILE",
+       "description": "The file to update",
+       "example": "notes.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Use the setfile command with the -m flag to set the modification date. Replace <DATE_TIME> with the desired date in MM/DD/YYYY HH:MM:SS format and <FILE_PATH> with the path to the file.",
+     "cmd": "setfile -m \"<DATE_TIME>\" <FILE_PATH>",
+     "placeholders": [
+      {
+       "name": "DATE_TIME",
+       "description": "The new modification date and time in MM/DD/YYYY HH:MM:SS format",
+       "example": "01/01/2023 12:00:00"
+      },
+      {
+       "name": "FILE_PATH",
+       "description": "Path to the file(s) to modify",
+       "example": "~/Documents/report.pdf"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/touch.md",
+  "title": "tldr-pages: touch",
+  "license": "CC-BY-4.0"
+ }
+}

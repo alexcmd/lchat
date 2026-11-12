@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-file-type-size",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check total size of specific file types",
+ "summary": "Use `du` with a wildcard to calculate the total disk space used by files matching a specific pattern (like all .jpg files) in the current directory and its subdirectories.",
+ "aliases": [
+  {
+   "text": "size of all jpg files mac",
+   "lang": "en"
+  },
+  {
+   "text": "du specific file types",
+   "lang": "en"
+  },
+  {
+   "text": "total size of images terminal",
+   "lang": "en"
+  },
+  {
+   "text": "размер всех картинок",
+   "lang": "ru"
+  },
+  {
+   "text": "du по расширению",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `du -ch` followed by a wildcard pattern (e.g., `*/*.jpg`) to list sizes of matching files and show a cumulative total at the end.",
+   "cmd": "du -ch <PATTERN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "A wildcard pattern for the files you want to measure, e.g., `*/*.jpg` for all JPGs in subdirectories.",
+     "example": "*/*.jpg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/du.md",
+  "title": "tldr-pages: du",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-check-directory-size",
+  "posix-find-large-files"
+ ]
+}

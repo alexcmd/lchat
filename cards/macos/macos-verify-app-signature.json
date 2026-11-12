@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-verify-app-signature",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Verify the code signature of an application",
+ "summary": "Check if an application on your Mac has a valid digital signature. This helps confirm the app hasn't been tampered with and is from a known developer.",
+ "aliases": [
+  {
+   "text": "check app signature",
+   "lang": "en"
+  },
+  {
+   "text": "verify app integrity",
+   "lang": "en"
+  },
+  {
+   "text": "is this app safe",
+   "lang": "en"
+  },
+  {
+   "text": "codesign verify",
+   "lang": "en"
+  },
+  {
+   "text": "проверить подпись приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить целостность программы",
+   "lang": "ru"
+  },
+  {
+   "text": "безопасно ли приложение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the codesign tool to verify the signature of the specified application bundle.",
+   "cmd": "codesign --verify <APP_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_PATH",
+     "description": "The full path to the .app bundle you want to check.",
+     "example": "/Applications/Safari.app"
+    }
+   ],
+   "expect": "If the signature is valid, the command usually produces no output. If it fails, it will print an error message."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/codesign.md",
+  "title": "tldr-pages: codesign",
+  "license": "CC-BY-4.0"
+ }
+}

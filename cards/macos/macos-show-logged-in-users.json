@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-logged-in-users",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show logged-in users and their activity",
+ "summary": "Display a list of users currently logged into the Mac, including their login time, idle time, and what they are doing.",
+ "aliases": [
+  {
+   "text": "who is logged in",
+   "lang": "en"
+  },
+  {
+   "text": "show active users",
+   "lang": "en"
+  },
+  {
+   "text": "who is using my mac",
+   "lang": "en"
+  },
+  {
+   "text": "list logged in users",
+   "lang": "en"
+  },
+  {
+   "text": "who command mac",
+   "lang": "en"
+  },
+  {
+   "text": "кто залогинен",
+   "lang": "ru"
+  },
+  {
+   "text": "кто сидит в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "список активных пользователей",
+   "lang": "ru"
+  },
+  {
+   "text": "кто использует мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `w` command to display information about all users currently logged in, including their terminal, remote host, login time, idle time, and current process.",
+   "cmd": "w",
+   "risk": "low",
+   "expect": "A table listing users, their TTYs, login times, and current activities.",
+   "alternatives": [
+    {
+     "explain": "Display the same information but without the column headers.",
+     "cmd": "w -h",
+     "risk": "low"
+    },
+    {
+     "explain": "Display the information sorted by idle time, showing the most active users first.",
+     "cmd": "w -i",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/w.md",
+  "title": "tldr-pages: w",
+  "license": "CC-BY-4.0"
+ }
+}

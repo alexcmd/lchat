@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-python-debug-script",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Debug a Python script interactively",
+ "summary": "Start the Python debugger (pdb) to step through a script line by line. Useful for finding errors or understanding code flow.",
+ "aliases": [
+  {
+   "text": "debug python script",
+   "lang": "en"
+  },
+  {
+   "text": "python pdb",
+   "lang": "en"
+  },
+  {
+   "text": "step through python code",
+   "lang": "en"
+  },
+  {
+   "text": "python debugger",
+   "lang": "en"
+  },
+  {
+   "text": "отладка python скрипта",
+   "lang": "ru"
+  },
+  {
+   "text": "python pdb запуск",
+   "lang": "ru"
+  },
+  {
+   "text": "как отлаживать python",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start the Python debugger (pdb) for the specified script.",
+   "cmd": "python -m pdb <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the Python script to debug",
+     "example": "buggy_script.py"
+    }
+   ],
+   "expect": "The pdb prompt '(Pdb)' appears, allowing you to step through the code."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/python.md",
+  "title": "tldr-pages: python",
+  "license": "CC-BY-4.0"
+ }
+}

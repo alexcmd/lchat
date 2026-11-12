@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-zip-contents-type",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check file types inside a zip archive",
+ "summary": "Use the `file` command with the `-z` flag to look inside a compressed zip file and determine the types of the files contained within it, without extracting them.",
+ "aliases": [
+  {
+   "text": "check zip contents",
+   "lang": "en"
+  },
+  {
+   "text": "file types in zip",
+   "lang": "en"
+  },
+  {
+   "text": "look inside zip",
+   "lang": "en"
+  },
+  {
+   "text": "kakie fayly v arhiv",
+   "lang": "ru"
+  },
+  {
+   "text": "tip faylov v zip",
+   "lang": "ru"
+  },
+  {
+   "text": "prosmotr soderzhimogo zip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `file` command with the `-z` (or `--uncompress`) flag followed by the path to the zip file. It will list the file types of the contents inside the archive.",
+   "cmd": "file -z <ZIP_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ZIP_FILE",
+     "description": "The path to the zip archive you want to inspect.",
+     "example": "archive.zip"
+    }
+   ],
+   "expect": "Output listing the file types of the files inside the zip archive."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/file.md",
+  "title": "tldr-pages: file",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-find-files-by-tag",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find files with a specific tag",
+ "summary": "Use the `tag` command to list all files that have a specific tag.",
+ "aliases": [
+  {
+   "text": "find files by tag mac",
+   "lang": "en"
+  },
+  {
+   "text": "list files with tag terminal",
+   "lang": "en"
+  },
+  {
+   "text": "найти файлы по тегу",
+   "lang": "ru"
+  },
+  {
+   "text": "список файлов с тегом",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all files that have the specified tag.",
+   "cmd": "tag --match <TAG_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TAG_NAME",
+     "description": "The tag to search for.",
+     "example": "work"
+    }
+   ],
+   "expect": "A list of file paths that have the tag."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tag.md",
+  "title": "tldr-pages: tag",
+  "license": "CC-BY-4.0"
+ }
+}

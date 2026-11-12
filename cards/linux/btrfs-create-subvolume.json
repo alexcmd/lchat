@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "btrfs-create-subvolume",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Create a Btrfs subvolume",
+ "summary": "Create a new subvolume within a mounted Btrfs file system. Subvolumes act like separate directories or partitions.",
+ "aliases": [
+  {
+   "text": "create btrfs subvolume",
+   "lang": "en"
+  },
+  {
+   "text": "make new subvol",
+   "lang": "en"
+  },
+  {
+   "text": "btrfs subvolume create",
+   "lang": "en"
+  },
+  {
+   "text": "создать подтом btrfs",
+   "lang": "ru"
+  },
+  {
+   "text": "новый подтом",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Btrfs file system is mounted"
+ ],
+ "steps": [
+  {
+   "explain": "Create a new subvolume at the specified path. Replace <SUBVOL_PATH> with the desired location (e.g., /mnt/btrfs/home).",
+   "cmd": "sudo btrfs subvolume create <SUBVOL_PATH>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SUBVOL_PATH",
+     "description": "Full path where the subvolume should be created",
+     "example": "/mnt/btrfs/home"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Btrfs#Creating_a_subvolume",
+  "title": "Btrfs",
+  "revision_id": 887521,
+  "license": "GFDL-1.3-or-later"
+ }
+}

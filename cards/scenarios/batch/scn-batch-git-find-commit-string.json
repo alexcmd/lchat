@@ -1,0 +1,126 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-git-find-commit-string",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find the git commit that added or removed a piece of text",
+ "summary": "Searches the history of a git project for the commits where the number of times a text appears changed, which is usually the commit that added it or removed it. You get a list of commits without reading every one.",
+ "aliases": [
+  {
+   "text": "git find which commit added a string",
+   "lang": "en"
+  },
+  {
+   "text": "git log -S find commit",
+   "lang": "en"
+  },
+  {
+   "text": "find commit that introduced text in git",
+   "lang": "en"
+  },
+  {
+   "text": "git search history for a word",
+   "lang": "en"
+  },
+  {
+   "text": "who added this line in git history",
+   "lang": "en"
+  },
+  {
+   "text": "git find when a string was removed",
+   "lang": "en"
+  },
+  {
+   "text": "в каком коммите появилась строка git",
+   "lang": "ru"
+  },
+  {
+   "text": "найти коммит где добавили текст git",
+   "lang": "ru"
+  },
+  {
+   "text": "git поиск по истории изменений слова",
+   "lang": "ru"
+  },
+  {
+   "text": "кто добавил эту строку в git",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "git"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Find the commits where the number of occurrences of the text changed. --all searches every branch. Quote the text so that spaces and symbols are kept.",
+   "risk": "low",
+   "cmd": "git -C <REPO> log -S\"<TEXT>\" --oneline --all",
+   "expect": "One line per commit: a short commit id, then the commit message.",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app",
+     "discover_cmd": "ls"
+    },
+    {
+     "name": "TEXT",
+     "description": "The text to look for",
+     "example": "API_URL"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use a pattern instead of plain text. -G finds every commit that changed a line matching the pattern, including edits that keep the count the same.",
+     "risk": "low",
+     "cmd": "git -C <REPO> log -G\"<TEXT>\" --oneline --all",
+     "placeholders": [
+      {
+       "name": "REPO",
+       "description": "Path of the git repository",
+       "example": "app"
+      },
+      {
+       "name": "TEXT",
+       "description": "Pattern to look for",
+       "example": "API_URL"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Show what one commit changed. Pick the commit id from the list in the previous step.",
+   "risk": "low",
+   "cmd": "git -C <REPO> show <COMMIT>",
+   "expect": "The commit message, then the lines added (+) and removed (-) in that commit.",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app"
+    },
+    {
+     "name": "COMMIT",
+     "description": "Commit id from the previous list",
+     "example": "HEAD",
+     "discover_cmd": "git -C <REPO> log --oneline"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://git-scm.com/docs/git-log",
+  "title": "git-log Documentation",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

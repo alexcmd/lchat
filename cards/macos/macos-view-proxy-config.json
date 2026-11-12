@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-proxy-config",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View proxy configuration",
+ "summary": "Show the current proxy settings (HTTP, HTTPS, SOCKS) configured on your Mac.",
+ "aliases": [
+  {
+   "text": "check proxy settings",
+   "lang": "en"
+  },
+  {
+   "text": "view proxy config",
+   "lang": "en"
+  },
+  {
+   "text": "scutil proxy",
+   "lang": "en"
+  },
+  {
+   "text": "какие прокси на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть прокси настройки",
+   "lang": "ru"
+  },
+  {
+   "text": "proxy конфигурация macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run scutil with the --proxy flag to display the current proxy configuration.",
+   "cmd": "scutil --proxy",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/scutil.md",
+  "title": "tldr-pages: scutil",
+  "license": "CC-BY-4.0"
+ }
+}

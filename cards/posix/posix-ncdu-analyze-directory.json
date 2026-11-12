@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "posix-ncdu-analyze-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Analyze disk usage of a directory with ncdu",
+ "summary": "Use ncdu to interactively explore which files and folders take up the most space in a specific directory. It provides a visual, navigable interface for disk usage analysis.",
+ "aliases": [
+  {
+   "text": "ncdu analyze directory",
+   "lang": "en"
+  },
+  {
+   "text": "check disk usage ncdu",
+   "lang": "en"
+  },
+  {
+   "text": "ncdu path",
+   "lang": "en"
+  },
+  {
+   "text": "disk usage analyzer ncdu",
+   "lang": "en"
+  },
+  {
+   "text": "kak prosmotret disk ncdu",
+   "lang": "ru"
+  },
+  {
+   "text": "ncdu analiz kataloga",
+   "lang": "ru"
+  },
+  {
+   "text": "ncdu prosmotr diskovogo prostranstva",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run ncdu on a specific directory to see its size breakdown. Replace <DIRECTORY> with the path you want to analyze.",
+   "cmd": "ncdu <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the directory you want to analyze.",
+     "example": "/home/user/Documents"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Analyze the current working directory.",
+     "cmd": "ncdu",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ncdu.md",
+  "title": "tldr-pages: ncdu",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-disk-ncdu-interactive-explorer",
+  "posix-check-directory-size"
+ ]
+}

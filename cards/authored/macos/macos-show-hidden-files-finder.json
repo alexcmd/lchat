@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-hidden-files-finder",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show hidden files in Finder with Command+Shift+Period",
+ "summary": "Finder hides files and folders whose names start with a dot, such as configuration files. Press Command+Shift+Period in a Finder window to show or hide them.",
+ "aliases": [
+  {
+   "text": "show hidden files mac",
+   "lang": "en"
+  },
+  {
+   "text": "show hidden files finder",
+   "lang": "en"
+  },
+  {
+   "text": "finder hidden files shortcut",
+   "lang": "en"
+  },
+  {
+   "text": "command shift period finder",
+   "lang": "en"
+  },
+  {
+   "text": "see dot files on mac",
+   "lang": "en"
+  },
+  {
+   "text": "view hidden items mac",
+   "lang": "en"
+  },
+  {
+   "text": "показать скрытые файлы на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как увидеть скрытые файлы в finder",
+   "lang": "ru"
+  },
+  {
+   "text": "показать скрытые папки macbook",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat skrytye fajly mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A Finder window is open and active"
+ ],
+ "steps": [
+  {
+   "explain": "Click a Finder window to make it active, then press Command+Shift+Period (the period key next to the comma). Dotted files and folders appear dimmed. Press the same keys again to hide them.",
+   "risk": "low",
+   "gui": "In a Finder window, press Command (⌘) + Shift (⇧) + Period (.). Press it again to hide hidden files.",
+   "expect": "Files whose names start with a dot, such as .zshrc, appear in the folder with a dimmed look.",
+   "alternatives": [
+    {
+     "explain": "Terminal method: turn on hidden files in Finder and keep the setting after a restart. Finder restarts, so save your work and close Finder windows first.",
+     "cmd": "defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder",
+     "risk": "medium",
+     "needs_root": false
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "defaults read com.apple.finder AppleShowAllFiles",
+   "expect": "Prints 1 when hidden files are shown and 0 when they are hidden. An error about a missing default means the setting was never changed."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "The Terminal method restarts Finder. Finder windows close and Finder reopens by itself; save your work first.",
+  "Hidden files are hidden for a reason. Do not delete or move files whose names you do not recognize."
+ ],
+ "rollback": [
+  {
+   "explain": "Undo the Terminal method: hide hidden files again and restart Finder.",
+   "cmd": "defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder",
+   "risk": "medium"
+  },
+  {
+   "explain": "Or press Command+Shift+Period again in a Finder window to hide hidden files for the current view.",
+   "gui": "In a Finder window, press Command (⌘) + Shift (⇧) + Period (.).",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "x-man-page://defaults",
+  "title": "defaults manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

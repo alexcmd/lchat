@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-get-autoremove",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove unused packages",
+ "summary": "Remove packages that were automatically installed as dependencies and are no longer needed. This helps clean up the system.",
+ "aliases": [
+  {
+   "text": "remove unused packages",
+   "lang": "en"
+  },
+  {
+   "text": "autoremove",
+   "lang": "en"
+  },
+  {
+   "text": "apt-get autoremove",
+   "lang": "en"
+  },
+  {
+   "text": "clean dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "удалить неиспользуемые пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "autoremove",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-get autoremove",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove all packages that are no longer needed.",
+   "cmd": "sudo apt-get autoremove",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the removed packages if they were needed.",
+   "cmd": "sudo apt-get install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to reinstall",
+     "example": "libfoo"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Requires administrator privileges (sudo).",
+  "Review the list of packages to be removed before confirming."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-get.md",
+  "title": "tldr-pages: apt-get",
+  "license": "CC-BY-4.0"
+ }
+}

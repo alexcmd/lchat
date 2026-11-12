@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-mark-show-held",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show which packages are held",
+ "summary": "List all packages that are currently marked as 'held', meaning they are prevented from being updated by apt.",
+ "aliases": [
+  {
+   "text": "show held packages",
+   "lang": "en"
+  },
+  {
+   "text": "list blocked updates",
+   "lang": "en"
+  },
+  {
+   "text": "apt-mark showhold",
+   "lang": "en"
+  },
+  {
+   "text": "which packages are held",
+   "lang": "en"
+  },
+  {
+   "text": "показать зафиксированные пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "список held пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-mark showhold",
+   "lang": "ru"
+  },
+  {
+   "text": "какие пакеты не обновляются",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display a list of all packages currently on hold.",
+   "cmd": "apt-mark showhold",
+   "risk": "low",
+   "expect": "A list of package names, or nothing if no packages are held."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-apt-mark-hold-package"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-mark.md",
+  "title": "tldr-pages: apt-mark",
+  "license": "CC-BY-4.0"
+ }
+}

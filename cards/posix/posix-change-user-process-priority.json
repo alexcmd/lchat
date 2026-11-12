@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-user-process-priority",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change priority of all processes for a user",
+ "summary": "Adjust the CPU priority for all processes currently running under a specific user account.",
+ "aliases": [
+  {
+   "text": "change user process priority",
+   "lang": "en"
+  },
+  {
+   "text": "renice user",
+   "lang": "en"
+  },
+  {
+   "text": "limit cpu for user",
+   "lang": "en"
+  },
+  {
+   "text": "изменить приоритет процессов пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "renice пользователь",
+   "lang": "ru"
+  },
+  {
+   "text": "ограничить cpu для пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -u flag to target all processes owned by a specific user ID or username.",
+   "cmd": "renice -n <NICENESS_VALUE> -u <USER_ID_OR_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "NICENESS_VALUE",
+     "description": "The new priority level, from -20 (highest) to 19 (lowest).",
+     "example": "10"
+    },
+    {
+     "name": "USER_ID_OR_NAME",
+     "description": "The username or user ID whose processes should be modified.",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert, set the niceness back to 0 for that user.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This affects all current processes for that user. New processes will start with default priority.",
+  "Requires root privileges to change priorities for other users."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/renice.md",
+  "title": "tldr-pages: renice",
+  "license": "CC-BY-4.0"
+ }
+}

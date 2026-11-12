@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "macos-run-mac-cleanup",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run mac-cleanup to remove caches and junk",
+ "summary": "Use the mac-cleanup tool to automatically remove system caches and unnecessary files. This helps free up disk space and can improve system performance.",
+ "aliases": [
+  {
+   "text": "clean mac caches",
+   "lang": "en"
+  },
+  {
+   "text": "remove junk files mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac cleanup tool",
+   "lang": "en"
+  },
+  {
+   "text": "free up space mac",
+   "lang": "en"
+  },
+  {
+   "text": "очистить кэш на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить мусор с мака",
+   "lang": "ru"
+  },
+  {
+   "text": "mac cleanup",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the mac-cleanup command to start the automatic cleanup process. The tool will scan for and remove caches and junk files.",
+   "cmd": "mac-cleanup",
+   "risk": "medium",
+   "expect": "The cleanup process starts and displays progress or a summary of removed items."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo command for mac-cleanup. To prevent accidental data loss in the future, use the dry-run mode first.",
+   "cmd": "mac-cleanup --dry-run",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This tool deletes files automatically. Ensure you have backups of important data if you are unsure about what is being removed.",
+  "Always consider running a dry-run first to see what files will be deleted."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mac-cleanup.md",
+  "title": "tldr-pages: mac-cleanup",
+  "license": "CC-BY-4.0"
+ }
+}

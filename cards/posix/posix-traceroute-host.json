@@ -1,0 +1,108 @@
+{
+ "schema_version": 2,
+ "id": "posix-traceroute-host",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Trace the network route to a host",
+ "summary": "Use traceroute to see the path your data takes to reach a website or server. It shows each 'hop' (router) and how long it takes to get there, helping you find where a connection is slow or broken.",
+ "aliases": [
+  {
+   "text": "traceroute",
+   "lang": "en"
+  },
+  {
+   "text": "trace route to website",
+   "lang": "en"
+  },
+  {
+   "text": "check network path",
+   "lang": "en"
+  },
+  {
+   "text": "where is my connection slow",
+   "lang": "en"
+  },
+  {
+   "text": "network hop analysis",
+   "lang": "en"
+  },
+  {
+   "text": "traceroute",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить маршрут до сайта",
+   "lang": "ru"
+  },
+  {
+   "text": "где тормозит интернет",
+   "lang": "ru"
+  },
+  {
+   "text": "трассировка маршрута",
+   "lang": "ru"
+  },
+  {
+   "text": "путь пакетов до хоста",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Internet connection",
+  "Target hostname or IP address"
+ ],
+ "steps": [
+  {
+   "explain": "Run traceroute with the hostname or IP address you want to reach. It will list each router (hop) and the time taken to reach it.",
+   "cmd": "traceroute <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The domain name or IP address of the destination",
+     "example": "example.com"
+    }
+   ],
+   "expect": "A list of hops with IP addresses and response times.",
+   "alternatives": [
+    {
+     "explain": "Use -n to skip DNS lookups, making the output faster and showing only IP addresses.",
+     "cmd": "traceroute -n <HOST>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "HOST",
+       "description": "The domain name or IP address of the destination",
+       "example": "example.com"
+      }
+     ]
+    },
+    {
+     "explain": "Use -I to use ICMP packets instead of UDP, which some firewalls handle differently.",
+     "cmd": "traceroute -I <HOST>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "HOST",
+       "description": "The domain name or IP address of the destination",
+       "example": "example.com"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/traceroute.md",
+  "title": "tldr-pages: traceroute",
+  "license": "CC-BY-4.0"
+ }
+}

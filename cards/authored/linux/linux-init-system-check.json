@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "linux-init-system-check",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find out which init system runs this Linux machine",
+ "summary": "The first process Linux starts, PID 1, is the init system, and it starts and manages all services. Most current distributions use systemd, and systemctl commands only work when systemd is the init system.",
+ "aliases": [
+  {
+   "text": "which init system linux",
+   "lang": "en"
+  },
+  {
+   "text": "is my linux using systemd",
+   "lang": "en"
+  },
+  {
+   "text": "check if systemd is running",
+   "lang": "en"
+  },
+  {
+   "text": "linux init system check",
+   "lang": "en"
+  },
+  {
+   "text": "systemd or sysvinit linux how to know",
+   "lang": "en"
+  },
+  {
+   "text": "какая init система в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить запущен ли systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "есть ли systemd в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "какой init используется в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "kakaya init sistema linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal on the Linux computer"
+ ],
+ "steps": [
+  {
+   "explain": "Print the name of process 1, the first process the kernel starts. Its name tells you which init system the machine uses.",
+   "cmd": "cat /proc/1/comm",
+   "risk": "low",
+   "needs_root": false,
+   "expect": "systemd on most current desktop and server installs.",
+   "alternatives": [
+    {
+     "explain": "Same check from the status file of process 1; its first line is Name: followed by the process name.",
+     "cmd": "head -n 1 /proc/1/status",
+     "risk": "low",
+     "needs_root": false,
+     "expect": "Name: systemd"
+    }
+   ]
+  },
+  {
+   "explain": "Read the name. If it is systemd, the systemctl and journalctl commands from other cards will work. Any other name means this machine does not use systemd, so systemctl commands will fail and you need the documentation for its init system.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Inside a Docker container, process 1 is the container's own program (often bash), so the result there does not describe the host computer."
+ ],
+ "see_also": [
+  "linux-resolvectl-show-dns-settings"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/proc",
+  "title": "proc manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

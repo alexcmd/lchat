@@ -1,0 +1,108 @@
+{
+ "schema_version": 2,
+ "id": "posix-file-change-permissions-text",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change file permissions using symbolic notation",
+ "summary": "Use chmod to add or remove read, write, or execute permissions for the user, group, or others. This is often easier to remember than numeric codes.",
+ "aliases": [
+  {
+   "text": "chmod u+x",
+   "lang": "en"
+  },
+  {
+   "text": "make file executable",
+   "lang": "en"
+  },
+  {
+   "text": "change permissions chmod",
+   "lang": "en"
+  },
+  {
+   "text": "give execute permission",
+   "lang": "en"
+  },
+  {
+   "text": "remove write permission",
+   "lang": "en"
+  },
+  {
+   "text": "chmod g-x",
+   "lang": "en"
+  },
+  {
+   "text": "изменить права доступа",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать файл исполняемым",
+   "lang": "ru"
+  },
+  {
+   "text": "chmod u+x",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать права на запись",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add execute permission for the file owner (user). Replace <FILE> with your file path.",
+   "cmd": "chmod u+x <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file or directory"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Add read and write permissions for the owner.",
+     "cmd": "chmod u+rw <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file or directory"
+      }
+     ]
+    },
+    {
+     "explain": "Remove execute permission from the group and others.",
+     "cmd": "chmod g-x,o-x <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file or directory"
+      }
+     ]
+    },
+    {
+     "explain": "Give all users (a) read and execute permissions.",
+     "cmd": "chmod a+rx <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file or directory"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chmod.md",
+  "title": "tldr-pages: chmod",
+  "license": "CC-BY-4.0"
+ }
+}

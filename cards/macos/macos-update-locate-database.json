@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "macos-update-locate-database",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Update the locate database",
+ "summary": "The `locate` command uses a database that is updated periodically. If you cannot find a file you just created, you can manually update this database to include recent changes.",
+ "aliases": [
+  {
+   "text": "update locate database",
+   "lang": "en"
+  },
+  {
+   "text": "refresh locate",
+   "lang": "en"
+  },
+  {
+   "text": "locate not finding new files",
+   "lang": "en"
+  },
+  {
+   "text": "rebuild locate db",
+   "lang": "en"
+  },
+  {
+   "text": "обновить базу locate",
+   "lang": "ru"
+  },
+  {
+   "text": "locate не находит новые файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "пересобрать базу locate",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Recompute the locate database so it includes recently added files. This requires administrator privileges.",
+   "cmd": "sudo /usr/libexec/locate.updatedb",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct command to undo this update. The database will be automatically recomputed by the system periodically.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This command requires administrator privileges and may take some time to complete."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/locate.md",
+  "title": "tldr-pages: locate",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-find-file-by-name"
+ ]
+}

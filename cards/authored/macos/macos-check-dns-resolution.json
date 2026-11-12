@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-dns-resolution",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check whether a website name resolves to an IP address",
+ "summary": "Ask the Mac's system resolver which IP address belongs to a website name. If an address is printed, the name is known to the system; if nothing is printed, the name cannot be resolved right now.",
+ "aliases": [
+  {
+   "text": "check dns on mac",
+   "lang": "en"
+  },
+  {
+   "text": "does website name resolve mac",
+   "lang": "en"
+  },
+  {
+   "text": "dns lookup mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "dscacheutil host lookup",
+   "lang": "en"
+  },
+  {
+   "text": "what ip address does this site have mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac resolve hostname to ip",
+   "lang": "en"
+  },
+  {
+   "text": "проверить dns на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать ip адрес сайта на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "dscacheutil проверка имени",
+   "lang": "ru"
+  },
+  {
+   "text": "мак находит ли адрес сайта",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать ip сайта в терминале mac",
+   "lang": "ru"
+  },
+  {
+   "text": "днс имя в ip макбук",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the website name, for example example.com (without https:// and without a path)"
+ ],
+ "steps": [
+  {
+   "explain": "Ask the system resolver (the Directory Service cache) for the host record of the name. The command only reads data and changes nothing. Look for the line that starts with ip_address: to see the IP address. If no ip_address line appears, the name did not resolve.",
+   "cmd": "dscacheutil -q host -a name <HOSTNAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOSTNAME",
+     "description": "Website or host name to check, without https:// and without a path",
+     "example": "example.com"
+    }
+   ],
+   "expect": "Lines such as name: example.com and ip_address: followed by an IPv4 address like 93.184.215.14. An empty output means the name did not resolve."
+  }
+ ],
+ "risk": "low",
+ "warnings": [],
+ "source": {
+  "url": "x-man-page://dscacheutil",
+  "title": "dscacheutil manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

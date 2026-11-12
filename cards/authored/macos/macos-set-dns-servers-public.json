@@ -1,0 +1,173 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-dns-servers-public",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Change DNS servers to public resolvers on macOS and revert",
+ "summary": "Point your Mac's network connection at a public DNS resolver such as Cloudflare (1.1.1.1) or Google (8.8.8.8), then set it back to automatic when you are done. DNS turns website names into addresses, so this changes how every app on that connection looks up sites.",
+ "aliases": [
+  {
+   "text": "change dns mac",
+   "lang": "en"
+  },
+  {
+   "text": "how to change dns on macos",
+   "lang": "en"
+  },
+  {
+   "text": "mac use 1.1.1.1 dns",
+   "lang": "en"
+  },
+  {
+   "text": "set dns to google on mac",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup setdnsservers",
+   "lang": "en"
+  },
+  {
+   "text": "macos change dns server terminal",
+   "lang": "en"
+  },
+  {
+   "text": "mac dns slow change to public dns",
+   "lang": "en"
+  },
+  {
+   "text": "поменять dns на mac",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить днс на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как поменять dns macos",
+   "lang": "ru"
+  },
+  {
+   "text": "dns 1.1.1.1 мак",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить dns сервер mac os терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "мак днс гугл 8.8.8.8",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos",
+    "min_version": "13"
+   }
+  ]
+ },
+ "prerequisites": [
+  "An administrator account on the Mac and its login password",
+  "Know which connection you use: Wi-Fi for most laptops, Ethernet for a cable"
+ ],
+ "steps": [
+  {
+   "explain": "List the network services on this Mac. Each name, such as Wi-Fi or Thunderbolt Bridge, is what the next commands need. This only reads settings.",
+   "cmd": "networksetup -listallnetworkservices",
+   "risk": "low",
+   "expect": "A list of service names, one per line. A name with an asterisk (*) in front is disabled.",
+   "alternatives": [
+    {
+     "explain": "Show each service together with its hardware device, such as en0. Use this if the service list is unclear.",
+     "cmd": "networksetup -listnetworkserviceorder",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Check the DNS servers that are set now. Write them down so you can compare later. Nothing is changed.",
+   "cmd": "networksetup -getdnsservers \"<NETWORK_SERVICE>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NETWORK_SERVICE",
+     "description": "The service name from step 1, for example Wi-Fi. Keep the quotes if the name has spaces.",
+     "example": "Wi-Fi",
+     "discover_cmd": "networksetup -listallnetworkservices"
+    }
+   ],
+   "expect": "The current DNS server addresses, one per line. If the service uses automatic settings, a message says that no DNS servers are set."
+  },
+  {
+   "explain": "Set the DNS servers for this connection to Cloudflare's public resolvers, 1.1.1.1 and 1.0.0.1. Every app on this connection will use them. Administrator rights are required, so sudo asks for your Mac login password.",
+   "cmd": "sudo networksetup -setdnsservers \"<NETWORK_SERVICE>\" 1.1.1.1 1.0.0.1",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "NETWORK_SERVICE",
+     "description": "The service name from step 1, for example Wi-Fi. Keep the quotes if the name has spaces.",
+     "example": "Wi-Fi",
+     "discover_cmd": "networksetup -listallnetworkservices"
+    }
+   ],
+   "gui": "System Settings > Network, select the connection, click Details... > DNS, then add 1.1.1.1 and 1.0.0.1.",
+   "expect": "Usually no output on success. If you see an error, check the service name from step 1.",
+   "alternatives": [
+    {
+     "explain": "Use Google Public DNS, 8.8.8.8 and 8.8.4.4, instead of Cloudflare.",
+     "cmd": "sudo networksetup -setdnsservers \"<NETWORK_SERVICE>\" 8.8.8.8 8.8.4.4",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "NETWORK_SERVICE",
+       "description": "The service name from step 1, for example Wi-Fi.",
+       "example": "Wi-Fi",
+       "discover_cmd": "networksetup -listallnetworkservices"
+      }
+     ],
+     "expect": "Usually no output on success."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "networksetup -getdnsservers \"<NETWORK_SERVICE>\"",
+   "expect": "The addresses you set (1.1.1.1 and 1.0.0.1) are listed, one per line."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Return the connection to automatic DNS. The word empty removes the manual DNS servers, so the Mac uses the ones the network provides again.",
+   "cmd": "sudo networksetup -setdnsservers \"<NETWORK_SERVICE>\" empty",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "NETWORK_SERVICE",
+     "description": "The same service name you changed in the step above, for example Wi-Fi.",
+     "example": "Wi-Fi",
+     "discover_cmd": "networksetup -listallnetworkservices"
+    }
+   ],
+   "expect": "Usually no output. Then the check with -getdnsservers shows that no DNS servers are set manually."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This changes DNS for the whole connection, not just one app. Browsers and other apps may need a moment or a restart to use the new servers.",
+  "Office or school networks often use their own DNS for internal sites. After switching to public DNS, those sites may stop opening. Use the rollback command to go back.",
+  "Parental controls, company filters, and VPN DNS settings are bypassed when you use public DNS directly.",
+  "The command needs an administrator password through sudo. Do not run it on a Mac you do not own or manage."
+ ],
+ "see_also": [],
+ "source": {
+  "url": "x-man-page://networksetup",
+  "title": "networksetup manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

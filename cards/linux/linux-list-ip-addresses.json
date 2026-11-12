@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-ip-addresses",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List network interfaces and their IP addresses",
+ "summary": "Show all network interfaces on your computer and the IP addresses assigned to them. This helps you find your local IP or check if an interface is active.",
+ "aliases": [
+  {
+   "text": "show ip addresses",
+   "lang": "en"
+  },
+  {
+   "text": "list network interfaces",
+   "lang": "en"
+  },
+  {
+   "text": "what is my ip address",
+   "lang": "en"
+  },
+  {
+   "text": "check network config",
+   "lang": "en"
+  },
+  {
+   "text": "ip addr",
+   "lang": "en"
+  },
+  {
+   "text": "показать ip адреса",
+   "lang": "ru"
+  },
+  {
+   "text": "какой у меня ip",
+   "lang": "ru"
+  },
+  {
+   "text": "список сетевых интерфейсов",
+   "lang": "ru"
+  },
+  {
+   "text": "ip адрес компьютера",
+   "lang": "ru"
+  },
+  {
+   "text": "ip address list",
+   "lang": "en"
+  },
+  {
+   "text": "список сетевых карт",
+   "lang": "ru"
+  },
+  {
+   "text": "check network cards",
+   "lang": "en"
+  },
+  {
+   "text": "какие сетевые интерфейсы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to list all network interfaces and their associated IP addresses.",
+   "cmd": "ip address",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show only interfaces that are currently active (up).",
+     "cmd": "ip address show up",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-address.md",
+  "title": "tldr-pages: ip-address",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-network-interfaces",
+  "linux-check-wifi-interface-status"
+ ]
+}

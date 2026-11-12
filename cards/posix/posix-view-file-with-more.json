@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-file-with-more",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View a text file page by page using more",
+ "summary": "Open a text file in the terminal and read it one screen at a time. You can scroll down, search for text, and quit when done.",
+ "aliases": [
+  {
+   "text": "view file in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "read text file page by page",
+   "lang": "en"
+  },
+  {
+   "text": "how to use more command",
+   "lang": "en"
+  },
+  {
+   "text": "scroll through long file",
+   "lang": "en"
+  },
+  {
+   "text": "open text file in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "просмотреть файл в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "читать файл постранично",
+   "lang": "ru"
+  },
+  {
+   "text": "как использовать more",
+   "lang": "ru"
+  },
+  {
+   "text": "листать длинный файл",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть текстовый файл в консоли",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the specified file in the 'more' viewer. The file content will be displayed one screen at a time.",
+   "cmd": "more <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to view",
+     "example": "notes.txt"
+    }
+   ],
+   "expect": "The first screen of the file is displayed. At the bottom, you might see a percentage or '--More--' prompt."
+  },
+  {
+   "explain": "Press the Space bar to advance to the next page of the file.",
+   "cmd": "<Space>",
+   "risk": "low",
+   "expect": "The next screen of text appears."
+  },
+  {
+   "explain": "Type / followed by the text you want to find, then press Enter. Press n to jump to the next match.",
+   "cmd": "/<SEARCH_TERM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_TERM",
+     "description": "The text string you are searching for",
+     "example": "error"
+    }
+   ],
+   "expect": "The viewer jumps to the first occurrence of the search term."
+  },
+  {
+   "explain": "Press q to exit the viewer and return to the command prompt.",
+   "cmd": "<q>",
+   "risk": "low",
+   "expect": "The terminal prompt returns."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/more.md",
+  "title": "tldr-pages: more",
+  "license": "CC-BY-4.0"
+ }
+}

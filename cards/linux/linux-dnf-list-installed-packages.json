@@ -1,0 +1,102 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-list-installed-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List installed packages using dnf",
+ "summary": "Show a list of all software packages currently installed on your system.",
+ "aliases": [
+  {
+   "text": "list installed packages dnf",
+   "lang": "en"
+  },
+  {
+   "text": "dnf list installed",
+   "lang": "en"
+  },
+  {
+   "text": "show installed software fedora",
+   "lang": "en"
+  },
+  {
+   "text": "dnf list",
+   "lang": "en"
+  },
+  {
+   "text": "список установленных пакетов dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf список",
+   "lang": "ru"
+  },
+  {
+   "text": "какие программы установлены fedora",
+   "lang": "ru"
+  },
+  {
+   "text": "show all installed packages",
+   "lang": "en"
+  },
+  {
+   "text": "list installed rpm packages",
+   "lang": "en"
+  },
+  {
+   "text": "rpm list packages",
+   "lang": "en"
+  },
+  {
+   "text": "список установленных пакетов rpm",
+   "lang": "ru"
+  },
+  {
+   "text": "показать все установленные пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "rpm список пакетов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "opensuse"
+   },
+   {
+    "family": "other"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all packages that are currently installed.",
+   "cmd": "dnf list --installed",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Query all installed packages. You can use a glob pattern to filter the results.",
+     "cmd": "rpm -qa '<PATTERN>'",
+     "placeholders": [
+      {
+       "name": "PATTERN",
+       "description": "Glob pattern to match package names, e.g. 'mariadb*' or '*' for all",
+       "example": "mariadb*"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf.md",
+  "title": "tldr-pages: dnf",
+  "license": "CC-BY-4.0"
+ }
+}

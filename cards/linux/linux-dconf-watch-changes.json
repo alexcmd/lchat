@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-dconf-watch-changes",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Watch dconf keys for changes",
+ "summary": "Monitor a specific key or directory in the dconf database to see real-time changes as they happen.",
+ "aliases": [
+  {
+   "text": "watch dconf changes",
+   "lang": "en"
+  },
+  {
+   "text": "monitor gnome settings",
+   "lang": "en"
+  },
+  {
+   "text": "dconf watch",
+   "lang": "en"
+  },
+  {
+   "text": "следить за изменениями dconf",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг настроек gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start watching a specific key or directory for changes. Replace <PATH> with the key or directory path. Press Ctrl+C to stop.",
+   "cmd": "dconf watch /<PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATH",
+     "description": "The path to a key or directory to watch",
+     "example": "org/gnome/desktop/interface"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dconf.md",
+  "title": "tldr-pages: dconf",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-dconf-list-directory"
+ ]
+}

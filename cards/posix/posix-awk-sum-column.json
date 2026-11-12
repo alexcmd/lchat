@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-awk-sum-column",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sum values in a column of a text file",
+ "summary": "Use awk to calculate the total sum of numbers in a specific column of a text file.",
+ "aliases": [
+  {
+   "text": "sum column in file",
+   "lang": "en"
+  },
+  {
+   "text": "add up numbers in column",
+   "lang": "en"
+  },
+  {
+   "text": "awk sum field",
+   "lang": "en"
+  },
+  {
+   "text": "calculate total from text",
+   "lang": "en"
+  },
+  {
+   "text": "сумма значений в колонке",
+   "lang": "ru"
+  },
+  {
+   "text": "сложить числа из столбца",
+   "lang": "ru"
+  },
+  {
+   "text": "awk посчитать сумму",
+   "lang": "ru"
+  },
+  {
+   "text": "итог по колонке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Sum the values in the first column of the file and print the total. Change $1 to the column number you need.",
+   "cmd": "awk '{s+=$1} END {print s}' <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file with numbers",
+     "example": "data.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/awk.md",
+  "title": "tldr-pages: awk",
+  "license": "CC-BY-4.0"
+ }
+}

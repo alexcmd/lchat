@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "locale-fix-kde-language-override",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix KDE Plasma ignoring system locale settings",
+ "summary": "If KDE Plasma continues to use the wrong language despite changing the system locale, deleting a specific configuration file usually resolves the issue.",
+ "aliases": [
+  {
+   "text": "kde language not changing",
+   "lang": "en"
+  },
+  {
+   "text": "kde plasma locale override",
+   "lang": "en"
+  },
+  {
+   "text": "plasma-localerc fix",
+   "lang": "en"
+  },
+  {
+   "text": "kde wrong language",
+   "lang": "en"
+  },
+  {
+   "text": "kde игнорирует локаль",
+   "lang": "ru"
+  },
+  {
+   "text": "kde не меняется язык",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "KDE Plasma also allows to change the UI's language through the system settings. If the desktop environment is still using the default language after the modification"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "desktop": [
+   "kde"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete the KDE-specific locale configuration file that overrides system settings.",
+   "risk": "low",
+   "gui": "Delete the file ~/.config/plasma-localerc"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Locale#My_system_is_still_using_wrong_language",
+  "title": "Locale",
+  "revision_id": 881998,
+  "license": "GFDL-1.3-or-later"
+ }
+}

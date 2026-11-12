@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "linux-wayland-screenshot-with-cursor",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Include the mouse cursor in a Wayland screenshot",
+ "summary": "Capture the screen including the mouse pointer. By default, grim does not include the cursor.",
+ "aliases": [
+  {
+   "text": "grim include cursor",
+   "lang": "en"
+  },
+  {
+   "text": "screenshot with mouse pointer wayland",
+   "lang": "en"
+  },
+  {
+   "text": "grim -c screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот с курсором wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "grim показать курсор",
+   "lang": "ru"
+  },
+  {
+   "text": "захват экрана с мышкой",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "grim"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -c flag to include the mouse cursor in the screenshot.",
+   "cmd": "grim -c",
+   "risk": "low",
+   "expect": "A screenshot is saved with the mouse cursor visible."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/grim.md",
+  "title": "tldr-pages: grim",
+  "license": "CC-BY-4.0"
+ }
+}

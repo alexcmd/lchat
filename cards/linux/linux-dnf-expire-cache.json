@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-expire-cache",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mark DNF cache as expired",
+ "summary": "Marks the repository metadata as expired without deleting it. This forces DNF to check for updates and refresh the metadata the next time you run a command, which is useful if you suspect your package lists are outdated.",
+ "aliases": [
+  {
+   "text": "expire dnf cache",
+   "lang": "en"
+  },
+  {
+   "text": "dnf clean expire-cache",
+   "lang": "en"
+  },
+  {
+   "text": "force dnf update check",
+   "lang": "en"
+  },
+  {
+   "text": "refresh dnf metadata",
+   "lang": "en"
+  },
+  {
+   "text": "сделать кэш dnf недействительным",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf expire cache",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить списки пакетов fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to mark the repository metadata as expired.",
+   "cmd": "sudo dnf clean expire-cache",
+   "risk": "low",
+   "needs_root": true
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf-clean.md",
+  "title": "tldr-pages: dnf-clean",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-reveal-file-in-finder",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Reveal a file in Finder",
+ "summary": "Open the Finder window containing a specific file and select it, without opening the file itself.",
+ "aliases": [
+  {
+   "text": "reveal file in finder",
+   "lang": "en"
+  },
+  {
+   "text": "show file location in finder",
+   "lang": "en"
+  },
+  {
+   "text": "find file in finder mac",
+   "lang": "en"
+  },
+  {
+   "text": "показать файл в finder",
+   "lang": "ru"
+  },
+  {
+   "text": "найти файл в finder",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть папку с файлом",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -R flag to reveal the file's location in Finder.",
+   "cmd": "open -R <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file to reveal",
+     "example": "/Users/you/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/open.md",
+  "title": "tldr-pages: open",
+  "license": "CC-BY-4.0"
+ }
+}

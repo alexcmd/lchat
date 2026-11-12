@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-device-details",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show detailed information about a storage device",
+ "summary": "Get detailed technical information about a specific disk or partition, such as its size, model, and filesystem type.",
+ "aliases": [
+  {
+   "text": "show device info",
+   "lang": "en"
+  },
+  {
+   "text": "udisksctl info",
+   "lang": "en"
+  },
+  {
+   "text": "details about /dev/sda",
+   "lang": "en"
+  },
+  {
+   "text": "check partition info",
+   "lang": "en"
+  },
+  {
+   "text": "disk details",
+   "lang": "en"
+  },
+  {
+   "text": "показать информацию о диске",
+   "lang": "ru"
+  },
+  {
+   "text": "детали раздела",
+   "lang": "ru"
+  },
+  {
+   "text": "udisksctl info",
+   "lang": "ru"
+  },
+  {
+   "text": "свойства диска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use udisksctl info with the block device path to see detailed properties.",
+   "cmd": "udisksctl info --block-device <DEVICE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The path to the block device or partition, e.g. /dev/sda or /dev/sda1",
+     "example": "/dev/sda",
+     "discover_cmd": "udisksctl status"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/udisksctl.md",
+  "title": "tldr-pages: udisksctl",
+  "license": "CC-BY-4.0"
+ }
+}

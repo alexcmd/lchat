@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-kill-process-by-full-command",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Kill a process by its full command line",
+ "summary": "Use pkill with the full command option to target a specific instance of a program based on its entire command line, not just the executable name. This is useful when multiple instances run with different arguments.",
+ "aliases": [
+  {
+   "text": "kill by full command",
+   "lang": "en"
+  },
+  {
+   "text": "pkill full command",
+   "lang": "en"
+  },
+  {
+   "text": "kill specific instance of app",
+   "lang": "en"
+  },
+  {
+   "text": "kill process by arguments",
+   "lang": "en"
+  },
+  {
+   "text": "убить процесс по полной команде",
+   "lang": "ru"
+  },
+  {
+   "text": "pkill по аргументам",
+   "lang": "ru"
+  },
+  {
+   "text": "закрыть конкретное окно приложения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Match processes against their full command line instead of just the process name. This allows targeting a specific script or instance.",
+   "cmd": "pkill -f \"<COMMAND_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND_NAME",
+     "description": "The full command or a unique part of it (e.g., 'python script.py')",
+     "example": "python script.py"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pkill.md",
+  "title": "tldr-pages: pkill",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,164 @@
+{
+ "schema_version": 2,
+ "id": "macos-python-venv-create-activate",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create and activate a Python virtual environment on macOS",
+ "summary": "A virtual environment is a private folder with its own Python and pip. Create one in your project and activate it in Terminal, so packages you install stay inside it and do not touch the system Python.",
+ "aliases": [
+  {
+   "text": "python virtual environment mac",
+   "lang": "en"
+  },
+  {
+   "text": "create venv mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "activate python venv macos",
+   "lang": "en"
+  },
+  {
+   "text": "python3 -m venv",
+   "lang": "en"
+  },
+  {
+   "text": "how to activate virtualenv on mac",
+   "lang": "en"
+  },
+  {
+   "text": "isolated python environment mac",
+   "lang": "en"
+  },
+  {
+   "text": "venv mac pip install separate",
+   "lang": "en"
+  },
+  {
+   "text": "виртуальное окружение python mac",
+   "lang": "ru"
+  },
+  {
+   "text": "создать venv на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "активировать виртуальное окружение python на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как включить venv в терминале mac",
+   "lang": "ru"
+  },
+  {
+   "text": "изолированное окружение python макбук",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "python3"
+  ]
+ },
+ "prerequisites": [
+  "Terminal open in your project folder",
+  "Python 3 installed (see step 1)"
+ ],
+ "steps": [
+  {
+   "explain": "Check which python3 Terminal runs. The path is usually /usr/bin/python3 (Apple's Command Line Tools), /opt/homebrew/bin/python3 (Apple Silicon Homebrew) or /usr/local/bin/python3 (Intel Homebrew). If macOS offers to install developer tools, accept, then run this step again.",
+   "cmd": "command -v python3",
+   "expect": "A path such as /usr/bin/python3 or /opt/homebrew/bin/python3. Nothing printed means Python 3 is missing.",
+   "risk": "low"
+  },
+  {
+   "explain": "Create the environment in a folder named .venv inside the project. It gets its own copy of Python and pip. The command prints nothing when it works.",
+   "cmd": "python3 -m venv <VENV_DIR>",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "Folder for the environment, usually .venv inside the project folder",
+     "example": ".venv",
+     "discover_cmd": "ls -d ./.venv ./venv 2>/dev/null"
+    }
+   ],
+   "expect": "No output. A folder named <VENV_DIR> appears in the project folder.",
+   "risk": "low"
+  },
+  {
+   "explain": "Activate the environment in this Terminal window. After this, python and pip point to the environment, and the prompt starts with the folder name in brackets. Activation lasts only until you close the window or run deactivate.",
+   "cmd": "source <VENV_DIR>/bin/activate",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "The environment folder created in step 2",
+     "example": ".venv",
+     "discover_cmd": "ls -d ./.venv ./venv 2>/dev/null"
+    }
+   ],
+   "expect": "The prompt starts with (.venv) or the folder name you used.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "The same activation written with a single dot. Some tutorials use this form; it does the same thing in zsh.",
+     "cmd": ". <VENV_DIR>/bin/activate",
+     "placeholders": [
+      {
+       "name": "VENV_DIR",
+       "description": "The environment folder created in step 2",
+       "example": ".venv",
+       "discover_cmd": "ls -d ./.venv ./venv 2>/dev/null"
+      }
+     ],
+     "expect": "The prompt starts with (.venv) or the folder name you used.",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Install a package into the active environment. python -m pip always uses the pip of the Python that is running, so the package goes into the environment.",
+   "cmd": "python -m pip install <PACKAGE>",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to install from PyPI",
+     "example": "requests"
+    }
+   ],
+   "expect": "The last line starts with 'Successfully installed' and names the package.",
+   "risk": "low"
+  },
+  {
+   "explain": "Leave the environment when you are done. The prompt loses the bracketed folder name and python goes back to the system or Homebrew Python.",
+   "cmd": "deactivate",
+   "expect": "The (.venv) prefix disappears from the prompt.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "<VENV_DIR>/bin/python -c \"import sys; print(sys.prefix)\"",
+   "expect": "The full path of the environment folder, for example /Users/you/Projects/myproject/.venv."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Do not run 'sudo pip install': it installs into the system Python instead of the environment.",
+  "Each new Terminal window needs the activate step again. Packages stay in the folder, so you do not reinstall them."
+ ],
+ "see_also": [
+  "macos-error-externally-managed-python",
+  "macos-error-command-not-found-python"
+ ],
+ "source": {
+  "url": "x-man-page://python3",
+  "title": "python3 manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

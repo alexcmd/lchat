@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "posix-copy-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy a file to another location",
+ "summary": "Copy a single file from one place to another. You can rename it during the copy by specifying a new name for the target.",
+ "aliases": [
+  {
+   "text": "copy file",
+   "lang": "en"
+  },
+  {
+   "text": "cp file",
+   "lang": "en"
+  },
+  {
+   "text": "duplicate file",
+   "lang": "en"
+  },
+  {
+   "text": "copy file to folder",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat fail",
+   "lang": "ru"
+  },
+  {
+   "text": "cp fail",
+   "lang": "ru"
+  },
+  {
+   "text": "kopirovat fail",
+   "lang": "ru"
+  },
+  {
+   "text": "perenos faila",
+   "lang": "ru"
+  },
+  {
+   "text": "copy file into folder",
+   "lang": "en"
+  },
+  {
+   "text": "copy file to directory",
+   "lang": "en"
+  },
+  {
+   "text": "cp file to folder",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat fail v papku",
+   "lang": "ru"
+  },
+  {
+   "text": "kopirovat v papku",
+   "lang": "ru"
+  },
+  {
+   "text": "cp fail v katalog",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy the source file to the target location. If the target is a new filename, the file is copied and renamed.",
+   "cmd": "cp <SOURCE_FILE> <TARGET_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE_FILE",
+     "description": "Path to the file you want to copy",
+     "example": "document.txt"
+    },
+    {
+     "name": "TARGET_FILE",
+     "description": "Path where the copy should be saved",
+     "example": "backup/document.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cp.md",
+  "title": "tldr-pages: cp",
+  "license": "CC-BY-4.0"
+ }
+}

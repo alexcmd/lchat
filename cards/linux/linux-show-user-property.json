@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-user-property",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show a specific property of a user",
+ "summary": "Display the value of a single specific property for a user account.",
+ "aliases": [
+  {
+   "text": "show user property",
+   "lang": "en"
+  },
+  {
+   "text": "check user setting",
+   "lang": "en"
+  },
+  {
+   "text": "loginctl show user property",
+   "lang": "en"
+  },
+  {
+   "text": "get user attribute",
+   "lang": "en"
+  },
+  {
+   "text": "user property value",
+   "lang": "en"
+  },
+  {
+   "text": "show specific user info",
+   "lang": "en"
+  },
+  {
+   "text": "check user attribute",
+   "lang": "en"
+  },
+  {
+   "text": "show user property",
+   "lang": "ru"
+  },
+  {
+   "text": "check user setting",
+   "lang": "ru"
+  },
+  {
+   "text": "loginctl show user property",
+   "lang": "ru"
+  },
+  {
+   "text": "get user attribute",
+   "lang": "ru"
+  },
+  {
+   "text": "user property value",
+   "lang": "ru"
+  },
+  {
+   "text": "show specific user info",
+   "lang": "ru"
+  },
+  {
+   "text": "check user attribute",
+   "lang": "ru"
+  },
+  {
+   "text": "show user property",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use loginctl show-user with the -p flag and the property name to display only that specific property.",
+   "cmd": "loginctl show-user <USERNAME> -p <PROPERTY_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username to inspect"
+    },
+    {
+     "name": "PROPERTY_NAME",
+     "description": "The name of the property to display"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/loginctl.md",
+  "title": "tldr-pages: loginctl",
+  "license": "CC-BY-4.0"
+ }
+}

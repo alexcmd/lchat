@@ -1,0 +1,199 @@
+{
+ "schema_version": 2,
+ "id": "linux-app-missing-shared-library",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Find and install a missing shared library (cannot open shared object file)",
+ "summary": "A program will not start because a library file it needs is missing from the system, and the error says 'cannot open shared object file'. This finds the missing library and installs the package that contains it.",
+ "aliases": [
+  {
+   "text": "cannot open shared object file",
+   "lang": "en"
+  },
+  {
+   "text": "error while loading shared libraries",
+   "lang": "en"
+  },
+  {
+   "text": "missing shared library linux",
+   "lang": "en"
+  },
+  {
+   "text": "program won't start missing .so library",
+   "lang": "en"
+  },
+  {
+   "text": "which package provides missing so file",
+   "lang": "en"
+  },
+  {
+   "text": "shared object not found how to fix",
+   "lang": "en"
+  },
+  {
+   "text": "linux missing dll library install",
+   "lang": "en"
+  },
+  {
+   "text": "не могу открыть общий объектный файл",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка error while loading shared libraries linux",
+   "lang": "ru"
+  },
+  {
+   "text": "программа не запускается нет библиотеки so",
+   "lang": "ru"
+  },
+  {
+   "text": "не найдена библиотека .so как установить",
+   "lang": "ru"
+  },
+  {
+   "text": "недостающая библиотека linux установить",
+   "lang": "ru"
+  },
+  {
+   "text": "какой пакет содержит библиотеку so",
+   "lang": "ru"
+  },
+  {
+   "text": "аналог dll в linux не хватает библиотеки",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "error while loading shared libraries",
+  "cannot open shared object file"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "ldd"
+  ]
+ },
+ "prerequisites": [
+  "The name or full path of the program that fails to start",
+  "An internet connection for the package lists (first run only)",
+  "Debian, Ubuntu and Mint: the apt-file package is installed (it is not installed by default)"
+ ],
+ "steps": [
+  {
+   "explain": "List the libraries the program cannot find. Lines that end with 'not found' are the missing ones. This only reads the program file.",
+   "cmd": "ldd \"$(command -v <APP>)\" | grep 'not found'",
+   "placeholders": [
+    {
+     "name": "APP",
+     "description": "Program name as you type it in the terminal",
+     "example": "jq",
+     "discover_cmd": "ls /usr/local/bin"
+    }
+   ],
+   "expect": "A line like 'libonig.so.5 => not found'. No output means no library is missing.",
+   "alternatives": [
+    {
+     "explain": "If the program is not in your PATH, give the full path to its file instead.",
+     "cmd": "ldd <FILE> | grep 'not found'",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Full path to the program file",
+       "example": "/usr/bin/jq"
+      }
+     ],
+     "expect": "Same as the step above.",
+     "risk": "low"
+    }
+   ],
+   "risk": "low"
+  },
+  {
+   "explain": "Download the lists of which package contains which file. Needed once before searching; the first run can take a few minutes. Fedora and Arch use the command shown in their variant.",
+   "cmd": "sudo apt-file update",
+   "variants": {
+    "fedora": "sudo dnf makecache",
+    "arch": "sudo pacman -Fy"
+   },
+   "needs_root": true,
+   "expect": "Debian, Ubuntu, Mint: ends with 'Reading package lists...'. Fedora: 'Metadata cache created.' Arch: 'extra downloading...'. No error in any case.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Search the lists for the missing file name from step 1. The result shows the package that contains the file.",
+   "cmd": "apt-file search <LIBRARY>",
+   "variants": {
+    "fedora": "dnf provides '*/<LIBRARY>'",
+    "arch": "pacman -F <LIBRARY>"
+   },
+   "placeholders": [
+    {
+     "name": "LIBRARY",
+     "description": "Missing file name from the 'not found' line in step 1",
+     "example": "libonig.so.5"
+    }
+   ],
+   "expect": "Ubuntu, Debian, Mint: 'libonig5: /usr/lib/...' (name before the colon). Fedora and Arch: package name on the first line, without version.",
+   "risk": "low"
+  },
+  {
+   "explain": "Install the package that contains the missing file, using only its name from step 3 without a version number. Answer y when asked, but only if the list shows just that package.",
+   "cmd": "sudo apt-get install <PACKAGE>",
+   "variants": {
+    "fedora": "sudo dnf install <PACKAGE>",
+    "arch": "sudo pacman -S <PACKAGE>"
+   },
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Package name from step 3, without version or architecture",
+     "example": "libonig5"
+    }
+   ],
+   "needs_root": true,
+   "expect": "Ends with 'Setting up libonig5' (Ubuntu, Debian, Mint), 'Complete!' (Fedora) or 'installing oniguruma...' (Arch), with no error.",
+   "risk": "medium"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ldd \"$(command -v <APP>)\" | grep 'not found'",
+   "expect": "Empty output: no library is missing any more. Start the program again to confirm."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Nothing to undo for the search steps. An installed package can be removed again with your package manager's remove command, but programs that need it will stop working.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Install only packages from your distribution's official repositories, taking the name from the search in step 3. Do not install a library file from a random website.",
+  "Only run step 1 on programs you trust: on some systems ldd can run the program's own code.",
+  "On Arch Linux, if the system has not been updated for a long time, update the whole system first; installing one package on an old system can break it.",
+  "Libraries are shared: removing a package can stop other programs from starting."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/ldd",
+  "title": "ldd manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

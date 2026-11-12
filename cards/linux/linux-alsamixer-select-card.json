@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-alsamixer-select-card",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Select a specific sound card in ALSA mixer",
+ "summary": "If you have multiple sound cards, use this command to choose which one to control in alsamixer.",
+ "aliases": [
+  {
+   "text": "select sound card alsamixer",
+   "lang": "en"
+  },
+  {
+   "text": "choose audio device linux",
+   "lang": "en"
+  },
+  {
+   "text": "alsamixer multiple sound cards",
+   "lang": "en"
+  },
+  {
+   "text": "switch sound card terminal",
+   "lang": "en"
+  },
+  {
+   "text": "выбрать звуковую карту alsamixer",
+   "lang": "ru"
+  },
+  {
+   "text": "переключить звуковую карту",
+   "lang": "ru"
+  },
+  {
+   "text": "alsamixer несколько карт",
+   "lang": "ru"
+  },
+  {
+   "text": "выбрать аудио устройство",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Launch alsamixer targeting a specific sound card by its number.",
+   "cmd": "alsamixer --card <SOUNDCARD_NUMBER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOUNDCARD_NUMBER",
+     "description": "The index number of the sound card you want to control (e.g., 0, 1)."
+    }
+   ],
+   "expect": "The alsamixer interface opens showing controls for the specified sound card."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/alsamixer.md",
+  "title": "tldr-pages: alsamixer",
+  "license": "CC-BY-4.0"
+ }
+}

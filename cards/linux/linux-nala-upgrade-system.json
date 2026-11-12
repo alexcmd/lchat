@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-nala-upgrade-system",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update and upgrade system with nala",
+ "summary": "Refresh the list of available packages and upgrade all installed packages to their latest versions using nala.",
+ "aliases": [
+  {
+   "text": "update system nala",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade packages nala",
+   "lang": "en"
+  },
+  {
+   "text": "nala upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "обновить систему nala",
+   "lang": "ru"
+  },
+  {
+   "text": "апгрейд пакетов nala",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ],
+  "requires": [
+   "nala"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Update the package list and upgrade all installed packages.",
+   "cmd": "sudo nala upgrade",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Downgrading packages is complex and not directly supported by a single nala command. Ensure you have backups before upgrading.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Upgrading all packages can sometimes cause issues. It is recommended to have a backup."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nala.md",
+  "title": "tldr-pages: nala",
+  "license": "CC-BY-4.0"
+ }
+}

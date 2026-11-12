@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-generate-random-numbers",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Generate a list of random numbers",
+ "summary": "Use shuf to generate a sequence of random integers within a specific range. This is handy for quick random number generation without writing a script.",
+ "aliases": [
+  {
+   "text": "generate random numbers",
+   "lang": "en"
+  },
+  {
+   "text": "random number generator terminal",
+   "lang": "en"
+  },
+  {
+   "text": "shuf random range",
+   "lang": "en"
+  },
+  {
+   "text": "сгенерировать случайные числа",
+   "lang": "ru"
+  },
+  {
+   "text": "случайные числа в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "shuf диапазон",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --input-range flag to specify the minimum and maximum numbers (e.g., 1-10). shuf will print each number in the range exactly once, in random order.",
+   "cmd": "shuf --input-range=1-10",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/shuf.md",
+  "title": "tldr-pages: shuf",
+  "license": "CC-BY-4.0"
+ }
+}

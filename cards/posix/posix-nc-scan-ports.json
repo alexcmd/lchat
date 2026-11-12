@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "posix-nc-scan-ports",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Scan open TCP ports on a host using netcat",
+ "summary": "Use netcat to check which TCP ports are open on a remote host. This is useful for basic network troubleshooting or security checks.",
+ "aliases": [
+  {
+   "text": "scan ports with nc",
+   "lang": "en"
+  },
+  {
+   "text": "netcat port scan",
+   "lang": "en"
+  },
+  {
+   "text": "check open ports nc",
+   "lang": "en"
+  },
+  {
+   "text": "сканировать порты nc",
+   "lang": "ru"
+  },
+  {
+   "text": "netcat проверка портов",
+   "lang": "ru"
+  },
+  {
+   "text": "какие порты открыты nc",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use netcat in verbose mode (-v) to scan a range of ports on a target host. The -z flag tells netcat to scan without sending data, and -w sets a timeout for each connection attempt.",
+   "cmd": "nc -v -z -w <TIMEOUT> <HOST> <START_PORT>-<END_PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TIMEOUT",
+     "description": "Timeout in seconds for each connection attempt",
+     "example": "1"
+    },
+    {
+     "name": "HOST",
+     "description": "The IP address or hostname to scan",
+     "example": "192.168.1.1"
+    },
+    {
+     "name": "START_PORT",
+     "description": "The first port number in the range",
+     "example": "20"
+    },
+    {
+     "name": "END_PORT",
+     "description": "The last port number in the range",
+     "example": "25"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nc.md",
+  "title": "tldr-pages: nc",
+  "license": "CC-BY-4.0"
+ }
+}

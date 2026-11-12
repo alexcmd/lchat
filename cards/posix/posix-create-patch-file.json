@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-patch-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a patch file from two text files",
+ "summary": "Generate a patch file that describes the differences between two text files. This format is compatible with Git and other patch tools.",
+ "aliases": [
+  {
+   "text": "create patch file",
+   "lang": "en"
+  },
+  {
+   "text": "make git patch",
+   "lang": "en"
+  },
+  {
+   "text": "diff to patch",
+   "lang": "en"
+  },
+  {
+   "text": "generate patch from files",
+   "lang": "en"
+  },
+  {
+   "text": "создать патч",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать патч из файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "diff в патч",
+   "lang": "ru"
+  },
+  {
+   "text": "git patch из diff",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Compare two files in unified text format and save the output to a .patch file. The --new-file flag treats missing files as empty, which is useful for new files.",
+   "cmd": "diff --text --unified --new-file <OLD_FILE> <NEW_FILE> > <PATCH_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OLD_FILE",
+     "description": "Path to the original file",
+     "example": "old_script.sh"
+    },
+    {
+     "name": "NEW_FILE",
+     "description": "Path to the modified file",
+     "example": "new_script.sh"
+    },
+    {
+     "name": "PATCH_FILE",
+     "description": "Path to the output patch file",
+     "example": "update.patch"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/diff.md",
+  "title": "tldr-pages: diff",
+  "license": "CC-BY-4.0"
+ }
+}

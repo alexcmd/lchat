@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-serial-number",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get the Mac serial number",
+ "summary": "Extract and display only the system serial number from the hardware report.",
+ "aliases": [
+  {
+   "text": "find mac serial number",
+   "lang": "en"
+  },
+  {
+   "text": "what is my mac serial number",
+   "lang": "en"
+  },
+  {
+   "text": "get serial number terminal",
+   "lang": "en"
+  },
+  {
+   "text": "узнать серийный номер мака",
+   "lang": "ru"
+  },
+  {
+   "text": "серийный номер macbook",
+   "lang": "ru"
+  },
+  {
+   "text": "serial number macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Generate the hardware report, filter for the serial number line, and print just the number.",
+   "cmd": "system_profiler SPHardwareDataType|grep \"Serial Number (system)\" | awk '{ print $4 }'",
+   "risk": "low",
+   "expect": "The alphanumeric serial number of your Mac."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/system_profiler.md",
+  "title": "tldr-pages: system_profiler",
+  "license": "CC-BY-4.0"
+ }
+}

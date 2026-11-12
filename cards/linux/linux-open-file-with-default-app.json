@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-open-file-with-default-app",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Open a file or URL with the default application",
+ "summary": "Use xdg-open to launch files, images, PDFs, or web links in the applications you have set as default. This is useful when you want to open something without manually selecting a program.",
+ "aliases": [
+  {
+   "text": "open file with default app",
+   "lang": "en"
+  },
+  {
+   "text": "xdg open",
+   "lang": "en"
+  },
+  {
+   "text": "open pdf from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "open url in browser",
+   "lang": "en"
+  },
+  {
+   "text": "open image in viewer",
+   "lang": "en"
+  },
+  {
+   "text": "открыть файл в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "xdg-open",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть ссылку в браузере",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть pdf",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "any"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open a specific file (like an image or PDF) or a URL in its default application.",
+   "cmd": "xdg-open <FILE_OR_URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_OR_URL",
+     "description": "The path to the file or the URL you want to open.",
+     "example": "https://example.com"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Open the current directory in the default file manager.",
+     "cmd": "xdg-open ."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xdg-open.md",
+  "title": "tldr-pages: xdg-open",
+  "license": "CC-BY-4.0"
+ }
+}

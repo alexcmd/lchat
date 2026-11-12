@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-hardware-class",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List specific hardware components by class",
+ "summary": "Filter lshw output to show only specific types of hardware, such as network cards, disks, or processors.",
+ "aliases": [
+  {
+   "text": "list network cards",
+   "lang": "en"
+  },
+  {
+   "text": "show disk hardware",
+   "lang": "en"
+  },
+  {
+   "text": "lshw class",
+   "lang": "en"
+  },
+  {
+   "text": "filter hardware by type",
+   "lang": "en"
+  },
+  {
+   "text": "show gpu info",
+   "lang": "en"
+  },
+  {
+   "text": "показать сетевые карты",
+   "lang": "ru"
+  },
+  {
+   "text": "список дисков",
+   "lang": "ru"
+  },
+  {
+   "text": "lshw класс оборудования",
+   "lang": "ru"
+  },
+  {
+   "text": "фильтр железа",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -class flag followed by the hardware category you want to inspect (e.g., network, disk, processor).",
+   "cmd": "sudo lshw -class <HARDWARE_CLASS>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HARDWARE_CLASS",
+     "description": "The type of hardware to list. Common values: system, bridge, memory, processor, storage, disk, network, display, multimedia.",
+     "example": "network"
+    }
+   ],
+   "expect": "Detailed information about the specified hardware class."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lshw.md",
+  "title": "tldr-pages: lshw",
+  "license": "CC-BY-4.0"
+ }
+}

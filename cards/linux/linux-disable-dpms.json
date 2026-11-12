@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-dpms",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable DPMS power saving",
+ "summary": "Turn off DPMS (Display Power Management Signaling) features. This prevents the monitor from entering power-saving modes automatically.",
+ "aliases": [
+  {
+   "text": "disable dpms",
+   "lang": "en"
+  },
+  {
+   "text": "turn off monitor power saving",
+   "lang": "en"
+  },
+  {
+   "text": "stop monitor sleep",
+   "lang": "en"
+  },
+  {
+   "text": "xset dpms off",
+   "lang": "en"
+  },
+  {
+   "text": "отключить dpms",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить энергосбережение монитора",
+   "lang": "ru"
+  },
+  {
+   "text": "монитор не засыпает",
+   "lang": "ru"
+  },
+  {
+   "text": "xset -dpms",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xset"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable DPMS features to prevent the monitor from entering power-saving states.",
+   "cmd": "xset -dpms",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xset.md",
+  "title": "tldr-pages: xset",
+  "license": "CC-BY-4.0"
+ }
+}

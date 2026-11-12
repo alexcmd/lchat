@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-keymap",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set system keyboard layout",
+ "summary": "Change the keyboard layout used for the console and graphical sessions.",
+ "aliases": [
+  {
+   "text": "change keyboard layout",
+   "lang": "en"
+  },
+  {
+   "text": "set keymap",
+   "lang": "en"
+  },
+  {
+   "text": "switch keyboard language",
+   "lang": "en"
+  },
+  {
+   "text": "localectl set-keymap",
+   "lang": "en"
+  },
+  {
+   "text": "сменить раскладку клавиатуры",
+   "lang": "ru"
+  },
+  {
+   "text": "установить раскладку",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить клавиатуру",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the system keyboard mapping to a specific layout. You usually need root privileges for this.",
+   "cmd": "sudo localectl set-keymap <KEYMAP>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "KEYMAP",
+     "description": "The name of the keyboard layout to use, e.g., us, de, ru.",
+     "example": "us",
+     "discover_cmd": "localectl list-keymaps"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert, set the keymap back to its previous value using the same command.",
+   "cmd": "sudo localectl set-keymap <PREVIOUS_KEYMAP>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PREVIOUS_KEYMAP",
+     "description": "The keyboard layout name it had before you changed it.",
+     "example": "us"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing the keymap affects how keys are interpreted in the console and some graphical environments.",
+  "If you set a layout you don't know, you might have trouble typing passwords or commands until you revert it."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/localectl.md",
+  "title": "tldr-pages: localectl",
+  "license": "CC-BY-4.0"
+ }
+}

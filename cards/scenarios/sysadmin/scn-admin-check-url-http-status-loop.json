@@ -1,0 +1,158 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-check-url-http-status-loop",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Check a list of web addresses and print each HTTP status code",
+  "summary": "Read addresses from a text file, ask each web server for its answer, and print the status code next to each address. Codes starting with 2 mean the page works. ERR means there was no answer at all.",
+  "aliases": [
+    {
+      "text": "check many urls status code",
+      "lang": "en"
+    },
+    {
+      "text": "curl loop http status",
+      "lang": "en"
+    },
+    {
+      "text": "check if websites are up",
+      "lang": "en"
+    },
+    {
+      "text": "list urls status codes script",
+      "lang": "en"
+    },
+    {
+      "text": "bash check website status",
+      "lang": "en"
+    },
+    {
+      "text": "http status check list of links",
+      "lang": "en"
+    },
+    {
+      "text": "find broken links in list",
+      "lang": "en"
+    },
+    {
+      "text": "curl http_code loop",
+      "lang": "en"
+    },
+    {
+      "text": "проверить список сайтов на доступность",
+      "lang": "ru"
+    },
+    {
+      "text": "код ответа http для списка ссылок",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт проверки сайтов curl",
+      "lang": "ru"
+    },
+    {
+      "text": "какие ссылки не работают",
+      "lang": "ru"
+    },
+    {
+      "text": "проверить сайты по списку",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "curl",
+      "awk"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script from the script section as ~/bin/check-urls.sh, then make it executable.",
+      "risk": "low",
+      "cmd": "chmod +x <SCRIPT_PATH>",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved check-urls.sh",
+          "example": "/home/deck/bin/check-urls.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Write the address list, one per line. Lines that are empty or start with # are skipped. This example has one good address and one that does not exist.",
+      "risk": "low",
+      "cmd": "printf '%s\\n' 'https://www.kernel.org/' 'https://example.com/no-such-page' > <URLS_FILE>",
+      "placeholders": [
+        {
+          "name": "URLS_FILE",
+          "description": "Text file with one web address per line",
+          "example": "/home/deck/urls.txt"
+        }
+      ]
+    },
+    {
+      "explain": "Check every address. Each line shows the HTTP status code, a tab, and the address. Redirects are followed, so you see the final answer.",
+      "risk": "low",
+      "cmd": "<SCRIPT_PATH> <URLS_FILE> | tee <RESULTS_FILE>",
+      "expect": "Lines like '200<TAB>https://www.kernel.org/' and '404<TAB>https://example.com/no-such-page'.",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved check-urls.sh",
+          "example": "/home/deck/bin/check-urls.sh"
+        },
+        {
+          "name": "URLS_FILE",
+          "description": "Text file with one web address per line",
+          "example": "/home/deck/urls.txt"
+        },
+        {
+          "name": "RESULTS_FILE",
+          "description": "File that keeps the results",
+          "example": "/home/deck/url-status.tsv"
+        }
+      ]
+    },
+    {
+      "explain": "Show only the problems: every line whose code does not start with 2. ERR means no answer at all, for example a name that does not resolve or a refused connection.",
+      "risk": "low",
+      "cmd": "awk -F'\\t' '$1 !~ /^2/' <RESULTS_FILE>",
+      "expect": "Only the lines with codes such as 404, 500 or ERR; nothing when all addresses work.",
+      "placeholders": [
+        {
+          "name": "RESULTS_FILE",
+          "description": "File that keeps the results",
+          "example": "/home/deck/url-status.tsv"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "script": {
+    "filename": "check-urls.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\nset -euo pipefail\n# Check the HTTP status of every URL listed in a text file (one per line).\n# Blank lines and lines starting with # are skipped.\n# Usage: check-urls.sh URLS_FILE\nfile=\"${1:?usage: $0 URLS_FILE}\"\n[[ -r \"$file\" ]] || { echo \"cannot read $file\" >&2; exit 1; }\nwhile IFS= read -r url || [[ -n \"$url\" ]]; do\n  [[ -z \"$url\" || \"$url\" == \\#* ]] && continue\n  code=$(curl -sSL --max-redirs 5 -o /dev/null -w '%{http_code}' --max-time 10 \"$url\" 2>/dev/null) || code=\"ERR\"\n  printf '%s\\t%s\\n' \"$code\" \"$url\"\ndone < \"$file\"\n",
+    "usage": "check-urls.sh URLS_FILE"
+  },
+  "output_guide": [
+    {
+      "pattern": "ERR",
+      "meaning": "No HTTP answer at all: name lookup, connection or timeout problem."
+    },
+    {
+      "pattern": "404",
+      "meaning": "The server answered, but the page does not exist."
+    }
+  ],
+  "source": {
+    "url": "https://curl.se/docs/manpage.html",
+    "title": "curl - command line tool manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

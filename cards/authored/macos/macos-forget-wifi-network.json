@@ -1,0 +1,135 @@
+{
+ "schema_version": 2,
+ "id": "macos-forget-wifi-network",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Forget a saved Wi-Fi network on macOS",
+ "summary": "Remove a saved Wi-Fi network from your Mac so it stops joining that network automatically. You can connect to it again later with the password.",
+ "aliases": [
+  {
+   "text": "mac forget wifi network",
+   "lang": "en"
+  },
+  {
+   "text": "remove saved wifi network mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac stop auto joining wifi",
+   "lang": "en"
+  },
+  {
+   "text": "delete wifi network from mac",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup removepreferredwirelessnetwork",
+   "lang": "en"
+  },
+  {
+   "text": "mac keeps joining old wifi",
+   "lang": "en"
+  },
+  {
+   "text": "забыть wifi сеть на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить сохраненную wifi сеть mac",
+   "lang": "ru"
+  },
+  {
+   "text": "мак сам подключается к старому wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "как убрать wifi из сохраненных на макбуке",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить сеть wi-fi из списка mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the exact name of the Wi-Fi network you want to forget",
+  "Know your Mac administrator password"
+ ],
+ "steps": [
+  {
+   "explain": "List the Mac's network hardware ports to find the Wi-Fi port name. This only reads information and changes nothing.",
+   "cmd": "networksetup -listallhardwareports",
+   "risk": "low",
+   "expect": "A block that starts with 'Hardware Port: Wi-Fi' and has a 'Device:' line below it, such as en0."
+  },
+  {
+   "explain": "List the Wi-Fi networks this Mac has saved. Copy the exact name of the network you want to forget. This only reads information and changes nothing.",
+   "cmd": "networksetup -listpreferredwirelessnetworks <WIFI_PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "WIFI_PORT",
+     "description": "The Wi-Fi hardware port name from the first step.",
+     "example": "Wi-Fi",
+     "discover_cmd": "networksetup -listallhardwareports"
+    }
+   ],
+   "expect": "A header such as 'Preferred networks on Wi-Fi:' followed by one saved network name per indented line."
+  },
+  {
+   "explain": "Remove the network from the saved list, so this Mac stops joining it automatically. If you are connected to it now, the Mac disconnects. An administrator password is required.",
+   "cmd": "sudo networksetup -removepreferredwirelessnetwork <WIFI_PORT> <SSID>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "WIFI_PORT",
+     "description": "The Wi-Fi hardware port name from the first step.",
+     "example": "Wi-Fi"
+    },
+    {
+     "name": "SSID",
+     "description": "The exact saved network name from the list. Put it in double quotes if it has spaces.",
+     "example": "\"Home WiFi\""
+    }
+   ],
+   "expect": "No message when it works, and the prompt returns. You may be asked for your Mac login password first."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "networksetup -listpreferredwirelessnetworks <WIFI_PORT>",
+   "expect": "The network you removed is no longer in the list of saved networks."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "To use the network again, connect to it with the Connect to a Wi-Fi network card (see see_also), or pick it from the Wi-Fi menu in the menu bar and type the password. Forgetting does not change the network itself.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "If you are connected to the network you forget, your Mac disconnects from it right away.",
+  "The command needs administrator rights (sudo). Run it only on a Mac you are allowed to administer.",
+  "The network name must match the saved entry exactly, including upper and lower case. A wrong name removes nothing.",
+  "To connect to this network again later, use the macos-connect-to-wifi-network card and enter the password."
+ ],
+ "see_also": [
+  "macos-connect-to-wifi-network",
+  "macos-get-current-wifi-name"
+ ],
+ "source": {
+  "url": "x-man-page://networksetup",
+  "title": "networksetup manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

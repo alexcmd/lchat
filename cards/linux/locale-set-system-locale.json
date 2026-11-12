@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "locale-set-system-locale",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set the system-wide locale on Arch Linux",
+ "summary": "Change the default language and region settings for the entire system. This affects how dates, numbers, and messages are displayed for all users unless overridden.",
+ "aliases": [
+  {
+   "text": "set system locale arch",
+   "lang": "en"
+  },
+  {
+   "text": "change language arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "localectl set-locale",
+   "lang": "en"
+  },
+  {
+   "text": "set LANG variable",
+   "lang": "en"
+  },
+  {
+   "text": "изменить системную локаль",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить язык системы arch",
+   "lang": "ru"
+  },
+  {
+   "text": "localectl set locale",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The desired locale must already be generated (see 'Generate a new locale on Arch Linux')."
+ ],
+ "steps": [
+  {
+   "explain": "Use the localectl command to set the LANG variable system-wide. Replace <LOCALE_ID> with the exact identifier from the first column of your uncommented entry in /etc/locale.gen (e.g., en_US.UTF-8).",
+   "risk": "medium",
+   "cmd": "sudo localectl set-locale LANG=<LOCALE_ID>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "LOCALE_ID",
+     "description": "The locale identifier, e.g., en_US.UTF-8",
+     "example": "en_US.UTF-8",
+     "discover_cmd": "localectl list-locales"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Set the locale back to the previous value (usually en_US.UTF-8).",
+   "risk": "medium",
+   "gui": "Edit /etc/locale.conf as root and change the LANG line back to the previous value.",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Changes take effect for new sessions. You may need to log out and back in.",
+  "Desktop environments like GNOME or KDE may override this setting in their own settings."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Locale#Setting_the_system_locale",
+  "title": "Locale",
+  "revision_id": 881998,
+  "license": "GFDL-1.3-or-later"
+ }
+}

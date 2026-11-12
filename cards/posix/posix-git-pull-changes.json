@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-git-pull-changes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Pull changes from a remote repository",
+ "summary": "Download and merge the latest changes from the remote repository into your local project.",
+ "aliases": [
+  {
+   "text": "git pull",
+   "lang": "en"
+  },
+  {
+   "text": "update local repo",
+   "lang": "en"
+  },
+  {
+   "text": "download latest changes",
+   "lang": "en"
+  },
+  {
+   "text": "получить изменения из git",
+   "lang": "ru"
+  },
+  {
+   "text": "git pull",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить локальный репозиторий",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this inside a repository to fetch and merge updates from the remote server.",
+   "cmd": "git pull",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/git.md",
+  "title": "tldr-pages: git",
+  "license": "CC-BY-4.0"
+ }
+}

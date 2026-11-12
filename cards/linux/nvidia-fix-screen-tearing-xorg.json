@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "nvidia-fix-screen-tearing-xorg",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix screen tearing on Xorg with NVIDIA",
+ "summary": "Enable the composition pipeline to eliminate screen tearing on Xorg. This can be tested temporarily or made permanent.",
+ "aliases": [
+  {
+   "text": "fix screen tearing nvidia xorg",
+   "lang": "en"
+  },
+  {
+   "text": "nvidia tearing fix",
+   "lang": "en"
+  },
+  {
+   "text": "force composition pipeline nvidia",
+   "lang": "en"
+  },
+  {
+   "text": "разрывы экрана nvidia",
+   "lang": "ru"
+  },
+  {
+   "text": "tearing xorg nvidia",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "You are running Xorg (not Wayland)."
+ ],
+ "steps": [
+  {
+   "explain": "Test the fix temporarily by assigning the current meta mode with ForceFullCompositionPipeline.",
+   "cmd": "nvidia-settings --assign CurrentMetaMode=\"nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }\"",
+   "risk": "low"
+  },
+  {
+   "explain": "To make it permanent, create or edit /etc/X11/xorg.conf.d/20-nvidia.conf. Add a Screen section with Option \"ForceFullCompositionPipeline\" \"on\".",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the configuration file or revert the nvidia-settings assignment.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This may reduce performance in some OpenGL applications and break some games using Vulkan under Proton."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#Avoid_screen_tearing_on_Xorg",
+  "title": "NVIDIA/Troubleshooting",
+  "revision_id": 887471,
+  "license": "GFDL-1.3-or-later"
+ }
+}

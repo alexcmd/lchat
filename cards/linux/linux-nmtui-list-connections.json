@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmtui-list-connections",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List and activate network connections with nmtui",
+ "summary": "View available network connections and activate or deactivate them using the text interface.",
+ "aliases": [
+  {
+   "text": "list network connections nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "activate wifi nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "connect to network nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "nmtui connect",
+   "lang": "en"
+  },
+  {
+   "text": "switch network terminal",
+   "lang": "en"
+  },
+  {
+   "text": "список сетей nmtui",
+   "lang": "ru"
+  },
+  {
+   "text": "подключиться к сети nmtui",
+   "lang": "ru"
+  },
+  {
+   "text": "активировать соединение nmtui",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the connection list where you can select a network to activate or deactivate.",
+   "cmd": "nmtui connect",
+   "risk": "low",
+   "expect": "A list of available connections appears, allowing you to navigate with arrow keys and press Enter to activate or deactivate."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmtui.md",
+  "title": "tldr-pages: nmtui",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-nmtui-open",
+  "nm-list-connections"
+ ]
+}

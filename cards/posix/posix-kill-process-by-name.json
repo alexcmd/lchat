@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "posix-kill-process-by-name",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Kill a running process by its name",
+ "summary": "Use pkill to stop a program that is running but not responding or needs to be closed. It finds all processes matching the name and sends them a termination signal.",
+ "aliases": [
+  {
+   "text": "kill process by name",
+   "lang": "en"
+  },
+  {
+   "text": "stop program from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "close app via command line",
+   "lang": "en"
+  },
+  {
+   "text": "pkill command",
+   "lang": "en"
+  },
+  {
+   "text": "kill firefox from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "убить процесс по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "закрыть программу через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить процесс в консоли",
+   "lang": "ru"
+  },
+  {
+   "text": "pkill как использовать",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send the default termination signal to all processes matching the given name. This is the standard way to ask a program to close.",
+   "cmd": "pkill \"<PROCESS_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_NAME",
+     "description": "The name of the process to kill (e.g., firefox, code, spotify)",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Force kill the process immediately if it ignores the standard signal. The process cannot block this signal.",
+     "cmd": "pkill -9 \"<PROCESS_NAME>\"",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PROCESS_NAME",
+       "description": "The name of the process to force kill",
+       "example": "firefox"
+      }
+     ]
+    },
+    {
+     "explain": "Kill only the oldest process with that name. Useful for closing the main browser window without killing child processes.",
+     "cmd": "pkill -o \"<PROCESS_NAME>\"",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROCESS_NAME",
+       "description": "The name of the process to kill",
+       "example": "firefox"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct command to undo a kill. You must restart the application manually if you closed it by mistake.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Force killing (-9) can cause data loss if the application was saving files. Use the standard signal first.",
+  "Be careful with process names; pkill matches substrings, so 'kill chrome' might kill other processes containing 'chrome'."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pkill.md",
+  "title": "tldr-pages: pkill",
+  "license": "CC-BY-4.0"
+ }
+}

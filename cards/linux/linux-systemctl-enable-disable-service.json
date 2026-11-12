@@ -1,0 +1,110 @@
+{
+ "schema_version": 2,
+ "id": "linux-systemctl-enable-disable-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable or disable a service on boot",
+ "summary": "Configure whether a systemd service should start automatically when the system boots. Use enable to add it to startup, and disable to remove it.",
+ "aliases": [
+  {
+   "text": "enable service on boot",
+   "lang": "en"
+  },
+  {
+   "text": "disable service on boot",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl enable",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl disable",
+   "lang": "en"
+  },
+  {
+   "text": "autostart service",
+   "lang": "en"
+  },
+  {
+   "text": "stop service from starting",
+   "lang": "en"
+  },
+  {
+   "text": "vkluchit sluzhbu pri zagruzke",
+   "lang": "ru"
+  },
+  {
+   "text": "otklyuchit sluzhbu pri zagruzke",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl enable",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl disable",
+   "lang": "ru"
+  },
+  {
+   "text": "avtozapusk sluzhby",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use systemctl with the enable or disable action and the name of the service unit.",
+   "cmd": "sudo systemctl <ACTION> <UNIT>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ACTION",
+     "description": "The action to perform: enable or disable.",
+     "example": "enable"
+    },
+    {
+     "name": "UNIT",
+     "description": "The name of the service unit (e.g., nginx.service).",
+     "example": "nginx.service"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo an enable, use disable. To undo a disable, use enable.",
+   "cmd": "sudo systemctl <OPPOSITE_ACTION> <UNIT>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "OPPOSITE_ACTION",
+     "description": "The opposite action: if you enabled it, use disable; if you disabled it, use enable.",
+     "example": "disable"
+    },
+    {
+     "name": "UNIT",
+     "description": "The name of the service unit.",
+     "example": "nginx.service"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Disabling a critical system service may prevent the system from booting correctly or functioning properly."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl.md",
+  "title": "tldr-pages: systemctl",
+  "license": "CC-BY-4.0"
+ }
+}

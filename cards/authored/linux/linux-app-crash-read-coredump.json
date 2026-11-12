@@ -1,0 +1,169 @@
+{
+ "schema_version": 2,
+ "id": "linux-app-crash-read-coredump",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find out why a program crashed",
+ "summary": "List the programs that crashed today and read the crash summary for one of them. Linux keeps crash reports that coredumpctl can show, and the kernel log records segmentation faults.",
+ "aliases": [
+  {
+   "text": "why did my program crash",
+   "lang": "en"
+  },
+  {
+   "text": "program has stopped working linux",
+   "lang": "en"
+  },
+  {
+   "text": "app crashed linux how to see why",
+   "lang": "en"
+  },
+  {
+   "text": "segfault linux what happened",
+   "lang": "en"
+  },
+  {
+   "text": "coredumpctl",
+   "lang": "en"
+  },
+  {
+   "text": "read crash report linux",
+   "lang": "en"
+  },
+  {
+   "text": "почему программа вылетела",
+   "lang": "ru"
+  },
+  {
+   "text": "программа упала linux что случилось",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть отчет о падении программы",
+   "lang": "ru"
+  },
+  {
+   "text": "приложение крашнулось как узнать причину",
+   "lang": "ru"
+  },
+  {
+   "text": "coredumpctl как посмотреть",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A systemd-based Linux system (Ubuntu, Linux Mint, Debian, Fedora, Arch)",
+  "The coredumpctl command is installed (Debian, Ubuntu and Mint: package systemd-coredump; Fedora: package systemd-udev; Arch: package systemd)"
+ ],
+ "steps": [
+  {
+   "explain": "Show the crashes recorded today. Each row is one crash with its time, its PID (process number), its signal and the program path. Write down the PID of the crash you want to check.",
+   "cmd": "coredumpctl list --since today",
+   "needs_root": false,
+   "risk": "low",
+   "expect": "A table with one row per crash, or 'No coredumps found.' when nothing crashed today.",
+   "alternatives": [
+    {
+     "explain": "Show only the crashes of one program. Use the program path shown in the table, for example /usr/bin/sleep.",
+     "cmd": "coredumpctl list <PROGRAM>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROGRAM",
+       "description": "Program path or name as shown in the EXE column",
+       "example": "/usr/bin/sleep",
+       "discover_cmd": "coredumpctl list --since today"
+      }
+     ],
+     "expect": "Only the rows of that program."
+    },
+    {
+     "explain": "Run the same listing as administrator. Use this if the list is empty but you expect crashes, or if you get a permission error.",
+     "cmd": "sudo coredumpctl list --since today",
+     "needs_root": true,
+     "risk": "low",
+     "expect": "The same table as above, or 'No coredumps found.'"
+    }
+   ]
+  },
+  {
+   "explain": "Show the crash summary for one crash: the process, the user it ran as, the signal that stopped it and the time. Replace <PID> with the number from the PID column of the previous list.",
+   "cmd": "coredumpctl info <PID>",
+   "needs_root": false,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PID",
+     "description": "Process number from the PID column of the crash list",
+     "example": "4242",
+     "discover_cmd": "coredumpctl list --since today"
+    }
+   ],
+   "expect": "Labelled lines describing that crash (process, user, signal, time), or 'No coredumps found.' if the PID is not in the list.",
+   "alternatives": [
+    {
+     "explain": "Show the crash summaries of one program by its name or path, without looking up a PID. If there are several crashes, the output has one block for each.",
+     "cmd": "coredumpctl info <PROGRAM>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROGRAM",
+       "description": "Program path or name as shown in the EXE column",
+       "example": "/usr/bin/sleep",
+       "discover_cmd": "coredumpctl list --since today"
+      }
+     ],
+     "expect": "One labelled block per crash of that program."
+    }
+   ]
+  },
+  {
+   "explain": "Check the kernel log of this boot for segmentation faults. The kernel records a line for each crash, with the program name and PID, even when no crash report was saved. Nothing is printed when there were no segmentation faults.",
+   "cmd": "journalctl -k -b | grep -i segfault",
+   "needs_root": false,
+   "risk": "low",
+   "expect": "Lines that contain the program name and PID followed by 'segfault at', or no output if there were none.",
+   "alternatives": [
+    {
+     "explain": "Same check run as administrator. Use this if you get a permission error or no output for a user without journal access.",
+     "cmd": "sudo journalctl -k -b | grep -i segfault",
+     "needs_root": true,
+     "risk": "low",
+     "expect": "Lines that contain 'segfault at', or no output if there were none."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "coredumpctl list --since today",
+   "expect": "A table of today's crashes, or 'No coredumps found.'"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/coredumpctl",
+  "title": "coredumpctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

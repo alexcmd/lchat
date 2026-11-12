@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "arch-check-pending-updates",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check for pending system updates on Arch Linux",
+ "summary": "Use `checkupdates` to see which packages have new versions available without actually installing them. It synchronizes the package database first to ensure the list is current.",
+ "aliases": [
+  {
+   "text": "check arch updates",
+   "lang": "en"
+  },
+  {
+   "text": "list pending updates arch",
+   "lang": "en"
+  },
+  {
+   "text": "what needs updating arch",
+   "lang": "en"
+  },
+  {
+   "text": "arch checkupdates",
+   "lang": "en"
+  },
+  {
+   "text": "проверить обновления arch",
+   "lang": "ru"
+  },
+  {
+   "text": "список обновлений arch",
+   "lang": "ru"
+  },
+  {
+   "text": "что обновить на архе",
+   "lang": "ru"
+  },
+  {
+   "text": "checkupdates arch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Internet connection",
+  "checkupdates package installed (part of pacman-contrib)"
+ ],
+ "steps": [
+  {
+   "explain": "Run checkupdates to synchronize the package database and list all packages that have pending updates.",
+   "cmd": "checkupdates",
+   "risk": "low",
+   "expect": "A list of package names and their new versions, or nothing if the system is up to date."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/checkupdates.md",
+  "title": "tldr-pages: checkupdates",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-pacman-update-system"
+ ]
+}

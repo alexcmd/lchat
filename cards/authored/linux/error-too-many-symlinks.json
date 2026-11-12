@@ -1,0 +1,205 @@
+{
+ "schema_version": 2,
+ "id": "error-too-many-symlinks",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Too many levels of symbolic links' by finding and removing a symlink loop",
+ "summary": "A symbolic link (a shortcut) points to another link that leads back to itself, so the system never reaches a real file and gives up. Find the looping link, check where it points, then remove it or point it at the real file.",
+ "error_patterns": [
+  "Too many levels of symbolic links"
+ ],
+ "aliases": [
+  {
+   "text": "too many levels of symbolic links",
+   "lang": "en"
+  },
+  {
+   "text": "symlink loop",
+   "lang": "en"
+  },
+  {
+   "text": "symbolic link loop linux",
+   "lang": "en"
+  },
+  {
+   "text": "symlink points to itself",
+   "lang": "en"
+  },
+  {
+   "text": "how to fix symlink loop",
+   "lang": "en"
+  },
+  {
+   "text": "find symlink loop",
+   "lang": "en"
+  },
+  {
+   "text": "cat too many levels of symbolic links",
+   "lang": "en"
+  },
+  {
+   "text": "слишком много уровней символических ссылок",
+   "lang": "ru"
+  },
+  {
+   "text": "симлинк ссылается сам на себя",
+   "lang": "ru"
+  },
+  {
+   "text": "цикл символических ссылок linux",
+   "lang": "ru"
+  },
+  {
+   "text": "симлинк зациклен как исправить",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка too many levels of symbolic links",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "find",
+   "ls"
+  ]
+ },
+ "prerequisites": [
+  "Know the folder where the error appears, or use your home folder",
+  "Know the file or program that printed the error"
+ ],
+ "steps": [
+  {
+   "explain": "List the broken symbolic links in a folder. A loop shows up here too, because it never reaches a real file. Nothing is changed by this command.",
+   "cmd": "find <DIR> -type l ! -exec test -e {} \\; -print",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder to search, for example your home folder or the folder with the error",
+     "example": "/home/user",
+     "discover_cmd": "echo $HOME"
+    }
+   ],
+   "expect": "One or more paths, one per line, e.g. /home/user/projects/link1. Loops and plain broken links both appear. Nothing printed: try another DIR.",
+   "alternatives": [
+    {
+     "explain": "Search the whole disk for broken links. This is slower and may print many permission errors, which can be ignored.",
+     "cmd": "sudo find / -type l ! -exec test -e {} \\; -print 2>/dev/null",
+     "needs_root": true,
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Show where the link points. ls -l does not follow the link, so it works even for a loop. Read the text after the arrow ->: if it points to another link in the list, and that link points back, you have found the loop.",
+   "cmd": "ls -l <LINK>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LINK",
+     "description": "Path of the looping link found in the previous step",
+     "example": "/home/user/projects/link1",
+     "discover_cmd": "find ~ -type l ! -exec test -e {} \\; -print"
+    }
+   ],
+   "expect": "A line that starts with l, for example lrwxrwxrwx 1 user user 8 Oct 24 13:25 /home/user/projects/link1 -> /home/user/projects/link2. Note the path after -> : you will need it as TARGET.",
+   "alternatives": [
+    {
+     "explain": "Print only the path the link points to, without the other columns.",
+     "cmd": "readlink <LINK>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "LINK",
+       "description": "Path of the looping link",
+       "example": "/home/user/projects/link1"
+      }
+     ],
+     "expect": "One path, for example /home/user/projects/link2. If the output is another link, which points back, it is a loop."
+    }
+   ]
+  },
+  {
+   "explain": "Remove the looping link. This deletes only the shortcut, never the file it points to. Write down the path from step 2 first, so you can restore the link if needed.",
+   "cmd": "rm <LINK>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "LINK",
+     "description": "Path of the looping link to remove",
+     "example": "/home/user/projects/link1",
+     "discover_cmd": "find ~ -type l ! -exec test -e {} \\; -print"
+    }
+   ],
+   "expect": "No output. The command returns to the prompt. The link is gone.",
+   "alternatives": [
+    {
+     "explain": "Keep the link but point it at the real file instead of the loop. Use this when a program expects the link to exist.",
+     "cmd": "ln -sfn <REAL_FILE> <LINK>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "REAL_FILE",
+       "description": "The real file or folder the link should point to",
+       "example": "/home/user/projects/real-data.txt"
+      },
+      {
+       "name": "LINK",
+       "description": "Path of the looping link to replace",
+       "example": "/home/user/projects/link1"
+      }
+     ],
+     "expect": "No output. Check with ls -l <LINK>: the arrow now points to REAL_FILE."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "find <DIR> -type l ! -exec test -e {} \\; -print",
+   "expect": "The looping link is gone. If another link from the same pair is still listed, it is now broken: remove it the same way."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Restore the link with the target you wrote down in step 2. Use this if you removed or re-pointed a link by mistake.",
+   "cmd": "ln -sfn <TARGET> <LINK>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TARGET",
+     "description": "The path the link pointed to before the change (the text after -> in step 2)",
+     "example": "/home/user/projects/link2"
+    },
+    {
+     "name": "LINK",
+     "description": "Path of the link to restore",
+     "example": "/home/user/projects/link1"
+    }
+   ],
+   "expect": "No output. ls -l <LINK> shows the old target again."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Remove only the link, never the folder it lives in. Use rm without -r; rm -r on a link to a folder can delete the folder's contents.",
+  "Do not remove a link inside a system folder such as /usr, /etc or /lib unless a program you installed created it. Those links belong to installed packages.",
+  "If the link keeps coming back, a program is recreating it. Find that program before you remove the link again.",
+  "Removing one link of a loop can leave the other link broken. Run the find command again and remove the leftover link too, if no program needs it."
+ ],
+ "see_also": [
+  "system-find-broken-symlinks"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/find",
+  "title": "find manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

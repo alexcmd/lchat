@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-dconf-reset-key",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reset a dconf key to default",
+ "summary": "Revert a specific configuration key in the dconf database back to its default value.",
+ "aliases": [
+  {
+   "text": "reset dconf key",
+   "lang": "en"
+  },
+  {
+   "text": "restore default gnome setting",
+   "lang": "en"
+  },
+  {
+   "text": "dconf reset",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить настройку dconf",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть значение по умолчанию dconf",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reset a specific dconf key to its default value. Replace <KEY_PATH> with the key path.",
+   "cmd": "dconf reset /<KEY_PATH>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "KEY_PATH",
+     "description": "The full path to the dconf key",
+     "example": "org/gnome/desktop/interface/cursor-size"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo for a reset. You must manually write the previous value back using dconf write.",
+   "cmd": "dconf write /<KEY_PATH> \"<OLD_VALUE>\"",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "KEY_PATH",
+     "description": "The full path to the dconf key",
+     "example": "org/gnome/desktop/interface/cursor-size"
+    },
+    {
+     "name": "OLD_VALUE",
+     "description": "The value before the reset",
+     "example": "48"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This removes the custom value. Ensure you know the previous value if you need to restore it."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dconf.md",
+  "title": "tldr-pages: dconf",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-dconf-write-key",
+  "linux-gsettings-reset-value"
+ ]
+}

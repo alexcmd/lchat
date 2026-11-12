@@ -1,0 +1,186 @@
+{
+ "schema_version": 2,
+ "id": "error-crlf-script-bad-interpreter",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix a shell script copied from Windows that will not run (CRLF line endings)",
+ "summary": "A script saved on Windows ends each line with an extra hidden character, a carriage return. Linux then looks for an interpreter named bash with that character and fails with a message such as 'required file not found'. Removing the hidden characters fixes the script.",
+ "aliases": [
+  {
+   "text": "bash\\r: No such file or directory",
+   "lang": "en"
+  },
+  {
+   "text": "required file not found bash script",
+   "lang": "en"
+  },
+  {
+   "text": "cannot execute required file not found",
+   "lang": "en"
+  },
+  {
+   "text": "bad interpreter linux script",
+   "lang": "en"
+  },
+  {
+   "text": "script from windows will not run linux",
+   "lang": "en"
+  },
+  {
+   "text": "crlf line endings linux script",
+   "lang": "en"
+  },
+  {
+   "text": "shell script windows line endings fix",
+   "lang": "en"
+  },
+  {
+   "text": "скрипт с windows не запускается linux",
+   "lang": "ru"
+  },
+  {
+   "text": "bash\\r нет такого файла или каталога",
+   "lang": "ru"
+  },
+  {
+   "text": "required file not found скрипт sh",
+   "lang": "ru"
+  },
+  {
+   "text": "переводы строк windows в скрипте linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как исправить скрипт из windows для linux",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "required file not found",
+  "bad interpreter",
+  "bash\\r"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You have the script file in a folder you can open in Terminal",
+  "You own the script file or can change it"
+ ],
+ "steps": [
+  {
+   "explain": "Look at the end of the first lines of the script. A ^M at the end of a line is the hidden Windows carriage return. Lines that end with a plain $ are fine.",
+   "cmd": "cat -A <SCRIPT> | head -n 5",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "File name of the script in the current folder.",
+     "example": "myscript.sh",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "Lines like #!/usr/bin/env bash^M$ . The ^M before the $ at the end of each line shows the Windows line ending."
+  },
+  {
+   "explain": "Make a backup copy of the script before changing it, so you can go back if something goes wrong.",
+   "cmd": "cp <SCRIPT> <SCRIPT>.bak",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "File name of the script in the current folder.",
+     "example": "myscript.sh",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "No output means the copy was made. A file ending in .bak now appears next to the script."
+  },
+  {
+   "explain": "Remove the carriage return at the end of every line. This changes only the line endings, the commands in the script stay the same.",
+   "cmd": "sed -i 's/\\r$//' <SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "File name of the script in the current folder.",
+     "example": "myscript.sh",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "No output means it worked. Run the first step again to check that ^M is gone.",
+   "alternatives": [
+    {
+     "explain": "Write a new copy of the script without the carriage returns and leave the original file unchanged. The new copy is not marked as runnable, so run it with bash in the next step instead of ./.",
+     "cmd": "tr -d '\\r' < <SCRIPT> > <FIXED_SCRIPT>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SCRIPT",
+       "description": "File name of the script that has the Windows line endings.",
+       "example": "myscript.sh",
+       "discover_cmd": "ls"
+      },
+      {
+       "name": "FIXED_SCRIPT",
+       "description": "New file name for the copy without the carriage returns.",
+       "example": "myscript-fixed.sh"
+      }
+     ],
+     "expect": "No output means it worked. A new file with the name you gave appears in the folder."
+    }
+   ]
+  },
+  {
+   "explain": "Run the script. It should start now, without the bad interpreter or required file not found message.",
+   "cmd": "./<SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "File name of the script in the current folder, without the ./ part.",
+     "example": "myscript.sh",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "The script's own output appears. There is no required file not found line.",
+   "alternatives": [
+    {
+     "explain": "Run the script through bash without changing the file. This works for simple scripts, but it can still fail on lines with hidden carriage returns, so the fix above is the real solution. Use it also for the copy made in the previous step.",
+     "cmd": "bash <SCRIPT>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SCRIPT",
+       "description": "File name of the script in the current folder.",
+       "example": "myscript.sh",
+       "discover_cmd": "ls"
+      }
+     ],
+     "expect": "The script's own output appears."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "cat -A <SCRIPT> | head -n 5",
+   "expect": "The lines end with a plain $ and no ^M appears."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "The fix only removes the carriage returns. If the error stays, run the first step again to confirm that no ^M is left, then check the first line of the script.",
+  "Keep the .bak copy until the script works. Delete it only after you are sure you do not need the Windows version."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/sed",
+  "title": "sed manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

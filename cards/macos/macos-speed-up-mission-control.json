@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-speed-up-mission-control",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Speed up Mission Control animations",
+ "summary": "Make the Mission Control window switcher feel snappier by reducing the animation duration to a very short time.",
+ "aliases": [
+  {
+   "text": "speed up mission control",
+   "lang": "en"
+  },
+  {
+   "text": "mission control too slow",
+   "lang": "en"
+  },
+  {
+   "text": "faster mission control",
+   "lang": "en"
+  },
+  {
+   "text": "reduce mission control animation",
+   "lang": "en"
+  },
+  {
+   "text": "ускорить mission control",
+   "lang": "ru"
+  },
+  {
+   "text": "mission control тормозит",
+   "lang": "ru"
+  },
+  {
+   "text": "быстрее mission control",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the Mission Control animation duration to 0.1 seconds, making the transition almost instant.",
+   "cmd": "defaults write com.apple.Dock expose-animation-duration -float 0.1",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/defaults.md",
+  "title": "tldr-pages: defaults",
+  "license": "CC-BY-4.0"
+ }
+}

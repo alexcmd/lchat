@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-extract-public-key",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Extract public key from private key",
+ "summary": "Generate the public key part from an existing private key file. This is useful if you lost the public key file.",
+ "aliases": [
+  {
+   "text": "extract public key",
+   "lang": "en"
+  },
+  {
+   "text": "get public key from private",
+   "lang": "en"
+  },
+  {
+   "text": "ssh public key from private",
+   "lang": "en"
+  },
+  {
+   "text": "ssh-keygen -y",
+   "lang": "en"
+  },
+  {
+   "text": "recover public key",
+   "lang": "en"
+  },
+  {
+   "text": "извлечь публичный ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "получить публичный ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "публичный ключ из приватного",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Retrieve the public key from a private key file and print it to the terminal.",
+   "cmd": "ssh-keygen -f <KEY_FILE> -y",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_FILE",
+     "description": "The path to the private key file.",
+     "example": "~/.ssh/id_rsa"
+    }
+   ],
+   "expect": "The tool prints the public key to the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh-keygen.md",
+  "title": "tldr-pages: ssh-keygen",
+  "license": "CC-BY-4.0"
+ }
+}

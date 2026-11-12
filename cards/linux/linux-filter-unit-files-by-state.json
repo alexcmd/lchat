@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-filter-unit-files-by-state",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Filter systemd unit files by enablement state",
+ "summary": "Show only unit files that are in a specific state, such as enabled or disabled. This helps you quickly find services that are set to start automatically or those that are turned off.",
+ "aliases": [
+  {
+   "text": "list enabled services",
+   "lang": "en"
+  },
+  {
+   "text": "filter unit files by state",
+   "lang": "en"
+  },
+  {
+   "text": "show disabled units",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl list enabled",
+   "lang": "en"
+  },
+  {
+   "text": "which services are enabled",
+   "lang": "en"
+  },
+  {
+   "text": "список включенных служб",
+   "lang": "ru"
+  },
+  {
+   "text": "фильтр unit файлов по состоянию",
+   "lang": "ru"
+  },
+  {
+   "text": "показать отключенные юниты",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl enabled services",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List unit files filtered by a specific state. Common states are 'enabled', 'disabled', and 'static'.",
+   "cmd": "systemctl list-unit-files --state <STATE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "STATE",
+     "description": "The enablement state to filter by.",
+     "example": "enabled",
+     "discover_cmd": "systemctl list-unit-files"
+    }
+   ],
+   "expect": "A list of unit files that match the specified state."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-unit-files.md",
+  "title": "tldr-pages: systemctl-list-unit-files",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-unit-files",
+  "linux-systemctl-enable-disable-service"
+ ]
+}

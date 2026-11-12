@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "arch-concept-desktop-environment",
+ "platform": "linux",
+ "kind": "concept",
+ "title": "What is a desktop environment?",
+ "summary": "A desktop environment is a bundle of programs that provides a complete graphical user interface, including a window manager, file manager, and settings. It allows you to interact with your computer using icons and windows instead of just text commands.",
+ "aliases": [
+  {
+   "text": "what is a desktop environment",
+   "lang": "en"
+  },
+  {
+   "text": "what is a de",
+   "lang": "en"
+  },
+  {
+   "text": "difference between window manager and desktop environment",
+   "lang": "en"
+  },
+  {
+   "text": "what is gnome kde xfce",
+   "lang": "en"
+  },
+  {
+   "text": "что такое рабочее окружение",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое de linux",
+   "lang": "ru"
+  },
+  {
+   "text": "разница оконный менеджер и рабочее окружение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "A desktop environment (DE) bundles together components like icons, toolbars, and a window manager to provide a consistent graphical experience. Unlike a standalone window manager, a DE includes integrated applications and utilities.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Desktop_environment",
+  "title": "Desktop environment",
+  "revision_id": 886061,
+  "license": "GFDL-1.3-or-later"
+ }
+}

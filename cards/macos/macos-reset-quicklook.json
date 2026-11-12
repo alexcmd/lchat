@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-reset-quicklook",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Reset the QuickLook server",
+ "summary": "Restart the QuickLook background service if file previews are not working correctly or are stuck. This clears the cache and reloads the preview handlers.",
+ "aliases": [
+  {
+   "text": "reset quicklook",
+   "lang": "en"
+  },
+  {
+   "text": "fix quicklook not working",
+   "lang": "en"
+  },
+  {
+   "text": "restart quicklook server",
+   "lang": "en"
+  },
+  {
+   "text": "qlmanage reset",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить quicklook",
+   "lang": "ru"
+  },
+  {
+   "text": "quicklook не работает",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапустить quicklook",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run qlmanage with the -r flag to reset the QuickLook server.",
+   "cmd": "qlmanage -r",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/qlmanage.md",
+  "title": "tldr-pages: qlmanage",
+  "license": "CC-BY-4.0"
+ }
+}

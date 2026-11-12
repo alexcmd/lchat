@@ -1,0 +1,170 @@
+{
+ "schema_version": 2,
+ "id": "linux-service-enabled-at-boot",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check whether a service starts at boot",
+ "summary": "Ask systemd whether a specific service is enabled to start automatically when the computer boots. These commands only read information and change nothing.",
+ "aliases": [
+  {
+   "text": "is service enabled at boot",
+   "lang": "en"
+  },
+  {
+   "text": "check if service starts on boot linux",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl is-enabled",
+   "lang": "en"
+  },
+  {
+   "text": "does service start automatically linux",
+   "lang": "en"
+  },
+  {
+   "text": "check autostart systemd service",
+   "lang": "en"
+  },
+  {
+   "text": "как проверить автозапуск службы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "сервис запускается при загрузке linux",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl автозагрузка службы",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить включен ли сервис при старте",
+   "lang": "ru"
+  },
+  {
+   "text": "служба стартует при включении компьютера",
+   "lang": "ru"
+  },
+  {
+   "text": "check if service is enabled/en",
+   "lang": "en"
+  },
+  {
+   "text": "стартует ли сервис при загрузке/ru",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить включена ли служба/ru",
+   "lang": "ru"
+  },
+  {
+   "text": "check if service is enabled",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl is enabled",
+   "lang": "en"
+  },
+  {
+   "text": "check startup service status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить включена ли служба",
+   "lang": "ru"
+  },
+  {
+   "text": "автозапуск службы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "стартует ли сервис при загрузке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "prerequisites": [
+  "A Linux system that uses systemd (most desktop distributions do)",
+  "The exact service name, or a word from it, such as ssh or cups"
+ ],
+ "steps": [
+  {
+   "explain": "List the system services with their boot state. Look for your service in the first column, UNIT FILE, which ends in .service. The STATE column shows whether it starts at boot.",
+   "cmd": "systemctl list-unit-files --type=service",
+   "risk": "low",
+   "expect": "A table with columns UNIT FILE, STATE and PRESET. STATE is typically enabled, disabled, static or masked. Press q to quit if the list is long.",
+   "alternatives": [
+    {
+     "explain": "Run the command with the name of the service (unit) you want to check. It will print 'enabled', 'disabled', or other states.",
+     "cmd": "systemctl is-enabled <UNIT>",
+     "placeholders": [
+      {
+       "name": "UNIT",
+       "description": "The name of the service or unit file to check, e.g., sshd.service or bluetooth.service.",
+       "example": "sshd.service",
+       "discover_cmd": "systemctl list-unit-files"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Ask systemd directly about one service. The answer is printed on one line and is the boot state of that service.",
+   "cmd": "systemctl is-enabled <SERVICE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVICE",
+     "description": "Service name without the .service ending",
+     "example": "ssh",
+     "discover_cmd": "systemctl list-unit-files --type=service --no-legend"
+    }
+   ],
+   "expect": "enabled: starts at every boot. disabled: does not start at boot. static: started only by other services. masked: blocked. enabled-runtime: starts until the next reboot only.",
+   "alternatives": [
+    {
+     "explain": "Show the full status of the service. In the Loaded line, enabled or disabled shows the boot state, and the Active line shows whether it is running now. Press q to quit.",
+     "cmd": "systemctl status <SERVICE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SERVICE",
+       "description": "Service name without the .service ending",
+       "example": "ssh",
+       "discover_cmd": "systemctl list-unit-files --type=service --no-legend"
+      }
+     ],
+     "expect": "A Loaded: line such as loaded (/usr/lib/systemd/system/ssh.service; enabled; preset: enabled), followed by the Active: line."
+    },
+    {
+     "explain": "Show every service that is enabled to start at boot, to see them all at once.",
+     "cmd": "systemctl list-unit-files --type=service --state=enabled",
+     "risk": "low",
+     "expect": "Only services whose STATE is enabled. If your service is not in this list, it does not start at boot."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/systemctl",
+  "title": "systemctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24",
+ "see_also": [
+  "linux-check-service-status",
+  "linux-systemctl-enable-disable-service"
+ ]
+}

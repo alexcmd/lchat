@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-bind-mount-directory",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Bind mount a directory to another directory",
+ "summary": "Make the contents of one directory accessible in another location without copying files.",
+ "aliases": [
+  {
+   "text": "bind mount directory",
+   "lang": "en"
+  },
+  {
+   "text": "mount folder to folder",
+   "lang": "en"
+  },
+  {
+   "text": "link directory mount",
+   "lang": "en"
+  },
+  {
+   "text": "mount -B",
+   "lang": "en"
+  },
+  {
+   "text": "montirovat katalog v katalog",
+   "lang": "ru"
+  },
+  {
+   "text": "bind mount",
+   "lang": "ru"
+  },
+  {
+   "text": "svyazannoe montirovanie",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --bind flag to make the old directory appear in the new directory.",
+   "cmd": "sudo mount --bind <OLD_DIRECTORY> <NEW_DIRECTORY>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "OLD_DIRECTORY",
+     "description": "The source directory containing the files",
+     "example": "/home/user/data"
+    },
+    {
+     "name": "NEW_DIRECTORY",
+     "description": "The target directory where the files will appear",
+     "example": "/mnt/data"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Changes made in the new directory will affect the files in the old directory.",
+  "You need administrator privileges."
+ ],
+ "rollback": [
+  {
+   "explain": "Unmount the bind mount.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/mount.md",
+  "title": "tldr-pages: mount",
+  "license": "CC-BY-4.0"
+ }
+}

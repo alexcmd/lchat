@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "linux-xclip-copy-text-to-clipboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy text to the system clipboard using xclip",
+ "summary": "Use xclip to send text from a command or file directly to the system clipboard, so you can paste it with Ctrl+V in other applications.",
+ "aliases": [
+  {
+   "text": "copy text to clipboard linux",
+   "lang": "en"
+  },
+  {
+   "text": "xclip copy to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "command line copy paste linux",
+   "lang": "en"
+  },
+  {
+   "text": "copy file content to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "скопировать в буфер обмена linux",
+   "lang": "ru"
+  },
+  {
+   "text": "xclip в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "скопировать вывод команды в буфер",
+   "lang": "ru"
+  },
+  {
+   "text": "скопировать файл в буфер обмена",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xclip"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of a command (like echo) into xclip to copy it to the clipboard.",
+   "cmd": "echo <TEXT> | xclip -selection clipboard",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TEXT",
+     "description": "The text you want to copy"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Copy the contents of a specific file to the clipboard.",
+     "cmd": "xclip -selection clipboard <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file you want to copy"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xclip.md",
+  "title": "tldr-pages: xclip",
+  "license": "CC-BY-4.0"
+ }
+}

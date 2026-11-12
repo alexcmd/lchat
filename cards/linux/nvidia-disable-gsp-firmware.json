@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "nvidia-disable-gsp-firmware",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable NVIDIA GSP firmware to fix crashes",
+ "summary": "The GSP firmware enabled by default in newer NVIDIA drivers can cause crashes and Vulkan failures. Disable it via a kernel module parameter.",
+ "aliases": [
+  {
+   "text": "disable nvidia gsp firmware",
+   "lang": "en"
+  },
+  {
+   "text": "nvidia gsp crashes fix",
+   "lang": "en"
+  },
+  {
+   "text": "vulkan fail nvidia gsp",
+   "lang": "en"
+  },
+  {
+   "text": "отключить gsp nvidia",
+   "lang": "ru"
+  },
+  {
+   "text": "nvidia крашится gsp",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You are using the proprietary NVIDIA driver (version 555+)."
+ ],
+ "steps": [
+  {
+   "explain": "Create or edit a modprobe configuration file to disable GSP.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Add the line 'options nvidia NVreg_EnableGpuFirmware=0' to /etc/modprobe.d/nvidia.conf.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Regenerate the initramfs if the nvidia module is included there.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the system.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the line from /etc/modprobe.d/nvidia.conf and regenerate initramfs.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This only works with the proprietary driver, not the open-source nvidia-open."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#GSP_firmware",
+  "title": "NVIDIA/Troubleshooting",
+  "revision_id": 887471,
+  "license": "GFDL-1.3-or-later"
+ }
+}

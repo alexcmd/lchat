@@ -1,0 +1,165 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-search-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search for a package by name or description",
+ "summary": "Find software packages that match a keyword in their name or description. Use this when you know what you want to do but not the exact package name.",
+ "aliases": [
+  {
+   "text": "search for package",
+   "lang": "en"
+  },
+  {
+   "text": "find software apt",
+   "lang": "en"
+  },
+  {
+   "text": "apt search",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск пакета apt",
+   "lang": "ru"
+  },
+  {
+   "text": "find package name",
+   "lang": "en"
+  },
+  {
+   "text": "как найти имя пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "search apt package",
+   "lang": "en"
+  },
+  {
+   "text": "what is the package name for",
+   "lang": "en"
+  },
+  {
+   "text": "find software in apt",
+   "lang": "en"
+  },
+  {
+   "text": "как узнать название пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "aptitude search",
+   "lang": "en"
+  },
+  {
+   "text": "find package aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "search software aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск пакета aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "search package nala",
+   "lang": "en"
+  },
+  {
+   "text": "find package nala",
+   "lang": "en"
+  },
+  {
+   "text": "nala search",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет nala",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск пакетов nala",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Searches the package database for packages matching the given term in name or description.",
+   "cmd": "apt search <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The keyword or package name to search for.",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Search the package database for keywords related to the software you need.",
+     "cmd": "apt-cache search <QUERY>",
+     "placeholders": [
+      {
+       "name": "QUERY",
+       "description": "Keywords to search for",
+       "example": "image editor"
+      }
+     ],
+     "risk": "low"
+    },
+    {
+     "explain": "Searches for packages matching the given term.",
+     "cmd": "aptitude search <PACKAGE>",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "The name or keyword to search for",
+       "example": "vim"
+      }
+     ],
+     "risk": "low"
+    },
+    {
+     "explain": "Search for packages matching the given pattern. By default, it uses regex.",
+     "cmd": "nala search \"<PATTERN>\"",
+     "placeholders": [
+      {
+       "name": "PATTERN",
+       "description": "Search term, regex, or glob pattern",
+       "example": "firefox"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt.md",
+  "title": "tldr-pages: apt",
+  "license": "CC-BY-4.0"
+ }
+}

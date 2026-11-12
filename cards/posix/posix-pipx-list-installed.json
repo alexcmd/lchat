@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-pipx-list-installed",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List Python applications installed with pipx",
+ "summary": "Show all Python applications that have been installed using pipx. This helps you see what tools are currently available in your isolated environments.",
+ "aliases": [
+  {
+   "text": "list pipx installed packages",
+   "lang": "en"
+  },
+  {
+   "text": "what python tools do i have installed",
+   "lang": "en"
+  },
+  {
+   "text": "pipx list",
+   "lang": "en"
+  },
+  {
+   "text": "show installed python apps",
+   "lang": "en"
+  },
+  {
+   "text": "check pipx packages",
+   "lang": "en"
+  },
+  {
+   "text": "список установленных pipx пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "pipx list",
+   "lang": "ru"
+  },
+  {
+   "text": "какие python утилиты установлены",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть установленные python приложения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "pipx is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Display a list of all packages installed via pipx.",
+   "cmd": "pipx list",
+   "risk": "low",
+   "expect": "A list of installed packages and their versions is displayed."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pipx.md",
+  "title": "tldr-pages: pipx",
+  "license": "CC-BY-4.0"
+ }
+}

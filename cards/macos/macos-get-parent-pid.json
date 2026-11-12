@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-parent-pid",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get the parent process ID",
+ "summary": "Find the ID of the process that started a specific process. Useful for debugging or understanding process relationships.",
+ "aliases": [
+  {
+   "text": "get parent pid",
+   "lang": "en"
+  },
+  {
+   "text": "find parent process",
+   "lang": "en"
+  },
+  {
+   "text": "ppid",
+   "lang": "en"
+  },
+  {
+   "text": "who started this process",
+   "lang": "en"
+  },
+  {
+   "text": "parent process id",
+   "lang": "en"
+  },
+  {
+   "text": "родительский процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "ppid mac",
+   "lang": "ru"
+  },
+  {
+   "text": "кто запустил процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "родительский pid",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Get the parent PID for a specific process ID.",
+   "cmd": "ps -o ppid= -p <PROCESS_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_ID",
+     "description": "The ID of the process whose parent you want to find.",
+     "example": "1234",
+     "discover_cmd": "ps aux"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/ps.md",
+  "title": "tldr-pages: ps",
+  "license": "CC-BY-4.0"
+ }
+}

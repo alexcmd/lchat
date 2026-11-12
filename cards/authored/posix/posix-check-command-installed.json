@@ -1,0 +1,134 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-command-installed",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check if a program is installed and where it is",
+ "summary": "Before you run a program in the terminal, ask the shell whether it exists and where it is stored. These commands only read information and change nothing.",
+ "aliases": [
+  {
+   "text": "check if program installed",
+   "lang": "en"
+  },
+  {
+   "text": "is program installed linux",
+   "lang": "en"
+  },
+  {
+   "text": "check if command exists",
+   "lang": "en"
+  },
+  {
+   "text": "where is the program installed",
+   "lang": "en"
+  },
+  {
+   "text": "which command path",
+   "lang": "en"
+  },
+  {
+   "text": "is git installed",
+   "lang": "en"
+  },
+  {
+   "text": "where is this command located",
+   "lang": "en"
+  },
+  {
+   "text": "проверить установлена ли программа",
+   "lang": "ru"
+  },
+  {
+   "text": "как проверить есть ли программа в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "где находится программа linux",
+   "lang": "ru"
+  },
+  {
+   "text": "есть ли команда в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "путь к программе терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать установлена ли программа",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open"
+ ],
+ "steps": [
+  {
+   "explain": "Ask the shell whether the program exists. If a path is printed, the program is installed and the path is where it is stored. If nothing is printed, the program is not installed or is not in your PATH.",
+   "cmd": "command -v <PROGRAM>",
+   "placeholders": [
+    {
+     "name": "PROGRAM",
+     "description": "Name of the program to check, without a path",
+     "example": "git",
+     "discover_cmd": "ls /usr/bin | head -n 20"
+    }
+   ],
+   "risk": "low",
+   "expect": "A path such as /usr/bin/git. If the program is missing, nothing is printed and the exit status is 1."
+  },
+  {
+   "explain": "List every place where the name is found, in the order the shell searches for it. type -a also shows aliases and shell built-ins.",
+   "cmd": "type -a <PROGRAM>",
+   "placeholders": [
+    {
+     "name": "PROGRAM",
+     "description": "Name of the program to check, without a path",
+     "example": "git",
+     "discover_cmd": "ls /usr/bin | head -n 20"
+    }
+   ],
+   "risk": "low",
+   "expect": "One line per location, for example 'git is /usr/bin/git'. If the name is missing, the output says 'not found'.",
+   "alternatives": [
+    {
+     "explain": "The same list with the which tool. which is not installed on every minimal system, for example a fresh Fedora container. If you see 'which: command not found', use type -a instead.",
+     "cmd": "which -a <PROGRAM>",
+     "placeholders": [
+      {
+       "name": "PROGRAM",
+       "description": "Name of the program to check, without a path",
+       "example": "git"
+      }
+     ],
+     "risk": "low",
+     "expect": "One path per line. If the program is missing, nothing is printed."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "command -v sh",
+   "expect": "A path such as /bin/sh or /usr/bin/sh"
+  },
+  {
+   "cmd": "command -v definitely-not-a-real-tool-xyz",
+   "expect": "Nothing is printed and the exit status is 1"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

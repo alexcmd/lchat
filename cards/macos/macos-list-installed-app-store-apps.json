@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-installed-app-store-apps",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List installed Mac App Store apps",
+ "summary": "Show all applications installed from the Mac App Store along with their unique product identifiers. This helps you find the ID needed to install or update a specific app via the command line.",
+ "aliases": [
+  {
+   "text": "list app store apps",
+   "lang": "en"
+  },
+  {
+   "text": "show installed mac apps",
+   "lang": "en"
+  },
+  {
+   "text": "mas list",
+   "lang": "en"
+  },
+  {
+   "text": "find app id",
+   "lang": "en"
+  },
+  {
+   "text": "список приложений из app store",
+   "lang": "ru"
+  },
+  {
+   "text": "показать установленные приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "mas list",
+   "lang": "ru"
+  },
+  {
+   "text": "найти id приложения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mas"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the mas list command to display all installed Mac App Store applications and their numeric product IDs.",
+   "cmd": "mas list",
+   "risk": "low",
+   "expect": "A list of installed apps with their names and numeric IDs."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mas.md",
+  "title": "tldr-pages: mas",
+  "license": "CC-BY-4.0"
+ }
+}

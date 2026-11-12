@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-brew-doctor",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check Homebrew installation for problems",
+ "summary": "Run a diagnostic check to find potential issues with your Homebrew setup, such as permission errors or conflicting software.",
+ "aliases": [
+  {
+   "text": "brew doctor",
+   "lang": "en"
+  },
+  {
+   "text": "check homebrew health",
+   "lang": "en"
+  },
+  {
+   "text": "fix brew problems",
+   "lang": "en"
+  },
+  {
+   "text": "diagnose homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "brew doctor диагностика",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить ошибки brew",
+   "lang": "ru"
+  },
+  {
+   "text": "починить homebrew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check the local Homebrew installation for potential problems.",
+   "cmd": "brew doctor",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/brew.md",
+  "title": "tldr-pages: brew",
+  "license": "CC-BY-4.0"
+ }
+}

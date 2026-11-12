@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-specific-usb-device-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show detailed info for a specific USB device",
+ "summary": "Display verbose technical details for one specific USB device identified by its bus and device number. Requires administrator rights.",
+ "aliases": [
+  {
+   "text": "usb device details",
+   "lang": "en"
+  },
+  {
+   "text": "lsusb specific device",
+   "lang": "en"
+  },
+  {
+   "text": "usb bus device info",
+   "lang": "en"
+  },
+  {
+   "text": "detailed usb one device",
+   "lang": "en"
+  },
+  {
+   "text": "подробно про одно usb устройство",
+   "lang": "ru"
+  },
+  {
+   "text": "детали конкретного usb",
+   "lang": "ru"
+  },
+  {
+   "text": "lsusb bus device",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о конкретном usb",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo lsusb with --verbose and the -s flag to show detailed information for a specific USB device. Replace <BUS> and <DEVICE_NUMBER> with the values from the basic lsusb list.",
+   "cmd": "sudo lsusb --verbose -s <BUS>:<DEVICE_NUMBER>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "BUS",
+     "description": "The bus number of the USB device",
+     "example": "001",
+     "discover_cmd": "lsusb"
+    },
+    {
+     "name": "DEVICE_NUMBER",
+     "description": "The device number on that bus",
+     "example": "002",
+     "discover_cmd": "lsusb"
+    }
+   ],
+   "expect": "Verbose technical details for only the specified USB device."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lsusb.md",
+  "title": "tldr-pages: lsusb",
+  "license": "CC-BY-4.0"
+ }
+}

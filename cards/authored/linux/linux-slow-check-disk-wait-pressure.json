@@ -1,0 +1,132 @@
+{
+ "schema_version": 2,
+ "id": "linux-slow-check-disk-wait-pressure",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check whether slowness is waiting for the disk",
+ "summary": "When Linux feels slow, programs may be stuck waiting for the disk to read or write data. These read-only commands show how much time is lost waiting for disk input and output, and which disk is involved.",
+ "aliases": [
+  {
+   "text": "linux slow disk bottleneck check",
+   "lang": "en"
+  },
+  {
+   "text": "is my disk slowing down linux",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu slow because of hard drive",
+   "lang": "en"
+  },
+  {
+   "text": "check disk io wait linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux high iowait slow computer",
+   "lang": "en"
+  },
+  {
+   "text": "what does wa column mean in vmstat",
+   "lang": "en"
+  },
+  {
+   "text": "computer freezes waiting for hard drive linux",
+   "lang": "en"
+  },
+  {
+   "text": "fedora disk io pressure check",
+   "lang": "en"
+  },
+  {
+   "text": "тормозит линукс из-за диска проверить",
+   "lang": "ru"
+  },
+  {
+   "text": "компьютер тормозит, жесткий диск загружен ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить ожидание диска linux",
+   "lang": "ru"
+  },
+  {
+   "text": "iowait linux что это проверить",
+   "lang": "ru"
+  },
+  {
+   "text": "ubuntu диск на 100 тормозит проверить",
+   "lang": "ru"
+  },
+  {
+   "text": "linux долго ждет диск тормозит",
+   "lang": "ru"
+  },
+  {
+   "text": "vmstat wa что значит",
+   "lang": "ru"
+  },
+  {
+   "text": "fedora тормозит диск проверить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Open a terminal window",
+  "The computer is slow, freezes, or the disk light stays busy"
+ ],
+ "steps": [
+  {
+   "explain": "Read the disk pressure figures. 'some' means at least one program was waiting for the disk; 'full' means all busy programs were waiting at once. avg10, avg60 and avg300 are percentages over the last 10, 60 and 300 seconds. Values that stay high while the computer is slow point at the disk.",
+   "cmd": "cat /proc/pressure/io",
+   "risk": "low",
+   "expect": "Two lines starting with 'some' and 'full', each with avg10, avg60, avg300 (percentages) and total (a running counter)."
+  },
+  {
+   "explain": "Sample CPU, memory and disk activity 3 times, one second apart. The wa column is the share of time the processor sat idle while waiting for the disk. bi and bo are blocks read from and written to disk each second. High wa together with busy bi or bo means slowness is disk waiting.",
+   "cmd": "vmstat 1 3",
+   "risk": "low",
+   "expect": "A header line with the columns wa, bi and bo, then 3 lines of numbers. The first line is an average since boot, so judge the last two lines."
+  },
+  {
+   "explain": "List the disks and partitions, to see which disk the waiting is happening on. Your system disk is the one with / or /home under MOUNTPOINTS, and disks show TYPE 'disk'.",
+   "cmd": "lsblk",
+   "risk": "low",
+   "expect": "A tree with NAME, MAJ:MIN, RM, SIZE, RO, TYPE and MOUNTPOINTS. Partitions are indented under their disk. Lines named nbd or loop with SIZE 0B can be ignored."
+  },
+  {
+   "explain": "Read the results together. The disk is the likely cause if 'some' avg10 and wa stay high while bi or bo keep rising. Then close programs that read or write many files. If the pressure file is missing (kernel older than 4.20), use vmstat alone.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-slow-check-ram-and-swap-pressure",
+  "linux-check-virtual-memory-stats",
+  "linux-monitor-virtual-memory-over-time"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/vmstat",
+  "title": "vmstat manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-service-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check the status of a specific system service",
+ "summary": "Use systemctl status to see if a service is running, stopped, or failed, and view its recent logs.",
+ "aliases": [
+  {
+   "text": "check service status",
+   "lang": "en"
+  },
+  {
+   "text": "is ssh running",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl status",
+   "lang": "en"
+  },
+  {
+   "text": "check if service is active",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус службы",
+   "lang": "ru"
+  },
+  {
+   "text": "работает ли сервис",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl status ssh",
+   "lang": "ru"
+  },
+  {
+   "text": "is service running",
+   "lang": "en"
+  },
+  {
+   "text": "service not working",
+   "lang": "en"
+  },
+  {
+   "text": "системctl статус",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the current status and recent logs for a specific systemd unit.",
+   "cmd": "systemctl status <UNIT>.<TYPE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UNIT",
+     "description": "The name of the service or unit (e.g., ssh, nginx, bluetooth)",
+     "example": "ssh"
+    },
+    {
+     "name": "TYPE",
+     "description": "The type of unit. Common types are service, timer, socket, target.",
+     "example": "service"
+    }
+   ],
+   "expect": "Output showing whether the unit is active (running), inactive, or failed, along with recent log lines."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-status.md",
+  "title": "tldr-pages: systemctl-status",
+  "license": "CC-BY-4.0"
+ }
+}

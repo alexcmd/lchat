@@ -5,3 +5,4 @@ __pycache__/
 eval/*.db*
 eval/results*.json
 eval/dataset_hard.json
+eval/out/

@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "posix-git-reset-hard",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Reset Git repository to last commit",
+ "summary": "Discard all uncommitted changes and remove untracked files, restoring the project to the state of the last commit.",
+ "aliases": [
+  {
+   "text": "git reset hard",
+   "lang": "en"
+  },
+  {
+   "text": "undo all git changes",
+   "lang": "en"
+  },
+  {
+   "text": "discard changes git",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить git изменения",
+   "lang": "ru"
+  },
+  {
+   "text": "отменить все изменения в git",
+   "lang": "ru"
+  },
+  {
+   "text": "git reset",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command discards all changes in tracked files and removes untracked files. Be careful, as this action cannot be easily undone.",
+   "cmd": "git reset --hard; git clean --force",
+   "risk": "high",
+   "alternatives": [
+    {
+     "explain": "Short form for forcing the removal of untracked files.",
+     "cmd": "git reset --hard; git clean -f",
+     "risk": "high"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This will permanently delete all uncommitted changes and untracked files.",
+  "Make sure you have backed up any important work before running this command."
+ ],
+ "rollback": [
+  {
+   "explain": "If you have not committed the changes you want to keep, there is no simple command to undo this. You may need to use `git reflog` if you had previously committed, but for uncommitted changes, recovery is often impossible.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/git.md",
+  "title": "tldr-pages: git",
+  "license": "CC-BY-4.0"
+ }
+}

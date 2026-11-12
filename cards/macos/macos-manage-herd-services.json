@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "macos-manage-herd-services",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Start, stop, or restart Laravel Herd services",
+ "summary": "Use the Herd CLI to manage the local PHP development environment. You can start, stop, or restart the services to refresh your setup.",
+ "aliases": [
+  {
+   "text": "start herd",
+   "lang": "en"
+  },
+  {
+   "text": "stop herd",
+   "lang": "en"
+  },
+  {
+   "text": "restart herd",
+   "lang": "en"
+  },
+  {
+   "text": "herd start",
+   "lang": "en"
+  },
+  {
+   "text": "herd stop",
+   "lang": "en"
+  },
+  {
+   "text": "herd restart",
+   "lang": "en"
+  },
+  {
+   "text": "запустить herd",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить herd",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапустить herd",
+   "lang": "ru"
+  },
+  {
+   "text": "herd старт",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start the Herd services if they are not running.",
+   "cmd": "herd start",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Stop the Herd services.",
+     "cmd": "herd stop",
+     "risk": "low"
+    },
+    {
+     "explain": "Restart the Herd services to apply configuration changes.",
+     "cmd": "herd restart",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/herd.md",
+  "title": "tldr-pages: herd",
+  "license": "CC-BY-4.0"
+ }
+}

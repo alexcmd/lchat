@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-delete-group",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete a group",
+ "summary": "Remove an existing user group from the system.",
+ "aliases": [
+  {
+   "text": "delete group linux",
+   "lang": "en"
+  },
+  {
+   "text": "remove group",
+   "lang": "en"
+  },
+  {
+   "text": "groupdel command",
+   "lang": "en"
+  },
+  {
+   "text": "удалить группу linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить группу",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить юзер группу",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete the specified group.",
+   "cmd": "sudo groupdel <GROUP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "GROUP_NAME",
+     "description": "The name of the group to delete",
+     "example": "developers"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-create the group.",
+   "cmd": "sudo groupadd <GROUP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "GROUP_NAME",
+     "description": "The name of the group to recreate",
+     "example": "developers"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Do not delete system groups or groups that are primary groups for existing users.",
+  "Files owned by this group will remain but will no longer have a named group owner."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Users_and_groups#Group_management",
+  "title": "Users and groups",
+  "revision_id": 872887,
+  "license": "GFDL-1.3-or-later"
+ }
+}

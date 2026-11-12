@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "macos-remove-custom-file-icon",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove a custom icon from a file or folder",
+ "summary": "Use the `fileicon` tool to remove a previously set custom icon, restoring the default system icon for a file or directory.",
+ "aliases": [
+  {
+   "text": "remove custom icon mac",
+   "lang": "en"
+  },
+  {
+   "text": "reset file icon terminal",
+   "lang": "en"
+  },
+  {
+   "text": "fileicon rm",
+   "lang": "en"
+  },
+  {
+   "text": "убрать кастомную иконку",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть стандартную иконку",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить иконку файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The `fileicon` tool must be installed."
+ ],
+ "steps": [
+  {
+   "explain": "Run the `fileicon rm` command with the path to the file or directory to remove its custom icon.",
+   "cmd": "fileicon rm <FILE_OR_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or folder to remove the custom icon from.",
+     "example": "~/Documents/MyFolder"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/fileicon.md",
+  "title": "tldr-pages: fileicon",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "macos-concept-gatekeeper-quarantine",
+ "platform": "macos",
+ "kind": "concept",
+ "title": "What Gatekeeper and the quarantine flag do on macOS",
+ "summary": "Apps you download from the internet are marked with a quarantine flag. Gatekeeper checks such apps before their first launch, looking at the developer's signature and Apple's notarization, to help stop malicious software.",
+ "aliases": [
+  {
+   "text": "what is gatekeeper on mac",
+   "lang": "en"
+  },
+  {
+   "text": "what is quarantine on macos",
+   "lang": "en"
+  },
+  {
+   "text": "why mac blocks downloaded app",
+   "lang": "en"
+  },
+  {
+   "text": "macos cannot open app unidentified developer",
+   "lang": "en"
+  },
+  {
+   "text": "gatekeeper meaning",
+   "lang": "en"
+  },
+  {
+   "text": "what is notarization mac",
+   "lang": "en"
+  },
+  {
+   "text": "что такое гейткипер",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое карантин на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "почему mac блокирует скачанное приложение",
+   "lang": "ru"
+  },
+  {
+   "text": "неизвестный разработчик mac os",
+   "lang": "ru"
+  },
+  {
+   "text": "chto takoe gatekeeper",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "When you download a file from the internet with a browser or another app, macOS marks it with a quarantine flag. The flag is stored as an extended attribute of the file, which is metadata kept next to the file's contents.",
+   "risk": "low"
+  },
+  {
+   "explain": "The first time you open a quarantined app, Gatekeeper checks it. It looks at whether the app is signed by an identified developer and whether Apple has notarized it, which means Apple has scanned it automatically for known malware.",
+   "risk": "low"
+  },
+  {
+   "explain": "If the checks pass, the app opens as usual. If they fail, macOS blocks the app and shows a warning, for example that the app cannot be opened because it is from an unidentified developer.",
+   "risk": "low"
+  },
+  {
+   "explain": "Gatekeeper is part of macOS security assessment, a system policy that decides which downloaded apps may run. Its settings are in Privacy & Security. Loosening them lowers protection, so read the separate Gatekeeper cards first.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-list-gatekeeper-rules"
+ ],
+ "source": {
+  "url": "x-man-page://spctl",
+  "title": "spctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

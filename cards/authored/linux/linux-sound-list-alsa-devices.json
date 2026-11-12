@@ -1,0 +1,108 @@
+{
+ "schema_version": 2,
+ "id": "linux-sound-list-alsa-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check whether Linux detects a sound card and its audio devices",
+ "summary": "List the sound cards the kernel reports and the playback and recording devices ALSA sees. If nothing is listed, the problem is the hardware or its driver; if the card is listed, the problem is usually in the mixer or the sound server.",
+ "aliases": [
+  {
+   "text": "linux не видит звуковую карту",
+   "lang": "ru"
+  },
+  {
+   "text": "какая звуковая карта в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "список звуковых устройств linux",
+   "lang": "ru"
+  },
+  {
+   "text": "звуковая карта не определилась linux",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть аудиоустройства linux",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить звуковую карту alsa",
+   "lang": "ru"
+  },
+  {
+   "text": "aplay -l",
+   "lang": "en"
+  },
+  {
+   "text": "linux sound card not detected",
+   "lang": "en"
+  },
+  {
+   "text": "list sound devices linux",
+   "lang": "en"
+  },
+  {
+   "text": "does linux see my sound card",
+   "lang": "en"
+  },
+  {
+   "text": "alsa list audio devices",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "alsa-utils package is installed (it provides aplay and arecord)"
+ ],
+ "steps": [
+  {
+   "explain": "Show the sound cards the kernel has registered. Read-only. A numbered line such as '0 [PCH ...]' means a driver claimed the card; '--- no soundcards ---' means no driver bound any sound hardware.",
+   "cmd": "cat /proc/asound/cards",
+   "risk": "low",
+   "expect": "Lines like ' 0 [PCH            ]: HDA-Intel - HDA Intel PCH', or '--- no soundcards ---'."
+  },
+  {
+   "explain": "List the playback (output) devices ALSA can use. Read-only. Each card and device is shown as 'card N' and 'device M'. If there are no cards, aplay reports that no soundcards were found.",
+   "cmd": "aplay -l",
+   "risk": "low",
+   "expect": "'**** List of PLAYBACK Hardware Devices ****' followed by 'card 0: ...' lines, or 'aplay: device_list:...: no soundcards found...'."
+  },
+  {
+   "explain": "List the recording (input) devices, such as microphones. Read-only. The output format matches aplay -l.",
+   "cmd": "arecord -l",
+   "risk": "low",
+   "expect": "'**** List of CAPTURE Hardware Devices ****' followed by 'card N' lines, or 'arecord: device_list:...: no soundcards found...'."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "aplay -l",
+   "expect": "The card you expect appears in the list. If it does not, the hardware or its driver is missing or disabled in the BIOS or firmware."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/aplay",
+  "title": "aplay manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

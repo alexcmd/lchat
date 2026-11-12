@@ -1,0 +1,102 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-owner-match-reference",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Match file owner to a reference file",
+ "summary": "Use chown with the --reference flag to copy the ownership (user and group) from one file to another.",
+ "aliases": [
+  {
+   "text": "chown reference",
+   "lang": "en"
+  },
+  {
+   "text": "copy file ownership",
+   "lang": "en"
+  },
+  {
+   "text": "match owner",
+   "lang": "en"
+  },
+  {
+   "text": "chown --reference",
+   "lang": "en"
+  },
+  {
+   "text": "копировать владельца",
+   "lang": "ru"
+  },
+  {
+   "text": "chown по образцу",
+   "lang": "ru"
+  },
+  {
+   "text": "сравнять владельцев",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --reference flag to set the owner and group of the target file to match those of the reference file.",
+   "cmd": "sudo chown --reference <REFERENCE_FILE> <FILE_OR_DIRECTORY>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "REFERENCE_FILE",
+     "description": "Path to the file whose ownership you want to copy",
+     "example": "/etc/passwd"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or directory to change",
+     "example": "/home/john/file.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, manually set the original owner and group.",
+   "cmd": "sudo chown <ORIGINAL_USER>:<ORIGINAL_GROUP> <FILE_OR_DIRECTORY>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_USER",
+     "description": "The previous owner's username",
+     "example": "john"
+    },
+    {
+     "name": "ORIGINAL_GROUP",
+     "description": "The previous group name",
+     "example": "users"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or directory",
+     "example": "/home/john/file.txt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This changes both user and group ownership to match the reference file."
+ ],
+ "see_also": [
+  "posix-change-file-owner-group"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chown.md",
+  "title": "tldr-pages: chown",
+  "license": "CC-BY-4.0"
+ }
+}

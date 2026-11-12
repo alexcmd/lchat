@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "snap-remove-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a Snap package",
+ "summary": "Uninstall a specific snap application from the system.",
+ "aliases": [
+  {
+   "text": "remove snap",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall snap",
+   "lang": "en"
+  },
+  {
+   "text": "snap remove",
+   "lang": "en"
+  },
+  {
+   "text": "удалить snap",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить snap пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "snap remove команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "snapd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified snap package.",
+   "cmd": "sudo snap remove <SNAP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SNAP_NAME",
+     "description": "The name of the snap to remove",
+     "example": "firefox"
+    }
+   ],
+   "expect": "Confirmation that the snap has been removed."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the snap if needed.",
+   "cmd": "sudo snap install <SNAP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SNAP_NAME",
+     "description": "The name of the snap to reinstall",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Removing a snap deletes its data and configuration unless you choose to keep it."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Snap#Removing",
+  "title": "Snap",
+  "revision_id": 861445,
+  "license": "GFDL-1.3-or-later"
+ }
+}

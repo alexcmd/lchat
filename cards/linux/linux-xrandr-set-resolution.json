@@ -1,0 +1,111 @@
+{
+ "schema_version": 2,
+ "id": "linux-xrandr-set-resolution",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set screen resolution and refresh rate",
+ "summary": "Change the resolution and refresh rate for a specific monitor output. You need to know the output name (like HDMI1 or DP1) and a supported resolution.",
+ "aliases": [
+  {
+   "text": "change resolution linux",
+   "lang": "en"
+  },
+  {
+   "text": "set 1920x1080 linux",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr set mode",
+   "lang": "en"
+  },
+  {
+   "text": "change screen size linux",
+   "lang": "en"
+  },
+  {
+   "text": "set refresh rate linux",
+   "lang": "en"
+  },
+  {
+   "text": "izmenit razreshenie ekrana",
+   "lang": "ru"
+  },
+  {
+   "text": "postavit 1920x1080 linux",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr mode",
+   "lang": "ru"
+  },
+  {
+   "text": "kak sdelat full hd linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xrandr"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the resolution and refresh rate for a specific display output. Replace <OUTPUT> with your monitor's name (e.g., HDMI1, DP1) and <RESOLUTION> with the desired size (e.g., 1920x1080).",
+   "cmd": "xrandr --output <OUTPUT> --mode <RESOLUTION> --rate <RATE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT",
+     "description": "Name of the display output (e.g., HDMI1, DP1, VGA1)",
+     "discover_cmd": "xrandr --query"
+    },
+    {
+     "name": "RESOLUTION",
+     "description": "Desired resolution (e.g., 1920x1080)",
+     "discover_cmd": "xrandr --query"
+    },
+    {
+     "name": "RATE",
+     "description": "Refresh rate in Hz (e.g., 60)",
+     "discover_cmd": "xrandr --query"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Short form for the rate flag.",
+     "cmd": "xrandr --output <OUTPUT> --mode <RESOLUTION> -r <RATE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "OUTPUT",
+       "description": "Name of the display output",
+       "discover_cmd": "xrandr --query"
+      },
+      {
+       "name": "RESOLUTION",
+       "description": "Desired resolution",
+       "discover_cmd": "xrandr --query"
+      },
+      {
+       "name": "RATE",
+       "description": "Refresh rate in Hz",
+       "discover_cmd": "xrandr --query"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xrandr.md",
+  "title": "tldr-pages: xrandr",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-run-command-without-history",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a command without saving it to history",
+ "summary": "Execute a command without adding it to your command history. This is useful for commands containing passwords or sensitive data that you do not want saved.",
+ "aliases": [
+  {
+   "text": "run command without history",
+   "lang": "en"
+  },
+  {
+   "text": "execute command not in history",
+   "lang": "en"
+  },
+  {
+   "text": "hide command from history",
+   "lang": "en"
+  },
+  {
+   "text": "kak vypolnit komandu bez istorii",
+   "lang": "ru"
+  },
+  {
+   "text": "zapustit komandu ne sohranyaya v istoriyu",
+   "lang": "ru"
+  },
+  {
+   "text": "skryt komandu iz istorii",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add a leading space before the command to prevent it from being saved to history.",
+   "cmd": " <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command you want to run.",
+     "example": "ls -la"
+    }
+   ],
+   "expect": "The command runs, but does not appear in the history list."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/history.md",
+  "title": "tldr-pages: history",
+  "license": "CC-BY-4.0"
+ }
+}

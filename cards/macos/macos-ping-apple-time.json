@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "macos-ping-apple-time",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Ping a host with timestamped replies",
+ "summary": "Ping a host and display the exact time each reply packet was received. This helps in analyzing latency patterns over time.",
+ "aliases": [
+  {
+   "text": "ping with timestamp",
+   "lang": "en"
+  },
+  {
+   "text": "ping show time received",
+   "lang": "en"
+  },
+  {
+   "text": "ping --apple-time mac",
+   "lang": "en"
+  },
+  {
+   "text": "ping timestamp replies",
+   "lang": "en"
+  },
+  {
+   "text": "пинг с временем",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг с отметкой времени",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг --apple-time",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг показать время получения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send ICMP echo requests to the host and print the time each packet was received.",
+   "cmd": "ping --apple-time \"<HOST>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The domain name or IP address of the host.",
+     "example": "google.com"
+    }
+   ],
+   "expect": "The terminal displays responses with a timestamp for each reply. Press Ctrl+C to stop."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/ping.md",
+  "title": "tldr-pages: ping",
+  "license": "CC-BY-4.0"
+ }
+}

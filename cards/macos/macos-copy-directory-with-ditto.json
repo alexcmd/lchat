@@ -1,0 +1,106 @@
+{
+ "schema_version": 2,
+ "id": "macos-copy-directory-with-ditto",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Copy a directory using ditto",
+ "summary": "Use the `ditto` command to copy files and directories. It is often preferred over `cp` on macOS because it preserves metadata and handles special file types correctly.",
+ "aliases": [
+  {
+   "text": "copy directory mac",
+   "lang": "en"
+  },
+  {
+   "text": "ditto copy folder",
+   "lang": "en"
+  },
+  {
+   "text": "copy files with ditto",
+   "lang": "en"
+  },
+  {
+   "text": "macos copy directory command",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat' katalog",
+   "lang": "ru"
+  },
+  {
+   "text": "ditto kopirovanie",
+   "lang": "ru"
+  },
+  {
+   "text": "kak skopirovat' papku",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy the contents of the source directory to the destination directory. If the destination exists, its contents will be overwritten by the source.",
+   "cmd": "ditto <SOURCE_DIR> <DEST_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE_DIR",
+     "description": "Path to the directory you want to copy",
+     "example": "~/Documents/MyProject"
+    },
+    {
+     "name": "DEST_DIR",
+     "description": "Path to the destination directory",
+     "example": "~/Backup/MyProject"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Copy while retaining original file permissions and resource forks (useful for preserving app bundles or specific metadata).",
+     "cmd": "ditto -rsrc <SOURCE_DIR> <DEST_DIR>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SOURCE_DIR",
+       "description": "Path to the directory you want to copy",
+       "example": "~/Documents/MyProject"
+      },
+      {
+       "name": "DEST_DIR",
+       "description": "Path to the destination directory",
+       "example": "~/Backup/MyProject"
+      }
+     ]
+    },
+    {
+     "explain": "Copy and print a line to the Terminal for every file being copied (verbose mode).",
+     "cmd": "ditto -V <SOURCE_DIR> <DEST_DIR>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SOURCE_DIR",
+       "description": "Path to the directory you want to copy",
+       "example": "~/Documents/MyProject"
+      },
+      {
+       "name": "DEST_DIR",
+       "description": "Path to the destination directory",
+       "example": "~/Backup/MyProject"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/ditto.md",
+  "title": "tldr-pages: ditto",
+  "license": "CC-BY-4.0"
+ }
+}

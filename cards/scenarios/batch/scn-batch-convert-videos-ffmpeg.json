@@ -1,0 +1,127 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-convert-videos-ffmpeg",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Convert many video files to MP4 with ffmpeg in one loop",
+ "summary": "Converts every .mkv and .avi file in a folder to an .mp4 file in another folder, one after another. The original videos stay where they are. An output file that already exists is not overwritten.",
+ "aliases": [
+  {
+   "text": "convert many videos to mp4 ffmpeg loop",
+   "lang": "en"
+  },
+  {
+   "text": "batch convert mkv to mp4",
+   "lang": "en"
+  },
+  {
+   "text": "convert all avi files to mp4 linux",
+   "lang": "en"
+  },
+  {
+   "text": "ffmpeg convert every video in a folder",
+   "lang": "en"
+  },
+  {
+   "text": "bulk video conversion ffmpeg",
+   "lang": "en"
+  },
+  {
+   "text": "re-encode many videos in a folder",
+   "lang": "en"
+  },
+  {
+   "text": "конвертировать все видео в mp4 ffmpeg",
+   "lang": "ru"
+  },
+  {
+   "text": "массово перекодировать видео в папке",
+   "lang": "ru"
+  },
+  {
+   "text": "перевести mkv в mp4 для всех файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "конвертировать много видеофайлов linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ffmpeg"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview only: print the ffmpeg command that would run for each input file. Nothing is converted yet. -n tells ffmpeg never to overwrite an output file.",
+   "risk": "low",
+   "cmd": "for f in <SRC_DIR>/*.mkv <SRC_DIR>/*.avi; do [ -f \"$f\" ] || continue; b=$(basename \"$f\"); printf 'ffmpeg -n -i %q -c:v libx264 -crf 23 -c:a aac %q\\n' \"$f\" \"<OUT_DIR>/${b%.*}.mp4\"; done",
+   "expect": "Lines such as: ffmpeg -n -i videos/raw/clip\\ one.mkv -c:v libx264 -crf 23 -c:a aac videos/mp4/clip\\ one.mp4",
+   "placeholders": [
+    {
+     "name": "SRC_DIR",
+     "description": "Folder with the original videos",
+     "example": "videos/raw",
+     "discover_cmd": "ls"
+    },
+    {
+     "name": "OUT_DIR",
+     "description": "Folder for the MP4 files; it is created if missing",
+     "example": "videos/mp4"
+    }
+   ]
+  },
+  {
+   "explain": "Convert each file. Errors are printed as FAILED, which also appears when the output file already exists. -crf 23 is a common quality setting; a lower number gives better quality and bigger files.",
+   "risk": "low",
+   "cmd": "mkdir -p <OUT_DIR> && for f in <SRC_DIR>/*.mkv <SRC_DIR>/*.avi; do [ -f \"$f\" ] || continue; b=$(basename \"$f\"); ffmpeg -hide_banner -loglevel error -n -i \"$f\" -c:v libx264 -crf 23 -c:a aac \"<OUT_DIR>/${b%.*}.mp4\" || echo \"FAILED or already exists: $f\"; done",
+   "expect": "No output while it works; FAILED lines appear only for errors or existing outputs. Large videos take a long time.",
+   "placeholders": [
+    {
+     "name": "SRC_DIR",
+     "description": "Folder with the original videos",
+     "example": "videos/raw"
+    },
+    {
+     "name": "OUT_DIR",
+     "description": "Folder for the MP4 files",
+     "example": "videos/mp4"
+    }
+   ]
+  },
+  {
+   "explain": "List the converted files with their sizes.",
+   "risk": "low",
+   "cmd": "ls -lh <OUT_DIR>",
+   "expect": "One .mp4 file per input video, with a size in the list.",
+   "placeholders": [
+    {
+     "name": "OUT_DIR",
+     "description": "Folder for the MP4 files",
+     "example": "videos/mp4"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://ffmpeg.org/ffmpeg.html",
+  "title": "ffmpeg Documentation",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "prerequisites": [
+  "ffmpeg installed with the libx264 encoder",
+  "Enough free disk space for the new files"
+ ],
+ "warnings": [
+  "Re-encoding is slow and can lower quality. Keep the originals until you have checked the results.",
+  "Files without the listed extensions (for example .mov) are not converted by this loop."
+ ]
+}

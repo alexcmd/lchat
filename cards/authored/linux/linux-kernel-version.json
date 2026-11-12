@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "linux-kernel-version",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check the Linux kernel version",
+ "summary": "Show the version of the Linux kernel that is running right now. Use it to compare your kernel with the version a guide or a driver asks for.",
+ "aliases": [
+  {
+   "text": "linux kernel version",
+   "lang": "en"
+  },
+  {
+   "text": "check kernel version linux",
+   "lang": "en"
+  },
+  {
+   "text": "what kernel am I running",
+   "lang": "en"
+  },
+  {
+   "text": "which linux kernel do I have",
+   "lang": "en"
+  },
+  {
+   "text": "kernel release linux",
+   "lang": "en"
+  },
+  {
+   "text": "uname -r",
+   "lang": "en"
+  },
+  {
+   "text": "версия ядра linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какое у меня ядро линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "как проверить версию ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "какая версия ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть версию ядра убунту",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print the kernel release of the running system. Look for a version string such as 6.8.0-41-generic: the first numbers (6.8.0) are the kernel version, the rest is the build or distribution suffix.",
+   "cmd": "uname -r",
+   "risk": "low",
+   "expect": "One line with the kernel release, for example 6.8.0-41-generic."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/uname",
+  "title": "uname manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

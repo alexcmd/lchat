@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-file-creation-date",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get the creation date of a file",
+ "summary": "Use the GetFileInfo command with the -d flag to find out exactly when a file was created.",
+ "aliases": [
+  {
+   "text": "file creation date",
+   "lang": "en"
+  },
+  {
+   "text": "when was file made",
+   "lang": "en"
+  },
+  {
+   "text": "get file created time",
+   "lang": "en"
+  },
+  {
+   "text": "дата создания файла",
+   "lang": "ru"
+  },
+  {
+   "text": "когда создан файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run GetFileInfo with the -d flag and the file path to display the creation date and time.",
+   "cmd": "GetFileInfo -d <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to check.",
+     "example": "~/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/getfileinfo.md",
+  "title": "tldr-pages: getfileinfo",
+  "license": "CC-BY-4.0"
+ }
+}

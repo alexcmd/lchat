@@ -1,0 +1,160 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-log-watch-alert-pattern",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Watch a log file live and alert when a pattern appears",
+  "summary": "Follow a log while new lines are added and print a message whenever a line matches a word or pattern, such as ERROR. Only new lines are checked. Stop the watch with Ctrl+C.",
+  "aliases": [
+    {
+      "text": "watch log file for errors",
+      "lang": "en"
+    },
+    {
+      "text": "alert when log has error",
+      "lang": "en"
+    },
+    {
+      "text": "tail log grep alert",
+      "lang": "en"
+    },
+    {
+      "text": "live log monitoring linux",
+      "lang": "en"
+    },
+    {
+      "text": "notify on error in log",
+      "lang": "en"
+    },
+    {
+      "text": "tail -f grep pattern loop",
+      "lang": "en"
+    },
+    {
+      "text": "follow log and react to match",
+      "lang": "en"
+    },
+    {
+      "text": "monitor log for keyword",
+      "lang": "en"
+    },
+    {
+      "text": "следить за логом и сообщать об ошибке",
+      "lang": "ru"
+    },
+    {
+      "text": "уведомление при ошибке в логе",
+      "lang": "ru"
+    },
+    {
+      "text": "tail -f с фильтром",
+      "lang": "ru"
+    },
+    {
+      "text": "мониторинг лога в реальном времени",
+      "lang": "ru"
+    },
+    {
+      "text": "оповещение когда в логе появляется слово",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "tail",
+      "grep"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Find the log file and check that it is the one the program writes to. Its size should grow while the program runs.",
+      "risk": "low",
+      "cmd": "ls -l <LOG_FILE>",
+      "expect": "A line with the file size, the owner and the last change time.",
+      "placeholders": [
+        {
+          "name": "LOG_FILE",
+          "description": "Log file that the program writes to",
+          "example": "/home/deck/app/logs/app.log",
+          "discover_cmd": "ls /var/log"
+        }
+      ]
+    },
+    {
+      "explain": "Check that the pattern matches lines already in the file. A count of 0 means nothing matches yet, so check the spelling and capital letters.",
+      "risk": "low",
+      "cmd": "grep -c -E '<PATTERN>' <LOG_FILE>",
+      "expect": "A number, for example 3.",
+      "placeholders": [
+        {
+          "name": "PATTERN",
+          "description": "Word or pattern to alert on (extended regular expression)",
+          "example": "ERROR|FATAL"
+        },
+        {
+          "name": "LOG_FILE",
+          "description": "Log file that the program writes to",
+          "example": "/home/deck/app/logs/app.log",
+          "discover_cmd": "ls /var/log"
+        }
+      ]
+    },
+    {
+      "explain": "Start the watch. tail -n 0 starts at the end, so only new lines are checked. -F keeps following the file after it is rotated. grep --line-buffered passes each match on at once. Each match prints an ALERT line with the time.",
+      "risk": "low",
+      "cmd": "tail -n 0 -F <LOG_FILE> | grep --line-buffered -E '<PATTERN>' | while IFS= read -r line; do echo \"ALERT $(date +%T) $line\"; done",
+      "expect": "An ALERT line each time the program writes a matching line.",
+      "placeholders": [
+        {
+          "name": "LOG_FILE",
+          "description": "Log file that the program writes to",
+          "example": "/home/deck/app/logs/app.log",
+          "discover_cmd": "ls /var/log"
+        },
+        {
+          "name": "PATTERN",
+          "description": "Word or pattern to alert on (extended regular expression)",
+          "example": "ERROR|FATAL"
+        }
+      ],
+      "alternatives": [
+        {
+          "explain": "Show each match as a desktop notification instead of a terminal line. Needs the notify-send command (package libnotify).",
+          "cmd": "tail -n 0 -F <LOG_FILE> | grep --line-buffered -E '<PATTERN>' | while IFS= read -r line; do notify-send \"Log alert\" \"$line\"; done",
+          "placeholders": [
+            {
+              "name": "LOG_FILE",
+              "description": "Log file that the program writes to",
+              "example": "/home/deck/app/logs/app.log",
+              "discover_cmd": "ls /var/log"
+            },
+            {
+              "name": "PATTERN",
+              "description": "Word or pattern to alert on (extended regular expression)",
+              "example": "ERROR|FATAL"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "explain": "Stop the watch with Ctrl+C in the same terminal. The log is only read, never changed.",
+      "risk": "low"
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "Only lines written after the watch started are reported. Earlier errors are not shown; step 2 counts them."
+  ],
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man1/tail.1.html",
+    "title": "tail(1) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

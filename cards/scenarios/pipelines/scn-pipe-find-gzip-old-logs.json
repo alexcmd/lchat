@@ -1,0 +1,120 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-find-gzip-old-logs",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compress all log files older than 7 days with gzip",
+ "summary": "Find the .log files in a folder that have not changed for more than a week, then compress each one into a .gz file. Names with spaces are handled safely.",
+ "aliases": [
+  {
+   "text": "find all logs older than 7 days and gzip them",
+   "lang": "en"
+  },
+  {
+   "text": "gzip old log files",
+   "lang": "en"
+  },
+  {
+   "text": "compress logs older than a week linux",
+   "lang": "en"
+  },
+  {
+   "text": "find old files and compress them",
+   "lang": "en"
+  },
+  {
+   "text": "xargs gzip find -mtime",
+   "lang": "en"
+  },
+  {
+   "text": "archive old log files to save disk space",
+   "lang": "en"
+  },
+  {
+   "text": "найти логи старше 7 дней и сжать их gzip",
+   "lang": "ru"
+  },
+  {
+   "text": "сжать старые лог файлы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "архивировать старые логи в папке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview first. This only lists the .log files whose content changed more than 7 days ago. Nothing is changed yet.",
+   "cmd": "find <LOG_DIR> -type f -name '*.log' -mtime +7 -print",
+   "risk": "low",
+   "expect": "One path per line, for example logs/app-2026-10-01.log. No output means no file is old enough.",
+   "placeholders": [
+    {
+     "name": "LOG_DIR",
+     "description": "Folder that holds the log files",
+     "example": "logs"
+    }
+   ]
+  },
+  {
+   "explain": "Compress each listed file. find -print0 and xargs -0 pass names separated by zero bytes, so spaces are safe. xargs -r skips gzip if nothing matched. Each X.log becomes X.log.gz and the original is removed.",
+   "cmd": "find <LOG_DIR> -type f -name '*.log' -mtime +7 -print0 | xargs -0 -r gzip",
+   "risk": "medium",
+   "expect": "Usually no output. The old .log files disappear and .log.gz files appear next to them.",
+   "placeholders": [
+    {
+     "name": "LOG_DIR",
+     "description": "Folder that holds the log files",
+     "example": "logs"
+    }
+   ]
+  },
+  {
+   "explain": "Check the result: list the compressed files. Each one should have the same name as before plus .gz.",
+   "cmd": "find <LOG_DIR> -type f -name '*.log.gz' -print",
+   "risk": "low",
+   "expect": "Paths ending in .log.gz, for example logs/app-2026-10-01.log.gz",
+   "placeholders": [
+    {
+     "name": "LOG_DIR",
+     "description": "Folder you compressed",
+     "example": "logs"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore the plain text files. gunzip removes each .gz file and writes the original name back. It also unpacks any .log.gz file that was already there before.",
+   "cmd": "find <LOG_DIR> -type f -name '*.log.gz' -print0 | xargs -0 -r gunzip",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "LOG_DIR",
+     "description": "Folder you compressed",
+     "example": "logs"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "gzip removes each original .log file and keeps only the .gz version. Copy the folder first if you may need the plain text.",
+  "-mtime +7 means the file's content was last changed more than 7 days ago, not that it was created then.",
+  "Run the preview step and check the list before compressing."
+ ],
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/xargs.1.html",
+  "title": "xargs(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

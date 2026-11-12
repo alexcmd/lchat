@@ -1,0 +1,56 @@
+{
+ "schema_version": 2,
+ "id": "xorg-switch-virtual-console",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Switch to a virtual console in Xorg/Wayland",
+ "summary": "Switch from the graphical desktop to a text-based virtual console (TTY) using keyboard shortcuts.",
+ "aliases": [
+  {
+   "text": "switch to tty",
+   "lang": "en"
+  },
+  {
+   "text": "virtual console shortcut",
+   "lang": "en"
+  },
+  {
+   "text": "ctrl alt f1",
+   "lang": "en"
+  },
+  {
+   "text": "switch to terminal",
+   "lang": "en"
+  },
+  {
+   "text": "переключиться в tty",
+   "lang": "ru"
+  },
+  {
+   "text": "виртуальная консоль",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "any"
+ },
+ "steps": [
+  {
+   "explain": "Press Ctrl+Alt+F1 (or F2, F3, etc.) to switch to the corresponding virtual console.",
+   "gui": "Press Ctrl+Alt+F1.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Keyboard_shortcuts#Xorg_and_Wayland",
+  "title": "Keyboard shortcuts",
+  "revision_id": 886036,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "linux-switch-to-root-shell-pkexec",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Open a root shell using pkexec",
+ "summary": "Use pkexec without arguments to open a new shell session as the root user. This allows you to run multiple commands with administrator privileges.",
+ "aliases": [
+  {
+   "text": "open root shell",
+   "lang": "en"
+  },
+  {
+   "text": "switch to root",
+   "lang": "en"
+  },
+  {
+   "text": "root terminal",
+   "lang": "en"
+  },
+  {
+   "text": "pkexec shell",
+   "lang": "en"
+  },
+  {
+   "text": "открыть рут шелл",
+   "lang": "ru"
+  },
+  {
+   "text": "переключиться на root",
+   "lang": "ru"
+  },
+  {
+   "text": "терминал рута",
+   "lang": "ru"
+  },
+  {
+   "text": "pkexec шелл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start a new interactive shell session as the root user. You will likely need to enter your password in a graphical prompt.",
+   "cmd": "pkexec",
+   "risk": "medium",
+   "needs_root": false
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Type 'exit' in the root shell to return to your normal user session.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "You are operating as the root user. Mistakes can damage the system. Type 'exit' to leave the root shell."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pkexec.md",
+  "title": "tldr-pages: pkexec",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "posix-sort-file-lines",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sort lines of a text file alphabetically",
+ "summary": "Sort the lines of a text file in alphabetical order. The original file is not changed; the sorted result is printed to the terminal.",
+ "aliases": [
+  {
+   "text": "sort file lines",
+   "lang": "en"
+  },
+  {
+   "text": "alphabetical sort text",
+   "lang": "en"
+  },
+  {
+   "text": "sort text file",
+   "lang": "en"
+  },
+  {
+   "text": "sort lines alphabetically",
+   "lang": "en"
+  },
+  {
+   "text": "sortir fichier texte",
+   "lang": "fr"
+  },
+  {
+   "text": "sortieren datei",
+   "lang": "de"
+  },
+  {
+   "text": "ordenar archivo texto",
+   "lang": "es"
+  },
+  {
+   "text": "sortieren textzeilen",
+   "lang": "de"
+  },
+  {
+   "text": "sort file",
+   "lang": "en"
+  },
+  {
+   "text": "sortieren",
+   "lang": "de"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run sort on the file to print its lines in ascending alphabetical order.",
+   "cmd": "sort <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to sort.",
+     "example": "names.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sort.md",
+  "title": "tldr-pages: sort",
+  "license": "CC-BY-4.0"
+ }
+}

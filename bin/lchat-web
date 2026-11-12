@@ -3,16 +3,17 @@
 
 Serves ~/.local/share/lchat/index.html, proxies the chat API to llama, and
 executes agent tools on this machine via POST /api/tool:
-  bash, read_file, write_file, web_search, web_fetch,
-  list_windows, window_action, screenshot
+  bash, read_file, write_file, web_search, web_fetch, download, recall,
+  linux_help (help cards, bin/lchat-cards), list_windows, window_action, screenshot
 
 Usage: lchat-web [--llama http://127.0.0.1:9941] [--port 8088] [--host 127.0.0.1]
                  [--cwd DIR] [--allow-remote-tools]
 
 Security model
-- Tools need the per-launch token. It is NEVER served over HTTP: it is printed
-  at startup as part of the URL fragment (http://127.0.0.1:8088/#<token>) and
-  written to ~/.local/state/lchat/url (url-<port> for a non-default port, mode 600). Open that URL.
+- No login by default: open http://127.0.0.1:8088/. With --token, tools and history need a per-launch
+  token, which is NEVER served over HTTP: it is printed at startup as part of the URL fragment
+  (http://127.0.0.1:8088/#<token>) and written to ~/.local/state/lchat/url (url-<port> for a
+  non-default port, mode 600). Without --token any local process can call the tools (bash).
 - Every request must carry a Host header naming this server and, if present, a
   same-origin Origin header (blocks DNS rebinding and cross-site requests).
 - Only an exact allowlist of llama endpoints is proxied.
@@ -29,6 +30,8 @@ ap.add_argument("--port", type=int, default=8088)
 ap.add_argument("--host", default="127.0.0.1")
 ap.add_argument("--cwd", default=os.path.expanduser("~"))
 ap.add_argument("--allow-remote-tools", action="store_true")
+ap.add_argument("--token", action="store_true",
+                help="require a per-launch token (in the URL fragment) for tools and history; off by default")
 a = ap.parse_args()
 
 _HERE = os.path.dirname(os.path.realpath(__file__))
@@ -46,7 +49,7 @@ WEBCRAWLER = _first("LCHAT_WEBCRAWLER", "~/.agents/skills/webcrawler/webcrawler.
                     os.path.join(_HERE, "..", "vendor", "webcrawler", "webcrawler.py"),
                     "~/.local/share/lchat/webcrawler/webcrawler.py")
 STATE_DIR = os.path.expanduser("~/.local/state/lchat")
-TOKEN = secrets.token_urlsafe(24)
+TOKEN = secrets.token_urlsafe(24) if a.token else ""   # "" = no token check
 LOOPBACK = a.host in ("127.0.0.1", "localhost", "::1")
 TOOLS_ON = a.allow_remote_tools or LOOPBACK
 MAX_OUT = 12000
@@ -72,7 +75,7 @@ def P(desc, **props):
 
 # name -> (description, parameters, needs_approval)
 TOOLS = {
-    "bash": ("Run a bash command on the user's Linux machine (SteamOS/Arch, KDE Plasma Wayland). "
+    "bash": ("Run a bash command on the user's Linux machine (details in the System line of your instructions). "
              "Working directory persists between calls. Use for files, processes, packages, system "
              "info. To launch a GUI app, run it in the background ('app &'); it keeps running. "
              "Returns stdout+stderr and exit code.",
@@ -88,7 +91,7 @@ TOOLS = {
                    P("", path={"type": "string"}, content={"type": "string"}), True),
     "web_search": ("Search the web (Google, English). Returns titles, full URLs and snippets. Call it ONCE "
                    "with ALL your queries in the `queries` array: 2-5 differently worded queries (synonyms, "
-                   "sub-questions, different angles) run in parallel and are merged and de-duplicated. Do not "
+                   "sub-questions, different angles) run one after another and are merged and de-duplicated. Do not "
                    "call web_search again with the same or a similar query.",
                    P("", queries={"type": "array", "items": {"type": "string"},
                                   "description": "1-5 search queries, each worded differently"},
@@ -117,12 +120,79 @@ TOOLS = {
                P("", query={"type": "string", "description": "what to look for, in natural language"},
                  k={"type": "integer", "description": "results, default 6, max 15", "optional": True}),
                False),
+    "linux_help": ("Search the Linux help cards: verified step-by-step recipes for Linux/macOS tasks and error "
+                   "messages (Arch Wiki, tldr-pages, Fedora docs), with the exact commands, what they print, risks "
+                   "and warnings. Call it FIRST for any shell/command-line/system question or error message, before "
+                   "writing commands yourself or searching the web. Pass the task or the literal error text.",
+                   P("", query={"type": "string", "description": "the task in plain words, or the literal error message"},
+                     k={"type": "integer", "description": "cards, default 3, max 6", "optional": True},
+                     platform={"type": "string", "enum": ["linux", "macos", "any"],
+                               "description": "default linux (this machine)", "optional": True}),
+                   False),
     "screenshot": ("Take a screenshot and look at it. target='screen' for the whole screen, 'active' for the "
                    "focused window, or a window title substring / id from list_windows.",
                    P("", target={"type": "string", "description": "screen | active | <window title or id>",
                                  "optional": True}),
                    False),
 }
+
+
+import platform as _platform, shutil as _shutil
+
+# native package manager per os-release family (ID, then ID_LIKE)
+_PKG_BY_FAMILY = [("arch", "pacman"), ("debian", "apt"), ("ubuntu", "apt"), ("fedora", "dnf"), ("rhel", "dnf"),
+                  ("suse", "zypper"), ("opensuse", "zypper"), ("alpine", "apk"), ("gentoo", "emerge"),
+                  ("void", "xbps-install"), ("nixos", "nix")]
+
+
+def system_info():
+    """One paragraph about this machine for the agent prompt: OS/distro, kernel, desktop, package managers,
+    read-only rootfs, CPU/RAM. Detected once at start-up; every probe is optional."""
+    osr = {}
+    try:
+        for line in open("/etc/os-release", encoding="utf-8"):
+            k, _, v = line.strip().partition("=")
+            osr[k] = v.strip('"')
+    except OSError:
+        pass
+    ids = [osr.get("ID", "")] + osr.get("ID_LIKE", "").split()
+    native = next((pm for fam in ids for f, pm in _PKG_BY_FAMILY if fam == f and _shutil.which(pm)), None)
+    present = [pm for pm in ("pacman", "apt", "dnf", "zypper", "apk", "emerge", "xbps-install", "nix", "flatpak",
+                             "snap", "brew", "paru", "yay", "pip", "pipx", "distrobox") if _shutil.which(pm)]
+    name = osr.get("PRETTY_NAME") or osr.get("NAME") or _platform.system()
+    ver = osr.get("VERSION_ID", "")
+    fam = ", ".join(x for x in ids[1:] if x) or ids[0] or "unknown"
+    parts = [f"OS: {name}{' ' + ver if ver and ver not in name else ''} (id {ids[0] or '?'}, family {fam})"
+             + (f", variant {osr['VARIANT_ID']}" if osr.get("VARIANT_ID") else ""),
+             f"kernel {_platform.release()} {_platform.machine()}"]
+    de, st = os.environ.get("XDG_CURRENT_DESKTOP", ""), os.environ.get("XDG_SESSION_TYPE", "")
+    if de or st:
+        parts.append(f"desktop {de or '?'} on {st or '?'}")
+    pk = f"native package manager: {native}" if native else "native package manager: unknown"
+    if present:
+        pk += f" (installed: {', '.join(present)})"
+    parts.append(pk)
+    if _shutil.which("steamos-readonly"):
+        try:
+            ro = subprocess.run(["steamos-readonly", "status"], capture_output=True, text=True, timeout=5).stdout.strip()
+        except Exception:
+            ro = ""
+        if ro:
+            parts.append(f"SteamOS read-only root filesystem: {ro} - system packages installed with pacman are wiped "
+                         "by OS updates; prefer flatpak (apps), distrobox, pip --user or ~/.local for tools, and "
+                         "only use `sudo steamos-readonly disable` + pacman when the user agrees")
+    try:
+        mem = next(int(l.split()[1]) for l in open("/proc/meminfo") if l.startswith("MemTotal")) // 1024
+        cpu = next((l.split(":", 1)[1].strip() for l in open("/proc/cpuinfo") if l.startswith("model name")), "")
+        parts.append(f"{os.cpu_count()} CPUs{' (' + cpu + ')' if cpu else ''}, {mem / 1024:.0f} GiB RAM")
+    except Exception:
+        pass
+    parts.append(f"shell {os.path.basename(os.environ.get('SHELL', 'bash'))} (the bash tool runs bash), "
+                 f"user {os.environ.get('USER', '?')}, sudo {'available' if _shutil.which('sudo') else 'missing'}")
+    return "; ".join(parts) + "."
+
+
+SYSTEM_INFO = system_info()
 
 
 def tool_schemas():
@@ -234,13 +304,31 @@ def t_write_file(path, content, *, sess, alive):
     return {"text": f"wrote {len(content)} chars to {p}"}
 
 
+CRAWLER_LOCK = threading.Lock()   # one stealth browser at a time: the CloakBrowser binary allows a single
+                                  # concurrent session, and a second one fails (Playwright wait_for_url timeout)
+
+
+def _close_group(p):
+    """Close the crawler after use: kill its whole process group (the browser and its helpers), even after a
+    normal exit, so no Chromium is left running between tool calls."""
+    try:
+        os.killpg(p.pid, signal.SIGKILL)
+    except (ProcessLookupError, PermissionError):
+        pass
+
+
 def _crawler(args, timeout, alive):
-    with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
+    with CRAWLER_LOCK, tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
+        if not alive():
+            raise Cancelled()
         p = subprocess.Popen(["python3", WEBCRAWLER] + args, stdout=out, stderr=err,
                              stdin=subprocess.DEVNULL, start_new_session=True,
                              env={**os.environ, "CLOAKBROWSER_SUPPRESS_FONT_WARNING": "1",
                                   "CLOAKBROWSER_AUTO_UPDATE": "false"})
-        rc = _wait(p, timeout, alive)
+        try:
+            rc = _wait(p, timeout, alive)
+        finally:
+            _close_group(p)
         o, e = _read_capture(out), _read_capture(err)
     if rc is None:
         e += f"\ntimed out after {timeout}s"
@@ -267,24 +355,21 @@ def t_web_search(queries=None, num=10, query=None, images=False, *, sess, alive)
     if not qs:
         raise ValueError("give at least one query in `queries`")
     num = max(1, min(int(num or 10), 30))
-    # One browser process per query, all at once (~20-30 s total instead of per query).
+    # One browser at a time (see CRAWLER_LOCK): the queries run one after another, each browser closed after
+    # use, and a failed query is retried once.
     found, errors, pics = {}, {}, []
-
-    def one(q):
-        rc, o, e = _crawler(["search", "--num", str(num)] + (["--images"] if images else []) + ["--", q],
-                            150, alive)
-        try:
-            d = json.loads(o)
-            found[q] = d["results"]
-            pics.extend({**i, "query": q} for i in d.get("images") or [])
-        except (ValueError, KeyError):
-            errors[q] = _crawl_error("search", rc, e)
-
-    threads = [threading.Thread(target=one, args=(q,)) for q in qs]
-    for t in threads:
-        t.start()
-    for t in threads:
-        t.join()
+    for q in qs:
+        for attempt in (1, 2):
+            rc, o, e = _crawler(["search", "--num", str(num)] + (["--images"] if images else []) + ["--", q],
+                                150, alive)
+            try:
+                d = json.loads(o)
+                found[q] = d["results"]
+                pics.extend({**i, "query": q} for i in d.get("images") or [])
+                errors.pop(q, None)
+                break
+            except (ValueError, KeyError):
+                errors[q] = _crawl_error("search", rc, e)
     merged, by_url = [], {}
     for q in qs:                       # keep query order, de-duplicate by URL
         for x in found.get(q, []):
@@ -676,9 +761,77 @@ def history_delete(cid):
     return {"ok": True}
 
 
+# ---------------- Linux help cards (bin/lchat-cards: own SQLite store, same embedding + rerank servers) ----------------
+import importlib.machinery, importlib.util
+
+def _load_cards():
+    for p in (os.path.join(_HERE, "lchat-cards"), os.path.expanduser("~/.local/bin/lchat-cards")):
+        if os.path.isfile(p):
+            ld = importlib.machinery.SourceFileLoader("lchat_cards", p)
+            m = importlib.util.module_from_spec(importlib.util.spec_from_loader("lchat_cards", ld))
+            ld.exec_module(m)
+            return m
+    return None
+
+
+CARDS = _load_cards()
+CARDS_MIN_SCORE = 0.3   # best rerank score below this: no card really fits
+
+
+def cards_worker():
+    """Background: bring the card store in line with the installed cards file, then embed what lacks a vector."""
+    try:
+        r = CARDS.sync(quiet=True)
+        if "error" in r:
+            print(f"linux_help: {r['error']}")
+            return
+        if not r.get("unchanged"):
+            print(f"linux_help: cards {r['cards']} (version {r['version']}): {r['added']} new, "
+                  f"{r['changed']} changed, {r['removed']} removed")
+    except Exception as e:
+        print(f"linux_help: sync failed: {e}")
+        return
+    while True:
+        try:
+            n = CARDS.embed_pending(a.embed)
+            if n:
+                print(f"linux_help: embedded {n} cards")
+            return
+        except Exception:
+            time.sleep(30)   # embedding server not up yet
+
+
+AUTO_MIN_SCORE = 0.5   # auto-retrieval (the page, before each user turn) injects cards only above this
+
+
+def t_linux_help(query, k=3, platform=None, min_score=None, *, sess, alive):
+    """min_score (used by the page's auto-retrieval): return nothing unless the best card's rerank score reaches it."""
+    if CARDS is None:
+        return {"text": "error: lchat-cards is not installed (run install.sh)", "error": True}
+    k = max(1, min(int(k or 3), 6))
+    hits, scores, how = CARDS.search(query, k, platform, embed_url=a.embed, rerank_url=a.rerank)
+    if how == "empty":
+        return {"text": "the card store is empty: run `lchat-cards sync`"}
+    if not hits:
+        return {"text": f"no help card matches {query!r}; use web_search instead", "cards": 0}
+    if min_score is not None and (scores[0] is None or scores[0] < float(min_score)):
+        return {"text": "", "cards": 0, "best": scores[0]}
+    if min_score is not None:   # auto-retrieval: keep only the cards that clear the bar themselves
+        keep = [(c, sc) for c, sc in zip(hits, scores) if sc is not None and sc >= float(min_score)]
+        hits, scores = [c for c, _ in keep], [sc for _, sc in keep]
+    note = ""
+    if scores[0] is not None and scores[0] < CARDS_MIN_SCORE:
+        note = (f"NOTE: no card fits well (best score {scores[0]:.2f}). Do not follow these cards blindly; "
+                "adapt them or use web_search.\n\n")
+    body = "\n\n".join(CARDS.render(c, s) for c, s in zip(hits, scores))
+    return {"text": clip(f"{len(hits)} help cards via {how}. Replace <PLACEHOLDERS> with real values; "
+                         f"commands marked needs root need sudo.\n\n{note}{body}")}
+
+
 IMPL = {"bash": t_bash, "read_file": t_read_file, "write_file": t_write_file,
         "web_search": t_web_search, "web_fetch": t_web_fetch, "list_windows": t_list_windows,
-        "window_action": t_window_action, "screenshot": t_screenshot, "recall": t_recall, "download": t_download}
+        "window_action": t_window_action, "screenshot": t_screenshot, "recall": t_recall, "download": t_download,
+        "linux_help": t_linux_help}
 
 
 def run_tool(name, args, sid, alive, chat=None):
@@ -802,7 +955,7 @@ class H(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(data)
         elif path in ("/api/history", "/api/history/get"):
-            if not secrets.compare_digest(self.headers.get("X-LChat-Token", ""), TOKEN):
+            if not self._authed():
                 return self._json(403, {"error": "forbidden"})
             q = urllib.parse.parse_qs(self.path.split("?", 1)[1] if "?" in self.path else "")
             try:
@@ -810,19 +963,22 @@ class H(http.server.BaseHTTPRequestHandler):
             except Exception as e:
                 self._json(404, {"error": str(e)})
         elif path == "/api/tools":
-            self._json(200, {"enabled": TOOLS_ON, "cwd": DEFAULT_CWD,
+            self._json(200, {"enabled": TOOLS_ON, "cwd": DEFAULT_CWD, "system": SYSTEM_INFO,
                              "tools": tool_schemas() if TOOLS_ON else []})
         elif path in PROXY_PATHS:
             self._proxy("GET")
         else:
             self._json(404, {"error": {"message": "not found"}})
 
+    def _authed(self):
+        return not TOKEN or secrets.compare_digest(self.headers.get("X-LChat-Token", ""), TOKEN)
+
     def do_POST(self):
         if not self._guard():
             return
         if self.path in ("/api/history/save", "/api/history/delete"):
             body = self._body()
-            if not secrets.compare_digest(self.headers.get("X-LChat-Token", ""), TOKEN):
+            if not self._authed():
                 return self._json(403, {"error": "forbidden"})
             try:
                 req = json.loads(body or b"{}")
@@ -835,7 +991,7 @@ class H(http.server.BaseHTTPRequestHandler):
             return
         if self.path == "/api/tool":
             body = self._body()
-            if not secrets.compare_digest(self.headers.get("X-LChat-Token", ""), TOKEN):
+            if not self._authed():
                 return self._json(403, {"text": "forbidden: missing or wrong token (open the URL printed by lchat-web)", "error": True})
             if not TOOLS_ON:
                 return self._json(403, {"text": "tools disabled on non-loopback bind", "error": True})
@@ -856,7 +1012,7 @@ class S(socketserver.ThreadingMixIn, http.server.HTTPServer):
 
 
 if __name__ == "__main__":
-    url = f"http://{'127.0.0.1' if LOOPBACK else a.host}:{a.port}/#{TOKEN}"
+    url = f"http://{'127.0.0.1' if LOOPBACK else a.host}:{a.port}/" + (f"#{TOKEN}" if TOKEN else "")
     os.makedirs(STATE_DIR, mode=0o700, exist_ok=True)
     # the default instance writes "url"; others "url-<port>" so test instances never clobber it
     fd = os.open(os.path.join(STATE_DIR, "url" if a.port == 8088 else f"url-{a.port}"),
@@ -866,6 +1022,8 @@ if __name__ == "__main__":
     db_init()
     threading.Thread(target=embed_worker, daemon=True).start()
     EMBED_WAKE.set()
+    if CARDS is not None:
+        threading.Thread(target=cards_worker, daemon=True).start()
     print(f"history: {DB_PATH}  (embed {a.embed}, rerank {a.rerank})")
     print(f"lchat-web -> {a.llama}  (tools {'ON' if TOOLS_ON else 'OFF'}, cwd {DEFAULT_CWD})")
     print(f"open: {url}")

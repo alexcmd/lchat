@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "systemd-boot-update",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update systemd-boot EFI binary",
+ "summary": "Updates the installed systemd-boot EFI binary on the ESP to match the version in the systemd package. This is often done automatically but can be triggered manually.",
+ "aliases": [
+  {
+   "text": "update systemd-boot",
+   "lang": "en"
+  },
+  {
+   "text": "bootctl update",
+   "lang": "en"
+  },
+  {
+   "text": "обновить systemd-boot",
+   "lang": "ru"
+  },
+  {
+   "text": "bootctl update команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "prerequisites": [
+  "systemd-boot is already installed",
+  "Root privileges"
+ ],
+ "steps": [
+  {
+   "explain": "Run bootctl update to copy the new EFI binary from /usr/lib/systemd/boot/efi/ to the ESP.",
+   "cmd": "sudo bootctl update",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Command completes without errors. It may report that the boot manager is already up to date."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the previous version of systemd-boot if the update caused issues. This usually requires booting from a live USB and chrooting, or using a previous backup if available.",
+   "cmd": "sudo bootctl install",
+   "needs_root": true,
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "If Secure Boot is enabled, the new binary must be signed. Unsigned binaries will fail to boot.",
+  "Ensure the ESP is mounted correctly before running the update."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd-boot#Manual_update",
+  "title": "Systemd-boot",
+  "revision_id": 887252,
+  "license": "GFDL-1.3-or-later"
+ }
+}

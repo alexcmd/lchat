@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-nano-auto-indent",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Open a file in nano with auto-indentation enabled",
+ "summary": "Auto-indentation automatically indents new lines to match the indentation of the previous line, which is helpful for editing code or structured text.",
+ "aliases": [
+  {
+   "text": "nano auto indent",
+   "lang": "en"
+  },
+  {
+   "text": "auto indent in nano",
+   "lang": "en"
+  },
+  {
+   "text": "nano indentation settings",
+   "lang": "en"
+  },
+  {
+   "text": "автоотступы в nano",
+   "lang": "ru"
+  },
+  {
+   "text": "включить автоотступ в nano",
+   "lang": "ru"
+  },
+  {
+   "text": "nano отступы при вводе",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the file with the auto-indent option enabled.",
+   "cmd": "nano -i <FILE>",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to edit.",
+     "example": "script.py"
+    }
+   ],
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nano.md",
+  "title": "tldr-pages: nano",
+  "license": "CC-BY-4.0"
+ }
+}

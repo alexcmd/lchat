@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-file-info",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get detailed information about a file",
+ "summary": "Use the GetFileInfo command to see metadata about a file, such as its creation date, modification date, or creator application. This is useful for checking file history or origin.",
+ "aliases": [
+  {
+   "text": "get file info",
+   "lang": "en"
+  },
+  {
+   "text": "check file metadata",
+   "lang": "en"
+  },
+  {
+   "text": "when was file created",
+   "lang": "en"
+  },
+  {
+   "text": "file creator info",
+   "lang": "en"
+  },
+  {
+   "text": "получить информацию о файле",
+   "lang": "ru"
+  },
+  {
+   "text": "дата создания файла",
+   "lang": "ru"
+  },
+  {
+   "text": "кто создал файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run GetFileInfo with the path to the file to display all available metadata.",
+   "cmd": "GetFileInfo <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to inspect.",
+     "example": "~/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/getfileinfo.md",
+  "title": "tldr-pages: getfileinfo",
+  "license": "CC-BY-4.0"
+ }
+}

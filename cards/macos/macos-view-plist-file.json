@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-plist-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View the contents of a plist file",
+ "summary": "Display the contents of one or more property list (plist) files in a human-readable format. This is useful for inspecting configuration files without opening them in a code editor.",
+ "aliases": [
+  {
+   "text": "view plist file",
+   "lang": "en"
+  },
+  {
+   "text": "read plist",
+   "lang": "en"
+  },
+  {
+   "text": "show plist contents",
+   "lang": "en"
+  },
+  {
+   "text": "inspect plist",
+   "lang": "en"
+  },
+  {
+   "text": "как посмотреть plist",
+   "lang": "ru"
+  },
+  {
+   "text": "прочитать plist файл",
+   "lang": "ru"
+  },
+  {
+   "text": "содержимое plist",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -p flag to print the contents of the specified plist file(s) in a readable format.",
+   "cmd": "plutil -p <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the plist file you want to view",
+     "example": "~/Library/Preferences/com.apple.finder.plist"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/plutil.md",
+  "title": "tldr-pages: plutil",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-hidden-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show hidden files in a directory",
+ "summary": "Reveal files that are normally hidden in the terminal, such as configuration files starting with a dot.",
+ "aliases": [
+  {
+   "text": "show hidden files",
+   "lang": "en"
+  },
+  {
+   "text": "see hidden files",
+   "lang": "en"
+  },
+  {
+   "text": "ls hidden",
+   "lang": "en"
+  },
+  {
+   "text": "show dotfiles",
+   "lang": "en"
+  },
+  {
+   "text": "kak pokazat skrytye fayly",
+   "lang": "ru"
+  },
+  {
+   "text": "skrytye fayly",
+   "lang": "ru"
+  },
+  {
+   "text": "ls -a",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all files including hidden ones (those starting with a dot).",
+   "cmd": "ls -a",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "List all files in long format to see details of hidden files.",
+     "cmd": "ls -la"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ls.md",
+  "title": "tldr-pages: ls",
+  "license": "CC-BY-4.0"
+ }
+}

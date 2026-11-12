@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "posix-merge-files-columns",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Merge two files side by side into columns",
+ "summary": "Combine two text files so that corresponding lines appear side by side, separated by tabs or a custom delimiter. This is useful for creating tables from separate lists.",
+ "aliases": [
+  {
+   "text": "merge two files columns",
+   "lang": "en"
+  },
+  {
+   "text": "combine files side by side",
+   "lang": "en"
+  },
+  {
+   "text": "paste two files",
+   "lang": "en"
+  },
+  {
+   "text": "create table from two files",
+   "lang": "en"
+  },
+  {
+   "text": "объединить два файла в столбцы",
+   "lang": "ru"
+  },
+  {
+   "text": "склеить два файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `paste` with two file arguments to merge them line-by-line into columns, separated by tabs.",
+   "cmd": "paste <FILE1> <FILE2>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE1",
+     "description": "Path to the first file",
+     "example": "names.txt"
+    },
+    {
+     "name": "FILE2",
+     "description": "Path to the second file",
+     "example": "scores.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use a custom delimiter (like a comma) instead of a tab to separate the columns.",
+     "cmd": "paste -d <DELIMITER> <FILE1> <FILE2>",
+     "placeholders": [
+      {
+       "name": "DELIMITER",
+       "description": "The character to use between columns",
+       "example": ","
+      },
+      {
+       "name": "FILE1",
+       "description": "Path to the first file",
+       "example": "names.txt"
+      },
+      {
+       "name": "FILE2",
+       "description": "Path to the second file",
+       "example": "scores.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/paste.md",
+  "title": "tldr-pages: paste",
+  "license": "CC-BY-4.0"
+ }
+}

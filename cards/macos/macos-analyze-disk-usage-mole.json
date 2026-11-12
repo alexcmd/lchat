@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-analyze-disk-usage-mole",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Explore disk usage with mole",
+ "summary": "Use mole analyze to view detailed information about how your disk space is being used on your Mac.",
+ "aliases": [
+  {
+   "text": "mole analyze",
+   "lang": "en"
+  },
+  {
+   "text": "analyze disk mole",
+   "lang": "en"
+  },
+  {
+   "text": "disk usage mole",
+   "lang": "en"
+  },
+  {
+   "text": "explore disk mole",
+   "lang": "en"
+  },
+  {
+   "text": "анализ диска mole",
+   "lang": "ru"
+  },
+  {
+   "text": "mole analyze",
+   "lang": "ru"
+  },
+  {
+   "text": "использование диска mole",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mole"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mole analyze to explore and view detailed disk usage information.",
+   "cmd": "mole analyze",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mole.md",
+  "title": "tldr-pages: mole",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-path-folders",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List the folders the shell searches for programs",
+ "summary": "When you type a command name, the shell looks for the program only in the folders listed in PATH, in order. Printing PATH one folder per line shows where it looks and helps explain why a program is or is not found.",
+ "aliases": [
+  {
+   "text": "show PATH",
+   "lang": "en"
+  },
+  {
+   "text": "echo $PATH",
+   "lang": "en"
+  },
+  {
+   "text": "list PATH folders",
+   "lang": "en"
+  },
+  {
+   "text": "print PATH variable",
+   "lang": "en"
+  },
+  {
+   "text": "where does terminal look for programs",
+   "lang": "en"
+  },
+  {
+   "text": "what is PATH in linux terminal",
+   "lang": "en"
+  },
+  {
+   "text": "показать PATH",
+   "lang": "ru"
+  },
+  {
+   "text": "какие папки в PATH",
+   "lang": "ru"
+  },
+  {
+   "text": "список папок PATH в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "где терминал ищет программы",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое PATH в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "переменная PATH linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print PATH with one folder per line. The shell checks these folders from top to bottom and runs the first matching program. A program in a folder missing from this list is not found by its bare name; an older copy in a higher folder runs first.",
+   "cmd": "echo \"$PATH\" | tr \":\" \"\\n\"",
+   "risk": "low",
+   "expect": "One folder per line in search order, for example /usr/local/bin, then /usr/bin and /bin. The list includes /usr/bin."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/echo",
+  "title": "echo manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-filevault-user",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add a user to FileVault",
+ "summary": "Grant a specific user account permission to unlock the encrypted disk. This allows that user to access the Mac after a restart.",
+ "aliases": [
+  {
+   "text": "add user to filevault",
+   "lang": "en"
+  },
+  {
+   "text": "allow user to unlock disk",
+   "lang": "en"
+  },
+  {
+   "text": "fdesetup add user",
+   "lang": "en"
+  },
+  {
+   "text": "добавить пользователя в filevault",
+   "lang": "ru"
+  },
+  {
+   "text": "разрешить пользователю разблокировать диск",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add a user to the list of FileVault-enabled users. Replace <USERNAME> with the actual username.",
+   "cmd": "sudo fdesetup add -usertoadd <USERNAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username of the account to add to FileVault.",
+     "example": "john"
+    }
+   ],
+   "expect": "Confirmation that the user has been added."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure the user account exists and is active before adding them."
+ ],
+ "rollback": [
+  {
+   "explain": "The tldr page does not provide a command to remove a user. You may need to use System Settings > Security & Privacy > FileVault to remove users.",
+   "cmd": "",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/fdesetup.md",
+  "title": "tldr-pages: fdesetup",
+  "license": "CC-BY-4.0"
+ }
+}

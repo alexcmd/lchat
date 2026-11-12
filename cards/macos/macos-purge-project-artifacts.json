@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "macos-purge-project-artifacts",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove old project artifacts with mole",
+ "summary": "Use mole purge to remove old project artifacts and build files from your Mac, helping to free up space used by development projects.",
+ "aliases": [
+  {
+   "text": "mole purge",
+   "lang": "en"
+  },
+  {
+   "text": "purge projects mole",
+   "lang": "en"
+  },
+  {
+   "text": "remove build files mole",
+   "lang": "en"
+  },
+  {
+   "text": "clean project artifacts",
+   "lang": "en"
+  },
+  {
+   "text": "очистить проекты mole",
+   "lang": "ru"
+  },
+  {
+   "text": "mole purge",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить артефакты mole",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mole"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mole purge to remove old project artifacts and build files.",
+   "cmd": "mole purge",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo command for mole purge. You would need to rebuild your projects.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This command removes project artifacts and build files. Ensure you don't need these files for ongoing development."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mole.md",
+  "title": "tldr-pages: mole",
+  "license": "CC-BY-4.0"
+ }
+}

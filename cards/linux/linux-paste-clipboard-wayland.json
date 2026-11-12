@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-paste-clipboard-wayland",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Paste clipboard content to terminal in Wayland",
+ "summary": "Use wl-paste to output the current clipboard content directly to your terminal. This is useful for quickly viewing what you have copied without opening a text editor.",
+ "aliases": [
+  {
+   "text": "paste clipboard wayland",
+   "lang": "en"
+  },
+  {
+   "text": "wl-paste",
+   "lang": "en"
+  },
+  {
+   "text": "show clipboard content terminal",
+   "lang": "en"
+  },
+  {
+   "text": "paste to terminal linux",
+   "lang": "en"
+  },
+  {
+   "text": "вставить буфер обмена wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "wl-paste",
+   "lang": "ru"
+  },
+  {
+   "text": "показать содержимое буфера обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "вставить в терминал linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "wl-clipboard"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wl-paste to print the current clipboard content to the standard output (your terminal).",
+   "cmd": "wl-paste",
+   "risk": "low",
+   "expect": "The text currently in your clipboard appears in the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/wl-paste.md",
+  "title": "tldr-pages: wl-paste",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-copy-text-to-clipboard-wayland",
+  "linux-clear-clipboard-wayland"
+ ]
+}

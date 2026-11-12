@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-pamac-remove-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a package using pamac",
+ "summary": "Use pamac to uninstall software and clean up unused dependencies. This keeps your system tidy by removing orphaned packages.",
+ "aliases": [
+  {
+   "text": "remove package pamac",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall app pamac",
+   "lang": "en"
+  },
+  {
+   "text": "pamac remove",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет pamac",
+   "lang": "ru"
+  },
+  {
+   "text": "pamac удаление пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить программу через pamac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pamac"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified package and any dependencies that are no longer needed.",
+   "cmd": "pamac remove --orphans <PACKAGE_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the package to remove.",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the package if you need it again.",
+   "cmd": "pamac install <PACKAGE_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the package to reinstall.",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Removing packages can break software that depends on them."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pamac.md",
+  "title": "tldr-pages: pamac",
+  "license": "CC-BY-4.0"
+ }
+}

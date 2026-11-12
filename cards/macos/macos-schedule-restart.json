@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-schedule-restart",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Schedule a Mac restart in a few minutes",
+ "summary": "Set your Mac to automatically restart after a specific delay, such as 5 minutes. This allows you to finish tasks before the reboot.",
+ "aliases": [
+  {
+   "text": "schedule restart mac",
+   "lang": "en"
+  },
+  {
+   "text": "restart mac in 5 minutes",
+   "lang": "en"
+  },
+  {
+   "text": "delayed reboot mac",
+   "lang": "en"
+  },
+  {
+   "text": "запланировать перезагрузку",
+   "lang": "ru"
+  },
+  {
+   "text": "перезагрузка через 5 минут",
+   "lang": "ru"
+  },
+  {
+   "text": "отложенная перезагрузка мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command schedules a system reboot to occur in 5 minutes. You can change '+5' to any number of minutes.",
+   "cmd": "sudo shutdown -r \"+5\"",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To cancel a scheduled shutdown or restart, run the shutdown command with the -c flag.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Ensure you save all work before the scheduled time.",
+  "The system will reboot automatically at the specified time."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/shutdown.md",
+  "title": "tldr-pages: shutdown",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,118 @@
+{
+ "schema_version": 2,
+ "id": "trackpoint-enable-middle-scroll-evdev",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable middle-button scrolling for TrackPoint (evdev)",
+ "summary": "Configure the TrackPoint to scroll by holding the middle button. This applies to systems using the evdev driver; libinput users usually have this enabled by default.",
+ "aliases": [
+  {
+   "text": "trackpoint middle button scroll",
+   "lang": "en"
+  },
+  {
+   "text": "enable trackpoint scrolling",
+   "lang": "en"
+  },
+  {
+   "text": "xinput trackpoint scroll",
+   "lang": "en"
+  },
+  {
+   "text": "trackpoint evdev scroll config",
+   "lang": "en"
+  },
+  {
+   "text": "прокрутка колесом trackpoint",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить скролл трекпоинта",
+   "lang": "ru"
+  },
+  {
+   "text": "xinput trackpoint",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xf86-input-evdev",
+   "xorg-xinput"
+  ]
+ },
+ "prerequisites": [
+  "Using X11 with the evdev driver",
+  "Know your TrackPoint device name (e.g., 'TPPS/2 IBM TrackPoint')"
+ ],
+ "steps": [
+  {
+   "explain": "Find the exact name of your TrackPoint device.",
+   "cmd": "xinput --list",
+   "risk": "low",
+   "expect": "A list of input devices. Look for a name like 'TPPS/2 IBM TrackPoint'."
+  },
+  {
+   "explain": "Enable wheel emulation on the middle button.",
+   "cmd": "xinput set-prop \"<DEVICE_NAME>\" \"Evdev Wheel Emulation\" 1",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "The exact name of the TrackPoint device from the previous step.",
+     "example": "TPPS/2 IBM TrackPoint",
+     "discover_cmd": "xinput --list"
+    }
+   ]
+  },
+  {
+   "explain": "Set the middle button (button 2) as the scroll trigger.",
+   "cmd": "xinput set-prop \"<DEVICE_NAME>\" \"Evdev Wheel Emulation Button\" 2",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "The exact name of the TrackPoint device.",
+     "example": "TPPS/2 IBM TrackPoint"
+    }
+   ]
+  },
+  {
+   "explain": "Set the timeout for the scroll action.",
+   "cmd": "xinput set-prop \"<DEVICE_NAME>\" \"Evdev Wheel Emulation Timeout\" 200",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "The exact name of the TrackPoint device.",
+     "example": "TPPS/2 IBM TrackPoint"
+    }
+   ]
+  },
+  {
+   "explain": "Map the axes for vertical and horizontal scrolling.",
+   "cmd": "xinput set-prop \"<DEVICE_NAME>\" \"Evdev Wheel Emulation Axes\" 6 7 4 5",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "The exact name of the TrackPoint device.",
+     "example": "TPPS/2 IBM TrackPoint"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/TrackPoint#Middle_button_scroll",
+  "title": "TrackPoint",
+  "revision_id": 880102,
+  "license": "GFDL-1.3-or-later"
+ }
+}

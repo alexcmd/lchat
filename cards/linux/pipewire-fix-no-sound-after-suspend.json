@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "pipewire-fix-no-sound-after-suspend",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix no sound after waking from suspend",
+ "summary": "If sound is missing or garbled after waking from sleep, restart the PipeWire and WirePlumber user services.",
+ "aliases": [
+  {
+   "text": "no sound after suspend pipewire",
+   "lang": "en"
+  },
+  {
+   "text": "audio broken after sleep",
+   "lang": "en"
+  },
+  {
+   "text": "нет звука после сна",
+   "lang": "ru"
+  },
+  {
+   "text": "звук пропал после пробуждения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pipewire",
+   "wireplumber"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Restart PipeWire, PipeWire-Pulse, and WirePlumber user services.",
+   "cmd": "systemctl --user restart pipewire pipewire-pulse wireplumber",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "pipewire-check-status",
+  "pulseaudio-fix-no-sound-after-suspend"
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PipeWire/Troubleshooting#Audio_problems_after_standby",
+  "title": "PipeWire/Troubleshooting",
+  "revision_id": 887680,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "posix-monitor-network-connections",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Monitor network connections continuously",
+ "summary": "Watch network connections and statistics update in real-time. Useful for observing traffic spikes or connection changes as they happen.",
+ "aliases": [
+  {
+   "text": "monitor network live",
+   "lang": "en"
+  },
+  {
+   "text": "netstat continuous",
+   "lang": "en"
+  },
+  {
+   "text": "watch network connections",
+   "lang": "en"
+  },
+  {
+   "text": "live network stats",
+   "lang": "en"
+  },
+  {
+   "text": "мониторинг сети",
+   "lang": "ru"
+  },
+  {
+   "text": "netstat в реальном времени",
+   "lang": "ru"
+  },
+  {
+   "text": "следить за сетью",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run netstat in continuous mode to refresh the display of network connections repeatedly until stopped.",
+   "cmd": "netstat -c",
+   "risk": "low",
+   "expect": "The terminal displays network information that updates periodically. Press Ctrl+C to stop."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/netstat.md",
+  "title": "tldr-pages: netstat",
+  "license": "CC-BY-4.0"
+ }
+}

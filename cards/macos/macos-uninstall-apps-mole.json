@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "macos-uninstall-apps-mole",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove apps completely with mole",
+ "summary": "Use mole to uninstall applications and their associated files completely from your Mac, ensuring no leftover data remains.",
+ "aliases": [
+  {
+   "text": "uninstall app mole",
+   "lang": "en"
+  },
+  {
+   "text": "remove app mole",
+   "lang": "en"
+  },
+  {
+   "text": "mole uninstall",
+   "lang": "en"
+  },
+  {
+   "text": "delete app completely",
+   "lang": "en"
+  },
+  {
+   "text": "удалить приложение mole",
+   "lang": "ru"
+  },
+  {
+   "text": "mole uninstall",
+   "lang": "ru"
+  },
+  {
+   "text": "полное удаление приложения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mole"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mole uninstall to remove applications and their associated files from your Mac.",
+   "cmd": "mole uninstall",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo command for mole uninstall. You would need to reinstall the application.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This command removes applications and their data. Ensure you want to permanently delete the selected apps."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mole.md",
+  "title": "tldr-pages: mole",
+  "license": "CC-BY-4.0"
+ }
+}

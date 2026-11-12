@@ -1,0 +1,117 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-symlink-owner",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change owner of a symbolic link",
+ "summary": "Use chown with the --no-dereference flag to change the owner of the symbolic link itself, rather than the file it points to.",
+ "aliases": [
+  {
+   "text": "chown symlink",
+   "lang": "en"
+  },
+  {
+   "text": "change symlink owner",
+   "lang": "en"
+  },
+  {
+   "text": "chown -h",
+   "lang": "en"
+  },
+  {
+   "text": "change link owner",
+   "lang": "en"
+  },
+  {
+   "text": "chown симлинк",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить владельца ссылки",
+   "lang": "ru"
+  },
+  {
+   "text": "chown -h",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --no-dereference flag (or -h) to change the ownership of the symlink itself, not the target file.",
+   "cmd": "sudo chown -h <USER> <SYMLINK>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USER",
+     "description": "The new owner's username",
+     "example": "john"
+    },
+    {
+     "name": "SYMLINK",
+     "description": "Path to the symbolic link",
+     "example": "/home/john/link"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag -h for the same effect.",
+     "cmd": "sudo chown -h <USER> <SYMLINK>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "USER",
+       "description": "The new owner's username",
+       "example": "john"
+      },
+      {
+       "name": "SYMLINK",
+       "description": "Path to the symbolic link",
+       "example": "/home/john/link"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, restore the original owner of the symlink.",
+   "cmd": "sudo chown -h <ORIGINAL_USER> <SYMLINK>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_USER",
+     "description": "The previous owner's username",
+     "example": "root"
+    },
+    {
+     "name": "SYMLINK",
+     "description": "Path to the symbolic link",
+     "example": "/home/john/link"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Without the flag, chown changes the owner of the target file, not the link."
+ ],
+ "see_also": [
+  "posix-change-file-owner"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chown.md",
+  "title": "tldr-pages: chown",
+  "license": "CC-BY-4.0"
+ }
+}

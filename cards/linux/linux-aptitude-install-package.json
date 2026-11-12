@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "linux-aptitude-install-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install a package with aptitude",
+ "summary": "Installs a specified software package and its required dependencies. Ensure you have updated the package list first for the latest versions.",
+ "aliases": [
+  {
+   "text": "aptitude install",
+   "lang": "en"
+  },
+  {
+   "text": "install package aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "add software aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "aptitude install",
+   "lang": "ru"
+  },
+  {
+   "text": "поставить программу aptitude",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Installs the specified package and its dependencies.",
+   "cmd": "sudo aptitude install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to install",
+     "example": "vim"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package and its dependencies if you need to undo the installation.",
+   "cmd": "sudo aptitude remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to remove",
+     "example": "vim"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing packages modifies your system state."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/aptitude.md",
+  "title": "tldr-pages: aptitude",
+  "license": "CC-BY-4.0"
+ }
+}

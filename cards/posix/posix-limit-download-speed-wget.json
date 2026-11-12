@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-limit-download-speed-wget",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Limit download speed and retries with wget",
+ "summary": "Control how fast wget downloads files and how many times it retries failed connections. Useful to avoid saturating your network or to handle unstable connections.",
+ "aliases": [
+  {
+   "text": "limit wget speed",
+   "lang": "en"
+  },
+  {
+   "text": "wget throttle download",
+   "lang": "en"
+  },
+  {
+   "text": "wget limit rate",
+   "lang": "en"
+  },
+  {
+   "text": "wget retries setting",
+   "lang": "en"
+  },
+  {
+   "text": "ограничить скорость wget",
+   "lang": "ru"
+  },
+  {
+   "text": "wget лимит скорости",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить скорость загрузки wget",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set a maximum download speed (e.g., 300k for 300 KB/s) and the number of retries for failed connections.",
+   "cmd": "wget --limit-rate <RATE> --tries <RETRIES> <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "RATE",
+     "description": "Maximum download speed, e.g. 300k, 1m",
+     "example": "300k"
+    },
+    {
+     "name": "RETRIES",
+     "description": "Number of connection retries",
+     "example": "100"
+    },
+    {
+     "name": "URL",
+     "description": "The URL to download",
+     "example": "https://example.com/foo"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wget.md",
+  "title": "tldr-pages: wget",
+  "license": "CC-BY-4.0"
+ }
+}

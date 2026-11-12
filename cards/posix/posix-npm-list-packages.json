@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-npm-list-packages",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List installed npm packages",
+ "summary": "View a list of packages currently installed in your project or globally.",
+ "aliases": [
+  {
+   "text": "list installed packages",
+   "lang": "en"
+  },
+  {
+   "text": "npm list",
+   "lang": "en"
+  },
+  {
+   "text": "show dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "список пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "npm list",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть установленные модули",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all locally installed dependencies in the current project.",
+   "cmd": "npm list",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "List only top-level globally installed packages.",
+     "cmd": "npm list --global --depth 0",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/npm.md",
+  "title": "tldr-pages: npm",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-backlight-level",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set screen backlight to a specific percentage",
+ "summary": "Change your screen brightness to an exact percentage value. This overrides the current level with the one you specify.",
+ "aliases": [
+  {
+   "text": "set screen brightness",
+   "lang": "en"
+  },
+  {
+   "text": "change backlight to 50",
+   "lang": "en"
+  },
+  {
+   "text": "adjust screen brightness manually",
+   "lang": "en"
+  },
+  {
+   "text": "light set brightness",
+   "lang": "en"
+  },
+  {
+   "text": "установить яркость экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить подсветку на 50",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать экран темнее",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "light"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -S flag to set the backlight to a specific percentage. Replace <PERCENTAGE> with a number between 0 and 100.",
+   "cmd": "light -S <PERCENTAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PERCENTAGE",
+     "description": "The desired brightness level as a percentage (0-100).",
+     "example": "50"
+    }
+   ],
+   "expect": "The screen brightness changes immediately to the specified level."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/light.md",
+  "title": "tldr-pages: light",
+  "license": "CC-BY-4.0"
+ }
+}

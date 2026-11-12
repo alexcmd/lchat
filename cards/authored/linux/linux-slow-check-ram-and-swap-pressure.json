@@ -1,0 +1,135 @@
+{
+ "schema_version": 2,
+ "id": "linux-slow-check-ram-and-swap-pressure",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check whether the computer is out of RAM and swapping",
+ "summary": "When a Linux computer becomes very slow, it may have run out of RAM and started moving data to swap space on disk, which is much slower. These commands show whether memory is nearly full and whether swapping is happening.",
+ "aliases": [
+  {
+   "text": "computer is slow, out of ram?",
+   "lang": "en"
+  },
+  {
+   "text": "is my ram full linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux running out of memory and slow",
+   "lang": "en"
+  },
+  {
+   "text": "check if swap is full ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "is the system swapping linux",
+   "lang": "en"
+  },
+  {
+   "text": "vmstat si so check swapping",
+   "lang": "en"
+  },
+  {
+   "text": "linux slow because of swap",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu out of memory slow check",
+   "lang": "en"
+  },
+  {
+   "text": "компьютер тормозит, не хватает оперативки?",
+   "lang": "ru"
+  },
+  {
+   "text": "linux оперативная память заполнена тормозит",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить заполнен ли swap linux",
+   "lang": "ru"
+  },
+  {
+   "text": "система уходит в своп linux проверить",
+   "lang": "ru"
+  },
+  {
+   "text": "linux тормозит из-за свопа",
+   "lang": "ru"
+  },
+  {
+   "text": "ubuntu нехватка памяти тормозит проверить",
+   "lang": "ru"
+  },
+  {
+   "text": "компьютер тормозит, память кончилась?",
+   "lang": "ru"
+  },
+  {
+   "text": "vmstat si so свопинг проверить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Open a terminal window",
+  "The computer is slow, freezes, or the disk light stays busy",
+  "The free and vmstat commands come from the procps package, which normal desktop installs include"
+ ],
+ "steps": [
+  {
+   "explain": "Check how much RAM is in use. In the Mem row, look at the 'available' column: how much RAM programs can still get. A value near zero means RAM is nearly full. The linked memory cards explain the columns in detail.",
+   "cmd": "free -h",
+   "risk": "low",
+   "expect": "A Mem row and a Swap row, with total, used, free, buff/cache and available columns in MiB or GiB."
+  },
+  {
+   "explain": "List the swap space (a swap file or partition) and how much of it is used. Look at the USED column: a value close to SIZE means swap is almost full. No output means no swap is set up.",
+   "cmd": "swapon --show",
+   "risk": "low",
+   "expect": "Either nothing, or one line per swap area with NAME, TYPE, SIZE, USED and PRIO columns."
+  },
+  {
+   "explain": "Sample memory and swapping 3 times, one second apart. si and so are KiB per second moved into and out of RAM; values above 0 that keep appearing mean active swapping. wa is the share of time spent waiting for disk.",
+   "cmd": "vmstat 1 3",
+   "risk": "low",
+   "expect": "Column headers, then 3 lines of numbers. The first line is an average since boot, so judge the later lines."
+  },
+  {
+   "explain": "Read the results together. Memory is short if available is near zero, swap is nearly full, and si and so stay above 0 while the computer is slow. Then close large programs or browser tabs. If nothing is near zero, the slowness has another cause.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-check-memory-usage",
+  "arch-check-memory-usage",
+  "swap-check-status",
+  "linux-check-virtual-memory-stats",
+  "linux-monitor-virtual-memory-over-time"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/vmstat",
+  "title": "vmstat manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

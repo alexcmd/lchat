@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-unit-files",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List installed systemd unit files and their states",
+ "summary": "Show all systemd unit files installed on your system and whether they are enabled, disabled, or static. This helps you see what services and timers are configured to start automatically.",
+ "aliases": [
+  {
+   "text": "list unit files",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl list unit files",
+   "lang": "en"
+  },
+  {
+   "text": "show installed services",
+   "lang": "en"
+  },
+  {
+   "text": "check enabled services",
+   "lang": "en"
+  },
+  {
+   "text": "systemd unit files list",
+   "lang": "en"
+  },
+  {
+   "text": "список unit файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl список юнитов",
+   "lang": "ru"
+  },
+  {
+   "text": "какие службы включены",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть unit files",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all installed unit files and their enablement states (enabled, disabled, static, etc.).",
+   "cmd": "systemctl list-unit-files",
+   "risk": "low",
+   "expect": "A table listing unit file names and their states."
+  },
+  {
+   "explain": "If the output is long and stuck in a pager, use --no-pager to print it directly to the terminal.",
+   "cmd": "systemctl list-unit-files --no-pager",
+   "risk": "low",
+   "expect": "The full list printed without interactive paging."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-unit-files.md",
+  "title": "tldr-pages: systemctl-list-unit-files",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-all-systemd-units",
+  "linux-check-service-status"
+ ]
+}

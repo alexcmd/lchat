@@ -1,0 +1,132 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-operation-not-permitted-full-disk",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'Operation not permitted' when a Mac app or Terminal reads a protected folder",
+ "summary": "macOS blocks some folders, such as Mail or Safari data, until an app is allowed. Giving Terminal or the app Full Disk Access lets it read those folders.",
+ "aliases": [
+  {
+   "text": "operation not permitted mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac terminal cannot access folder",
+   "lang": "en"
+  },
+  {
+   "text": "full disk access mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac app cannot read mail folder",
+   "lang": "en"
+  },
+  {
+   "text": "grant full disk access to terminal",
+   "lang": "en"
+  },
+  {
+   "text": "time machine operation not permitted",
+   "lang": "en"
+  },
+  {
+   "text": "mac permission denied protected folder",
+   "lang": "en"
+  },
+  {
+   "text": "операция не позволена mac",
+   "lang": "ru"
+  },
+  {
+   "text": "operation not permitted на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "нет доступа к папке почты mac",
+   "lang": "ru"
+  },
+  {
+   "text": "дать терминалу полный доступ к диску",
+   "lang": "ru"
+  },
+  {
+   "text": "полный доступ к диску mac",
+   "lang": "ru"
+  },
+  {
+   "text": "оперейшн нот пермитэд мак",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Operation not permitted"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos",
+    "min_version": "13"
+   }
+  ]
+ },
+ "prerequisites": [
+  "An administrator account (you may be asked for the password or Touch ID to unlock the settings)"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether Terminal is blocked. This read-only command tries to list a protected Mail folder. If it lists folders, the access already works and this card does not apply.",
+   "cmd": "ls ~/Library/Mail",
+   "risk": "low",
+   "expect": "Folder names such as V10 are listed, or the error 'Operation not permitted' appears, which means Terminal has no Full Disk Access.",
+   "alternatives": [
+    {
+     "explain": "If your Mac has never used Mail, the folder does not exist. Try a different protected folder instead, such as Safari data.",
+     "cmd": "ls ~/Library/Safari",
+     "risk": "low",
+     "expect": "Files such as Bookmarks.plist are listed, or 'Operation not permitted' appears."
+    }
+   ]
+  },
+  {
+   "explain": "Open the Full Disk Access list. This is where macOS keeps the apps that may read protected folders.",
+   "risk": "low",
+   "gui": "Apple menu > System Settings > Privacy & Security > scroll down > Full Disk Access. Unlock the list with your password or Touch ID if it is locked.",
+   "expect": "A list of apps with an on/off switch for each one."
+  },
+  {
+   "explain": "Turn the switch on for the app that is blocked. For Terminal, turn on Terminal. For another app, click the + button, choose the app, and turn its switch on. If the app is missing, start it once so it asks for access, then look again.",
+   "risk": "medium",
+   "gui": "In Full Disk Access, turn on the switch next to Terminal or to the app you need. Use + to add an app that is not in the list.",
+   "expect": "The switch next to the app is on (blue or green)."
+  },
+  {
+   "explain": "Quit Terminal or the app completely with Command-Q, then open it again. macOS applies the new permission only to a new session of the app.",
+   "risk": "low",
+   "expect": "The app opens again with no change in the window."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls ~/Library/Mail",
+   "expect": "Folder names such as V10 are listed, and 'Operation not permitted' does not appear."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, open Full Disk Access again and turn the switch off for Terminal or the app. The app then loses access to protected folders again. No file is changed by this step.",
+   "risk": "low",
+   "gui": "Apple menu > System Settings > Privacy & Security > Full Disk Access > turn the switch off."
+  }
+ ],
+ "warnings": [
+  "Full Disk Access gives the app, and any command you run in Terminal, read access to protected personal data such as Mail, Messages and Safari. Turn it on only for apps you trust, and turn it off when you no longer need it.",
+  "'Operation not permitted' can also come from system files protected by System Integrity Protection. Full Disk Access does not fix those. Do not turn off System Integrity Protection to get around this error."
+ ],
+ "source": {
+  "url": "x-man-page://ls",
+  "title": "ls manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

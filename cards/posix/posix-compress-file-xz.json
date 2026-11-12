@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "posix-compress-file-xz",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compress a file into XZ format",
+ "summary": "Use the xz command to compress a single file into the highly efficient .xz format. By default, the original file is deleted after compression.",
+ "aliases": [
+  {
+   "text": "compress file to xz",
+   "lang": "en"
+  },
+  {
+   "text": "xz compress",
+   "lang": "en"
+  },
+  {
+   "text": "make xz archive",
+   "lang": "en"
+  },
+  {
+   "text": "сжать файл в xz",
+   "lang": "ru"
+  },
+  {
+   "text": "xz сжатие",
+   "lang": "ru"
+  },
+  {
+   "text": "создать архив xz",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run xz with the path to the file you want to compress. The original file will be replaced by a .xz file.",
+   "cmd": "xz <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file to compress",
+     "example": "document.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Keep the original file after compression.",
+     "cmd": "xz --keep <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file to compress",
+       "example": "document.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Use the fastest compression level (level 0).",
+     "cmd": "xz -0 <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file to compress",
+       "example": "document.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Use the best compression level (level 9).",
+     "cmd": "xz -9 <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file to compress",
+       "example": "document.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/xz.md",
+  "title": "tldr-pages: xz",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "posix-awk-filter-lines",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Filter lines by column value or pattern",
+ "summary": "Use awk to print only lines that match a specific condition, such as a column value within a range or a specific pattern.",
+ "aliases": [
+  {
+   "text": "filter lines by value",
+   "lang": "en"
+  },
+  {
+   "text": "awk filter rows",
+   "lang": "en"
+  },
+  {
+   "text": "show lines matching condition",
+   "lang": "en"
+  },
+  {
+   "text": "grep column value",
+   "lang": "en"
+  },
+  {
+   "text": "отфильтровать строки по значению",
+   "lang": "ru"
+  },
+  {
+   "text": "awk выбрать строки",
+   "lang": "ru"
+  },
+  {
+   "text": "показать строки по условию",
+   "lang": "ru"
+  },
+  {
+   "text": "фильтр по колонке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print lines where the 10th column value is between a minimum and maximum. Change $10 to the column number and adjust the min/max values.",
+   "cmd": "awk '($10 >= <MIN> && $10 <= <MAX>)' <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MIN",
+     "description": "Minimum value for the column",
+     "example": "10"
+    },
+    {
+     "name": "MAX",
+     "description": "Maximum value for the column",
+     "example": "100"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the text file",
+     "example": "data.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Print every third line starting from the first line.",
+     "cmd": "awk 'NR%3==1' <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the text file",
+       "example": "data.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/awk.md",
+  "title": "tldr-pages: awk",
+  "license": "CC-BY-4.0"
+ }
+}

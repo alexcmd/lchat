@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-expand-xip-archive",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Expand a signed .xip archive",
+ "summary": "Unpack a .xip archive (often used for Xcode or developer tools) into the current folder. Only archives signed by Apple are trusted by this tool.",
+ "aliases": [
+  {
+   "text": "expand xip archive",
+   "lang": "en"
+  },
+  {
+   "text": "unpack xip file",
+   "lang": "en"
+  },
+  {
+   "text": "open xip archive",
+   "lang": "en"
+  },
+  {
+   "text": "xip expand",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать xip архив",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть xip файл",
+   "lang": "ru"
+  },
+  {
+   "text": "распаковать xip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unpack the specified .xip archive into the current working directory.",
+   "cmd": "xip --expand <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .xip archive file",
+     "example": "Xcode_15.xip"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/xip.md",
+  "title": "tldr-pages: xip",
+  "license": "CC-BY-4.0"
+ }
+}

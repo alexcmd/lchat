@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-power-settings",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check current power management settings",
+ "summary": "View the current power management configuration, including sleep timers and wake schedules, to understand how your Mac is configured.",
+ "aliases": [
+  {
+   "text": "check power settings mac",
+   "lang": "en"
+  },
+  {
+   "text": "pmset -g",
+   "lang": "en"
+  },
+  {
+   "text": "view energy saver settings terminal",
+   "lang": "en"
+  },
+  {
+   "text": "mac power management status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить настройки питания mac",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset -g",
+   "lang": "ru"
+  },
+  {
+   "text": "текущие настройки энергосбережения",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть настройки сна mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the pmset command with the -g flag to display all current power management settings.",
+   "cmd": "pmset -g",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pmset.md",
+  "title": "tldr-pages: pmset",
+  "license": "CC-BY-4.0"
+ }
+}

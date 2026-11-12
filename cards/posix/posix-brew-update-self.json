@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-brew-update-self",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Update Homebrew itself and its package lists",
+ "summary": "Fetch the newest version of Homebrew and refresh the list of available formulae and casks. This is usually done before upgrading packages.",
+ "aliases": [
+  {
+   "text": "update homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "brew update",
+   "lang": "en"
+  },
+  {
+   "text": "refresh brew packages",
+   "lang": "en"
+  },
+  {
+   "text": "update brew manager",
+   "lang": "en"
+  },
+  {
+   "text": "обновить сам homebrew",
+   "lang": "ru"
+  },
+  {
+   "text": "brew update обновить",
+   "lang": "ru"
+  },
+  {
+   "text": "актуализировать списки пакетов brew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Fetch the newest version of Homebrew and of all formulae and casks from the Homebrew source repository.",
+   "cmd": "brew update",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/brew.md",
+  "title": "tldr-pages: brew",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "linux-stop-user-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Stop a user service",
+ "summary": "Stop a service running in your user session. This is used for applications that run per-user, such as user-specific timers or background helpers.",
+ "aliases": [
+  {
+   "text": "stop user service",
+   "lang": "en"
+  },
+  {
+   "text": "stop user unit",
+   "lang": "en"
+  },
+  {
+   "text": "stop systemd user service",
+   "lang": "en"
+  },
+  {
+   "text": "остановить пользовательскую службу",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить юзер сервис",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Stop the specified user unit. This affects only your current user session and does not require root privileges.",
+   "cmd": "systemctl stop <UNIT> --user",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UNIT",
+     "description": "The name of the user systemd unit to stop.",
+     "example": "my-app.service",
+     "discover_cmd": "systemctl --user list-units"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-check-user-service-status"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-stop.md",
+  "title": "tldr-pages: systemctl-stop",
+  "license": "CC-BY-4.0"
+ }
+}

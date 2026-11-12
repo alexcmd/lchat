@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-udiskie-unmount-powerdown-usb",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unmount and power down a USB device",
+ "summary": "Unmount a USB device and send a power-down signal to it, which is useful for some external drives that need to spin down or turn off completely.",
+ "aliases": [
+  {
+   "text": "power down usb drive linux",
+   "lang": "en"
+  },
+  {
+   "text": "udiskie detach usb",
+   "lang": "en"
+  },
+  {
+   "text": "turn off external hard drive linux",
+   "lang": "en"
+  },
+  {
+   "text": "отключить питание usb диска",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить внешний жесткий диск linux",
+   "lang": "ru"
+  },
+  {
+   "text": "udiskie detach",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "udiskie"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unmount the device and request the system to power down the USB device.",
+   "cmd": "udiskie-umount --detach <MOUNT_POINT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MOUNT_POINT",
+     "description": "The path where the device is mounted",
+     "example": "/run/media/user/USB",
+     "discover_cmd": "lsblk"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/udiskie-umount.md",
+  "title": "tldr-pages: udiskie-umount",
+  "license": "CC-BY-4.0"
+ }
+}

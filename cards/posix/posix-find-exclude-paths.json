@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-exclude-paths",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find files excluding specific paths",
+ "summary": "Search for files matching a pattern but ignore files inside specific subdirectories.",
+ "aliases": [
+  {
+   "text": "find files excluding folder",
+   "lang": "en"
+  },
+  {
+   "text": "search files but ignore node_modules",
+   "lang": "en"
+  },
+  {
+   "text": "find files not in specific directory",
+   "lang": "en"
+  },
+  {
+   "text": "найти файлы исключая папку",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск файлов кроме папки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Find files matching the name pattern, but exclude those matching the path pattern using -not -path.",
+   "cmd": "find <DIRECTORY> -name '<NAME_PATTERN>' -not -path '<PATH_PATTERN>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The folder to search in",
+     "example": "."
+    },
+    {
+     "name": "NAME_PATTERN",
+     "description": "Filename pattern, e.g. '*.py'",
+     "example": "*.py"
+    },
+    {
+     "name": "PATH_PATTERN",
+     "description": "Path pattern to exclude, e.g. '*/site-packages/*'",
+     "example": "*/site-packages/*"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/find.md",
+  "title": "tldr-pages: find",
+  "license": "CC-BY-4.0"
+ }
+}

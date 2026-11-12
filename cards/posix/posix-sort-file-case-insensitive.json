@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-sort-file-case-insensitive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sort a file ignoring case",
+ "summary": "Sort the lines of a text file without distinguishing between uppercase and lowercase letters. 'Apple' and 'apple' are treated as equal.",
+ "aliases": [
+  {
+   "text": "sort case insensitive",
+   "lang": "en"
+  },
+  {
+   "text": "sort ignore case",
+   "lang": "en"
+  },
+  {
+   "text": "sort file case insensitive",
+   "lang": "en"
+  },
+  {
+   "text": "sort case insensitive",
+   "lang": "en"
+  },
+  {
+   "text": "sortieren ohne großklein",
+   "lang": "de"
+  },
+  {
+   "text": "ordenar sin distinguir mayusculas",
+   "lang": "es"
+  },
+  {
+   "text": "sortir insensible casse",
+   "lang": "fr"
+  },
+  {
+   "text": "sort ignore case",
+   "lang": "en"
+  },
+  {
+   "text": "sort case insensitive",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --ignore-case flag to sort without distinguishing uppercase from lowercase.",
+   "cmd": "sort --ignore-case <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to sort.",
+     "example": "names.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sort.md",
+  "title": "tldr-pages: sort",
+  "license": "CC-BY-4.0"
+ }
+}

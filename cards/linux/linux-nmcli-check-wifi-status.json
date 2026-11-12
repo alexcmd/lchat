@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-check-wifi-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if Wi-Fi is enabled or disabled",
+ "summary": "Use NetworkManager to see if the Wi-Fi radio switch is currently turned on or off. This helps you quickly verify if your wireless adapter is active.",
+ "aliases": [
+  {
+   "text": "check wifi status",
+   "lang": "en"
+  },
+  {
+   "text": "is wifi on",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli wifi status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "включен ли wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli wifi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to show the status of the Wi-Fi radio switch.",
+   "cmd": "nmcli radio wifi",
+   "risk": "low",
+   "expect": "Output showing 'enabled' or 'disabled'."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-radio.md",
+  "title": "tldr-pages: nmcli-radio",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "nmcli-list-network-devices",
+  "nmcli-connect-wifi-network"
+ ]
+}

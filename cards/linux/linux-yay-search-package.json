@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-yay-search-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search for a package in repos and AUR",
+ "summary": "Search the package database for a keyword across both official repositories and the Arch User Repository (AUR).",
+ "aliases": [
+  {
+   "text": "search package yay",
+   "lang": "en"
+  },
+  {
+   "text": "yay search",
+   "lang": "en"
+  },
+  {
+   "text": "find package aur",
+   "lang": "en"
+  },
+  {
+   "text": "yay -Ss",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет yay",
+   "lang": "ru"
+  },
+  {
+   "text": "yay поиск",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "yay"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Lists packages matching the keyword from both official repos and AUR.",
+   "cmd": "yay -Ss <KEYWORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYWORD",
+     "description": "Keyword to search for",
+     "example": "code"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-pacman-search-package"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/yay.md",
+  "title": "tldr-pages: yay",
+  "license": "CC-BY-4.0"
+ }
+}

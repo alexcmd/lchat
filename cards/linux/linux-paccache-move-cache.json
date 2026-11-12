@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-paccache-move-cache",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Move old package versions to a backup directory",
+ "summary": "Instead of deleting old cached packages, move them to a specified directory. This allows you to keep a backup of old versions while clearing the main cache.",
+ "aliases": [
+  {
+   "text": "move paccache to directory",
+   "lang": "en"
+  },
+  {
+   "text": "backup old packages arch",
+   "lang": "en"
+  },
+  {
+   "text": "paccache move",
+   "lang": "en"
+  },
+  {
+   "text": "переместить старые пакеты arch",
+   "lang": "ru"
+  },
+  {
+   "text": "бэкап кэша pacman",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "paccache"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Move the packages that would normally be deleted to a specific directory instead of removing them.",
+   "cmd": "paccache --move <DIRECTORY>",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the directory where old packages will be moved.",
+     "example": "/home/user/paccache-backup"
+    }
+   ],
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure the target directory exists and has enough space. This does not delete the files, but moves them."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no command on this page to move files back from the backup directory to the pacman cache.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/paccache.md",
+  "title": "tldr-pages: paccache",
+  "license": "CC-BY-4.0"
+ }
+}

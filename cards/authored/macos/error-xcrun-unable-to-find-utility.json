@@ -1,0 +1,160 @@
+{
+ "schema_version": 2,
+ "id": "error-xcrun-unable-to-find-utility",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'xcrun: error: unable to find utility' on macOS by installing developer tools",
+ "summary": "xcrun is a macOS helper that looks for developer tools such as git, make or clang. This error means the Mac cannot find the tool, usually because the Command Line Tools or Xcode are missing or the wrong one is selected.",
+ "aliases": [
+  {
+   "text": "xcrun: error: unable to find utility",
+   "lang": "en"
+  },
+  {
+   "text": "xcrun error mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "xcrun unable to find utility",
+   "lang": "en"
+  },
+  {
+   "text": "mac developer tools missing",
+   "lang": "en"
+  },
+  {
+   "text": "install developer tools on mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "xcode command line tools not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "xcrun ошибка unable to find utility",
+   "lang": "ru"
+  },
+  {
+   "text": "xcrun: error на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "на маке не найдены инструменты разработчика",
+   "lang": "ru"
+  },
+  {
+   "text": "установить инструменты разработчика mac",
+   "lang": "ru"
+  },
+  {
+   "text": "xcrun не найден на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "ксрун ошибка mac",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить command line tools на mac",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "xcrun: error: unable to find utility"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "xcrun",
+   "xcode-select"
+  ]
+ },
+ "prerequisites": [
+  "You use the Terminal app on a Mac",
+  "An internet connection, because the developer tools are downloaded"
+ ],
+ "steps": [
+  {
+   "explain": "Show the developer folder that your Mac uses right now. The command only reads a setting. The path printed here does not prove the tools are installed, so the next steps check that.",
+   "cmd": "xcode-select -p",
+   "risk": "low",
+   "expect": "Prints one path, typically /Library/Developer/CommandLineTools (Command Line Tools only) or /Applications/Xcode.app/Contents/Developer (full Xcode)."
+  },
+  {
+   "explain": "Ask xcrun where the tool from the error is. Replace <TOOL> with the name in quotes in the error message. The command only looks up the file. If it prints a path, the error is gone. If the error shows again, go on.",
+   "cmd": "xcrun --find <TOOL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TOOL",
+     "description": "The tool name from the error message, the word in quotes after 'unable to find utility'.",
+     "example": "git"
+    }
+   ],
+   "expect": "A path to the tool, for example /Library/Developer/CommandLineTools/usr/bin/git. If the error appears instead, the tools are missing or not selected."
+  },
+  {
+   "explain": "Install the Command Line Tools, which provide git, make, clang and other common tools. macOS opens a dialog. Click Install, accept the license if asked, and wait until the download finishes. If the tools are already installed, the command tells you so and nothing is changed.",
+   "cmd": "xcode-select --install",
+   "risk": "low",
+   "gui": "Alternatively, install the full Xcode app from the App Store. It is a large download. After that, run the next step to select it.",
+   "expect": "A system dialog opens asking to install the developer tools. Wait for it to finish, then repeat the xcrun --find step."
+  },
+  {
+   "explain": "Only if full Xcode is installed and the tool is still missing, select Xcode as the active developer folder. Replace <XCODE_PATH> with the path to your Xcode.app. This setting applies to all users of the Mac and asks for your Mac password.",
+   "cmd": "sudo xcode-select --switch <XCODE_PATH>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "XCODE_PATH",
+     "description": "Path to the Xcode.app bundle installed on this Mac.",
+     "example": "/Applications/Xcode.app",
+     "discover_cmd": "ls -d /Applications/Xcode*.app"
+    }
+   ],
+   "expect": "sudo asks for your Mac password. The characters you type stay hidden. On success the command prints nothing."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "xcode-select -p",
+   "expect": "Prints a developer folder path, the same one or the one you selected."
+  },
+  {
+   "cmd": "xcrun --find clang",
+   "expect": "Prints a path ending in usr/bin/clang, under Command Line Tools or Xcode. The error does not appear."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Undo the selection of Xcode and return to the default developer folder. Use this only if step 4 was run and caused a new problem.",
+   "cmd": "sudo xcode-select --reset",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "sudo asks for your Mac password. On success the command prints nothing."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Selecting a developer folder with sudo changes the setting for every user of this Mac.",
+  "sudo asks for your Mac login password. The characters you type stay hidden, and that is normal.",
+  "Use a path to an Xcode.app that really exists. A wrong path makes xcrun fail again."
+ ],
+ "see_also": [
+  "macos-install-xcode-command-line-tools",
+  "macos-check-active-developer-directory",
+  "macos-switch-xcode-version",
+  "macos-concept-sudo-password-hidden"
+ ],
+ "source": {
+  "url": "x-man-page://xcrun",
+  "title": "xcrun manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

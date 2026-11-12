@@ -1,0 +1,53 @@
+{
+ "schema_version": 2,
+ "id": "linux-paccache-dry-run",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Preview which packages paccache would remove",
+ "summary": "Simulate the cache cleaning process to see which old package versions would be deleted, without actually removing them.",
+ "aliases": [
+  {
+   "text": "paccache dry run",
+   "lang": "en"
+  },
+  {
+   "text": "check what paccache removes",
+   "lang": "en"
+  },
+  {
+   "text": "preview pacman cache clean",
+   "lang": "en"
+  },
+  {
+   "text": "проверить что удалит paccache",
+   "lang": "ru"
+  },
+  {
+   "text": "предпросмотр очистки кэша",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "paccache"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run paccache in dry-run mode to list the packages that are candidates for deletion.",
+   "cmd": "paccache --dryrun",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/paccache.md",
+  "title": "tldr-pages: paccache",
+  "license": "CC-BY-4.0"
+ }
+}

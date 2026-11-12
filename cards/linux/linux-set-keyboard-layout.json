@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-keyboard-layout",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change keyboard layout on Linux",
+ "summary": "Use setxkbmap to switch your keyboard layout (e.g., to French or German) or set up multiple layouts with a switching key. This applies changes immediately for the current X11 session.",
+ "aliases": [
+  {
+   "text": "change keyboard layout",
+   "lang": "en"
+  },
+  {
+   "text": "switch to french keyboard",
+   "lang": "en"
+  },
+  {
+   "text": "set azerty layout",
+   "lang": "en"
+  },
+  {
+   "text": "add second keyboard layout",
+   "lang": "en"
+  },
+  {
+   "text": "keyboard layout not working",
+   "lang": "en"
+  },
+  {
+   "text": "изменить раскладку клавиатуры",
+   "lang": "ru"
+  },
+  {
+   "text": "переключить на французскую раскладку",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить клавиатуру linux",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить вторую раскладку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "Set the keyboard layout to a specific language code (e.g., 'fr' for French, 'de' for German).",
+   "cmd": "setxkbmap <LAYOUT_CODE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LAYOUT_CODE",
+     "description": "The ISO code for the desired keyboard layout (e.g., us, fr, de, ru).",
+     "example": "fr",
+     "discover_cmd": "localectl list-x11-keymap-layouts"
+    }
+   ]
+  },
+  {
+   "explain": "Configure multiple layouts (e.g., US and German) with specific variants and a key combination to switch between them.",
+   "cmd": "setxkbmap -layout <LAYOUTS> -variant <VARIANTS> -option '<SWITCH_OPTION>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LAYOUTS",
+     "description": "Comma-separated list of layout codes.",
+     "example": "us,de",
+     "discover_cmd": "localectl list-x11-keymap-layouts"
+    },
+    {
+     "name": "VARIANTS",
+     "description": "Comma-separated list of variants for each layout (empty for default).",
+     "example": ",qwerty"
+    },
+    {
+     "name": "SWITCH_OPTION",
+     "description": "The option to switch layouts, e.g., 'grp:alt_caps_toggle'.",
+     "example": "grp:alt_caps_toggle",
+     "discover_cmd": "localectl list-x11-keymap-options | grep grp:"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/setxkbmap.md",
+  "title": "tldr-pages: setxkbmap",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-keymaps",
+  "linux-set-keymap"
+ ]
+}

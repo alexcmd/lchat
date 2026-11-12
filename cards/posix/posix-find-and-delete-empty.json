@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-and-delete-empty",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find and delete empty files or directories",
+ "summary": "Locate empty files or folders and delete them immediately. This action cannot be undone.",
+ "aliases": [
+  {
+   "text": "delete empty files",
+   "lang": "en"
+  },
+  {
+   "text": "remove empty directories",
+   "lang": "en"
+  },
+  {
+   "text": "clean up empty folders",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пустые файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить пустые папки",
+   "lang": "ru"
+  },
+  {
+   "text": "найти и удалить пустые",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Find empty files (-type f) or directories (-type d) and delete them. Use -print to see what is being deleted.",
+   "cmd": "find <DIRECTORY> -type <TYPE> -empty -delete -print",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The folder to clean",
+     "example": "."
+    },
+    {
+     "name": "TYPE",
+     "description": "Type of item to find: 'f' for files, 'd' for directories",
+     "example": "f"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This permanently deletes files and folders. There is no undo.",
+  "Double-check the directory path before running."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no built-in undo for find -delete. Restore from backup if necessary.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/find.md",
+  "title": "tldr-pages: find",
+  "license": "CC-BY-4.0"
+ }
+}

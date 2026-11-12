@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-usb-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List connected USB devices",
+ "summary": "Show every USB device the Linux system currently detects, such as keyboards, mice, flash drives and hubs. The command only reads information and changes nothing.",
+ "aliases": [
+  {
+   "text": "list usb devices linux",
+   "lang": "en"
+  },
+  {
+   "text": "show connected usb devices",
+   "lang": "en"
+  },
+  {
+   "text": "lsusb",
+   "lang": "en"
+  },
+  {
+   "text": "what usb devices are plugged in",
+   "lang": "en"
+  },
+  {
+   "text": "linux see usb devices terminal",
+   "lang": "en"
+  },
+  {
+   "text": "список usb устройств linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какие usb устройства подключены",
+   "lang": "ru"
+  },
+  {
+   "text": "показать подключенные usb linux",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть usb устройства в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "юсб устройства список linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "lsusb"
+  ]
+ },
+ "prerequisites": [
+  "A Linux computer with a terminal window",
+  "The lsusb command from the usbutils package (installed by default on most desktop distributions)"
+ ],
+ "steps": [
+  {
+   "explain": "List every USB device the kernel currently detects, one per line. Each line shows the bus, device number, vendor:product ID and the device name.",
+   "cmd": "lsusb",
+   "expect": "One line per device, like 'Bus 001 Device 002: ID 046d:c52b ...'. Root hub lines are the computer's own USB ports and are always present.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show the same devices as a tree, grouped by hub, so you can see which device is plugged into which hub or port.",
+     "cmd": "lsusb --tree",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lsusb",
+   "expect": "The device you plugged in appears as its own line with its name at the end."
+  }
+ ],
+ "risk": "low",
+ "warnings": [],
+ "source": {
+  "url": "https://manpages.debian.org/lsusb",
+  "title": "lsusb manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

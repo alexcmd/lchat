@@ -1,0 +1,121 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-search-installed-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search for installed packages by name",
+ "summary": "Find installed packages that match a specific name or pattern. This helps you verify if a certain library or tool is already on your system.",
+ "aliases": [
+  {
+   "text": "search installed packages",
+   "lang": "en"
+  },
+  {
+   "text": "find package by name",
+   "lang": "en"
+  },
+  {
+   "text": "check if package is installed",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg search installed",
+   "lang": "en"
+  },
+  {
+   "text": "найти установленный пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить установлен ли пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg поиск пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "есть ли пакет в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "aptitude search installed",
+   "lang": "en"
+  },
+  {
+   "text": "find installed package aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "check installed software aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "найти установленный пакет aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить установленные пакеты aptitude",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use dpkg-query with the list flag and a pattern to find matching installed packages.",
+   "cmd": "dpkg-query -l '<PATTERN>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "The name or wildcard pattern of the package you are looking for.",
+     "example": "libc6*"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the long form of the list flag.",
+     "cmd": "dpkg-query --list '<PATTERN>'",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PATTERN",
+       "description": "The name or wildcard pattern of the package you are looking for.",
+       "example": "libc6*"
+      }
+     ]
+    },
+    {
+     "explain": "Searches for installed packages matching the given term using the ?installed() filter.",
+     "cmd": "aptitude search '?installed(<PACKAGE>)'",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "The name or keyword to search for among installed packages",
+       "example": "vim"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dpkg-query.md",
+  "title": "tldr-pages: dpkg-query",
+  "license": "CC-BY-4.0"
+ }
+}

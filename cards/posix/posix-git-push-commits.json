@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-git-push-commits",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Push local commits to a remote repository",
+ "summary": "Upload your saved changes from your local computer to the shared remote repository.",
+ "aliases": [
+  {
+   "text": "git push",
+   "lang": "en"
+  },
+  {
+   "text": "upload changes to github",
+   "lang": "en"
+  },
+  {
+   "text": "send commits to remote",
+   "lang": "en"
+  },
+  {
+   "text": "отправить изменения в git",
+   "lang": "ru"
+  },
+  {
+   "text": "git push",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузить коммиты на сервер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this inside a repository that is linked to a remote server to upload your latest commits.",
+   "cmd": "git push",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/git.md",
+  "title": "tldr-pages: git",
+  "license": "CC-BY-4.0"
+ }
+}

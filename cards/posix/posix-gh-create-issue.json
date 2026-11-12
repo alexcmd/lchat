@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "posix-gh-create-issue",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a new GitHub issue using the gh CLI",
+ "summary": "Open a new issue in the current repository directly from the terminal. The CLI will guide you through entering the title and body.",
+ "aliases": [
+  {
+   "text": "create github issue gh",
+   "lang": "en"
+  },
+  {
+   "text": "gh issue new",
+   "lang": "en"
+  },
+  {
+   "text": "gh issue create",
+   "lang": "en"
+  },
+  {
+   "text": "sozdat issue gh",
+   "lang": "ru"
+  },
+  {
+   "text": "gh novaya problema",
+   "lang": "ru"
+  },
+  {
+   "text": "sozdat zayavku github",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "GitHub CLI (gh) is installed",
+  "You are in a directory that is a git repository linked to GitHub",
+  "You are logged in to GitHub with gh auth login"
+ ],
+ "steps": [
+  {
+   "explain": "Start the interactive process to create a new issue in the current repository.",
+   "cmd": "gh issue create",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/gh.md",
+  "title": "tldr-pages: gh",
+  "license": "CC-BY-4.0"
+ }
+}

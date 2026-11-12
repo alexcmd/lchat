@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "posix-delete-directory-recursive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delete directory and contents",
+ "summary": "Permanently removes a directory and all files and subdirectories inside it. This is a powerful command that deletes everything within the specified path.",
+ "aliases": [
+  {
+   "text": "delete directory",
+   "lang": "en"
+  },
+  {
+   "text": "remove folder",
+   "lang": "en"
+  },
+  {
+   "text": "rm -r",
+   "lang": "en"
+  },
+  {
+   "text": "delete folder recursively",
+   "lang": "en"
+  },
+  {
+   "text": "удалить папку",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить каталог",
+   "lang": "ru"
+  },
+  {
+   "text": "rm -r",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить папку со всем содержимым",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Recursively removes the specified directory and all its contents. Be extremely careful with the path.",
+   "cmd": "rm -r <DIRECTORY_PATHS>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "DIRECTORY_PATHS",
+     "description": "One or more paths to the directories you want to delete.",
+     "example": "my_folder another_folder"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This command deletes all files and subdirectories inside the target directory.",
+  "Deleted data is not moved to the Trash and cannot be easily recovered.",
+  "Double-check the path to avoid deleting important system or user files."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no built-in command to undo recursive deletion. You must restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rm.md",
+  "title": "tldr-pages: rm",
+  "license": "CC-BY-4.0"
+ }
+}

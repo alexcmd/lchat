@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "macos-reset-privacy-permissions",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Reset privacy permissions for an app or service",
+ "summary": "Use tccutil to reset macOS privacy permissions. This forces apps to ask for access again, which is useful if an app's permissions are stuck or you want to start fresh.",
+ "aliases": [
+  {
+   "text": "reset privacy permissions",
+   "lang": "en"
+  },
+  {
+   "text": "tccutil reset",
+   "lang": "en"
+  },
+  {
+   "text": "app not asking for permissions",
+   "lang": "en"
+  },
+  {
+   "text": "fix camera permissions",
+   "lang": "en"
+  },
+  {
+   "text": "reset microphone access",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить разрешения конфиденциальности",
+   "lang": "ru"
+  },
+  {
+   "text": "приложение не спрашивает доступ к камере",
+   "lang": "ru"
+  },
+  {
+   "text": "tccutil reset",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить доступ к микрофону",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reset the privacy permissions for a specific service (like Camera, Microphone, or Accessibility). The app will ask for permission again next time it tries to use that service.",
+   "cmd": "sudo tccutil reset <SERVICE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SERVICE",
+     "description": "The privacy service to reset, e.g., Camera, Microphone, Accessibility, ScreenCapture.",
+     "example": "Camera"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Reset permissions for all privacy services at once.",
+     "cmd": "sudo tccutil reset All",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct command to restore previous permission decisions. You must manually re-grant permissions in System Settings > Privacy & Security when the apps prompt you again.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This will remove all saved permission decisions for the specified service. Apps will prompt for access again.",
+  "Resetting 'All' will require you to re-grant permissions for every app that uses privacy services."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tccutil.md",
+  "title": "tldr-pages: tccutil",
+  "license": "CC-BY-4.0"
+ }
+}

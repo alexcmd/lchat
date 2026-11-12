@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-file-content",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View the contents of a text file in the terminal",
+ "summary": "Display the entire content of a text file directly in your terminal window. This is useful for quickly checking configuration files or logs without opening a separate editor.",
+ "aliases": [
+  {
+   "text": "view file content",
+   "lang": "en"
+  },
+  {
+   "text": "show file contents",
+   "lang": "en"
+  },
+  {
+   "text": "cat file",
+   "lang": "en"
+  },
+  {
+   "text": "read text file",
+   "lang": "en"
+  },
+  {
+   "text": "print file to terminal",
+   "lang": "en"
+  },
+  {
+   "text": "как посмотреть содержимое файла",
+   "lang": "ru"
+  },
+  {
+   "text": "показать содержимое файла",
+   "lang": "ru"
+  },
+  {
+   "text": "кот файл",
+   "lang": "ru"
+  },
+  {
+   "text": "прочитать файл в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `cat` command followed by the path to the file you want to view. The file's content will be printed to the screen.",
+   "cmd": "cat <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the text file you want to view",
+     "example": "config.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cat.md",
+  "title": "tldr-pages: cat",
+  "license": "CC-BY-4.0"
+ }
+}

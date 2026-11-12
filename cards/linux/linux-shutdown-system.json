@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-shutdown-system",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Shut down the Linux system",
+ "summary": "Safely power off your computer. The system will ask all running programs to close properly before turning off.",
+ "aliases": [
+  {
+   "text": "shutdown linux",
+   "lang": "en"
+  },
+  {
+   "text": "power off computer",
+   "lang": "en"
+  },
+  {
+   "text": "turn off pc",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl poweroff",
+   "lang": "en"
+  },
+  {
+   "text": "выключить компьютер",
+   "lang": "ru"
+  },
+  {
+   "text": "shutdown linux",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "poweroff",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command tells the system to shut down. It sends a signal to all services to stop gracefully, ensuring data is saved and processes are closed correctly.",
+   "cmd": "systemctl poweroff",
+   "risk": "medium",
+   "expect": "The system will begin shutting down and the screen will go black."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If you accidentally initiated a shutdown and the system hasn't fully powered off yet, you can cancel it by pressing Ctrl+C in the terminal where you ran the command, or by running the reboot command if the system is still responsive.",
+   "cmd": "systemctl reboot",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Make sure you have saved all your work before running this command.",
+  "Unsaved data in open applications may be lost if they do not handle the shutdown signal correctly."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-poweroff.md",
+  "title": "tldr-pages: systemctl-poweroff",
+  "license": "CC-BY-4.0"
+ }
+}

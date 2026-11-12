@@ -1,0 +1,52 @@
+{
+ "schema_version": 2,
+ "id": "umask-check-service-umask",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check umask used by running processes",
+ "summary": "Inspect the umask value currently applied to all processes running under your user account. This helps debug permission issues with background services.",
+ "aliases": [
+  {
+   "text": "check process umask",
+   "lang": "en"
+  },
+  {
+   "text": "umask of running programs",
+   "lang": "en"
+  },
+  {
+   "text": "debug service permissions",
+   "lang": "en"
+  },
+  {
+   "text": "проверить umask процессов",
+   "lang": "ru"
+  },
+  {
+   "text": "umask служб",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all processes for the current user and extract their Umask value from /proc.",
+   "cmd": "ps -u $USER -o pid= | xargs -I % sh -c 'echo PID=%, $(grep '^Umask:' \"/proc/%/status\"), Process=$(ps -w -p % -o cmd=)'",
+   "risk": "low",
+   "expect": "A list of PIDs, their Umask values, and command names."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Umask#Set_the_mask_value",
+  "title": "Umask",
+  "revision_id": 880627,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-umask",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check current umask value",
+ "summary": "View the current umask setting, which controls the default permissions for newly created files and directories. You can see it in octal (numeric) or symbolic (human-readable) format.",
+ "aliases": [
+  {
+   "text": "check umask",
+   "lang": "en"
+  },
+  {
+   "text": "what is my umask",
+   "lang": "en"
+  },
+  {
+   "text": "show umask value",
+   "lang": "en"
+  },
+  {
+   "text": "umask current",
+   "lang": "en"
+  },
+  {
+   "text": "проверить umask",
+   "lang": "ru"
+  },
+  {
+   "text": "какой umask",
+   "lang": "ru"
+  },
+  {
+   "text": "показать umask",
+   "lang": "ru"
+  },
+  {
+   "text": "umask value",
+   "lang": "en"
+  },
+  {
+   "text": "show umask",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the current umask in octal notation (e.g., 0022).",
+   "cmd": "umask",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Display the current umask in symbolic, human-readable format (e.g., u=rwx,g=rx,o=rx).",
+     "cmd": "umask -S",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/umask.md",
+  "title": "tldr-pages: umask",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-number-file-lines",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Display file contents with line numbers",
+ "summary": "Use the `-n` flag with `cat` to show the contents of a file with line numbers. This is useful for referencing specific lines in a script or log file.",
+ "aliases": [
+  {
+   "text": "cat with line numbers",
+   "lang": "en"
+  },
+  {
+   "text": "show line numbers file mac",
+   "lang": "en"
+  },
+  {
+   "text": "numbered output cat",
+   "lang": "en"
+  },
+  {
+   "text": "cat -n mac",
+   "lang": "en"
+  },
+  {
+   "text": "показать номера строк в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "cat с нумерацией строк",
+   "lang": "ru"
+  },
+  {
+   "text": "нумерация строк в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add the `-n` flag before the file path to print each line with its corresponding line number.",
+   "cmd": "cat -n <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to view.",
+     "example": "script.sh"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/cat.md",
+  "title": "tldr-pages: cat",
+  "license": "CC-BY-4.0"
+ }
+}

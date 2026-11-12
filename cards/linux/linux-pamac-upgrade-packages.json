@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-pamac-upgrade-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Upgrade all packages using pamac",
+ "summary": "Use pamac to update all installed packages to their latest versions. This keeps your system secure and up to date.",
+ "aliases": [
+  {
+   "text": "upgrade packages pamac",
+   "lang": "en"
+  },
+  {
+   "text": "update system pamac",
+   "lang": "en"
+  },
+  {
+   "text": "pamac upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "обновить пакеты pamac",
+   "lang": "ru"
+  },
+  {
+   "text": "pamac обновление системы",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить систему через pamac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pamac"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Upgrade all installed packages to their latest versions.",
+   "cmd": "pamac upgrade",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Downgrading packages is complex and not directly supported by a single pamac command. Use pamac downgrade if available or restore from a snapshot.",
+   "cmd": "",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Upgrading packages can sometimes cause system instability. Ensure you have a backup or snapshot."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pamac.md",
+  "title": "tldr-pages: pamac",
+  "license": "CC-BY-4.0"
+ }
+}

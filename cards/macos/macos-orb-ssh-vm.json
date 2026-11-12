@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "macos-orb-ssh-vm",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Connect to an OrbStack VM via SSH",
+ "summary": "Open a terminal session inside a running OrbStack virtual machine. This allows you to run commands directly in the Linux environment.",
+ "aliases": [
+  {
+   "text": "ssh into orb vm",
+   "lang": "en"
+  },
+  {
+   "text": "connect to orbstack vm",
+   "lang": "en"
+  },
+  {
+   "text": "orb ssh",
+   "lang": "en"
+  },
+  {
+   "text": "войти в вм orb",
+   "lang": "ru"
+  },
+  {
+   "text": "подключиться к вм orbstack",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "orb"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Connect to a running virtual machine using SSH. Replace <VM_NAME> with the name of your VM.",
+   "cmd": "orb ssh <VM_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VM_NAME",
+     "description": "The name of the virtual machine to connect to.",
+     "example": "my-ubuntu"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/orb.md",
+  "title": "tldr-pages: orb",
+  "license": "CC-BY-4.0"
+ }
+}

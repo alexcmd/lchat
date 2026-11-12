@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "amdgpu-manual-fan-control",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Manually control AMDGPU fan speed via sysfs",
+ "summary": "Switch AMD graphics card fan control from automatic to manual and set a specific fan speed percentage.",
+ "aliases": [
+  {
+   "text": "amdgpu fan control",
+   "lang": "en"
+  },
+  {
+   "text": "amd gpu fan speed",
+   "lang": "en"
+  },
+  {
+   "text": "manual gpu fan control",
+   "lang": "en"
+  },
+  {
+   "text": "amdgpu pwm",
+   "lang": "en"
+  },
+  {
+   "text": "настроить кулер amd",
+   "lang": "ru"
+  },
+  {
+   "text": "amd gpu вентилятор",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "amdgpu driver"
+  ]
+ },
+ "prerequisites": [
+  "AMD GPU with amdgpu driver"
+ ],
+ "steps": [
+  {
+   "explain": "Enable manual fan control mode.",
+   "cmd": "sudo echo \"1\" > /sys/class/drm/card0/device/hwmon/hwmon0/pwm1_enable",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Set fan speed to 50% (128 out of 255). Adjust the number as needed.",
+   "cmd": "sudo echo \"128\" > /sys/class/drm/card0/device/hwmon/hwmon0/pwm1",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reset fan control to automatic mode.",
+   "cmd": "sudo echo \"2\" > /sys/class/drm/card0/device/hwmon/hwmon0/pwm1_enable",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Setting fan speed too low can cause GPU overheating. Monitor temperatures closely."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Fan_speed_control#Manual_fan_control",
+  "title": "Fan speed control",
+  "revision_id": 883783,
+  "license": "GFDL-1.3-or-later"
+ }
+}

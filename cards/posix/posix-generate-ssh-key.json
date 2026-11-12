@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "posix-generate-ssh-key",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Generate a new SSH key pair",
+ "summary": "Create a new SSH key pair for secure authentication with servers or Git. You will be prompted to choose a file location and an optional passphrase.",
+ "aliases": [
+  {
+   "text": "generate ssh key",
+   "lang": "en"
+  },
+  {
+   "text": "create ssh key",
+   "lang": "en"
+  },
+  {
+   "text": "ssh keygen",
+   "lang": "en"
+  },
+  {
+   "text": "new ssh key",
+   "lang": "en"
+  },
+  {
+   "text": "generate ssh key pair",
+   "lang": "en"
+  },
+  {
+   "text": "создать ssh ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "генерация ssh ключа",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "как создать ssh ключ",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the key generation tool. It will ask where to save the key (default is ~/.ssh/id_rsa) and if you want a passphrase.",
+   "cmd": "ssh-keygen",
+   "risk": "low",
+   "expect": "The tool prompts for a file path and passphrase, then displays a randomart image and confirms the key was saved."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh-keygen.md",
+  "title": "tldr-pages: ssh-keygen",
+  "license": "CC-BY-4.0"
+ }
+}

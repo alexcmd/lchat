@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-file-owner-group",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change both owner and group of a file",
+ "summary": "Use chown to change both the user owner and the group owner of a file or directory at the same time.",
+ "aliases": [
+  {
+   "text": "change owner and group",
+   "lang": "en"
+  },
+  {
+   "text": "chown user group",
+   "lang": "en"
+  },
+  {
+   "text": "set file group",
+   "lang": "en"
+  },
+  {
+   "text": "изменить владельца и группу",
+   "lang": "ru"
+  },
+  {
+   "text": "chown группа",
+   "lang": "ru"
+  },
+  {
+   "text": "назначить группу файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the user:group syntax with chown to set both the owner and the group.",
+   "cmd": "sudo chown <USER>:<GROUP> <FILE_OR_DIRECTORY>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USER",
+     "description": "The new owner's username",
+     "example": "john"
+    },
+    {
+     "name": "GROUP",
+     "description": "The new group name",
+     "example": "developers"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or directory",
+     "example": "/home/john/project"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, restore the original user and group.",
+   "cmd": "sudo chown <ORIGINAL_USER>:<ORIGINAL_GROUP> <FILE_OR_DIRECTORY>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_USER",
+     "description": "The previous owner's username",
+     "example": "root"
+    },
+    {
+     "name": "ORIGINAL_GROUP",
+     "description": "The previous group name",
+     "example": "root"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or directory",
+     "example": "/home/john/project"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure the target group exists and is appropriate for the file's purpose."
+ ],
+ "see_also": [
+  "posix-change-file-owner",
+  "file-change-ownership"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chown.md",
+  "title": "tldr-pages: chown",
+  "license": "CC-BY-4.0"
+ }
+}

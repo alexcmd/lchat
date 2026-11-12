@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-eject-manual-button",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable or disable the physical eject button",
+ "summary": "Control whether the physical eject button on your drive is ignored. Setting it to 'on' prevents the button from ejecting the drive.",
+ "aliases": [
+  {
+   "text": "disable eject button",
+   "lang": "en"
+  },
+  {
+   "text": "enable eject button",
+   "lang": "en"
+  },
+  {
+   "text": "ignore eject button",
+   "lang": "en"
+  },
+  {
+   "text": "lock eject button",
+   "lang": "en"
+  },
+  {
+   "text": "отключить кнопку извлечения",
+   "lang": "ru"
+  },
+  {
+   "text": "включить кнопку извлечения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set whether the physical eject button is ignored. Use 'on' to prevent ejecting via the button, or 'off' to allow it.",
+   "cmd": "eject --manualeject <STATE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "STATE",
+     "description": "Either 'on' (to ignore the button) or 'off' (to allow the button).",
+     "example": "on"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/eject.md",
+  "title": "tldr-pages: eject",
+  "license": "CC-BY-4.0"
+ }
+}

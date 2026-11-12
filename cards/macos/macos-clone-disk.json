@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "macos-clone-disk",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Clone a disk to another disk",
+ "summary": "Use `dd` to copy the entire contents of one disk to another. This is useful for migrating data or creating an exact copy of a drive.",
+ "aliases": [
+  {
+   "text": "clone disk mac",
+   "lang": "en"
+  },
+  {
+   "text": "copy disk to disk mac",
+   "lang": "en"
+  },
+  {
+   "text": "dd clone drive",
+   "lang": "en"
+  },
+  {
+   "text": "клонировать диск mac",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать диск на диск",
+   "lang": "ru"
+  },
+  {
+   "text": "dd клонирование диска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Source disk connected",
+  "Destination disk connected and larger than or equal to the source disk",
+  "Knowledge of both disk device identifiers"
+ ],
+ "steps": [
+  {
+   "explain": "Copy the source disk to the destination disk using a 4MB block size. Replace <SOURCE_DRIVE> and <DEST_DRIVE> with the correct device identifiers (e.g., /dev/disk2 and /dev/disk3). This erases the destination drive.",
+   "cmd": "sudo dd bs=4m conv=noerror if=<SOURCE_DRIVE> of=<DEST_DRIVE> status=progress",
+   "needs_root": true,
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "SOURCE_DRIVE",
+     "description": "Device identifier of the source disk",
+     "example": "/dev/disk2"
+    },
+    {
+     "name": "DEST_DRIVE",
+     "description": "Device identifier of the destination disk",
+     "example": "/dev/disk3"
+    }
+   ],
+   "expect": "Progress information will be displayed as the disk is cloned."
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This command will completely erase all data on the destination drive.",
+  "Ensure the destination drive is at least as large as the source drive.",
+  "Verify device identifiers carefully to avoid data loss."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct rollback for `dd`. The destination drive's original data is lost.",
+   "cmd": "",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dd.md",
+  "title": "tldr-pages: dd",
+  "license": "CC-BY-4.0"
+ }
+}

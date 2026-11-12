@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "linux-iw-disconnect-wifi",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disconnect from Wi-Fi network",
+ "summary": "Closes the current Wi-Fi connection on the specified interface.",
+ "aliases": [
+  {
+   "text": "disconnect wifi",
+   "lang": "en"
+  },
+  {
+   "text": "turn off wifi connection",
+   "lang": "en"
+  },
+  {
+   "text": "iw disconnect",
+   "lang": "en"
+  },
+  {
+   "text": "отключить wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "разорвать wifi соединение",
+   "lang": "ru"
+  },
+  {
+   "text": "iw dev disconnect",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disconnects the specified wireless interface from the current network.",
+   "cmd": "sudo iw dev <INTERFACE> disconnect",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of your wireless interface, e.g., wlan0",
+     "example": "wlan0",
+     "discover_cmd": "iw dev"
+    }
+   ],
+   "expect": "The interface disconnects from the network."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reconnect to the network using your usual method (e.g., NetworkManager GUI or iw connect).",
+   "cmd": "sudo iw dev <INTERFACE> connect <SSID>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of your wireless interface, e.g., wlan0",
+     "example": "wlan0",
+     "discover_cmd": "iw dev"
+    },
+    {
+     "name": "SSID",
+     "description": "The name of the Wi-Fi network",
+     "example": "MyNetwork",
+     "discover_cmd": "iw dev <INTERFACE> scan"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This command requires root privileges.",
+  "You will lose internet access until you reconnect."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/iw.md",
+  "title": "tldr-pages: iw",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-iw-connect-open-wifi",
+  "nm-deactivate-connection"
+ ]
+}

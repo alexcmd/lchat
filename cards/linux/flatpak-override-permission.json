@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "flatpak-override-permission",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Override Flatpak application permissions",
+ "summary": "Change what a Flatpak application is allowed to access, such as denying access to the home folder.",
+ "aliases": [
+  {
+   "text": "change flatpak permissions",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak override",
+   "lang": "en"
+  },
+  {
+   "text": "изменить права flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak override command",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Override permissions for the application. This example denies access to the home folder.",
+   "cmd": "flatpak override --nofilesystem=home <APP_ID>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "APP_ID",
+     "description": "The ID of the application",
+     "example": "org.libreoffice.LibreOffice"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Reset all overrides to default permissions.",
+     "cmd": "flatpak override --reset <APP_ID>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "APP_ID",
+       "description": "The ID of the application",
+       "example": "org.libreoffice.LibreOffice"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Reset permissions to default.",
+   "cmd": "flatpak override --reset <APP_ID>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "APP_ID",
+     "description": "The ID of the application",
+     "example": "org.libreoffice.LibreOffice"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing permissions can break application functionality."
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Flatpak#Override_sandbox_permissions_of_applications",
+  "title": "Flatpak",
+  "revision_id": 886042,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-folder-to-finder-sidebar",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add a folder to Finder sidebar",
+ "summary": "Pin a specific folder or file to the Finder sidebar favorites using its name and path.",
+ "aliases": [
+  {
+   "text": "add folder to finder sidebar",
+   "lang": "en"
+  },
+  {
+   "text": "pin folder to sidebar",
+   "lang": "en"
+  },
+  {
+   "text": "mysides add",
+   "lang": "en"
+  },
+  {
+   "text": "добавить папку в сайдбар finder",
+   "lang": "ru"
+  },
+  {
+   "text": "закрепить папку в боковой панели",
+   "lang": "ru"
+  },
+  {
+   "text": "mysides добавить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "mysides is installed (e.g. via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Add an item to the end of the Finder sidebar favorites. Replace <NAME> with the label you want to see and <URL> with the file:// path to the folder or file.",
+   "cmd": "mysides add <NAME> <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NAME",
+     "description": "The display name for the sidebar item",
+     "example": "Projects"
+    },
+    {
+     "name": "URL",
+     "description": "The file:// URL of the item to add",
+     "example": "file:///Users/Shared/Projects"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mysides.md",
+  "title": "tldr-pages: mysides",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-npm-uninstall-package",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Uninstall an npm package",
+ "summary": "Remove a package from your project and update package.json to reflect the change.",
+ "aliases": [
+  {
+   "text": "remove package",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall npm package",
+   "lang": "en"
+  },
+  {
+   "text": "npm uninstall",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "npm uninstall",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать зависимость",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified package from node_modules and delete it from the dependencies list in package.json.",
+   "cmd": "npm uninstall <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the npm package to remove",
+     "example": "lodash"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/npm.md",
+  "title": "tldr-pages: npm",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-run-program-clean-env",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a program with a clean environment",
+ "summary": "Start a program without inheriting any current environment variables. This is useful for testing if a program works independently of your shell settings.",
+ "aliases": [
+  {
+   "text": "run with clean env",
+   "lang": "en"
+  },
+  {
+   "text": "ignore environment variables",
+   "lang": "en"
+  },
+  {
+   "text": "env -i command",
+   "lang": "en"
+  },
+  {
+   "text": "запустить с чистым окружением",
+   "lang": "ru"
+  },
+  {
+   "text": "игнорировать переменные окружения",
+   "lang": "ru"
+  },
+  {
+   "text": "env ignore env",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --ignore-environment flag to clear all existing variables before running the program.",
+   "cmd": "env -i <PROGRAM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM",
+     "description": "The command or program to run",
+     "example": "bash"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/env.md",
+  "title": "tldr-pages: env",
+  "license": "CC-BY-4.0"
+ }
+}

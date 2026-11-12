@@ -1,0 +1,126 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-disk-integrity",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check disk integrity with fsck",
+ "summary": "Use fsck to check the integrity of a disk volume and report any damaged blocks. This command is typically used on unmounted volumes, such as external drives or volumes in Recovery Mode.",
+ "aliases": [
+  {
+   "text": "check disk integrity mac",
+   "lang": "en"
+  },
+  {
+   "text": "fsck macos",
+   "lang": "en"
+  },
+  {
+   "text": "repair disk errors mac",
+   "lang": "en"
+  },
+  {
+   "text": "check external drive mac",
+   "lang": "en"
+  },
+  {
+   "text": "проверить диск mac",
+   "lang": "ru"
+  },
+  {
+   "text": "fsck mac",
+   "lang": "ru"
+  },
+  {
+   "text": "исправить ошибки диска mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The volume you want to check must be unmounted.",
+  "You know the device identifier of the volume (e.g., /dev/disk2s1)."
+ ],
+ "steps": [
+  {
+   "explain": "Run fsck on the specified device to check its integrity and report any damaged blocks.",
+   "cmd": "fsck <DEVICE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The device identifier of the unmounted volume to check.",
+     "example": "/dev/disk2s1",
+     "discover_cmd": "diskutil list"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Force a check even if the volume is marked clean, and interactively ask to repair each error.",
+     "cmd": "fsck -f <DEVICE>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "DEVICE",
+       "description": "The device identifier of the unmounted volume to check.",
+       "example": "/dev/disk2s1",
+       "discover_cmd": "diskutil list"
+      }
+     ]
+    },
+    {
+     "explain": "Force a check and automatically repair any errors found without asking.",
+     "cmd": "fsck -fy <DEVICE>",
+     "risk": "high",
+     "placeholders": [
+      {
+       "name": "DEVICE",
+       "description": "The device identifier of the unmounted volume to check.",
+       "example": "/dev/disk2s1",
+       "discover_cmd": "diskutil list"
+      }
+     ]
+    },
+    {
+     "explain": "Quickly check if the volume was cleanly unmounted.",
+     "cmd": "fsck -q <DEVICE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "DEVICE",
+       "description": "The device identifier of the unmounted volume to check.",
+       "example": "/dev/disk2s1",
+       "discover_cmd": "diskutil list"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Automatically repairing errors (-fy) can lead to data loss if the filesystem is severely corrupted.",
+  "Always back up important data before running repair commands.",
+  "The volume must be unmounted; checking a mounted volume can cause data corruption."
+ ],
+ "rollback": [
+  {
+   "explain": "If you accidentally repaired a volume and want to restore it, you must restore from a backup (e.g., Time Machine). fsck itself does not have an undo command.",
+   "risk": "high"
+  }
+ ],
+ "see_also": [
+  "macos-list-disks-volumes",
+  "macos-repair-volume"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/fsck.md",
+  "title": "tldr-pages: fsck",
+  "license": "CC-BY-4.0"
+ }
+}

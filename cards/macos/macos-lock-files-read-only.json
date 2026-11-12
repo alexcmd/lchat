@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "macos-lock-files-read-only",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Lock files or folders to prevent changes",
+ "summary": "Use the chflags command with the 'uchg' flag to make files or folders read-only. This prevents accidental deletion or modification, even by the owner.",
+ "aliases": [
+  {
+   "text": "lock file on mac",
+   "lang": "en"
+  },
+  {
+   "text": "make file read only mac",
+   "lang": "en"
+  },
+  {
+   "text": "protect file from deletion mac",
+   "lang": "en"
+  },
+  {
+   "text": "chflags uchg",
+   "lang": "en"
+  },
+  {
+   "text": "защитить файл от удаления на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать файл только для чтения",
+   "lang": "ru"
+  },
+  {
+   "text": "chflags uchg mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run chflags with the -R (recursive) and uchg flags to lock a directory and all its contents.",
+   "cmd": "chflags -R uchg <DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the directory to lock",
+     "example": "~/Documents/Important"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Run chflags with the -R (recursive) and nouchg flags to unlock the directory and its contents.",
+   "cmd": "chflags -R nouchg <DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the directory to unlock",
+     "example": "~/Documents/Important"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Locked files cannot be modified or deleted until unlocked.",
+  "You must use the rollback command to unlock files before editing them."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/chflags.md",
+  "title": "tldr-pages: chflags",
+  "license": "CC-BY-4.0"
+ }
+}

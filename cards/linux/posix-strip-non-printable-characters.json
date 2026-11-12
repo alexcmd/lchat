@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-strip-non-printable-characters",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove non-printable characters from a file",
+ "summary": "Use `tr` to delete all characters that are not printable (like control codes or binary data). This cleans up text files that contain hidden or invalid characters.",
+ "aliases": [
+  {
+   "text": "remove non printable characters",
+   "lang": "en"
+  },
+  {
+   "text": "clean binary characters from file",
+   "lang": "en"
+  },
+  {
+   "text": "tr strip non printable",
+   "lang": "en"
+  },
+  {
+   "text": "delete control characters",
+   "lang": "en"
+  },
+  {
+   "text": "удалить непечатаемые символы",
+   "lang": "ru"
+  },
+  {
+   "text": "tr очистить файл",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать мусорные символы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the `--complement` and `--delete` flags to keep only printable characters and delete everything else.",
+   "cmd": "tr < <FILE> --complement --delete \"[:print:]\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file",
+     "example": "data.bin"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tr.md",
+  "title": "tldr-pages: tr",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-printer-status",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check printer and print job status",
+ "summary": "Use the lpstat command to see if your printer is online, list current print jobs, or view detailed printer information.",
+ "aliases": [
+  {
+   "text": "check printer status",
+   "lang": "en"
+  },
+  {
+   "text": "list print jobs",
+   "lang": "en"
+  },
+  {
+   "text": "is printer online",
+   "lang": "en"
+  },
+  {
+   "text": "lpstat",
+   "lang": "en"
+  },
+  {
+   "text": "printer queue mac",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус принтера",
+   "lang": "ru"
+  },
+  {
+   "text": "список заданий печати",
+   "lang": "ru"
+  },
+  {
+   "text": "принтер онлайн",
+   "lang": "ru"
+  },
+  {
+   "text": "lpstat macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lpstat with the -t flag to display all status information, including whether the CUPS server is running, printer states, and current jobs.",
+   "cmd": "lpstat -t",
+   "risk": "low",
+   "expect": "A detailed report showing the CUPS server status, printer availability, and any pending print jobs."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/lpstat.md",
+  "title": "tldr-pages: lpstat",
+  "license": "CC-BY-4.0"
+ }
+}

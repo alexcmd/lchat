@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-stat-size-bytes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show file size in bytes",
+ "summary": "Use stat with a custom format to display the exact size of a file in bytes.",
+ "aliases": [
+  {
+   "text": "file size in bytes",
+   "lang": "en"
+  },
+  {
+   "text": "exact file size",
+   "lang": "en"
+  },
+  {
+   "text": "stat size",
+   "lang": "en"
+  },
+  {
+   "text": "how many bytes",
+   "lang": "en"
+  },
+  {
+   "text": "размер файла в байтах",
+   "lang": "ru"
+  },
+  {
+   "text": "точный размер файла",
+   "lang": "ru"
+  },
+  {
+   "text": "стат размер",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько байт файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --format option with the %s (size in bytes) and %n (filename) specifiers to print the exact byte count.",
+   "cmd": "stat -c \"%s %n\" <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file",
+     "example": "image.png"
+    }
+   ],
+   "expect": "Output showing the file size in bytes followed by the filename."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/stat.md",
+  "title": "tldr-pages: stat",
+  "license": "CC-BY-4.0"
+ }
+}

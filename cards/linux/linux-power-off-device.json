@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-power-off-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Power off a storage device for safe removal",
+ "summary": "Power off a physical drive (like an external hard drive) to safely disconnect it. This stops the drive spinning and ensures data is written.",
+ "aliases": [
+  {
+   "text": "power off drive",
+   "lang": "en"
+  },
+  {
+   "text": "safely remove external drive",
+   "lang": "en"
+  },
+  {
+   "text": "udisksctl power-off",
+   "lang": "en"
+  },
+  {
+   "text": "stop drive before unplugging",
+   "lang": "en"
+  },
+  {
+   "text": "power off /dev/sdb",
+   "lang": "en"
+  },
+  {
+   "text": "выключить внешний диск",
+   "lang": "ru"
+  },
+  {
+   "text": "безопасное отключение диска",
+   "lang": "ru"
+  },
+  {
+   "text": "udisksctl power-off",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить диск",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Power off the specified block device. You should unmount any partitions on this device first.",
+   "cmd": "udisksctl power-off --block-device <DEVICE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The path to the block device to power off, e.g. /dev/sdb",
+     "example": "/dev/sdb",
+     "discover_cmd": "udisksctl status"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/udisksctl.md",
+  "title": "tldr-pages: udisksctl",
+  "license": "CC-BY-4.0"
+ }
+}

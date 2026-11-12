@@ -1,0 +1,191 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-read-config-key-value",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Read key = value settings from a config file in a bash script",
+  "summary": "Reads a plain settings file, skips comments and blank lines, and gives you either all settings or the value of one key. Spaces around the equals sign are allowed.",
+  "aliases": [
+    {
+      "text": "read config file bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash read key=value file",
+      "lang": "en"
+    },
+    {
+      "text": "parse config file in bash script",
+      "lang": "en"
+    },
+    {
+      "text": "get a value from a config file bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash ini file reader",
+      "lang": "en"
+    },
+    {
+      "text": "bash settings file key value",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт читает файл настроек key=value",
+      "lang": "ru"
+    },
+    {
+      "text": "как прочитать конфиг в bash",
+      "lang": "ru"
+    },
+    {
+      "text": "взять значение из конфигурационного файла в bash скрипте",
+      "lang": "ru"
+    },
+    {
+      "text": "bash конфиг ключ значение",
+      "lang": "ru"
+    },
+    {
+      "text": "как достать параметр из файла настроек в скрипте",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "read-config.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "read-config.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "read-config.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Create a settings file with a comment, a blank line, a broken line and a few settings.",
+      "risk": "low",
+      "cmd": "printf '# app settings\\nbackup_dir = /home/user/backups\\nkeep_days=14\\n  name =  my laptop  \\nurl=http://example.com/?a=b\\n\\nbroken line\\n' > app.conf",
+      "expect": "No output. The file app.conf now exists."
+    },
+    {
+      "explain": "Print all settings in alphabetical order. The broken line gives a warning on STDERR and is skipped.",
+      "risk": "low",
+      "cmd": "./<FILE> <CONFIG_FILE>",
+      "expect": "warning: line 7 has no '=', skipped: broken line, then backup_dir = /home/user/backups, keep_days = 14, name = my laptop, url = http://example.com/?a=b",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "read-config.sh"
+        },
+        {
+          "name": "CONFIG_FILE",
+          "description": "The settings file to read",
+          "example": "app.conf"
+        }
+      ]
+    },
+    {
+      "explain": "Print the value of one key only.",
+      "risk": "low",
+      "cmd": "./<FILE> <CONFIG_FILE> <KEY>",
+      "expect": "14",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "read-config.sh"
+        },
+        {
+          "name": "CONFIG_FILE",
+          "description": "The settings file to read",
+          "example": "app.conf"
+        },
+        {
+          "name": "KEY",
+          "description": "The setting name you want",
+          "example": "keep_days"
+        }
+      ]
+    },
+    {
+      "explain": "Ask for a key that does not exist. The script prints an error and exits with code 1.",
+      "risk": "low",
+      "cmd": "./<FILE> <CONFIG_FILE> nope; echo exit code $?",
+      "expect": "error: key 'nope' not found in app.conf, then exit code 1",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "read-config.sh"
+        },
+        {
+          "name": "CONFIG_FILE",
+          "description": "The settings file to read",
+          "example": "app.conf"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "The script reads only KEY = VALUE lines. Never load a config file with the . or source command in a script: it runs any shell code inside the file.",
+    "Everything after the first equals sign is the value, including any # text. A comment at the end of a line becomes part of the value.",
+    "Values are plain text. Quotes around a value are kept as part of it."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "read-config.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# read-config.sh - read key = value settings from a config file.\n# Usage: ./read-config.sh CONFIG_FILE [KEY]\n# Each setting is one line: key = value (spaces around = are optional).\n# Lines that start with # and empty lines are ignored.\n# Without KEY, every setting is printed. With KEY, only that value is printed.\n\nset -euo pipefail\n\nif (( $# < 1 || $# > 2 )) || [[ ! -r \"$1\" ]]; then\n    echo \"usage: $0 CONFIG_FILE [KEY]\" >&2\n    exit 2\nfi\nCONFIG=$1\nWANTED=${2:-}\n\ndeclare -A settings=()\nline_no=0\n\n# IFS= keeps leading spaces; -r stops backslashes from being treated specially.\n# \"|| [[ -n $line ]]\" also handles a last line that has no newline at its end.\nwhile IFS= read -r line || [[ -n $line ]]; do\n    line_no=$((line_no + 1))\n\n    # Remove spaces and tabs at the start and at the end of the line.\n    line=${line#\"${line%%[![:space:]]*}\"}\n    line=${line%\"${line##*[![:space:]]}\"}\n\n    # Skip empty lines and comments.\n    if [[ -z $line || $line == \\#* ]]; then\n        continue\n    fi\n    if [[ $line != *=* ]]; then\n        echo \"warning: line $line_no has no '=', skipped: $line\" >&2\n        continue\n    fi\n\n    # Split at the FIRST '=': the key is before it, the value is after it.\n    key=${line%%=*}\n    value=${line#*=}\n    key=${key%\"${key##*[![:space:]]}\"}      # trim spaces after the key\n    value=${value#\"${value%%[![:space:]]*}\"} # trim spaces before the value\n    settings[$key]=$value\ndone < \"$CONFIG\"\n\nif [[ -n $WANTED ]]; then\n    if [[ -z ${settings[$WANTED]+set} ]]; then\n        echo \"error: key '$WANTED' not found in $CONFIG\" >&2\n        exit 1\n    fi\n    echo \"${settings[$WANTED]}\"\nelse\n    # Print every key in sorted order.\n    while IFS= read -r key; do\n        echo \"$key = ${settings[$key]}\"\n    done < <(printf '%s\\n' \"${!settings[@]}\" | sort)\nfi\n",
+    "usage": "./read-config.sh CONFIG_FILE [KEY]"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-pip-list-packages",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List installed Python packages",
+ "summary": "See which Python packages are currently installed on your system.",
+ "aliases": [
+  {
+   "text": "list python packages",
+   "lang": "en"
+  },
+  {
+   "text": "pip list",
+   "lang": "en"
+  },
+  {
+   "text": "show installed python modules",
+   "lang": "en"
+  },
+  {
+   "text": "список python пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "pip list что установлено",
+   "lang": "ru"
+  },
+  {
+   "text": "какие библиотеки python установлены",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display a list of all Python packages installed in the current environment.",
+   "cmd": "pip list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pip.md",
+  "title": "tldr-pages: pip",
+  "license": "CC-BY-4.0"
+ }
+}

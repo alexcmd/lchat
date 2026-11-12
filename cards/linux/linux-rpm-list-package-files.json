@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-rpm-list-package-files",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List files owned by an RPM package",
+ "summary": "Show all files that are installed by a specific package.",
+ "aliases": [
+  {
+   "text": "list files in rpm package",
+   "lang": "en"
+  },
+  {
+   "text": "rpm list package files",
+   "lang": "en"
+  },
+  {
+   "text": "what files does this package install",
+   "lang": "en"
+  },
+  {
+   "text": "список файлов пакета rpm",
+   "lang": "ru"
+  },
+  {
+   "text": "какие файлы устанавливает пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "rpm файлы пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "opensuse"
+   },
+   {
+    "family": "other"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all files owned by the specified installed package.",
+   "cmd": "rpm -ql <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "Name of the installed package, e.g. kernel",
+     "example": "kernel"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/rpm.md",
+  "title": "tldr-pages: rpm",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "linux-yay-remove-orphans",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove orphaned packages",
+ "summary": "Remove packages that were installed as dependencies but are no longer required by any installed package.",
+ "aliases": [
+  {
+   "text": "remove orphans yay",
+   "lang": "en"
+  },
+  {
+   "text": "yay -Yc",
+   "lang": "en"
+  },
+  {
+   "text": "clean orphans",
+   "lang": "en"
+  },
+  {
+   "text": "yay remove orphans",
+   "lang": "en"
+  },
+  {
+   "text": "удалить осиротевшие пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "yay очистка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "yay"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Identifies and removes orphaned packages (dependencies no longer needed by any package).",
+   "cmd": "yay -Yc",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall any accidentally removed packages.",
+   "cmd": "yay -S <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to reinstall"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Review the list of orphans before confirming removal to avoid deleting packages you still need."
+ ],
+ "see_also": [
+  "pacman-check-orphans"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/yay.md",
+  "title": "tldr-pages: yay",
+  "license": "CC-BY-4.0"
+ }
+}

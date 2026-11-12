@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-disk-topology",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show block device topology",
+ "summary": "Display detailed topology information about block devices, such as alignment, physical sector size, and logical sector size.",
+ "aliases": [
+  {
+   "text": "disk topology",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk topology",
+   "lang": "en"
+  },
+  {
+   "text": "sector size",
+   "lang": "en"
+  },
+  {
+   "text": "alignment info",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk -t",
+   "lang": "en"
+  },
+  {
+   "text": "топология диска",
+   "lang": "ru"
+  },
+  {
+   "text": "lsblk topology",
+   "lang": "ru"
+  },
+  {
+   "text": "размер сектора",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsblk with the topology flag to show physical and logical sector sizes and alignment.",
+   "cmd": "lsblk --topology",
+   "risk": "low",
+   "expect": "Columns like PHY-SEC, LOG-SEC, and ALIGN-OFF appear in the output."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lsblk.md",
+  "title": "tldr-pages: lsblk",
+  "license": "CC-BY-4.0"
+ }
+}

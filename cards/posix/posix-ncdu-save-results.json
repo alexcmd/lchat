@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "posix-ncdu-save-results",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Save ncdu disk usage results to a file",
+ "summary": "Export the disk usage analysis from ncdu to a file for later review or sharing. This allows you to save the snapshot of directory sizes.",
+ "aliases": [
+  {
+   "text": "ncdu save to file",
+   "lang": "en"
+  },
+  {
+   "text": "ncdu export results",
+   "lang": "en"
+  },
+  {
+   "text": "ncdu -o",
+   "lang": "en"
+  },
+  {
+   "text": "save ncdu output",
+   "lang": "en"
+  },
+  {
+   "text": "sohranit rezultaty ncdu",
+   "lang": "ru"
+  },
+  {
+   "text": "ncdu eksport v fail",
+   "lang": "ru"
+  },
+  {
+   "text": "ncdu sohranit analiz",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run ncdu and save the results to a specified file. Replace <FILE> with the desired output path.",
+   "cmd": "ncdu -o <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file where results will be saved.",
+     "example": "ncdu_results.json"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ncdu.md",
+  "title": "tldr-pages: ncdu",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-ncdu-analyze-directory"
+ ]
+}

@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "bluetooth-fix-hci-unknown-connection",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'ACL packet for unknown connection handle' error",
+ "summary": "If you see an error about an unknown connection handle for hci0, resetting the Bluetooth adapter usually fixes the issue.",
+ "aliases": [
+  {
+   "text": "hci0 acl packet error",
+   "lang": "en"
+  },
+  {
+   "text": "unknown connection handle bluetooth",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth hci0 reset",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка hci0 acl packet",
+   "lang": "ru"
+  },
+  {
+   "text": "unknown connection handle",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "hci0 ACL packet for unknown connection handle"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reset the Bluetooth adapter hci0 to clear the connection error.",
+   "cmd": "sudo hciconfig hci0 reset",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reconnect your Bluetooth devices if they were disconnected by the reset.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This will temporarily disconnect all active Bluetooth connections."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Bluetooth_keyboard#Error:_hci0_ACL_packet_for_unknown_connection_handle_4",
+  "title": "Bluetooth keyboard",
+  "revision_id": 815659,
+  "license": "GFDL-1.3-or-later"
+ }
+}

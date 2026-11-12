@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "posix-follow-file-changes",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Follow file changes in real time",
+ "summary": "Use tail with the follow option to watch a file for new content. This is useful for monitoring log files as they are updated. Press Ctrl+C to stop.",
+ "aliases": [
+  {
+   "text": "follow log file",
+   "lang": "en"
+  },
+  {
+   "text": "tail -f",
+   "lang": "en"
+  },
+  {
+   "text": "watch file changes",
+   "lang": "en"
+  },
+  {
+   "text": "monitor log",
+   "lang": "en"
+  },
+  {
+   "text": "sledit za logom",
+   "lang": "ru"
+  },
+  {
+   "text": "tail -f",
+   "lang": "ru"
+  },
+  {
+   "text": "sledit za faylom",
+   "lang": "ru"
+  },
+  {
+   "text": "monitorit log",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --follow flag to keep printing new lines as they are added to the file.",
+   "cmd": "tail --follow <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to monitor"
+    }
+   ],
+   "expect": "The terminal will display new lines as they are written to the file. Press Ctrl+C to stop.",
+   "alternatives": [
+    {
+     "explain": "Keep reading even if the file is temporarily inaccessible (e.g., during rotation).",
+     "cmd": "tail --retry --follow <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file you want to monitor"
+      }
+     ]
+    },
+    {
+     "explain": "Show the last few lines and refresh the view every few seconds.",
+     "cmd": "tail --lines <COUNT> --sleep-interval <SECONDS> --follow <FILE>",
+     "placeholders": [
+      {
+       "name": "COUNT",
+       "description": "Number of lines to show"
+      },
+      {
+       "name": "SECONDS",
+       "description": "Seconds between refreshes"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the file you want to monitor"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tail.md",
+  "title": "tldr-pages: tail",
+  "license": "CC-BY-4.0"
+ }
+}

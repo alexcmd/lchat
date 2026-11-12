@@ -1,0 +1,193 @@
+{
+ "schema_version": 2,
+ "id": "error-redirect-permission-denied-etc",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Permission denied' when > writes into a root-owned system file",
+ "summary": "The > sign is handled by your own shell, so it writes with your rights. A system file such as /etc/hosts belongs to root, so the write is refused. Use sudo with tee to add the line with administrator rights.",
+ "aliases": [
+  {
+   "text": "bash permission denied /etc/hosts",
+   "lang": "en"
+  },
+  {
+   "text": "permission denied when writing to file with redirect linux",
+   "lang": "en"
+  },
+  {
+   "text": "echo to /etc/hosts permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "cannot write to root owned file linux",
+   "lang": "en"
+  },
+  {
+   "text": "how to append to hosts file linux permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "linux permission denied with > redirect",
+   "lang": "en"
+  },
+  {
+   "text": "bash permission denied write system file",
+   "lang": "en"
+  },
+  {
+   "text": "отказано в доступе при записи в etc hosts linux",
+   "lang": "ru"
+  },
+  {
+   "text": "bash permission denied /etc/hosts как исправить",
+   "lang": "ru"
+  },
+  {
+   "text": "linux permission denied при записи через > в системный файл",
+   "lang": "ru"
+  },
+  {
+   "text": "не могу записать в файл от root linux",
+   "lang": "ru"
+  },
+  {
+   "text": "linux ne mogu zapisat v etc hosts permission denied",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Permission denied"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "sudo"
+  ]
+ },
+ "prerequisites": [
+  "An account that is allowed to use sudo; you will be asked for your password, and nothing appears while you type it"
+ ],
+ "steps": [
+  {
+   "explain": "Check who owns the file. If the owner is root and the permissions give others no write access, your user cannot write to it, whatever the command. Replace <FILE> with the file that refuses the write.",
+   "cmd": "ls -l <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The file that refuses the write",
+     "example": "/etc/hosts"
+    }
+   ],
+   "expect": "A line such as '-rw-r--r-- 1 root root ... /etc/hosts'. The owner is root, so only root can write to it."
+  },
+  {
+   "explain": "Add a line to the file with administrator rights. tee -a writes the text at the end of the file and keeps the rest; it also prints the line on screen. The > sign cannot be used here because your shell opens the file before sudo runs. Replace <TEXT> with the line to add and <FILE> with the file.",
+   "cmd": "echo \"<TEXT>\" | sudo tee -a <FILE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "TEXT",
+     "description": "The line to add to the file",
+     "example": "127.0.0.1 myapp.local"
+    },
+    {
+     "name": "FILE",
+     "description": "The file to add the line to, the same as in step 1",
+     "example": "/etc/hosts"
+    }
+   ],
+   "expect": "The line you added is printed on screen. No 'Permission denied' message appears.",
+   "alternatives": [
+    {
+     "explain": "Open the file in the nano text editor with administrator rights, add the line by hand, press Ctrl+O and Enter to save, then Ctrl+X to close. This is the safer choice when you want to see the whole file.",
+     "cmd": "sudo nano <FILE>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The file to edit",
+       "example": "/etc/hosts"
+      }
+     ],
+     "expect": "A text editor opens and shows the contents of the file."
+    },
+    {
+     "explain": "Run the whole redirect inside a root shell. The text is inside single quotes, so the > is run by root.",
+     "cmd": "sudo sh -c 'echo \"<TEXT>\" >> <FILE>'",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "TEXT",
+       "description": "The line to add to the file",
+       "example": "127.0.0.1 myapp.local"
+      },
+      {
+       "name": "FILE",
+       "description": "The file to add the line to",
+       "example": "/etc/hosts"
+      }
+     ],
+     "expect": "No output, and the prompt comes back. The line is now at the end of the file."
+    }
+   ]
+  },
+  {
+   "explain": "Check that the line is at the end of the file. Replace <FILE> with the same file as before.",
+   "cmd": "tail -n 3 <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The file you changed",
+     "example": "/etc/hosts"
+    }
+   ],
+   "expect": "The last lines of the file, and the line you added is the last one."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "tail -n 1 <FILE>",
+   "expect": "Prints the line you added."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove the line you added: open the file with administrator rights, delete that line, save and close.",
+   "cmd": "sudo nano <FILE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The file you changed",
+     "example": "/etc/hosts"
+    }
+   ],
+   "expect": "The file opens in the editor, and the added line is no longer there after you save."
+  }
+ ],
+ "warnings": [
+  "Keep the -a in tee -a. Without -a, tee replaces the whole file with your text and the old contents are lost.",
+  "Changing /etc/hosts wrongly can break name resolution and internet access for some programs. Add only the line you need and remove it when you no longer need it.",
+  "Do not use sudo with > directly, as in 'sudo echo x > file': the > still runs as your user and fails the same way."
+ ],
+ "risk": "medium",
+ "see_also": [
+  "error-read-only-file-system"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/tee",
+  "title": "tee manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

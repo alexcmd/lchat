@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "macos-create-sized-partition",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create a partition with a specific size",
+ "summary": "Reformat a disk and create a single partition with a defined size, such as 16GB or 50% of the disk. The rest of the disk remains unallocated.",
+ "aliases": [
+  {
+   "text": "create partition with specific size",
+   "lang": "en"
+  },
+  {
+   "text": "make 16gb partition",
+   "lang": "en"
+  },
+  {
+   "text": "partition half disk",
+   "lang": "en"
+  },
+  {
+   "text": "diskutil partitionDisk size",
+   "lang": "en"
+  },
+  {
+   "text": "создать раздел заданного размера",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать раздел 16 гб",
+   "lang": "ru"
+  },
+  {
+   "text": "разбить диск пополам",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reformat the disk and create a single partition with the specified size (e.g., 16G or 50%).",
+   "cmd": "diskutil partitionDisk <DISK_DEVICE> 1 <PARTITION_SCHEME> <FILESYSTEM> <PARTITION_NAME> <PARTITION_SIZE>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "DISK_DEVICE",
+     "description": "The identifier of the disk to partition (e.g., /dev/disk2).",
+     "example": "/dev/disk2",
+     "discover_cmd": "diskutil list"
+    },
+    {
+     "name": "PARTITION_SCHEME",
+     "description": "The partition scheme: APM, MBR, or GPT.",
+     "example": "GPT"
+    },
+    {
+     "name": "FILESYSTEM",
+     "description": "The filesystem type for the partition.",
+     "example": "APFS",
+     "discover_cmd": "diskutil listFilesystems"
+    },
+    {
+     "name": "PARTITION_NAME",
+     "description": "The name to assign to the new partition.",
+     "example": "MyVolume"
+    },
+    {
+     "name": "PARTITION_SIZE",
+     "description": "The size of the partition (e.g., 16G, 500M, 50%).",
+     "example": "16G"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This command will erase all existing data on the disk.",
+  "Verify the disk identifier carefully before running."
+ ],
+ "rollback": [
+  {
+   "explain": "Data erased by this command cannot be recovered using standard tools. Restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/diskutil-partitiondisk.md",
+  "title": "tldr-pages: diskutil-partitiondisk",
+  "license": "CC-BY-4.0"
+ }
+}

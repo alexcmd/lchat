@@ -1,0 +1,136 @@
+{
+ "schema_version": 2,
+ "id": "error-curl-connection-refused",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix curl: (7) Failed to connect - connection refused on a port",
+ "summary": "curl says it failed to connect when nothing is listening on that address and port. Your local server is either not running, or it listens on another port or address. Checking the list of open ports shows where it really listens.",
+ "aliases": [
+  {
+   "text": "curl failed to connect to localhost",
+   "lang": "en"
+  },
+  {
+   "text": "curl connection refused localhost port",
+   "lang": "en"
+  },
+  {
+   "text": "curl (7) failed to connect",
+   "lang": "en"
+  },
+  {
+   "text": "my local server is not responding curl",
+   "lang": "en"
+  },
+  {
+   "text": "why does curl say connection refused",
+   "lang": "en"
+  },
+  {
+   "text": "curl port refused 127.0.0.1 linux",
+   "lang": "en"
+  },
+  {
+   "text": "check which ports are listening linux",
+   "lang": "en"
+  },
+  {
+   "text": "curl не могу подключиться к localhost",
+   "lang": "ru"
+  },
+  {
+   "text": "curl connection refused отказано в соединении",
+   "lang": "ru"
+  },
+  {
+   "text": "curl (7) failed to connect ошибка подключения",
+   "lang": "ru"
+  },
+  {
+   "text": "локальный сервер не отвечает curl",
+   "lang": "ru"
+  },
+  {
+   "text": "сервер не слушает порт linux",
+   "lang": "ru"
+  },
+  {
+   "text": "кёрл не подключается к порту",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "curl: (7) Failed to connect to",
+  "Connection refused"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal on Linux",
+  "The address and port your program should use"
+ ],
+ "steps": [
+  {
+   "explain": "Try the address again and show curl's error. The error means nothing accepted the connection on that port, so no program is listening there. Replace <PORT> with the port your program should use.",
+   "cmd": "curl -sS http://127.0.0.1:<PORT>",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "Port your server should listen on",
+     "example": "8080",
+     "discover_cmd": "ss -ltn"
+    }
+   ],
+   "expect": "curl: (7) Failed to connect to 127.0.0.1 port 8080 after 0 ms: Couldn't connect to server",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Verbose mode shows the low-level reason. Connection refused means the system has no program listening on that address and port.",
+     "cmd": "curl -v http://127.0.0.1:<PORT>",
+     "placeholders": [
+      {
+       "name": "PORT",
+       "description": "Port your server should listen on",
+       "example": "8080",
+       "discover_cmd": "ss -ltn"
+      }
+     ],
+     "expect": "* connect to 127.0.0.1 port 8080 from 127.0.0.1 port 37108 failed: Connection refused",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "List the TCP ports programs listen on. Find a LISTEN line with your port. 127.0.0.1:PORT means only this computer can connect; 0.0.0.0:PORT or [::]:PORT means all addresses. No line for your port means the program is not running or uses another port.",
+   "cmd": "ss -ltn",
+   "expect": "A table with the header 'State Recv-Q Send-Q Local Address:Port'. A running server adds a line like 'LISTEN 0 5 127.0.0.1:8080 0.0.0.0:*'.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Also show the name of the program that owns each port. Programs owned by other users may not be shown without sudo.",
+     "cmd": "ss -ltnp",
+     "expect": "The same table, with users:((\"python3\",pid=...)) at the end of the LISTEN line for programs you can see.",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "curl -sS -o /dev/null -w \"%{http_code}\\n\" http://127.0.0.1:<PORT>/",
+   "expect": "Prints 200 when the server answers. If it still fails, check the address and port with ss -ltn."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/curl",
+  "title": "curl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

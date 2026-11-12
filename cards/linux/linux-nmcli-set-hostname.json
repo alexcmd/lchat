@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-set-hostname",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change device hostname",
+ "summary": "Set a new hostname for the current device using NetworkManager. This requires administrator privileges.",
+ "aliases": [
+  {
+   "text": "change hostname nmcli",
+   "lang": "en"
+  },
+  {
+   "text": "set computer name linux",
+   "lang": "en"
+  },
+  {
+   "text": "rename pc linux",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli set hostname",
+   "lang": "en"
+  },
+  {
+   "text": "изменить имя хоста",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить имя компьютера",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli general hostname new",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the hostname of the current device to a new value.",
+   "cmd": "sudo nmcli general hostname <NEW_HOSTNAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "NEW_HOSTNAME",
+     "description": "The new hostname to set for the device.",
+     "example": "my-laptop"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Set the hostname back to its previous value.",
+   "cmd": "sudo nmcli general hostname <OLD_HOSTNAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "OLD_HOSTNAME",
+     "description": "The previous hostname of the device.",
+     "example": "old-name"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing the hostname may affect network services or scripts that rely on the current name."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-general.md",
+  "title": "tldr-pages: nmcli-general",
+  "license": "CC-BY-4.0"
+ }
+}

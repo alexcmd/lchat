@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-pci-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List all PCI devices on the computer",
+ "summary": "Use lspci to see a quick overview of hardware components like graphics cards, network adapters, and sound cards connected to the PCI bus.",
+ "aliases": [
+  {
+   "text": "list pci devices",
+   "lang": "en"
+  },
+  {
+   "text": "show hardware components",
+   "lang": "en"
+  },
+  {
+   "text": "lspci",
+   "lang": "en"
+  },
+  {
+   "text": "check graphics card",
+   "lang": "en"
+  },
+  {
+   "text": "list hardware",
+   "lang": "en"
+  },
+  {
+   "text": "показать pci устройства",
+   "lang": "ru"
+  },
+  {
+   "text": "список оборудования",
+   "lang": "ru"
+  },
+  {
+   "text": "lspci",
+   "lang": "ru"
+  },
+  {
+   "text": "какая видеокарта",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lspci to display a brief list of all PCI devices detected by the system.",
+   "cmd": "lspci",
+   "risk": "low",
+   "expect": "A list of devices with their IDs and names, e.g., '00:02.0 VGA compatible controller: Intel Corporation...'"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lspci.md",
+  "title": "tldr-pages: lspci",
+  "license": "CC-BY-4.0"
+ }
+}

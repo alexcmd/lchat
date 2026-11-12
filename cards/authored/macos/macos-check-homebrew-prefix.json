@@ -1,0 +1,101 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-homebrew-prefix",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find where Homebrew is installed and which version it is",
+ "summary": "Show the installed Homebrew version and the folder Homebrew is installed in. The folder is /opt/homebrew on Apple Silicon Macs and /usr/local on Intel Macs.",
+ "aliases": [
+  {
+   "text": "where is homebrew installed on mac",
+   "lang": "en"
+  },
+  {
+   "text": "which folder is homebrew in",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew version and location mac",
+   "lang": "en"
+  },
+  {
+   "text": "where is brew installed",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew install path macos",
+   "lang": "en"
+  },
+  {
+   "text": "find homebrew folder mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "где установлен homebrew",
+   "lang": "ru"
+  },
+  {
+   "text": "какая версия homebrew на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "куда установлен брю на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "путь к homebrew на macos",
+   "lang": "ru"
+  },
+  {
+   "text": "хомебрю где лежит",
+   "lang": "ru"
+  },
+  {
+   "text": "версия brew на маке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "brew"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check whether the brew program can be found and print its full path. No output means Homebrew is not installed or not on the PATH.",
+   "cmd": "command -v brew",
+   "risk": "low",
+   "expect": "A path such as /opt/homebrew/bin/brew (Apple Silicon) or /usr/local/bin/brew (Intel). Empty output means Homebrew is not installed."
+  },
+  {
+   "explain": "Print the Homebrew version numbers. Look at the first line, which starts with 'Homebrew' followed by the version.",
+   "cmd": "brew --version",
+   "risk": "low",
+   "expect": "A line such as 'Homebrew 4.x.x', followed by lines for Homebrew/homebrew-core and Homebrew/homebrew-cask."
+  },
+  {
+   "explain": "Print the folder where Homebrew is installed. This folder is different on Apple Silicon and Intel Macs.",
+   "cmd": "brew --prefix",
+   "risk": "low",
+   "expect": "/opt/homebrew on Apple Silicon Macs, /usr/local on Intel Macs."
+  },
+  {
+   "explain": "Print the processor type to see which of the two folders above applies. arm64 means Apple Silicon; x86_64 means Intel.",
+   "cmd": "uname -m",
+   "risk": "low",
+   "expect": "arm64 on Apple Silicon, x86_64 on Intel. arm64 matches /opt/homebrew; x86_64 matches /usr/local."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://brew",
+  "title": "brew manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

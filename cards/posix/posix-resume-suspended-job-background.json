@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "posix-resume-suspended-job-background",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Resume a suspended command in the background",
+ "summary": "If you paused a running command (usually by pressing Ctrl+Z), you can resume it so it keeps running in the background, freeing up your terminal for other tasks.",
+ "aliases": [
+  {
+   "text": "resume suspended job",
+   "lang": "en"
+  },
+  {
+   "text": "run command in background",
+   "lang": "en"
+  },
+  {
+   "text": "continue paused process",
+   "lang": "en"
+  },
+  {
+   "text": "bg command",
+   "lang": "en"
+  },
+  {
+   "text": "ctrl z then bg",
+   "lang": "en"
+  },
+  {
+   "text": "продолжить приостановленную задачу",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить в фоне",
+   "lang": "ru"
+  },
+  {
+   "text": "bg в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть процесс в фон",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Resume the most recently suspended job in the background.",
+   "cmd": "bg",
+   "risk": "low",
+   "expect": "The job resumes and the terminal prompt returns, allowing you to type new commands."
+  },
+  {
+   "explain": "Resume a specific suspended job by its job number. Use `jobs` to find the job number if you don't know it.",
+   "cmd": "bg %<JOB_NUMBER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "JOB_NUMBER",
+     "description": "The number of the suspended job (e.g., 1, 2).",
+     "discover_cmd": "jobs"
+    }
+   ],
+   "expect": "The specified job resumes in the background."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/bg.md",
+  "title": "tldr-pages: bg",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-list-background-jobs"
+ ]
+}

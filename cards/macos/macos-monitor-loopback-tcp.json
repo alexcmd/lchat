@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "macos-monitor-loopback-tcp",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Monitor local TCP connections",
+ "summary": "Use nettop to monitor TCP sockets on the loopback interface (localhost). This is useful for developers checking local server connections.",
+ "aliases": [
+  {
+   "text": "monitor loopback tcp",
+   "lang": "en"
+  },
+  {
+   "text": "check localhost connections",
+   "lang": "en"
+  },
+  {
+   "text": "nettop tcp loopback",
+   "lang": "en"
+  },
+  {
+   "text": "local server connections",
+   "lang": "en"
+  },
+  {
+   "text": "monitoring localhost",
+   "lang": "ru"
+  },
+  {
+   "text": "tcp loopback mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run nettop filtered for TCP sockets on the loopback interface to see local connections.",
+   "cmd": "nettop -m tcp -t loopback",
+   "risk": "low",
+   "expect": "A list of TCP connections on localhost appears."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/nettop.md",
+  "title": "tldr-pages: nettop",
+  "license": "CC-BY-4.0"
+ }
+}

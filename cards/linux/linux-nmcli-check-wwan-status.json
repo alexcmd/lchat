@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-check-wwan-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if mobile broadband (WWAN) is enabled",
+ "summary": "Check the status of the WWAN (mobile broadband) radio switch. This is relevant for laptops with built-in cellular modems.",
+ "aliases": [
+  {
+   "text": "check wwan status",
+   "lang": "en"
+  },
+  {
+   "text": "is mobile broadband on",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli wwan status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус wwan",
+   "lang": "ru"
+  },
+  {
+   "text": "включен ли мобильный интернет",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli wwan",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to show the status of the WWAN radio switch.",
+   "cmd": "nmcli radio wwan",
+   "risk": "low",
+   "expect": "Output showing 'enabled' or 'disabled'."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-radio.md",
+  "title": "tldr-pages: nmcli-radio",
+  "license": "CC-BY-4.0"
+ }
+}

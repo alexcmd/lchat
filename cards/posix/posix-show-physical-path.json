@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-physical-path",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show the physical path resolving symlinks",
+ "summary": "Display the real location of the current directory, resolving any symbolic links to show the actual filesystem path.",
+ "aliases": [
+  {
+   "text": "real path",
+   "lang": "en"
+  },
+  {
+   "text": "resolve symlinks pwd",
+   "lang": "en"
+  },
+  {
+   "text": "physical path",
+   "lang": "en"
+  },
+  {
+   "text": "pwd -P",
+   "lang": "en"
+  },
+  {
+   "text": "реальный путь",
+   "lang": "ru"
+  },
+  {
+   "text": "физический путь",
+   "lang": "ru"
+  },
+  {
+   "text": "pwd без симлинков",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --physical flag to show the actual filesystem path, resolving any symbolic links.",
+   "cmd": "pwd -P",
+   "risk": "low",
+   "expect": "The absolute path is printed, with any symlinks replaced by their target paths."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pwd.md",
+  "title": "tldr-pages: pwd",
+  "license": "CC-BY-4.0"
+ }
+}

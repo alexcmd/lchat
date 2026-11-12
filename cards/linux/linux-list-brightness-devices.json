@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-brightness-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List devices with changeable brightness",
+ "summary": "Use brightnessctl to list all devices on your system that have adjustable brightness. This is useful if you have multiple screens or need to specify a device.",
+ "aliases": [
+  {
+   "text": "list brightness devices",
+   "lang": "en"
+  },
+  {
+   "text": "brightnessctl list",
+   "lang": "en"
+  },
+  {
+   "text": "find brightness device name",
+   "lang": "en"
+  },
+  {
+   "text": "список устройств яркости",
+   "lang": "ru"
+  },
+  {
+   "text": "brightnessctl -l",
+   "lang": "ru"
+  },
+  {
+   "text": "найти имя устройства яркости",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all devices with changeable brightness.",
+   "cmd": "brightnessctl --list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/brightnessctl.md",
+  "title": "tldr-pages: brightnessctl",
+  "license": "CC-BY-4.0"
+ }
+}

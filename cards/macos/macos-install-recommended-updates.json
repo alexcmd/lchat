@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-recommended-updates",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install recommended macOS software updates",
+ "summary": "Download and install only the updates that Apple recommends for your Mac. This skips optional or non-critical updates.",
+ "aliases": [
+  {
+   "text": "install recommended updates mac",
+   "lang": "en"
+  },
+  {
+   "text": "update recommended only terminal",
+   "lang": "en"
+  },
+  {
+   "text": "softwareupdate recommended",
+   "lang": "en"
+  },
+  {
+   "text": "установить рекомендуемые обновления мак",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить только рекомендуемое терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "softwareupdate рекомендуемые",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the software update tool with the install and recommended flags to apply only the updates Apple suggests.",
+   "cmd": "sudo softwareupdate --install --recommended",
+   "risk": "medium",
+   "needs_root": true,
+   "alternatives": [
+    {
+     "explain": "Use short flags for the same result.",
+     "cmd": "sudo softwareupdate -i -r",
+     "risk": "medium",
+     "needs_root": true
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no simple command to undo a software update. You may need to restore from a Time Machine backup if an update causes issues.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Installing updates can take a long time and may require a restart.",
+  "Ensure you have a backup before installing updates."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/softwareupdate.md",
+  "title": "tldr-pages: softwareupdate",
+  "license": "CC-BY-4.0"
+ }
+}

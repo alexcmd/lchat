@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-unmask-user-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unmask a user service",
+ "summary": "Unmask a service that runs in your user session. This allows the user service to be started again.",
+ "aliases": [
+  {
+   "text": "unmask user service",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl unmask --user",
+   "lang": "en"
+  },
+  {
+   "text": "unblock user service",
+   "lang": "en"
+  },
+  {
+   "text": "разблокировать пользовательскую службу",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl unmask --user",
+   "lang": "ru"
+  },
+  {
+   "text": "пользовательская служба замаскирована",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unmask the specified user service using the --user flag.",
+   "cmd": "systemctl unmask <SERVICE_NAME> --user",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the user service to unmask",
+     "example": "myapp.service"
+    }
+   ],
+   "expect": "The user service is unmasked and can now be started."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-check-user-service-status",
+  "linux-start-user-service"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-unmask.md",
+  "title": "tldr-pages: systemctl-unmask",
+  "license": "CC-BY-4.0"
+ }
+}

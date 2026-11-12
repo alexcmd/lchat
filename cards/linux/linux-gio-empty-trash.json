@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-gio-empty-trash",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Empty the trash bin",
+ "summary": "Permanently delete all files and folders currently in the trash bin. This action cannot be undone.",
+ "aliases": [
+  {
+   "text": "empty trash",
+   "lang": "en"
+  },
+  {
+   "text": "clear trash",
+   "lang": "en"
+  },
+  {
+   "text": "gio trash empty",
+   "lang": "en"
+  },
+  {
+   "text": "очистить корзину",
+   "lang": "ru"
+  },
+  {
+   "text": "gio trash --empty",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить всё из корзины",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Permanently delete all items in the trash.",
+   "cmd": "gio trash --empty",
+   "risk": "high"
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This action permanently deletes files. They cannot be recovered after this step."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no command to undo emptying the trash. Ensure you have backups if you need to recover files.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gio-trash.md",
+  "title": "tldr-pages: gio-trash",
+  "license": "CC-BY-4.0"
+ }
+}

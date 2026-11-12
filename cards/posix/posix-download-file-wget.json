@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "posix-download-file-wget",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Download a file from the web using wget",
+ "summary": "Use wget to download a file from a URL. By default, it saves the file with the name from the URL, but you can specify a different name or location.",
+ "aliases": [
+  {
+   "text": "download file with wget",
+   "lang": "en"
+  },
+  {
+   "text": "wget download url",
+   "lang": "en"
+  },
+  {
+   "text": "save web file to disk",
+   "lang": "en"
+  },
+  {
+   "text": "wget command example",
+   "lang": "en"
+  },
+  {
+   "text": "качать файл через wget",
+   "lang": "ru"
+  },
+  {
+   "text": "wget скачать файл",
+   "lang": "ru"
+  },
+  {
+   "text": "как скачать файл wget",
+   "lang": "ru"
+  },
+  {
+   "text": "wget download",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Download the file from the given URL. The file will be saved in the current directory with the name from the URL.",
+   "cmd": "wget <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "URL",
+     "description": "The full URL of the file to download",
+     "example": "https://example.com/foo"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Download the file and save it with a specific name or path.",
+     "cmd": "wget --output-document <FILE> <URL>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The local path and filename to save the download to",
+       "example": "path/to/file"
+      },
+      {
+       "name": "URL",
+       "description": "The full URL of the file to download",
+       "example": "https://example.com/foo"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wget.md",
+  "title": "tldr-pages: wget",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-boot-time",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show the date and time the system booted",
+ "summary": "Use the uptime command with the since flag to find out exactly when your computer was last started or restarted.",
+ "aliases": [
+  {
+   "text": "when did system boot",
+   "lang": "en"
+  },
+  {
+   "text": "system boot time",
+   "lang": "en"
+  },
+  {
+   "text": "uptime since",
+   "lang": "en"
+  },
+  {
+   "text": "last boot date",
+   "lang": "en"
+  },
+  {
+   "text": "when was computer started",
+   "lang": "en"
+  },
+  {
+   "text": "когда была загрузка системы",
+   "lang": "ru"
+  },
+  {
+   "text": "время загрузки компьютера",
+   "lang": "ru"
+  },
+  {
+   "text": "uptime since",
+   "lang": "ru"
+  },
+  {
+   "text": "дата последнего запуска",
+   "lang": "ru"
+  },
+  {
+   "text": "когда включился компьютер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run uptime with the --since flag to print the exact date and time the system booted up.",
+   "cmd": "uptime -s",
+   "risk": "low",
+   "expect": "Output showing the date and time of the last boot (e.g., '2023-10-27 10:00:00')."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uptime.md",
+  "title": "tldr-pages: uptime",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-check-system-uptime"
+ ]
+}

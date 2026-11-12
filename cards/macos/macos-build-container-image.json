@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "macos-build-container-image",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Build container image from Dockerfile",
+ "summary": "Creates a new container image from a Dockerfile located in a specified directory.",
+ "aliases": [
+  {
+   "text": "build container image",
+   "lang": "en"
+  },
+  {
+   "text": "container build",
+   "lang": "en"
+  },
+  {
+   "text": "build dockerfile mac",
+   "lang": "en"
+  },
+  {
+   "text": "собрать образ контейнера",
+   "lang": "ru"
+  },
+  {
+   "text": "container build -t",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Builds a container image from the Dockerfile in the specified directory and tags it with a name.",
+   "cmd": "container build --tag <IMAGE_NAME> <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IMAGE_NAME",
+     "description": "The name you want to give the new image."
+    },
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the directory containing the Dockerfile."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/container.md",
+  "title": "tldr-pages: container",
+  "license": "CC-BY-4.0"
+ }
+}

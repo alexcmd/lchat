@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "posix-compare-directories",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compare two directories recursively",
+ "summary": "Check which files differ between two folders. You can see detailed changes or just a list of filenames that are different.",
+ "aliases": [
+  {
+   "text": "compare two folders",
+   "lang": "en"
+  },
+  {
+   "text": "diff directories",
+   "lang": "en"
+  },
+  {
+   "text": "find changed files in folder",
+   "lang": "en"
+  },
+  {
+   "text": "compare folder contents",
+   "lang": "en"
+  },
+  {
+   "text": "сравнить две папки",
+   "lang": "ru"
+  },
+  {
+   "text": "отличия в папках",
+   "lang": "ru"
+  },
+  {
+   "text": "какие файлы изменились",
+   "lang": "ru"
+  },
+  {
+   "text": "diff папок",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Recursively compare two directories. This shows which files differ and the specific changes within those files.",
+   "cmd": "diff --recursive <OLD_DIR> <NEW_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OLD_DIR",
+     "description": "Path to the first directory",
+     "example": "project_v1"
+    },
+    {
+     "name": "NEW_DIR",
+     "description": "Path to the second directory",
+     "example": "project_v2"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show only the names of files that differ, without displaying the content changes.",
+     "cmd": "diff --recursive --brief <OLD_DIR> <NEW_DIR>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "OLD_DIR",
+       "description": "Path to the first directory",
+       "example": "project_v1"
+      },
+      {
+       "name": "NEW_DIR",
+       "description": "Path to the second directory",
+       "example": "project_v2"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/diff.md",
+  "title": "tldr-pages: diff",
+  "license": "CC-BY-4.0"
+ }
+}

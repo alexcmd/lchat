@@ -1,0 +1,121 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-command-not-found-pip",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'zsh: command not found: pip' on macOS",
+ "summary": "The error means the terminal cannot find a program named pip. You can run pip through python3 instead, which works even when the plain pip name is not on PATH.",
+ "aliases": [
+  {
+   "text": "zsh command not found pip",
+   "lang": "en"
+  },
+  {
+   "text": "pip command not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "pip not found on mac",
+   "lang": "en"
+  },
+  {
+   "text": "pip is not recognized mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "how to run pip on mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "pip not working in mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "python3 -m pip",
+   "lang": "en"
+  },
+  {
+   "text": "zsh: command not found: pip",
+   "lang": "en"
+  },
+  {
+   "text": "команда pip не найдена на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "zsh pip не найден",
+   "lang": "ru"
+  },
+  {
+   "text": "pip не найден mac",
+   "lang": "ru"
+  },
+  {
+   "text": "pip не работает в терминале mac",
+   "lang": "ru"
+  },
+  {
+   "text": "как запустить pip на маке через python3",
+   "lang": "ru"
+  },
+  {
+   "text": "пип не найден на макбуке",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "zsh: command not found: pip"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "python3"
+  ]
+ },
+ "prerequisites": [
+  "Python 3 is installed on the Mac, for example from python.org or Homebrew"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether a plain pip command exists on your PATH. If this prints nothing, the pip name is missing, which is why zsh reports command not found.",
+   "cmd": "command -v pip",
+   "risk": "low",
+   "expect": "Usually no output when only pip3 is installed. If pip exists, a path such as /opt/homebrew/bin/pip is printed."
+  },
+  {
+   "explain": "Run pip as a module through python3. This uses the same Python that python3 points to, so it does not need the pip name on PATH.",
+   "cmd": "python3 -m pip --version",
+   "risk": "low",
+   "expect": "A line starting with 'pip', a version number, and the path of the Python it belongs to."
+  },
+  {
+   "explain": "Install a Python package with pip through python3. Replace <PACKAGE> with the package name. If pip reports 'externally-managed-environment', this Python does not allow global installs, so use a virtual environment instead.",
+   "cmd": "python3 -m pip install <PACKAGE>",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package to install",
+     "example": "requests"
+    }
+   ],
+   "risk": "low",
+   "expect": "Lines ending with 'Successfully installed <PACKAGE>-<version>'."
+  }
+ ],
+ "risk": "low",
+ "verify": [
+  {
+   "cmd": "python3 -m pip --version",
+   "expect": "A line starting with 'pip' followed by a version number."
+  }
+ ],
+ "source": {
+  "url": "x-man-page://python3",
+  "title": "python3 manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

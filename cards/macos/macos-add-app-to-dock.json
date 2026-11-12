@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-app-to-dock",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add an application to the Dock",
+ "summary": "Use dockutil to add an application to the end of your Dock. This is useful for scripting or when you want to add an app that isn't easily draggable.",
+ "aliases": [
+  {
+   "text": "add app to dock",
+   "lang": "en"
+  },
+  {
+   "text": "dockutil add application",
+   "lang": "en"
+  },
+  {
+   "text": "add to dock command line",
+   "lang": "en"
+  },
+  {
+   "text": "добавить приложение в док",
+   "lang": "ru"
+  },
+  {
+   "text": "dockutil добавить",
+   "lang": "ru"
+  },
+  {
+   "text": "как добавить иконку в док",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "dockutil is installed (usually via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Adds the specified application to the end of the current user's Dock.",
+   "cmd": "dockutil --add <APP_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_PATH",
+     "description": "Full path to the application bundle, e.g. /Applications/Safari.app",
+     "example": "/Applications/Safari.app"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dockutil.md",
+  "title": "tldr-pages: dockutil",
+  "license": "CC-BY-4.0"
+ }
+}

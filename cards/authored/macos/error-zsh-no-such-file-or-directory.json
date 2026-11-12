@@ -1,0 +1,161 @@
+{
+ "schema_version": 2,
+ "id": "error-zsh-no-such-file-or-directory",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix zsh 'no such file or directory' by finding the correct path on macOS",
+ "summary": "zsh says 'no such file or directory' when the path you typed does not match a real file or folder. The usual causes are a typo, a different current folder, or a space in the name. Check where you are, find the real name, and run the command again with the correct path.",
+ "aliases": [
+  {
+   "text": "zsh no such file or directory",
+   "lang": "en"
+  },
+  {
+   "text": "no such file or directory mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "terminal cannot find file mac",
+   "lang": "en"
+  },
+  {
+   "text": "file not found in terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "zsh no such file",
+   "lang": "en"
+  },
+  {
+   "text": "wrong path terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "терминал no such file or directory",
+   "lang": "ru"
+  },
+  {
+   "text": "zsh файл не найден",
+   "lang": "ru"
+  },
+  {
+   "text": "терминал не находит файл mac",
+   "lang": "ru"
+  },
+  {
+   "text": "неправильный путь терминал mac",
+   "lang": "ru"
+  },
+  {
+   "text": "zsh net takogo fayla ili papki",
+   "lang": "ru"
+  },
+  {
+   "text": "опечатка в пути терминал",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "zsh:1: no such file or directory"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check which folder Terminal is in right now. zsh resolves a relative path (one that does not start with / or ~) from this folder, so the same name can work in one folder and fail in another.",
+   "cmd": "pwd",
+   "risk": "low",
+   "expect": "A full path such as /Users/yourname/Documents. This is the folder that relative paths start from."
+  },
+  {
+   "explain": "List the files and folders in the current folder, including hidden ones. Compare the name with your command letter by letter: capital letters and the extension count, so Report.pdf is not report.pdf or Report.PDF.",
+   "cmd": "ls -la",
+   "risk": "low",
+   "expect": "A list of names with permissions and dates. If your file is listed, use its exact name; if it is not, go to the next step."
+  },
+  {
+   "explain": "Search your home folder for the file by its exact name. Every match is printed with its full path; copy the right one. Use the name without any folder part.",
+   "cmd": "find ~ -name \"<FILE_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_NAME",
+     "description": "Exact name of the file or folder, without its path.",
+     "example": "Report.pdf"
+    }
+   ],
+   "expect": "One or more full paths, such as /Users/yourname/Documents/Report.pdf. No output means no item with that exact name exists in your home folder.",
+   "alternatives": [
+    {
+     "explain": "Search the whole Mac with Spotlight, which is faster on large disks. It finds files by the names in its index, so a very new file may take a moment to appear.",
+     "cmd": "mdfind -name <FILE_NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE_NAME",
+       "description": "Exact name of the file or folder, without its path.",
+       "example": "Report.pdf"
+      }
+     ],
+     "expect": "Full paths of the matching files, one per line."
+    }
+   ]
+  },
+  {
+   "explain": "Go to the folder that holds the file, so you can use its short name. Use the folder part of the path from the search, which is everything before the file name.",
+   "cmd": "cd <FOLDER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FOLDER",
+     "description": "Folder that contains the file, taken from the search output.",
+     "example": "~/Documents",
+     "discover_cmd": "ls -d ~/*/"
+    }
+   ],
+   "gui": "In Terminal, type cd and a space, drag the folder from Finder into the Terminal window, then press Return.",
+   "expect": "No output. The prompt is now in that folder, and pwd shows its path.",
+   "alternatives": [
+    {
+     "explain": "Do not change folders. Give the full path to the file in your original command instead, which works from any folder.",
+     "cmd": "ls -l <FULL_PATH>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FULL_PATH",
+       "description": "Full path to the file, taken from the search output.",
+       "example": "~/Documents/Report.pdf"
+      }
+     ],
+     "expect": "The file's details are printed, with no 'no such file or directory' message."
+    }
+   ]
+  },
+  {
+   "explain": "Run your original command again, now with the correct file name or the full path. Keep every capital letter and symbol exactly as the search showed them.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls -l",
+   "expect": "Your file is in the list, and the command no longer prints 'no such file or directory'."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "A folder name with spaces must be quoted or escaped, for example cd 'My Folder', because zsh ends the path at each space.",
+  "Do not type a name from memory. Copy it from ls or the search output, because a wrong capital letter or extension gives the same error."
+ ],
+ "source": {
+  "url": "x-man-page://zsh",
+  "title": "zsh manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

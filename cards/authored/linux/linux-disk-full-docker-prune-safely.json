@@ -1,0 +1,152 @@
+{
+ "schema_version": 2,
+ "id": "linux-disk-full-docker-prune-safely",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Free disk space used by Docker images and build cache",
+ "summary": "Docker keeps old images and build cache that can fill the disk. This shows how much space Docker uses, then removes only unused images and build cache.",
+ "aliases": [
+  {
+   "text": "docker disk full",
+   "lang": "en"
+  },
+  {
+   "text": "docker takes too much disk space",
+   "lang": "en"
+  },
+  {
+   "text": "free space used by docker images",
+   "lang": "en"
+  },
+  {
+   "text": "clean up unused docker images",
+   "lang": "en"
+  },
+  {
+   "text": "clear docker build cache",
+   "lang": "en"
+  },
+  {
+   "text": "docker no space left on device",
+   "lang": "en"
+  },
+  {
+   "text": "docker занимает много места на диске",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить кэш docker",
+   "lang": "ru"
+  },
+  {
+   "text": "docker съел все место на диске",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить неиспользуемые образы docker",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место docker",
+   "lang": "ru"
+  },
+  {
+   "text": "докер диск заполнен",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "docker"
+  ]
+ },
+ "prerequisites": [
+  "Docker Engine is installed and running",
+  "Your user is in the docker group, or you can use sudo"
+ ],
+ "steps": [
+  {
+   "explain": "Show how much space Docker uses, split into Images, Containers, Local Volumes and Build Cache. This is read-only and deletes nothing. Note the RECLAIMABLE column.",
+   "cmd": "docker system df",
+   "risk": "low",
+   "expect": "A table with rows Images, Containers, Local Volumes and Build Cache, and columns TOTAL, ACTIVE, SIZE and RECLAIMABLE.",
+   "alternatives": [
+    {
+     "explain": "If Docker says 'permission denied', run the same read-only check with sudo.",
+     "cmd": "sudo docker system df",
+     "needs_root": true,
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Remove dangling images, which are old untagged leftovers of rebuilt images. Images with a name and tag and images used by containers are kept. Docker asks for confirmation: type y and press Enter.",
+   "cmd": "docker image prune",
+   "risk": "medium",
+   "expect": "A confirmation question about removing dangling images. After y, the output lists deleted image IDs and ends with 'Total reclaimed space'.",
+   "alternatives": [
+    {
+     "explain": "If Docker says 'permission denied', run the same cleanup with sudo.",
+     "cmd": "sudo docker image prune",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  },
+  {
+   "explain": "Remove build cache that is no longer used by any build. Next builds may be slower, but no images or containers are removed. Docker asks for confirmation: type y and press Enter.",
+   "cmd": "docker builder prune",
+   "risk": "medium",
+   "expect": "A confirmation question about removing unused build cache. After y, the output lists cache entries and ends with 'Total:' and the reclaimed size.",
+   "alternatives": [
+    {
+     "explain": "If Docker says 'permission denied', run the same cleanup with sudo.",
+     "cmd": "sudo docker builder prune",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "docker system df",
+   "expect": "The RECLAIMABLE values for Images and Build Cache are smaller than in the first check."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Removed dangling images and build cache cannot be restored. If you need an image again, pull it with docker pull or rebuild it with docker build; the next build simply starts with an empty cache.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Removed images and build cache cannot be restored. Pulling or rebuilding them can take a long time and needs internet access.",
+  "Run the cleanup only when you no longer need the removed leftovers. Do not add extra options to these commands; cleanup options that remove all unused images or Docker volumes can delete data you still need.",
+  "Docker volumes hold data such as databases. This card does not touch them; keep it that way."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/docker",
+  "title": "docker manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

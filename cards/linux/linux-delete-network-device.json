@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "linux-delete-network-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete a network device",
+ "summary": "Remove a network device from the kernel's list of interfaces. This is typically used for virtual interfaces or devices that are no longer needed.",
+ "aliases": [
+  {
+   "text": "delete network device",
+   "lang": "en"
+  },
+  {
+   "text": "remove network interface",
+   "lang": "en"
+  },
+  {
+   "text": "ip link delete",
+   "lang": "en"
+  },
+  {
+   "text": "remove virtual interface",
+   "lang": "en"
+  },
+  {
+   "text": "delete network device",
+   "lang": "ru"
+  },
+  {
+   "text": "remove network interface",
+   "lang": "ru"
+  },
+  {
+   "text": "ip link delete",
+   "lang": "ru"
+  },
+  {
+   "text": "remove virtual interface",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `sudo ip link delete` followed by the device name to remove it.",
+   "cmd": "sudo ip link delete <DEVICE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The name of the network device to delete.",
+     "example": "veth0",
+     "discover_cmd": "ip link"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short form `sudo ip l d`.",
+     "cmd": "sudo ip l d <DEVICE>",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "DEVICE",
+       "description": "The name of the network device to delete.",
+       "example": "veth0",
+       "discover_cmd": "ip link"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Deleted devices cannot be restored with a simple command. You must recreate the device (e.g., using `ip link add` for virtual devices) or reload the driver for physical devices.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Deleting a physical network device will disconnect you from the network and may require a reboot or driver reload to restore.",
+  "Requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-link.md",
+  "title": "tldr-pages: ip-link",
+  "license": "CC-BY-4.0"
+ }
+}

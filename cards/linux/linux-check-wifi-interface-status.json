@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-wifi-interface-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check Wi-Fi interface status and statistics",
+ "summary": "Use iwconfig to see the current status, signal strength, and statistics of your wireless network interfaces. This helps you verify if your Wi-Fi card is active and connected.",
+ "aliases": [
+  {
+   "text": "check wifi status linux",
+   "lang": "en"
+  },
+  {
+   "text": "iwconfig",
+   "lang": "en"
+  },
+  {
+   "text": "show wifi interface details",
+   "lang": "en"
+  },
+  {
+   "text": "wireless network status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус вай фай",
+   "lang": "ru"
+  },
+  {
+   "text": "iwconfig linux",
+   "lang": "ru"
+  },
+  {
+   "text": "показать параметры wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "состояние беспроводного интерфейса",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run iwconfig without arguments to list all wireless interfaces and their current parameters, including ESSID, mode, and signal quality.",
+   "cmd": "iwconfig",
+   "risk": "low"
+  },
+  {
+   "explain": "To see details for a specific interface (like wlan0), add its name to the command.",
+   "cmd": "iwconfig <INTERFACE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the wireless interface, e.g., wlan0",
+     "example": "wlan0",
+     "discover_cmd": "iwconfig"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/iwconfig.md",
+  "title": "tldr-pages: iwconfig",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-network-interfaces",
+  "linux-nmcli-check-wifi-status"
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-find-easter-date",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find the date of Easter for a specific year",
+ "summary": "Use the `ncal` command to calculate and display the date of Easter for Western Christian churches in a given year.",
+ "aliases": [
+  {
+   "text": "when is easter",
+   "lang": "en"
+  },
+  {
+   "text": "easter date calculator",
+   "lang": "en"
+  },
+  {
+   "text": "ncal easter",
+   "lang": "en"
+  },
+  {
+   "text": "дата пасхи",
+   "lang": "ru"
+  },
+  {
+   "text": "когда пасха",
+   "lang": "ru"
+  },
+  {
+   "text": "калькулятор пасхи",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the date of Easter for a specific year.",
+   "cmd": "ncal -e <YEAR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "YEAR",
+     "description": "Four-digit year",
+     "example": "2024"
+    }
+   ],
+   "expect": "The date of Easter for the specified year is printed."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/cal.md",
+  "title": "tldr-pages: cal",
+  "license": "CC-BY-4.0"
+ }
+}

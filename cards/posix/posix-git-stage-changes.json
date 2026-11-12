@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-git-stage-changes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Stage all changes for a Git commit",
+ "summary": "Prepare all modified files in the current directory to be included in the next commit.",
+ "aliases": [
+  {
+   "text": "git add all",
+   "lang": "en"
+  },
+  {
+   "text": "stage changes git",
+   "lang": "en"
+  },
+  {
+   "text": "add files to git",
+   "lang": "en"
+  },
+  {
+   "text": "добавить изменения в git",
+   "lang": "ru"
+  },
+  {
+   "text": "git add",
+   "lang": "ru"
+  },
+  {
+   "text": "подготовить файлы к коммиту",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command stages all changes in the current directory and its subdirectories for the next commit.",
+   "cmd": "git add --all",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Short form for staging all changes.",
+     "cmd": "git add -A",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/git.md",
+  "title": "tldr-pages: git",
+  "license": "CC-BY-4.0"
+ }
+}

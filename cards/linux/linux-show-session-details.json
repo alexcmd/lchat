@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-session-details",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show details of a specific login session",
+ "summary": "Display all properties and settings for a specific login session identified by its session ID.",
+ "aliases": [
+  {
+   "text": "show session details",
+   "lang": "en"
+  },
+  {
+   "text": "check session properties",
+   "lang": "en"
+  },
+  {
+   "text": "loginctl show session",
+   "lang": "en"
+  },
+  {
+   "text": "inspect login session",
+   "lang": "en"
+  },
+  {
+   "text": "session info",
+   "lang": "en"
+  },
+  {
+   "text": "show session info",
+   "lang": "en"
+  },
+  {
+   "text": "check session settings",
+   "lang": "en"
+  },
+  {
+   "text": "check session status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить сессию пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "loginctl info",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use loginctl show-session with the session ID to display its properties. Add --all to show all properties, not just non-default ones.",
+   "cmd": "loginctl show-session <SESSION_ID> --all",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SESSION_ID",
+     "description": "The ID of the session to inspect",
+     "discover_cmd": "loginctl"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show only non-default properties.",
+     "cmd": "loginctl show-session <SESSION_ID>",
+     "placeholders": [
+      {
+       "name": "SESSION_ID",
+       "description": "The ID of the session to inspect",
+       "discover_cmd": "loginctl"
+      }
+     ]
+    },
+    {
+     "explain": "Display information about the current session using the session ID environment variable.",
+     "cmd": "loginctl show-session $XDG_SESSION_ID",
+     "expect": "Output lists properties like 'Type=x11' or 'Type=wayland', 'State=active', and 'Scope=session-...'.",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/loginctl.md",
+  "title": "tldr-pages: loginctl",
+  "license": "CC-BY-4.0"
+ }
+}

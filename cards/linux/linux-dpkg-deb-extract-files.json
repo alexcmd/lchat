@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-deb-extract-files",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Extract files from a .deb package",
+ "summary": "Unpack the contents of a Debian package file (.deb) into a directory. This does not install the package, it just extracts the files.",
+ "aliases": [
+  {
+   "text": "extract deb files",
+   "lang": "en"
+  },
+  {
+   "text": "unpack deb package",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg-deb extract",
+   "lang": "en"
+  },
+  {
+   "text": "unzip deb file",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать deb",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь файлы из deb",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg-deb -x",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Extract the contents of the .deb package into the specified directory.",
+   "cmd": "dpkg-deb --extract <FILE> <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .deb file",
+     "example": "./package.deb"
+    },
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the destination directory",
+     "example": "./extracted"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dpkg-deb.md",
+  "title": "tldr-pages: dpkg-deb",
+  "license": "CC-BY-4.0"
+ }
+}

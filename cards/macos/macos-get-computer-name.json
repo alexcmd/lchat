@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-computer-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get computer name",
+ "summary": "Display the friendly name assigned to your Mac in Sharing settings.",
+ "aliases": [
+  {
+   "text": "what is my computer name",
+   "lang": "en"
+  },
+  {
+   "text": "get computer name",
+   "lang": "en"
+  },
+  {
+   "text": "scutil get computername",
+   "lang": "en"
+  },
+  {
+   "text": "как узнать имя компьютера",
+   "lang": "ru"
+  },
+  {
+   "text": "имя мака в сети",
+   "lang": "ru"
+  },
+  {
+   "text": "computer name macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use scutil to retrieve the ComputerName, which is the name shown in network sharing.",
+   "cmd": "scutil --get ComputerName",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/scutil.md",
+  "title": "tldr-pages: scutil",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-zip-contents",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List contents of a Zip archive",
+ "summary": "View the list of files inside a .zip archive without extracting it. This helps you check what is inside before unpacking.",
+ "aliases": [
+  {
+   "text": "list zip contents",
+   "lang": "en"
+  },
+  {
+   "text": "view files in zip",
+   "lang": "en"
+  },
+  {
+   "text": "check zip archive",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть содержимое zip",
+   "lang": "ru"
+  },
+  {
+   "text": "список файлов в архиве",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the zip command with the -sf flag and the archive name to print its contents.",
+   "cmd": "zip -sf <ZIP_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ZIP_FILE",
+     "description": "Path to the .zip archive to inspect",
+     "example": "backup.zip"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/zip.md",
+  "title": "tldr-pages: zip",
+  "license": "CC-BY-4.0"
+ }
+}

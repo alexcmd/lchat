@@ -1,0 +1,125 @@
+{
+ "schema_version": 2,
+ "id": "posix-command-help-flag",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Read a command's built-in help",
+ "summary": "Most terminal programs can print a short usage summary and a list of their options by themselves. Add --help after the command name to see what it can do before you run it.",
+ "aliases": [
+  {
+   "text": "command help flag",
+   "lang": "en"
+  },
+  {
+   "text": "--help option in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "show usage of a command",
+   "lang": "en"
+  },
+  {
+   "text": "what options does a command have",
+   "lang": "en"
+  },
+  {
+   "text": "how to read command help in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "windows /? help for commands in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "справка по команде в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть помощь команды --help",
+   "lang": "ru"
+  },
+  {
+   "text": "какие ключи есть у команды linux",
+   "lang": "ru"
+  },
+  {
+   "text": "что умеет команда в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "аналог /? из windows для команд терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "опции команды linux список",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Open a terminal window"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the command is installed. This only looks it up and changes nothing. It prints the file path of the command, or nothing if the command does not exist.",
+   "cmd": "command -v <COMMAND>",
+   "risk": "low",
+   "expect": "A path such as /usr/bin/ls. If nothing is printed, the program is not installed on this computer.",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The name of the program you want to learn about.",
+     "example": "ls",
+     "discover_cmd": "ls /bin /usr/bin"
+    }
+   ]
+  },
+  {
+   "explain": "Run the program with --help. It prints a short usage line and a list of its options, then exits. Nothing on the computer is changed. Many built-in macOS tools do not accept --help, so on macOS the command shows the start of the manual page instead, including its SYNOPSIS (usage) section.",
+   "cmd": "<COMMAND> --help",
+   "variants": {
+    "macos": "man <COMMAND> | col -b | head -30"
+   },
+   "risk": "low",
+   "expect": "A line starting with Usage: followed by a list of options, one per line, such as -a, --all.",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The name of the program you want to learn about.",
+     "example": "ls",
+     "discover_cmd": "ls /bin /usr/bin"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show only the first 20 lines when the help is long, so the start of it fits on the screen. On macOS this shows the first 20 lines of the manual page.",
+     "cmd": "<COMMAND> --help | head -20",
+     "variants": {
+      "macos": "man <COMMAND> | col -b | head -20"
+     },
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The name of the program you want to learn about.",
+       "example": "ls",
+       "discover_cmd": "ls /bin /usr/bin"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/ls",
+  "title": "ls manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

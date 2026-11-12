@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "posix-extract-tar-archive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Extract files from a tar archive",
+ "summary": "Unpack the contents of a .tar, .tar.gz, or .tar.xz archive. You can extract to the current folder or specify a target directory.",
+ "aliases": [
+  {
+   "text": "extract tar file",
+   "lang": "en"
+  },
+  {
+   "text": "unzip tar archive",
+   "lang": "en"
+  },
+  {
+   "text": "untar file",
+   "lang": "en"
+  },
+  {
+   "text": "unpack tarball",
+   "lang": "en"
+  },
+  {
+   "text": "how to open tar file",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать tar",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь файлы из tar",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть архив tar",
+   "lang": "ru"
+  },
+  {
+   "text": "разархивировать tar.gz",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Extract the contents of the archive into the current directory. The 'v' flag shows the files as they are extracted.",
+   "cmd": "tar xvf <ARCHIVE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ARCHIVE_FILE",
+     "description": "The path to the archive file to extract",
+     "example": "backup.tar.gz"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Extract the contents into a specific target directory instead of the current one.",
+     "cmd": "tar xf <ARCHIVE_FILE> --directory <TARGET_DIR>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "ARCHIVE_FILE",
+       "description": "The path to the archive file to extract",
+       "example": "backup.tar.gz"
+      },
+      {
+       "name": "TARGET_DIR",
+       "description": "The directory where files should be extracted",
+       "example": "./extracted_folder"
+      }
+     ]
+    },
+    {
+     "explain": "Extract only files matching a specific pattern (e.g., only .html files) from the archive.",
+     "cmd": "tar xf <ARCHIVE_FILE> --wildcards \"<PATTERN>\"",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "ARCHIVE_FILE",
+       "description": "The path to the archive file to extract",
+       "example": "website.tar"
+      },
+      {
+       "name": "PATTERN",
+       "description": "The file pattern to match (e.g., *.html)",
+       "example": "*.html"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tar.md",
+  "title": "tldr-pages: tar",
+  "license": "CC-BY-4.0"
+ }
+}

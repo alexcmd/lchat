@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-shell-aliases",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List all defined shell aliases",
+ "summary": "Show a list of all aliases currently defined in your shell session. This helps you see which shortcuts are active and what commands they run.",
+ "aliases": [
+  {
+   "text": "list aliases",
+   "lang": "en"
+  },
+  {
+   "text": "show all aliases",
+   "lang": "en"
+  },
+  {
+   "text": "check aliases",
+   "lang": "en"
+  },
+  {
+   "text": "spisok aliasov",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat aliasy",
+   "lang": "ru"
+  },
+  {
+   "text": "kakie est aliasy",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the alias command without arguments to display all current aliases.",
+   "cmd": "alias",
+   "risk": "low",
+   "expect": "A list of aliases in the format 'alias name=command'."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/alias.md",
+  "title": "tldr-pages: alias",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-wpctl-list-audio-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List audio devices and status with wpctl",
+ "summary": "Use wpctl status to see all audio sinks (outputs) and sources (inputs) managed by WirePlumber. This helps identify device IDs needed for other commands.",
+ "aliases": [
+  {
+   "text": "list audio devices linux",
+   "lang": "en"
+  },
+  {
+   "text": "check audio status wpctl",
+   "lang": "en"
+  },
+  {
+   "text": "show sound devices terminal",
+   "lang": "en"
+  },
+  {
+   "text": "wpctl status",
+   "lang": "en"
+  },
+  {
+   "text": "list speakers linux command",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть устройства звука linux",
+   "lang": "ru"
+  },
+  {
+   "text": "статус аудио wpctl",
+   "lang": "ru"
+  },
+  {
+   "text": "список звуковых устройств терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pipewire",
+   "wireplumber"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display a list of all objects (sinks, sources, nodes) managed by WirePlumber.",
+   "cmd": "wpctl status",
+   "risk": "low",
+   "expect": "A list of audio sinks and sources with their IDs and current states."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/wpctl.md",
+  "title": "tldr-pages: wpctl",
+  "license": "CC-BY-4.0"
+ }
+}

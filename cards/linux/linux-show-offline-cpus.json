@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-offline-cpus",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show only offline CPUs in a table",
+ "summary": "Display a table of CPU cores that are currently offline or disabled.",
+ "aliases": [
+  {
+   "text": "offline cpus",
+   "lang": "en"
+  },
+  {
+   "text": "disabled cpu cores",
+   "lang": "en"
+  },
+  {
+   "text": "lscpu offline",
+   "lang": "en"
+  },
+  {
+   "text": "офлайн ядра процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "отключенные cpu",
+   "lang": "ru"
+  },
+  {
+   "text": "lscpu offline",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Combine the extended and offline flags to show a table of only the CPUs that are currently offline.",
+   "cmd": "lscpu --extended --offline",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lscpu.md",
+  "title": "tldr-pages: lscpu",
+  "license": "CC-BY-4.0"
+ }
+}

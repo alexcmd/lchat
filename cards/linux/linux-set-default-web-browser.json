@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-default-web-browser",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set the default web browser",
+ "summary": "Change the system's default web browser to a specific application, such as Firefox or Chrome.",
+ "aliases": [
+  {
+   "text": "set default browser",
+   "lang": "en"
+  },
+  {
+   "text": "change default browser",
+   "lang": "en"
+  },
+  {
+   "text": "make firefox default browser",
+   "lang": "en"
+  },
+  {
+   "text": "set default web browser linux",
+   "lang": "en"
+  },
+  {
+   "text": "sdelat firefox default browser",
+   "lang": "ru"
+  },
+  {
+   "text": "izmenit default browser",
+   "lang": "ru"
+  },
+  {
+   "text": "kak sdelat default browser",
+   "lang": "ru"
+  },
+  {
+   "text": "postavit default browser",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the default web browser to the specified .desktop file. You can find the correct .desktop file name in /usr/share/applications/.",
+   "cmd": "xdg-settings set default-web-browser <DESKTOP_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DESKTOP_FILE",
+     "description": "The .desktop file name of the browser you want to set as default (e.g., firefox.desktop, google-chrome.desktop).",
+     "example": "firefox.desktop",
+     "discover_cmd": "ls /usr/share/applications/*.desktop"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xdg-settings.md",
+  "title": "tldr-pages: xdg-settings",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "prime-run-app-on-nvidia-gpu",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Run an application on the NVIDIA GPU using PRIME offload",
+ "summary": "Use the prime-run command to launch a specific application on the discrete NVIDIA GPU instead of the integrated one. This is useful for games or 3D applications that need more power.",
+ "aliases": [
+  {
+   "text": "run app on nvidia gpu",
+   "lang": "en"
+  },
+  {
+   "text": "prime run command",
+   "lang": "en"
+  },
+  {
+   "text": "launch game on discrete gpu",
+   "lang": "en"
+  },
+  {
+   "text": "nvidia prime offload",
+   "lang": "en"
+  },
+  {
+   "text": "запустить игру на дискретной видеокарте",
+   "lang": "ru"
+  },
+  {
+   "text": "prime run arch linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как запустить приложение на nvidia",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "nvidia-prime"
+  ]
+ },
+ "prerequisites": [
+  "NVIDIA proprietary driver installed",
+  "nvidia-prime package installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run your application prefixed with prime-run. Replace <APP_NAME> with the command you want to run (e.g., steam, blender).",
+   "cmd": "prime-run <APP_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_NAME",
+     "description": "The command to launch the application",
+     "example": "steam"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "prime-run glxinfo | grep \"OpenGL renderer\"",
+   "expect": "The output should show the NVIDIA GPU name, not Intel or AMD."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PRIME#PRIME_render_offload",
+  "title": "PRIME",
+  "revision_id": 880615,
+  "license": "GFDL-1.3-or-later"
+ }
+}

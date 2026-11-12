@@ -1,0 +1,100 @@
+{
+ "schema_version": 2,
+ "id": "posix-compress-file-gzip",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compress a file with gzip",
+ "summary": "Use gzip to shrink a file and save disk space. By default, the original file is replaced by a compressed version ending in .gz.",
+ "aliases": [
+  {
+   "text": "compress file",
+   "lang": "en"
+  },
+  {
+   "text": "gzip a file",
+   "lang": "en"
+  },
+  {
+   "text": "make zip archive",
+   "lang": "en"
+  },
+  {
+   "text": "shrink file size",
+   "lang": "en"
+  },
+  {
+   "text": "compress file",
+   "lang": "ru"
+  },
+  {
+   "text": "gzip file",
+   "lang": "ru"
+  },
+  {
+   "text": "sdelat arhiv",
+   "lang": "ru"
+  },
+  {
+   "text": "szhat fail",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Compress the specified file. The original file will be replaced by a compressed file with the same name plus .gz.",
+   "cmd": "gzip <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to compress",
+     "example": "document.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Compress the file but keep the original uncompressed file.",
+     "cmd": "gzip --keep <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file you want to compress",
+       "example": "document.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Compress the file and save the result to a specific new filename.",
+     "cmd": "gzip --stdout <FILE> > <OUTPUT_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file you want to compress",
+       "example": "document.txt"
+      },
+      {
+       "name": "OUTPUT_FILE",
+       "description": "Path to the new compressed file",
+       "example": "archive.gz"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/gzip.md",
+  "title": "tldr-pages: gzip",
+  "license": "CC-BY-4.0"
+ }
+}

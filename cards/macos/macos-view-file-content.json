@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-file-content",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View the contents of a text file in Terminal",
+ "summary": "Use the `cat` command to display the contents of a text file directly in your Terminal window. This is useful for quickly checking what is inside a configuration file or script without opening a text editor.",
+ "aliases": [
+  {
+   "text": "view file content terminal",
+   "lang": "en"
+  },
+  {
+   "text": "cat file mac",
+   "lang": "en"
+  },
+  {
+   "text": "show text file in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "read file in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "как посмотреть содержимое файла в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "cat файл мак",
+   "lang": "ru"
+  },
+  {
+   "text": "показать текст файла в консоли",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `cat` command followed by the path to the file you want to view. The contents will print to the screen.",
+   "cmd": "cat <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the text file you want to view.",
+     "example": "~/Desktop/notes.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/cat.md",
+  "title": "tldr-pages: cat",
+  "license": "CC-BY-4.0"
+ }
+}

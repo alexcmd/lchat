@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-process-by-name",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find process IDs by name",
+ "summary": "Use pgrep to find the Process ID (PID) of a running program by its name. This is useful when you need to know the PID to stop a process or check if it is running.",
+ "aliases": [
+  {
+   "text": "find process by name",
+   "lang": "en"
+  },
+  {
+   "text": "get pid of process",
+   "lang": "en"
+  },
+  {
+   "text": "pgrep command",
+   "lang": "en"
+  },
+  {
+   "text": "how to find pid",
+   "lang": "en"
+  },
+  {
+   "text": "find process id",
+   "lang": "en"
+  },
+  {
+   "text": "найти процесс по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать pid процесса",
+   "lang": "ru"
+  },
+  {
+   "text": "pgrep найти процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "найти id процесса",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run pgrep with the name of the process you are looking for. It will print the Process ID (PID) of any matching running process.",
+   "cmd": "pgrep <PROCESS_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_NAME",
+     "description": "The name of the process to search for",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show the process name alongside the PID for clearer output.",
+     "cmd": "pgrep -l <PROCESS_NAME>",
+     "placeholders": [
+      {
+       "name": "PROCESS_NAME",
+       "description": "The name of the process to search for",
+       "example": "firefox"
+      }
+     ]
+    },
+    {
+     "explain": "Search only for the most recently started process matching the name.",
+     "cmd": "pgrep -n <PROCESS_NAME>",
+     "placeholders": [
+      {
+       "name": "PROCESS_NAME",
+       "description": "The name of the process to search for",
+       "example": "firefox"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pgrep.md",
+  "title": "tldr-pages: pgrep",
+  "license": "CC-BY-4.0"
+ }
+}

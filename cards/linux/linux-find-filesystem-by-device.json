@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-find-filesystem-by-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find mount info for a specific device",
+ "summary": "Check where a specific disk partition (like /dev/sdb1) is mounted or if it is mounted at all. Useful for identifying a USB drive or secondary hard disk.",
+ "aliases": [
+  {
+   "text": "where is /dev/sdb1 mounted",
+   "lang": "en"
+  },
+  {
+   "text": "find mount point for device",
+   "lang": "en"
+  },
+  {
+   "text": "check device mount status",
+   "lang": "en"
+  },
+  {
+   "text": "findmnt device",
+   "lang": "en"
+  },
+  {
+   "text": "где смонтирован диск",
+   "lang": "ru"
+  },
+  {
+   "text": "найти точку монтирования устройства",
+   "lang": "ru"
+  },
+  {
+   "text": "findmnt /dev/sdb1",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for the specific device path to see its mount details.",
+   "cmd": "findmnt <DEVICE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The device path, e.g., /dev/sdb1",
+     "example": "/dev/sdb1"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/findmnt.md",
+  "title": "tldr-pages: findmnt",
+  "license": "CC-BY-4.0"
+ }
+}

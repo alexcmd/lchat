@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "macos-disable-filevault",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Disable FileVault disk encryption",
+ "summary": "Turn off FileVault to decrypt your Mac's startup disk. This removes the encryption protection. The process may take some time to complete.",
+ "aliases": [
+  {
+   "text": "disable filevault",
+   "lang": "en"
+  },
+  {
+   "text": "decrypt my mac disk",
+   "lang": "en"
+  },
+  {
+   "text": "turn off filevault",
+   "lang": "en"
+  },
+  {
+   "text": "отключить filevault",
+   "lang": "ru"
+  },
+  {
+   "text": "расшифровать диск мака",
+   "lang": "ru"
+  },
+  {
+   "text": "fdesetup disable",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable FileVault encryption. You will be asked for your password.",
+   "cmd": "sudo fdesetup disable",
+   "risk": "high",
+   "needs_root": true,
+   "expect": "The command will confirm that FileVault is being disabled."
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Disabling FileVault removes security protection. Ensure you have a valid reason to do this.",
+  "The decryption process can take a long time. Do not interrupt it."
+ ],
+ "rollback": [
+  {
+   "explain": "Re-enable FileVault to encrypt the disk again.",
+   "cmd": "sudo fdesetup enable",
+   "risk": "high",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/fdesetup.md",
+  "title": "tldr-pages: fdesetup",
+  "license": "CC-BY-4.0"
+ }
+}

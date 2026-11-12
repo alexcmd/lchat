@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "posix-set-umask-session",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Set umask for current session",
+ "summary": "Change the umask value for the current shell session. This affects the default permissions of files and directories created from now on in this terminal window. The change is temporary and resets when you close the terminal.",
+ "aliases": [
+  {
+   "text": "change umask",
+   "lang": "en"
+  },
+  {
+   "text": "set umask",
+   "lang": "en"
+  },
+  {
+   "text": "modify umask",
+   "lang": "en"
+  },
+  {
+   "text": "umask 077",
+   "lang": "en"
+  },
+  {
+   "text": "изменить umask",
+   "lang": "ru"
+  },
+  {
+   "text": "установить umask",
+   "lang": "ru"
+  },
+  {
+   "text": "umask для текущей сессии",
+   "lang": "ru"
+  },
+  {
+   "text": "umask 022",
+   "lang": "ru"
+  },
+  {
+   "text": "restrict file permissions",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the umask using octal notation. For example, '077' restricts all permissions for group and others, allowing only the owner full access.",
+   "cmd": "umask <OCTAL_VALUE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OCTAL_VALUE",
+     "description": "The new umask value in octal notation (e.g., 022, 077, 007).",
+     "example": "077"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Set the umask using symbolic notation. For example, 'a+r' adds read permission for all users to the current mask.",
+     "cmd": "umask <SYMBOLIC_VALUE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SYMBOLIC_VALUE",
+       "description": "The new umask value in symbolic notation (e.g., a+r, u+rw, o-rwx).",
+       "example": "a+r"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/umask.md",
+  "title": "tldr-pages: umask",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-check-umask"
+ ]
+}

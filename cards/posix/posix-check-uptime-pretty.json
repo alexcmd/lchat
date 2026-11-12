@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-uptime-pretty",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show only the system uptime duration",
+ "summary": "Use the uptime command with the pretty flag to see just how long the system has been running, without the extra details like load averages or user counts.",
+ "aliases": [
+  {
+   "text": "show only uptime",
+   "lang": "en"
+  },
+  {
+   "text": "pretty uptime",
+   "lang": "en"
+  },
+  {
+   "text": "uptime duration only",
+   "lang": "en"
+  },
+  {
+   "text": "how long system booted",
+   "lang": "en"
+  },
+  {
+   "text": "uptime -p",
+   "lang": "en"
+  },
+  {
+   "text": "показать только время работы",
+   "lang": "ru"
+  },
+  {
+   "text": "аптайм без лишнего",
+   "lang": "ru"
+  },
+  {
+   "text": "uptime pretty",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько времени с загрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "uptime -p",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run uptime with the --pretty flag to display only the duration the system has been booted for.",
+   "cmd": "uptime -p",
+   "risk": "low",
+   "expect": "Output showing only the uptime duration (e.g., 'up 2 weeks, 3 days')."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uptime.md",
+  "title": "tldr-pages: uptime",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-check-system-uptime"
+ ]
+}

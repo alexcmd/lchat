@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "macos-start-time-machine-backup",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Start a Time Machine backup",
+ "summary": "Manually start a Time Machine backup from the command line. You can choose to wait for it to finish or let it run in the background.",
+ "aliases": [
+  {
+   "text": "start time machine backup",
+   "lang": "en"
+  },
+  {
+   "text": "run backup now",
+   "lang": "en"
+  },
+  {
+   "text": "manual time machine backup",
+   "lang": "en"
+  },
+  {
+   "text": "запустить резервное копирование",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать бэкап сейчас",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить бэкап вручную",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start a backup in the background. The command returns immediately, and the backup continues running.",
+   "cmd": "sudo tmutil startbackup",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Start a backup and wait until it is completely finished before returning control to the terminal.",
+     "cmd": "sudo tmutil startbackup -b",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If you started a backup and want to stop it, run this command.",
+   "cmd": "sudo tmutil stopbackup",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Starting a backup may use significant disk I/O and network bandwidth if backing up to a network drive."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tmutil.md",
+  "title": "tldr-pages: tmutil",
+  "license": "CC-BY-4.0"
+ }
+}

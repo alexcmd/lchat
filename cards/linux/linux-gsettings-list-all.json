@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "linux-gsettings-list-all",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List all GNOME settings and values",
+ "summary": "Use gsettings to display all non-relocatable schemas, keys, and their current values. This is useful for exploring available settings.",
+ "aliases": [
+  {
+   "text": "list all gnome settings",
+   "lang": "en"
+  },
+  {
+   "text": "gsettings list-recursively",
+   "lang": "en"
+  },
+  {
+   "text": "show all gnome configs",
+   "lang": "en"
+  },
+  {
+   "text": "список всех настроек gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "gsettings list-recursively все",
+   "lang": "ru"
+  },
+  {
+   "text": "показать все настройки gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "cinnamon",
+   "mate"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display all non-relocatable schemas, keys, and their current values. This output can be very long.",
+   "cmd": "gsettings list-recursively",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gsettings.md",
+  "title": "tldr-pages: gsettings",
+  "license": "CC-BY-4.0"
+ }
+}

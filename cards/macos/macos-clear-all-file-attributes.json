@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-clear-all-file-attributes",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Clear all extended attributes from a file",
+ "summary": "Extended attributes store extra metadata like tags, comments, or quarantine flags. You can remove all of them at once to reset a file's metadata.",
+ "aliases": [
+  {
+   "text": "clear file attributes mac",
+   "lang": "en"
+  },
+  {
+   "text": "remove all xattr",
+   "lang": "en"
+  },
+  {
+   "text": "reset file metadata mac",
+   "lang": "en"
+  },
+  {
+   "text": "clean extended attributes",
+   "lang": "en"
+  },
+  {
+   "text": "очистить атрибуты файла",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить все расширенные атрибуты",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить метаданные файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove all extended attributes from the specified file. This deletes tags, comments, and other metadata stored outside the file's main content.",
+   "cmd": "xattr -c <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to clean",
+     "example": "~/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/xattr.md",
+  "title": "tldr-pages: xattr",
+  "license": "CC-BY-4.0"
+ }
+}

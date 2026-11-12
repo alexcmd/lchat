@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "linux-remove-ip-address",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove an IP address from a network interface",
+ "summary": "Delete a specific IP address from a network interface. Use this to undo a manual IP assignment.",
+ "aliases": [
+  {
+   "text": "remove ip address",
+   "lang": "en"
+  },
+  {
+   "text": "delete ip from interface",
+   "lang": "en"
+  },
+  {
+   "text": "undo ip add",
+   "lang": "en"
+  },
+  {
+   "text": "ip delete command",
+   "lang": "en"
+  },
+  {
+   "text": "удалить ip адрес",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать ip с интерфейса",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить ip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove a specific IP address from a network interface. Requires root privileges.",
+   "cmd": "sudo ip address delete <IP_ADDRESS> dev <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "IP_ADDRESS",
+     "description": "The IP address to remove.",
+     "example": "192.168.1.10/24"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface name.",
+     "example": "eth0",
+     "discover_cmd": "ip address"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-add the IP address if you removed it by mistake.",
+   "cmd": "sudo ip address add <IP_ADDRESS> dev <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "IP_ADDRESS",
+     "description": "The IP address to re-add.",
+     "example": "192.168.1.10/24"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface name.",
+     "example": "eth0"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Removing the only IP address on an interface will disconnect it from the network."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-address.md",
+  "title": "tldr-pages: ip-address",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-add-ip-address"
+ ]
+}

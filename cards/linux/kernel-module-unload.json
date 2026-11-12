@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "kernel-module-unload",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unload a kernel module",
+ "summary": "You can remove a loaded kernel module from the kernel if it is no longer needed or is causing issues.",
+ "aliases": [
+  {
+   "text": "unload kernel module",
+   "lang": "en"
+  },
+  {
+   "text": "remove kernel module",
+   "lang": "en"
+  },
+  {
+   "text": "rmmod command",
+   "lang": "en"
+  },
+  {
+   "text": "disable driver",
+   "lang": "en"
+  },
+  {
+   "text": "выгрузить модуль ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "rmmod",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить драйвер",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить модуль",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo rmmod followed by the module name to remove it from the kernel.",
+   "cmd": "sudo rmmod <MODULE_NAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "MODULE_NAME",
+     "description": "The name of the kernel module to unload.",
+     "example": "pcspkr",
+     "discover_cmd": "lsmod"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Alternatively, use modprobe with the -r flag.",
+     "cmd": "sudo modprobe -r <MODULE_NAME>",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "MODULE_NAME",
+       "description": "The name of the kernel module to unload.",
+       "example": "pcspkr"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To reload the module, use modprobe.",
+   "cmd": "sudo modprobe <MODULE_NAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "MODULE_NAME",
+     "description": "The name of the kernel module to load.",
+     "example": "pcspkr"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "You cannot unload a module if it is currently in use by another module or process."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Kernel_module#Manual_module_handling",
+  "title": "Kernel module",
+  "revision_id": 849494,
+  "license": "GFDL-1.3-or-later"
+ }
+}

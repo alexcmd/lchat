@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "macos-test-network-quality",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Test network quality and speed",
+ "summary": "Use the built-in networkQuality tool to measure your internet connection's speed and quality. It tests upload and download speeds and reports latency and responsiveness.",
+ "aliases": [
+  {
+   "text": "test internet speed mac",
+   "lang": "en"
+  },
+  {
+   "text": "check network quality",
+   "lang": "en"
+  },
+  {
+   "text": "how fast is my wifi",
+   "lang": "en"
+  },
+  {
+   "text": "network quality test",
+   "lang": "en"
+  },
+  {
+   "text": "проверить скорость интернета",
+   "lang": "ru"
+  },
+  {
+   "text": "качество сети mac",
+   "lang": "ru"
+  },
+  {
+   "text": "тест скорости интернета",
+   "lang": "ru"
+  },
+  {
+   "text": "networkquality",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the network quality test on your default network interface. This will measure your upload and download speeds, latency, and responsiveness.",
+   "cmd": "networkQuality",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Test a specific network interface (e.g., en0 for Wi-Fi) instead of the default one.",
+     "cmd": "networkQuality -I <INTERFACE>",
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The network interface to test, e.g., en0 for Wi-Fi, en1 for Ethernet.",
+       "example": "en0"
+      }
+     ],
+     "risk": "low"
+    },
+    {
+     "explain": "Show detailed verbose output including more metrics.",
+     "cmd": "networkQuality -v",
+     "risk": "low"
+    },
+    {
+     "explain": "Test upload and download speeds sequentially instead of in parallel.",
+     "cmd": "networkQuality -s",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/networkquality.md",
+  "title": "tldr-pages: networkquality",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-hwinfo-save-to-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Save all hardware information to a file",
+ "summary": "Use hwinfo to write a complete report of all detected hardware components to a text file for later review or sharing.",
+ "aliases": [
+  {
+   "text": "save hardware info to file",
+   "lang": "en"
+  },
+  {
+   "text": "export hardware report",
+   "lang": "en"
+  },
+  {
+   "text": "hwinfo log",
+   "lang": "en"
+  },
+  {
+   "text": "сохранить информацию об оборудовании в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "экспорт отчета о железе",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run hwinfo with --all and --log to write all hardware information to the specified file path.",
+   "cmd": "hwinfo --all --log <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file where the hardware report will be saved.",
+     "example": "hardware_report.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/hwinfo.md",
+  "title": "tldr-pages: hwinfo",
+  "license": "CC-BY-4.0"
+ }
+}

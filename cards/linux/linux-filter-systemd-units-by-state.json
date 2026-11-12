@@ -1,0 +1,121 @@
+{
+ "schema_version": 2,
+ "id": "linux-filter-systemd-units-by-state",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Filter systemd units by state",
+ "summary": "Show only systemd units that are in a specific state, such as running, listening, or dead. This helps identify active or problematic components.",
+ "aliases": [
+  {
+   "text": "list running systemd units",
+   "lang": "en"
+  },
+  {
+   "text": "show dead systemd services",
+   "lang": "en"
+  },
+  {
+   "text": "filter systemctl by state",
+   "lang": "en"
+  },
+  {
+   "text": "показать запущенные юниты systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "фильтровать systemctl по состоянию",
+   "lang": "ru"
+  },
+  {
+   "text": "список остановленных служб",
+   "lang": "ru"
+  },
+  {
+   "text": "list active units",
+   "lang": "en"
+  },
+  {
+   "text": "list inactive units",
+   "lang": "en"
+  },
+  {
+   "text": "list running services",
+   "lang": "en"
+  },
+  {
+   "text": "какие сервисы работают",
+   "lang": "ru"
+  },
+  {
+   "text": "список неактивных сервисов",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl status",
+   "lang": "en"
+  },
+  {
+   "text": "what services are running",
+   "lang": "en"
+  },
+  {
+   "text": "active services list",
+   "lang": "en"
+  },
+  {
+   "text": "список запущенных служб",
+   "lang": "ru"
+  },
+  {
+   "text": "активные службы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl status state",
+   "lang": "en"
+  },
+  {
+   "text": "filter units by state",
+   "lang": "en"
+  },
+  {
+   "text": "показать активные службы",
+   "lang": "ru"
+  },
+  {
+   "text": "юниты по состоянию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --state flag followed by the desired state (e.g., running, listening, dead) to filter the list.",
+   "cmd": "systemctl list-units --state <STATE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "STATE",
+     "description": "The state of units to list, such as running, listening, or dead.",
+     "example": "running"
+    }
+   ],
+   "expect": "A list of units matching the specified state."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-units.md",
+  "title": "tldr-pages: systemctl-list-units",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-services-list-failed-units"
+ ]
+}

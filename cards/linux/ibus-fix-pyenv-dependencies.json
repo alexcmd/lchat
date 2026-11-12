@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "ibus-fix-pyenv-dependencies",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix IBus missing dependencies with pyenv",
+ "summary": "Resolve issues where IBus fails to open preferences or work correctly due to pyenv managing Python versions.",
+ "aliases": [
+  {
+   "text": "ibus pyenv error",
+   "lang": "en"
+  },
+  {
+   "text": "ibus not working pyenv",
+   "lang": "en"
+  },
+  {
+   "text": "ibus missing dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "ibus setup error",
+   "lang": "en"
+  },
+  {
+   "text": "ibus pyenv",
+   "lang": "ru"
+  },
+  {
+   "text": "ibus не работает pyenv",
+   "lang": "ru"
+  },
+  {
+   "text": "ibus зависимости pyenv",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "missing dependency errors",
+  "preferences can not be opened"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the pyenv global version to the system version.",
+   "cmd": "pyenv global system",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/IBus#Missing_packages_due_to_pyenv",
+  "title": "IBus",
+  "revision_id": 878551,
+  "license": "GFDL-1.3-or-later"
+ }
+}

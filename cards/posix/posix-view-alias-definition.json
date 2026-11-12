@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-alias-definition",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View the command for a specific alias",
+ "summary": "Check what command a specific alias name runs. This is useful if you forgot what a shortcut does.",
+ "aliases": [
+  {
+   "text": "view alias",
+   "lang": "en"
+  },
+  {
+   "text": "what does alias do",
+   "lang": "en"
+  },
+  {
+   "text": "check alias definition",
+   "lang": "en"
+  },
+  {
+   "text": "chto delaet alias",
+   "lang": "ru"
+  },
+  {
+   "text": "smotret alias",
+   "lang": "ru"
+  },
+  {
+   "text": "znachenie aliasa",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the alias command followed by the alias name to see its definition.",
+   "cmd": "alias <WORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "WORD",
+     "description": "The name of the alias to inspect",
+     "example": "la"
+    }
+   ],
+   "expect": "The output shows 'alias name=command' for the specified alias."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/alias.md",
+  "title": "tldr-pages: alias",
+  "license": "CC-BY-4.0"
+ }
+}

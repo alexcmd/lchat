@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-battery-status",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check battery level and power source",
+ "summary": "Display the current battery percentage and whether the Mac is running on battery or charger power.",
+ "aliases": [
+  {
+   "text": "check battery level terminal",
+   "lang": "en"
+  },
+  {
+   "text": "pmset -g batt",
+   "lang": "en"
+  },
+  {
+   "text": "mac battery status command",
+   "lang": "en"
+  },
+  {
+   "text": "is mac on charger or battery",
+   "lang": "en"
+  },
+  {
+   "text": "проверить заряд батареи терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset -g batt",
+   "lang": "ru"
+  },
+  {
+   "text": "уровень заряда macos",
+   "lang": "ru"
+  },
+  {
+   "text": "работает ли mac от батареи",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run pmset with the -g batt flags to show the current power source and battery level.",
+   "cmd": "pmset -g batt",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pmset.md",
+  "title": "tldr-pages: pmset",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,125 @@
+{
+ "schema_version": 2,
+ "id": "macos-brew-cleanup-downloads",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Free disk space by cleaning old Homebrew downloads and versions",
+ "summary": "Homebrew keeps downloaded package files and old versions of installed packages on your Mac. First preview what would be deleted, then clean up to get that disk space back.",
+ "aliases": [
+  {
+   "text": "homebrew free up disk space",
+   "lang": "en"
+  },
+  {
+   "text": "brew cleanup",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew takes too much space mac",
+   "lang": "en"
+  },
+  {
+   "text": "delete old homebrew versions",
+   "lang": "en"
+  },
+  {
+   "text": "clear homebrew cache mac",
+   "lang": "en"
+  },
+  {
+   "text": "brew clean up old downloads",
+   "lang": "en"
+  },
+  {
+   "text": "очистить кэш homebrew",
+   "lang": "ru"
+  },
+  {
+   "text": "homebrew занимает много места на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить старые версии brew на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "брю очистка кэша",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место на маке homebrew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "brew"
+  ]
+ },
+ "prerequisites": [
+  "Homebrew is installed (open Terminal and run brew --version to check)"
+ ],
+ "steps": [
+  {
+   "explain": "Check that Homebrew is installed and see its version. If Homebrew is missing, this card does not apply.",
+   "cmd": "brew --version",
+   "risk": "low",
+   "expect": "A line starting with 'Homebrew' followed by a version number, then a line with the Homebrew Core and Cask versions."
+  },
+  {
+   "explain": "See how much disk space the Homebrew download cache uses. This is a read-only check.",
+   "cmd": "du -sh \"$(brew --cache)\"",
+   "risk": "low",
+   "expect": "One line with a size, such as 1.2G, followed by the cache folder path, which ends in Homebrew."
+  },
+  {
+   "explain": "Preview what would be deleted without deleting anything. Look at the list and the final line about disk space.",
+   "cmd": "brew cleanup -n",
+   "risk": "low",
+   "expect": "Lines that list old downloads and old package versions that would be removed, and a final line about the space that would be freed. The list can be empty if there is nothing to clean."
+  },
+  {
+   "explain": "Delete outdated downloads (older than 120 days) and old versions of installed packages. Homebrew downloads files again when you need them.",
+   "cmd": "brew cleanup",
+   "risk": "low",
+   "expect": "Lines that show files and old versions being removed, then the command returns to the prompt.",
+   "alternatives": [
+    {
+     "explain": "Also delete cached downloads of the current versions, not only the old ones. The whole cache is emptied of files older than zero days.",
+     "cmd": "brew cleanup --prune=all",
+     "risk": "low"
+    },
+    {
+     "explain": "Scrub the cache, including downloads for the latest versions. Downloads for installed packages are kept.",
+     "cmd": "brew cleanup -s",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "brew cleanup -n",
+   "expect": "Few or no lines left to remove, and a small or zero space figure at the end."
+  },
+  {
+   "cmd": "du -sh \"$(brew --cache)\"",
+   "expect": "A smaller size than the one you saw in the second step."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "brew cleanup removes old versions of installed packages. The newest version of each installed package is kept."
+ ],
+ "source": {
+  "url": "x-man-page://brew",
+  "title": "brew manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

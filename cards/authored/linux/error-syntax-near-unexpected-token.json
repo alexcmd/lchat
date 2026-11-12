@@ -1,0 +1,176 @@
+{
+ "schema_version": 2,
+ "id": "error-syntax-near-unexpected-token",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'syntax error near unexpected token' in a shell command or script",
+ "summary": "This error means bash found a word or character in the wrong place, for example a doubled 'fi' or a missing closing quote. It often happens after copy-paste. Bash shows the line number, so you can check the text without running it and fix that line.",
+ "aliases": [
+  {
+   "text": "syntax error near unexpected token",
+   "lang": "en"
+  },
+  {
+   "text": "bash syntax error near unexpected token fi",
+   "lang": "en"
+  },
+  {
+   "text": "syntax error after copy paste command",
+   "lang": "en"
+  },
+  {
+   "text": "unexpected EOF while looking for matching quote",
+   "lang": "en"
+  },
+  {
+   "text": "shell script syntax error pasted",
+   "lang": "en"
+  },
+  {
+   "text": "bash script won't run syntax error",
+   "lang": "en"
+  },
+  {
+   "text": "smart quotes shell error",
+   "lang": "en"
+  },
+  {
+   "text": "stray character in bash command error",
+   "lang": "en"
+  },
+  {
+   "text": "синтаксическая ошибка рядом с неожиданным токеном",
+   "lang": "ru"
+  },
+  {
+   "text": "syntax error near unexpected token что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка синтаксиса bash после вставки команды",
+   "lang": "ru"
+  },
+  {
+   "text": "скопировал команду из браузера syntax error",
+   "lang": "ru"
+  },
+  {
+   "text": "скрипт bash не запускается синтаксическая ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "лишний символ в команде bash ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "кривые кавычки в команде bash ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "unexpected end of file bash ошибка синтаксиса",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "syntax error near unexpected token",
+  "unexpected EOF while looking for matching",
+  "syntax error: unexpected end of file"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bash"
+  ]
+ },
+ "prerequisites": [
+  "The script file, or the one-line command you tried to run"
+ ],
+ "steps": [
+  {
+   "explain": "Check the script for syntax errors without running it. Bash reads the file and stops at the first problem. Look at the number after 'line' in the message: that is the line to fix. No output means the syntax is fine.",
+   "cmd": "bash -n <SCRIPT>",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "The script file that gives the error",
+     "example": "backup.sh",
+     "discover_cmd": "ls -1 *.sh"
+    }
+   ],
+   "expect": "Typical output: '<SCRIPT>: line 5: syntax error near unexpected token `fi''. The number 5 is the line to check.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "If the error came from one command you pasted into the terminal, not from a file, check that text without running it. Put the pasted text in single quotes. If the command itself contains single quotes, save it to a file and use the step above.",
+     "cmd": "bash -n -c '<COMMAND>'",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The pasted command text, in single quotes",
+       "example": "echo \"hello"
+      }
+     ],
+     "expect": "Typical output for a missing closing quote: 'bash: -c: line 1: unexpected EOF while looking for matching `\"''.",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Print the line that bash reported, so you can see exactly what is wrong. A missing quote is usually reported on the line where the quote was opened.",
+   "cmd": "sed -n '<LINE>p' <SCRIPT>",
+   "placeholders": [
+    {
+     "name": "LINE",
+     "description": "The line number from the bash -n message",
+     "example": "5"
+    },
+    {
+     "name": "SCRIPT",
+     "description": "The script file that gives the error",
+     "example": "backup.sh"
+    }
+   ],
+   "expect": "The text of that one line, for example 'fi fi'.",
+   "risk": "low"
+  },
+  {
+   "explain": "Find characters that copy-paste often brings in, such as curly quotes (“ ” ‘ ’), long dashes or non-breaking spaces. The shell does not know them, so they break commands. Tab characters also appear in this list and are normal.",
+   "cmd": "LC_ALL=C grep -n '[^ -~]' <SCRIPT>",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "The script file that gives the error",
+     "example": "backup.sh"
+    }
+   ],
+   "expect": "Lines with a number and the odd character, for example '3:echo “hello”'. No output means no odd characters were found.",
+   "risk": "low"
+  },
+  {
+   "explain": "Fix the line from step 2: delete the extra word or character (for example the second 'fi'), add the missing closing quote, and replace curly quotes with plain straight quotes. Then save the file.",
+   "gui": "Open the script in a graphical text editor such as gedit, Kate or Mousepad, jump to the line number from step 2, make the change and save.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "bash -n <SCRIPT>",
+   "expect": "No output. The syntax check passes. This only checks the text: the script has not been run."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "bash -n checks only the syntax. It does not find wrong command names, missing files or wrong options, so the script can still fail when it runs.",
+  "A command copied from a web page may start with '$' and a space. That is the prompt from the page, not part of the command. Delete it before you run the command.",
+  "Curly quotes look like normal quotes, but the shell treats them as ordinary characters, so the command may fail later with a different error."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

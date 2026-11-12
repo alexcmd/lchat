@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-dns-config",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View DNS configuration",
+ "summary": "Display the current DNS settings used by your Mac to resolve website names.",
+ "aliases": [
+  {
+   "text": "check dns settings",
+   "lang": "en"
+  },
+  {
+   "text": "view dns config",
+   "lang": "en"
+  },
+  {
+   "text": "scutil dns",
+   "lang": "en"
+  },
+  {
+   "text": "какие dns на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть dns настройки",
+   "lang": "ru"
+  },
+  {
+   "text": "dns конфигурация macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run scutil with the --dns flag to list all active DNS servers and search domains.",
+   "cmd": "scutil --dns",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/scutil.md",
+  "title": "tldr-pages: scutil",
+  "license": "CC-BY-4.0"
+ }
+}

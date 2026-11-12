@@ -1,0 +1,113 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-ssh-key-to-keychain",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Store an SSH key passphrase in the macOS keychain with ssh-add",
+ "summary": "Load your SSH private key into the SSH agent and save its passphrase in the macOS keychain. After that, macOS remembers the passphrase and you are not asked for it every time you use the key.",
+ "aliases": [
+  {
+   "text": "ssh key passphrase keychain",
+   "lang": "en"
+  },
+  {
+   "text": "save ssh key password mac",
+   "lang": "en"
+  },
+  {
+   "text": "ssh-add apple use keychain",
+   "lang": "en"
+  },
+  {
+   "text": "ssh passphrase remember macos",
+   "lang": "en"
+  },
+  {
+   "text": "add ssh key to keychain",
+   "lang": "en"
+  },
+  {
+   "text": "ssh asks passphrase every time mac",
+   "lang": "en"
+  },
+  {
+   "text": "сохранить пароль ssh ключа в связке ключей",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh ключ связка ключей mac",
+   "lang": "ru"
+  },
+  {
+   "text": "не спрашивать пароль ssh ключа на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить ssh ключ в keychain",
+   "lang": "ru"
+  },
+  {
+   "text": "запомнить пароль ssh на макбуке",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh-add keychain",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "ssh-add"
+  ]
+ },
+ "prerequisites": [
+  "You know the passphrase of your SSH key",
+  "You have an SSH private key file, usually in your ~/.ssh folder"
+ ],
+ "steps": [
+  {
+   "explain": "List the files in your SSH folder. Private keys have no .pub ending, public keys end with .pub. Nothing is changed.",
+   "cmd": "ls -la ~/.ssh",
+   "risk": "low",
+   "expect": "Files such as id_ed25519 (private key) and id_ed25519.pub (public key). If the folder is missing, you have no SSH key yet."
+  },
+  {
+   "explain": "Add the private key to the SSH agent and store its passphrase in the macOS keychain. You are asked for the passphrase once.",
+   "cmd": "ssh-add --apple-use-keychain <KEY_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_FILE",
+     "description": "Path to the private key file. Use the file without the .pub ending.",
+     "example": "~/.ssh/id_ed25519",
+     "discover_cmd": "ls ~/.ssh"
+    }
+   ],
+   "expect": "Enter passphrase for ~/.ssh/id_ed25519 and then Identity added. The passphrase is saved in the keychain.",
+   "alternatives": [
+    {
+     "explain": "Load the keys that are already stored in the keychain into the agent, for example after a restart. You are not asked for the passphrase.",
+     "cmd": "ssh-add --apple-load-keychain",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ssh-add -l",
+   "expect": "One line per loaded key, starting with the key size and a SHA256: fingerprint. If nothing is loaded, it says The agent has no identities."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://ssh-add",
+  "title": "ssh-add manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "disk-get-partlabel",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Get GPT partition label (PARTLABEL)",
+ "summary": "Retrieve the label assigned to a GPT partition entry. This label is stored in the partition table and is independent of the filesystem.",
+ "aliases": [
+  {
+   "text": "get partlabel",
+   "lang": "en"
+  },
+  {
+   "text": "find partition label gpt",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk partlabel",
+   "lang": "en"
+  },
+  {
+   "text": "blkid partlabel",
+   "lang": "en"
+  },
+  {
+   "text": "узнать partlabel",
+   "lang": "ru"
+  },
+  {
+   "text": "метка раздела gpt",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти метку раздела",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use lsblk to print only the PARTLABEL for the specified device.",
+   "cmd": "lsblk -dno PARTLABEL /dev/<DEVICE>",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The block device path, e.g., sda1",
+     "example": "sda1",
+     "discover_cmd": "lsblk"
+    }
+   ],
+   "risk": "low"
+  },
+  {
+   "explain": "Alternatively, use blkid to print only the PARTLABEL value.",
+   "cmd": "sudo blkid -s PARTLABEL -o value /dev/<DEVICE>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The block device path, e.g., sda1",
+     "example": "sda1",
+     "discover_cmd": "lsblk"
+    }
+   ],
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Persistent_block_device_naming#by-partlabel",
+  "title": "Persistent block device naming",
+  "revision_id": 886065,
+  "license": "GFDL-1.3-or-later"
+ }
+}

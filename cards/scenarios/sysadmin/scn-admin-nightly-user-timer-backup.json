@@ -1,0 +1,157 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-nightly-user-timer-backup",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Schedule a nightly backup with a systemd user timer",
+  "summary": "A systemd user timer starts a service at a set time each day, without root rights. You write two short unit files, turn the timer on, then check the next run time and the log.",
+  "aliases": [
+    {
+      "text": "systemd user timer nightly backup",
+      "lang": "en"
+    },
+    {
+      "text": "schedule backup systemd timer",
+      "lang": "en"
+    },
+    {
+      "text": "run script every night systemd",
+      "lang": "en"
+    },
+    {
+      "text": "systemd timer instead of cron",
+      "lang": "en"
+    },
+    {
+      "text": "user timer runs without login",
+      "lang": "en"
+    },
+    {
+      "text": "enable-linger timer",
+      "lang": "en"
+    },
+    {
+      "text": "nightly backup linux without cron",
+      "lang": "en"
+    },
+    {
+      "text": "systemctl --user timer not running",
+      "lang": "en"
+    },
+    {
+      "text": "ночной бэкап systemd таймер",
+      "lang": "ru"
+    },
+    {
+      "text": "запуск скрипта каждую ночь без cron",
+      "lang": "ru"
+    },
+    {
+      "text": "пользовательский таймер systemd",
+      "lang": "ru"
+    },
+    {
+      "text": "таймер не запускается systemctl user",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "systemd",
+      "rsync"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Create the service unit. It says which command to run; %h stands for your home folder. The script from the backup rotation card must be saved as ~/bin/backup-rotate.sh first.",
+      "risk": "low",
+      "cmd": "mkdir -p ~/.config/systemd/user && cat > ~/.config/systemd/user/backup-home.service <<'EOF'\n[Unit]\nDescription=Nightly incremental backup of my documents\n\n[Service]\nType=oneshot\nExecStart=%h/bin/backup-rotate.sh <SRC_DIR> <DEST_ROOT> 7\nEOF",
+      "placeholders": [
+        {
+          "name": "SRC_DIR",
+          "description": "Folder you want to back up",
+          "example": "/home/deck/Documents",
+          "discover_cmd": "ls -d ~/*/"
+        },
+        {
+          "name": "DEST_ROOT",
+          "description": "Folder on the backup drive that holds all snapshots",
+          "example": "/mnt/backup/home"
+        }
+      ]
+    },
+    {
+      "explain": "Create the timer unit. It starts the service every night at 02:30. Persistent=true runs a missed night's job at the next start of the computer.",
+      "risk": "low",
+      "cmd": "mkdir -p ~/.config/systemd/user && cat > ~/.config/systemd/user/backup-home.timer <<'EOF'\n[Unit]\nDescription=Run the nightly backup at 02:30\n\n[Timer]\nOnCalendar=*-*-* 02:30:00\nPersistent=true\nRandomizedDelaySec=10min\n\n[Install]\nWantedBy=timers.target\nEOF"
+    },
+    {
+      "explain": "Check both unit files for errors without starting anything. A warning that a file in ExecStart is not executable only means the script is not saved in ~/bin yet.",
+      "risk": "low",
+      "cmd": "systemd-analyze verify ~/.config/systemd/user/backup-home.service ~/.config/systemd/user/backup-home.timer",
+      "expect": "No output, or only the warning about the missing script."
+    },
+    {
+      "explain": "Load the new units and turn the timer on so it starts now and at every boot.",
+      "risk": "medium",
+      "cmd": "systemctl --user daemon-reload && systemctl --user enable --now backup-home.timer",
+      "expect": "A line 'Created symlink ... timers.target.wants/backup-home.timer'."
+    },
+    {
+      "explain": "Show when the next run is due. The NEXT column must show tomorrow at 02:30 or later.",
+      "risk": "low",
+      "cmd": "systemctl --user list-timers backup-home.timer --no-pager",
+      "expect": "One row for backup-home.timer with a NEXT time at 02:30."
+    },
+    {
+      "explain": "Let the user timers run while you are logged out. Without this the timer only runs during a login session. Some systems ask for an administrator password here.",
+      "risk": "medium",
+      "cmd": "loginctl enable-linger \"$USER\"",
+      "expect": "No output."
+    },
+    {
+      "explain": "Run the backup once now and read the log, so you do not have to wait for the night.",
+      "risk": "low",
+      "cmd": "systemctl --user start backup-home.service && journalctl --user -u backup-home.service -n 30 --no-pager",
+      "expect": "Lines of rsync output, then a 'Finished' line with the description. 'Failed with result' means the run went wrong."
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "Turn the timer off and stop it right away.",
+      "risk": "medium",
+      "cmd": "systemctl --user disable --now backup-home.timer"
+    },
+    {
+      "explain": "Delete both unit files and reload the user manager.",
+      "risk": "medium",
+      "cmd": "rm ~/.config/systemd/user/backup-home.service ~/.config/systemd/user/backup-home.timer && systemctl --user daemon-reload"
+    },
+    {
+      "explain": "Optional: stop user timers from running after logout.",
+      "risk": "medium",
+      "cmd": "loginctl disable-linger \"$USER\""
+    }
+  ],
+  "warnings": [
+    "The backup runs without you watching. Check that the destination drive is mounted before the run, or the backup lands in an empty folder on the system disk.",
+    "Enable-linger lets your user services run while nobody is logged in. Disable it if you do not want that."
+  ],
+  "see_also": [
+    "scn-admin-rsync-snapshot-rotation",
+    "scn-admin-cron-job-log-flock",
+    "scn-admin-user-service-restart-on-failure"
+  ],
+  "source": {
+    "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html",
+    "title": "systemd.timer(5)",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

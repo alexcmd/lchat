@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-alsamixer-select-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Select a specific mixer device in ALSA",
+ "summary": "Control a specific mixer device (like a specific input or output stream) by name using alsamixer.",
+ "aliases": [
+  {
+   "text": "select mixer device alsamixer",
+   "lang": "en"
+  },
+  {
+   "text": "control specific audio stream linux",
+   "lang": "en"
+  },
+  {
+   "text": "alsamixer device name",
+   "lang": "en"
+  },
+  {
+   "text": "выбрать микшерное устройство",
+   "lang": "ru"
+  },
+  {
+   "text": "alsamixer имя устройства",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить конкретный поток звука",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Launch alsamixer targeting a specific mixer device by its name.",
+   "cmd": "alsamixer --device <DEVICE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "The name of the mixer device to control (e.g., 'default', 'hw:0,0')."
+    }
+   ],
+   "expect": "The alsamixer interface opens showing controls for the specified device."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/alsamixer.md",
+  "title": "tldr-pages: alsamixer",
+  "license": "CC-BY-4.0"
+ }
+}

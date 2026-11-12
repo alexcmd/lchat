@@ -45,6 +45,10 @@ details.think div{white-space:pre-wrap}
 .tool.asking pre.args{max-height:none}
 .tool .ask{display:flex;gap:8px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--warn) 10%,transparent)}
 .meta{font-size:12px;color:var(--mut);margin-top:4px}
+p.dim{color:var(--mut);font-size:12px;margin:4px 0}
+.phases{list-style:none;margin:6px 0 0;padding:0;font-size:12px;color:var(--mut);font-family:ui-monospace,monospace}.phases li{margin:1px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.phases li::before{display:inline-block;width:1.4em}.phases li.run{color:#c98a00}.phases li.run::before{content:'●';animation:pulse 1s ease-in-out infinite}.phases li.ok::before{content:'✓';color:#2e9d5b}.phases li.err::before{content:'✕';color:#d04545}.phases li.skip::before{content:'–'}
+.state{font-size:12px;margin-top:6px;font-weight:600}.state.run{color:#c98a00}.state.run::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:6px;animation:pulse 1s ease-in-out infinite}.state.ok{color:#2e9d5b}.state.err{color:#d04545}.state.stop{color:var(--mut)}
+@keyframes pulse{50%{opacity:.25}}
 .err{color:var(--bad)}
 #hist{display:none;padding:8px 16px;border-bottom:1px solid var(--line);font-size:13px;max-height:45vh;overflow-y:auto}
 #hist.open{display:block}
@@ -108,7 +112,9 @@ const TOKEN=decodeURIComponent(location.hash.slice(1)); // token is only in the 
 const $=s=>document.querySelector(s);
 const log=$('#log'),inp=$('#in'),send=$('#send'),att=$('#att');
 const SID=Math.random().toString(36).slice(2);
-let msgs=[],imgs=[],ctrl=null,busy=false,TOOLS=[],CWD='',pendingAsks=[],VISION=true,NCTX=0,lastPrompt=0;
+let curPhase=null;   // the running progress-list line of the current turn (see phase() in go)
+const BASE_TITLE=document.title;document.addEventListener('visibilitychange',()=>{if(!document.hidden&&document.title.startsWith('✓ '))document.title=BASE_TITLE});
+let msgs=[],imgs=[],ctrl=null,busy=false,TOOLS=[],CWD='',SYSINFO='',pendingAsks=[],VISION=true,NCTX=0,lastPrompt=0;
 const S={get(k,d){try{return localStorage.getItem('lchat.'+k)??d}catch{return d}},set(k,v){try{localStorage.setItem('lchat.'+k,v)}catch{}}};
 
 // ---------- settings ----------
@@ -128,7 +134,7 @@ fetch('/props').then(r=>r.json()).then(p=>{
   $('#model').textContent=name+(ctx?` · ctx ${ctx}`:'')+(p.modalities?.vision?' · vision':'');
 }).catch(()=>$('#model').textContent='llama unreachable');
 fetch('/api/tools').then(r=>r.json()).then(d=>{
-  TOOLS=d.tools||[];CWD=d.cwd||'';
+  TOOLS=d.tools||[];CWD=d.cwd||'';SYSINFO=d.system||'';
   const ts=$('#toolset');ts.innerHTML=TOOLS.length?'Tools:':'Tools disabled by server';
   for(const t of TOOLS){const l=document.createElement('label');l.innerHTML=`<input type="checkbox" ${toolOn(t.name)?'checked':''}> ${t.name}${t.approval?' ⚠':''}`;
     l.querySelector('input').onchange=e=>{S.set('tool.'+t.name,e.target.checked?'1':'0');pill()};ts.appendChild(l)}
@@ -137,10 +143,29 @@ fetch('/api/tools').then(r=>r.json()).then(d=>{
 
 function agentPrompt(){
   const d=new Date();
-  return `You are lchat, a capable assistant running locally on the user's Steam Deck (SteamOS, Arch-based Linux, KDE Plasma on Wayland). Today is ${d.toDateString()}, local time ${d.toLocaleTimeString()}. Shell working directory: ${CWD}.
-You can call tools to act on the machine and the web: run bash commands, read and write files, search and fetch web pages, list/focus/minimize/close desktop windows, and take screenshots (which you can see). You also remember past conversations with the user: use the recall tool when they refer to something from before.
+  return `You are lchat, a capable assistant running locally on the user's computer. Today is ${d.toDateString()}, local time ${d.toLocaleTimeString()}. Shell working directory: ${CWD}.
+System: ${SYSINFO||'unknown (lchat-web did not report it)'}
+Write commands for THIS system: use its native package manager and the tools listed as installed, respect its notes (for example a read-only root filesystem), and when a help card shows per-distro variants pick the one for this system's family.
+You can call tools to act on the machine and the web: run bash commands, read and write files, search and fetch web pages, list/focus/minimize/close desktop windows, and take screenshots (which you can see). You also remember past conversations with the user: use the recall tool when they refer to something from before. For any Linux command-line, scripting or system task and for any error message, call linux_help FIRST: it returns verified step-by-step cards with exact commands; build your commands and scripts from them (replace <PLACEHOLDERS> with real values) instead of guessing.
 Work step by step: call a tool, look at the result, then decide the next step. Prefer one tool call at a time. For web research make ONE web_search call that lists several differently worded queries in its queries array. Image links from a search are only links: call download on an image before you describe it, and never describe an image you have not seen. Never guess facts you can check with a tool. If a tool fails, read the error and try a different approach. When the task is done, give a short, direct final answer without calling more tools.`;
 }
+
+// ---------- loop guard: the same tool call twice in one turn is not run again ----------
+function parseArgs(c){try{return c.function.arguments?JSON.parse(c.function.arguments):{}}catch(e){return null}}
+function normCmd(cmd){   // drop the noise a looping model varies: redirections, head/tail limits, || fallbacks
+  return String(cmd||'').replace(/\s+\|\|\s*(echo\b[^|;&]*|true|:)\s*$/,'').replace(/\s*\d?>&\d|\s*\d?>\s*\/dev\/null/g,'')
+    .replace(/\s*\|\s*(head|tail)(\s+-n)?\s+-?\d+/g,'').replace(/\s+/g,' ').replace(/[;\s]+$/,'').trim();
+}
+function callKey(c){
+  const a=parseArgs(c);if(a===null)return null;
+  const n=c.function.name;
+  if(n==='bash')return n+':'+normCmd(a.command);
+  const o={};for(const k of Object.keys(a).sort())o[k]=a[k];
+  return n+':'+JSON.stringify(o);
+}
+const toks=k=>new Set(k.toLowerCase().split(/[^a-z0-9_.\/-]+/).filter(Boolean));
+function similar(a,b){const A=toks(a),B=toks(b);let i=0;for(const x of A)if(B.has(x))i++;return i/Math.max(1,A.size+B.size-i)}
+const clipRes=t=>{t=String(t);return t.length>1500?t.slice(0,1000)+'\n…\n'+t.slice(-400):t};
 
 // ---------- minimal safe markdown ----------
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -228,7 +253,7 @@ function argSummary(name,args){
   if(name==='download'||name==='web_fetch')return args.url||'';
   return Object.values(args).map(v=>typeof v==='string'?v:JSON.stringify(v)).join(' · ');
 }
-async function runTool(call,wrap){
+async function runTool(call,wrap,skip){
   const name=call.function.name;let args={};
   const card=document.createElement('div');card.className='tool';
   card.innerHTML=`<div class="hd"><span class="nm"></span><span class="sum"></span><span class="st run">…</span></div><div class="bd"><pre class="args"></pre><div class="res"></div></div>`;
@@ -241,19 +266,20 @@ async function runTool(call,wrap){
   catch(e){card.querySelector('.args').textContent=call.function.arguments;return {text:done(`error: arguments are not valid JSON (${e.message}). Call the tool again with a valid JSON object.`,'err','bad args')}}
   card.querySelector('.sum').textContent=argSummary(name,args);
   card.querySelector('.args').textContent=name==='bash'?args.command:JSON.stringify(args,null,2);
+  if(skip)return {text:done(skip,'err','repeat, not run'),repeat:true};
   const meta=TOOLS.find(t=>t.name===name);
   if(!meta||!toolOn(name))return {text:done(`error: tool "${name}" is not available.`,'err','unavailable')};
   const SENSITIVE=/(^|\/)(\.ssh|\.gnupg|\.aws|\.kube|\.password-store|\.mozilla|\.config\/(google-chrome|chromium)|\.local\/share\/keyrings)(\/|$)|\.env$|\.pem$|\.key$|id_[a-z0-9]+$|token|secret|passw|auth\.json$|\/proc\/[^/]+\/environ/i;
   const risky=(meta.approval&&!(name==='window_action'&&args.action!=='close'))||(name==='read_file'&&SENSITIVE.test(args.path||''));
   if(ctrl.signal.aborted)throw new DOMException('aborted','AbortError');
   if(risky&&!$('#auto').checked){
-    st.textContent='needs approval';card.classList.add('open','asking');
+    st.textContent='needs approval';card.classList.add('open','asking');if(curPhase)curPhase.extra=' — waiting for your approval';
     const ask=document.createElement('div');ask.className='ask';
     ask.innerHTML='<span style="flex:1">Run this?</span><button class="btn pri">Run</button><button class="btn">Deny</button>';
     card.appendChild(ask);scroll(true);
     const ok=await new Promise(resolve=>{pendingAsks.push(resolve);
       const [y,n]=ask.querySelectorAll('button');y.onclick=()=>resolve(true);n.onclick=()=>resolve(false)});
-    ask.remove();card.classList.remove('asking');
+    ask.remove();card.classList.remove('asking');if(curPhase)curPhase.extra='';
     if(ctrl.signal.aborted)throw new DOMException('aborted','AbortError');
     if(!ok)return {text:done('The user denied this tool call. Do not retry it; ask the user or take another approach.','err','denied'),denied:true};
   }
@@ -298,7 +324,19 @@ async function go(){
   const userEl=add('user','<div class="body">'+imgs.map(u=>`<img src="${u}">`).join('')+esc(text)+'</div>');
   const H=msgs;               // this turn's history; New chat swaps msgs and orphans H
   H.push({role:'user',content});inp.value='';inp.oninput();const sentImgs=imgs;imgs=[];renderAtt();
-  const wrap=add('asst','<div class="meta"></div>'),meta=wrap.querySelector('.meta');
+  const wrap=add('asst','<div class="meta"></div><ul class="phases"></ul><div class="state run">working…</div>'),meta=wrap.querySelector('.meta'),stateEl=wrap.querySelector('.state'),phasesEl=wrap.querySelector('.phases');
+  const turnT0=performance.now();
+  // progress list (like Claude Code): one line per phase, live spinner + elapsed time, then ✓ / ✕
+  const VERBS=['Thinking','Pondering','Reasoning','Mulling','Working out','Considering','Puzzling','Cogitating'];
+  curPhase=null;
+  const phase=(label,verb=false)=>{const li=document.createElement('li');li.className='run';phasesEl.appendChild(li);
+    const t0=performance.now(),v=VERBS[Math.floor(Math.random()*VERBS.length)];
+    const draw=()=>{const s=((performance.now()-t0)/1000).toFixed(0);li.textContent=(verb?`${v}… `:'')+label+` · ${s}s`+(ph.extra||'')};
+    const ph={li,extra:'',end(text,cls='ok'){clearInterval(iv);li.className=cls;
+      li.textContent=(text??label)+` (${((performance.now()-t0)/1000).toFixed(1)}s)`;if(curPhase===ph)curPhase=null}};
+    draw();const iv=setInterval(draw,1000);curPhase=ph;scroll();return ph};
+  const setState=(t,cls='run')=>{stateEl.className='state '+cls;stateEl.textContent=t;
+    document.title=(cls==='run'?'● ':(document.hidden?'✓ ':''))+BASE_TITLE};
   const note=(t,cls='err')=>wrap.insertBefore(Object.assign(document.createElement('p'),{className:cls,textContent:t}),meta);
   if(sentImgs.length&&!VISION)note('Image not sent: the loaded model has no vision support (start llama with --mmproj).');
   busy=true;ctrl=new AbortController();send.textContent='Stop';send.classList.add('stop');
@@ -306,16 +344,35 @@ async function go(){
   const maxSteps=Math.max(1,+$('#steps').value||20);
   let tin=0,tout=0,steps=0,tps=null;
   const turnStart=H.length;
+  const seen=[];let repeats=0;   // loop guard state for this turn: {key,step,text}
+  let endState=['done','ok'];
+  saveChat(H);                   // the chat shows up in History right away
+  // auto-retrieval: a small model rarely calls linux_help on its own, so look the request up once per user turn
+  // and put the best cards into this turn's system prompt (only when they clearly match)
+  let helpCards='';
+  // small talk ("hello", "thanks") has nothing to look up
+  const smallTalk=/^\s*(hi|hello|hey|yo|thanks|thank you|thx|ok|okay|yes|no|good (morning|evening|night)|bye|привет|здравствуй\S*|спасибо|ок|да|нет|пока)[\s!.,?)]*$/i.test(text)
+    ||(text.trim().split(/\s+/).length<3&&!/[\/|$~<>=_.-]|\d/.test(text));
+  if(agent&&!smallTalk&&toolOn('linux_help')&&TOOLS.some(t=>t.name==='linux_help')){
+    setState('working…');const ph=phase('looking up help cards');
+    try{const r=await (await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},
+      body:JSON.stringify({name:'linux_help',args:{query:text.slice(0,500),k:2,min_score:0.5},session:SID,chat:CHAT_ID}),signal:ctrl.signal})).json();
+      if(r&&r.text&&!r.error)helpCards=r.text;}catch(e){}   // no cards: the turn goes on without them
+    const titles=[...helpCards.matchAll(/^## (.+?)  \[/gm)].map(m=>m[1]);
+    ph.end(titles.length?`help cards: ${titles.length} added: ${titles.join('; ')}`:'help cards: none match',titles.length?'ok':'skip');
+  }
   try{
     for(;;){
       steps++;
-      const sys=[agent?agentPrompt():'',$('#sys').value.trim()].filter(Boolean).join('\n\n');
+      const sys=[agent?agentPrompt():'',helpCards?'Help cards that match the user\'s request (verified commands; follow and adapt them, replacing <PLACEHOLDERS>):\n\n'+helpCards:'',$('#sys').value.trim()].filter(Boolean).join('\n\n');
       const req={messages:(sys?[{role:'system',content:sys}]:[]).concat(fitContext(H,lastPrompt)),stream:true,stream_options:{include_usage:true},
         chat_template_kwargs:{enable_thinking:$('#think').checked}};
       if(agent)req.tools=enabledTools().map(t=>t.schema);
       if($('#temp').value!=='')req.temperature=+$('#temp').value;
       if($('#maxt').value!=='')req.max_tokens=+$('#maxt').value;
-      const s=await streamStep(req,wrap);
+      const thinkPh=phase(`step ${steps}`,true);
+      let s;try{s=await streamStep(req,wrap)}catch(e){thinkPh.end(`step ${steps}: failed`,'err');throw e}
+      thinkPh.end(`step ${steps}: `+(s.calls.length?`${s.calls.length} tool call${s.calls.length>1?'s':''}`:(s.out?'answer':'no reply')),s.out||s.calls.length?'ok':'err');
       if(H!==msgs)return;     // New chat was pressed meanwhile
       const u=s.usage||{};tin=u.prompt_tokens??((s.timings?.prompt_n??0)+(s.timings?.cache_n??0));lastPrompt=tin;tout+=u.completion_tokens??s.timings?.predicted_n??0;
       if(s.timings?.predicted_per_second)tps=s.timings.predicted_per_second;
@@ -323,32 +380,52 @@ async function go(){
       const am={role:'assistant',content:s.out};
       if(s.reason)am.reasoning_content=s.reason;
       if(s.calls.length)am.tool_calls=s.calls;
-      if(!s.out&&!s.calls.length&&!s.reason){note('empty reply');break}
-      H.push(am);
+      if(!s.out&&!s.calls.length&&!s.reason){note('empty reply');endState=['empty reply','err'];break}
+      H.push(am);saveChat(H);
       if(s.finish==='length'){note('Reply cut off: it hit the max-tokens limit or the context is full.');break}
       if(!s.calls.length||!agent)break;
       for(const c of s.calls){
-        const r=await runTool(c,wrap);
+        setState(`running ${c.function.name} · step ${steps}`);
+        let pa={};try{pa=JSON.parse(c.function.arguments||'{}')}catch{}
+        const toolPh=phase(`${c.function.name}: ${String(argSummary(c.function.name,pa)||'').slice(0,90)}`);
+        const key=callKey(c),prev=key&&seen.find(x=>x.key===key);
+        let skip=null,near=null;
+        if(prev){
+          repeats++;
+          skip=`ALREADY RAN: you made this exact ${c.function.name} call at step ${prev.step} of this turn. It was NOT run again. Its result was:\n${clipRes(prev.text)}\n\nDo not repeat it. Use that result, try a genuinely different approach (check the System line in your instructions for this machine's package manager and tools), or give the user your answer.`;
+        }else if(key)near=seen.find(x=>x.key.split(':')[0]===key.split(':')[0]&&similar(x.key,key)>=0.6);
+        const r=await runTool(c,wrap,skip);
+        toolPh.end(r.repeat?toolPh.li.textContent.replace(/ · \d+s$/,'')+' — repeat, not run':undefined,
+          r.repeat?'skip':(r.denied||r.error||/^(error|search failed|fetch failed)/i.test(r.text||''))?'err':'ok');
+        if(!prev&&key)seen.push({key,step:steps,text:r.text});
+        if(near&&!r.repeat)r.text+=`\n\nNOTE: this is almost the same as your call at step ${near.step} of this turn. Do not keep re-running variations of one command: use the results you have, change approach, or answer.`;
         if(H!==msgs)return;
         const tc=r.image&&VISION?[{type:'text',text:r.text},{type:'image_url',image_url:{url:r.image}}]
           :r.text+(r.image?'\n(image not shown: the loaded model has no vision support - start llama with the mmproj file)':'');
         H.push({role:'tool',tool_call_id:c.id,name:c.function.name,content:tc});
       }
-      if(steps>=maxSteps){note(`stopped after ${maxSteps} steps (raise "Max steps" in Settings)`);break}
+      saveChat(H);
+      setState(`thinking · step ${steps+1}`);
+      if(repeats>=3){note('stopped: the agent kept repeating tool calls it had already made');endState=['stopped: repeating itself','stop'];break}
+      if(steps>=maxSteps){note(`stopped after ${maxSteps} steps (raise "Max steps" in Settings)`);endState=['stopped: step limit','stop'];break}
     }
   }catch(e){
     if(H!==msgs)return;
-    if(e.name==='AbortError'){meta.textContent+=(meta.textContent?' · ':'')+'stopped'}
-    else{let t=String(e.message||e);
+    if(e.name==='AbortError'){meta.textContent+=(meta.textContent?' · ':'')+'stopped';endState=['stopped by you','stop']}
+    else{let t=String(e.message||e);endState=['error','err'];
       if(/exceed|context|n_ctx/i.test(t)){lastPrompt=NCTX;t+=' — the conversation no longer fits the model context ('+NCTX+' tokens). Old tool output will be shortened on the next try; or start a New chat / restart llama with a larger -c.'}
       note(t)}
   }finally{
     if(H===msgs){busy=false;ctrl=null;send.textContent='Send';send.classList.remove('stop');inp.focus()}
+    if(curPhase)curPhase.end(undefined,endState[1]==='ok'?'ok':'err');
+    setState((endState[1]==='ok'?'✓ ':endState[1]==='err'?'✕ ':'■ ')+endState[0]+(steps>1?` · ${steps} steps`:'')
+      +` · ${((performance.now()-turnT0)/1000).toFixed(0)}s`,endState[1]);
   }
   if(H!==msgs)return;
   if(H.length===turnStart){  // nothing came back: undo the user message and give the text back
     H.pop();userEl.remove();if(!inp.value){inp.value=text;inp.oninput()}imgs=sentImgs;renderAtt();
     meta.textContent+=(meta.textContent?' · ':'')+'your message was restored to the input box';
+    saveChat(H);
     return;
   }
   // keep history valid: every tool call of the last assistant message needs a tool result
@@ -366,10 +443,21 @@ let CHAT_ID=newId(),CHAT_TITLE='';
 function newChat(){CHAT_ID=newId();CHAT_TITLE='';$('#hist').classList.remove('open')}
 const api=(path,body)=>fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},body:body&&JSON.stringify(body)}).then(r=>r.json());
 function textOf(c){return typeof c==='string'?c:(c||[]).map(x=>x.type==='text'?x.text:'[image]').join(' ')}
-async function saveChat(H){
-  if(H!==msgs||!H.length)return;
+// Saved after the user message and after every step, so a turn cut short (page reload, server restart, error)
+// is still in History. Saves run one at a time; a failed save is retried once.
+let saveQ=Promise.resolve();
+function saveChat(H){
+  if(H!==msgs||!H.length)return saveQ;
   if(!CHAT_TITLE){const u=H.find(m=>m.role==='user');CHAT_TITLE=(u?textOf(u.content):'chat').replace(/\s+/g,' ').slice(0,80)}
-  try{await api('/api/history/save',{chat:{id:CHAT_ID,title:CHAT_TITLE},messages:H})}catch(e){console.warn('history save failed',e)}
+  const snap=H.slice(),id=CHAT_ID,title=CHAT_TITLE;
+  // a step still in progress: give its open tool calls a placeholder result so the saved chat stays valid
+  for(let i=snap.length-1;i>=0;i--){const m=snap[i];if(m.role!=='assistant')continue;
+    if(m.tool_calls){const have=new Set(snap.slice(i+1).map(x=>x.tool_call_id));
+      for(const c of m.tool_calls)if(!have.has(c.id))snap.push({role:'tool',tool_call_id:c.id,name:c.function.name,content:'interrupted (the page was closed or the server restarted)'})}
+    break}
+  const once=()=>api('/api/history/save',{chat:{id,title},messages:snap}).then(r=>{if(!r||r.error)throw new Error(r&&r.error||'save failed')});
+  saveQ=saveQ.then(once).catch(()=>new Promise(r=>setTimeout(r,2000)).then(once)).catch(e=>console.warn('history save failed',e));
+  return saveQ;
 }
 async function showHistory(){
   const box=$('#hist');

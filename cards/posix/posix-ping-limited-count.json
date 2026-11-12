@@ -1,0 +1,91 @@
+{
+ "schema_version": 2,
+ "id": "posix-ping-limited-count",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Ping a host a specific number of times",
+ "summary": "Send a fixed number of network packets to a host instead of running continuously. Useful for quick checks without needing to manually stop the command.",
+ "aliases": [
+  {
+   "text": "ping 4 times",
+   "lang": "en"
+  },
+  {
+   "text": "ping count",
+   "lang": "en"
+  },
+  {
+   "text": "ping stop after",
+   "lang": "en"
+  },
+  {
+   "text": "пинг 4 раза",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг ограниченное количество",
+   "lang": "ru"
+  },
+  {
+   "text": "ping -c",
+   "lang": "en"
+  },
+  {
+   "text": "ping specific number of times",
+   "lang": "en"
+  },
+  {
+   "text": "проверить пинг несколько раз",
+   "lang": "ru"
+  },
+  {
+   "text": "ping count limit",
+   "lang": "en"
+  },
+  {
+   "text": "ping -c mac",
+   "lang": "en"
+  },
+  {
+   "text": "пинг ограниченное количество раз",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг -c",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send the specified number of packets to the host and then stop automatically.",
+   "cmd": "ping -c <COUNT> <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COUNT",
+     "description": "The number of packets to send.",
+     "example": "4"
+    },
+    {
+     "name": "HOST",
+     "description": "The IP address or domain name of the host to ping.",
+     "example": "google.com"
+    }
+   ],
+   "expect": "Statistics summary after the specified number of packets are sent."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ping.md",
+  "title": "tldr-pages: ping",
+  "license": "CC-BY-4.0"
+ }
+}

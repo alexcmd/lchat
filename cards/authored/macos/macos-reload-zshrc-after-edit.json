@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "macos-reload-zshrc-after-edit",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open ~/.zshrc for editing and reload it without restarting Terminal",
+ "summary": "Open your zsh settings file in a text editor, save your changes, then run source to apply them in the Terminal window you already have open. Editing the file does not change anything until you save it and reload it.",
+ "aliases": [
+  {
+   "text": "edit zshrc on mac",
+   "lang": "en"
+  },
+  {
+   "text": "open zshrc in text editor",
+   "lang": "en"
+  },
+  {
+   "text": "reload zshrc without restarting terminal",
+   "lang": "en"
+  },
+  {
+   "text": "apply zshrc changes without restart",
+   "lang": "en"
+  },
+  {
+   "text": "source zshrc mac",
+   "lang": "en"
+  },
+  {
+   "text": "refresh .zshrc in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "change zsh profile on mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "открыть zshrc в редакторе на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как перезагрузить zshrc без перезапуска терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "применить изменения zshrc без перезапуска",
+   "lang": "ru"
+  },
+  {
+   "text": "редактировать .zshrc на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить zshrc в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "сорс zshrc мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app is open and runs zsh (check with echo $SHELL)"
+ ],
+ "steps": [
+  {
+   "explain": "Open the zsh settings file ~/.zshrc in TextEdit. Make your changes, then save with Command-S. Nothing takes effect until you save and run the next step.",
+   "cmd": "open -e ~/.zshrc",
+   "risk": "low",
+   "expect": "TextEdit opens with the contents of your ~/.zshrc. The Terminal command returns right away with no output.",
+   "alternatives": [
+    {
+     "explain": "Open the file in your default text editor instead of TextEdit. Use this if you have chosen another editor for text files.",
+     "cmd": "open -t ~/.zshrc",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Reload ~/.zshrc in the current Terminal window, so the new settings apply now. Run it in the same window where you want to use the changes. It does not open a new window.",
+   "cmd": "source ~/.zshrc",
+   "risk": "low",
+   "expect": "Usually no output when the file has no errors. Any error text is printed in the Terminal window; fix it in the file and run this command again."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "echo \"$ZSH_VERSION\"",
+   "expect": "A version number such as 5.9 when the window runs zsh. An empty line means the window runs another shell."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-login-shell-setting"
+ ],
+ "source": {
+  "url": "x-man-page://open",
+  "title": "open manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

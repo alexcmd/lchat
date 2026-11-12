@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "macos-sync-clock-sntp",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Synchronize system clock with SNTP server",
+ "summary": "Force your Mac's system clock to update immediately by synchronizing it with a specified SNTP server. This requires administrator privileges.",
+ "aliases": [
+  {
+   "text": "sync clock",
+   "lang": "en"
+  },
+  {
+   "text": "update system time",
+   "lang": "en"
+  },
+  {
+   "text": "fix mac time",
+   "lang": "en"
+  },
+  {
+   "text": "sntp sync",
+   "lang": "en"
+  },
+  {
+   "text": "синхронизировать время",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить системное время",
+   "lang": "ru"
+  },
+  {
+   "text": "исправить время на маке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo to run sntp with the -S flag to force the system clock to synchronize with the specified server.",
+   "cmd": "sudo sntp -S <SERVER>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVER",
+     "description": "The hostname of the SNTP server to synchronize with",
+     "example": "pool.ntp.org"
+    }
+   ],
+   "expect": "The system clock is updated to match the server's time."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo command for time synchronization. You can re-enable automatic time synchronization in System Settings > General > Date & Time.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This changes the system clock immediately. If the server time is incorrect, it may affect scheduled tasks or file timestamps."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sntp.md",
+  "title": "tldr-pages: sntp",
+  "license": "CC-BY-4.0"
+ }
+}

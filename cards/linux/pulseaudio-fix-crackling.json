@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-fix-crackling",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix audio crackling or glitching",
+ "summary": "Audio crackling or glitching can often be fixed by disabling timer-based scheduling in PulseAudio.",
+ "aliases": [
+  {
+   "text": "audio crackling",
+   "lang": "en"
+  },
+  {
+   "text": "sound glitching",
+   "lang": "en"
+  },
+  {
+   "text": "pulseaudio crackling fix",
+   "lang": "en"
+  },
+  {
+   "text": "хрип звука",
+   "lang": "ru"
+  },
+  {
+   "text": "треск при воспроизведении",
+   "lang": "ru"
+  },
+  {
+   "text": "audio stuttering",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Find the line:\nload-module module-udev-detect\nand change it to:\nload-module module-udev-detect tsched=0",
+   "cmd": "",
+   "risk": "medium",
+   "needs_root": false,
+   "gui": "Open ~/.config/pulse/default.pa (or /etc/pulse/default.pa) in a text editor."
+  },
+  {
+   "explain": "Restart PulseAudio to apply the change.",
+   "cmd": "pulseaudio -k",
+   "risk": "low",
+   "needs_root": false
+  },
+  {
+   "explain": "Start PulseAudio again.",
+   "cmd": "pulseaudio --start",
+   "risk": "low",
+   "needs_root": false
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove tsched=0 from default.pa and restart PulseAudio.",
+   "cmd": "pulseaudio -k",
+   "risk": "low",
+   "needs_root": false
+  }
+ ],
+ "warnings": [
+  "Disabling timer-based scheduling may increase CPU usage slightly."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio/Troubleshooting#Troubleshooting_buffer_underruns_(glitches,_skips,_crackling)",
+  "title": "PulseAudio/Troubleshooting",
+  "revision_id": 883273,
+  "license": "GFDL-1.3-or-later"
+ }
+}

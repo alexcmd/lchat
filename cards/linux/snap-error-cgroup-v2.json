@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "snap-error-cgroup-v2",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'not a snap cgroup' error in Snap",
+ "summary": "Resolve the error '/user.slice/user-1000.slice/session-1.scope is not a snap cgroup' by setting the DBUS_SESSION_BUS_ADDRESS environment variable.",
+ "aliases": [
+  {
+   "text": "not a snap cgroup",
+   "lang": "en"
+  },
+  {
+   "text": "snap cgroup error",
+   "lang": "en"
+  },
+  {
+   "text": "snap app won't start cgroup",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка cgroup snap",
+   "lang": "ru"
+  },
+  {
+   "text": "snap не запускается cgroup",
+   "lang": "ru"
+  },
+  {
+   "text": "DBUS_SESSION_BUS_ADDRESS snap",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "is not a snap cgroup"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "snapd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the DBUS_SESSION_BUS_ADDRESS environment variable for the current session.",
+   "cmd": "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=$XDG_RUNTIME_DIR/bus\"",
+   "risk": "low",
+   "expect": "No output, command completes successfully."
+  },
+  {
+   "explain": "To make this permanent, add the export line to ~/.xprofile.",
+   "cmd": "",
+   "risk": "medium",
+   "gui": "Open ~/.xprofile in a text editor and add: export DBUS_SESSION_BUS_ADDRESS=\"unix:path=$XDG_RUNTIME_DIR/bus\""
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the line from ~/.xprofile if added.",
+   "cmd": "",
+   "risk": "low",
+   "gui": "Open ~/.xprofile in a text editor and remove the export line."
+  }
+ ],
+ "warnings": [
+  "This error is related to cgroup v2 support and D-Bus session bus configuration."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Snap#Error:_/user.slice/user-1000.slice/session-1.scope_is_not_a_snap_cgroup",
+  "title": "Snap",
+  "revision_id": 861445,
+  "license": "GFDL-1.3-or-later"
+ }
+}

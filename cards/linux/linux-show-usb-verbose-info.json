@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-usb-verbose-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show detailed information about USB devices",
+ "summary": "Display verbose technical details about all USB devices, including descriptors and capabilities. Requires administrator rights.",
+ "aliases": [
+  {
+   "text": "usb details",
+   "lang": "en"
+  },
+  {
+   "text": "verbose usb info",
+   "lang": "en"
+  },
+  {
+   "text": "lsusb verbose",
+   "lang": "en"
+  },
+  {
+   "text": "usb device info",
+   "lang": "en"
+  },
+  {
+   "text": "detailed usb list",
+   "lang": "en"
+  },
+  {
+   "text": "подробная информация о usb",
+   "lang": "ru"
+  },
+  {
+   "text": "детали usb устройств",
+   "lang": "ru"
+  },
+  {
+   "text": "lsusb verbose",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о usb",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsusb with sudo and the --verbose flag to show detailed technical information about all connected USB devices.",
+   "cmd": "sudo lsusb --verbose",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Extensive technical details for each USB device, including descriptors, endpoints, and capabilities."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lsusb.md",
+  "title": "tldr-pages: lsusb",
+  "license": "CC-BY-4.0"
+ }
+}

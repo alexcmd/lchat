@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-locales",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List available system locales",
+ "summary": "See a list of all language and region settings (locales) that are installed and available on your system.",
+ "aliases": [
+  {
+   "text": "list locales",
+   "lang": "en"
+  },
+  {
+   "text": "available languages",
+   "lang": "en"
+  },
+  {
+   "text": "localectl list-locales",
+   "lang": "en"
+  },
+  {
+   "text": "список локалей",
+   "lang": "ru"
+  },
+  {
+   "text": "доступные языки",
+   "lang": "ru"
+  },
+  {
+   "text": "какие локали есть",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all locales that are currently available for use on the system.",
+   "cmd": "localectl list-locales",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/localectl.md",
+  "title": "tldr-pages: localectl",
+  "license": "CC-BY-4.0"
+ }
+}

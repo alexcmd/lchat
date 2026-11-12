@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-partitions-uuid",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List all partitions and their UUIDs",
+ "summary": "Show a list of all recognized disk partitions on your computer along with their unique identifiers (UUIDs) and filesystem types. This is useful for identifying which drive is which.",
+ "aliases": [
+  {
+   "text": "list partitions uuid",
+   "lang": "en"
+  },
+  {
+   "text": "show disk uuids",
+   "lang": "en"
+  },
+  {
+   "text": "blkid command",
+   "lang": "en"
+  },
+  {
+   "text": "find partition id",
+   "lang": "en"
+  },
+  {
+   "text": "list disks and uuid",
+   "lang": "en"
+  },
+  {
+   "text": "какие диски есть",
+   "lang": "ru"
+  },
+  {
+   "text": "показать uuid дисков",
+   "lang": "ru"
+  },
+  {
+   "text": "blkid",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать uuid раздела",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run blkid with sudo to display all recognized partitions and their metadata, including UUIDs.",
+   "cmd": "sudo blkid",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/blkid.md",
+  "title": "tldr-pages: blkid",
+  "license": "CC-BY-4.0"
+ }
+}

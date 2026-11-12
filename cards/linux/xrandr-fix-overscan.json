@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "xrandr-fix-overscan",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix TV overscan with xrandr",
+ "summary": "Adjust the display area to remove black borders or cut-off edges when using a TV as a monitor.",
+ "aliases": [
+  {
+   "text": "fix overscan linux",
+   "lang": "en"
+  },
+  {
+   "text": "tv edges cut off",
+   "lang": "en"
+  },
+  {
+   "text": "underscan xrandr",
+   "lang": "en"
+  },
+  {
+   "text": "исправить оверскан",
+   "lang": "ru"
+  },
+  {
+   "text": "обрезаны края экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить размер под тв",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xorg-xrandr"
+  ]
+ },
+ "prerequisites": [
+  "Check if your output supports underscan using 'xrandr --prop'."
+ ],
+ "steps": [
+  {
+   "explain": "Enable underscan and adjust border values. You may need to tweak the border numbers (25 and 40) to fit your screen.",
+   "cmd": "xrandr --output <OUTPUT_NAME> --set underscan on --set \"underscan vborder\" <VBORDER> --set \"underscan hborder\" <HBORDER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_NAME",
+     "description": "The name of the monitor output",
+     "example": "HDMI-0"
+    },
+    {
+     "name": "VBORDER",
+     "description": "Vertical border size",
+     "example": "25"
+    },
+    {
+     "name": "HBORDER",
+     "description": "Horizontal border size",
+     "example": "40"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "If underscan is not supported, use a transformation matrix to scale the output. Adjust the scaling factors (0.80, 1.04) and offsets (-35, -19) as needed.",
+     "cmd": "xrandr --output <OUTPUT_NAME> --transform <MATRIX>",
+     "placeholders": [
+      {
+       "name": "OUTPUT_NAME",
+       "description": "The name of the monitor output",
+       "example": "HDMI1"
+      },
+      {
+       "name": "MATRIX",
+       "description": "Transformation matrix values, e.g., 0.80,0,-35,0,1.04,-19,0,0,1",
+       "example": "0.80,0,-35,0,1.04,-19,0,0,1"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Xrandr#Correction_of_overscan_tv_resolutions_via_the_underscan_property",
+  "title": "Xrandr",
+  "revision_id": 881138,
+  "license": "GFDL-1.3-or-later"
+ }
+}

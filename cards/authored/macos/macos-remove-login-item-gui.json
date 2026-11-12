@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "macos-remove-login-item-gui",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove an app from Login Items in System Settings",
+ "summary": "Stop an app from opening automatically when you log in by removing it from the Login Items list in System Settings. The app itself stays installed.",
+ "aliases": [
+  {
+   "text": "remove app from login items mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac app opens at startup how to stop",
+   "lang": "en"
+  },
+  {
+   "text": "stop app opening at login mac",
+   "lang": "en"
+  },
+  {
+   "text": "disable startup apps macos",
+   "lang": "en"
+  },
+  {
+   "text": "login items mac remove",
+   "lang": "en"
+  },
+  {
+   "text": "убрать приложение из автозагрузки mac",
+   "lang": "ru"
+  },
+  {
+   "text": "как отключить автозапуск программы на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "приложение само открывается при входе в mac",
+   "lang": "ru"
+  },
+  {
+   "text": "не запускать приложение при включении мака",
+   "lang": "ru"
+  },
+  {
+   "text": "автозапуск macos убрать",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos",
+    "min_version": "13"
+   }
+  ],
+  "desktop": [
+   "aqua"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open System Settings, go to General, then Login Items & Extensions. The Open at Login list shows the apps that start when you log in.",
+   "gui": "Apple menu > System Settings > General > Login Items & Extensions > Open at Login",
+   "risk": "low"
+  },
+  {
+   "explain": "Select the app you want to stop from opening at login. Its name is in the Open at Login list.",
+   "gui": "Click the app's name in the Open at Login list",
+   "risk": "low"
+  },
+  {
+   "explain": "Remove the app from the list. The app is not uninstalled and will not start at login anymore.",
+   "gui": "Click the minus (-) button under the Open at Login list",
+   "risk": "medium",
+   "expect": "The app disappears from the Open at Login list."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To make the app open at login again, add it back to the same list.",
+   "gui": "System Settings > General > Login Items & Extensions > Open at Login > click the plus (+) button and choose the app",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Removing a login item only stops the app from starting automatically. It does not uninstall the app or delete its data.",
+  "Some apps add their own login item and may add it back when they update or change settings; check the list again after using the app.",
+  "Login Items shows apps for the current user only. Items for other users are not listed here."
+ ],
+ "source": {
+  "url": "x-man-page://System%20Settings",
+  "title": "System Settings manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

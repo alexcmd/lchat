@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-dconf-write-key",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Write a value to a dconf key",
+ "summary": "Change a specific configuration setting in the GNOME dconf database by writing a new value to a key.",
+ "aliases": [
+  {
+   "text": "change dconf setting",
+   "lang": "en"
+  },
+  {
+   "text": "write dconf key",
+   "lang": "en"
+  },
+  {
+   "text": "modify gnome config",
+   "lang": "en"
+  },
+  {
+   "text": "изменить настройку dconf",
+   "lang": "ru"
+  },
+  {
+   "text": "записать значение в dconf",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Write a new value to a specific dconf key. Replace <KEY_PATH> with the key path and <VALUE> with the new value (enclosed in quotes).",
+   "cmd": "dconf write /<KEY_PATH> \"<VALUE>\"",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "KEY_PATH",
+     "description": "The full path to the dconf key",
+     "example": "org/gnome/desktop/interface/cursor-size"
+    },
+    {
+     "name": "VALUE",
+     "description": "The new value to set (string, int, bool, etc.)",
+     "example": "48"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reset the key to its default value.",
+   "cmd": "dconf reset /<KEY_PATH>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "KEY_PATH",
+     "description": "The full path to the dconf key",
+     "example": "org/gnome/desktop/interface/cursor-size"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Incorrect values can break desktop settings. Ensure the value format matches the expected type."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dconf.md",
+  "title": "tldr-pages: dconf",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-dconf-reset-key",
+  "linux-gsettings-set-value"
+ ]
+}

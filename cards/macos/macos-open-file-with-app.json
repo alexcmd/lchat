@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-file-with-app",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open a file with its default application",
+ "summary": "Use the `open` command to launch a file in the app associated with its type, just like double-clicking it in Finder.",
+ "aliases": [
+  {
+   "text": "open file on mac",
+   "lang": "en"
+  },
+  {
+   "text": "how to open pdf from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "open document with default app",
+   "lang": "en"
+  },
+  {
+   "text": "открыть файл на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как открыть файл через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть документ в приложении",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the open command followed by the path to the file you want to view.",
+   "cmd": "open <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to open",
+     "example": "document.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/open.md",
+  "title": "tldr-pages: open",
+  "license": "CC-BY-4.0"
+ }
+}

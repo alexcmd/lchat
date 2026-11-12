@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-follow-kernel-messages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Follow new kernel messages in real-time",
+ "summary": "Keep the terminal open and display new kernel messages as they appear. This is useful when plugging in a device or troubleshooting an issue that happens intermittently.",
+ "aliases": [
+  {
+   "text": "follow kernel messages",
+   "lang": "en"
+  },
+  {
+   "text": "watch dmesg",
+   "lang": "en"
+  },
+  {
+   "text": "live kernel log",
+   "lang": "en"
+  },
+  {
+   "text": "tail dmesg",
+   "lang": "en"
+  },
+  {
+   "text": "monitor kernel output",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg follow",
+   "lang": "en"
+  },
+  {
+   "text": "следить за логами ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "dmesg в реальном времени",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "новые сообщения ядра",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --follow flag to keep waiting for and printing new kernel messages. Press Ctrl+C to stop.",
+   "cmd": "sudo dmesg --follow",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dmesg.md",
+  "title": "tldr-pages: dmesg",
+  "license": "CC-BY-4.0"
+ }
+}

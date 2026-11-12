@@ -1,0 +1,108 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-time-machine-destination",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set Time Machine backup destination",
+ "summary": "Configure where Time Machine saves your backups. You can specify a local disk or a network share.",
+ "aliases": [
+  {
+   "text": "set time machine destination",
+   "lang": "en"
+  },
+  {
+   "text": "change backup drive",
+   "lang": "en"
+  },
+  {
+   "text": "configure time machine disk",
+   "lang": "en"
+  },
+  {
+   "text": "установить диск для time machine",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить диск резервного копирования",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить бэкап на диск",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set a local HFS+ drive as the backup destination. Replace <DISK_MOUNT_POINT> with the path to your mounted drive (e.g., /Volumes/MyBackup).",
+   "cmd": "sudo tmutil setdestination <DISK_MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DISK_MOUNT_POINT",
+     "description": "The path to the mounted drive you want to use for backups.",
+     "example": "/Volumes/MyBackup"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Set a network share (APFS or SMB) as the backup destination. Replace <SHARE_URL> with the full URL including credentials.",
+     "cmd": "sudo tmutil setdestination \"<SHARE_URL>\"",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "SHARE_URL",
+       "description": "The URL of the network share, e.g., smb://user:password@host/share",
+       "example": "smb://user:pass@host/share"
+      }
+     ]
+    },
+    {
+     "explain": "Append a destination to the existing list of backup destinations instead of replacing it.",
+     "cmd": "sudo tmutil setdestination -a <DESTINATION>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "DESTINATION",
+       "description": "The path or URL of the destination to add.",
+       "example": "/Volumes/MyBackup"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert to the default destination or remove the current one, you typically need to use the Time Machine preferences in System Settings, as tmutil does not provide a simple 'unset' command in this page. Alternatively, you can set a different valid destination.",
+   "cmd": "sudo tmutil setdestination <NEW_DESTINATION>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "NEW_DESTINATION",
+     "description": "The path or URL of the new destination to set.",
+     "example": "/Volumes/OtherBackup"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing the backup destination will stop backups to the previous location. Ensure the new destination is formatted correctly and has enough space."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tmutil.md",
+  "title": "tldr-pages: tmutil",
+  "license": "CC-BY-4.0"
+ }
+}

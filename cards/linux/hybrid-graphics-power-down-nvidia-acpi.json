@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "hybrid-graphics-power-down-nvidia-acpi",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Power down NVIDIA discrete GPU using acpi_call",
+ "summary": "Use the acpi_call kernel module to manually turn off the dedicated NVIDIA GPU to save battery power. This method works for GPUs not supported by bbswitch.",
+ "aliases": [
+  {
+   "text": "turn off nvidia gpu linux",
+   "lang": "en"
+  },
+  {
+   "text": "disable discrete gpu battery save",
+   "lang": "en"
+  },
+  {
+   "text": "acpi call turn off gpu",
+   "lang": "en"
+  },
+  {
+   "text": "выключить дискретную видеокарту nvidia",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить nvidia gpu для экономии батареи",
+   "lang": "ru"
+  },
+  {
+   "text": "acpi call выключить gpu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "desktop": [
+   "any"
+  ],
+  "requires": [
+   "acpi_call"
+  ]
+ },
+ "prerequisites": [
+  "Installed acpi_call package",
+  "Root privileges"
+ ],
+ "steps": [
+  {
+   "explain": "Load the acpi_call kernel module.",
+   "cmd": "sudo modprobe acpi_call",
+   "needs_root": true,
+   "risk": "low"
+  },
+  {
+   "explain": "Run the example script to find the correct ACPI call to turn off the GPU. Look for a line ending in 'works!'.",
+   "cmd": "sudo /usr/share/acpi_call/examples/turn_off_gpu.sh",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Output showing various attempts, with one line ending in 'works!' indicating the GPU is off."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lspci",
+   "expect": "The NVIDIA GPU should no longer be listed, or power consumption should drop significantly."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Reboot the system to restore the GPU.",
+   "cmd": "sudo reboot",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This change is not persistent across reboots.",
+  "If you experience issues with suspend/hibernate, you may need to re-enable the GPU before suspending."
+ ],
+ "see_also": [
+  "amdgpu-check-driver-loaded"
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Hybrid_graphics#Using_acpi_call",
+  "title": "Hybrid graphics",
+  "revision_id": 882727,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "macos-remove-item-from-finder-sidebar",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove item from Finder sidebar",
+ "summary": "Unpin an item from the Finder sidebar favorites by its name.",
+ "aliases": [
+  {
+   "text": "remove item from finder sidebar",
+   "lang": "en"
+  },
+  {
+   "text": "unpin folder from sidebar",
+   "lang": "en"
+  },
+  {
+   "text": "mysides remove",
+   "lang": "en"
+  },
+  {
+   "text": "убрать папку из сайдбара finder",
+   "lang": "ru"
+  },
+  {
+   "text": "открепить от боковой панели",
+   "lang": "ru"
+  },
+  {
+   "text": "mysides удалить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "mysides is installed (e.g. via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Remove an item from the Finder sidebar favorites by its display name.",
+   "cmd": "mysides remove <NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NAME",
+     "description": "The display name of the sidebar item to remove",
+     "example": "Projects"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mysides.md",
+  "title": "tldr-pages: mysides",
+  "license": "CC-BY-4.0"
+ }
+}

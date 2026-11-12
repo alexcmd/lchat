@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-system-info-uname",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check system architecture and kernel info with uname",
+ "summary": "Use the `uname` command to see details about your Mac's hardware architecture, processor, and kernel version. This is useful for troubleshooting or verifying compatibility.",
+ "aliases": [
+  {
+   "text": "check system architecture",
+   "lang": "en"
+  },
+  {
+   "text": "uname command mac",
+   "lang": "en"
+  },
+  {
+   "text": "see processor info",
+   "lang": "en"
+  },
+  {
+   "text": "kernel version mac",
+   "lang": "en"
+  },
+  {
+   "text": "system info terminal",
+   "lang": "en"
+  },
+  {
+   "text": "проверить архитектуру системы",
+   "lang": "ru"
+  },
+  {
+   "text": "команда uname mac",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о процессоре",
+   "lang": "ru"
+  },
+  {
+   "text": "версия ядра mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print the system architecture and processor information.",
+   "cmd": "uname -mp",
+   "risk": "low",
+   "expect": "Output showing architecture (e.g., arm64) and processor type."
+  },
+  {
+   "explain": "Print the kernel name, release, and version.",
+   "cmd": "uname -srv",
+   "risk": "low",
+   "expect": "Output showing kernel name (Darwin), release, and version details."
+  },
+  {
+   "explain": "Print all available system information at once.",
+   "cmd": "uname -a",
+   "risk": "low",
+   "expect": "A single line containing all system details including hostname, kernel, and architecture."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/uname.md",
+  "title": "tldr-pages: uname",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-check-machine-architecture"
+ ]
+}

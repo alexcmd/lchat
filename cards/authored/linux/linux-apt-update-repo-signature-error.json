@@ -1,0 +1,179 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-update-repo-signature-error",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Read apt update errors: NO_PUBKEY and repository not signed",
+ "summary": "When apt update fails, the error names the repository that is broken. This card shows how to find the matching line in your source files and what the error words mean, without adding third-party keys.",
+ "aliases": [
+  {
+   "text": "apt update NO_PUBKEY error",
+   "lang": "en"
+  },
+  {
+   "text": "apt update repository is not signed",
+   "lang": "en"
+  },
+  {
+   "text": "apt update which repository failed",
+   "lang": "en"
+  },
+  {
+   "text": "apt update error 404 file not found",
+   "lang": "en"
+  },
+  {
+   "text": "apt gpg error NO_PUBKEY",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu update error which source file",
+   "lang": "en"
+  },
+  {
+   "text": "apt update does not have a Release file",
+   "lang": "en"
+  },
+  {
+   "text": "apt update ошибка NO_PUBKEY",
+   "lang": "ru"
+  },
+  {
+   "text": "apt update репозиторий не подписан",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка apt update какой репозиторий",
+   "lang": "ru"
+  },
+  {
+   "text": "apt update ошибка 404 не найден",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка gpg apt update нет ключа",
+   "lang": "ru"
+  },
+  {
+   "text": "apt update oshibka repozitoriy",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "NO_PUBKEY",
+  "is not signed",
+  "does not have a Release file",
+  "404  File not found"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window",
+  "Your administrator password (for sudo)"
+ ],
+ "steps": [
+  {
+   "explain": "Run the update again and read every line. Lines that start with 'Err:', 'W:' or 'E:' show the repository URL or file path that failed.",
+   "cmd": "sudo apt update",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "An 'Err:' or 'W: GPG error:' line that names the repository, and an 'E: The repository ... is not signed.' line or a 'does not have a Release file' line."
+  },
+  {
+   "explain": "Decide the cause from the error words. NO_PUBKEY: the repository is signed with a key your system does not have. 'is not signed': apt could not verify its signature. 'does not have a Release file' or 404: the address or suite is wrong or the repository is gone.",
+   "risk": "low"
+  },
+  {
+   "explain": "Find the source line that has the same URL or file path as the error. Files here end in .list (one line per source) or .sources (blocks with URIs: and Suites:). On older systems also check /etc/apt/sources.list.",
+   "cmd": "grep -r '' /etc/apt/sources.list.d/",
+   "risk": "low",
+   "expect": "Each line starts with the file path, then a colon, then the source line, such as '/etc/apt/sources.list.d/NAME.list:deb file:... ./'. The line with the error's URL is the broken one."
+  },
+  {
+   "explain": "List the repositories apt already has index data for, with their URL and suite. A broken repository that was never downloaded does not appear here.",
+   "cmd": "apt-cache policy",
+   "risk": "low",
+   "expect": "Starts with 'Package files:', then lines such as ' 500 http://... noble/main arm64 Packages' for each working source."
+  },
+  {
+   "explain": "Save a copy of the file with the broken line so you can undo the change. apt ignores files in this folder that do not end in .list or .sources, so the copy does not affect updates.",
+   "cmd": "sudo cp <SOURCE_FILE> <SOURCE_FILE>.bak",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE_FILE",
+     "description": "The file that holds the broken line, the part before the first colon in the grep output",
+     "example": "/etc/apt/sources.list.d/demo-broken.list",
+     "discover_cmd": "ls /etc/apt/sources.list.d/"
+    }
+   ],
+   "expect": "No output. A file named <SOURCE_FILE>.bak now exists next to the original."
+  },
+  {
+   "explain": "Open the file that holds the broken line. To disable the repository, put # at the start of that line (for a .sources file, put # at the start of each line of its block). Do not add a key here. Save with Ctrl+O, Enter, then exit with Ctrl+X.",
+   "cmd": "sudo nano <SOURCE_FILE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE_FILE",
+     "description": "The file that holds the broken line, from the grep output",
+     "example": "/etc/apt/sources.list.d/demo-broken.list",
+     "discover_cmd": "ls /etc/apt/sources.list.d/"
+    }
+   ],
+   "expect": "The text editor opens the file. The broken line is now prefixed with # after you save."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "sudo apt update",
+   "expect": "No 'Err:', 'W:' or 'E:' line for the disabled repository. The output ends with a line such as '4 packages can be upgraded'."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Put the original file back from the .bak copy. The .bak file can stay; apt ignores it.",
+   "cmd": "sudo cp <SOURCE_FILE>.bak <SOURCE_FILE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE_FILE",
+     "description": "The same file you copied in the backup step",
+     "example": "/etc/apt/sources.list.d/demo-broken.list",
+     "discover_cmd": "ls /etc/apt/sources.list.d/"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Do not add a third-party key with apt-key or by downloading a key from a website just to make NO_PUBKEY disappear. The key is what proves the packages are genuine; if you cannot tell who runs the repository, disable it instead.",
+  "Disable only the line whose URL matches the error. Changing other sources can break system updates.",
+  "Editing files in /etc/apt with sudo can break apt if you make a typo. Keep the .bak copy until sudo apt update works again."
+ ],
+ "see_also": [
+  "linux-apt-update-package-list",
+  "linux-remove-apt-repository",
+  "linux-add-apt-repository"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/apt",
+  "title": "apt manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,142 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-git-stash-pull-pop",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Stash local changes, pull from the remote and bring the changes back",
+ "summary": "Puts your unfinished edits aside, downloads the newest commits from the remote while keeping your history tidy, and then puts your edits back on top. Use it when git pull refuses to run because local changes would be overwritten.",
+ "aliases": [
+  {
+   "text": "git stash pull rebase pop",
+   "lang": "en"
+  },
+  {
+   "text": "git pull fails local changes would be overwritten",
+   "lang": "en"
+  },
+  {
+   "text": "save changes, pull and restore in git",
+   "lang": "en"
+  },
+  {
+   "text": "git stash before pull",
+   "lang": "en"
+  },
+  {
+   "text": "git pull rebase with uncommitted changes",
+   "lang": "en"
+  },
+  {
+   "text": "git update branch with local edits stashed",
+   "lang": "en"
+  },
+  {
+   "text": "git stash pull rebase pop",
+   "lang": "ru"
+  },
+  {
+   "text": "git pull не работает из-за локальных изменений",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить изменения, обновить репозиторий и вернуть git",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить git ветку с незакоммиченными изменениями",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "git"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview: list the changed files that will be stashed. M means modified, ?? means a new untracked file. Untracked files are not stashed by default and stay in place.",
+   "risk": "low",
+   "cmd": "git -C <REPO> status --short && git -C <REPO> stash list",
+   "expect": "Lines such as: M notes.txt. The stash list shows older stashes, if any.",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app",
+     "discover_cmd": "ls"
+    }
+   ]
+  },
+  {
+   "explain": "Save the changes in the stash. They are removed from the working folder and kept in the stash list.",
+   "risk": "low",
+   "cmd": "git -C <REPO> stash push -m \"wip before pull\"",
+   "expect": "Saved working directory and index state On <branch>: wip before pull",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app"
+    }
+   ]
+  },
+  {
+   "explain": "Download the newest commits from the remote and replay your local commits on top, if you have any.",
+   "risk": "medium",
+   "cmd": "git -C <REPO> pull --rebase origin <BRANCH>",
+   "expect": "Already up to date, or a list of the updated files and a Fast-forward line.",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app"
+    },
+    {
+     "name": "BRANCH",
+     "description": "Branch to update",
+     "example": "main"
+    }
+   ]
+  },
+  {
+   "explain": "Put the saved changes back. If this reports a conflict, the stash is kept: fix the files, see the warning below.",
+   "risk": "medium",
+   "cmd": "git -C <REPO> stash pop",
+   "expect": "The changed file names, then Dropped refs/stash@{0}, when the pop worked cleanly.",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://git-scm.com/docs/git-stash",
+  "title": "git-stash Documentation",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "prerequisites": [
+  "A git repository with a remote named origin",
+  "Know the branch name, for example main"
+ ],
+ "rollback": [
+  {
+   "explain": "If the pop reports a conflict, the stash is kept. Edit the conflicted files, run git add on them, then git stash drop to remove the saved copy. Until then your edits remain in git stash list.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "If git stash pop reports CONFLICT, the stash is not deleted. Resolve the files before running any other stash command.",
+  "Untracked new files are not stashed unless you add -u, and they can still block the pull.",
+  "Rebasing rewrites local commits that were not pushed. Do not use it on a branch that others build on without checking first."
+ ]
+}

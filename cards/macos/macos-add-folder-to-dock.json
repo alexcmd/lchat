@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-folder-to-dock",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add a folder to the Dock with view options",
+ "summary": "Use dockutil to add a directory to the Dock and choose how it displays (folder icon or stack) and how its contents are viewed (grid, fan, list, or auto).",
+ "aliases": [
+  {
+   "text": "add folder to dock",
+   "lang": "en"
+  },
+  {
+   "text": "dockutil add directory",
+   "lang": "en"
+  },
+  {
+   "text": "add stack to dock",
+   "lang": "en"
+  },
+  {
+   "text": "добавить папку в док",
+   "lang": "ru"
+  },
+  {
+   "text": "dockutil добавить папку",
+   "lang": "ru"
+  },
+  {
+   "text": "стек в доке настройка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "dockutil is installed (usually via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Adds a directory to the Dock. You can specify the view style (grid, fan, list, auto) and display style (folder, stack).",
+   "cmd": "dockutil --add <DIR_PATH> --view <VIEW_STYLE> --display <DISPLAY_STYLE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIR_PATH",
+     "description": "Full path to the directory, e.g. /Users/username/Downloads",
+     "example": "/Users/username/Downloads"
+    },
+    {
+     "name": "VIEW_STYLE",
+     "description": "How the folder contents are displayed: grid, fan, list, or auto",
+     "example": "grid"
+    },
+    {
+     "name": "DISPLAY_STYLE",
+     "description": "How the folder icon looks: folder or stack",
+     "example": "stack"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dockutil.md",
+  "title": "tldr-pages: dockutil",
+  "license": "CC-BY-4.0"
+ }
+}

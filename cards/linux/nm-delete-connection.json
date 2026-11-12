@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "nm-delete-connection",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete a saved network connection",
+ "summary": "Remove a saved Wi-Fi or wired connection profile from NetworkManager.",
+ "aliases": [
+  {
+   "text": "delete wifi connection",
+   "lang": "en"
+  },
+  {
+   "text": "remove network profile",
+   "lang": "en"
+  },
+  {
+   "text": "forget wifi network",
+   "lang": "en"
+  },
+  {
+   "text": "удалить профиль сети",
+   "lang": "ru"
+  },
+  {
+   "text": "забыть wifi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all saved connections to find the name or UUID of the one you want to delete.",
+   "cmd": "nmcli connection show",
+   "risk": "low"
+  },
+  {
+   "explain": "Delete the specified connection.",
+   "cmd": "nmcli connection delete <NAME_OR_UUID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NAME_OR_UUID",
+     "description": "The name or UUID of the connection",
+     "example": "MyHomeWiFi",
+     "discover_cmd": "nmcli connection show"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NetworkManager#nmcli_examples",
+  "title": "NetworkManager",
+  "revision_id": 887559,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-mirrors-get-branch",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show current Pacman branch",
+ "summary": "Display which branch (stable, testing, or unstable) your system is currently using for package updates. This tells you if you are on the standard stable release or a development branch.",
+ "aliases": [
+  {
+   "text": "show pacman branch",
+   "lang": "en"
+  },
+  {
+   "text": "current pacman branch",
+   "lang": "en"
+  },
+  {
+   "text": "check pacman branch",
+   "lang": "en"
+  },
+  {
+   "text": "какая ветка pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "текущая ветка pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman branch",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "pacman-mirrors"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to display the current branch name.",
+   "cmd": "pacman-mirrors --get-branch",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman-mirrors.md",
+  "title": "tldr-pages: pacman-mirrors",
+  "license": "CC-BY-4.0"
+ }
+}

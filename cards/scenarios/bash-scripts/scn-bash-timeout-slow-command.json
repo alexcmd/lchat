@@ -1,0 +1,170 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-timeout-slow-command",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Stop a slow command in a bash script after a set number of seconds",
+  "summary": "Runs any command with a time limit. If the command takes longer, it is stopped and the script reports a timeout, so a hung program cannot block the whole script forever.",
+  "aliases": [
+    {
+      "text": "limit command run time bash",
+      "lang": "en"
+    },
+    {
+      "text": "kill a command after N seconds",
+      "lang": "en"
+    },
+    {
+      "text": "bash timeout command example",
+      "lang": "en"
+    },
+    {
+      "text": "stop a slow command after 30 seconds in script",
+      "lang": "en"
+    },
+    {
+      "text": "timeout in bash script",
+      "lang": "en"
+    },
+    {
+      "text": "bash exit code 124 timeout",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт остановит команду если она работает дольше N секунд",
+      "lang": "ru"
+    },
+    {
+      "text": "как ограничить время выполнения команды в bash",
+      "lang": "ru"
+    },
+    {
+      "text": "таймаут для команды в bash",
+      "lang": "ru"
+    },
+    {
+      "text": "завершить зависшую команду через время",
+      "lang": "ru"
+    },
+    {
+      "text": "bash timeout код выхода 124",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "run-with-timeout.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "run-with-timeout.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "run-with-timeout.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Run a command that takes five seconds with a limit of one second. It is stopped and the exit code is 124.",
+      "risk": "low",
+      "cmd": "./<FILE> <SECONDS> sleep 5; echo exit code $?",
+      "expect": "timed out after 1s: sleep 5, then exit code 124",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "run-with-timeout.sh"
+        },
+        {
+          "name": "SECONDS",
+          "description": "How many seconds the command may run",
+          "example": "1"
+        }
+      ]
+    },
+    {
+      "explain": "Run a command that finishes in time. The exit code is 0.",
+      "risk": "low",
+      "cmd": "./<FILE> 3 true; echo exit code $?",
+      "expect": "exit code 0",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "run-with-timeout.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Run a command that fails by itself. The script reports its exit code, not a timeout.",
+      "risk": "low",
+      "cmd": "./<FILE> 3 false; echo exit code $?",
+      "expect": "command failed with exit code 1: false, then exit code 1",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "run-with-timeout.sh"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "A stopped command gets no chance to clean up. A program that writes a file halfway can leave a damaged file behind.",
+    "Choose a limit longer than the normal run time. Otherwise a slow but correct run is stopped too.",
+    "timeout is part of GNU coreutils. On macOS, install coreutils with Homebrew and use the name gtimeout instead."
+  ],
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man1/timeout.1.html",
+    "title": "timeout(1) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "run-with-timeout.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# run-with-timeout.sh - run a command, but stop it after SECONDS.\n# Usage: ./run-with-timeout.sh SECONDS COMMAND [ARGS...]\n# Exit code: the command's own exit code, 124 when it timed out, 2 for bad usage.\n\nset -euo pipefail\n\nif (( $# < 2 )) || ! [[ $1 =~ ^[1-9][0-9]*$ ]]; then\n    echo \"usage: $0 SECONDS COMMAND [ARGS...]\" >&2\n    exit 2\nfi\nLIMIT=$1\nshift\n\n# timeout sends TERM after LIMIT seconds. -k 5 sends KILL 5 seconds later\n# if the command ignores TERM.\nstatus=0\ntimeout -k 5 \"$LIMIT\" \"$@\" || status=$?\n\nif (( status == 124 )); then\n    echo \"timed out after ${LIMIT}s: $*\" >&2\nelif (( status != 0 )); then\n    echo \"command failed with exit code $status: $*\" >&2\nfi\nexit \"$status\"\n",
+    "usage": "./run-with-timeout.sh SECONDS COMMAND [ARGS...]"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

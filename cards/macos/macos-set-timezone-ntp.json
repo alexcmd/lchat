@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-timezone-ntp",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set timezone and enable network time sync",
+ "summary": "Configure your Mac's timezone and enable automatic time synchronization with a network server. This ensures your clock stays accurate.",
+ "aliases": [
+  {
+   "text": "set timezone mac",
+   "lang": "en"
+  },
+  {
+   "text": "sync time mac",
+   "lang": "en"
+  },
+  {
+   "text": "change timezone terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "настроить время на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить часовой пояс macos",
+   "lang": "ru"
+  },
+  {
+   "text": "синхронизация времени mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the timezone, specify an NTP server, and enable network time synchronization.",
+   "cmd": "sudo systemsetup -settimezone \"<TIMEZONE>\" -setnetworktimeserver <NTP_SERVER> -setusingnetworktime on",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "TIMEZONE",
+     "description": "The timezone identifier, e.g., US/Pacific, Europe/Moscow",
+     "example": "US/Pacific"
+    },
+    {
+     "name": "NTP_SERVER",
+     "description": "The address of the NTP server",
+     "example": "us.pool.ntp.org"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Disable network time synchronization if you want to set the time manually.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Incorrect timezone settings can cause issues with scheduled tasks and logs.",
+  "This command requires administrator privileges."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/systemsetup.md",
+  "title": "tldr-pages: systemsetup",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,121 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-loaded-ssh-keys",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List SSH keys currently loaded in the agent",
+ "summary": "Show the fingerprints of the SSH keys that ssh-agent has loaded in memory. Use it to check that the key you need is active before you connect to a server.",
+ "aliases": [
+  {
+   "text": "ssh-add -l",
+   "lang": "en"
+  },
+  {
+   "text": "list ssh keys loaded in agent",
+   "lang": "en"
+  },
+  {
+   "text": "is my ssh key loaded",
+   "lang": "en"
+  },
+  {
+   "text": "show ssh-agent keys mac",
+   "lang": "en"
+  },
+  {
+   "text": "check ssh key active before connecting",
+   "lang": "en"
+  },
+  {
+   "text": "ssh key fingerprint in agent",
+   "lang": "en"
+  },
+  {
+   "text": "ssh-add list identities",
+   "lang": "en"
+  },
+  {
+   "text": "ssh-add -l",
+   "lang": "ru"
+  },
+  {
+   "text": "какие ssh ключи загружены в агент",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить загружен ли ssh ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "показать отпечатки ssh ключей в агенте",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh-agent список ключей mac",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh ключ активен ли в агенте",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh-add посмотреть ключи",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app is open"
+ ],
+ "steps": [
+  {
+   "explain": "List the fingerprints of all keys the SSH agent holds now. Read-only. Each line is one key: size, SHA256 fingerprint, comment (often user@host) and type.",
+   "cmd": "ssh-add -l",
+   "risk": "low",
+   "expect": "One line per loaded key, like '256 SHA256:... you@your-mac (ED25519)'. Or 'The agent has no identities.' (exit status 1).",
+   "alternatives": [
+    {
+     "explain": "Same list, but with MD5 fingerprints (the older format used in some guides and in ssh-keygen output on older systems).",
+     "cmd": "ssh-add -l -E md5",
+     "risk": "low",
+     "expect": "The same keys, with fingerprints shown as MD5:xx:xx:... instead of SHA256:..."
+    }
+   ]
+  },
+  {
+   "explain": "Compare the fingerprint of one specific key file with the list from the previous step. If the same SHA256 fingerprint appears in the list, that key is loaded and ready to use. Replace <KEY_FILE> with the path to the public key file (the one ending in .pub).",
+   "cmd": "ssh-keygen -lf <KEY_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_FILE",
+     "description": "Path to the public key file you want to check, usually ending in .pub",
+     "example": "~/.ssh/id_ed25519.pub",
+     "discover_cmd": "ls ~/.ssh/*.pub"
+    }
+   ],
+   "expect": "One line with the key size, a SHA256:... fingerprint, the comment and the key type, e.g. '256 SHA256:... you@your-mac (ED25519)'. If the fingerprint matches a line from ssh-add -l, the key is loaded."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ssh-add -l",
+   "expect": "The fingerprint of your key appears in the list."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://ssh-add",
+  "title": "ssh-add manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "warnings": [
+  "If the output is 'Could not open a connection to your authentication agent.' (exit status 2), ssh-agent is not running for this Terminal session. Start it with 'eval \"$(ssh-agent -s)\"' or load the key with ssh-add."
+ ]
+}

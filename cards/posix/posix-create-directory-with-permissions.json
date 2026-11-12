@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-directory-with-permissions",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a directory with specific permissions",
+ "summary": "Use the -m flag with mkdir to set specific read, write, and execute permissions for the new directory immediately upon creation.",
+ "aliases": [
+  {
+   "text": "mkdir permissions",
+   "lang": "en"
+  },
+  {
+   "text": "create folder with permissions",
+   "lang": "en"
+  },
+  {
+   "text": "mkdir mode",
+   "lang": "en"
+  },
+  {
+   "text": "создать папку с правами",
+   "lang": "ru"
+  },
+  {
+   "text": "mkdir -m",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --mode flag followed by the permission string (e.g., rwxrw-r--) and the directory path.",
+   "cmd": "mkdir -m <PERMISSIONS> <DIRECTORY_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PERMISSIONS",
+     "description": "The permission string, e.g., rwxrw-r--",
+     "example": "rwxrw-r--"
+    },
+    {
+     "name": "DIRECTORY_PATH",
+     "description": "The path of the directory to create",
+     "example": "SharedFolder"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/mkdir.md",
+  "title": "tldr-pages: mkdir",
+  "license": "CC-BY-4.0"
+ }
+}

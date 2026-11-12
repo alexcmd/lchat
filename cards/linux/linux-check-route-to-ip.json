@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-route-to-ip",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check which route is used to reach an IP address",
+ "summary": "Find out exactly which gateway and interface your computer will use to send traffic to a specific IP address. This is useful for debugging connectivity issues to specific servers or devices.",
+ "aliases": [
+  {
+   "text": "check route to ip",
+   "lang": "en"
+  },
+  {
+   "text": "which route for ip",
+   "lang": "en"
+  },
+  {
+   "text": "ip route get",
+   "lang": "en"
+  },
+  {
+   "text": "trace route decision",
+   "lang": "en"
+  },
+  {
+   "text": "проверить маршрут до ip",
+   "lang": "ru"
+  },
+  {
+   "text": "какой маршрут для ip",
+   "lang": "ru"
+  },
+  {
+   "text": "ip route get",
+   "lang": "ru"
+  },
+  {
+   "text": "маршрут до адреса",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Ask the kernel which route it would select to reach a specific destination IP address.",
+   "cmd": "ip route get <DESTINATION_IP>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The IP address you want to check the route for",
+     "example": "8.8.8.8"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-route.md",
+  "title": "tldr-pages: ip-route",
+  "license": "CC-BY-4.0"
+ }
+}

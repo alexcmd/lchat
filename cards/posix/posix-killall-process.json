@@ -1,0 +1,91 @@
+{
+ "schema_version": 2,
+ "id": "posix-killall-process",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Terminate all instances of a process by name",
+ "summary": "Use killall to send a termination signal to every running instance of a specific program. This is useful when an application freezes or you want to close all windows of an app at once.",
+ "aliases": [
+  {
+   "text": "kill all instances of process",
+   "lang": "en"
+  },
+  {
+   "text": "terminate app by name",
+   "lang": "en"
+  },
+  {
+   "text": "killall command",
+   "lang": "en"
+  },
+  {
+   "text": "close all firefox windows",
+   "lang": "en"
+  },
+  {
+   "text": "убить все процессы по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "killall процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "закрыть все окна приложения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send the default SIGTERM signal to all processes matching the exact name. This asks the application to close gracefully.",
+   "cmd": "killall <PROCESS_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_NAME",
+     "description": "The exact name of the process to terminate (e.g., firefox, chrome, code).",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Ask for confirmation before killing each process instance.",
+     "cmd": "killall -i <PROCESS_NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROCESS_NAME",
+       "description": "The exact name of the process to terminate.",
+       "example": "firefox"
+      }
+     ]
+    },
+    {
+     "explain": "Send the SIGINT signal (same as Ctrl+C) to interrupt the process.",
+     "cmd": "killall -2 <PROCESS_NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROCESS_NAME",
+       "description": "The exact name of the process to terminate.",
+       "example": "firefox"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/killall.md",
+  "title": "tldr-pages: killall",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-resolvectl-query-tlsa-record",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Retrieve TLSA record",
+ "summary": "Retrieve a TLSA record for a domain and port, used for DNS-based Authentication of Named Entities (DANE).",
+ "aliases": [
+  {
+   "text": "check tlsa record",
+   "lang": "en"
+  },
+  {
+   "text": "dns tls key",
+   "lang": "en"
+  },
+  {
+   "text": "resolvectl tlsa",
+   "lang": "en"
+  },
+  {
+   "text": "tlsa запись dns",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить tls ключ dns",
+   "lang": "ru"
+  },
+  {
+   "text": "dane запись",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-resolved"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Retrieve the TLSA record for the specified domain and port.",
+   "cmd": "resolvectl tlsa tcp <DOMAIN>:<PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to query.",
+     "example": "example.com"
+    },
+    {
+     "name": "PORT",
+     "description": "The port number (e.g., 443 for HTTPS).",
+     "example": "443"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/resolvectl.md",
+  "title": "tldr-pages: resolvectl",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-nvram-variables",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View firmware variables (NVRAM)",
+ "summary": "NVRAM stores low-level settings that persist even when your Mac is turned off. You can list these variables to check current firmware configurations.",
+ "aliases": [
+  {
+   "text": "view nvram variables",
+   "lang": "en"
+  },
+  {
+   "text": "list firmware settings",
+   "lang": "en"
+  },
+  {
+   "text": "check nvram",
+   "lang": "en"
+  },
+  {
+   "text": "nvram print",
+   "lang": "en"
+  },
+  {
+   "text": "macos firmware variables",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть nvram",
+   "lang": "ru"
+  },
+  {
+   "text": "список переменных nvram",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить прошивку mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print all variables currently stored in the NVRAM.",
+   "cmd": "nvram -p",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Print all variables in XML format, which is easier to read for some tools.",
+     "cmd": "nvram -xp",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/nvram.md",
+  "title": "tldr-pages: nvram",
+  "license": "CC-BY-4.0"
+ }
+}

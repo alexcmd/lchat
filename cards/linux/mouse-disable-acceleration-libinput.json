@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "mouse-disable-acceleration-libinput",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable mouse acceleration with libinput",
+ "summary": "Set the mouse pointer to move 1:1 with your hand by disabling acceleration. This is useful for gaming or precise work.",
+ "aliases": [
+  {
+   "text": "disable mouse acceleration",
+   "lang": "en"
+  },
+  {
+   "text": "mouse moves too fast",
+   "lang": "en"
+  },
+  {
+   "text": "turn off mouse accel",
+   "lang": "en"
+  },
+  {
+   "text": "libinput flat profile",
+   "lang": "en"
+  },
+  {
+   "text": "отключить ускорение мыши",
+   "lang": "ru"
+  },
+  {
+   "text": "мышь слишком быстрая",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать акселерацию мыши",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "xorg-xinput package installed"
+ ],
+ "steps": [
+  {
+   "explain": "List input devices to find the ID of your mouse.",
+   "cmd": "xinput list",
+   "risk": "low"
+  },
+  {
+   "explain": "Set the acceleration profile to 'flat' (no acceleration) for the device. Replace <DEVICE_ID> with the number found in the previous step.",
+   "cmd": "xinput set-prop <DEVICE_ID> \"libinput Accel Profile Enabled\" 0 1 0",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the mouse device",
+     "example": "10",
+     "discover_cmd": "xinput list"
+    }
+   ]
+  },
+  {
+   "explain": "Verify that the profile has been changed.",
+   "cmd": "xinput list-props <DEVICE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the mouse device",
+     "example": "10",
+     "discover_cmd": "xinput list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Mouse_acceleration#Disabling_mouse_acceleration",
+  "title": "Mouse acceleration",
+  "revision_id": 883266,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "linux-paccache-clean-cache",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clean old package versions from the pacman cache",
+ "summary": "Remove old versions of installed packages from the local package cache to free up disk space, keeping only the most recent ones.",
+ "aliases": [
+  {
+   "text": "clean pacman cache",
+   "lang": "en"
+  },
+  {
+   "text": "free up space arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "remove old packages arch",
+   "lang": "en"
+  },
+  {
+   "text": "paccache remove",
+   "lang": "en"
+  },
+  {
+   "text": "почистить кэш pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место arch linux",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить старые пакеты arch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "paccache"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run paccache to remove all cached package versions except the 3 most recent ones for each installed package.",
+   "cmd": "paccache --remove",
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Keep a specific number of recent versions instead of the default 3.",
+     "cmd": "paccache --remove --keep <NUM_VERSIONS>",
+     "placeholders": [
+      {
+       "name": "NUM_VERSIONS",
+       "description": "The number of recent package versions to keep.",
+       "example": "5"
+      }
+     ],
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This deletes old package files from the cache. You cannot downgrade to a version that has been deleted."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct undo command for paccache. If you need a specific old version, you must download it manually from the Arch Linux Archive or another mirror.",
+   "risk": "low"
+  }
+ ],
+ "see_also": [
+  "linux-pacman-clean-cache"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/paccache.md",
+  "title": "tldr-pages: paccache",
+  "license": "CC-BY-4.0"
+ }
+}

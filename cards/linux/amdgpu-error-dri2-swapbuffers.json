@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "amdgpu-error-dri2-swapbuffers",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix AMDGPU DRI2SwapBuffers error or screen depth crash",
+ "summary": "Resolve crashes in OpenGL applications or Xorg startup caused by incorrect screen depth settings.",
+ "error_patterns": [
+  "DRI2SwapBuffers: drawable has no back or front?",
+  "Given depth (32) is not supported by amdgpu driver"
+ ],
+ "aliases": [
+  {
+   "text": "amdgpu dri2 error",
+   "lang": "en"
+  },
+  {
+   "text": "glxgears crash amd",
+   "lang": "en"
+  },
+  {
+   "text": "xorg depth 32 error",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка amdgpu depth",
+   "lang": "ru"
+  },
+  {
+   "text": "не запускается xorg amd",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "Create or edit the Xorg screen configuration file to force a standard 24-bit depth.",
+   "cmd": "",
+   "gui": "Create /etc/X11/xorg.conf.d/10-screen.conf with content: Section \"Screen\" Identifier \"Screen\" DefaultDepth 24 SubSection \"Display\" Depth 24 EndSubSection EndSection",
+   "risk": "medium"
+  },
+  {
+   "explain": "Restart Xorg or reboot to apply changes.",
+   "cmd": "",
+   "gui": "Log out and log back in, or reboot the system.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the configuration file if it was created.",
+   "cmd": "",
+   "gui": "Delete /etc/X11/xorg.conf.d/10-screen.conf",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Setting depth to 16 or 32 causes crashes with the amdgpu driver. Use 24."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/AMDGPU#Xorg_or_applications_will_not_start",
+  "title": "AMDGPU",
+  "revision_id": 888488,
+  "license": "GFDL-1.3-or-later"
+ }
+}

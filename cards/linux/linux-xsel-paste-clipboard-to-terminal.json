@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "linux-xsel-paste-clipboard-to-terminal",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Paste clipboard contents to the terminal",
+ "summary": "Use xsel to print the current contents of the system clipboard directly to your terminal. This is helpful for viewing what is currently copied without opening a text editor.",
+ "aliases": [
+  {
+   "text": "paste clipboard to terminal linux",
+   "lang": "en"
+  },
+  {
+   "text": "xsel output clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "show clipboard contents terminal",
+   "lang": "en"
+  },
+  {
+   "text": "print clipboard to stdout",
+   "lang": "en"
+  },
+  {
+   "text": "xsel paste",
+   "lang": "en"
+  },
+  {
+   "text": "вставить буфер обмена в терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "xsel показать буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "вывести буфер обмена в консоль",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть что в буфере обмена",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xsel"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run xsel with the output and clipboard flags to print the clipboard contents to the terminal.",
+   "cmd": "xsel --output --clipboard",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Save the clipboard contents directly to a file instead of printing to the terminal.",
+     "cmd": "xsel --output --clipboard > <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file where you want to save the clipboard contents.",
+       "example": "/home/user/clipboard.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xsel.md",
+  "title": "tldr-pages: xsel",
+  "license": "CC-BY-4.0"
+ }
+}

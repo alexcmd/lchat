@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "macos-find-file-by-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find a file by name using locate",
+ "summary": "Use the `locate` command to quickly find files on your Mac by searching a pre-built database of filenames. This is faster than searching the entire disk manually, but it may not show files created very recently.",
+ "aliases": [
+  {
+   "text": "find file by name",
+   "lang": "en"
+  },
+  {
+   "text": "locate file",
+   "lang": "en"
+  },
+  {
+   "text": "where is my file",
+   "lang": "en"
+  },
+  {
+   "text": "search for filename",
+   "lang": "en"
+  },
+  {
+   "text": "find file on mac",
+   "lang": "en"
+  },
+  {
+   "text": "найти файл по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "где мой файл",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск файла",
+   "lang": "ru"
+  },
+  {
+   "text": "locate на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "найти файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search the locate database for files matching a specific pattern or name.",
+   "cmd": "locate \"<PATTERN>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "The filename or part of the filename you are looking for.",
+     "example": "report.pdf"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Search for a file by its exact filename (ignoring the path).",
+     "cmd": "locate \"*/<FILENAME>\"",
+     "placeholders": [
+      {
+       "name": "FILENAME",
+       "description": "The exact name of the file.",
+       "example": "report.pdf"
+      }
+     ]
+    },
+    {
+     "explain": "Search for a pattern while ignoring case (uppercase/lowercase).",
+     "cmd": "locate -i \"<PATTERN>\"",
+     "placeholders": [
+      {
+       "name": "PATTERN",
+       "description": "The filename or part of the filename you are looking for.",
+       "example": "Report.PDF"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/locate.md",
+  "title": "tldr-pages: locate",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-search-files-by-name"
+ ]
+}

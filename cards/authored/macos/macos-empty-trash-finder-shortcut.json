@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "macos-empty-trash-finder-shortcut",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Empty the Trash in Finder to free disk space",
+ "summary": "Permanently delete everything in the Trash with a keyboard shortcut in Finder. This frees disk space, and the items cannot be recovered afterwards.",
+ "aliases": [
+  {
+   "text": "empty trash mac",
+   "lang": "en"
+  },
+  {
+   "text": "empty the trash on mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac clear trash shortcut",
+   "lang": "en"
+  },
+  {
+   "text": "shift command delete mac",
+   "lang": "en"
+  },
+  {
+   "text": "free up disk space mac trash",
+   "lang": "en"
+  },
+  {
+   "text": "delete trash permanently mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac trash can empty keyboard shortcut",
+   "lang": "en"
+  },
+  {
+   "text": "очистить корзину на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как очистить корзину mac",
+   "lang": "ru"
+  },
+  {
+   "text": "опустошить корзину finder",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить корзину сочетание клавиш mac",
+   "lang": "ru"
+  },
+  {
+   "text": "shift command delete мак",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место корзина mac",
+   "lang": "ru"
+  },
+  {
+   "text": "ochistit korzinu mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos",
+    "min_version": "13"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Press Shift+Command+Delete in Finder to empty the Trash. A confirmation dialog appears; click Empty Trash to delete the items for good. Empty the Trash only when you no longer need anything in it, because Finder cannot undo this.",
+   "risk": "medium",
+   "gui": "In Finder press Shift+Command+Delete, or Control-click the Trash icon in the Dock and choose Empty Trash. Option+Shift+Command+Delete skips the confirmation dialog.",
+   "expect": "A confirmation dialog appears. After you click Empty Trash, the Trash icon shows as empty and the disk space is freed."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "There is no undo for emptied items. Restore them only from a backup, such as Time Machine, if you made one before emptying the Trash.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Emptying the Trash permanently deletes its items. Finder cannot undo this.",
+  "Option+Shift+Command+Delete skips the confirmation dialog, so check the Trash contents first.",
+  "Move anything you still need out of the Trash before you empty it."
+ ],
+ "source": {
+  "url": "https://support.apple.com/en-us/102650",
+  "title": "Mac keyboard shortcuts (Apple Support); card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,181 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-sync-folders-dry-run",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Make one folder match another, with a dry run first",
+ "summary": "Copies new and changed files from a source folder to a destination folder so the destination matches the source. A dry run first lists what would be copied or deleted without changing anything. Deleting extra files happens only with the delete option.",
+ "aliases": [
+  {
+   "text": "sync two folders dry run first",
+   "lang": "en"
+  },
+  {
+   "text": "rsync compare two folders dry run",
+   "lang": "en"
+  },
+  {
+   "text": "make backup folder same as source",
+   "lang": "en"
+  },
+  {
+   "text": "mirror a folder with rsync and delete extra files",
+   "lang": "en"
+  },
+  {
+   "text": "compare two directories linux before copy",
+   "lang": "en"
+  },
+  {
+   "text": "rsync preview changes before copying",
+   "lang": "en"
+  },
+  {
+   "text": "синхронизировать две папки linux",
+   "lang": "ru"
+  },
+  {
+   "text": "сравнить две папки перед копированием rsync",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать папку копии такой же как исходная",
+   "lang": "ru"
+  },
+  {
+   "text": "предпросмотр синхронизации папок rsync",
+   "lang": "ru"
+  },
+  {
+   "text": "зеркало папки rsync удалить лишние файлы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "rsync"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Dry run: show what would be copied, and with --delete also what would be removed from the destination. -n changes nothing. The slash after the source means copy its contents, not the folder itself.",
+   "risk": "low",
+   "cmd": "rsync -avn --delete <SRC_DIR>/ <DST_DIR>/",
+   "expect": "File names to copy, lines starting with deleting for extra files, then a summary ending in (DRY RUN).",
+   "placeholders": [
+    {
+     "name": "SRC_DIR",
+     "description": "Folder that holds the correct files",
+     "example": "photos/source",
+     "discover_cmd": "ls"
+    },
+    {
+     "name": "DST_DIR",
+     "description": "Folder to make match the source",
+     "example": "backup/photos"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Copy only: new and changed files are copied, but nothing in the destination is removed.",
+     "risk": "low",
+     "cmd": "rsync -avn <SRC_DIR>/ <DST_DIR>/",
+     "expect": "Only the files that would be copied.",
+     "placeholders": [
+      {
+       "name": "SRC_DIR",
+       "description": "Source folder",
+       "example": "photos/source"
+      },
+      {
+       "name": "DST_DIR",
+       "description": "Destination folder",
+       "example": "backup/photos"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Apply the same sync for real. Files in the destination that are not in the source are deleted.",
+   "risk": "medium",
+   "cmd": "rsync -av --delete <SRC_DIR>/ <DST_DIR>/",
+   "expect": "sending incremental file list, then a summary with total size. No DRY RUN text.",
+   "placeholders": [
+    {
+     "name": "SRC_DIR",
+     "description": "Source folder",
+     "example": "photos/source"
+    },
+    {
+     "name": "DST_DIR",
+     "description": "Destination folder",
+     "example": "backup/photos"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Copy only, without deleting anything in the destination.",
+     "risk": "low",
+     "cmd": "rsync -av <SRC_DIR>/ <DST_DIR>/",
+     "placeholders": [
+      {
+       "name": "SRC_DIR",
+       "description": "Source folder",
+       "example": "photos/source"
+      },
+      {
+       "name": "DST_DIR",
+       "description": "Destination folder",
+       "example": "backup/photos"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Run the dry run again. If the folders match, only the summary lines appear and no file names.",
+   "risk": "low",
+   "cmd": "rsync -avn --delete <SRC_DIR>/ <DST_DIR>/",
+   "expect": "Only the summary, with no file names.",
+   "placeholders": [
+    {
+     "name": "SRC_DIR",
+     "description": "Source folder",
+     "example": "photos/source"
+    },
+    {
+     "name": "DST_DIR",
+     "description": "Destination folder",
+     "example": "backup/photos"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/rsync.1.html",
+  "title": "rsync(1) - Linux man page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "prerequisites": [
+  "rsync installed",
+  "The destination folder exists; create it with mkdir -p if it does not"
+ ],
+ "rollback": [
+  {
+   "explain": "Files removed by --delete cannot be recovered by rsync. Restore them from another copy or a backup. Keep a copy of the destination first if it holds data you cannot rebuild.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "--delete removes files from the destination that are missing in the source. Read every deleting line in the dry run.",
+  "Swapping the source and the destination reverses the direction and can delete the files you wanted to keep."
+ ]
+}

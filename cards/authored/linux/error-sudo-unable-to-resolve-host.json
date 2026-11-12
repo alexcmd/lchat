@@ -1,0 +1,153 @@
+{
+ "schema_version": 2,
+ "id": "error-sudo-unable-to-resolve-host",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix sudo 'unable to resolve host' by adding the computer name to /etc/hosts",
+ "summary": "sudo prints 'unable to resolve host' and may run slowly when the computer's name is missing from /etc/hosts. Adding one line with the name fixes it; sudo itself keeps working either way.",
+ "aliases": [
+  {
+   "text": "sudo unable to resolve host",
+   "lang": "en"
+  },
+  {
+   "text": "sudo: unable to resolve host",
+   "lang": "en"
+  },
+  {
+   "text": "sudo slow hostname error",
+   "lang": "en"
+  },
+  {
+   "text": "sudo warning unable to resolve host name",
+   "lang": "en"
+  },
+  {
+   "text": "sudo hangs hostname not in hosts file",
+   "lang": "en"
+  },
+  {
+   "text": "sudo name or service not known",
+   "lang": "en"
+  },
+  {
+   "text": "sudo не может найти хост",
+   "lang": "ru"
+  },
+  {
+   "text": "sudo unable to resolve host ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "судо unable to resolve host",
+   "lang": "ru"
+  },
+  {
+   "text": "sudo долго работает имя компьютера не найдено",
+   "lang": "ru"
+  },
+  {
+   "text": "sudo ошибка hostname hosts",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "sudo: unable to resolve host"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Your administrator (sudo) password",
+  "Know the name of your computer (step 1 shows it)"
+ ],
+ "steps": [
+  {
+   "explain": "Show the name of your computer. sudo looks this name up in /etc/hosts; you need it for the next steps.",
+   "cmd": "hostname",
+   "risk": "low",
+   "expect": "One word with no spaces, for example: laptop-ann. Write it down."
+  },
+  {
+   "explain": "Look up the name in /etc/hosts. An empty output means the name is missing, which causes the warning. If a line with the name is printed, this card does not apply to your system: stop here.",
+   "cmd": "getent hosts <HOSTNAME>",
+   "placeholders": [
+    {
+     "name": "HOSTNAME",
+     "description": "The computer name printed by the hostname command",
+     "example": "laptop-ann",
+     "discover_cmd": "hostname"
+    }
+   ],
+   "risk": "low",
+   "expect": "Empty output = name missing: go on. A line like '127.0.1.1 laptop-ann' = name found: this card does not apply."
+  },
+  {
+   "explain": "Add a line that maps the name to the local address 127.0.1.1 at the end of /etc/hosts. tee -a appends the line, and it also prints the line back to you.",
+   "cmd": "echo \"127.0.1.1 <HOSTNAME>\" | sudo tee -a /etc/hosts",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "HOSTNAME",
+     "description": "The computer name printed by the hostname command",
+     "example": "laptop-ann",
+     "discover_cmd": "hostname"
+    }
+   ],
+   "risk": "medium",
+   "expect": "The line 127.0.1.1 <name> is printed back. Your password is asked; typing stays hidden.",
+   "alternatives": [
+    {
+     "explain": "Edit the file by hand in the nano text editor: add the line 127.0.1.1 <HOSTNAME> at the end, press Ctrl+O and Enter to save, then Ctrl+X to exit.",
+     "cmd": "sudo nano /etc/hosts",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "HOSTNAME",
+       "description": "The computer name printed by the hostname command",
+       "example": "laptop-ann",
+       "discover_cmd": "hostname"
+      }
+     ],
+     "risk": "medium",
+     "expect": "The nano editor opens /etc/hosts. After saving, the new line is in the file."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "getent hosts \"$(hostname)\"",
+   "expect": "A line with 127.0.1.1 and your computer name, for example: 127.0.1.1 laptop-ann"
+  },
+  {
+   "cmd": "sudo true",
+   "expect": "Nothing printed: no 'unable to resolve host' warning. The password may be asked once."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the line you added in step 3 (it starts with 127.0.1.1). Open the file, delete that line, press Ctrl+O and Enter to save, then Ctrl+X to exit.",
+   "cmd": "sudo nano /etc/hosts",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "/etc/hosts is a system file. A wrong edit can break name lookups for other programs, so add only the one line and keep the spaces exact.",
+  "If you rename the computer later, the old name stays in /etc/hosts. Run this card again with the new name.",
+  "Some systems rewrite /etc/hosts at boot (for example cloud images), which removes the line and brings the warning back.",
+  "In our Fedora test the name resolved without this line and sudo printed no warning, so step 2 may already show the name on your system. Then nothing needs fixing."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/sudo",
+  "title": "sudo manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

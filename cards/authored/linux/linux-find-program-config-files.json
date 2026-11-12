@@ -1,0 +1,139 @@
+{
+ "schema_version": 2,
+ "id": "linux-find-program-config-files",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find where a program keeps its configuration files",
+ "summary": "Most programs keep their settings in your home folder, in ~/.config or in a hidden dot-file, or for all users in /etc. These commands search those places by the program's name.",
+ "aliases": [
+  {
+   "text": "where are program settings linux",
+   "lang": "en"
+  },
+  {
+   "text": "where does a program store its settings",
+   "lang": "en"
+  },
+  {
+   "text": "find config folder of a program",
+   "lang": "en"
+  },
+  {
+   "text": "linux where is appdata folder",
+   "lang": "en"
+  },
+  {
+   "text": "where are app settings saved linux",
+   "lang": "en"
+  },
+  {
+   "text": "where is the config file of a program",
+   "lang": "en"
+  },
+  {
+   "text": "где лежат настройки программы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "где находятся конфиги программы",
+   "lang": "ru"
+  },
+  {
+   "text": "куда программа сохраняет настройки",
+   "lang": "ru"
+  },
+  {
+   "text": "найти папку с настройками программы",
+   "lang": "ru"
+  },
+  {
+   "text": "где конфиг файл программы в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "где appdata в linux как в windows",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You know the name of the program, or part of it, for example bash or nano."
+ ],
+ "steps": [
+  {
+   "explain": "Check that the program is installed. The output is the path of its command, or nothing if the program is not installed.",
+   "cmd": "command -v <PROGRAM_NAME>",
+   "risk": "low",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "PROGRAM_NAME",
+     "description": "Part of the program's name, as you type it in the terminal.",
+     "example": "bash",
+     "discover_cmd": "ls ~/.config"
+    }
+   ],
+   "expect": "A path such as /usr/bin/<PROGRAM_NAME>, or no output if the program is not installed."
+  },
+  {
+   "explain": "Look for folders in your personal settings folder ~/.config whose name contains the program name. Many programs keep their settings there. If ~/.config is missing, the error No such file or directory appears; go on to the next steps.",
+   "cmd": "find ~/.config -maxdepth 1 -iname \"*<PROGRAM_NAME>*\"",
+   "risk": "low",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "PROGRAM_NAME",
+     "description": "Part of the program's name, as you type it in the terminal.",
+     "example": "bash",
+     "discover_cmd": "ls ~/.config"
+    }
+   ],
+   "expect": "A path such as /home/<you>/.config/<PROGRAM_NAME>. No output means no folder matches in ~/.config."
+  },
+  {
+   "explain": "Look in /etc, the system-wide settings folder. Programs that apply to all users keep their main settings there.",
+   "cmd": "find /etc -maxdepth 1 -iname \"*<PROGRAM_NAME>*\"",
+   "risk": "low",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "PROGRAM_NAME",
+     "description": "Part of the program's name, as you type it in the terminal.",
+     "example": "bash",
+     "discover_cmd": "ls ~/.config"
+    }
+   ],
+   "expect": "Paths that start with /etc/, such as /etc/<PROGRAM_NAME>/ or /etc/<PROGRAM_NAME>.conf. No output means /etc has no matching file."
+  },
+  {
+   "explain": "Look in your home folder for hidden dot-files of the program, such as .bashrc or .nanorc. Hidden files do not show in a plain ls, so this search finds them.",
+   "cmd": "find ~ -maxdepth 1 -iname \"*<PROGRAM_NAME>*\"",
+   "risk": "low",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "PROGRAM_NAME",
+     "description": "Part of the program's name, as you type it in the terminal.",
+     "example": "bash",
+     "discover_cmd": "ls ~/.config"
+    }
+   ],
+   "expect": "Hidden files such as /home/<you>/.<PROGRAM_NAME>rc, or no output if none exist."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Files in /etc belong to the system. Reading them is safe, but changing them needs sudo, and you should copy the file first."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/find",
+  "title": "find manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

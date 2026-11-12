@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "fonts-set-default-families",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set default serif, sans-serif, and monospace fonts",
+ "summary": "Map the generic font aliases (serif, sans-serif, monospace) to specific font families. This ensures consistent font usage across applications that rely on these standard names.",
+ "aliases": [
+  {
+   "text": "change default font",
+   "lang": "en"
+  },
+  {
+   "text": "set default monospace font",
+   "lang": "en"
+  },
+  {
+   "text": "fontconfig alias",
+   "lang": "en"
+  },
+  {
+   "text": "изменить шрифт по умолчанию",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить serif sans-serif",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить шрифт в приложениях",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Edit ~/.config/fontconfig/fonts.conf and add <alias binding=\"strong\"> blocks for serif, sans-serif, and monospace, specifying preferred families for each.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the configuration file.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Ensure the specified fonts are installed on the system, otherwise fallback fonts will be used."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Font_configuration/Examples#Default_fonts",
+  "title": "Font configuration/Examples",
+  "revision_id": 876998,
+  "license": "GFDL-1.3-or-later"
+ }
+}

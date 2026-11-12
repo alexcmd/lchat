@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-ufw-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check UFW firewall status and rules",
+ "summary": "Check if the Uncomplicated Firewall (UFW) is active and view the current firewall rules. This helps you understand which ports are open or blocked.",
+ "aliases": [
+  {
+   "text": "check ufw status",
+   "lang": "en"
+  },
+  {
+   "text": "is ufw enabled",
+   "lang": "en"
+  },
+  {
+   "text": "list ufw rules",
+   "lang": "en"
+  },
+  {
+   "text": "ufw status",
+   "lang": "en"
+  },
+  {
+   "text": "firewall status linux",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "ufw включен",
+   "lang": "ru"
+  },
+  {
+   "text": "список правил ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "статус файрвола",
+   "lang": "ru"
+  },
+  {
+   "text": "list firewall rules",
+   "lang": "en"
+  },
+  {
+   "text": "show ufw rules",
+   "lang": "en"
+  },
+  {
+   "text": "ufw status numbered",
+   "lang": "en"
+  },
+  {
+   "text": "какие правила в ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "список правил файрвола",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ufw"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the status command to see if the firewall is active and list the current rules.",
+   "cmd": "sudo ufw status",
+   "needs_root": true,
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show rules with numbers, which is useful if you plan to delete a specific rule by its number.",
+     "cmd": "sudo ufw status numbered",
+     "needs_root": true,
+     "risk": "low"
+    },
+    {
+     "explain": "Show a verbose status, including default policies and listening ports.",
+     "cmd": "sudo ufw status verbose",
+     "needs_root": true,
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ufw-status.md",
+  "title": "tldr-pages: ufw-status",
+  "license": "CC-BY-4.0"
+ }
+}

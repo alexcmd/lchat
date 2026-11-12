@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-show-permissions",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show NetworkManager permissions",
+ "summary": "List the permissions granted to NetworkManager for various operations.",
+ "aliases": [
+  {
+   "text": "nmcli permissions",
+   "lang": "en"
+  },
+  {
+   "text": "networkmanager permissions",
+   "lang": "en"
+  },
+  {
+   "text": "check nm permissions",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli general permissions",
+   "lang": "en"
+  },
+  {
+   "text": "права networkmanager",
+   "lang": "ru"
+  },
+  {
+   "text": "разрешения nmcli",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the permissions of NetworkManager.",
+   "cmd": "nmcli general permissions",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-general.md",
+  "title": "tldr-pages: nmcli-general",
+  "license": "CC-BY-4.0"
+ }
+}

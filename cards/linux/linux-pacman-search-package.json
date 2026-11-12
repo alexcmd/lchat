@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-search-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search for a package in Arch Linux repositories",
+ "summary": "Search the package database for a specific keyword or regular expression to find available software.",
+ "aliases": [
+  {
+   "text": "search package arch",
+   "lang": "en"
+  },
+  {
+   "text": "find software arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman search",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет арх",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти программу в арх",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman -Ss",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search the package database for the specified pattern. Replace <SEARCH_PATTERN> with the keyword or regex you are looking for.",
+   "cmd": "pacman -Ss \"<SEARCH_PATTERN>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_PATTERN",
+     "description": "Keyword or regex to search for",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman.md",
+  "title": "tldr-pages: pacman",
+  "license": "CC-BY-4.0"
+ }
+}

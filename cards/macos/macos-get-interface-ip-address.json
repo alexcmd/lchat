@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-interface-ip-address",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show the IP address of a network interface",
+ "summary": "Display the current IP address assigned to a specific network interface, such as Wi-Fi or Ethernet.",
+ "aliases": [
+  {
+   "text": "show ip address of interface",
+   "lang": "en"
+  },
+  {
+   "text": "get wifi ip address",
+   "lang": "en"
+  },
+  {
+   "text": "ipconfig getifaddr",
+   "lang": "en"
+  },
+  {
+   "text": "какой ip адрес у вайфая",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать ip адрес интерфейса",
+   "lang": "ru"
+  },
+  {
+   "text": "ipconfig getifaddr",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command with the name of the interface you want to check.",
+   "cmd": "ipconfig getifaddr <INTERFACE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The name of the network interface (e.g., en0 for Wi-Fi).",
+     "example": "en0",
+     "discover_cmd": "ipconfig getiflist"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/ipconfig.md",
+  "title": "tldr-pages: ipconfig",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-list-network-interfaces"
+ ]
+}

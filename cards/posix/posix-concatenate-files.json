@@ -1,0 +1,140 @@
+{
+ "schema_version": 2,
+ "id": "posix-concatenate-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Combine multiple text files into one new file",
+ "summary": "Merge the contents of several text files into a single output file. This is often used to combine logs or configuration parts into one document.",
+ "aliases": [
+  {
+   "text": "combine files",
+   "lang": "en"
+  },
+  {
+   "text": "merge text files",
+   "lang": "en"
+  },
+  {
+   "text": "concatenate files",
+   "lang": "en"
+  },
+  {
+   "text": "join files together",
+   "lang": "en"
+  },
+  {
+   "text": "объединить файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "склеить файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "слить файлы в один",
+   "lang": "ru"
+  },
+  {
+   "text": "конкатенация файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "merge files cat",
+   "lang": "en"
+  },
+  {
+   "text": "combine files mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "concatenate files mac",
+   "lang": "en"
+  },
+  {
+   "text": "join files into one",
+   "lang": "en"
+  },
+  {
+   "text": "объединить файлы в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "склеить файлы мак",
+   "lang": "ru"
+  },
+  {
+   "text": "соединить несколько файлов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `cat` with multiple input files and redirect the output to a new file using `>`. This creates a new file containing the contents of all input files in order.",
+   "cmd": "cat <FILE1> <FILE2> > <OUTPUT_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE1",
+     "description": "The first file to include",
+     "example": "part1.txt"
+    },
+    {
+     "name": "FILE2",
+     "description": "The second file to include",
+     "example": "part2.txt"
+    },
+    {
+     "name": "OUTPUT_FILE",
+     "description": "The new file to create with combined content",
+     "example": "combined.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Append the contents of input files to an existing output file instead of overwriting it, using `>>`.",
+     "cmd": "cat <FILE1> <FILE2> >> <OUTPUT_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE1",
+       "description": "The first file to include",
+       "example": "part1.txt"
+      },
+      {
+       "name": "FILE2",
+       "description": "The second file to include",
+       "example": "part2.txt"
+      },
+      {
+       "name": "OUTPUT_FILE",
+       "description": "The existing file to append to",
+       "example": "combined.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cat.md",
+  "title": "tldr-pages: cat",
+  "license": "CC-BY-4.0"
+ },
+ "warnings": [
+  "Using `>` will overwrite the output file if it already exists. Use `>>` to append instead."
+ ],
+ "rollback": [
+  {
+   "explain": "If you accidentally overwrote a file, you cannot undo this with `cat`. You must restore from a backup or Time Machine.",
+   "risk": "high"
+  }
+ ]
+}

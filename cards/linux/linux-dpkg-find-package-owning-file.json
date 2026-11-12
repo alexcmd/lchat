@@ -1,0 +1,117 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-find-package-owning-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find which package owns a specific file",
+ "summary": "Identify which installed package is responsible for a specific file or directory. This is useful when you encounter a file and want to know its origin.",
+ "aliases": [
+  {
+   "text": "find package owning file",
+   "lang": "en"
+  },
+  {
+   "text": "which package owns this file",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg search file",
+   "lang": "en"
+  },
+  {
+   "text": "who owns this file",
+   "lang": "en"
+  },
+  {
+   "text": "какой пакет владеет файлом",
+   "lang": "ru"
+  },
+  {
+   "text": "кто создал этот файл",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg поиск по файлу",
+   "lang": "ru"
+  },
+  {
+   "text": "принадлежность файла пакету",
+   "lang": "ru"
+  },
+  {
+   "text": "find package for file",
+   "lang": "en"
+  },
+  {
+   "text": "какой пакет содержит файл",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg поиск файла",
+   "lang": "ru"
+  },
+  {
+   "text": "кто владеет файлом",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use dpkg-query with the search flag and a file path to find the owning package.",
+   "cmd": "dpkg-query -S <FILE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_PATH",
+     "description": "The path to the file or directory you want to check.",
+     "example": "/etc/ld.so.conf.d"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the long form of the search flag.",
+     "cmd": "dpkg-query --search <FILE_PATH>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE_PATH",
+       "description": "The path to the file or directory you want to check.",
+       "example": "/etc/ld.so.conf.d"
+      }
+     ]
+    },
+    {
+     "explain": "Search the dpkg database to find which installed package owns the specified file.",
+     "cmd": "dpkg --search <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file you want to find the owner of",
+       "example": "/usr/bin/python3"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dpkg-query.md",
+  "title": "tldr-pages: dpkg-query",
+  "license": "CC-BY-4.0"
+ }
+}

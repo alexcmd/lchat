@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "macos-remove-item-from-dock",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove an item from the Dock",
+ "summary": "Use dockutil to remove an application or item from the Dock by its label name. This is helpful for cleaning up the Dock programmatically.",
+ "aliases": [
+  {
+   "text": "remove item from dock",
+   "lang": "en"
+  },
+  {
+   "text": "dockutil remove",
+   "lang": "en"
+  },
+  {
+   "text": "delete dock icon command",
+   "lang": "en"
+  },
+  {
+   "text": "убрать иконку из дока",
+   "lang": "ru"
+  },
+  {
+   "text": "dockutil удалить",
+   "lang": "ru"
+  },
+  {
+   "text": "как убрать приложение из дока",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "dockutil is installed (usually via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Removes the item with the specified label from the current user's Dock.",
+   "cmd": "dockutil --remove '<DOCK_ITEM_LABEL>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOCK_ITEM_LABEL",
+     "description": "The label name of the item in the Dock, e.g. 'Safari' or 'Trash'",
+     "example": "Safari"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dockutil.md",
+  "title": "tldr-pages: dockutil",
+  "license": "CC-BY-4.0"
+ }
+}

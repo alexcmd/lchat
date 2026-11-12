@@ -1,0 +1,124 @@
+{
+ "schema_version": 2,
+ "id": "linux-sound-kernel-audio-driver-errors",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Read kernel messages for audio driver errors",
+ "summary": "Search the Linux kernel log for errors from the sound driver, such as a missing sound firmware file or a failed audio device. The matching lines often explain why there is no sound.",
+ "aliases": [
+  {
+   "text": "no sound linux kernel log",
+   "lang": "en"
+  },
+  {
+   "text": "linux no sound driver error",
+   "lang": "en"
+  },
+  {
+   "text": "audio driver error linux dmesg",
+   "lang": "en"
+  },
+  {
+   "text": "hda intel error linux",
+   "lang": "en"
+  },
+  {
+   "text": "sof firmware error linux",
+   "lang": "en"
+  },
+  {
+   "text": "check audio errors in logs linux",
+   "lang": "en"
+  },
+  {
+   "text": "why no sound linux",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg sound errors",
+   "lang": "en"
+  },
+  {
+   "text": "нет звука linux ошибки драйвера",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибки звука в логе ядра linux",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть dmesg звук ошибки",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить драйвер звука linux логи",
+   "lang": "ru"
+  },
+  {
+   "text": "почему нет звука linux драйвер",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибки hda linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A Linux system with systemd (Ubuntu, Linux Mint, Debian, Fedora, Arch)",
+  "A terminal window (this check only reads the log and changes nothing)"
+ ],
+ "steps": [
+  {
+   "explain": "Show this boot's kernel messages about sound (snd, HDA, SOF, audio) that contain an error, failure, timeout or missing file. Lines like 'failed to load firmware' point to the cause. No output means no audio errors were logged.",
+   "cmd": "journalctl -k -b | grep -iE 'snd|hda|sof-|sof_|audio' | grep -iE 'error|fail|timeout|not found|no such'",
+   "needs_root": false,
+   "risk": "low",
+   "expect": "Lines with snd_hda_intel, sof-audio or audio and words such as error, failed or timeout. Empty output means no audio errors were logged.",
+   "alternatives": [
+    {
+     "explain": "The same search run as administrator. Use it if you get a permission error or 'No journal files were found' from a normal account.",
+     "cmd": "sudo journalctl -k -b | grep -iE 'snd|hda|sof-|sof_|audio' | grep -iE 'error|fail|timeout|not found|no such'",
+     "needs_root": true,
+     "risk": "low",
+     "expect": "The same lines as above, or no output if there were no audio errors."
+    }
+   ]
+  },
+  {
+   "explain": "Same search in the kernel ring buffer with dmesg. Ubuntu and Linux Mint hide it from normal users: use the sudo variant there and type your password when asked. Look for the same words in the output.",
+   "cmd": "dmesg | grep -iE 'snd|hda|sof-|sof_|audio' | grep -iE 'error|fail|timeout|not found|no such'",
+   "needs_root": true,
+   "risk": "low",
+   "variants": {
+    "ubuntu": "sudo dmesg | grep -iE 'snd|hda|sof-|sof_|audio' | grep -iE 'error|fail|timeout|not found|no such'",
+    "mint": "sudo dmesg | grep -iE 'snd|hda|sof-|sof_|audio' | grep -iE 'error|fail|timeout|not found|no such'"
+   },
+   "expect": "On Ubuntu or Mint without sudo: 'dmesg: read kernel buffer failed: Operation not permitted'. With sudo or on other systems: lines with snd, hda, sof or audio and an error word, or no output."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/journalctl",
+  "title": "journalctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

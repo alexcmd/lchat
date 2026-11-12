@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-get-parent-pid",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Get the parent PID of a process",
+ "summary": "Find the Process ID (PID) of the parent process that started a specific process. This is useful for understanding process relationships.",
+ "aliases": [
+  {
+   "text": "get parent pid",
+   "lang": "en"
+  },
+  {
+   "text": "find parent process",
+   "lang": "en"
+  },
+  {
+   "text": "ps ppid",
+   "lang": "en"
+  },
+  {
+   "text": "who started this process",
+   "lang": "en"
+  },
+  {
+   "text": "process tree",
+   "lang": "en"
+  },
+  {
+   "text": "get parent pid",
+   "lang": "ru"
+  },
+  {
+   "text": "find parent process",
+   "lang": "ru"
+  },
+  {
+   "text": "ps ppid",
+   "lang": "ru"
+  },
+  {
+   "text": "who started this process",
+   "lang": "ru"
+  },
+  {
+   "text": "process tree",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use ps with the format flag to show only the parent PID (ppid) for a specific process ID.",
+   "cmd": "ps -o ppid= -p <PROCESS_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_ID",
+     "description": "The ID of the process you want to check.",
+     "example": "1234"
+    }
+   ],
+   "expect": "A single number representing the parent process ID."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ps.md",
+  "title": "tldr-pages: ps",
+  "license": "CC-BY-4.0"
+ }
+}

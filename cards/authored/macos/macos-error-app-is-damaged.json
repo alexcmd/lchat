@@ -1,0 +1,190 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-app-is-damaged",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open a downloaded Mac app that macOS reports as damaged",
+ "summary": "macOS says a downloaded app is damaged when the download is incomplete or the app carries the quarantine flag and fails the Gatekeeper check. First download it again from its official source; if it still will not open and you trust the source, remove the quarantine flag from that one app.",
+ "aliases": [
+  {
+   "text": "app is damaged and can't be opened mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac says app is damaged",
+   "lang": "en"
+  },
+  {
+   "text": "macos app damaged fix",
+   "lang": "en"
+  },
+  {
+   "text": "downloaded app damaged mac",
+   "lang": "en"
+  },
+  {
+   "text": "remove quarantine from app mac",
+   "lang": "en"
+  },
+  {
+   "text": "xattr quarantine remove",
+   "lang": "en"
+  },
+  {
+   "text": "приложение повреждено и не может быть открыто mac",
+   "lang": "ru"
+  },
+  {
+   "text": "mac пишет что приложение повреждено",
+   "lang": "ru"
+  },
+  {
+   "text": "программа повреждена macos не открывается",
+   "lang": "ru"
+  },
+  {
+   "text": "снять карантин с приложения mac",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать карантин macos xattr",
+   "lang": "ru"
+  },
+  {
+   "text": "chto delat esli prilozhenie povrezhdeno mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The app was downloaded from its developer's official website or the Mac App Store",
+  "You know where the app is, usually in the Applications folder"
+ ],
+ "steps": [
+  {
+   "explain": "Download the app again from its official source. A damaged message often means the first download was incomplete or changed on the way. If the new copy opens, you are done.",
+   "risk": "low",
+   "gui": "Open the developer's official website or the Mac App Store, download the app again, and replace the old copy in Applications."
+  },
+  {
+   "explain": "Find the app's exact location. Replace the path in the next steps with what you see here, for example /Applications/Example.app.",
+   "cmd": "ls /Applications",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_PATH",
+     "description": "Full path to the .app bundle that macOS reports as damaged",
+     "example": "/Applications/Example.app",
+     "discover_cmd": "ls /Applications"
+    }
+   ],
+   "expect": "A list of app names. Your app appears with the .app ending, for example Example.app."
+  },
+  {
+   "explain": "Read the quarantine flag on the app. It is read-only and changes nothing. Its text names the program that downloaded the file, for example Safari or Chrome. If the command prints nothing or an error that the attribute does not exist, the flag is not the cause and removing it will not help.",
+   "cmd": "xattr -p com.apple.quarantine APP_PATH",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_PATH",
+     "description": "Full path to the .app bundle",
+     "example": "/Applications/Example.app",
+     "discover_cmd": "ls /Applications"
+    }
+   ],
+   "expect": "A long line starting with a number and semicolons, which names the downloading program. An error saying the attribute does not exist means there is no quarantine flag."
+  },
+  {
+   "explain": "Ask Gatekeeper for its verdict on the app. This is read-only. accepted means the app passes the check and does not need the fix below. rejected means macOS blocks it.",
+   "cmd": "spctl --assess --verbose APP_PATH",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_PATH",
+     "description": "Full path to the .app bundle",
+     "example": "/Applications/Example.app",
+     "discover_cmd": "ls /Applications"
+    }
+   ],
+   "expect": "The last line says accepted or rejected. If it says accepted, do not remove the quarantine flag; the problem is elsewhere."
+  },
+  {
+   "explain": "Before removing the flag, confirm that you trust the app's source and that it is the program you intended to download. The quarantine flag is a safety check, so removing it means you accept the risk for this one app.",
+   "risk": "low",
+   "gui": "Check that the download came from the developer's official website or the Mac App Store, not from a link in an email or an ad."
+  },
+  {
+   "explain": "Remove the quarantine flag from the app and everything inside it. Only this app is affected; Gatekeeper stays on for all other apps. Run it only if the previous steps showed that you trust the source. Usually no password is needed for an app you installed yourself.",
+   "cmd": "xattr -dr com.apple.quarantine APP_PATH",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "APP_PATH",
+     "description": "Full path to the .app bundle you trust",
+     "example": "/Applications/Example.app",
+     "discover_cmd": "ls /Applications"
+    }
+   ],
+   "expect": "No output and the prompt returns. If you see 'Operation not permitted' or 'Permission denied', use the alternative.",
+   "alternatives": [
+    {
+     "explain": "Use this when the app is owned by an administrator and the command above is refused. It asks for your Mac login password.",
+     "cmd": "sudo xattr -dr com.apple.quarantine APP_PATH",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "APP_PATH",
+       "description": "Full path to the .app bundle you trust",
+       "example": "/Applications/Example.app",
+       "discover_cmd": "ls /Applications"
+      }
+     ],
+     "expect": "No output after you enter your password."
+    }
+   ]
+  },
+  {
+   "explain": "Check that the flag is gone. The list of attributes should not contain com.apple.quarantine. Then open the app normally from Finder or Launchpad.",
+   "cmd": "xattr -l APP_PATH",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_PATH",
+     "description": "Full path to the .app bundle",
+     "example": "/Applications/Example.app",
+     "discover_cmd": "ls /Applications"
+    }
+   ],
+   "expect": "Either no output or a list that does not include a line starting with com.apple.quarantine."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no safe command to bring the flag back. To undo, move the app to the Trash and install it again from the original download. The new download sets the quarantine flag again.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Remove the quarantine flag only from apps from the developer's official website or the Mac App Store.",
+  "Do not turn Gatekeeper off with spctl --master-disable to fix one app; that lowers protection for every app.",
+  "A damaged app can also be a sign of tampering. If you did not expect the app, do not run it."
+ ],
+ "see_also": [
+  "macos-concept-gatekeeper-quarantine",
+  "macos-list-gatekeeper-rules"
+ ],
+ "source": {
+  "url": "x-man-page://xattr",
+  "title": "xattr manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

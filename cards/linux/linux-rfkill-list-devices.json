@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-rfkill-list-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List wireless devices and their status",
+ "summary": "Show all wireless devices (Wi-Fi, Bluetooth, etc.) and whether they are currently blocked or unblocked.",
+ "aliases": [
+  {
+   "text": "list rfkill devices",
+   "lang": "en"
+  },
+  {
+   "text": "check wifi bluetooth status",
+   "lang": "en"
+  },
+  {
+   "text": "rfkill list",
+   "lang": "en"
+  },
+  {
+   "text": "show wireless devices",
+   "lang": "en"
+  },
+  {
+   "text": "is my wifi blocked",
+   "lang": "en"
+  },
+  {
+   "text": "список rfkill устройств",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить статус wifi bluetooth",
+   "lang": "ru"
+  },
+  {
+   "text": "rfkill список",
+   "lang": "ru"
+  },
+  {
+   "text": "показать беспроводные устройства",
+   "lang": "ru"
+  },
+  {
+   "text": "заблокирован ли wifi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run rfkill without arguments to list all wireless devices and their current state (Soft blocked / Hard blocked).",
+   "cmd": "rfkill",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/rfkill.md",
+  "title": "tldr-pages: rfkill",
+  "license": "CC-BY-4.0"
+ }
+}

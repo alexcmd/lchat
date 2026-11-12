@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "macos-disable-user-account-cli",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Disable a user account using the command line",
+ "summary": "Use the `pwpolicy` command to disable a specific user account, preventing them from logging in. This requires administrator privileges.",
+ "aliases": [
+  {
+   "text": "disable user account macos terminal",
+   "lang": "en"
+  },
+  {
+   "text": "block user login macos",
+   "lang": "en"
+  },
+  {
+   "text": "pwpolicy disableuser",
+   "lang": "en"
+  },
+  {
+   "text": "отключить пользователя macos",
+   "lang": "ru"
+  },
+  {
+   "text": "заблокировать вход пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "pwpolicy отключить пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the pwpolicy command with sudo to disable the specified user account.",
+   "cmd": "sudo pwpolicy -u <USERNAME> -disableuser",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The short name of the user account to disable",
+     "example": "guest"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To re-enable the user, use the enableuser flag with pwpolicy.",
+   "cmd": "sudo pwpolicy -u <USERNAME> -enableuser",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The short name of the user account to enable",
+     "example": "guest"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Disabling an account prevents the user from logging in. Ensure you do not disable your own active admin account.",
+  "This does not delete the user's files, only their ability to log in."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pwpolicy.md",
+  "title": "tldr-pages: pwpolicy",
+  "license": "CC-BY-4.0"
+ }
+}

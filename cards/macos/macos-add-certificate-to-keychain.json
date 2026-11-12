@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-certificate-to-keychain",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add a certificate to a keychain",
+ "summary": "Import a certificate file into a specific keychain. If no keychain is specified, it is added to the default keychain.",
+ "aliases": [
+  {
+   "text": "add certificate to keychain",
+   "lang": "en"
+  },
+  {
+   "text": "import certificate",
+   "lang": "en"
+  },
+  {
+   "text": "add cert to keychain",
+   "lang": "en"
+  },
+  {
+   "text": "security add-certificates",
+   "lang": "en"
+  },
+  {
+   "text": "добавить сертификат в связку ключей",
+   "lang": "ru"
+  },
+  {
+   "text": "импортировать сертификат",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить сертификат",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add a certificate from a file to a specific keychain.",
+   "cmd": "security add-certificates -k <KEYCHAIN_PATH> <CERT_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYCHAIN_PATH",
+     "description": "The path to the keychain file where the certificate should be added.",
+     "example": "~/Library/Keychains/login.keychain-db"
+    },
+    {
+     "name": "CERT_FILE",
+     "description": "The path to the certificate file (e.g., .pem or .cer).",
+     "example": "~/Downloads/cert.pem"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Add the certificate to the default keychain by omitting the -k flag.",
+     "cmd": "security add-certificates <CERT_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "CERT_FILE",
+       "description": "The path to the certificate file.",
+       "example": "~/Downloads/cert.pem"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/security.md",
+  "title": "tldr-pages: security",
+  "license": "CC-BY-4.0"
+ }
+}

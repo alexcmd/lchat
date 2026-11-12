@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "locale-generate-locale",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Generate a new locale on Arch Linux",
+ "summary": "Before you can use a specific language or region setting, you must generate it on your system. This involves editing a configuration file and running a command.",
+ "aliases": [
+  {
+   "text": "generate locale arch",
+   "lang": "en"
+  },
+  {
+   "text": "add language support arch",
+   "lang": "en"
+  },
+  {
+   "text": "locale-gen arch",
+   "lang": "en"
+  },
+  {
+   "text": "enable utf8 locale",
+   "lang": "en"
+  },
+  {
+   "text": "сгенерировать локаль",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить язык в систему",
+   "lang": "ru"
+  },
+  {
+   "text": "locale gen arch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the locale generation configuration file. You need to uncomment the line corresponding to the locale you want to enable (e.g., `en_US.UTF-8 UTF-8` or `de_DE.UTF-8 UTF-8`).",
+   "risk": "medium",
+   "gui": "Open /etc/locale.gen with a text editor as root. Remove the '#' at the start of the line for your desired locale.",
+   "needs_root": true
+  },
+  {
+   "explain": "Run the locale generation command to apply the changes made in the configuration file.",
+   "risk": "medium",
+   "cmd": "sudo locale-gen",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, comment out the line you previously uncommented in /etc/locale.gen and run locale-gen again.",
+   "risk": "medium",
+   "gui": "Open /etc/locale.gen with a text editor as root. Add a '#' at the start of the line for the locale you want to disable.",
+   "needs_root": true
+  },
+  {
+   "explain": "Regenerate locales to remove the disabled one.",
+   "risk": "medium",
+   "cmd": "sudo locale-gen",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Ensure you keep `en_US.UTF-8 UTF-8` uncommented as a fallback for many system tools.",
+  "UTF-8 is recommended over other character sets."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Locale#Generating_locales",
+  "title": "Locale",
+  "revision_id": 881998,
+  "license": "GFDL-1.3-or-later"
+ }
+}

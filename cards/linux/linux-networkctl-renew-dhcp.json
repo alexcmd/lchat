@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "linux-networkctl-renew-dhcp",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Renew dynamic network configuration",
+ "summary": "Request a new IP address and other dynamic configuration from the DHCP server for specified interfaces.",
+ "aliases": [
+  {
+   "text": "renew ip address",
+   "lang": "en"
+  },
+  {
+   "text": "refresh dhcp",
+   "lang": "en"
+  },
+  {
+   "text": "networkctl renew",
+   "lang": "en"
+  },
+  {
+   "text": "get new ip",
+   "lang": "en"
+  },
+  {
+   "text": "обновить ip адрес",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапросить dhcp",
+   "lang": "ru"
+  },
+  {
+   "text": "networkctl renew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-networkd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo to renew the dynamic configuration (like IP addresses) for the specified interfaces.",
+   "cmd": "sudo networkctl renew <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface to renew.",
+     "example": "eth0",
+     "discover_cmd": "networkctl"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo command. To revert, you may need to restart the network service or manually set a static IP if the renewal fails.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Renewing may temporarily interrupt network connectivity while the new address is assigned."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/networkctl.md",
+  "title": "tldr-pages: networkctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-add-ip-address",
+  "posix-set-static-ip"
+ ]
+}

@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "macos-tart-set-display-resolution",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Change Tart VM display resolution",
+ "summary": "Sets the screen resolution for a virtual machine's display.",
+ "aliases": [
+  {
+   "text": "change tart vm resolution",
+   "lang": "en"
+  },
+  {
+   "text": "tart set display",
+   "lang": "en"
+  },
+  {
+   "text": "tart display size",
+   "lang": "en"
+  },
+  {
+   "text": "изменить разрешение виртуалки tart",
+   "lang": "ru"
+  },
+  {
+   "text": "размер экрана tart",
+   "lang": "ru"
+  },
+  {
+   "text": "tart set resolution",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Sets the display resolution for the specified VM.",
+   "cmd": "tart set <VM_NAME> --display <WIDTH>x<HEIGHT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VM_NAME",
+     "description": "Name of the virtual machine",
+     "example": "my-vm",
+     "discover_cmd": "tart list"
+    },
+    {
+     "name": "WIDTH",
+     "description": "Display width in pixels",
+     "example": "1920"
+    },
+    {
+     "name": "HEIGHT",
+     "description": "Display height in pixels",
+     "example": "1080"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tart.md",
+  "title": "tldr-pages: tart",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,117 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-xcode-license-not-accepted",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Accept the Xcode license from Terminal",
+ "summary": "After Xcode is installed, git or clang may stop with a message that you have not agreed to the Xcode license. You accept the license once in Terminal, which needs your administrator password.",
+ "aliases": [
+  {
+   "text": "You have not agreed to the Xcode license",
+   "lang": "en"
+  },
+  {
+   "text": "xcode license not accepted",
+   "lang": "en"
+  },
+  {
+   "text": "accept xcode license terminal",
+   "lang": "en"
+  },
+  {
+   "text": "git xcode license error",
+   "lang": "en"
+  },
+  {
+   "text": "xcodebuild license agree",
+   "lang": "en"
+  },
+  {
+   "text": "how to agree to xcode license",
+   "lang": "en"
+  },
+  {
+   "text": "xcode license clang error mac",
+   "lang": "en"
+  },
+  {
+   "text": "вы не согласились с лицензией xcode",
+   "lang": "ru"
+  },
+  {
+   "text": "принять лицензию xcode",
+   "lang": "ru"
+  },
+  {
+   "text": "лицензия xcode git ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "xcode license не принята",
+   "lang": "ru"
+  },
+  {
+   "text": "как принять лицензию xcode в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка лицензии xcode clang mac",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "You have not agreed to the Xcode license agreements"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Full Xcode is installed from the App Store",
+  "You know your Mac administrator password"
+ ],
+ "steps": [
+  {
+   "explain": "Check which developer tools are active. If it prints /Applications/Xcode.app/Contents/Developer, full Xcode is in use and you can continue. If it prints /Library/Developer/CommandLineTools, install Xcode from the App Store first.",
+   "cmd": "xcode-select --print-path",
+   "risk": "low",
+   "expect": "/Applications/Xcode.app/Contents/Developer"
+  },
+  {
+   "explain": "Open the Xcode license in Terminal. Read it (press Space to scroll), then type agree at the end and press Return. Type your administrator password when asked; nothing is shown while you type.",
+   "cmd": "sudo xcodebuild -license",
+   "risk": "medium",
+   "needs_root": true,
+   "expect": "The license text appears. After you type agree, the prompt returns without an error."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "xcodebuild -version",
+   "expect": "Two lines: Xcode version and Build version. No 'You have not agreed' message."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "There is no command that takes back a license you accepted. If you have not read the terms, do not type agree; press Ctrl+C to stop.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Accepting the license is a legal agreement for you or your organization. Read the terms before you type agree.",
+  "The command needs administrator rights (sudo). Type your password only in Terminal on your own Mac."
+ ],
+ "see_also": [
+  "macos-check-active-developer-directory"
+ ],
+ "source": {
+  "url": "x-man-page://xcodebuild",
+  "title": "xcodebuild manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-install-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install a package using dnf",
+ "summary": "Use dnf to install new software on Fedora or RHEL systems. You can install one or more packages at once.",
+ "aliases": [
+  {
+   "text": "install package dnf",
+   "lang": "en"
+  },
+  {
+   "text": "dnf install",
+   "lang": "en"
+  },
+  {
+   "text": "how to install software fedora",
+   "lang": "en"
+  },
+  {
+   "text": "dnf add package",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf установка",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить программу fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the specified package(s). You will be prompted to confirm the installation unless you use --assumeyes.",
+   "cmd": "sudo dnf install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to install",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Install multiple packages at once.",
+     "cmd": "sudo dnf install <PACKAGE1> <PACKAGE2>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PACKAGE1",
+       "description": "First package name",
+       "example": "vim"
+      },
+      {
+       "name": "PACKAGE2",
+       "description": "Second package name",
+       "example": "git"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package if you made a mistake.",
+   "cmd": "sudo dnf remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to remove",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing packages requires administrator rights.",
+  "Review the list of packages to be installed before confirming."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf.md",
+  "title": "tldr-pages: dnf",
+  "license": "CC-BY-4.0"
+ }
+}

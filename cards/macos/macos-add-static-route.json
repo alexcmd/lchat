@@ -1,0 +1,110 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-static-route",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add a static route to a destination",
+ "summary": "Manually add a specific route to the routing table, directing traffic for a destination IP or subnet through a specific gateway.",
+ "aliases": [
+  {
+   "text": "add route mac",
+   "lang": "en"
+  },
+  {
+   "text": "static route macos",
+   "lang": "en"
+  },
+  {
+   "text": "add gateway route",
+   "lang": "en"
+  },
+  {
+   "text": "route add",
+   "lang": "en"
+  },
+  {
+   "text": "добавить маршрут",
+   "lang": "ru"
+  },
+  {
+   "text": "статический маршрут мак",
+   "lang": "ru"
+  },
+  {
+   "text": "прописать маршрут",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add a route to a specific destination IP address through a gateway. This requires administrator privileges.",
+   "cmd": "sudo route add \"<DESTINATION_IP>\" \"<GATEWAY_ADDRESS>\"",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The IP address of the destination you want to route to.",
+     "example": "192.168.1.50"
+    },
+    {
+     "name": "GATEWAY_ADDRESS",
+     "description": "The IP address of the gateway (router) to use.",
+     "example": "192.168.1.1"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Add a route to a /24 subnet (e.g., 192.168.1.0/24) through a gateway.",
+     "cmd": "sudo route add \"<SUBNET_IP>/24\" \"<GATEWAY_ADDRESS>\"",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "SUBNET_IP",
+       "description": "The base IP address of the subnet.",
+       "example": "192.168.1.0"
+      },
+      {
+       "name": "GATEWAY_ADDRESS",
+       "description": "The IP address of the gateway (router) to use.",
+       "example": "192.168.1.1"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the specific route you added to revert the change.",
+   "cmd": "sudo route delete \"<DESTINATION_IP>\"",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The destination IP or subnet you previously added.",
+     "example": "192.168.1.50"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Incorrect routing can disrupt network connectivity for specific destinations.",
+  "Routes added this way are temporary and will be lost after a reboot."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/route.md",
+  "title": "tldr-pages: route",
+  "license": "CC-BY-4.0"
+ }
+}

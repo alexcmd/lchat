@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "power-error-hibernate-failed",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix hibernation failure due to swap location",
+ "summary": "If hibernation fails with 'No such file or directory', it is often because the swap file is in a protected directory like /home. Move the swap file to a supported location.",
+ "aliases": [
+  {
+   "text": "hibernate failed no such file",
+   "lang": "en"
+  },
+  {
+   "text": "swap file hibernate error",
+   "lang": "en"
+  },
+  {
+   "text": "гибернация ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "нет такого файла гибернация",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "No such file or directory"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable the problematic swap file. Replace <SWAP_PATH> with the path to your swap file (e.g., /home/user/swap).",
+   "cmd": "sudo swapoff <SWAP_PATH>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SWAP_PATH",
+     "description": "Path to the swap file causing the error",
+     "example": "/home/user/swap"
+    }
+   ]
+  },
+  {
+   "explain": "Delete the swap file from the protected directory.",
+   "cmd": "sudo rm <SWAP_PATH>",
+   "needs_root": true,
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "SWAP_PATH",
+     "description": "Path to the swap file causing the error",
+     "example": "/home/user/swap"
+    }
+   ]
+  },
+  {
+   "explain": "Create a new swap file in a supported location (e.g., /swapfile) and update your fstab or swap unit configuration.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "Recreate the swap file in the original location if needed, though this is not recommended.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Deleting a swap file will cause the system to lose that swap space. Ensure you have another swap space configured before proceeding."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#No_such_file_or_directory",
+  "title": "Power management/Suspend and hibernate",
+  "revision_id": 887184,
+  "license": "GFDL-1.3-or-later"
+ }
+}

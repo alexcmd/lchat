@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "arch-pkgfile-list-package-files",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List all files provided by an Arch package",
+ "summary": "Use pkgfile to list all files that a specific package will install, without actually installing it. This helps you understand what a package does or check for file conflicts.",
+ "aliases": [
+  {
+   "text": "list files in arch package",
+   "lang": "en"
+  },
+  {
+   "text": "pkgfile list package contents",
+   "lang": "en"
+  },
+  {
+   "text": "what files does this package install arch",
+   "lang": "en"
+  },
+  {
+   "text": "список файлов пакета arch pkgfile",
+   "lang": "ru"
+  },
+  {
+   "text": "что устанавливает пакет arch",
+   "lang": "ru"
+  },
+  {
+   "text": "pkgfile list files",
+   "lang": "en"
+  },
+  {
+   "text": "что устанавливает пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "list files in package",
+   "lang": "en"
+  },
+  {
+   "text": "what files does package install",
+   "lang": "en"
+  },
+  {
+   "text": "список файлов пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "pkgfile is installed",
+  "The pkgfile database is up to date"
+ ],
+ "steps": [
+  {
+   "explain": "List all files provided by the specified package.",
+   "cmd": "pkgfile --list <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package.",
+     "example": "coreutils"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "List only the executables (binaries) provided by the package.",
+     "cmd": "pkgfile --list --binaries <PACKAGE>",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "The name of the package.",
+       "example": "coreutils"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pkgfile.md",
+  "title": "tldr-pages: pkgfile",
+  "license": "CC-BY-4.0"
+ }
+}

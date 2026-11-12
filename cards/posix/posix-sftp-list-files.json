@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "posix-sftp-list-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List files in SFTP session",
+ "summary": "View the contents of directories on both the local and remote machines while inside an SFTP session. This helps you navigate and find files to transfer.",
+ "aliases": [
+  {
+   "text": "sftp list files",
+   "lang": "en"
+  },
+  {
+   "text": "sftp ls lls",
+   "lang": "en"
+  },
+  {
+   "text": "sftp browse files",
+   "lang": "en"
+  },
+  {
+   "text": "sftp show files",
+   "lang": "en"
+  },
+  {
+   "text": "список файлов sftp",
+   "lang": "ru"
+  },
+  {
+   "text": "просмотр файлов sftp",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Inside the SFTP interactive prompt, use 'ls' to list files in the current remote directory.",
+   "cmd": "ls",
+   "risk": "low"
+  },
+  {
+   "explain": "Inside the SFTP interactive prompt, use 'lls' to list files in the current local directory.",
+   "cmd": "lls",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sftp.md",
+  "title": "tldr-pages: sftp",
+  "license": "CC-BY-4.0"
+ }
+}

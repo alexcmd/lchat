@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "posix-whois-lookup-ip",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Look up ownership and abuse contact for an IP address",
+ "summary": "Use whois to find out which organization owns a specific IP address. This helps identify the source of network traffic or find the abuse contact if you are receiving spam or attacks from that IP.",
+ "aliases": [
+  {
+   "text": "who owns this ip",
+   "lang": "en"
+  },
+  {
+   "text": "lookup ip address owner",
+   "lang": "en"
+  },
+  {
+   "text": "whois ip address",
+   "lang": "en"
+  },
+  {
+   "text": "find abuse contact for ip",
+   "lang": "en"
+  },
+  {
+   "text": "check ip registration",
+   "lang": "en"
+  },
+  {
+   "text": "who is this ip",
+   "lang": "en"
+  },
+  {
+   "text": "узнать владельца ip",
+   "lang": "ru"
+  },
+  {
+   "text": "whois ip адреса",
+   "lang": "ru"
+  },
+  {
+   "text": "контакт для жалоб на ip",
+   "lang": "ru"
+  },
+  {
+   "text": "кто владеет ip адресом",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run whois with the IP address to see the organization that owns it. Use the -b flag to specifically filter for abuse contact information, which is useful for reporting spam or attacks.",
+   "cmd": "whois <IP_ADDRESS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IP_ADDRESS",
+     "description": "The IPv4 address to look up",
+     "example": "8.8.8.8"
+    }
+   ],
+   "expect": "Output showing the owning organization (e.g., Google, Cloudflare) and network range.",
+   "alternatives": [
+    {
+     "explain": "Use the -b flag to show only abuse contact details, which is cleaner if you just need to report an issue.",
+     "cmd": "whois -b <IP_ADDRESS>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "IP_ADDRESS",
+       "description": "The IPv4 address to look up",
+       "example": "8.8.8.8"
+      }
+     ],
+     "expect": "Output focused on abuse email and phone numbers for the IP owner."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/whois.md",
+  "title": "tldr-pages: whois",
+  "license": "CC-BY-4.0"
+ }
+}

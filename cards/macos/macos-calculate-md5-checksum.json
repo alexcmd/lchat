@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "macos-calculate-md5-checksum",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Calculate MD5 checksum for a file",
+ "summary": "Generate an MD5 hash for a file to verify its integrity or compare it with a known value. You can also calculate hashes for multiple files or just a text string.",
+ "aliases": [
+  {
+   "text": "md5 checksum mac",
+   "lang": "en"
+  },
+  {
+   "text": "calculate md5 hash",
+   "lang": "en"
+  },
+  {
+   "text": "check file integrity md5",
+   "lang": "en"
+  },
+  {
+   "text": "md5 command macos",
+   "lang": "en"
+  },
+  {
+   "text": "как посчитать md5",
+   "lang": "ru"
+  },
+  {
+   "text": "хэш файла md5",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить md5",
+   "lang": "ru"
+  },
+  {
+   "text": "md5 для файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the md5 command followed by the path to the file you want to check. The output will show the filename and its MD5 hash.",
+   "cmd": "md5 <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to calculate the MD5 checksum for.",
+     "example": "~/Downloads/image.png"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Calculate MD5 checksums for multiple files at once by listing their paths.",
+     "cmd": "md5 <FILE1> <FILE2>",
+     "placeholders": [
+      {
+       "name": "FILE1",
+       "description": "Path to the first file.",
+       "example": "~/file1.txt"
+      },
+      {
+       "name": "FILE2",
+       "description": "Path to the second file.",
+       "example": "~/file2.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Output only the MD5 checksum without the filename, which is useful for scripts or quick comparisons.",
+     "cmd": "md5 -q <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file.",
+       "example": "~/Downloads/image.png"
+      }
+     ]
+    },
+    {
+     "explain": "Calculate the MD5 checksum of a specific text string instead of a file.",
+     "cmd": "md5 -s \"<STRING>\"",
+     "placeholders": [
+      {
+       "name": "STRING",
+       "description": "The text string to hash.",
+       "example": "hello world"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/md5.md",
+  "title": "tldr-pages: md5",
+  "license": "CC-BY-4.0"
+ }
+}

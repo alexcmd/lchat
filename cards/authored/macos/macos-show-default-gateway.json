@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-default-gateway",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show the default gateway (router address) of this Mac",
+ "summary": "The default gateway is the router address your Mac sends internet traffic to. Showing it in Terminal helps find out whether the problem is in your Mac, the router, or the internet provider.",
+ "aliases": [
+  {
+   "text": "mac default gateway",
+   "lang": "en"
+  },
+  {
+   "text": "router address mac",
+   "lang": "en"
+  },
+  {
+   "text": "what is my router ip on mac",
+   "lang": "en"
+  },
+  {
+   "text": "macos show gateway terminal",
+   "lang": "en"
+  },
+  {
+   "text": "no internet mac check router ip",
+   "lang": "en"
+  },
+  {
+   "text": "route -n get default",
+   "lang": "en"
+  },
+  {
+   "text": "адрес роутера на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "какой ip у роутера на макбуке",
+   "lang": "ru"
+  },
+  {
+   "text": "показать шлюз по умолчанию мак",
+   "lang": "ru"
+  },
+  {
+   "text": "нет интернета мак проверить роутер",
+   "lang": "ru"
+  },
+  {
+   "text": "айпи роутера мак терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "route"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the default route. The line 'gateway:' is the router address the Mac uses for internet traffic; 'interface:' is the network connection it uses (for example en0 for Wi-Fi). This command only reads the routing table and changes nothing.",
+   "cmd": "route -n get default",
+   "risk": "low",
+   "expect": "Lines such as 'gateway: 192.168.1.1' and 'interface: en0'. If no 'gateway:' line appears, the Mac has no default route, which usually means it is not connected to a network.",
+   "alternatives": [
+    {
+     "explain": "Show the whole IPv4 routing table. Look for the line that starts with 'default'; the second column is the gateway address.",
+     "cmd": "netstat -rn -f inet",
+     "risk": "low",
+     "expect": "A line like 'default  192.168.1.1  UGScg  en0'."
+    }
+   ]
+  },
+  {
+   "explain": "Send three test packets to the router to check that it answers. Replace <GATEWAY_IP> with the gateway address from the previous step. Press Ctrl+C to stop early.",
+   "cmd": "ping -c 3 <GATEWAY_IP>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "GATEWAY_IP",
+     "description": "The router address shown as 'gateway:' in the previous step.",
+     "example": "192.168.1.1",
+     "discover_cmd": "route -n get default"
+    }
+   ],
+   "expect": "Ends with '3 packets transmitted, 3 packets received, 0.0% packet loss'. If packets are lost or there is no answer, the problem is between your Mac and the router (Wi-Fi or cable)."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "route -n get default",
+   "expect": "A 'gateway:' line with an IP address. If it is missing, the Mac has no default route."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "The gateway address is usually a private address like 192.168.x.x or 10.x.x.x. Do not share it publicly."
+ ],
+ "source": {
+  "url": "x-man-page://route",
+  "title": "route manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

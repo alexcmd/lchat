@@ -1,0 +1,127 @@
+{
+ "schema_version": 2,
+ "id": "macos-convert-plist-format",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Convert a plist file to a different format",
+ "summary": "Change the format of a property list (plist) file, such as converting from binary to XML or JSON. You can overwrite the original file or save the result to a new file.",
+ "aliases": [
+  {
+   "text": "convert plist",
+   "lang": "en"
+  },
+  {
+   "text": "change plist format",
+   "lang": "en"
+  },
+  {
+   "text": "plist to xml",
+   "lang": "en"
+  },
+  {
+   "text": "plist to json",
+   "lang": "en"
+  },
+  {
+   "text": "конвертировать plist",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить формат plist",
+   "lang": "ru"
+  },
+  {
+   "text": "plist в xml",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Convert the plist file to the desired format and save it to a new file using the -o flag. This preserves the original file.",
+   "cmd": "plutil -convert <FORMAT> <FILE> -o <NEW_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FORMAT",
+     "description": "Target format: xml1, binary1, json, swift, or objc",
+     "example": "xml1"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the source plist file",
+     "example": "~/Library/Preferences/com.apple.finder.plist"
+    },
+    {
+     "name": "NEW_FILE",
+     "description": "Path to the new file where the converted content will be saved",
+     "example": "~/Desktop/finder-config.xml"
+    }
+   ]
+  },
+  {
+   "explain": "Alternatively, convert the file in-place, overwriting the original. Use this only if you don't need to keep the original format.",
+   "cmd": "plutil -convert <FORMAT> <FILE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "FORMAT",
+     "description": "Target format: xml1, binary1, json, swift, or objc",
+     "example": "xml1"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the plist file to convert and overwrite",
+     "example": "~/Library/Preferences/com.apple.finder.plist"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Convert to XML format specifically, overwriting the original file.",
+     "cmd": "plutil -convert xml1 <FILE>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the plist file to convert and overwrite",
+       "example": "~/Library/Preferences/com.apple.finder.plist"
+      }
+     ]
+    },
+    {
+     "explain": "Convert to binary format specifically, overwriting the original file.",
+     "cmd": "plutil -convert binary1 <FILE>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the plist file to convert and overwrite",
+       "example": "~/Library/Preferences/com.apple.finder.plist"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Converting in-place overwrites the original file. Make a backup if the file is important."
+ ],
+ "rollback": [
+  {
+   "explain": "If you converted in-place and need to revert, you must restore from a backup. plutil does not provide an undo command for in-place conversions.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/plutil.md",
+  "title": "tldr-pages: plutil",
+  "license": "CC-BY-4.0"
+ }
+}

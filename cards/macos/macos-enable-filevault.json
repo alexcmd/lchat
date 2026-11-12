@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "macos-enable-filevault",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Enable FileVault disk encryption",
+ "summary": "Turn on FileVault to encrypt your Mac's startup disk. This protects your data if the Mac is lost or stolen. The process may take some time to complete.",
+ "aliases": [
+  {
+   "text": "enable filevault",
+   "lang": "en"
+  },
+  {
+   "text": "encrypt my mac disk",
+   "lang": "en"
+  },
+  {
+   "text": "turn on filevault",
+   "lang": "en"
+  },
+  {
+   "text": "включить filevault",
+   "lang": "ru"
+  },
+  {
+   "text": "зашифровать диск мака",
+   "lang": "ru"
+  },
+  {
+   "text": "fdesetup enable",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Enable FileVault encryption for the startup disk. You will be asked for your password.",
+   "cmd": "sudo fdesetup enable",
+   "risk": "high",
+   "needs_root": true,
+   "expect": "A recovery key will be displayed. Save this key in a safe place."
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Ensure you have a backup of your data before enabling encryption.",
+  "You MUST save the recovery key shown in the terminal. If you lose your password and this key, you will lose access to your data."
+ ],
+ "rollback": [
+  {
+   "explain": "Disable FileVault to decrypt the disk. This reverses the encryption.",
+   "cmd": "sudo fdesetup disable",
+   "risk": "high",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/fdesetup.md",
+  "title": "tldr-pages: fdesetup",
+  "license": "CC-BY-4.0"
+ }
+}

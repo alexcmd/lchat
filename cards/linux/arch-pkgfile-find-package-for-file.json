@@ -1,0 +1,126 @@
+{
+ "schema_version": 2,
+ "id": "arch-pkgfile-find-package-for-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find which Arch package owns a specific file",
+ "summary": "Use pkgfile to search the official Arch repositories and find out which package provides a specific file. This is useful when you see a 'command not found' error or need to know which package to install to get a specific library or binary.",
+ "aliases": [
+  {
+   "text": "which package owns this file arch",
+   "lang": "en"
+  },
+  {
+   "text": "find package for file pkgfile",
+   "lang": "en"
+  },
+  {
+   "text": "arch linux find package by file",
+   "lang": "en"
+  },
+  {
+   "text": "какой пакет содержит файл arch",
+   "lang": "ru"
+  },
+  {
+   "text": "найти пакет по имени файла pkgfile",
+   "lang": "ru"
+  },
+  {
+   "text": "pkgfile find file owner",
+   "lang": "en"
+  },
+  {
+   "text": "pkgfile search",
+   "lang": "en"
+  },
+  {
+   "text": "find package for file",
+   "lang": "en"
+  },
+  {
+   "text": "which package owns file",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет для файла",
+   "lang": "ru"
+  },
+  {
+   "text": "какой пакет содержит файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "pkgfile is installed (pacman -S pkgfile)",
+  "The pkgfile database is up to date"
+ ],
+ "steps": [
+  {
+   "explain": "Update the pkgfile database to ensure it knows about the latest packages in the repositories.",
+   "cmd": "sudo pkgfile --update",
+   "needs_root": true,
+   "risk": "low"
+  },
+  {
+   "explain": "Search for the package that owns the specific file you are looking for.",
+   "cmd": "pkgfile <FILENAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILENAME",
+     "description": "The name or path of the file you want to find the owner of.",
+     "example": "ls"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Search only within the bin or sbin directories (useful for executables).",
+     "cmd": "pkgfile --binaries <FILENAME>",
+     "placeholders": [
+      {
+       "name": "FILENAME",
+       "description": "The name of the executable.",
+       "example": "ls"
+      }
+     ]
+    },
+    {
+     "explain": "Search using case-insensitive matching.",
+     "cmd": "pkgfile --ignorecase <FILENAME>",
+     "placeholders": [
+      {
+       "name": "FILENAME",
+       "description": "The name of the file.",
+       "example": "LS"
+      }
+     ]
+    },
+    {
+     "explain": "Search and display the package version.",
+     "cmd": "pkgfile --verbose <FILENAME>",
+     "placeholders": [
+      {
+       "name": "FILENAME",
+       "description": "The name of the file.",
+       "example": "ls"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pkgfile.md",
+  "title": "tldr-pages: pkgfile",
+  "license": "CC-BY-4.0"
+ }
+}

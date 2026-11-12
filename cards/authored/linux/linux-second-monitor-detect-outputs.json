@@ -1,0 +1,151 @@
+{
+ "schema_version": 2,
+ "id": "linux-second-monitor-detect-outputs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check whether Linux detects a second monitor",
+ "summary": "Find out whether the system sees the second monitor at all. If the kernel reports the port as connected, the cable and port work and the problem is in the display settings. If it reports disconnected, check the cable, the port and the monitor's power.",
+ "aliases": [
+  {
+   "text": "second monitor not detected linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux does not see my external monitor",
+   "lang": "en"
+  },
+  {
+   "text": "hdmi monitor not detected ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "external display not showing linux",
+   "lang": "en"
+  },
+  {
+   "text": "check if monitor is connected linux",
+   "lang": "en"
+  },
+  {
+   "text": "is my second screen detected",
+   "lang": "en"
+  },
+  {
+   "text": "monitor not recognized debian fedora arch",
+   "lang": "en"
+  },
+  {
+   "text": "второй монитор не определяется linux",
+   "lang": "ru"
+  },
+  {
+   "text": "linux не видит второй монитор",
+   "lang": "ru"
+  },
+  {
+   "text": "hdmi монитор не виден в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "внешний монитор не работает ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить подключен ли второй экран",
+   "lang": "ru"
+  },
+  {
+   "text": "vtoroy monitor ne vidit linux",
+   "lang": "ru"
+  },
+  {
+   "text": "monitor ne opredelyaetsya linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "any"
+ },
+ "prerequisites": [
+  "A second monitor connected to the computer with a cable",
+  "A terminal window (the desktop's own terminal is best)"
+ ],
+ "steps": [
+  {
+   "explain": "Check which graphical session you are in. xrandr only works in an X11 session; on Wayland it may list only part of the monitors. Empty output means there is no graphical session, for example a plain ssh login.",
+   "cmd": "echo \"$XDG_SESSION_TYPE\"",
+   "risk": "low",
+   "expect": "x11 or wayland. Empty output: run this in the desktop's own terminal, not over ssh."
+  },
+  {
+   "explain": "Ask the kernel which video ports have a monitor plugged in. Each line is one port: the path is before the colon and connected, disconnected or unknown is after it. This check works in any session.",
+   "cmd": "grep . /sys/class/drm/*/status",
+   "risk": "low",
+   "expect": "Lines like /sys/class/drm/card1-HDMI-A-1/status:connected. An empty port shows disconnected. 'No such file' means no video ports are exposed (a VM or a container)."
+  },
+  {
+   "explain": "Check whether the xrandr tool is installed. If nothing is printed, it is missing.",
+   "cmd": "command -v xrandr",
+   "risk": "low",
+   "expect": "/usr/bin/xrandr. No output means xrandr is missing: do the next step."
+  },
+  {
+   "explain": "Install the package that contains xrandr. Run this only if the previous step printed nothing.",
+   "needs_root": true,
+   "risk": "medium",
+   "variants": {
+    "debian": "sudo apt-get install -y x11-xserver-utils",
+    "ubuntu": "sudo apt-get install -y x11-xserver-utils",
+    "mint": "sudo apt-get install -y x11-xserver-utils",
+    "fedora": "sudo dnf install -y xrandr",
+    "arch": "sudo pacman -S --needed xorg-xrandr"
+   },
+   "expect": "The installation finishes without errors and the package manager asks for your password once."
+  },
+  {
+   "explain": "Ask the X server which outputs it knows about and their state. Lines with 'connected' are monitors that are plugged in and known to the desktop. Needs an X11 session (see the first step).",
+   "cmd": "xrandr --query",
+   "risk": "low",
+   "gui": "Settings > Displays (GNOME, Cinnamon, Mint) or System Settings > Display (KDE) show the monitors the desktop knows about.",
+   "expect": "Lines such as HDMI-1 connected ... for a monitor and HDMI-1 disconnected for an empty port. 'Can't open display' means there is no X11 session."
+  },
+  {
+   "explain": "Compare the two checks. If the kernel says connected but xrandr says disconnected, the cable and port work and the problem is in the display settings or the driver. If both say disconnected, check the cable, the port and that the monitor is switched on.",
+   "risk": "low"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "The checks change nothing. If you installed the package only for this check, remove it with your package manager. Keep it if other programs use it.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Installing a package needs your administrator password (sudo) and changes the installed software.",
+  "On Wayland, xrandr may not list every monitor; use the Settings app for the complete list."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/xrandr",
+  "title": "xrandr manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

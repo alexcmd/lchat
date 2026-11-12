@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "posix-python-http-server",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Start a simple HTTP server for the current folder",
+ "summary": "Quickly serve files from your current directory over HTTP on port 8000. Useful for testing web pages or sharing files locally.",
+ "aliases": [
+  {
+   "text": "python http server",
+   "lang": "en"
+  },
+  {
+   "text": "serve files locally python",
+   "lang": "en"
+  },
+  {
+   "text": "python -m http.server",
+   "lang": "en"
+  },
+  {
+   "text": "local web server python",
+   "lang": "en"
+  },
+  {
+   "text": "запустить http сервер python",
+   "lang": "ru"
+  },
+  {
+   "text": "python локальный сервер",
+   "lang": "ru"
+  },
+  {
+   "text": "поделиться файлами через python",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start a built-in HTTP server in the current directory on port 8000.",
+   "cmd": "python -m http.server",
+   "risk": "low",
+   "expect": "The terminal will show 'Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...' and stay running."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/python.md",
+  "title": "tldr-pages: python",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-memory-usage",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check free and used system memory",
+ "summary": "Use the `free` command to see how much RAM your computer is using and how much is still available. It shows total, used, and free memory, plus swap space.",
+ "aliases": [
+  {
+   "text": "check memory usage",
+   "lang": "en"
+  },
+  {
+   "text": "how much ram is free",
+   "lang": "en"
+  },
+  {
+   "text": "show available memory",
+   "lang": "en"
+  },
+  {
+   "text": "free ram",
+   "lang": "en"
+  },
+  {
+   "text": "memory usage linux",
+   "lang": "en"
+  },
+  {
+   "text": "проверить память",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько свободной памяти",
+   "lang": "ru"
+  },
+  {
+   "text": "показать использование оперативной памяти",
+   "lang": "ru"
+  },
+  {
+   "text": "свободная память линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `free` command to display the current memory usage in kilobytes.",
+   "cmd": "free",
+   "risk": "low",
+   "expect": "A table showing total, used, and free memory for RAM and swap.",
+   "alternatives": [
+    {
+     "explain": "Display memory in human-readable units (e.g., GiB, MiB) instead of raw kilobytes.",
+     "cmd": "free -h",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/free.md",
+  "title": "tldr-pages: free",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "arch-check-memory-usage"
+ ]
+}

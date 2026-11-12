@@ -1,0 +1,112 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-no-space-left-on-device",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'No space left on device' on a Mac",
+ "summary": "The message means the disk where you save files is full, or has run out of file slots. Check the free space first, then find out which folders use the most space before you delete anything.",
+ "aliases": [
+  {
+   "text": "no space left on device mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac says no space left on device",
+   "lang": "en"
+  },
+  {
+   "text": "disk full on mac",
+   "lang": "en"
+  },
+  {
+   "text": "why is my mac disk full",
+   "lang": "en"
+  },
+  {
+   "text": "macos out of storage space",
+   "lang": "en"
+  },
+  {
+   "text": "check free space mac",
+   "lang": "en"
+  },
+  {
+   "text": "нет места на диске на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "мак пишет No space left on device",
+   "lang": "ru"
+  },
+  {
+   "text": "на маке закончилось место",
+   "lang": "ru"
+  },
+  {
+   "text": "диск на маке заполнен",
+   "lang": "ru"
+  },
+  {
+   "text": "почему на маке не хватает места",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти что занимает место на маке",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "No space left on device"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show used and free space for every disk and volume in readable units. Find the line whose Mounted on is /System/Volumes/Data: that is the disk where your files are saved.",
+   "cmd": "df -h",
+   "risk": "low",
+   "expect": "A table with Size, Used, Avail and Capacity columns. If Avail is close to 0 or Capacity is near 100%, the disk is full.",
+   "alternatives": [
+    {
+     "explain": "Also show the number of free and used inodes (file slots). If %iused is 100%, the disk can have free space and still refuse new files.",
+     "cmd": "df -i",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "List the folders in your home folder from the largest to the smallest. The first line is the total for your whole home folder; the lines below it show which folders take the most space. Errors about folders you cannot read are hidden.",
+   "cmd": "du -h -d 1 ~ 2>/dev/null | sort -hr | head -n 15",
+   "risk": "low",
+   "expect": "Up to 15 lines like 42G followed by a path such as /Users/<name>/Library. Sizes with G or T are the largest; the top line is the total of your home folder."
+  },
+  {
+   "explain": "List local Time Machine snapshots of the startup disk. Snapshots keep copies of deleted files for a while and can take space until they expire on their own. Only read this list; do not remove snapshots from this card.",
+   "cmd": "tmutil listlocalsnapshots /",
+   "risk": "low",
+   "expect": "Either no lines, or lines with snapshot names that contain a date and time. Snapshots are removed automatically over time."
+  },
+  {
+   "explain": "Open the storage overview to see which apps and file categories take the most space. Read the list and decide yourself what to remove; the overview can also suggest options.",
+   "gui": "Apple menu > System Settings > General > Storage (macOS 13 or later). Check each item before deleting it.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "df -h",
+   "expect": "The Avail value for the Data volume is larger than it was before you freed space."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://df",
+  "title": "df manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

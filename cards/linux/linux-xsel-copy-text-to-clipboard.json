@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "linux-xsel-copy-text-to-clipboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy text or command output to the clipboard",
+ "summary": "Use xsel to send text or the output of a command to the system clipboard. This is useful for automating copy actions in scripts or when you want to copy something without using the mouse.",
+ "aliases": [
+  {
+   "text": "copy text to clipboard linux",
+   "lang": "en"
+  },
+  {
+   "text": "xsel copy to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "command line copy to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "pipe output to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "xsel input clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "скопировать текст в буфер обмена linux",
+   "lang": "ru"
+  },
+  {
+   "text": "xsel копировать в буфер",
+   "lang": "ru"
+  },
+  {
+   "text": "команда копировать в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "вывод команды в буфер обмена",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xsel"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the text or command output into xsel with the input and clipboard flags to copy it.",
+   "cmd": "echo <TEXT> | xsel --input --clipboard",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TEXT",
+     "description": "The text or command output you want to copy.",
+     "example": "Hello World"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Copy the contents of a specific file to the clipboard.",
+     "cmd": "cat <FILE> | xsel --input --clipboard",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file whose contents you want to copy.",
+       "example": "/home/user/notes.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xsel.md",
+  "title": "tldr-pages: xsel",
+  "license": "CC-BY-4.0"
+ }
+}

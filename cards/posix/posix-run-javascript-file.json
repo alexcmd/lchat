@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "posix-run-javascript-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a JavaScript file with Node.js",
+ "summary": "Execute a JavaScript script using the Node.js runtime. This is the standard way to run server-side JavaScript or simple scripts from the terminal.",
+ "aliases": [
+  {
+   "text": "run javascript file",
+   "lang": "en"
+  },
+  {
+   "text": "execute node script",
+   "lang": "en"
+  },
+  {
+   "text": "run js file",
+   "lang": "en"
+  },
+  {
+   "text": "node run script",
+   "lang": "en"
+  },
+  {
+   "text": "запустить js файл",
+   "lang": "ru"
+  },
+  {
+   "text": "выполнить скрипт node",
+   "lang": "ru"
+  },
+  {
+   "text": "как запустить джаваскрипт",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "node"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the specified JavaScript file using the node command.",
+   "cmd": "node <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the JavaScript file to execute",
+     "example": "app.js"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/node.md",
+  "title": "tldr-pages: node",
+  "license": "CC-BY-4.0"
+ }
+}

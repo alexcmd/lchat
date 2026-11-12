@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-default-app-for-mime",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check default application for a file type",
+ "summary": "See which application is currently set to open files of a specific type (like PNG images or PDFs).",
+ "aliases": [
+  {
+   "text": "check default app linux",
+   "lang": "en"
+  },
+  {
+   "text": "what opens png files",
+   "lang": "en"
+  },
+  {
+   "text": "default application for mime type",
+   "lang": "en"
+  },
+  {
+   "text": "xdg-mime query default",
+   "lang": "en"
+  },
+  {
+   "text": "какое приложение открывает файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить приложение по умолчанию",
+   "lang": "ru"
+  },
+  {
+   "text": "чем открываются png",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the default application registered for a specific MIME type.",
+   "cmd": "xdg-mime query default <MIME_TYPE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MIME_TYPE",
+     "description": "The MIME type to check, e.g., image/png",
+     "example": "image/png"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Check the default application for a specific file by first determining its MIME type.",
+     "cmd": "xdg-mime query default $(xdg-mime query filetype <FILE>)",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file",
+       "example": "document.pdf"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xdg-mime.md",
+  "title": "tldr-pages: xdg-mime",
+  "license": "CC-BY-4.0"
+ }
+}

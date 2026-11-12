@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "macos-play-audio-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Play an audio file from the Terminal",
+ "summary": "Use the `afplay` command to play a sound or music file directly from the Terminal. It plays the file and waits until the playback finishes.",
+ "aliases": [
+  {
+   "text": "play audio file terminal",
+   "lang": "en"
+  },
+  {
+   "text": "afplay command",
+   "lang": "en"
+  },
+  {
+   "text": "play mp3 from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "play sound file mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "воспроизвести аудио в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "afplay как использовать",
+   "lang": "ru"
+  },
+  {
+   "text": "проиграть mp3 через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "воспроизвести звук в консоли",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `afplay` followed by the path to the audio file you want to play. The command will start playback and wait until the file finishes.",
+   "cmd": "afplay <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the audio file (e.g., .mp3, .wav, .aiff) you want to play.",
+     "example": "~/Music/song.mp3"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/afplay.md",
+  "title": "tldr-pages: afplay",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,139 @@
+{
+ "schema_version": 2,
+ "id": "posix-host-lookup-domain",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Look up DNS records for a domain",
+ "summary": "Use the `host` command to find IP addresses (A/AAAA) and mail servers (MX) for a website or domain.",
+ "aliases": [
+  {
+   "text": "host lookup domain",
+   "lang": "en"
+  },
+  {
+   "text": "check dns records",
+   "lang": "en"
+  },
+  {
+   "text": "find ip for domain",
+   "lang": "en"
+  },
+  {
+   "text": "dns lookup command",
+   "lang": "en"
+  },
+  {
+   "text": "проверить dns записи",
+   "lang": "ru"
+  },
+  {
+   "text": "найти ip домена",
+   "lang": "ru"
+  },
+  {
+   "text": "host команда dns",
+   "lang": "ru"
+  },
+  {
+   "text": "check if domain resolves",
+   "lang": "en"
+  },
+  {
+   "text": "резолвинг домена",
+   "lang": "ru"
+  },
+  {
+   "text": "resolve domain name",
+   "lang": "en"
+  },
+  {
+   "text": "get ip from domain",
+   "lang": "en"
+  },
+  {
+   "text": "resolvectl query",
+   "lang": "en"
+  },
+  {
+   "text": "узнать ip домена",
+   "lang": "ru"
+  },
+  {
+   "text": "разрешить доменное имя",
+   "lang": "ru"
+  },
+  {
+   "text": "какой ip у сайта",
+   "lang": "ru"
+  },
+  {
+   "text": "test dns resolution arch",
+   "lang": "en"
+  },
+  {
+   "text": "проверить dns через resolvectl",
+   "lang": "ru"
+  },
+  {
+   "text": "резолвинг домена arch",
+   "lang": "ru"
+  },
+  {
+   "text": "resolvectl status",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the default DNS server for the domain's A, AAAA, and MX records.",
+   "cmd": "host <DOMAIN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to look up",
+     "example": "example.com"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Query the DNS resolver for the IP addresses of the specified domain(s).",
+     "cmd": "resolvectl query <DOMAIN>",
+     "placeholders": [
+      {
+       "name": "DOMAIN",
+       "description": "The domain name to resolve (e.g., example.com). You can specify multiple domains separated by spaces.",
+       "example": "example.com"
+      }
+     ],
+     "risk": "low"
+    },
+    {
+     "explain": "Query a specific domain name to see if it resolves to an IP address.",
+     "cmd": "resolvectl query <DOMAIN_NAME>",
+     "placeholders": [
+      {
+       "name": "DOMAIN_NAME",
+       "description": "The domain name to query",
+       "example": "archlinux.org"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/host.md",
+  "title": "tldr-pages: host",
+  "license": "CC-BY-4.0"
+ }
+}

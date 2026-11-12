@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-inxi-sensors",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show system sensor data",
+ "summary": "Use inxi with the sensors flag to see temperature and fan speed data from your hardware sensors.",
+ "aliases": [
+  {
+   "text": "check sensors",
+   "lang": "en"
+  },
+  {
+   "text": "inxi sensors",
+   "lang": "en"
+  },
+  {
+   "text": "cpu temperature",
+   "lang": "en"
+  },
+  {
+   "text": "температура процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "датчики системы",
+   "lang": "ru"
+  },
+  {
+   "text": "inxi sensors",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "inxi is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run inxi with the --sensors flag to print available sensor data.",
+   "cmd": "inxi --sensors",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/inxi.md",
+  "title": "tldr-pages: inxi",
+  "license": "CC-BY-4.0"
+ }
+}

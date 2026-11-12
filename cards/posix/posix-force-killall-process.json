@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-force-killall-process",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Force kill all instances of a process",
+ "summary": "Use killall with the SIGKILL signal to immediately terminate all instances of a process that is not responding to normal termination requests.",
+ "aliases": [
+  {
+   "text": "force kill process",
+   "lang": "en"
+  },
+  {
+   "text": "killall -9",
+   "lang": "en"
+  },
+  {
+   "text": "force close app",
+   "lang": "en"
+  },
+  {
+   "text": "process not responding kill",
+   "lang": "en"
+  },
+  {
+   "text": "убить процесс принудительно",
+   "lang": "ru"
+  },
+  {
+   "text": "killall 9",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительно закрыть приложение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send the SIGKILL signal to all processes matching the exact name. This forces immediate termination without allowing the process to clean up.",
+   "cmd": "killall -9 <PROCESS_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PROCESS_NAME",
+     "description": "The exact name of the process to force kill.",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Force killing processes can lead to data loss or corrupted files if the application was in the middle of saving.",
+  "Use this only if the application is completely unresponsive."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct rollback for a force kill. You must restart the application manually if needed.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/killall.md",
+  "title": "tldr-pages: killall",
+  "license": "CC-BY-4.0"
+ }
+}

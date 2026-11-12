@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-binary-architectures",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check which CPU architectures a binary supports",
+ "summary": "Use `lipo` to see if a program or library contains code for Intel (x86_64), Apple Silicon (arm64), or both. This helps you understand if an app is native to your Mac or running via translation.",
+ "aliases": [
+  {
+   "text": "check binary architecture",
+   "lang": "en"
+  },
+  {
+   "text": "is this app intel or apple silicon",
+   "lang": "en"
+  },
+  {
+   "text": "lipo archs",
+   "lang": "en"
+  },
+  {
+   "text": "check universal binary",
+   "lang": "en"
+  },
+  {
+   "text": "проверить архитектуру бинарника",
+   "lang": "ru"
+  },
+  {
+   "text": "какая архитектура у приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "lipo archs macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `lipo` with the `-archs` flag on the binary file to list the CPU architectures it contains.",
+   "cmd": "lipo <BINARY_FILE> -archs",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "BINARY_FILE",
+     "description": "Path to the executable or library file you want to inspect",
+     "example": "/Applications/Safari.app/Contents/MacOS/Safari"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/lipo.md",
+  "title": "tldr-pages: lipo",
+  "license": "CC-BY-4.0"
+ }
+}

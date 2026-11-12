@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-specific-user-activity",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show activity for a specific logged-in user",
+ "summary": "Use `w` with a username to filter the output and see only the processes and session details for that particular user.",
+ "aliases": [
+  {
+   "text": "check what user is doing",
+   "lang": "en"
+  },
+  {
+   "text": "w username",
+   "lang": "en"
+  },
+  {
+   "text": "show processes for user",
+   "lang": "en"
+  },
+  {
+   "text": "что делает пользователь",
+   "lang": "ru"
+  },
+  {
+   "text": "активность конкретного пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "w имя пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `w` followed by the username to see only that user's session information.",
+   "cmd": "w <USERNAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The login name of the user you want to check.",
+     "example": "john",
+     "discover_cmd": "w"
+    }
+   ],
+   "expect": "Output filtered to show only the specified user's login and process details."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/w.md",
+  "title": "tldr-pages: w",
+  "license": "CC-BY-4.0"
+ }
+}

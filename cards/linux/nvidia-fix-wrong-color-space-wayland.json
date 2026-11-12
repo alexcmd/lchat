@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "nvidia-fix-wrong-color-space-wayland",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix wrong color space on Wayland with NVIDIA",
+ "summary": "If colors look dark on Wayland with HDMI, force the correct color space via a kernel parameter.",
+ "aliases": [
+  {
+   "text": "wrong color space nvidia wayland",
+   "lang": "en"
+  },
+  {
+   "text": "colors dark nvidia hdmi wayland",
+   "lang": "en"
+  },
+  {
+   "text": "force color space nvidia",
+   "lang": "en"
+  },
+  {
+   "text": "темные цвета nvidia wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "цветовой профиль nvidia hdmi",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Wrong color space on 60Hz on Wayland with HDMI"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "wayland"
+ },
+ "steps": [
+  {
+   "explain": "Add the kernel parameter nvidia-modeset.debug_force_color_space=2 to your bootloader configuration.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the system.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the kernel parameter from the bootloader configuration and reboot.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This is a debug parameter and may affect color accuracy on other displays."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#Wrong_color_space_on_60Hz_on_Wayland_with_HDMI",
+  "title": "NVIDIA/Troubleshooting",
+  "revision_id": 887471,
+  "license": "GFDL-1.3-or-later"
+ }
+}

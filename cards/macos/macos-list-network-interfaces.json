@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-network-interfaces",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List all network interfaces",
+ "summary": "Display a list of all network interfaces available on your Mac, such as Wi-Fi and Ethernet.",
+ "aliases": [
+  {
+   "text": "list network interfaces",
+   "lang": "en"
+  },
+  {
+   "text": "show all network adapters",
+   "lang": "en"
+  },
+  {
+   "text": "ipconfig getiflist",
+   "lang": "en"
+  },
+  {
+   "text": "какие сетевые интерфейсы",
+   "lang": "ru"
+  },
+  {
+   "text": "список сетевых карт",
+   "lang": "ru"
+  },
+  {
+   "text": "ipconfig getiflist",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to list all network interfaces.",
+   "cmd": "ipconfig getiflist",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/ipconfig.md",
+  "title": "tldr-pages: ipconfig",
+  "license": "CC-BY-4.0"
+ }
+}

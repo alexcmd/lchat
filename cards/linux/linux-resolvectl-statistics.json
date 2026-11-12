@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-resolvectl-statistics",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Display DNS statistics",
+ "summary": "Show statistics about DNS transactions, cache usage, and DNSSEC verdicts.",
+ "aliases": [
+  {
+   "text": "dns statistics",
+   "lang": "en"
+  },
+  {
+   "text": "resolvectl stats",
+   "lang": "en"
+  },
+  {
+   "text": "dns cache stats",
+   "lang": "en"
+  },
+  {
+   "text": "статистика dns",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько запросов dns",
+   "lang": "ru"
+  },
+  {
+   "text": "состояние dns кэша",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-resolved"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display detailed statistics about DNS transactions, cache hits/misses, and DNSSEC results.",
+   "cmd": "resolvectl statistics",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/resolvectl.md",
+  "title": "tldr-pages: resolvectl",
+  "license": "CC-BY-4.0"
+ }
+}

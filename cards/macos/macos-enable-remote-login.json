@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-enable-remote-login",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Enable remote login (SSH) on Mac",
+ "summary": "Turn on the SSH server so you can connect to your Mac from another computer. This is often needed for remote administration or file transfers.",
+ "aliases": [
+  {
+   "text": "enable ssh on mac",
+   "lang": "en"
+  },
+  {
+   "text": "turn on remote login mac",
+   "lang": "en"
+  },
+  {
+   "text": "allow ssh connections mac",
+   "lang": "en"
+  },
+  {
+   "text": "включить ssh на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "удаленный доступ к маку",
+   "lang": "ru"
+  },
+  {
+   "text": "как включить ssh macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Enable the remote login service using the systemsetup command.",
+   "cmd": "sudo systemsetup -setremotelogin on",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Disable remote login to secure the Mac again.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Enabling SSH allows other computers to connect to your Mac. Ensure you have a strong password or SSH keys configured.",
+  "This command requires administrator privileges."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/systemsetup.md",
+  "title": "tldr-pages: systemsetup",
+  "license": "CC-BY-4.0"
+ }
+}

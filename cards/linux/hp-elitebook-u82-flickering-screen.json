@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "hp-elitebook-u82-flickering-screen",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix flickering or white screen on HP EliteBook U82 family",
+ "summary": "On HP EliteBook 835/845/865 G9/G10 models, the screen may flicker or stay solid white. This is fixed by adding a specific AMD GPU kernel parameter.",
+ "aliases": [
+  {
+   "text": "hp elitebook screen flickering",
+   "lang": "en"
+  },
+  {
+   "text": "hp elitebook white screen linux",
+   "lang": "en"
+  },
+  {
+   "text": "fix amd gpu flicker hp",
+   "lang": "en"
+  },
+  {
+   "text": "hp elitebook 845 g9 screen issues",
+   "lang": "en"
+  },
+  {
+   "text": "мерцает экран hp elitebook",
+   "lang": "ru"
+  },
+  {
+   "text": "белый экран hp elitebook linux",
+   "lang": "ru"
+  },
+  {
+   "text": "не работает экран hp elitebook",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Kernel version 6.2.7 or newer",
+  "AMD GPU (amdgpu driver)"
+ ],
+ "steps": [
+  {
+   "explain": "Add the kernel parameter amdgpu.sg_display=0 to your bootloader configuration. For GRUB, edit /etc/default/grub and add it to GRUB_CMDLINE_LINUX_DEFAULT.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Regenerate the GRUB configuration to apply the new kernel parameter.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the system.",
+   "cmd": "sudo systemctl reboot",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the amdgpu.sg_display=0 parameter from your bootloader configuration and regenerate the config.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Requires kernel version 6.2.7 or newer."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Laptop/HP#Flickering_or_constant_solid_white_screen",
+  "title": "Laptop/HP",
+  "revision_id": 887988,
+  "license": "GFDL-1.3-or-later"
+ }
+}

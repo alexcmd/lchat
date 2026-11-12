@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-write-stdin-to-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a file by typing content directly into the terminal",
+ "summary": "Start a command that lets you type text directly into the terminal and save it to a file. Press Ctrl+D to finish and save the file.",
+ "aliases": [
+  {
+   "text": "create file from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "type text into file",
+   "lang": "en"
+  },
+  {
+   "text": "write to file from stdin",
+   "lang": "en"
+  },
+  {
+   "text": "create text file manually",
+   "lang": "en"
+  },
+  {
+   "text": "создать файл в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "написать текст в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить ввод в файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `cat -` to read from standard input (your keyboard) and redirect it to a file. Type your content, then press Ctrl+D to end input and save the file.",
+   "cmd": "cat - > <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The name of the file to create",
+     "example": "notes.txt"
+    }
+   ],
+   "expect": "The terminal waits for input. After typing text and pressing Ctrl+D, the file is created with that content."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cat.md",
+  "title": "tldr-pages: cat",
+  "license": "CC-BY-4.0"
+ }
+}

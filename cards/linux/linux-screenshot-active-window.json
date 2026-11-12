@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-screenshot-active-window",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Take a screenshot of the active window",
+ "summary": "Capture only the currently active window using `maim` and `xdotool` to identify the window ID.",
+ "aliases": [
+  {
+   "text": "screenshot active window",
+   "lang": "en"
+  },
+  {
+   "text": "maim window screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "capture current window linux",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот активного окна",
+   "lang": "ru"
+  },
+  {
+   "text": "скриншот текущего окна",
+   "lang": "ru"
+  },
+  {
+   "text": "захватить окно linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "maim",
+   "xdotool"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use xdotool to get the active window ID and pass it to maim to capture just that window.",
+   "cmd": "maim --window $(xdotool getactivewindow) <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path where the screenshot will be saved",
+     "example": "~/window.png"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/maim.md",
+  "title": "tldr-pages: maim",
+  "license": "CC-BY-4.0"
+ }
+}

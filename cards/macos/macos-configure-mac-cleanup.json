@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-configure-mac-cleanup",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open mac-cleanup configuration screen",
+ "summary": "Access the configuration interface for mac-cleanup to customize which modules are used for cleaning. This allows you to tailor the cleanup process to your needs.",
+ "aliases": [
+  {
+   "text": "configure mac cleanup",
+   "lang": "en"
+  },
+  {
+   "text": "mac cleanup settings",
+   "lang": "en"
+  },
+  {
+   "text": "change mac cleanup modules",
+   "lang": "en"
+  },
+  {
+   "text": "mac cleanup config",
+   "lang": "en"
+  },
+  {
+   "text": "настроить mac cleanup",
+   "lang": "ru"
+  },
+  {
+   "text": "настройки очистки мака",
+   "lang": "ru"
+  },
+  {
+   "text": "конфигурация mac cleanup",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mac-cleanup with the --configure flag to open the module configuration screen.",
+   "cmd": "mac-cleanup --configure",
+   "risk": "low",
+   "expect": "The configuration interface opens, allowing you to select or deselect cleanup modules."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mac-cleanup.md",
+  "title": "tldr-pages: mac-cleanup",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-run-mac-cleanup"
+ ]
+}

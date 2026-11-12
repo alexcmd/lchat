@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-wifi-status-details",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show detailed Wi-Fi status information",
+ "summary": "Display technical details about your current Wi-Fi connection, such as IP address, signal strength, and channel. Useful for troubleshooting connection issues.",
+ "aliases": [
+  {
+   "text": "wifi status details",
+   "lang": "en"
+  },
+  {
+   "text": "airport getinfo",
+   "lang": "en"
+  },
+  {
+   "text": "check wifi signal strength",
+   "lang": "en"
+  },
+  {
+   "text": "wifi connection info",
+   "lang": "en"
+  },
+  {
+   "text": "детали подключения wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "состояние wifi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the airport utility to retrieve detailed status information about the current wireless connection.",
+   "cmd": "airport --getinfo",
+   "risk": "low",
+   "expect": "Output showing SSID, BSSID, RSSI, channel, IP address, and other connection metrics."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/airport.md",
+  "title": "tldr-pages: airport",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-get-current-wifi-name",
+  "macos-get-network-info"
+ ]
+}

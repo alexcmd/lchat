@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "macos-switch-xcode-version",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Switch Active Xcode Version",
+ "summary": "Change which Xcode application or developer directory is used by the command-line tools. This is useful if you have multiple versions of Xcode installed.",
+ "aliases": [
+  {
+   "text": "switch xcode version",
+   "lang": "en"
+  },
+  {
+   "text": "change xcode path",
+   "lang": "en"
+  },
+  {
+   "text": "select xcode instance",
+   "lang": "en"
+  },
+  {
+   "text": "xcode select switch",
+   "lang": "en"
+  },
+  {
+   "text": "переключить версию xcode",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить путь xcode",
+   "lang": "ru"
+  },
+  {
+   "text": "xcode select switch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the active developer directory to a specific Xcode application or path. You need to know the full path to the Xcode app or the developer directory.",
+   "cmd": "xcode-select --switch <XCODE_PATH>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "XCODE_PATH",
+     "description": "Full path to the Xcode application (e.g., /Applications/Xcode.app) or the developer directory (e.g., /Applications/Xcode.app/Contents/Developer).",
+     "example": "/Applications/Xcode.app"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reset the developer directory to the default search mechanism, discarding any custom path.",
+   "cmd": "sudo xcode-select --reset",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "This command requires administrator privileges if you use the reset option.",
+  "Ensure the path you provide is correct, otherwise command-line tools may stop working."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/xcode-select.md",
+  "title": "tldr-pages: xcode-select",
+  "license": "CC-BY-4.0"
+ }
+}

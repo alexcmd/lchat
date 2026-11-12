@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "macos-sleep-mac",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Put the Mac to sleep immediately",
+ "summary": "Send your Mac to sleep mode right now using the Terminal. The Mac will wake up when you press a key or move the mouse.",
+ "aliases": [
+  {
+   "text": "sleep mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "put mac to sleep",
+   "lang": "en"
+  },
+  {
+   "text": "sleep command mac",
+   "lang": "en"
+  },
+  {
+   "text": "уснуть мак",
+   "lang": "ru"
+  },
+  {
+   "text": "сон мак терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "отправить мак в сон",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command puts the Mac into sleep mode immediately.",
+   "cmd": "sudo shutdown -s now",
+   "risk": "low",
+   "needs_root": true
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/shutdown.md",
+  "title": "tldr-pages: shutdown",
+  "license": "CC-BY-4.0"
+ }
+}

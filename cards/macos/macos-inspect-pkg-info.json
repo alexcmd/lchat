@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "macos-inspect-pkg-info",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View information about a .pkg file",
+ "summary": "Check what a .pkg file contains, which volumes it supports, or which domains it can install to without actually installing it.",
+ "aliases": [
+  {
+   "text": "check pkg contents",
+   "lang": "en"
+  },
+  {
+   "text": "inspect pkg file",
+   "lang": "en"
+  },
+  {
+   "text": "pkginfo mac",
+   "lang": "en"
+  },
+  {
+   "text": "volinfo pkg",
+   "lang": "en"
+  },
+  {
+   "text": "dominfo pkg",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть содержимое pkg",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о pkg файле",
+   "lang": "ru"
+  },
+  {
+   "text": "что внутри pkg",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List the packages or subpackages contained in the .pkg file.",
+   "cmd": "installer -pkginfo -package <PKG_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PKG_FILE",
+     "description": "Path to the .pkg file to inspect",
+     "example": "~/Downloads/MyApp.pkg"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "List the volumes onto which the package can be installed.",
+     "cmd": "installer -volinfo -package <PKG_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PKG_FILE",
+       "description": "Path to the .pkg file to inspect",
+       "example": "~/Downloads/MyApp.pkg"
+      }
+     ]
+    },
+    {
+     "explain": "List the domains into which the package can be installed.",
+     "cmd": "installer -dominfo -package <PKG_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PKG_FILE",
+       "description": "Path to the .pkg file to inspect",
+       "example": "~/Downloads/MyApp.pkg"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/installer.md",
+  "title": "tldr-pages: installer",
+  "license": "CC-BY-4.0"
+ }
+}

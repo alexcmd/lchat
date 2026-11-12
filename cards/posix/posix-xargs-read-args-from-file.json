@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-xargs-read-args-from-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Read arguments for a command from a file using xargs",
+ "summary": "Use xargs to read arguments from a file instead of standard input. This is useful when you have a list of items in a text file that you want to pass to a command.",
+ "aliases": [
+  {
+   "text": "xargs read from file",
+   "lang": "en"
+  },
+  {
+   "text": "xargs file arguments",
+   "lang": "en"
+  },
+  {
+   "text": "xargs from file",
+   "lang": "en"
+  },
+  {
+   "text": "xargs arg-file",
+   "lang": "en"
+  },
+  {
+   "text": "xargs chitat iz faila",
+   "lang": "ru"
+  },
+  {
+   "text": "xargs argumenty iz faila",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --arg-file flag to specify a file containing the arguments. xargs will read the file and pass its contents as arguments to the command.",
+   "cmd": "xargs -a <FILE> <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file containing arguments",
+     "example": "list.txt"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command to execute",
+     "example": "cat"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/xargs.md",
+  "title": "tldr-pages: xargs",
+  "license": "CC-BY-4.0"
+ }
+}

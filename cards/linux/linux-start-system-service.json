@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "linux-start-system-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Start a system service",
+ "summary": "Start a background service (like a printer or network daemon) that is currently stopped. This change is temporary and will not persist after a reboot.",
+ "aliases": [
+  {
+   "text": "start service",
+   "lang": "en"
+  },
+  {
+   "text": "start systemd unit",
+   "lang": "en"
+  },
+  {
+   "text": "run service now",
+   "lang": "en"
+  },
+  {
+   "text": "start daemon",
+   "lang": "en"
+  },
+  {
+   "text": "запустить службу",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить сервис",
+   "lang": "ru"
+  },
+  {
+   "text": "start systemctl",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Starts the specified system service immediately.",
+   "cmd": "sudo systemctl start <UNIT>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "UNIT",
+     "description": "The name of the service or unit to start (e.g., 'cups', 'nginx')",
+     "example": "cups",
+     "discover_cmd": "systemctl list-units --type=service --all"
+    }
+   ],
+   "expect": "The command returns without error if the service starts successfully."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Starting a service requires administrator privileges.",
+  "This change is temporary; the service will not start automatically after a reboot unless it is also enabled."
+ ],
+ "rollback": [
+  {
+   "explain": "Stop the service to undo the start action.",
+   "risk": "medium"
+  }
+ ],
+ "see_also": [
+  "linux-check-service-status",
+  "linux-filter-systemd-units-by-state"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-start.md",
+  "title": "tldr-pages: systemctl-start",
+  "license": "CC-BY-4.0"
+ }
+}

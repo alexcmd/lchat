@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-screen-brightness",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check current screen brightness",
+ "summary": "Use brightnessctl to see the current brightness level of your screen. This helps you know the current setting before adjusting it.",
+ "aliases": [
+  {
+   "text": "check screen brightness",
+   "lang": "en"
+  },
+  {
+   "text": "current brightness linux",
+   "lang": "en"
+  },
+  {
+   "text": "brightnessctl get",
+   "lang": "en"
+  },
+  {
+   "text": "what is my brightness",
+   "lang": "en"
+  },
+  {
+   "text": "проверить яркость экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "текущая яркость линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "какая яркость экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "how bright is my screen",
+   "lang": "en"
+  },
+  {
+   "text": "current backlight level",
+   "lang": "en"
+  },
+  {
+   "text": "light command brightness",
+   "lang": "en"
+  },
+  {
+   "text": "какая яркость сейчас",
+   "lang": "ru"
+  },
+  {
+   "text": "текущий уровень подсветки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print the current brightness of the default device.",
+   "cmd": "brightnessctl get",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Run the light command without arguments to print the current backlight percentage.",
+     "cmd": "light",
+     "expect": "A number representing the current brightness percentage (e.g., 50).",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/brightnessctl.md",
+  "title": "tldr-pages: brightnessctl",
+  "license": "CC-BY-4.0"
+ }
+}

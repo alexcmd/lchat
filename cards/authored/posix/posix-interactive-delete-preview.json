@@ -1,0 +1,125 @@
+{
+ "schema_version": 2,
+ "id": "posix-interactive-delete-preview",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Ask before deleting each file",
+ "summary": "Use the interactive option of the rm command so the terminal asks y or n before it deletes each file. This protects files you want to keep.",
+ "aliases": [
+  {
+   "text": "ask before deleting each file",
+   "lang": "en"
+  },
+  {
+   "text": "confirm before rm deletes a file",
+   "lang": "en"
+  },
+  {
+   "text": "rm interactive mode",
+   "lang": "en"
+  },
+  {
+   "text": "delete file with confirmation linux",
+   "lang": "en"
+  },
+  {
+   "text": "terminal ask yes no before delete",
+   "lang": "en"
+  },
+  {
+   "text": "safe delete file command line",
+   "lang": "en"
+  },
+  {
+   "text": "rm -i prompt",
+   "lang": "en"
+  },
+  {
+   "text": "спрашивать перед удалением каждого файла",
+   "lang": "ru"
+  },
+  {
+   "text": "подтверждение удаления файла в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "rm -i подтверждение",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить файл с подтверждением",
+   "lang": "ru"
+  },
+  {
+   "text": "интерактивное удаление файлов терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "как не удалить файл случайно в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "terminal sprashivat pered udaleniem",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open (Terminal on macOS, any terminal app on Linux)"
+ ],
+ "steps": [
+  {
+   "explain": "Find out which rm program this system runs. This is a read-only check; it only prints a path.",
+   "cmd": "command -v rm",
+   "risk": "low",
+   "expect": "A path such as /bin/rm, /usr/bin/rm or /usr/sbin/rm. Any path means rm is installed."
+  },
+  {
+   "explain": "Check that rm has the -i option. This is read-only. Look for a line that starts with -i and says it asks before each removal.",
+   "cmd": "rm --help | grep -- '-i'",
+   "variants": {
+    "macos": "man rm | col -b | grep -- '-i'"
+   },
+   "risk": "low",
+   "expect": "Linux: a line starting with -i (on some systems the words 'prompt before every removal' are on the next line). macOS: a line starting with -i about requesting confirmation before removing each file."
+  },
+  {
+   "explain": "List the files in the current folder, so you can pick the one you want to delete. This only reads the list.",
+   "cmd": "ls -l",
+   "risk": "low",
+   "expect": "One line per file or folder. The file names are in the last column."
+  },
+  {
+   "explain": "Delete one file, but only after you confirm. rm asks a question about this file. Type y and press Return to delete it. Type n and press Return, or just press Return, to keep it.",
+   "cmd": "rm -i <FILE>",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Name of one file to delete. Use one file at a time.",
+     "example": "notes.txt",
+     "discover_cmd": "ls"
+    }
+   ],
+   "risk": "low",
+   "expect": "The terminal shows a question such as: rm: remove regular file 'notes.txt'? Nothing is deleted until you type y."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "rm deletes files for good. Deleted files do not go to the Trash, so answer y only for files you really want to delete.",
+  "This card covers single files. The folder options of rm are not part of this card.",
+  "On macOS, -i asks only when you type in a terminal window."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/rm",
+  "title": "rm manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

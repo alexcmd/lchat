@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-find-duplicate-files-checksum",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find duplicate files by comparing their checksums",
+ "summary": "Computes a fingerprint (a SHA-256 checksum) of every file in a folder tree and lists the files whose fingerprints are the same. Equal fingerprints mean identical contents, even when the names differ. This card only lists duplicates and deletes nothing.",
+ "aliases": [
+  {
+   "text": "find duplicate files by checksum",
+   "lang": "en"
+  },
+  {
+   "text": "find identical files linux",
+   "lang": "en"
+  },
+  {
+   "text": "find duplicate files sha256",
+   "lang": "en"
+  },
+  {
+   "text": "which files have the same content",
+   "lang": "en"
+  },
+  {
+   "text": "remove duplicate files linux",
+   "lang": "en"
+  },
+  {
+   "text": "find copies of the same file in a folder",
+   "lang": "en"
+  },
+  {
+   "text": "найти одинаковые файлы по контрольной сумме",
+   "lang": "ru"
+  },
+  {
+   "text": "найти дубликаты файлов linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти повторяющиеся файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "найти копии одного и того же файла в папке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "sha256sum",
+   "uniq"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Compute a checksum for every file under the folder, sort the lines so equal checksums sit together, then print every line whose first 64 characters (the checksum) occur more than once.",
+   "risk": "low",
+   "cmd": "find <DIR> -type f -exec sha256sum {} + | sort | uniq -w64 -D",
+   "expect": "Lines with the same long hex string at the start, each followed by a file path. Files that share a checksum are identical.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder to search, searched recursively",
+     "example": "downloads",
+     "discover_cmd": "ls"
+    }
+   ]
+  },
+  {
+   "explain": "Decide which copy to keep. This card does not delete anything. If you remove a copy later, check its path again first and use rm on that single file.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://www.gnu.org/software/coreutils/manual/html_node/uniq-invocation.html",
+  "title": "uniq invocation",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "warnings": [
+  "Every file is read in full, so large folders take a long time.",
+  "File names that contain a line break are not handled correctly by this pipeline."
+ ]
+}

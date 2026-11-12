@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-flatpak-update-all",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update all Flatpak applications and runtimes",
+ "summary": "Check for and install updates for all installed Flatpak apps and their runtimes.",
+ "aliases": [
+  {
+   "text": "update flatpak apps",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade flatpak",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak update",
+   "lang": "en"
+  },
+  {
+   "text": "обновить flatpak приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak update all",
+   "lang": "ru"
+  },
+  {
+   "text": "update flatpak",
+   "lang": "en"
+  },
+  {
+   "text": "обновить flatpak",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Updates all installed Flatpak applications and runtimes to their latest versions.",
+   "cmd": "flatpak update",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flatpak.md",
+  "title": "tldr-pages: flatpak",
+  "license": "CC-BY-4.0"
+ }
+}

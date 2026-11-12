@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-sip-status",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check System Integrity Protection status",
+ "summary": "System Integrity Protection (SIP) is a security feature that prevents unauthorized changes to system files. You can check if it is currently enabled or disabled.",
+ "aliases": [
+  {
+   "text": "check sip status",
+   "lang": "en"
+  },
+  {
+   "text": "is system integrity protection on",
+   "lang": "en"
+  },
+  {
+   "text": "csrutil status",
+   "lang": "en"
+  },
+  {
+   "text": "sip enabled or disabled",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус sip",
+   "lang": "ru"
+  },
+  {
+   "text": "включена ли защита целостности системы",
+   "lang": "ru"
+  },
+  {
+   "text": "csrutil status",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to display the current status of System Integrity Protection.",
+   "cmd": "csrutil status",
+   "risk": "low",
+   "expect": "Output indicating whether SIP is enabled or disabled."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/csrutil.md",
+  "title": "tldr-pages: csrutil",
+  "license": "CC-BY-4.0"
+ }
+}

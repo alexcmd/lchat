@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-show-package-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show details about a package using dnf",
+ "summary": "View information such as version, description, and dependencies for a specific package.",
+ "aliases": [
+  {
+   "text": "dnf info package",
+   "lang": "en"
+  },
+  {
+   "text": "package details dnf",
+   "lang": "en"
+  },
+  {
+   "text": "dnf show info",
+   "lang": "en"
+  },
+  {
+   "text": "what is this package dnf",
+   "lang": "en"
+  },
+  {
+   "text": "информация о пакете dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf инфо",
+   "lang": "ru"
+  },
+  {
+   "text": "что за пакет fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display detailed information about the specified package.",
+   "cmd": "dnf info <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf.md",
+  "title": "tldr-pages: dnf",
+  "license": "CC-BY-4.0"
+ }
+}

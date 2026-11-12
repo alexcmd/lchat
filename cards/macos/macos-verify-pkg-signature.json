@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-verify-pkg-signature",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Verify the signature of a .pkg file",
+ "summary": "Check if a downloaded installer package is signed by a trusted developer. This helps ensure the file hasn't been tampered with before you install it.",
+ "aliases": [
+  {
+   "text": "check pkg signature",
+   "lang": "en"
+  },
+  {
+   "text": "verify installer package",
+   "lang": "en"
+  },
+  {
+   "text": "is this pkg safe",
+   "lang": "en"
+  },
+  {
+   "text": "pkgutil check signature",
+   "lang": "en"
+  },
+  {
+   "text": "проверить подпись пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить подпись pkg",
+   "lang": "ru"
+  },
+  {
+   "text": "безопасен ли установщик",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use pkgutil to check the cryptographic signature of the specified .pkg file.",
+   "cmd": "pkgutil --check-signature <PKG_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PKG_FILE",
+     "description": "Path to the .pkg installer file you want to verify",
+     "example": "~/Downloads/App.pkg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pkgutil.md",
+  "title": "tldr-pages: pkgutil",
+  "license": "CC-BY-4.0"
+ }
+}

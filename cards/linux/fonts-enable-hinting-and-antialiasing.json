@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "fonts-enable-hinting-and-antialiasing",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable font hinting and anti-aliasing",
+ "summary": "Configure Fontconfig to enable anti-aliasing and slight hinting for smoother text rendering. This is a common configuration for improving font readability on LCD screens.",
+ "aliases": [
+  {
+   "text": "enable font hinting",
+   "lang": "en"
+  },
+  {
+   "text": "fix blurry fonts",
+   "lang": "en"
+  },
+  {
+   "text": "fontconfig antialiasing",
+   "lang": "en"
+  },
+  {
+   "text": "включить сглаживание шрифтов",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить hinting",
+   "lang": "ru"
+  },
+  {
+   "text": "шрифты размытые",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Edit ~/.config/fontconfig/fonts.conf and add a <match target=\"font\"> block setting antialias, hinting, hintstyle, lcdfilter, and rgba to true, true, hintslight, lcddefault, and rgb respectively.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the configuration file to revert to defaults.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Incorrect XML syntax in fonts.conf can cause font rendering issues or application crashes."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Font_configuration/Examples#Hinted_fonts",
+  "title": "Font configuration/Examples",
+  "revision_id": 876998,
+  "license": "GFDL-1.3-or-later"
+ }
+}

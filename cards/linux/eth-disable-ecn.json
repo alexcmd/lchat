@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "eth-disable-ecn",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable Explicit Congestion Notification (ECN)",
+ "summary": "Turn off ECN if you experience network issues with older routers.",
+ "aliases": [
+  {
+   "text": "disable ecn",
+   "lang": "en"
+  },
+  {
+   "text": "network issues ecn",
+   "lang": "en"
+  },
+  {
+   "text": "sysctl tcp_ecn",
+   "lang": "en"
+  },
+  {
+   "text": "отключить ecn",
+   "lang": "ru"
+  },
+  {
+   "text": "проблемы с роутером ecn",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable ECN completely.",
+   "cmd": "sudo sysctl net.ipv4.tcp_ecn=0",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "net.ipv4.tcp_ecn = 0"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore the kernel default (enable for incoming requests).",
+   "cmd": "sudo sysctl net.ipv4.tcp_ecn=2",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This change is temporary and will be lost on reboot. To make it permanent, edit /etc/sysctl.d/99-sysctl.conf."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Network_configuration/Ethernet#Explicit_Congestion_Notification",
+  "title": "Network configuration/Ethernet",
+  "revision_id": 845853,
+  "license": "GFDL-1.3-or-later"
+ }
+}

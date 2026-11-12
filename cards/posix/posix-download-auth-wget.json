@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-download-auth-wget",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Download a file requiring login with wget",
+ "summary": "Use wget to download files from servers that require a username and password (Basic Auth). This works for HTTP and FTP servers.",
+ "aliases": [
+  {
+   "text": "wget with password",
+   "lang": "en"
+  },
+  {
+   "text": "download protected file wget",
+   "lang": "en"
+  },
+  {
+   "text": "wget basic auth",
+   "lang": "en"
+  },
+  {
+   "text": "wget login download",
+   "lang": "en"
+  },
+  {
+   "text": "wget скачать с паролем",
+   "lang": "ru"
+  },
+  {
+   "text": "wget авторизация",
+   "lang": "ru"
+  },
+  {
+   "text": "скачать файл с логином wget",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Provide the username and password for the server to authenticate the download.",
+   "cmd": "wget --user <USERNAME> --password <PASSWORD> <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username for authentication",
+     "example": "myuser"
+    },
+    {
+     "name": "PASSWORD",
+     "description": "The password for authentication",
+     "example": "mypassword"
+    },
+    {
+     "name": "URL",
+     "description": "The URL to download",
+     "example": "https://example.com/foo"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wget.md",
+  "title": "tldr-pages: wget",
+  "license": "CC-BY-4.0"
+ }
+}

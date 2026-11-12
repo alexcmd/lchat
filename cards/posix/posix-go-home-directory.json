@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-go-home-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Go to the home directory",
+ "summary": "Return to your user's home folder. This is the default starting location when you open a terminal.",
+ "aliases": [
+  {
+   "text": "go home",
+   "lang": "en"
+  },
+  {
+   "text": "cd home",
+   "lang": "en"
+  },
+  {
+   "text": "return to home directory",
+   "lang": "en"
+  },
+  {
+   "text": "cd without arguments",
+   "lang": "en"
+  },
+  {
+   "text": "back to home",
+   "lang": "en"
+  },
+  {
+   "text": "домашняя директория",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуться домой",
+   "lang": "ru"
+  },
+  {
+   "text": "cd домой",
+   "lang": "ru"
+  },
+  {
+   "text": "в домашнюю папку",
+   "lang": "ru"
+  },
+  {
+   "text": "cd без аргументов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the current directory to the home directory of the current user.",
+   "cmd": "cd",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cd.md",
+  "title": "tldr-pages: cd",
+  "license": "CC-BY-4.0"
+ }
+}

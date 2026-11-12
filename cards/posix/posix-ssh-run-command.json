@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-ssh-run-command",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a command on a remote server via SSH",
+ "summary": "Execute a single command on a remote computer without opening an interactive shell session. The -t flag allocates a terminal, allowing interaction if needed.",
+ "aliases": [
+  {
+   "text": "ssh run command",
+   "lang": "en"
+  },
+  {
+   "text": "execute command remotely",
+   "lang": "en"
+  },
+  {
+   "text": "ssh execute",
+   "lang": "en"
+  },
+  {
+   "text": "run command on remote server",
+   "lang": "en"
+  },
+  {
+   "text": "выполнить команду по ssh",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh выполнить команду",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить команду на сервере",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use ssh with the -t flag to run a specific command on the remote host. This is useful for quick tasks or scripts.",
+   "cmd": "ssh <USERNAME>@<REMOTE_HOST> -t <COMMAND> <COMMAND_ARGS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username on the remote server"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "The hostname or IP address of the remote server"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command to execute",
+     "example": "ls"
+    },
+    {
+     "name": "COMMAND_ARGS",
+     "description": "Arguments for the command",
+     "example": "-l"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh.md",
+  "title": "tldr-pages: ssh",
+  "license": "CC-BY-4.0"
+ }
+}

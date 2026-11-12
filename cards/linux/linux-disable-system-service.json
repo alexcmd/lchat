@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-system-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable a system service from starting on boot",
+ "summary": "Prevent a background service from automatically starting when you turn on your computer. This is useful if a service is causing issues or you don't need it running.",
+ "aliases": [
+  {
+   "text": "disable service on boot",
+   "lang": "en"
+  },
+  {
+   "text": "stop service from starting automatically",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl disable",
+   "lang": "en"
+  },
+  {
+   "text": "turn off startup service",
+   "lang": "en"
+  },
+  {
+   "text": "отключить службу при загрузке",
+   "lang": "ru"
+  },
+  {
+   "text": "запретить запуск службы",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl disable",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить автозапуск сервиса",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the name of the service you want to disable (e.g., bluetooth, cups, ssh)."
+ ],
+ "steps": [
+  {
+   "explain": "Disable the specified service so it does not start automatically on boot.",
+   "cmd": "sudo systemctl disable <SERVICE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd service unit to disable.",
+     "example": "bluetooth",
+     "discover_cmd": "systemctl list-unit-files --type=service"
+    }
+   ]
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Re-enable the service to allow it to start on boot again. This command is not on the current page, so consult the systemctl enable documentation or use a GUI tool if available.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Disabling critical system services (like networking or display managers) can make your system unusable. Only disable services you are sure you do not need."
+ ],
+ "see_also": [
+  "linux-systemctl-enable-disable-service",
+  "linux-check-service-status",
+  "linux-stop-system-service"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-disable.md",
+  "title": "tldr-pages: systemctl-disable",
+  "license": "CC-BY-4.0"
+ }
+}

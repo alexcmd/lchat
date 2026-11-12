@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "xorg-check-dpi",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check Xorg display DPI and resolution",
+ "summary": "Verify the current DPI and resolution settings of your Xorg display to ensure fonts and UI elements are scaled correctly.",
+ "aliases": [
+  {
+   "text": "check dpi",
+   "lang": "en"
+  },
+  {
+   "text": "display resolution wrong",
+   "lang": "en"
+  },
+  {
+   "text": "fonts too small xorg",
+   "lang": "en"
+  },
+  {
+   "text": "xdpyinfo resolution",
+   "lang": "en"
+  },
+  {
+   "text": "проверить dpi",
+   "lang": "ru"
+  },
+  {
+   "text": "шрифты слишком мелкие",
+   "lang": "ru"
+  },
+  {
+   "text": "разрешение экрана xorg",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xorg-xdpyinfo"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the X server for display information and filter for resolution details.",
+   "cmd": "xdpyinfo | grep -B2 resolution",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Xorg#Display_size_and_DPI",
+  "title": "Xorg",
+  "revision_id": 884435,
+  "license": "GFDL-1.3-or-later"
+ }
+}

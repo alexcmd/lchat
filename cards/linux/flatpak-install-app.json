@@ -1,0 +1,112 @@
+{
+ "schema_version": 2,
+ "id": "flatpak-install-app",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install a Flatpak application",
+ "summary": "Install a specific application from a Flatpak repository like Flathub. You can search for the app first to find its exact ID.",
+ "aliases": [
+  {
+   "text": "install flatpak app",
+   "lang": "en"
+  },
+  {
+   "text": "how to install flatpak",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak install command",
+   "lang": "en"
+  },
+  {
+   "text": "установить flatpak приложение",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak install",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "prerequisites": [
+  "Flatpak is installed",
+  "A remote repository (like flathub) is added"
+ ],
+ "steps": [
+  {
+   "explain": "Search for the application to find its exact ID or name.",
+   "cmd": "flatpak search <SEARCH_TERM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_TERM",
+     "description": "The name of the application you want to find",
+     "example": "libreoffice"
+    }
+   ]
+  },
+  {
+   "explain": "Install the application from the specified remote (usually flathub).",
+   "cmd": "flatpak install <REMOTE> <APP_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REMOTE",
+     "description": "The name of the remote repository",
+     "example": "flathub",
+     "discover_cmd": "flatpak remotes"
+    },
+    {
+     "name": "APP_ID",
+     "description": "The application ID found in the previous step",
+     "example": "org.libreoffice.LibreOffice"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Install for the current user only (no root password needed).",
+     "cmd": "flatpak install --user <REMOTE> <APP_ID>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "REMOTE",
+       "description": "The name of the remote repository",
+       "example": "flathub"
+      },
+      {
+       "name": "APP_ID",
+       "description": "The application ID",
+       "example": "org.libreoffice.LibreOffice"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "flatpak list",
+   "expect": "The installed application appears in the list."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Flatpak#Install_a_runtime_or_application",
+  "title": "Flatpak",
+  "revision_id": 886042,
+  "license": "GFDL-1.3-or-later"
+ }
+}

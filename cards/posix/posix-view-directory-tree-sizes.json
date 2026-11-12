@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-directory-tree-sizes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View directory tree with file sizes",
+ "summary": "Display the directory structure along with the size of each file and the total size of each directory in a human-readable format.",
+ "aliases": [
+  {
+   "text": "tree with sizes",
+   "lang": "en"
+  },
+  {
+   "text": "show file sizes in tree",
+   "lang": "en"
+  },
+  {
+   "text": "tree -s -h",
+   "lang": "en"
+  },
+  {
+   "text": "derevo s razmerami",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat' razmer faylov derevom",
+   "lang": "ru"
+  },
+  {
+   "text": "razmer katalogov v dereve",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `tree` with `-s` to show sizes, `-h` for human-readable units (KB, MB), and `--du` to calculate directory totals.",
+   "cmd": "tree -s -h --du",
+   "risk": "low",
+   "expect": "A tree where each file shows its size and each directory shows its cumulative size."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tree.md",
+  "title": "tldr-pages: tree",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-edit-file-nano",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Edit a text file using the nano editor",
+ "summary": "Nano is a simple, beginner-friendly text editor that runs in the terminal. You can open a file, make changes, and save them easily.",
+ "aliases": [
+  {
+   "text": "edit file with nano",
+   "lang": "en"
+  },
+  {
+   "text": "how to use nano",
+   "lang": "en"
+  },
+  {
+   "text": "open file in terminal editor",
+   "lang": "en"
+  },
+  {
+   "text": "nano editor tutorial",
+   "lang": "en"
+  },
+  {
+   "text": "редактировать файл в nano",
+   "lang": "ru"
+  },
+  {
+   "text": "как пользоваться nano",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть файл в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "текстовый редактор в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the specified file in the nano editor. If the file does not exist, nano will create it when you save.",
+   "cmd": "nano <FILE>",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to edit.",
+     "example": "notes.txt"
+    }
+   ],
+   "risk": "low"
+  },
+  {
+   "explain": "To exit nano, press Ctrl+X. If you made changes, nano will ask if you want to save them.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nano.md",
+  "title": "tldr-pages: nano",
+  "license": "CC-BY-4.0"
+ }
+}

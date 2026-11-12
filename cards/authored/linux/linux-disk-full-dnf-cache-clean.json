@@ -1,0 +1,118 @@
+{
+ "schema_version": 2,
+ "id": "linux-disk-full-dnf-cache-clean",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show and clear the DNF package cache on Fedora to free disk space",
+ "summary": "On Fedora, DNF keeps downloaded package files and package lists in a cache folder, and it can grow to a hundred megabytes or more. This shows how big that cache is and then empties it to free disk space. Installed programs are not touched.",
+ "aliases": [
+  {
+   "text": "free disk space dnf cache",
+   "lang": "en"
+  },
+  {
+   "text": "dnf cache too big",
+   "lang": "en"
+  },
+  {
+   "text": "fedora disk full",
+   "lang": "en"
+  },
+  {
+   "text": "how big is dnf cache fedora",
+   "lang": "en"
+  },
+  {
+   "text": "clean dnf cache to free space",
+   "lang": "en"
+  },
+  {
+   "text": "fedora dnf cache size",
+   "lang": "en"
+  },
+  {
+   "text": "delete dnf downloaded packages",
+   "lang": "en"
+  },
+  {
+   "text": "освободить место на диске fedora dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "кэш dnf занимает много места",
+   "lang": "ru"
+  },
+  {
+   "text": "почистить кэш dnf чтобы освободить место",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько места занимает кэш dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "fedora диск заполнен кэш пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить кеш dnf fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora",
+    "min_version": "41"
+   }
+  ],
+  "requires": [
+   "dnf"
+  ]
+ },
+ "prerequisites": [
+  "Fedora 41 or newer (it uses DNF 5)",
+  "Administrator password (for sudo)"
+ ],
+ "steps": [
+  {
+   "explain": "Check how much space the DNF cache uses. This only reads the folder and changes nothing. Look at the first value: it is the size, for example 102M means about 102 megabytes.",
+   "cmd": "du -sh /var/cache/libdnf5",
+   "risk": "low",
+   "expect": "Something like: 102M /var/cache/libdnf5 (your number will differ)."
+  },
+  {
+   "explain": "Delete all cached package files and repository metadata. Installed programs stay as they are. DNF downloads the cache again when it needs it.",
+   "cmd": "sudo dnf clean all",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Ends with a line like: Removed 18 files, 9 directories (total of 102 MiB). 0 errors occurred."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "du -sh /var/cache/libdnf5",
+   "expect": "A small value, for example 8.0K /var/cache/libdnf5."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Nothing needs to be undone. The cache comes back on its own the next time you run a dnf command, such as dnf install or dnf upgrade, and it needs an internet connection.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Only the downloaded cache is deleted. Installed programs and your personal files are not changed.",
+  "The next dnf install or upgrade has to download the package lists again, so it is slower and needs an internet connection."
+ ],
+ "see_also": [
+  "linux-dnf-clean-all"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/dnf",
+  "title": "dnf manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

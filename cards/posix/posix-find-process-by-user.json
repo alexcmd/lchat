@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-process-by-user",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find processes run by a specific user",
+ "summary": "Use pgrep with the -u flag to find processes owned by a specific user. This is helpful for identifying which processes a particular user is running.",
+ "aliases": [
+  {
+   "text": "find processes by user",
+   "lang": "en"
+  },
+  {
+   "text": "pgrep user processes",
+   "lang": "en"
+  },
+  {
+   "text": "find processes owned by user",
+   "lang": "en"
+  },
+  {
+   "text": "pgrep -u",
+   "lang": "en"
+  },
+  {
+   "text": "найти процессы пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "pgrep по пользователю",
+   "lang": "ru"
+  },
+  {
+   "text": "какие процессы у пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -u flag followed by the username to filter processes by the user who started them. You can also specify a process name to narrow down the results.",
+   "cmd": "pgrep -u <USERNAME> <PROCESS_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username whose processes you want to find",
+     "example": "john"
+    },
+    {
+     "name": "PROCESS_NAME",
+     "description": "The name of the process to search for (optional, leave empty for all processes)",
+     "example": "bash"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pgrep.md",
+  "title": "tldr-pages: pgrep",
+  "license": "CC-BY-4.0"
+ }
+}

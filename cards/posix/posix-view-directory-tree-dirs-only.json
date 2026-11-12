@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-directory-tree-dirs-only",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View directory tree showing only folders",
+ "summary": "Display the directory structure but hide all files, showing only the folders and subfolders. This is useful for understanding the folder layout without file clutter.",
+ "aliases": [
+  {
+   "text": "tree directories only",
+   "lang": "en"
+  },
+  {
+   "text": "show folders only tree",
+   "lang": "en"
+  },
+  {
+   "text": "tree -d",
+   "lang": "en"
+  },
+  {
+   "text": "derevo tol'ko katalogi",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat' tol'ko papki",
+   "lang": "ru"
+  },
+  {
+   "text": "struktura katalogov bez faylov",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `tree` with the `-d` flag to list only directories.",
+   "cmd": "tree -d",
+   "risk": "low",
+   "expect": "A tree structure containing only directory names."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tree.md",
+  "title": "tldr-pages: tree",
+  "license": "CC-BY-4.0"
+ }
+}

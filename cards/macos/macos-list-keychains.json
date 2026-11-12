@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-keychains",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List all available keychains",
+ "summary": "Show a list of all keychains currently registered on your Mac. Keychains store passwords, certificates, and other secure information.",
+ "aliases": [
+  {
+   "text": "list keychains",
+   "lang": "en"
+  },
+  {
+   "text": "show keychains",
+   "lang": "en"
+  },
+  {
+   "text": "what keychains do I have",
+   "lang": "en"
+  },
+  {
+   "text": "security list-keychains",
+   "lang": "en"
+  },
+  {
+   "text": "check keychains",
+   "lang": "en"
+  },
+  {
+   "text": "список связок ключей",
+   "lang": "ru"
+  },
+  {
+   "text": "какие связки ключей есть",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть связки ключей",
+   "lang": "ru"
+  },
+  {
+   "text": "security list-keychains",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the security command to list all registered keychains.",
+   "cmd": "security list-keychains",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/security.md",
+  "title": "tldr-pages: security",
+  "license": "CC-BY-4.0"
+ }
+}

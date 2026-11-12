@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-input-device-props",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List settings of an input device",
+ "summary": "Show all configurable properties and their current values for a specific input device. Useful for finding property IDs to change settings.",
+ "aliases": [
+  {
+   "text": "list device properties",
+   "lang": "en"
+  },
+  {
+   "text": "show input settings",
+   "lang": "en"
+  },
+  {
+   "text": "xinput list-props",
+   "lang": "en"
+  },
+  {
+   "text": "свойства устройства",
+   "lang": "ru"
+  },
+  {
+   "text": "настройки мыши",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xinput"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the properties of the device using its ID.",
+   "cmd": "xinput list-props <DEVICE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the input device.",
+     "example": "12",
+     "discover_cmd": "xinput list"
+    }
+   ],
+   "expect": "A list of property names, IDs, and current values."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xinput.md",
+  "title": "tldr-pages: xinput",
+  "license": "CC-BY-4.0"
+ }
+}

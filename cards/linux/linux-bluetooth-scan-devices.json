@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-bluetooth-scan-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Scan for nearby Bluetooth devices",
+ "summary": "Use bluetoothctl to scan for available Bluetooth devices for a short period. This helps you find the MAC address of a device you want to pair with.",
+ "aliases": [
+  {
+   "text": "scan for bluetooth devices",
+   "lang": "en"
+  },
+  {
+   "text": "find bluetooth devices",
+   "lang": "en"
+  },
+  {
+   "text": "bluetoothctl scan",
+   "lang": "en"
+  },
+  {
+   "text": "list nearby bluetooth",
+   "lang": "en"
+  },
+  {
+   "text": "как найти устройства bluetooth",
+   "lang": "ru"
+  },
+  {
+   "text": "сканировать bluetooth",
+   "lang": "ru"
+  },
+  {
+   "text": "найти bluetooth устройства",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bluez"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run a Bluetooth scan for 10 seconds to discover nearby devices.",
+   "cmd": "bluetoothctl -t 10 scan on",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Use the long form of the timeout flag.",
+     "cmd": "bluetoothctl --timeout 10 scan on"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/bluetoothctl.md",
+  "title": "tldr-pages: bluetoothctl",
+  "license": "CC-BY-4.0"
+ }
+}

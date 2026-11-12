@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-print-without-newline",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print a message without a trailing newline",
+ "summary": "Display text in the terminal without moving the cursor to the next line. This is often used for creating prompts or building output incrementally.",
+ "aliases": [
+  {
+   "text": "echo without newline",
+   "lang": "en"
+  },
+  {
+   "text": "print without new line",
+   "lang": "en"
+  },
+  {
+   "text": "echo -n",
+   "lang": "en"
+  },
+  {
+   "text": "stay on same line terminal",
+   "lang": "en"
+  },
+  {
+   "text": "вывести текст без переноса строки",
+   "lang": "ru"
+  },
+  {
+   "text": "echo без новой строки",
+   "lang": "ru"
+  },
+  {
+   "text": "не переносить курсор на новую строку",
+   "lang": "ru"
+  },
+  {
+   "text": "эхо -n",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -n flag with the echo command to suppress the automatic newline character at the end of the output.",
+   "cmd": "echo -n \"<TEXT>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TEXT",
+     "description": "The text message to print",
+     "example": "Hello World"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/echo.md",
+  "title": "tldr-pages: echo",
+  "license": "CC-BY-4.0"
+ }
+}

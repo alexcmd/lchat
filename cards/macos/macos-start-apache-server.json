@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-start-apache-server",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Start the Apache web server",
+ "summary": "Starts the built-in Apache HTTP server on macOS. This is useful for local web development or testing.",
+ "aliases": [
+  {
+   "text": "start apache server",
+   "lang": "en"
+  },
+  {
+   "text": "run apache locally",
+   "lang": "en"
+  },
+  {
+   "text": "start web server mac",
+   "lang": "en"
+  },
+  {
+   "text": "запустить apache сервер",
+   "lang": "ru"
+  },
+  {
+   "text": "включить веб сервер на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "start httpd",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Starts the Apache HTTP server launchd job.",
+   "cmd": "sudo apachectl start",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Stops the Apache HTTP server.",
+   "cmd": "sudo apachectl stop",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Requires administrator privileges (sudo).",
+  "Ensure no other web server is using port 80."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/apachectl.md",
+  "title": "tldr-pages: apachectl",
+  "license": "CC-BY-4.0"
+ }
+}

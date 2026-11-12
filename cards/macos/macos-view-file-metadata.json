@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-file-metadata",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View file metadata attributes",
+ "summary": "Use the mdls command to see detailed technical information about a file, such as its creation date, dimensions, or tags. This is useful for debugging or checking file properties that aren't visible in Finder.",
+ "aliases": [
+  {
+   "text": "view file metadata",
+   "lang": "en"
+  },
+  {
+   "text": "check file attributes",
+   "lang": "en"
+  },
+  {
+   "text": "mdls command",
+   "lang": "en"
+  },
+  {
+   "text": "show file info terminal",
+   "lang": "en"
+  },
+  {
+   "text": "file metadata macos",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть метаданные файла",
+   "lang": "ru"
+  },
+  {
+   "text": "атрибуты файла терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "mdls",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о файле в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mdls with the path to the file to display all available metadata attributes.",
+   "cmd": "mdls <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to inspect.",
+     "example": "~/Documents/photo.jpg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mdls.md",
+  "title": "tldr-pages: mdls",
+  "license": "CC-BY-4.0"
+ }
+}

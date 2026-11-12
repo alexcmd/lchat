@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "pipewire-disable-bluetooth-autoswitch",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable Bluetooth audio profile auto-switching",
+ "summary": "Prevent PipeWire from automatically switching Bluetooth headsets to the lower-quality headset profile when the microphone is used.",
+ "aliases": [
+  {
+   "text": "disable bluetooth autoswitch",
+   "lang": "en"
+  },
+  {
+   "text": "stop headset mode switching",
+   "lang": "en"
+  },
+  {
+   "text": "pipewire bluetooth hfp",
+   "lang": "en"
+  },
+  {
+   "text": "отключить переключение профиля bluetooth",
+   "lang": "ru"
+  },
+  {
+   "text": "pipewire не переключать гарнитуру",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "wireplumber"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable the automatic switching to the headset profile when an input stream is detected.",
+   "cmd": "wpctl settings --save bluetooth.autoswitch-to-headset-profile false",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PipeWire#Automatic_profile_selection",
+  "title": "PipeWire",
+  "revision_id": 883268,
+  "license": "GFDL-1.3-or-later"
+ }
+}

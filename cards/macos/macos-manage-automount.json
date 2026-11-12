@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "macos-manage-automount",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Manage automount points on macOS",
+ "summary": "Use the automount command to refresh, configure, or unmount automatic mount points defined in the system configuration.",
+ "aliases": [
+  {
+   "text": "automount mac",
+   "lang": "en"
+  },
+  {
+   "text": "refresh automount",
+   "lang": "en"
+  },
+  {
+   "text": "unmount automount",
+   "lang": "en"
+  },
+  {
+   "text": "autofs mac",
+   "lang": "en"
+  },
+  {
+   "text": "mount points mac",
+   "lang": "en"
+  },
+  {
+   "text": "automount cache",
+   "lang": "en"
+  },
+  {
+   "text": "автомонтирование mac",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить automount",
+   "lang": "ru"
+  },
+  {
+   "text": "отмонтировать automount",
+   "lang": "ru"
+  },
+  {
+   "text": "autofs macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run automount to flush the cache and re-read the /etc/auto_master file, triggering on-demand mounting for any new or changed entries.",
+   "cmd": "sudo automount -cv",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Verbose output showing the mount points being processed."
+  },
+  {
+   "explain": "Optionally, set the timeout for automatic unmounting after inactivity (in seconds).",
+   "cmd": "sudo automount -t 300",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The command completes without error, applying the new timeout.",
+   "alternatives": [
+    {
+     "explain": "Unmount all directories previously mounted by automount.",
+     "cmd": "sudo automount -u",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo changes or clear current automounts, unmount everything managed by automount.",
+   "cmd": "sudo automount -u",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Modifying automount settings affects system-wide mount points. Ensure you understand the changes in /etc/auto_master before running.",
+  "Incorrect configuration can prevent access to network shares or specific directories."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/automount.md",
+  "title": "tldr-pages: automount",
+  "license": "CC-BY-4.0"
+ }
+}

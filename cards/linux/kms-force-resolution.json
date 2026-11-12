@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "kms-force-resolution",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Force display resolution via kernel video parameter",
+ "summary": "If your monitor's native resolution is not detected correctly, you can force a specific resolution using the 'video=' kernel parameter. This is useful for Wayland compositors or when EDID data is faulty.",
+ "aliases": [
+  {
+   "text": "force resolution linux",
+   "lang": "en"
+  },
+  {
+   "text": "video kernel parameter",
+   "lang": "en"
+  },
+  {
+   "text": "wrong resolution boot",
+   "lang": "en"
+  },
+  {
+   "text": "set resolution grub",
+   "lang": "en"
+  },
+  {
+   "text": "принудительное разрешение экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "параметр ядра video",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know your desired resolution and refresh rate",
+  "Know your connector name (e.g., HDMI-A-1, DVI-I-1)"
+ ],
+ "steps": [
+  {
+   "explain": "Find your connector name by running this command in the terminal:",
+   "cmd": "for p in /sys/class/drm/*/status; do con=${p%/status}; echo -n \"${con#*/card?-}: \"; cat $p; done",
+   "risk": "low",
+   "expect": "Output showing connector names and their status (connected/disconnected), e.g., 'HDMI-A-1: connected'."
+  },
+  {
+   "explain": "Add the 'video=' parameter to your kernel command line in the bootloader configuration. Replace <CONNECTOR> with your connector name (e.g., HDMI-A-1), <XRES> with horizontal pixels, <YRES> with vertical pixels, and <REFRESH> with Hz.",
+   "cmd": "video=<CONNECTOR>:<XRES>x<YRES>@<REFRESH>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "CONNECTOR",
+     "description": "The DRM connector name, e.g., HDMI-A-1, DVI-I-1",
+     "discover_cmd": "for p in /sys/class/drm/*/status; do con=${p%/status}; echo -n \"${con#*/card?-}: \"; cat $p; done"
+    },
+    {
+     "name": "XRES",
+     "description": "Horizontal resolution in pixels",
+     "example": "1920"
+    },
+    {
+     "name": "YRES",
+     "description": "Vertical resolution in pixels",
+     "example": "1080"
+    },
+    {
+     "name": "REFRESH",
+     "description": "Refresh rate in Hz",
+     "example": "60"
+    }
+   ]
+  },
+  {
+   "explain": "Regenerate your bootloader configuration to apply the changes. The exact command depends on your bootloader.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the 'video=' parameter from your bootloader configuration and regenerate the config.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Incorrect resolution settings can result in a black screen or no signal.",
+  "This method is primarily for the console and Wayland; Xorg may ignore it."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Kernel_mode_setting#Forcing_modes",
+  "title": "Kernel mode setting",
+  "revision_id": 887481,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-create-iso-from-directory",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create an ISO image from a folder",
+ "summary": "Create a hybrid ISO image file from the contents of a specific directory.",
+ "aliases": [
+  {
+   "text": "create iso from folder",
+   "lang": "en"
+  },
+  {
+   "text": "make iso image",
+   "lang": "en"
+  },
+  {
+   "text": "hdiutil makehybrid",
+   "lang": "en"
+  },
+  {
+   "text": "создать iso из папки",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать образ диска из директории",
+   "lang": "ru"
+  },
+  {
+   "text": "конвертировать папку в iso",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Creates a new ISO image file containing the contents of the specified directory.",
+   "cmd": "hdiutil makehybrid -o <OUTPUT_FILE> <SOURCE_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_FILE",
+     "description": "Path for the new ISO file (e.g., ~/Desktop/backup.iso)",
+     "example": "~/Desktop/backup.iso"
+    },
+    {
+     "name": "SOURCE_DIRECTORY",
+     "description": "Path to the folder you want to include in the image",
+     "example": "~/Documents/MyFolder"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/hdiutil.md",
+  "title": "tldr-pages: hdiutil",
+  "license": "CC-BY-4.0"
+ }
+}

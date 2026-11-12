@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "umask-set-system-wide-login-defs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set system-wide umask in login.defs",
+ "summary": "Change the default umask for all users by editing the system configuration file. This affects new logins and is the standard method for most distributions.",
+ "aliases": [
+  {
+   "text": "set system umask",
+   "lang": "en"
+  },
+  {
+   "text": "change default umask",
+   "lang": "en"
+  },
+  {
+   "text": "edit login.defs",
+   "lang": "en"
+  },
+  {
+   "text": "global umask setting",
+   "lang": "en"
+  },
+  {
+   "text": "системный umask",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить umask для всех",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open /etc/login.defs with a text editor and find the line starting with UMASK. Change the value to your desired octal mask, such as 077 for private files or 022 for shared files. Save the file.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore the original UMASK value in /etc/login.defs.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This affects all users on the system.",
+  "Changes only take effect after the next login."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Umask#Site-specific",
+  "title": "Umask",
+  "revision_id": 880627,
+  "license": "GFDL-1.3-or-later"
+ }
+}

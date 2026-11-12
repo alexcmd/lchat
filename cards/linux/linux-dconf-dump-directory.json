@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-dconf-dump-directory",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Dump dconf directory to INI format",
+ "summary": "Export all settings in a specific dconf directory to a standard INI file format for backup or inspection.",
+ "aliases": [
+  {
+   "text": "dump dconf settings",
+   "lang": "en"
+  },
+  {
+   "text": "export gnome config ini",
+   "lang": "en"
+  },
+  {
+   "text": "dconf dump",
+   "lang": "en"
+  },
+  {
+   "text": "экспортировать настройки dconf",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить конфиг gnome в файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Dump all keys and values in a specific directory to INI format. Replace <DIR_PATH> with the directory path.",
+   "cmd": "dconf dump /<DIR_PATH>/",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIR_PATH",
+     "description": "The directory path to dump",
+     "example": "org/gnome/desktop/interface"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dconf.md",
+  "title": "tldr-pages: dconf",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-dconf-list-directory"
+ ]
+}

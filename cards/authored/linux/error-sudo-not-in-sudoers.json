@@ -1,0 +1,180 @@
+{
+ "schema_version": 2,
+ "id": "error-sudo-not-in-sudoers",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'user is not in the sudoers file': give the account sudo rights",
+ "summary": "sudo refuses because your account is not allowed to use administrator rights. Only an existing administrator or root can add the account to the admin group: sudo on Debian, Ubuntu and Mint, wheel on Fedora, Arch and openSUSE.",
+ "error_patterns": [
+  "is not in the sudoers file",
+  "may not run sudo"
+ ],
+ "aliases": [
+  {
+   "text": "user is not in the sudoers file",
+   "lang": "en"
+  },
+  {
+   "text": "sudo says not in sudoers",
+   "lang": "en"
+  },
+  {
+   "text": "account has no sudo rights linux",
+   "lang": "en"
+  },
+  {
+   "text": "how to give user sudo rights",
+   "lang": "en"
+  },
+  {
+   "text": "add user to sudo group ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "make my user an administrator linux",
+   "lang": "en"
+  },
+  {
+   "text": "пользователь не в списке sudoers",
+   "lang": "ru"
+  },
+  {
+   "text": "нет прав sudo linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как дать пользователю права sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить пользователя в группу sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "ne v sudoers chto delat",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the groups your account belongs to. Administrator rights come from one admin group: sudo on Debian, Ubuntu and Mint; wheel on Fedora, Arch and openSUSE.",
+   "cmd": "id -nG",
+   "risk": "low",
+   "expect": "A list of group names, for example: alice adm cdrom. If neither sudo nor wheel is listed, the account has no admin rights."
+  },
+  {
+   "explain": "Check which admin group exists on this system. This only reads the group file.",
+   "cmd": "grep -E '^(sudo|wheel):' /etc/group",
+   "risk": "low",
+   "expect": "One line such as sudo:x:27:ubuntu (Ubuntu) or wheel:x:10: (Fedora). Note the group name you see."
+  },
+  {
+   "explain": "Only an administrator can grant these rights. If this is not your own computer, ask its owner or IT administrator to run the next step. Do not try to get around sudo.",
+   "risk": "low"
+  },
+  {
+   "explain": "Add your account to the admin group. An existing administrator runs this and types their own password when asked. Replace <USERNAME> with your account name.",
+   "cmd": "sudo usermod -aG sudo <USERNAME>",
+   "variants": {
+    "fedora": "sudo usermod -aG wheel <USERNAME>",
+    "arch": "sudo usermod -aG wheel <USERNAME>",
+    "opensuse": "sudo usermod -aG wheel <USERNAME>"
+   },
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "Your account name, which needs sudo rights",
+     "example": "alice",
+     "discover_cmd": "id -un"
+    }
+   ],
+   "expect": "No output when it works. Run the grep command again to see your name in the group line.",
+   "alternatives": [
+    {
+     "explain": "If you know the root password and you own this computer, log in as root with su and add the account to the group.",
+     "cmd": "su -c 'usermod -aG sudo <USERNAME>'",
+     "variants": {
+      "fedora": "su -c 'usermod -aG wheel <USERNAME>'",
+      "arch": "su -c 'usermod -aG wheel <USERNAME>'",
+      "opensuse": "su -c 'usermod -aG wheel <USERNAME>'"
+     },
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "USERNAME",
+       "description": "Your account name, which needs sudo rights",
+       "example": "alice",
+       "discover_cmd": "id -un"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Only on Arch and openSUSE: the wheel rule in the sudoers file is commented out by default, so the wheel group alone does not give sudo. Open the file with visudo and remove the # at the start of the line '%wheel ALL=(ALL:ALL) ALL'. Skip this step on other systems.",
+   "variants": {
+    "arch": "sudo visudo",
+    "opensuse": "sudo visudo"
+   },
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Log out and log in again, or reboot. Group changes apply only to new login sessions.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "id -nG",
+   "expect": "The list now contains sudo (Debian family) or wheel (Fedora, Arch, openSUSE)."
+  },
+  {
+   "cmd": "sudo true",
+   "expect": "Asks for your password, then prints nothing. Before the fix it prints 'is not in the sudoers file'."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the account from the admin group again. An existing administrator runs this.",
+   "cmd": "sudo gpasswd -d <USERNAME> sudo",
+   "variants": {
+    "fedora": "sudo gpasswd -d <USERNAME> wheel",
+    "arch": "sudo gpasswd -d <USERNAME> wheel",
+    "opensuse": "sudo gpasswd -d <USERNAME> wheel"
+   },
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "Account to remove from the admin group",
+     "example": "alice",
+     "discover_cmd": "id -un"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Members of the sudo or wheel group can run any command as root. Add only accounts you trust, and only with the computer owner's permission.",
+  "On a work or school computer, ask the IT administrator instead of changing sudo rules yourself.",
+  "Never edit the sudoers file with a normal text editor. Use visudo, because a broken sudoers file can lock everyone out of sudo."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/sudo",
+  "title": "sudo manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

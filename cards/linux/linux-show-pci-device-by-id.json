@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-pci-device-by-id",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show information for a specific PCI device",
+ "summary": "Use lspci with the -s flag and a device ID to see details for only one specific piece of hardware, such as a particular network card or graphics adapter.",
+ "aliases": [
+  {
+   "text": "show specific pci device",
+   "lang": "en"
+  },
+  {
+   "text": "lspci specific device",
+   "lang": "en"
+  },
+  {
+   "text": "check one hardware component",
+   "lang": "en"
+  },
+  {
+   "text": "lspci -s",
+   "lang": "en"
+  },
+  {
+   "text": "device id pci",
+   "lang": "en"
+  },
+  {
+   "text": "показать конкретное pci устройство",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о одном устройстве",
+   "lang": "ru"
+  },
+  {
+   "text": "lspci -s",
+   "lang": "ru"
+  },
+  {
+   "text": "id устройства pci",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lspci with the -s flag followed by the PCI device ID (e.g., 00:02.0) to filter the output.",
+   "cmd": "lspci -s <DEVICE_ID>",
+   "risk": "low",
+   "expect": "Information for only the specified device.",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The PCI address of the device, e.g., 00:02.0",
+     "example": "00:02.0",
+     "discover_cmd": "lspci"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lspci.md",
+  "title": "tldr-pages: lspci",
+  "license": "CC-BY-4.0"
+ }
+}

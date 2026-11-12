@@ -1,0 +1,160 @@
+{
+ "schema_version": 2,
+ "id": "linux-sound-switch-default-output-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Switch default sound output to headphones or HDMI",
+ "summary": "Sound plays from whichever output device is the default. Find the headphones or HDMI output in the list of outputs, then make it the default so new sound goes there.",
+ "aliases": [
+  {
+   "text": "sound plays on wrong device linux",
+   "lang": "en"
+  },
+  {
+   "text": "change audio output device linux",
+   "lang": "en"
+  },
+  {
+   "text": "switch sound to headphones linux",
+   "lang": "en"
+  },
+  {
+   "text": "send sound to hdmi monitor linux",
+   "lang": "en"
+  },
+  {
+   "text": "set default audio output wpctl",
+   "lang": "en"
+  },
+  {
+   "text": "change default sound device terminal",
+   "lang": "en"
+  },
+  {
+   "text": "windows playback default device linux",
+   "lang": "en"
+  },
+  {
+   "text": "звук идёт не в наушники linux",
+   "lang": "ru"
+  },
+  {
+   "text": "поменять устройство вывода звука linux",
+   "lang": "ru"
+  },
+  {
+   "text": "переключить звук на наушники linux",
+   "lang": "ru"
+  },
+  {
+   "text": "отправить звук на hdmi монитор linux",
+   "lang": "ru"
+  },
+  {
+   "text": "устройство воспроизведения по умолчанию linux",
+   "lang": "ru"
+  },
+  {
+   "text": "выбрать выход звука терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "переключить звук на hdmi ubuntu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Headphones or the HDMI monitor or TV are plugged in and switched on",
+  "A terminal window is open",
+  "PipeWire with WirePlumber (wpctl), or PulseAudio (pactl). Packages: wireplumber; pulseaudio-utils (libpulse on Arch)"
+ ],
+ "steps": [
+  {
+   "explain": "List the output devices (sinks) and see which one is the current default. In the Sinks section, the line with * is the default. The number before the dot is the device ID.",
+   "cmd": "wpctl status",
+   "risk": "low",
+   "expect": "Under 'Sinks:' lines look like '│  *   44. TestOutput  [vol: 1.00]'. The * marks the current default.",
+   "alternatives": [
+    {
+     "explain": "Same list for PulseAudio systems or when wpctl is not installed. The name in the second column is what the pactl alternative in the next step needs.",
+     "cmd": "pactl list short sinks",
+     "variants": {},
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Make the device you want the default. Replace <SINK_ID> with the number from the Sinks list, for example 44. Do not type the placeholder literally.",
+   "cmd": "wpctl set-default <SINK_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SINK_ID",
+     "description": "Number before the dot of the headphones or HDMI device in the Sinks list",
+     "example": "44",
+     "discover_cmd": "wpctl status"
+    }
+   ],
+   "expect": "No message when it works. Check with the verify commands below.",
+   "alternatives": [
+    {
+     "explain": "PulseAudio way, also works on PipeWire systems. Replace <SINK_NAME> with the name from the second column of pactl list short sinks, not the number.",
+     "cmd": "pactl set-default-sink <SINK_NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SINK_NAME",
+       "description": "Name in the second column of the device list, for example test_out",
+       "example": "test_out",
+       "discover_cmd": "pactl list short sinks"
+      }
+     ],
+     "expect": "No message when it works."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "wpctl status",
+   "expect": "The line of the device you chose now starts with * under Sinks."
+  },
+  {
+   "cmd": "pactl info",
+   "expect": "The Default Sink line shows the name of the device you chose."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "HDMI devices appear in the list only while a monitor or TV is connected and on. If the device you need is missing, check the cable or see the pipewire-switch-profile card.",
+  "Programs that are already playing sound may keep using the old device. Restart the program or change its output in its own settings."
+ ],
+ "see_also": [
+  "pipewire-switch-profile",
+  "pulseaudio-set-sink-port"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/wpctl",
+  "title": "wpctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

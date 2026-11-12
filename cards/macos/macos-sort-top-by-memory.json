@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "macos-sort-top-by-memory",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Sort top processes by memory usage",
+ "summary": "Start the `top` command with an option to sort the process list by memory size instead of the default CPU or PID order. This helps identify which apps are using the most RAM.",
+ "aliases": [
+  {
+   "text": "sort top by memory",
+   "lang": "en"
+  },
+  {
+   "text": "check ram usage terminal",
+   "lang": "en"
+  },
+  {
+   "text": "top -o mem",
+   "lang": "en"
+  },
+  {
+   "text": "which app uses most memory",
+   "lang": "en"
+  },
+  {
+   "text": "top memory sort",
+   "lang": "en"
+  },
+  {
+   "text": "sortirovat top po pamyati",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit ozyu terminal",
+   "lang": "ru"
+  },
+  {
+   "text": "kakoe prilozhenie edet pamyat",
+   "lang": "ru"
+  },
+  {
+   "text": "top -o mem",
+   "lang": "ru"
+  },
+  {
+   "text": "monitoring pamyati",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `top` with the `-o mem` flag to sort the displayed processes by their internal memory size.",
+   "cmd": "top -o mem",
+   "risk": "low",
+   "expect": "The process list appears, sorted so that the processes using the most memory are at the top."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/top.md",
+  "title": "tldr-pages: top",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-monitor-processes-top",
+  "macos-sort-processes-by-memory"
+ ]
+}

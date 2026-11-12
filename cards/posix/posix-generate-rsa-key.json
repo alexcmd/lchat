@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-generate-rsa-key",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Generate a 4096-bit RSA SSH key",
+ "summary": "Create a strong RSA SSH key with a comment (like your email) for identification. This is a common format for older systems.",
+ "aliases": [
+  {
+   "text": "generate rsa key",
+   "lang": "en"
+  },
+  {
+   "text": "create rsa ssh key",
+   "lang": "en"
+  },
+  {
+   "text": "rsa 4096 key",
+   "lang": "en"
+  },
+  {
+   "text": "ssh key with email",
+   "lang": "en"
+  },
+  {
+   "text": "rsa keygen",
+   "lang": "en"
+  },
+  {
+   "text": "создать rsa ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "генерация rsa ключа",
+   "lang": "ru"
+  },
+  {
+   "text": "rsa ключ с почтой",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Generate a 4096-bit RSA key with a comment (e.g., your email) for identification.",
+   "cmd": "ssh-keygen -t rsa -b 4096 -C \"<COMMENT>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMENT",
+     "description": "A comment to identify the key, usually your email address.",
+     "example": "user@example.com"
+    }
+   ],
+   "expect": "The tool prompts for a file path and passphrase, then confirms the key was saved."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh-keygen.md",
+  "title": "tldr-pages: ssh-keygen",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,51 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-check-oss-module",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if OSS emulation module is loaded",
+ "summary": "Verify if the snd_pcm_oss module is currently loaded in the kernel. This module can cause conflicts with PulseAudio.",
+ "aliases": [
+  {
+   "text": "check oss module",
+   "lang": "en"
+  },
+  {
+   "text": "lsmod oss",
+   "lang": "en"
+  },
+  {
+   "text": "is snd_pcm_oss loaded",
+   "lang": "en"
+  },
+  {
+   "text": "проверить oss модуль",
+   "lang": "ru"
+  },
+  {
+   "text": "lsmod grep oss",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List loaded kernel modules and filter for 'oss'.",
+   "cmd": "lsmod | grep oss",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio#ALSA",
+  "title": "PulseAudio",
+  "revision_id": 861028,
+  "license": "GFDL-1.3-or-later"
+ }
+}

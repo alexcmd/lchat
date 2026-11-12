@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-hwinfo-short-component",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show brief information for a specific hardware component",
+ "summary": "Use hwinfo with the --short flag to get a concise, one-line summary of a specific hardware component instead of the full detailed output.",
+ "aliases": [
+  {
+   "text": "short hardware info",
+   "lang": "en"
+  },
+  {
+   "text": "brief cpu info",
+   "lang": "en"
+  },
+  {
+   "text": "hwinfo short",
+   "lang": "en"
+  },
+  {
+   "text": "краткая информация об оборудовании",
+   "lang": "ru"
+  },
+  {
+   "text": "короткий вывод hwinfo",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run hwinfo with the --short flag to display a succinct summary of the specified hardware component.",
+   "cmd": "hwinfo --<COMPONENT> --short",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMPONENT",
+     "description": "The hardware component to query, e.g., cpu, memory, disk, gfxcard, network, usb, pci, keyboard, mouse, monitor, sound, fingerprint.",
+     "example": "cpu"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/hwinfo.md",
+  "title": "tldr-pages: hwinfo",
+  "license": "CC-BY-4.0"
+ }
+}

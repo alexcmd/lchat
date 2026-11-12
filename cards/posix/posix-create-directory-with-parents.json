@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-directory-with-parents",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a directory and its parent folders",
+ "summary": "Use the -p flag with mkdir to create a directory and any missing parent directories in the path automatically. This prevents errors if the intermediate folders do not exist yet.",
+ "aliases": [
+  {
+   "text": "create nested folders",
+   "lang": "en"
+  },
+  {
+   "text": "mkdir parents",
+   "lang": "en"
+  },
+  {
+   "text": "create path",
+   "lang": "en"
+  },
+  {
+   "text": "mkdir -p",
+   "lang": "en"
+  },
+  {
+   "text": "создать вложенные папки",
+   "lang": "ru"
+  },
+  {
+   "text": "mkdir -p",
+   "lang": "ru"
+  },
+  {
+   "text": "создать путь",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --parents flag to create the specified directory and all necessary parent directories.",
+   "cmd": "mkdir -p <DIRECTORY_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY_PATH",
+     "description": "The full path of the directory to create",
+     "example": "Projects/2023/Jan"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short -p flag for the same effect.",
+     "cmd": "mkdir -p <DIRECTORY_PATH>",
+     "placeholders": [
+      {
+       "name": "DIRECTORY_PATH",
+       "description": "The full path of the directory to create",
+       "example": "Projects/2023/Jan"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/mkdir.md",
+  "title": "tldr-pages: mkdir",
+  "license": "CC-BY-4.0"
+ }
+}

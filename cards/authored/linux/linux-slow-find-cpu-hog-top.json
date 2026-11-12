@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "linux-slow-find-cpu-hog-top",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find the program that uses the most CPU",
+ "summary": "Take a one-time snapshot of the running programs sorted by CPU use, so you can see which one is slowing the computer down. This only reads the list; it does not stop or change anything.",
+ "aliases": [
+  {
+   "text": "what is slowing down my computer",
+   "lang": "en"
+  },
+  {
+   "text": "which program uses the most cpu",
+   "lang": "en"
+  },
+  {
+   "text": "linux high cpu usage what process",
+   "lang": "en"
+  },
+  {
+   "text": "find cpu hog linux",
+   "lang": "en"
+  },
+  {
+   "text": "task manager linux cpu",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu computer slow which app",
+   "lang": "en"
+  },
+  {
+   "text": "что тормозит компьютер linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какая программа грузит процессор",
+   "lang": "ru"
+  },
+  {
+   "text": "какой процесс съедает cpu linux",
+   "lang": "ru"
+  },
+  {
+   "text": "диспетчер задач linux процессор",
+   "lang": "ru"
+  },
+  {
+   "text": "что грузит процессор линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "ps",
+   "top"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the header and the 10 processes that use the most CPU, highest first. ps lists processes; sort by CPU; head keeps only the first 11 lines.",
+   "cmd": "ps -eo pid,comm,%cpu --sort=-%cpu | head -n 11",
+   "risk": "low",
+   "gui": "Open the System Monitor app from the application menu, go to the Processes tab and click the CPU column heading to sort by CPU use.",
+   "expect": "A header line 'PID COMMAND %CPU', then up to 10 lines. The first line under the header has the highest %CPU value.",
+   "alternatives": [
+    {
+     "explain": "Show a live-style snapshot from top (one screen, batch mode). The summary lines are at the top, the process table below it is sorted by CPU by default.",
+     "cmd": "top -bn1 | head -n 15",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Read the list. COMMAND is the program name; %CPU near 100 means one processor core is fully busy with it (above 100 is possible on multi-core systems). Run the step again later to compare, and check which program you started before closing anything.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/ps",
+  "title": "ps manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

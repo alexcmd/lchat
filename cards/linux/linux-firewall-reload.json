@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "linux-firewall-reload",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reload firewall configuration",
+ "summary": "Apply permanent firewall changes immediately and discard any unsaved runtime changes.",
+ "aliases": [
+  {
+   "text": "reload firewall",
+   "lang": "en"
+  },
+  {
+   "text": "apply firewall changes",
+   "lang": "en"
+  },
+  {
+   "text": "firewall-cmd reload",
+   "lang": "en"
+  },
+  {
+   "text": "restart firewall rules",
+   "lang": "en"
+  },
+  {
+   "text": "перезагрузить firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "применить правила firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "firewall-cmd --reload",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "firewalld"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reload firewalld to force the permanent configuration to take effect and lose any runtime changes.",
+   "cmd": "sudo firewall-cmd --reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If you lost runtime changes you wanted to keep, you must re-apply them manually.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "This discards any temporary rules you added without --permanent.",
+  "Ensure you have saved important changes with --runtime-to-permanent if needed."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/firewall-cmd.md",
+  "title": "tldr-pages: firewall-cmd",
+  "license": "CC-BY-4.0"
+ }
+}

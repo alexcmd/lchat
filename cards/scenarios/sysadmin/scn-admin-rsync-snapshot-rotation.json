@@ -1,0 +1,221 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-rsync-snapshot-rotation",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Make dated incremental backups with rsync and keep only the newest copies",
+  "summary": "Each run saves a full-looking copy of a folder into a new dated snapshot. Files that did not change are shared with the previous snapshot, so each copy takes little extra space. Old snapshots beyond the chosen number are removed.",
+  "aliases": [
+    {
+      "text": "rsync incremental backup",
+      "lang": "en"
+    },
+    {
+      "text": "rsync link-dest snapshot",
+      "lang": "en"
+    },
+    {
+      "text": "backup with hard links linux",
+      "lang": "en"
+    },
+    {
+      "text": "rotate old backup snapshots",
+      "lang": "en"
+    },
+    {
+      "text": "keep last 7 backups rsync",
+      "lang": "en"
+    },
+    {
+      "text": "incremental backup script linux",
+      "lang": "en"
+    },
+    {
+      "text": "rsync dated backups delete old ones",
+      "lang": "en"
+    },
+    {
+      "text": "hardlink backup rotation",
+      "lang": "en"
+    },
+    {
+      "text": "инкрементальный бэкап rsync",
+      "lang": "ru"
+    },
+    {
+      "text": "резервные копии с жёсткими ссылками",
+      "lang": "ru"
+    },
+    {
+      "text": "удалять старые бэкапы linux",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт резервного копирования rsync",
+      "lang": "ru"
+    },
+    {
+      "text": "хранить последние 7 копий",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "rsync",
+      "find"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script from the script section as ~/bin/backup-rotate.sh. It makes one dated snapshot folder per run, reuses unchanged files through hard links, and keeps only the newest KEEP snapshots.",
+      "risk": "low"
+    },
+    {
+      "explain": "Make the script executable and check its syntax. The text 'script syntax OK' means the file was read without errors.",
+      "risk": "low",
+      "cmd": "chmod +x ~/bin/backup-rotate.sh && bash -n ~/bin/backup-rotate.sh && echo 'script syntax OK'",
+      "expect": "script syntax OK"
+    },
+    {
+      "explain": "Dry run: show what would be copied without creating a snapshot. Nothing is written to the backup folder and nothing is deleted.",
+      "risk": "low",
+      "cmd": "~/bin/backup-rotate.sh <SRC_DIR> <DEST_ROOT> <KEEP> --dry-run",
+      "expect": "A line 'DRY RUN: would create ...' followed by rsync's summary ending in '(DRY RUN)'.",
+      "placeholders": [
+        {
+          "name": "SRC_DIR",
+          "description": "Folder you want to back up",
+          "example": "/home/deck/Documents",
+          "discover_cmd": "ls -d ~/*/"
+        },
+        {
+          "name": "DEST_ROOT",
+          "description": "Folder on the backup drive that holds all snapshots",
+          "example": "/mnt/backup/home"
+        },
+        {
+          "name": "KEEP",
+          "description": "How many newest snapshots to keep",
+          "example": "7"
+        }
+      ]
+    },
+    {
+      "explain": "Real run: create the new snapshot, move the 'latest' link to it, and delete snapshots older than the KEEP newest ones. The first run copies everything; later runs copy only changes.",
+      "risk": "medium",
+      "cmd": "~/bin/backup-rotate.sh <SRC_DIR> <DEST_ROOT> <KEEP>",
+      "expect": "A line 'done: <DEST_ROOT>/<date_time> (snapshots kept: N)'. Lines 'removing old snapshot: ...' appear only when old snapshots were deleted.",
+      "placeholders": [
+        {
+          "name": "SRC_DIR",
+          "description": "Folder you want to back up",
+          "example": "/home/deck/Documents",
+          "discover_cmd": "ls -d ~/*/"
+        },
+        {
+          "name": "DEST_ROOT",
+          "description": "Folder on the backup drive that holds all snapshots",
+          "example": "/mnt/backup/home"
+        },
+        {
+          "name": "KEEP",
+          "description": "How many newest snapshots to keep",
+          "example": "7"
+        }
+      ]
+    },
+    {
+      "explain": "List the snapshots and see where 'latest' points. The dated folders are the snapshots; 'latest' is a link to the newest one.",
+      "risk": "low",
+      "cmd": "ls -l <DEST_ROOT> && readlink <DEST_ROOT>/latest",
+      "expect": "Folders named like 2026-11-12_031500 and a 'latest -> ...' entry pointing at the newest folder.",
+      "placeholders": [
+        {
+          "name": "DEST_ROOT",
+          "description": "Folder on the backup drive that holds all snapshots",
+          "example": "/mnt/backup/home"
+        }
+      ]
+    },
+    {
+      "explain": "Check that an unchanged file is shared. A link count of 2 or more means the file exists once on disk and is linked from several snapshots.",
+      "risk": "low",
+      "cmd": "stat -c '%h links  %n' <DEST_ROOT>/latest/<FILE>",
+      "expect": "A line such as '2 links  /mnt/backup/home/latest/notes.txt'.",
+      "placeholders": [
+        {
+          "name": "DEST_ROOT",
+          "description": "Folder on the backup drive that holds all snapshots",
+          "example": "/mnt/backup/home"
+        },
+        {
+          "name": "FILE",
+          "description": "A file you know did not change between runs",
+          "example": "notes.txt"
+        }
+      ]
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "Remove a snapshot that is broken or was made by mistake. Only delete folders with the dated name.",
+      "risk": "medium",
+      "cmd": "rm -rf -- <DEST_ROOT>/<BAD_SNAPSHOT>",
+      "placeholders": [
+        {
+          "name": "DEST_ROOT",
+          "description": "Folder on the backup drive that holds all snapshots",
+          "example": "/mnt/backup/home"
+        },
+        {
+          "name": "BAD_SNAPSHOT",
+          "description": "Name of the snapshot folder to remove",
+          "example": "2026-11-12_031500"
+        }
+      ]
+    },
+    {
+      "explain": "Point 'latest' back to the previous good snapshot so the next run links to it.",
+      "risk": "medium",
+      "cmd": "ln -sfn <DEST_ROOT>/<GOOD_SNAPSHOT> <DEST_ROOT>/latest",
+      "placeholders": [
+        {
+          "name": "DEST_ROOT",
+          "description": "Folder on the backup drive that holds all snapshots",
+          "example": "/mnt/backup/home"
+        },
+        {
+          "name": "GOOD_SNAPSHOT",
+          "description": "Name of the last good snapshot folder",
+          "example": "2026-11-11_031500"
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    "The script deletes every dated folder in DEST_ROOT beyond the KEEP newest. Keep only snapshots in that folder.",
+    "Hard links do not work on exFAT or FAT32 drives, which many external drives use. Use ext4 or btrfs for the backup drive.",
+    "A snapshot on the same disk does not protect against disk failure. Copy the backup drive somewhere else too."
+  ],
+  "see_also": [
+    "scn-admin-nightly-user-timer-backup"
+  ],
+  "script": {
+    "filename": "backup-rotate.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\nset -euo pipefail\n# Incremental snapshot backup. Each run creates a new dated folder. Files that did not\n# change are hard links to the previous snapshot, so every snapshot looks complete but\n# costs only the changed data. Snapshots beyond KEEP are deleted (oldest first).\n# Usage: backup-rotate.sh SRC_DIR DEST_ROOT [KEEP] [--dry-run]\nSRC=\"${1:?usage: $0 SRC_DIR DEST_ROOT [KEEP] [--dry-run]}\"\nDEST=\"${2:?usage: $0 SRC_DIR DEST_ROOT [KEEP] [--dry-run]}\"\nKEEP=\"${3:-7}\"\nDRY=\"${4:-}\"\nSNAP_RE='^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{6}$'\n\n[[ -d \"$SRC\" ]] || { echo \"source folder not found: $SRC\" >&2; exit 1; }\n[[ \"$KEEP\" =~ ^[1-9][0-9]*$ ]] || { echo \"KEEP must be a positive number\" >&2; exit 1; }\nif [[ \"$DRY\" != \"--dry-run\" ]]; then\n  mkdir -p \"$DEST\"\nfi\nif [[ -d \"$DEST\" ]]; then\n  DEST=\"$(cd \"$DEST\" && pwd -P)\"   # absolute path, needed by --link-dest\nfi\nNEW=\"$DEST/$(date +%Y-%m-%d_%H%M%S)\"\n\n# Link unchanged files to the newest snapshot, if there is one.\nLINK=()\nif [[ -e \"$DEST/latest\" ]]; then\n  LINK=(--link-dest=\"$DEST/latest\")\nfi\n\nif [[ \"$DRY\" == \"--dry-run\" ]]; then\n  echo \"DRY RUN: would create $NEW\"\n  rsync -aH --dry-run --stats ${LINK[@]+\"${LINK[@]}\"} \"$SRC/\" \"$NEW/\"\n  exit 0\nfi\n\nrsync -aH --stats ${LINK[@]+\"${LINK[@]}\"} \"$SRC/\" \"$NEW/\"\n\n# Point \"latest\" at the new snapshot; rename makes the switch atomic.\nln -sfn \"$NEW\" \"$DEST/latest.tmp\"\nmv -Tf \"$DEST/latest.tmp\" \"$DEST/latest\"\n\n# Rotation: keep the newest KEEP snapshots, delete the rest.\nmapfile -t SNAPS < <(find \"$DEST\" -mindepth 1 -maxdepth 1 -type d -printf '%f\\n' | grep -E \"$SNAP_RE\" | sort)\nCOUNT=${#SNAPS[@]}\nif (( COUNT > KEEP )); then\n  for name in \"${SNAPS[@]:0:COUNT-KEEP}\"; do\n    echo \"removing old snapshot: $name\"\n    rm -rf -- \"$DEST/$name\"\n  done\nfi\necho \"done: $NEW (snapshots kept: $(( COUNT > KEEP ? KEEP : COUNT )))\"\n",
+    "usage": "backup-rotate.sh SRC_DIR DEST_ROOT [KEEP] [--dry-run]"
+  },
+  "source": {
+    "url": "https://download.samba.org/pub/rsync/rsync.html",
+    "title": "rsync manual (rsync(1))",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

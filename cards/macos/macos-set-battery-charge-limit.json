@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-battery-charge-limit",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set a custom battery charge limit on MacBook",
+ "summary": "Use the `bclm` tool to limit how much your MacBook battery charges, which can help extend its lifespan. You can set a specific percentage, such as 80%.",
+ "aliases": [
+  {
+   "text": "limit battery charge mac",
+   "lang": "en"
+  },
+  {
+   "text": "stop charging at 80 percent",
+   "lang": "en"
+  },
+  {
+   "text": "battery charge limit macbook",
+   "lang": "en"
+  },
+  {
+   "text": "bclm set charge",
+   "lang": "en"
+  },
+  {
+   "text": "как ограничить заряд батареи на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить зарядку на 80 процентов",
+   "lang": "ru"
+  },
+  {
+   "text": "лимит заряда батареи macbook",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The `bclm` tool must be installed (e.g., via Homebrew)."
+ ],
+ "steps": [
+  {
+   "explain": "Set the maximum battery charge percentage. Replace <PERCENTAGE> with the desired limit (e.g., 80).",
+   "cmd": "sudo bclm write <PERCENTAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PERCENTAGE",
+     "description": "The maximum battery charge percentage (e.g., 80).",
+     "example": "80"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "bclm read",
+   "expect": "Displays the currently set charge limit."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "To remove the limit and allow full charging, you may need to reset the limit to 100% or use the unpersist command if it was made persistent.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This changes system power management settings.",
+  "On Intel Macs, the actual charge level may be slightly lower than the set value."
+ ],
+ "see_also": [
+  "macos-check-battery-status"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/bclm.md",
+  "title": "tldr-pages: bclm",
+  "license": "CC-BY-4.0"
+ }
+}

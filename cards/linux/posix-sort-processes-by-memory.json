@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "posix-sort-processes-by-memory",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Sort processes by memory usage",
+ "summary": "Display running processes ordered by how much memory they are consuming. This helps identify which applications are using the most RAM.",
+ "aliases": [
+  {
+   "text": "sort processes by memory",
+   "lang": "en"
+  },
+  {
+   "text": "highest memory usage",
+   "lang": "en"
+  },
+  {
+   "text": "ps sort memory",
+   "lang": "en"
+  },
+  {
+   "text": "what uses most ram",
+   "lang": "en"
+  },
+  {
+   "text": "check memory hogs",
+   "lang": "en"
+  },
+  {
+   "text": "sort processes by memory",
+   "lang": "ru"
+  },
+  {
+   "text": "highest memory usage",
+   "lang": "ru"
+  },
+  {
+   "text": "ps sort memory",
+   "lang": "ru"
+  },
+  {
+   "text": "what uses most ram",
+   "lang": "ru"
+  },
+  {
+   "text": "check memory hogs",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run ps with the sort flag set to size to order processes by memory consumption.",
+   "cmd": "ps --sort size",
+   "risk": "low",
+   "expect": "A list of processes where the ones using the most memory appear at the bottom (or top depending on default sort order, usually ascending)."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ps.md",
+  "title": "tldr-pages: ps",
+  "license": "CC-BY-4.0"
+ }
+}

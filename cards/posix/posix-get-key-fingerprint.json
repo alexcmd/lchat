@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-get-key-fingerprint",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show SSH key fingerprint in MD5",
+ "summary": "Display the MD5 Hex fingerprint of an SSH key file. This is useful for verifying a key's identity.",
+ "aliases": [
+  {
+   "text": "show ssh key fingerprint",
+   "lang": "en"
+  },
+  {
+   "text": "ssh key fingerprint md5",
+   "lang": "en"
+  },
+  {
+   "text": "get key fingerprint",
+   "lang": "en"
+  },
+  {
+   "text": "ssh-keygen -l",
+   "lang": "en"
+  },
+  {
+   "text": "ssh fingerprint",
+   "lang": "en"
+  },
+  {
+   "text": "отпечаток ssh ключа",
+   "lang": "ru"
+  },
+  {
+   "text": "fingerprint ssh ключа",
+   "lang": "ru"
+  },
+  {
+   "text": "md5 fingerprint ssh",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Retrieve and display the MD5 Hex fingerprint of a specific key file.",
+   "cmd": "ssh-keygen -f <KEY_FILE> -l -E md5",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_FILE",
+     "description": "The path to the public or private key file.",
+     "example": "~/.ssh/id_rsa.pub"
+    }
+   ],
+   "expect": "The tool prints the key's fingerprint in MD5 Hex format."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh-keygen.md",
+  "title": "tldr-pages: ssh-keygen",
+  "license": "CC-BY-4.0"
+ }
+}

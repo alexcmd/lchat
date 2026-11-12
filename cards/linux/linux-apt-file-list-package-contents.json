@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-file-list-package-contents",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List files in an apt package",
+ "summary": "View the list of files that a specific apt package will install. This is useful to see what a package does before installing it.",
+ "aliases": [
+  {
+   "text": "list files in package",
+   "lang": "en"
+  },
+  {
+   "text": "what files does package install",
+   "lang": "en"
+  },
+  {
+   "text": "apt-file list",
+   "lang": "en"
+  },
+  {
+   "text": "package contents",
+   "lang": "en"
+  },
+  {
+   "text": "list files in package",
+   "lang": "ru"
+  },
+  {
+   "text": "what files does package install",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-file list",
+   "lang": "ru"
+  },
+  {
+   "text": "package contents",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "prerequisites": [
+  "apt-file is installed (sudo apt install apt-file)"
+ ],
+ "steps": [
+  {
+   "explain": "List all files contained in the specified package.",
+   "cmd": "apt-file list <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to inspect",
+     "example": "curl"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-file.md",
+  "title": "tldr-pages: apt-file",
+  "license": "CC-BY-4.0"
+ }
+}

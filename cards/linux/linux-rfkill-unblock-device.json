@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-rfkill-unblock-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unblock a wireless device type",
+ "summary": "Re-enable a specific type of wireless device, such as Wi-Fi or Bluetooth, that was previously blocked.",
+ "aliases": [
+  {
+   "text": "unblock wifi",
+   "lang": "en"
+  },
+  {
+   "text": "enable bluetooth rfkill",
+   "lang": "en"
+  },
+  {
+   "text": "rfkill unblock",
+   "lang": "en"
+  },
+  {
+   "text": "turn on wifi command line",
+   "lang": "en"
+  },
+  {
+   "text": "разблокировать wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "включить bluetooth rfkill",
+   "lang": "ru"
+  },
+  {
+   "text": "rfkill разблок",
+   "lang": "ru"
+  },
+  {
+   "text": "включить wifi командой",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unblock devices of a specific type. Replace <TYPE> with the device type you want to enable (e.g., wifi, bluetooth, gps, nfc).",
+   "cmd": "rfkill unblock <TYPE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "TYPE",
+     "description": "The type of wireless device to unblock (e.g., wifi, bluetooth, gps, nfc).",
+     "example": "wifi"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Block the device type again if you need to disable it.",
+   "cmd": "rfkill block <TYPE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "TYPE",
+     "description": "The type of wireless device to block.",
+     "example": "wifi"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Unblocking a device allows it to connect to networks or pair with devices automatically if configured."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/rfkill.md",
+  "title": "tldr-pages: rfkill",
+  "license": "CC-BY-4.0"
+ }
+}

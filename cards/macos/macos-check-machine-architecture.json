@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-machine-architecture",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check CPU architecture (Intel or Apple Silicon)",
+ "summary": "Use the `machine` command to quickly see if your Mac uses an Intel or Apple Silicon processor. This helps when downloading software that requires a specific version.",
+ "aliases": [
+  {
+   "text": "check cpu architecture",
+   "lang": "en"
+  },
+  {
+   "text": "is my mac intel or apple silicon",
+   "lang": "en"
+  },
+  {
+   "text": "machine command mac",
+   "lang": "en"
+  },
+  {
+   "text": "check processor type",
+   "lang": "en"
+  },
+  {
+   "text": "какая архитектура процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "intel или apple silicon",
+   "lang": "ru"
+  },
+  {
+   "text": "команда machine",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать тип процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "check mac architecture",
+   "lang": "en"
+  },
+  {
+   "text": "проверить архитектуру mac",
+   "lang": "ru"
+  },
+  {
+   "text": "mac processor type",
+   "lang": "en"
+  },
+  {
+   "text": "arch command mac",
+   "lang": "en"
+  },
+  {
+   "text": "какой процессор в маке",
+   "lang": "ru"
+  },
+  {
+   "text": "команда arch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `machine` command in Terminal to print the CPU architecture.",
+   "cmd": "machine",
+   "risk": "low",
+   "expect": "The output will show the architecture, such as 'arm64' for Apple Silicon or 'x86_64' for Intel.",
+   "alternatives": [
+    {
+     "explain": "Run the arch command to display the current system architecture.",
+     "cmd": "arch",
+     "expect": "The output will be either 'i386' (for Intel) or 'arm64' (for Apple Silicon).",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/machine.md",
+  "title": "tldr-pages: machine",
+  "license": "CC-BY-4.0"
+ }
+}

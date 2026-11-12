@@ -1,0 +1,147 @@
+{
+ "schema_version": 2,
+ "id": "macos-disable-user-launch-agent",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Stop a user launch agent from starting at login",
+ "summary": "A launch agent is a background program that macOS starts for your user account. launchctl disable keeps one specific agent, found by its label, from starting at login. launchctl enable turns it back on.",
+ "aliases": [
+  {
+   "text": "stop launch agent starting at login",
+   "lang": "en"
+  },
+  {
+   "text": "disable launch agent mac",
+   "lang": "en"
+  },
+  {
+   "text": "prevent app from starting at login mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac background program starts automatically disable",
+   "lang": "en"
+  },
+  {
+   "text": "launchctl disable user agent",
+   "lang": "en"
+  },
+  {
+   "text": "stop background program from starting on mac",
+   "lang": "en"
+  },
+  {
+   "text": "отключить launch agent автозапуск mac",
+   "lang": "ru"
+  },
+  {
+   "text": "запретить автозапуск агента launchd на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "программа сама запускается при входе в mac как отключить",
+   "lang": "ru"
+  },
+  {
+   "text": "launchctl disable что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать фоновую программу из автозагрузки mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the label of the agent (see the first two steps)",
+  "Do not disable agents from Apple (labels starting with com.apple.)"
+ ],
+ "steps": [
+  {
+   "explain": "Lists the launch agent files that start for your user account. Each file is named like a label followed by .plist. The label is usually the file name without .plist.",
+   "cmd": "ls ~/Library/LaunchAgents",
+   "risk": "low",
+   "expect": "A list of file names ending in .plist, for example com.example.myagent.plist. The list can be empty if no agents are installed for your user."
+  },
+  {
+   "explain": "Shows which services are already disabled in your login session. Read-only, nothing is changed. Look for your agent's label in the list.",
+   "cmd": "launchctl print-disabled gui/<USER_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USER_ID",
+     "description": "Your numeric user id. The number is printed by the id -u command.",
+     "example": "501",
+     "discover_cmd": "id -u"
+    }
+   ],
+   "expect": "A list of service labels in quotes, each marked as enabled or disabled. Your agent's label is shown there once it has been disabled."
+  },
+  {
+   "explain": "Disables the agent for your login session, so it no longer starts at login. The change stays after a restart. It does not stop an agent that is already running right now.",
+   "cmd": "launchctl disable gui/<USER_ID>/<AGENT_LABEL>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USER_ID",
+     "description": "Your numeric user id. The number is printed by the id -u command.",
+     "example": "501",
+     "discover_cmd": "id -u"
+    },
+    {
+     "name": "AGENT_LABEL",
+     "description": "The label of the launch agent, usually its plist file name without .plist. Use the exact spelling.",
+     "example": "com.example.myagent",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ],
+   "expect": "Usually prints nothing when it works. Check with the next command."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "launchctl print-disabled \"gui/$(id -u)\"",
+   "expect": "Your agent's label is listed as disabled."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Turns the agent back on so it starts at login again. Use the same user id and label as in the disable step.",
+   "cmd": "launchctl enable gui/<USER_ID>/<AGENT_LABEL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USER_ID",
+     "description": "Your numeric user id. The number is printed by the id -u command.",
+     "example": "501",
+     "discover_cmd": "id -u"
+    },
+    {
+     "name": "AGENT_LABEL",
+     "description": "The label of the launch agent that was disabled.",
+     "example": "com.example.myagent",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ],
+   "expect": "Usually prints nothing when it works. The agent starts at the next login."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Disabling an agent does not stop it while it is running now. It only stops the agent from starting at the next login.",
+  "Some apps need their agent for sync, updates, VPN, backup or printing. Disabling it can break those features.",
+  "Check the label carefully. Do not disable com.apple.* agents or agents you do not recognise.",
+  "Do not run this command with sudo. Your own agents belong to your user account."
+ ],
+ "source": {
+  "url": "x-man-page://launchctl",
+  "title": "launchctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

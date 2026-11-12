@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "linux-package-manager-detect",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find out which package manager this Linux system uses",
+ "summary": "Linux installs software with a package manager: apt, dnf, pacman or zypper. This shows which one is installed here, so you use the matching install commands.",
+ "aliases": [
+  {
+   "text": "which package manager linux",
+   "lang": "en"
+  },
+  {
+   "text": "what package manager do i have",
+   "lang": "en"
+  },
+  {
+   "text": "is it apt or dnf",
+   "lang": "en"
+  },
+  {
+   "text": "how to check apt or dnf on linux",
+   "lang": "en"
+  },
+  {
+   "text": "check if linux uses apt or pacman",
+   "lang": "en"
+  },
+  {
+   "text": "what package manager does my distro use",
+   "lang": "en"
+  },
+  {
+   "text": "linux installer apt dnf pacman zypper",
+   "lang": "en"
+  },
+  {
+   "text": "какой менеджер пакетов в линуксе",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать какой менеджер пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "apt или dnf что у меня",
+   "lang": "ru"
+  },
+  {
+   "text": "какой пакетный менеджер установлен в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить менеджер пакетов linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какой apt или pacman у меня",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window open on the Linux system"
+ ],
+ "steps": [
+  {
+   "explain": "Lists the package manager programs that are installed. Normally exactly one path is printed; that manager installs software here. Nothing printed means another manager (for example apk or xbps) is used.",
+   "cmd": "command -v apt dnf pacman zypper",
+   "risk": "low",
+   "needs_root": false,
+   "expect": "One path, e.g. /usr/bin/apt on Ubuntu, Debian or Mint; /usr/sbin/dnf on Fedora; /usr/sbin/pacman on Arch; /usr/bin/zypper on openSUSE."
+  },
+  {
+   "explain": "Shows the distribution name and version. Use it together with the manager from the previous step to pick the right install commands for your system.",
+   "cmd": "cat /etc/os-release",
+   "risk": "low",
+   "needs_root": false,
+   "expect": "Lines such as PRETTY_NAME=\"Ubuntu 24.04.5 LTS\" and VERSION_ID=\"24.04\"."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

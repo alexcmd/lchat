@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-locale-details",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show detailed information about available locales",
+ "summary": "Display a list of all available locales along with their associated metadata, such as character sets and language names.",
+ "aliases": [
+  {
+   "text": "locale verbose",
+   "lang": "en"
+  },
+  {
+   "text": "show locale metadata",
+   "lang": "en"
+  },
+  {
+   "text": "detailed locale list",
+   "lang": "en"
+  },
+  {
+   "text": "locale info",
+   "lang": "en"
+  },
+  {
+   "text": "подробная информация о локалях",
+   "lang": "ru"
+  },
+  {
+   "text": "метаданные локалей",
+   "lang": "ru"
+  },
+  {
+   "text": "локали с описанием",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Combine the all-locales and verbose flags to list all locales and include extra metadata for each one.",
+   "cmd": "locale --all-locales --verbose",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Use the short flags -a and -v.",
+     "cmd": "locale -a -v",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/locale.md",
+  "title": "tldr-pages: locale",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-locales"
+ ]
+}

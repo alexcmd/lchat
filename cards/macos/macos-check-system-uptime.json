@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-system-uptime",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check how long the Mac has been running",
+ "summary": "See the current time, how long your Mac has been on, and how many users are logged in.",
+ "aliases": [
+  {
+   "text": "check system uptime",
+   "lang": "en"
+  },
+  {
+   "text": "how long has my mac been on",
+   "lang": "en"
+  },
+  {
+   "text": "mac uptime command",
+   "lang": "en"
+  },
+  {
+   "text": "check how long computer running",
+   "lang": "en"
+  },
+  {
+   "text": "uptime mac",
+   "lang": "en"
+  },
+  {
+   "text": "сколько работает мак",
+   "lang": "ru"
+  },
+  {
+   "text": "время работы системы мак",
+   "lang": "ru"
+  },
+  {
+   "text": "аптайм мак",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать сколько работает компьютер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the uptime command to display the current time, total uptime, and number of logged-in users.",
+   "cmd": "uptime",
+   "risk": "low",
+   "expect": "Output showing current time, uptime duration, and user count."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/uptime.md",
+  "title": "tldr-pages: uptime",
+  "license": "CC-BY-4.0"
+ }
+}

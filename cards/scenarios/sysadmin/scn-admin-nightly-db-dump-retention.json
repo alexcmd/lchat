@@ -1,0 +1,231 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-nightly-db-dump-retention",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Dump a database to a dated file and delete dumps older than N days",
+  "summary": "A script saves a consistent copy of an SQLite file or a PostgreSQL database into a folder, names it with the date, and removes copies older than the set number of days. Run it every night from a timer.",
+  "aliases": [
+    {
+      "text": "database backup script retention",
+      "lang": "en"
+    },
+    {
+      "text": "sqlite backup linux script",
+      "lang": "en"
+    },
+    {
+      "text": "postgres dump nightly delete old",
+      "lang": "en"
+    },
+    {
+      "text": "pg_dump scheduled backup",
+      "lang": "en"
+    },
+    {
+      "text": "keep last 14 days db backups",
+      "lang": "en"
+    },
+    {
+      "text": "delete old database dumps",
+      "lang": "en"
+    },
+    {
+      "text": "sqlite .backup dated copy",
+      "lang": "en"
+    },
+    {
+      "text": "database nightly backup linux",
+      "lang": "en"
+    },
+    {
+      "text": "ночной бэкап базы данных linux",
+      "lang": "ru"
+    },
+    {
+      "text": "бэкап sqlite скриптом",
+      "lang": "ru"
+    },
+    {
+      "text": "pg_dump по расписанию",
+      "lang": "ru"
+    },
+    {
+      "text": "удалять старые дампы базы",
+      "lang": "ru"
+    },
+    {
+      "text": "хранить бэкапы базы 14 дней",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "sqlite3",
+      "find"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script from the script section as ~/bin/dump-db.sh, then make it executable.",
+      "risk": "low",
+      "cmd": "chmod +x <SCRIPT_PATH>",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved dump-db.sh",
+          "example": "/home/deck/bin/dump-db.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check that the file is a SQLite database. The list of table names prints; a 'file is not a database' error means it is not.",
+      "risk": "low",
+      "cmd": "sqlite3 <DB_FILE> '.tables'",
+      "expect": "A list of table names, or nothing for an empty database.",
+      "placeholders": [
+        {
+          "name": "DB_FILE",
+          "description": "SQLite database file",
+          "example": "/home/deck/app/data/app.db"
+        }
+      ]
+    },
+    {
+      "explain": "Make a dated copy of the SQLite database and delete older copies in the same folder. The copy uses the SQLite backup command, which is safe while the program is using the database.",
+      "risk": "medium",
+      "cmd": "<SCRIPT_PATH> sqlite <DB_FILE> <BACKUP_DIR> <KEEP_DAYS>",
+      "expect": "'wrote /home/deck/db-backups/app-<date_time>.db' and then the files deleted as too old, if any.",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved dump-db.sh",
+          "example": "/home/deck/bin/dump-db.sh"
+        },
+        {
+          "name": "DB_FILE",
+          "description": "SQLite database file",
+          "example": "/home/deck/app/data/app.db"
+        },
+        {
+          "name": "BACKUP_DIR",
+          "description": "Folder that holds only these dumps",
+          "example": "/home/deck/db-backups"
+        },
+        {
+          "name": "KEEP_DAYS",
+          "description": "Delete dumps older than this many days",
+          "example": "14"
+        }
+      ]
+    },
+    {
+      "explain": "Check the new copy. The result 'ok' means the copy is complete. Use the file name printed in step 3.",
+      "risk": "low",
+      "cmd": "sqlite3 <BACKUP_FILE> 'pragma integrity_check;'",
+      "expect": "ok",
+      "placeholders": [
+        {
+          "name": "BACKUP_FILE",
+          "description": "The dump file printed in step 3",
+          "example": "/home/deck/db-backups/app-2026-11-12_030000.db"
+        }
+      ]
+    },
+    {
+      "explain": "For PostgreSQL databases use the same script with the pg mode. It runs pg_dump in custom format. Logins come from the environment or from ~/.pgpass, never from the script.",
+      "risk": "medium",
+      "cmd": "<SCRIPT_PATH> pg <DB_NAME> <BACKUP_DIR> <KEEP_DAYS>",
+      "expect": "'wrote .../<DB_NAME>-<date_time>.dump'.",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved dump-db.sh",
+          "example": "/home/deck/bin/dump-db.sh"
+        },
+        {
+          "name": "DB_NAME",
+          "description": "PostgreSQL database name",
+          "example": "shop"
+        },
+        {
+          "name": "BACKUP_DIR",
+          "description": "Folder that holds only these dumps",
+          "example": "/home/deck/db-backups"
+        },
+        {
+          "name": "KEEP_DAYS",
+          "description": "Delete dumps older than this many days",
+          "example": "14"
+        }
+      ]
+    },
+    {
+      "explain": "Check a PostgreSQL dump by listing its table of contents. It needs the pg_restore command, which comes with PostgreSQL client tools.",
+      "risk": "low",
+      "cmd": "pg_restore --list <DUMP_FILE> | head -n 5",
+      "expect": "Lines with a header and table or data entries.",
+      "placeholders": [
+        {
+          "name": "DUMP_FILE",
+          "description": "The .dump file to check",
+          "example": "/home/deck/db-backups/shop-2026-11-12_030000.dump"
+        }
+      ]
+    },
+    {
+      "explain": "Run the script every night with the nightly timer card, passing the same arguments each time.",
+      "risk": "low"
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "SQLite restore: stop the program that uses the database first, copy the chosen dump over the database file, then start the program again.",
+      "risk": "medium",
+      "cmd": "cp <BACKUP_FILE> <DB_FILE>",
+      "placeholders": [
+        {
+          "name": "BACKUP_FILE",
+          "description": "The dump file to restore",
+          "example": "/home/deck/db-backups/app-2026-11-12_030000.db"
+        },
+        {
+          "name": "DB_FILE",
+          "description": "SQLite database file",
+          "example": "/home/deck/app/data/app.db"
+        }
+      ]
+    },
+    {
+      "explain": "PostgreSQL restore: restore the dump into a new, empty database with pg_restore and switch the program over, instead of overwriting the live database.",
+      "risk": "medium"
+    }
+  ],
+  "warnings": [
+    "Retention deletes every file in BACKUP_DIR whose name starts with the database name and is older than KEEP_DAYS. Use a folder that holds only these dumps.",
+    "Do not copy a live SQLite file with cp to make a backup; the script uses the SQLite backup command, which gives a consistent copy.",
+    "A dump on the same disk does not protect against disk failure. Copy the dumps to another machine as well.",
+    "Keep PostgreSQL passwords in ~/.pgpass with mode 600, not inside the script."
+  ],
+  "see_also": [
+    "scn-admin-nightly-user-timer-backup"
+  ],
+  "script": {
+    "filename": "dump-db.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\nset -euo pipefail\n# Make a dated, consistent copy of a database and delete old copies.\n# sqlite: uses the .backup command, safe while the database is in use.\n# postgres: uses pg_dump in custom format, reads connection settings from the environment or ~/.pgpass.\n# Usage: dump-db.sh sqlite DB_FILE BACKUP_DIR [KEEP_DAYS]\n#        dump-db.sh pg DB_NAME BACKUP_DIR [KEEP_DAYS]\nKIND=\"${1:?usage: $0 sqlite|pg NAME BACKUP_DIR [KEEP_DAYS]}\"\nNAME=\"${2:?missing database name or file}\"\nDIR=\"${3:?missing backup directory}\"\nDAYS=\"${4:-14}\"\nmkdir -p \"$DIR\"\nSTAMP=\"$(date +%Y-%m-%d_%H%M%S)\"\ncase \"$KIND\" in\n  sqlite)\n    [[ -f \"$NAME\" ]] || { echo \"no such database file: $NAME\" >&2; exit 1; }\n    LABEL=\"$(basename \"$NAME\" .db)\"\n    OUT=\"$DIR/$LABEL-$STAMP.db\"\n    sqlite3 \"$NAME\" \".backup '$OUT'\"\n    ;;\n  pg)\n    LABEL=\"$NAME\"\n    OUT=\"$DIR/$LABEL-$STAMP.dump\"\n    pg_dump -Fc -f \"$OUT\" \"$NAME\"\n    ;;\n  *) echo \"first argument must be sqlite or pg\" >&2; exit 1 ;;\nesac\necho \"wrote $OUT\"\necho \"files older than $DAYS days (deleted):\"\nfind \"$DIR\" -maxdepth 1 -type f -name \"$LABEL-*\" -mtime +\"$DAYS\" -print -delete\n",
+    "usage": "dump-db.sh sqlite DB_FILE BACKUP_DIR [KEEP_DAYS] | dump-db.sh pg DB_NAME BACKUP_DIR [KEEP_DAYS]"
+  },
+  "source": {
+    "url": "https://sqlite.org/cli.html",
+    "title": "SQLite Command Line Shell",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

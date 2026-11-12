@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-create-temp-file-custom-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create a temporary file with a custom prefix",
+ "summary": "Create a temporary file that starts with a specific name you choose, followed by random characters. This helps identify the file's purpose.",
+ "aliases": [
+  {
+   "text": "temp file with prefix",
+   "lang": "en"
+  },
+  {
+   "text": "mktemp custom name",
+   "lang": "en"
+  },
+  {
+   "text": "temporary file named",
+   "lang": "en"
+  },
+  {
+   "text": "mktemp -t",
+   "lang": "en"
+  },
+  {
+   "text": "временный файл с именем",
+   "lang": "ru"
+  },
+  {
+   "text": "mktemp префикс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -t flag followed by your desired prefix. mktemp will create a file starting with this prefix and append random characters to ensure uniqueness.",
+   "cmd": "mktemp -t <PREFIX>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PREFIX",
+     "description": "The starting name for the temporary file",
+     "example": "mytest"
+    }
+   ],
+   "expect": "The absolute path to the new temporary file, e.g., /var/folders/.../mytest.XXXXXXXX"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mktemp.md",
+  "title": "tldr-pages: mktemp",
+  "license": "CC-BY-4.0"
+ }
+}

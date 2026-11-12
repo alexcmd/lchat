@@ -1,0 +1,150 @@
+{
+ "schema_version": 2,
+ "id": "linux-slow-check-cpu-temperature-throttling",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check CPU temperature and clock speed to see if heat slows the laptop",
+ "summary": "Read the processor's temperature sensors and its current clock speed. A CPU that is very hot runs slower on purpose (throttling), so a laptop that feels slow when it is hot may be affected by heat.",
+ "aliases": [
+  {
+   "text": "laptop slow because of heat",
+   "lang": "en"
+  },
+  {
+   "text": "cpu temperature linux",
+   "lang": "en"
+  },
+  {
+   "text": "is my cpu overheating linux",
+   "lang": "en"
+  },
+  {
+   "text": "cpu throttling check linux",
+   "lang": "en"
+  },
+  {
+   "text": "check cpu clock speed linux",
+   "lang": "en"
+  },
+  {
+   "text": "laptop hot and slow ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "cpu thermal throttling",
+   "lang": "en"
+  },
+  {
+   "text": "ноутбук тормозит от перегрева",
+   "lang": "ru"
+  },
+  {
+   "text": "процессор перегревается линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "троттлинг процессора linux",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить частоту процессора linux",
+   "lang": "ru"
+  },
+  {
+   "text": "греется и тормозит ноутбук ubuntu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window (GNOME Terminal, Konsole, or similar)",
+  "Administrator (sudo) rights, only for the install step"
+ ],
+ "steps": [
+  {
+   "explain": "Show the temperature of every sensor chip. Look for 'Package id 0' (Intel), 'Tctl' or 'Tdie' (AMD) and 'Core' lines, in degrees Celsius. If it says 'command not found', do the next step. Only on older hardware, if it says 'No sensors found!', run sudo sensors-detect once.",
+   "cmd": "sensors",
+   "risk": "low",
+   "expect": "Lines like 'Package id 0: +52.0°C' per CPU chip. Without sensor drivers (VMs, containers) it prints 'No sensors found!'. Near 100°C means the CPU is at its heat limit.",
+   "alternatives": [
+    {
+     "explain": "Refresh the readings every 2 seconds while you use or load the laptop. Press Ctrl+C to stop.",
+     "cmd": "watch -n 2 sensors",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Only if the previous step printed 'sensors: command not found': install the lm-sensors package, then run the previous step again.",
+   "cmd": "sudo apt install -y lm-sensors",
+   "needs_root": true,
+   "risk": "medium",
+   "variants": {
+    "fedora": "sudo dnf install -y lm_sensors",
+    "arch": "sudo pacman -S --noconfirm lm_sensors"
+   },
+   "expect": "The install finishes without errors; 'sensors' now runs."
+  },
+  {
+   "explain": "List the name of each thermal zone in the same order as the temperature values below. A name such as 'x86_pkg_temp' is the Intel CPU package; other names (acpitz, iwlwifi) are not the processor.",
+   "cmd": "cat /sys/class/thermal/thermal_zone*/type",
+   "risk": "low",
+   "expect": "One name per line, for example x86_pkg_temp, acpitz. If there are no thermal zones, you get 'No such file or directory' and should rely on the sensors step."
+  },
+  {
+   "explain": "Print the raw temperature of each thermal zone. The number is in thousandths of a degree Celsius, so 45000 means 45°C.",
+   "cmd": "cat /sys/class/thermal/thermal_zone*/temp",
+   "risk": "low",
+   "expect": "One number per zone, such as 45000. The order matches the names from the previous step."
+  },
+  {
+   "explain": "Show the current clock speed of each CPU core in MHz. Run it while the laptop is busy (for example during a long task) and compare with the rated speed in the CPU's specification: if it stays far below that while the CPU is hot, heat is slowing it down.",
+   "cmd": "grep MHz /proc/cpuinfo",
+   "risk": "low",
+   "expect": "One line per core, like 'cpu MHz : 2400.000'. Idle cores show low values; under load and heat the numbers drop."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove lm-sensors again if you installed it only for this check.",
+   "cmd": "sudo apt remove -y lm-sensors",
+   "needs_root": true,
+   "risk": "medium",
+   "variants": {
+    "fedora": "sudo dnf remove -y lm_sensors",
+    "arch": "sudo pacman -Rs --noconfirm lm_sensors"
+   }
+  }
+ ],
+ "warnings": [
+  "The install step uses sudo and changes installed software; the rollback removes lm-sensors again.",
+  "sensors-detect is only needed on older hardware. It asks many questions; most modern laptops show their sensors without it.",
+  "Temperature and speed readings are only a hint: a hot CPU can also be slow because of a busy program. Check with a task monitor before drawing conclusions.",
+  "On ARM computers (for example Raspberry Pi) the 'MHz' grep may print nothing; use the thermal zone steps instead."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/sensors",
+  "title": "sensors manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

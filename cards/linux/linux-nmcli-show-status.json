@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-show-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show NetworkManager general status",
+ "summary": "Check the overall state of NetworkManager, including whether it is running and if networking is enabled.",
+ "aliases": [
+  {
+   "text": "check networkmanager status",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli general status",
+   "lang": "en"
+  },
+  {
+   "text": "is networkmanager running",
+   "lang": "en"
+  },
+  {
+   "text": "network manager state",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус networkmanager",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli general",
+   "lang": "ru"
+  },
+  {
+   "text": "состояние сетевых настроек",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the general status of NetworkManager, showing connectivity state and whether networking is enabled.",
+   "cmd": "nmcli general",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-general.md",
+  "title": "tldr-pages: nmcli-general",
+  "license": "CC-BY-4.0"
+ }
+}

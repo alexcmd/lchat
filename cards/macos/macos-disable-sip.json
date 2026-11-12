@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "macos-disable-sip",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Disable System Integrity Protection",
+ "summary": "System Integrity Protection (SIP) protects system files from modification. Disabling it is a high-risk action usually required only for specific advanced troubleshooting or development tasks, and must be done from Recovery Mode.",
+ "aliases": [
+  {
+   "text": "disable sip",
+   "lang": "en"
+  },
+  {
+   "text": "turn off system integrity protection",
+   "lang": "en"
+  },
+  {
+   "text": "csrutil disable",
+   "lang": "en"
+  },
+  {
+   "text": "отключить sip",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить защиту целостности системы",
+   "lang": "ru"
+  },
+  {
+   "text": "csrutil disable",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Boot into macOS Recovery Mode (Command+R on Intel, hold Power on Apple Silicon)"
+ ],
+ "steps": [
+  {
+   "explain": "Run the command to disable System Integrity Protection. This command typically requires execution from Recovery Mode.",
+   "cmd": "csrutil disable",
+   "risk": "high",
+   "expect": "Confirmation that SIP has been disabled."
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Disabling SIP reduces system security and stability.",
+  "Only disable SIP if you know exactly why you need to.",
+  "Re-enable SIP immediately after completing your task."
+ ],
+ "rollback": [
+  {
+   "explain": "Run the command to re-enable System Integrity Protection.",
+   "cmd": "csrutil enable",
+   "risk": "medium",
+   "expect": "Confirmation that SIP has been enabled."
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/csrutil.md",
+  "title": "tldr-pages: csrutil",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "file-change-ownership",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change file or directory owner",
+ "summary": "Use chown to change the owner of a file or directory. This is often necessary when files are created by root but need to be accessed by a regular user.",
+ "aliases": [
+  {
+   "text": "change file owner linux",
+   "lang": "en"
+  },
+  {
+   "text": "chown command",
+   "lang": "en"
+  },
+  {
+   "text": "make file owned by user",
+   "lang": "en"
+  },
+  {
+   "text": "fix permission denied root",
+   "lang": "en"
+  },
+  {
+   "text": "изменить владельца файла",
+   "lang": "ru"
+  },
+  {
+   "text": "chown как использовать",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить владельца папки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the owner of a file or directory to a specific user. Requires root privileges.",
+   "cmd": "sudo chown <USERNAME> <PATH>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username of the new owner.",
+     "example": "archie"
+    },
+    {
+     "name": "PATH",
+     "description": "Path to the file or directory.",
+     "example": "/media/Backup"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Change ownership back to the original owner (often root).",
+   "cmd": "sudo chown <ORIGINAL_OWNER> <PATH>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ORIGINAL_OWNER",
+     "description": "The original owner of the file (e.g., root).",
+     "example": "root"
+    },
+    {
+     "name": "PATH",
+     "description": "Path to the file or directory.",
+     "example": "/media/Backup"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "chown clears setuid and setgid bits.",
+  "Non-root users cannot give away files they own to other users."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/File_permissions_and_attributes#Changing_ownership",
+  "title": "File permissions and attributes",
+  "revision_id": 885848,
+  "license": "GFDL-1.3-or-later"
+ }
+}

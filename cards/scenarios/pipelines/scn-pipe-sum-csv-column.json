@@ -1,0 +1,116 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-sum-csv-column",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Add up the numbers in one column of a CSV file",
+ "summary": "Read a comma-separated file, skip the header line, add up the values of one column, and print the total. Handy for quick totals from an export without a spreadsheet.",
+ "aliases": [
+  {
+   "text": "sum a column in csv linux",
+   "lang": "en"
+  },
+  {
+   "text": "add up numbers in csv column command line",
+   "lang": "en"
+  },
+  {
+   "text": "total of csv column awk",
+   "lang": "en"
+  },
+  {
+   "text": "cut column from csv file",
+   "lang": "en"
+  },
+  {
+   "text": "sum values in second column of text file",
+   "lang": "en"
+  },
+  {
+   "text": "calculate total from csv in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "сложить числа в колонке csv",
+   "lang": "ru"
+  },
+  {
+   "text": "сумма столбца в csv linux",
+   "lang": "ru"
+  },
+  {
+   "text": "посчитать итог из csv в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "вырезать колонку из csv файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Look at the first lines to find the column number of the amount. Columns are numbered from 1.",
+   "cmd": "head -n 3 <CSV_FILE>",
+   "risk": "low",
+   "expect": "Comma-separated rows. The first row is usually the header with column names.",
+   "placeholders": [
+    {
+     "name": "CSV_FILE",
+     "description": "The comma-separated file",
+     "example": "sales.csv"
+    }
+   ]
+  },
+  {
+   "explain": "Add up one column. -F, makes awk split each line at commas. NR > 1 skips the header row. The END block prints the sum once all lines are read. Quoted values containing commas are not handled.",
+   "cmd": "awk -F, 'NR > 1 { sum += $<COL> } END { print sum }' <CSV_FILE>",
+   "risk": "low",
+   "expect": "A single number such as 4216.5, printed on one line.",
+   "placeholders": [
+    {
+     "name": "COL",
+     "description": "Column number holding the amounts, counted from 1",
+     "example": "3"
+    },
+    {
+     "name": "CSV_FILE",
+     "description": "The comma-separated file",
+     "example": "sales.csv"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show only that column, without adding it up. cut -d, splits at commas and -f picks the field.",
+     "cmd": "cut -d, -f<COL> <CSV_FILE> | head -n 5",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COL",
+       "description": "Column number, counted from 1",
+       "example": "3"
+      },
+      {
+       "name": "CSV_FILE",
+       "description": "The comma-separated file",
+       "example": "sales.csv"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://www.gnu.org/software/gawk/manual/gawk.html",
+  "title": "GNU Awk User's Guide",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

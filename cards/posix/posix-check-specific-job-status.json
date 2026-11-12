@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-specific-job-status",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check status of a specific background job",
+ "summary": "Check the status of a single background job by its job number. Use this when you want to verify if a specific task is still running, stopped, or finished.",
+ "aliases": [
+  {
+   "text": "check job status",
+   "lang": "en"
+  },
+  {
+   "text": "status of job 1",
+   "lang": "en"
+  },
+  {
+   "text": "is my job still running",
+   "lang": "en"
+  },
+  {
+   "text": "jobs percent sign",
+   "lang": "en"
+  },
+  {
+   "text": "status zadaniya",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit status zadaniya",
+   "lang": "ru"
+  },
+  {
+   "text": "kakoy status u zadaniya",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the jobs command followed by the job number (prefixed with %) to see its status.",
+   "cmd": "jobs %<JOB_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "JOB_ID",
+     "description": "The number of the job (e.g., 1, 2) as shown in the jobs list.",
+     "example": "1",
+     "discover_cmd": "jobs"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/jobs.md",
+  "title": "tldr-pages: jobs",
+  "license": "CC-BY-4.0"
+ }
+}

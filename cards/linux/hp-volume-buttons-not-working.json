@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "hp-volume-buttons-not-working",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix HP hardware volume buttons not working",
+ "summary": "If the physical volume up/down buttons on your HP laptop do not work, adding a specific kernel module parameter for intel_hid usually fixes it.",
+ "aliases": [
+  {
+   "text": "hp volume buttons not working",
+   "lang": "en"
+  },
+  {
+   "text": "fix hp media keys linux",
+   "lang": "en"
+  },
+  {
+   "text": "hp laptop volume keys broken",
+   "lang": "en"
+  },
+  {
+   "text": "intel_hid volume buttons hp",
+   "lang": "en"
+  },
+  {
+   "text": "не работают кнопки громкости hp",
+   "lang": "ru"
+  },
+  {
+   "text": "клавиши звука hp linux",
+   "lang": "ru"
+  },
+  {
+   "text": "hp media keys fix",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Intel HID driver (intel_hid) in use"
+ ],
+ "steps": [
+  {
+   "explain": "Add the kernel module parameter enable_5_button_array=1 for intel_hid. Create or edit /etc/modprobe.d/intel_hid.conf and add: options intel_hid enable_5_button_array=1",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the system to apply the module parameter.",
+   "cmd": "sudo systemctl reboot",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the options line from /etc/modprobe.d/intel_hid.conf and reboot.",
+   "cmd": "sudo systemctl reboot",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Laptop/HP#Hardware_buttons_for_volume_do_not_work",
+  "title": "Laptop/HP",
+  "revision_id": 887988,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-save-clipboard-to-file-wayland",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Save clipboard content to a file in Wayland",
+ "summary": "Use wl-paste with redirection to save the current clipboard content directly into a text file. This is handy for quickly capturing copied text without opening an editor.",
+ "aliases": [
+  {
+   "text": "save clipboard to file wayland",
+   "lang": "en"
+  },
+  {
+   "text": "wl-paste to file",
+   "lang": "en"
+  },
+  {
+   "text": "write clipboard to file linux",
+   "lang": "en"
+  },
+  {
+   "text": "сохранить буфер обмена в файл wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "wl-paste в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "записать буфер обмена в файл linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "wl-clipboard"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wl-paste and redirect the output to a file path of your choice.",
+   "cmd": "wl-paste > <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file where you want to save the clipboard content.",
+     "example": "clipboard.txt"
+    }
+   ],
+   "expect": "The command completes silently, and the specified file now contains the clipboard text."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/wl-paste.md",
+  "title": "tldr-pages: wl-paste",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-paste-clipboard-wayland"
+ ]
+}

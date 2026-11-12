@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-file-in-textmate-wait",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open a file in TextMate and wait for it to close",
+ "summary": "Use the `mate` command with the `--wait` flag to open a file in TextMate and pause the Terminal until you close the file. This is useful for scripts that need to wait for your input.",
+ "aliases": [
+  {
+   "text": "mate wait",
+   "lang": "en"
+  },
+  {
+   "text": "open file and wait terminal",
+   "lang": "en"
+  },
+  {
+   "text": "textmate wait for close",
+   "lang": "en"
+  },
+  {
+   "text": "mate -w",
+   "lang": "en"
+  },
+  {
+   "text": "открыть файл и ждать закрытия",
+   "lang": "ru"
+  },
+  {
+   "text": "mate ждать",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `mate` with the `--wait` flag and the file path. The Terminal will not proceed to the next command until you close the file in TextMate.",
+   "cmd": "mate --wait <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to edit.",
+     "example": "~/config.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mate.md",
+  "title": "tldr-pages: mate",
+  "license": "CC-BY-4.0"
+ }
+}

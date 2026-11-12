@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-uv-run-script",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a script or command with uv",
+ "summary": "Use `uv run` to execute a Python script or a command within the project's isolated environment. This ensures the correct dependencies are used.",
+ "aliases": [
+  {
+   "text": "uv run script",
+   "lang": "en"
+  },
+  {
+   "text": "run python script uv",
+   "lang": "en"
+  },
+  {
+   "text": "uv run command",
+   "lang": "en"
+  },
+  {
+   "text": "uv run",
+   "lang": "en"
+  },
+  {
+   "text": "запустить скрипт uv",
+   "lang": "ru"
+  },
+  {
+   "text": "uv запуск скрипта",
+   "lang": "ru"
+  },
+  {
+   "text": "выполнить команду uv",
+   "lang": "ru"
+  },
+  {
+   "text": "uv run",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Replace <SCRIPT_OR_COMMAND> with the path to your Python script or the command you want to run.",
+   "cmd": "uv run <SCRIPT_OR_COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT_OR_COMMAND",
+     "description": "Path to a Python script or a command to execute.",
+     "example": "main.py"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uv.md",
+  "title": "tldr-pages: uv",
+  "license": "CC-BY-4.0"
+ }
+}

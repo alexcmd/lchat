@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-filter-unit-files-by-type",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Filter systemd unit files by type",
+ "summary": "Show only unit files of a specific type, such as services, sockets, or timers. This helps you focus on a particular kind of systemd component.",
+ "aliases": [
+  {
+   "text": "list service unit files",
+   "lang": "en"
+  },
+  {
+   "text": "filter unit files by type",
+   "lang": "en"
+  },
+  {
+   "text": "show timer units",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl list services",
+   "lang": "en"
+  },
+  {
+   "text": "list socket units",
+   "lang": "en"
+  },
+  {
+   "text": "фильтр unit файлов по типу",
+   "lang": "ru"
+  },
+  {
+   "text": "список сервисов systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "показать таймеры systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl list type service",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List unit files filtered by a specific type. Common types are 'service', 'socket', and 'timer'.",
+   "cmd": "systemctl list-unit-files --type <TYPE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TYPE",
+     "description": "The unit type to filter by.",
+     "example": "service",
+     "discover_cmd": "systemctl list-unit-files"
+    }
+   ],
+   "expect": "A list of unit files of the specified type."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-unit-files.md",
+  "title": "tldr-pages: systemctl-list-unit-files",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-unit-files",
+  "linux-filter-systemd-units-by-type"
+ ]
+}

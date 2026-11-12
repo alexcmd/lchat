@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "macos-adjust-screen-brightness",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Adjust screen brightness from the terminal",
+ "summary": "Use the `brightness` command to check or change the brightness level of your Mac's displays. This is useful for scripting or when keyboard shortcuts are unavailable.",
+ "aliases": [
+  {
+   "text": "change screen brightness terminal",
+   "lang": "en"
+  },
+  {
+   "text": "set brightness mac command line",
+   "lang": "en"
+  },
+  {
+   "text": "check display brightness mac",
+   "lang": "en"
+  },
+  {
+   "text": "brightness command mac",
+   "lang": "en"
+  },
+  {
+   "text": "изменить яркость экрана терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "яркость экрана mac команда",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить яркость mac",
+   "lang": "ru"
+  },
+  {
+   "text": "brightness mac os",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The `brightness` tool must be installed (e.g., via Homebrew)."
+ ],
+ "steps": [
+  {
+   "explain": "Show the current brightness level of all connected displays.",
+   "cmd": "brightness -l",
+   "risk": "low",
+   "expect": "Output showing the current brightness value (0.0 to 1.0) for each display."
+  },
+  {
+   "explain": "Set the brightness to a specific level. The value must be between 0 (off) and 1 (maximum).",
+   "cmd": "brightness <BRIGHTNESS_LEVEL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "BRIGHTNESS_LEVEL",
+     "description": "A decimal number between 0 and 1 representing the desired brightness.",
+     "example": "0.5"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Set the brightness to exactly 50%.",
+     "cmd": "brightness 0.5",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/brightness.md",
+  "title": "tldr-pages: brightness",
+  "license": "CC-BY-4.0"
+ }
+}

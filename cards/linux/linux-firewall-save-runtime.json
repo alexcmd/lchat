@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-firewall-save-runtime",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Save runtime firewall changes",
+ "summary": "Make current temporary firewall changes permanent so they survive a reboot.",
+ "aliases": [
+  {
+   "text": "save firewall changes",
+   "lang": "en"
+  },
+  {
+   "text": "make firewall rules permanent",
+   "lang": "en"
+  },
+  {
+   "text": "firewall-cmd runtime to permanent",
+   "lang": "en"
+  },
+  {
+   "text": "persist firewall rules",
+   "lang": "en"
+  },
+  {
+   "text": "сохранить изменения firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать правила firewall постоянными",
+   "lang": "ru"
+  },
+  {
+   "text": "firewall-cmd --runtime-to-permanent",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "firewalld"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy the current runtime configuration to the permanent configuration.",
+   "cmd": "sudo firewall-cmd --runtime-to-permanent",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Revert to the previous permanent configuration by reloading firewalld (if you haven't saved yet, this discards runtime changes). If already saved, you must manually undo changes.",
+   "cmd": "sudo firewall-cmd --reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "This overwrites the permanent configuration with the current runtime state.",
+  "Ensure your current runtime rules are correct before saving."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/firewall-cmd.md",
+  "title": "tldr-pages: firewall-cmd",
+  "license": "CC-BY-4.0"
+ }
+}

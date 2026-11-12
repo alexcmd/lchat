@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-firewall-check-zones",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check firewall zones and rules",
+ "summary": "View the current firewall configuration to see which zones are active and what rules apply to your network interfaces.",
+ "aliases": [
+  {
+   "text": "check firewall zones",
+   "lang": "en"
+  },
+  {
+   "text": "list firewall rules",
+   "lang": "en"
+  },
+  {
+   "text": "firewall-cmd list all zones",
+   "lang": "en"
+  },
+  {
+   "text": "check firewalld status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить зоны firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "список правил firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "firewall-cmd --list-all-zones",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "firewalld"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all available firewall zones and their current rules in the runtime configuration.",
+   "cmd": "firewall-cmd --list-all-zones",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/firewall-cmd.md",
+  "title": "tldr-pages: firewall-cmd",
+  "license": "CC-BY-4.0"
+ }
+}

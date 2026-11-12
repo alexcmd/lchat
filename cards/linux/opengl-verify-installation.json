@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "opengl-verify-installation",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Verify OpenGL installation and driver",
+ "summary": "Check which OpenGL driver and version are currently active on your system using eglinfo or glxinfo. This confirms that your graphics drivers are correctly installed and functioning.",
+ "aliases": [
+  {
+   "text": "check opengl version",
+   "lang": "en"
+  },
+  {
+   "text": "eglinfo arch",
+   "lang": "en"
+  },
+  {
+   "text": "glxinfo check",
+   "lang": "en"
+  },
+  {
+   "text": "check gpu driver linux",
+   "lang": "en"
+  },
+  {
+   "text": "проверить opengl",
+   "lang": "ru"
+  },
+  {
+   "text": "eglinfo вывод",
+   "lang": "ru"
+  },
+  {
+   "text": "какой драйвер видеокарты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "OpenGL drivers installed",
+  "mesa-utils package installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run eglinfo to display the EGL and OpenGL API versions and the active renderer. This works on both X11 and Wayland.",
+   "cmd": "eglinfo -B",
+   "risk": "low",
+   "expect": "Output showing 'OpenGL core profile renderer' and version details.",
+   "alternatives": [
+    {
+     "explain": "On X11 systems, you can also use glxinfo to check OpenGL details.",
+     "cmd": "glxinfo",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/OpenGL#Verification",
+  "title": "OpenGL",
+  "revision_id": 883127,
+  "license": "GFDL-1.3-or-later"
+ }
+}

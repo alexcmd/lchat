@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-search-clipboard-content",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Search for text within clipboard contents",
+ "summary": "This command pipes the clipboard content into a search tool (like `grep`) to find specific text. It helps you quickly locate a word or phrase inside a large block of copied text without pasting it into an editor first.",
+ "aliases": [
+  {
+   "text": "search clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "find text in clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "grep clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "найти текст в буфере обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск в буфере обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "grep буфер обмена",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Sends the clipboard content to `grep` to filter lines containing the search string. Replace `grep search_string` with your desired command and arguments.",
+   "cmd": "pbpaste | grep <SEARCH_STRING>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_STRING",
+     "description": "The text or pattern you want to find in the clipboard.",
+     "example": "error"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pbpaste.md",
+  "title": "tldr-pages: pbpaste",
+  "license": "CC-BY-4.0"
+ }
+}

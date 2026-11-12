@@ -1,0 +1,132 @@
+{
+ "schema_version": 2,
+ "id": "xrandr-set-fixed-resolutions",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set fixed resolutions for multiple monitors",
+ "summary": "Configure multiple monitors with specific resolutions and positions using xrandr. Useful if auto-detection fails or you need precise control.",
+ "aliases": [
+  {
+   "text": "xrandr set resolution",
+   "lang": "en"
+  },
+  {
+   "text": "force monitor resolution linux",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr mode 1920x1080",
+   "lang": "en"
+  },
+  {
+   "text": "задать разрешение монитора",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr фиксированное разрешение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xrandr"
+  ]
+ },
+ "prerequisites": [
+  "You know the output names and desired resolutions for each monitor."
+ ],
+ "steps": [
+  {
+   "explain": "Set specific modes and positions for each monitor. This example puts VGA1 at 1024x768 and HDMI1 at 1920x1080, with HDMI1 to the left of VGA1.",
+   "cmd": "xrandr --output <MON1> --mode <RES1> --output <MON2> --mode <RES2> --left-of <MON1>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MON1",
+     "description": "Name of the first monitor",
+     "example": "HDMI-1",
+     "discover_cmd": "xrandr -q"
+    },
+    {
+     "name": "RES1",
+     "description": "Resolution for the first monitor",
+     "example": "1024x768"
+    },
+    {
+     "name": "MON2",
+     "description": "Name of the second monitor",
+     "example": "DP-1",
+     "discover_cmd": "xrandr -q"
+    },
+    {
+     "name": "RES2",
+     "description": "Resolution for the second monitor",
+     "example": "1920x1080"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use absolute coordinates instead of relative positioning.",
+     "cmd": "xrandr --output <MON1> --mode <RES1> --pos <X1>x<Y1> --output <MON2> --mode <RES2> --pos <X2>x<Y2>",
+     "placeholders": [
+      {
+       "name": "MON1",
+       "description": "Name of the first monitor",
+       "example": "HDMI-1",
+       "discover_cmd": "xrandr -q"
+      },
+      {
+       "name": "RES1",
+       "description": "Resolution for the first monitor",
+       "example": "1024x768"
+      },
+      {
+       "name": "X1",
+       "description": "X coordinate for the first monitor",
+       "example": "1920"
+      },
+      {
+       "name": "Y1",
+       "description": "Y coordinate for the first monitor",
+       "example": "0"
+      },
+      {
+       "name": "MON2",
+       "description": "Name of the second monitor",
+       "example": "DP-1",
+       "discover_cmd": "xrandr -q"
+      },
+      {
+       "name": "RES2",
+       "description": "Resolution for the second monitor",
+       "example": "1920x1080"
+      },
+      {
+       "name": "X2",
+       "description": "X coordinate for the second monitor",
+       "example": "0"
+      },
+      {
+       "name": "Y2",
+       "description": "Y coordinate for the second monitor",
+       "example": "0"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Multihead#VGA1_right_of_HDMI1_at_fixed_resolutions",
+  "title": "Multihead",
+  "revision_id": 888512,
+  "license": "GFDL-1.3-or-later"
+ }
+}

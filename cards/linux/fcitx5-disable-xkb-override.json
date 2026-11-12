@@ -1,0 +1,52 @@
+{
+ "schema_version": 2,
+ "id": "fcitx5-disable-xkb-override",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable Fcitx5 overriding XKB settings",
+ "summary": "Prevent Fcitx5 from overriding your system keyboard layout settings (XKB). Useful if you want to manage keyboard layouts via setxkbmap or your desktop environment instead.",
+ "aliases": [
+  {
+   "text": "fcitx5 xkb override",
+   "lang": "en"
+  },
+  {
+   "text": "stop fcitx5 changing keyboard layout",
+   "lang": "en"
+  },
+  {
+   "text": "fcitx5 setxkbmap conflict",
+   "lang": "en"
+  },
+  {
+   "text": "отключить переопределение xkb fcitx5",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the Fcitx5 configuration tool.",
+   "cmd": "fcitx5-configtool",
+   "risk": "low"
+  },
+  {
+   "explain": "Navigate to Addons > XCB and uncheck 'Allow Overriding System XKB Settings'.",
+   "gui": "In Fcitx5 Configuration: Go to 'Addons', select 'XCB', and uncheck 'Allow Overriding System XKB Settings'.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Fcitx5#Disable_overriding_XKB_settings",
+  "title": "Fcitx5",
+  "revision_id": 875713,
+  "license": "GFDL-1.3-or-later"
+ }
+}

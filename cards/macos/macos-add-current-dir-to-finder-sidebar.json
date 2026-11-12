@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-add-current-dir-to-finder-sidebar",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Add current directory to Finder sidebar",
+ "summary": "Pin the folder you are currently in (in Terminal) to the Finder sidebar favorites.",
+ "aliases": [
+  {
+   "text": "add current directory to finder sidebar",
+   "lang": "en"
+  },
+  {
+   "text": "pin current folder to sidebar",
+   "lang": "en"
+  },
+  {
+   "text": "mysides add pwd",
+   "lang": "en"
+  },
+  {
+   "text": "добавить текущую папку в сайдбар",
+   "lang": "ru"
+  },
+  {
+   "text": "закрепить текущий каталог в finder",
+   "lang": "ru"
+  },
+  {
+   "text": "mysides pwd",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "mysides is installed (e.g. via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Add the current working directory to the Finder sidebar favorites, using its folder name as the label.",
+   "cmd": "mysides add $(basename $(pwd)) file:///$(pwd)",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mysides.md",
+  "title": "tldr-pages: mysides",
+  "license": "CC-BY-4.0"
+ }
+}

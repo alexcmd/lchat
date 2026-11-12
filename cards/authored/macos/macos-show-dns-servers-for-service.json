@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-dns-servers-for-service",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show the DNS servers set for Wi-Fi on macOS",
+ "summary": "Print the DNS servers that are set for one network service, such as Wi-Fi, using networksetup. You first list your services to get the exact name, then ask for that service's DNS servers.",
+ "aliases": [
+  {
+   "text": "mac dns servers for wifi",
+   "lang": "en"
+  },
+  {
+   "text": "which dns server is wifi using mac",
+   "lang": "en"
+  },
+  {
+   "text": "show dns for wi-fi mac",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup getdnsservers",
+   "lang": "en"
+  },
+  {
+   "text": "mac wifi dns address",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup dns wifi",
+   "lang": "en"
+  },
+  {
+   "text": "where to see dns for wifi on mac",
+   "lang": "en"
+  },
+  {
+   "text": "dns сервера для wi-fi на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "какой dns у вайфая на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть dns для wi-fi mac",
+   "lang": "ru"
+  },
+  {
+   "text": "днс вай фай мак",
+   "lang": "ru"
+  },
+  {
+   "text": "networksetup dns сервера",
+   "lang": "ru"
+  },
+  {
+   "text": "показать dns сервер wifi макбук",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal is open (Applications > Utilities > Terminal)"
+ ],
+ "steps": [
+  {
+   "explain": "List the network services on this Mac. Find the exact name of the service you want, for example Wi-Fi.",
+   "cmd": "networksetup -listallnetworkservices",
+   "risk": "low",
+   "expect": "A list of service names, one per line, such as Wi-Fi or Ethernet. A name with * in front is turned off."
+  },
+  {
+   "explain": "Print the DNS servers set for the service. Put the service name from the previous step in double quotes in place of <SERVICE_NAME>.",
+   "cmd": "networksetup -getdnsservers \"<SERVICE_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "Network service name exactly as the previous step printed it.",
+     "example": "Wi-Fi",
+     "discover_cmd": "networksetup -listallnetworkservices"
+    }
+   ],
+   "expect": "One IP address per line, such as 8.8.8.8. If none were set by hand, a message says no DNS servers are set, and the Mac uses the router's."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-list-network-services",
+  "macos-get-network-info",
+  "macos-view-dns-config"
+ ],
+ "source": {
+  "url": "x-man-page://networksetup",
+  "title": "networksetup manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

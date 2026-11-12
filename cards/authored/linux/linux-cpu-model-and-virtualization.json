@@ -1,0 +1,154 @@
+{
+ "schema_version": 2,
+ "id": "linux-cpu-model-and-virtualization",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show CPU model, cores and virtualization support on Linux",
+ "summary": "Shows the processor model, the number of cores and threads, and whether the CPU supports hardware virtualization (Intel VT-x or AMD-V). Hardware virtualization makes virtual machines such as KVM or VirtualBox run faster.",
+ "aliases": [
+  {
+   "text": "how to check my cpu model linux",
+   "lang": "en"
+  },
+  {
+   "text": "what processor do I have linux",
+   "lang": "en"
+  },
+  {
+   "text": "check cpu virtualization linux",
+   "lang": "en"
+  },
+  {
+   "text": "is vt-x enabled linux",
+   "lang": "en"
+  },
+  {
+   "text": "does my cpu support amd-v",
+   "lang": "en"
+  },
+  {
+   "text": "lscpu",
+   "lang": "en"
+  },
+  {
+   "text": "cpu info linux",
+   "lang": "en"
+  },
+  {
+   "text": "модель процессора linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какой у меня процессор в линуксе",
+   "lang": "ru"
+  },
+  {
+   "text": "поддерживает ли процессор виртуализацию",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить vt-x linux",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить amd-v на линуксе",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько ядер у процессора linux",
+   "lang": "ru"
+  },
+  {
+   "text": "what cpu do i have",
+   "lang": "en"
+  },
+  {
+   "text": "processor details",
+   "lang": "en"
+  },
+  {
+   "text": "какой у меня процессор",
+   "lang": "ru"
+  },
+  {
+   "text": "характеристики cpu",
+   "lang": "ru"
+  },
+  {
+   "text": "show cpu info",
+   "lang": "en"
+  },
+  {
+   "text": "check processor details",
+   "lang": "en"
+  },
+  {
+   "text": "cpu architecture",
+   "lang": "en"
+  },
+  {
+   "text": "показать информацию о процессоре",
+   "lang": "ru"
+  },
+  {
+   "text": "check cpu info",
+   "lang": "en"
+  },
+  {
+   "text": "inxi cpu",
+   "lang": "en"
+  },
+  {
+   "text": "какой процессор",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о процессоре",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Shows the processor details. Find 'Model name' (the CPU model), 'CPU(s)' (total threads), and 'Core(s) per socket'. Look at 'Virtualization': VT-x means Intel, AMD-V means AMD.",
+   "cmd": "lscpu",
+   "risk": "low",
+   "expect": "Lines like 'Model name: Intel(R) Core(TM) i7-...' and 'Virtualization: VT-x' or 'Virtualization: AMD-V'. No Virtualization line means it is not supported or is disabled in BIOS/UEFI.",
+   "alternatives": [
+    {
+     "explain": "Checks the CPU flags without lscpu. vmx is Intel VT-x, svm is AMD-V. The number is how many logical CPUs report the flag; 0 means no hardware virtualization or it is disabled in BIOS/UEFI.",
+     "cmd": "grep -c -E 'vmx|svm' /proc/cpuinfo",
+     "risk": "low",
+     "expect": "A number above 0 (one per logical CPU) on Intel or AMD processors with virtualization enabled. grep exits with status 1 when the count is 0."
+    },
+    {
+     "explain": "Run inxi with the --cpu flag to print a summary of CPU information.",
+     "cmd": "inxi --cpu",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lscpu | grep -E 'Model name|Virtualization'",
+   "expect": "A 'Model name:' line with your CPU name. A 'Virtualization:' line appears only if VT-x or AMD-V is supported and enabled."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/lscpu",
+  "title": "lscpu manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24",
+ "warnings": [
+  "On minimal Fedora systems lscpu may be missing; it is provided by the util-linux package."
+ ]
+}

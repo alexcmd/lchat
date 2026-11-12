@@ -1,0 +1,91 @@
+{
+ "schema_version": 2,
+ "id": "linux-amixer-adjust-volume",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Adjust master volume using amixer",
+ "summary": "Use the amixer command to increase or decrease the master audio volume by a specific percentage. This is useful for quick volume adjustments from the terminal.",
+ "aliases": [
+  {
+   "text": "adjust volume terminal",
+   "lang": "en"
+  },
+  {
+   "text": "change volume command line",
+   "lang": "en"
+  },
+  {
+   "text": "amixer volume",
+   "lang": "en"
+  },
+  {
+   "text": "increase volume linux terminal",
+   "lang": "en"
+  },
+  {
+   "text": "decrease volume linux terminal",
+   "lang": "en"
+  },
+  {
+   "text": "изменить громкость в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "увеличить громкость командой",
+   "lang": "ru"
+  },
+  {
+   "text": "уменьшить громкость командной строкой",
+   "lang": "ru"
+  },
+  {
+   "text": "amixer громкость",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "alsa-utils",
+   "pulseaudio"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Increase the master volume by a specified percentage (e.g., 10%).",
+   "cmd": "amixer -D pulse sset Master <PERCENTAGE>+ ",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PERCENTAGE",
+     "description": "The percentage to increase the volume by, e.g., 10",
+     "example": "10"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Decrease the master volume by a specified percentage (e.g., 10%).",
+     "cmd": "amixer -D pulse sset Master <PERCENTAGE>-",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PERCENTAGE",
+       "description": "The percentage to decrease the volume by, e.g., 10",
+       "example": "10"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/amixer.md",
+  "title": "tldr-pages: amixer",
+  "license": "CC-BY-4.0"
+ }
+}

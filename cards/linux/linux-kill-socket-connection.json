@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-kill-socket-connection",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Kill a specific socket connection",
+ "summary": "Use `ss` to terminate an active network connection to a specific IP address and port. This is useful for stopping a stuck connection.",
+ "aliases": [
+  {
+   "text": "kill network connection",
+   "lang": "en"
+  },
+  {
+   "text": "close socket",
+   "lang": "en"
+  },
+  {
+   "text": "terminate connection",
+   "lang": "en"
+  },
+  {
+   "text": "ss kill",
+   "lang": "en"
+  },
+  {
+   "text": "убить сетевое соединение",
+   "lang": "ru"
+  },
+  {
+   "text": "закрыть сокет",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить соединение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Kill the IPv4 or IPv6 socket connection to a specific destination IP and port. Replace <IP_ADDRESS> and <PORT> with the target details.",
+   "cmd": "sudo ss -K dst <IP_ADDRESS> dport = <PORT>",
+   "placeholders": [
+    {
+     "name": "IP_ADDRESS",
+     "description": "Destination IP address",
+     "example": "192.168.1.1"
+    },
+    {
+     "name": "PORT",
+     "description": "Destination port number",
+     "example": "80"
+    }
+   ],
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This command requires root privileges and will immediately terminate the specified connection."
+ ],
+ "rollback": [
+  {
+   "explain": "Re-establish the connection if needed (application-dependent).",
+   "cmd": "",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ss.md",
+  "title": "tldr-pages: ss",
+  "license": "CC-BY-4.0"
+ }
+}

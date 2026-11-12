@@ -1,0 +1,123 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-download-urls-curl-retry",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Download many files from a list of URLs with curl and retries",
+ "summary": "Reads a text file that has one web address per line and downloads each file into a folder. Temporary failures are retried a few times, and each address that still fails is reported, so you can run the list again for it.",
+ "aliases": [
+  {
+   "text": "download many urls from a list curl",
+   "lang": "en"
+  },
+  {
+   "text": "batch download files from list linux",
+   "lang": "en"
+  },
+  {
+   "text": "curl retry download list of links",
+   "lang": "en"
+  },
+  {
+   "text": "download files from a text file of urls",
+   "lang": "en"
+  },
+  {
+   "text": "wget many urls alternative curl",
+   "lang": "en"
+  },
+  {
+   "text": "download all links in a file with curl",
+   "lang": "en"
+  },
+  {
+   "text": "скачать много файлов по списку ссылок linux",
+   "lang": "ru"
+  },
+  {
+   "text": "массовая загрузка файлов curl",
+   "lang": "ru"
+  },
+  {
+   "text": "скачать файлы из списка url с повторами",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузить все ссылки из текстового файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "curl"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Dry run: print the address that each line would download. This reads the list only and downloads nothing.",
+   "risk": "low",
+   "cmd": "while IFS= read -r url; do echo \"would download: $url\"; done < \"<LIST_FILE>\"",
+   "expect": "One line per address, such as: would download: https://example.org/a.pdf",
+   "placeholders": [
+    {
+     "name": "LIST_FILE",
+     "description": "Text file with one URL per line",
+     "example": "urls.txt",
+     "discover_cmd": "ls"
+    }
+   ]
+  },
+  {
+   "explain": "Download every address into the output folder. -f treats HTTP errors as failures, --retry repeats temporary failures three times, and -O keeps the name from the URL. A failed address prints FAILED.",
+   "risk": "low",
+   "cmd": "(mkdir -p \"<OUT_DIR>\" && cd \"<OUT_DIR>\" && while IFS= read -r url; do curl -fsSL --retry 3 --retry-delay 2 -O \"$url\" || echo \"FAILED: $url\"; done) < \"<LIST_FILE>\"",
+   "expect": "No output for files that downloaded; FAILED: followed by the address for the ones that did not.",
+   "placeholders": [
+    {
+     "name": "LIST_FILE",
+     "description": "Text file with one URL per line",
+     "example": "urls.txt"
+    },
+    {
+     "name": "OUT_DIR",
+     "description": "Folder for the downloaded files; created if missing",
+     "example": "downloads"
+    }
+   ]
+  },
+  {
+   "explain": "List the downloaded files.",
+   "risk": "low",
+   "cmd": "ls -l \"<OUT_DIR>\"",
+   "expect": "One file per successful address, with its size.",
+   "placeholders": [
+    {
+     "name": "OUT_DIR",
+     "description": "Folder for the downloaded files",
+     "example": "downloads"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://curl.se/docs/manpage.html",
+  "title": "curl manual",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "prerequisites": [
+  "A text file with one web address per line",
+  "Permission to download the files"
+ ],
+ "warnings": [
+  "-O takes the file name from the URL, so two addresses that end in the same name overwrite each other.",
+  "Retries happen only for temporary errors; a 404 is reported as FAILED at once.",
+  "Only download files you are allowed to use."
+ ]
+}

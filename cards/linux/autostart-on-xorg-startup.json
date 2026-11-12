@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "autostart-on-xorg-startup",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Autostart applications on Xorg startup",
+ "summary": "To run scripts or applications when Xorg starts, add them to your xinitrc or xprofile file. Use xinitrc if you start X manually with xinit, or xprofile if you use a display manager.",
+ "aliases": [
+  {
+   "text": "autostart on xorg start",
+   "lang": "en"
+  },
+  {
+   "text": "run script when x starts",
+   "lang": "en"
+  },
+  {
+   "text": "xinitrc autostart",
+   "lang": "en"
+  },
+  {
+   "text": "xprofile autostart",
+   "lang": "en"
+  },
+  {
+   "text": "автозапуск при запуске xorg",
+   "lang": "ru"
+  },
+  {
+   "text": "скрипт при старте иксов",
+   "lang": "ru"
+  },
+  {
+   "text": "xinitrc скрипт",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "If you start Xorg manually using xinit, add your startup commands to ~/.xinitrc. If you use a display manager (like GDM or SDDM), add them to ~/.xprofile instead.",
+   "risk": "medium",
+   "gui": "Open ~/.xinitrc or ~/.xprofile in a text editor and add the command to launch your application at the end of the file."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the added lines from ~/.xinitrc or ~/.xprofile.",
+   "risk": "medium",
+   "gui": "Open the file in a text editor and delete the lines you added."
+  }
+ ],
+ "warnings": [
+  "Editing these files incorrectly can prevent your graphical session from starting. Keep a backup."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Autostarting#On_Xorg_startup",
+  "title": "Autostarting",
+  "revision_id": 882811,
+  "license": "GFDL-1.3-or-later"
+ }
+}

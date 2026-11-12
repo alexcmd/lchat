@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "wpa-supplicant-error-psk-handshake",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix wpa_supplicant 4-way handshake failure",
+ "summary": "If wpa_supplicant fails with a 4-way handshake error, the password might be passed incorrectly. Try using a configuration file instead of stdin.",
+ "aliases": [
+  {
+   "text": "wpa_supplicant failed 4-way handshake",
+   "lang": "en"
+  },
+  {
+   "text": "PSK may be wrong wpa_supplicant",
+   "lang": "en"
+  },
+  {
+   "text": "wpa_supplicant password error",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка 4-way handshake wpa_supplicant",
+   "lang": "ru"
+  },
+  {
+   "text": "неверный пароль wpa_supplicant",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "failed 4-way WPA handshake, PSK may be wrong"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "wpa_supplicant"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Generate a configuration file using wpa_passphrase and save it to a file.",
+   "cmd": "sudo wpa_passphrase <SSID> <PASSWORD> > /etc/wpa_supplicant/example.conf",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SSID",
+     "description": "Your Wi-Fi network name",
+     "example": "MyHomeWiFi"
+    },
+    {
+     "name": "PASSWORD",
+     "description": "Your Wi-Fi password",
+     "example": "secret123"
+    }
+   ]
+  },
+  {
+   "explain": "Start wpa_supplicant using the generated configuration file.",
+   "cmd": "sudo wpa_supplicant -B -i <INTERFACE> -c /etc/wpa_supplicant/example.conf",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "Your wireless interface name",
+     "example": "wlan0",
+     "discover_cmd": "ip link"
+    }
+   ]
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Stop the wpa_supplicant instance.",
+   "cmd": "sudo wpa_cli terminate",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Storing the passphrase in clear text in the configuration file is insecure. Use wpa_cli to create the file if possible."
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Wpa_supplicant#Password-related_problems",
+  "title": "Wpa supplicant",
+  "revision_id": 880725,
+  "license": "GFDL-1.3-or-later"
+ }
+}

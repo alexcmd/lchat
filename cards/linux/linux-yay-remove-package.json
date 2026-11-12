@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "linux-yay-remove-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a package and its dependencies",
+ "summary": "Remove an installed package along with its unneeded dependencies and configuration files.",
+ "aliases": [
+  {
+   "text": "remove package yay",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall package yay",
+   "lang": "en"
+  },
+  {
+   "text": "yay remove",
+   "lang": "en"
+  },
+  {
+   "text": "yay -Rns",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет yay",
+   "lang": "ru"
+  },
+  {
+   "text": "yay удалить пакет",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "yay"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Removes the specified package, its dependencies that are no longer needed by other packages, and its configuration files.",
+   "cmd": "yay -Rns <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to remove",
+     "example": "visual-studio-code-bin"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the package.",
+   "cmd": "yay -S <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to reinstall"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Review the list of packages to be removed carefully to ensure critical dependencies are not being deleted."
+ ],
+ "see_also": [
+  "linux-pacman-remove-package"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/yay.md",
+  "title": "tldr-pages: yay",
+  "license": "CC-BY-4.0"
+ }
+}

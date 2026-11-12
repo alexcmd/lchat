@@ -1,0 +1,148 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-fix-unmet-dependencies",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix 'unmet dependencies' and broken packages with apt",
+ "summary": "apt says 'unmet dependencies' when an installed package needs another package that is missing or broken. These steps check the problem, simulate the repair so you can see what would change, and then repair it.",
+ "aliases": [
+  {
+   "text": "apt unmet dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "unmet dependencies ubuntu fix",
+   "lang": "en"
+  },
+  {
+   "text": "fix broken packages apt",
+   "lang": "en"
+  },
+  {
+   "text": "fix broken dependencies ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "apt-get install -f",
+   "lang": "en"
+  },
+  {
+   "text": "package has unmet dependencies debian",
+   "lang": "en"
+  },
+  {
+   "text": "apt says broken packages what to do",
+   "lang": "en"
+  },
+  {
+   "text": "unmet dependencies что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "сломанные пакеты apt как починить",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка unmet dependencies ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "битые зависимости пакетов apt",
+   "lang": "ru"
+  },
+  {
+   "text": "починить зависимости apt",
+   "lang": "ru"
+  },
+  {
+   "text": "apt не могу установить зависимости",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-get install -f починить",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "The following packages have unmet dependencies:",
+  "E: Unmet dependencies."
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open",
+  "You know your administrator (sudo) password",
+  "Close other package managers such as the software center before you start"
+ ],
+ "steps": [
+  {
+   "explain": "Ask apt to check the installed packages for broken or missing dependencies. It only reads; nothing is changed. If there is no 'unmet dependencies' error, you do not need the next steps.",
+   "cmd": "sudo apt-get check",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Healthy: only 'Reading package lists...', 'Building dependency tree...' and 'Reading state information...'. Broken: 'The following packages have unmet dependencies:' and 'E: Unmet dependencies.'"
+  },
+  {
+   "explain": "Simulate the repair with -s: apt shows what it would install or remove but changes nothing. Read the 'will be REMOVED' and 'will be installed' lines. If it would remove programs you use, stop here.",
+   "cmd": "apt-get -s install -f",
+   "needs_root": false,
+   "risk": "low",
+   "expect": "Healthy: '0 upgraded, 0 newly installed, 0 to remove'. Broken: a short REMOVED list. No line starts with 'E:'."
+  },
+  {
+   "explain": "Repair the broken dependencies: apt installs missing packages or removes packages it cannot fix. Run this only after the simulation looked right. apt asks you to confirm.",
+   "cmd": "sudo apt --fix-broken install",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Asks 'Do you want to continue? [Y/n]'. Type Y and press Enter. Ends with 'Removing ...' or 'Setting up ...' lines and no 'E:' line.",
+   "alternatives": [
+    {
+     "explain": "The same repair with apt-get, the older tool that most guides and scripts use.",
+     "cmd": "sudo apt-get install -f",
+     "needs_root": true,
+     "risk": "medium",
+     "expect": "Same confirmation question as above. Type Y and press Enter."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "sudo apt-get check",
+   "expect": "Only 'Reading package lists...', 'Building dependency tree...' and 'Reading state information...' appear. No 'E:' line."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "apt cannot undo a repair by itself. If the repair removed a program you need, install it again with apt install and the package name from the REMOVED list, then run the check step again.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Read the 'will be REMOVED' list before you answer Y. If it contains a program you use or a meta package such as ubuntu-desktop, answer N and ask for help.",
+  "Do not close the terminal or interrupt the repair while it runs. A stopped package operation can leave packages half installed.",
+  "The simulation step runs without sudo on purpose: it changes nothing, and apt prints 'This is only a simulation!' when it runs without root."
+ ],
+ "see_also": [
+  "linux-apt-update-package-list",
+  "linux-apt-mark-hold-package"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/apt-get",
+  "title": "apt-get manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

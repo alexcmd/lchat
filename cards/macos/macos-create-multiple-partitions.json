@@ -1,0 +1,113 @@
+{
+ "schema_version": 2,
+ "id": "macos-create-multiple-partitions",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create multiple partitions on a disk",
+ "summary": "Reformat a disk and create several partitions at once, specifying the filesystem, name, and size for each one.",
+ "aliases": [
+  {
+   "text": "create multiple partitions",
+   "lang": "en"
+  },
+  {
+   "text": "split disk into several parts",
+   "lang": "en"
+  },
+  {
+   "text": "diskutil partitionDisk multiple",
+   "lang": "en"
+  },
+  {
+   "text": "создать несколько разделов",
+   "lang": "ru"
+  },
+  {
+   "text": "разбить диск на несколько частей",
+   "lang": "ru"
+  },
+  {
+   "text": "разметка диска на разделы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reformat the disk and create the specified number of partitions, providing details for each.",
+   "cmd": "diskutil partitionDisk <DISK_DEVICE> <NUMBER_OF_PARTITIONS> <PARTITION_SCHEME> <FILESYSTEM_1> <NAME_1> <SIZE_1> <FILESYSTEM_2> <NAME_2> <SIZE_2>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "DISK_DEVICE",
+     "description": "The identifier of the disk to partition.",
+     "example": "/dev/disk2",
+     "discover_cmd": "diskutil list"
+    },
+    {
+     "name": "NUMBER_OF_PARTITIONS",
+     "description": "The total number of partitions to create.",
+     "example": "2"
+    },
+    {
+     "name": "PARTITION_SCHEME",
+     "description": "The partition scheme: APM, MBR, or GPT.",
+     "example": "GPT"
+    },
+    {
+     "name": "FILESYSTEM_1",
+     "description": "Filesystem for the first partition.",
+     "example": "APFS"
+    },
+    {
+     "name": "NAME_1",
+     "description": "Name for the first partition.",
+     "example": "Volume1"
+    },
+    {
+     "name": "SIZE_1",
+     "description": "Size for the first partition.",
+     "example": "50%"
+    },
+    {
+     "name": "FILESYSTEM_2",
+     "description": "Filesystem for the second partition.",
+     "example": "FAT32"
+    },
+    {
+     "name": "NAME_2",
+     "description": "Name for the second partition.",
+     "example": "Volume2"
+    },
+    {
+     "name": "SIZE_2",
+     "description": "Size for the second partition.",
+     "example": "50%"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This command will erase all existing data on the disk.",
+  "Ensure the sum of partition sizes does not exceed the disk capacity.",
+  "Verify the disk identifier carefully before running."
+ ],
+ "rollback": [
+  {
+   "explain": "Data erased by this command cannot be recovered using standard tools. Restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/diskutil-partitiondisk.md",
+  "title": "tldr-pages: diskutil-partitiondisk",
+  "license": "CC-BY-4.0"
+ }
+}

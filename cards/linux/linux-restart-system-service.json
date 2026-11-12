@@ -1,0 +1,123 @@
+{
+ "schema_version": 2,
+ "id": "linux-restart-system-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Restart a system service",
+ "summary": "Stop and then start a background service to apply configuration changes or fix issues. This is often needed after editing a service's settings.",
+ "aliases": [
+  {
+   "text": "restart service linux",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl restart",
+   "lang": "en"
+  },
+  {
+   "text": "restart apache linux",
+   "lang": "en"
+  },
+  {
+   "text": "restart nginx linux",
+   "lang": "en"
+  },
+  {
+   "text": "restart bluetooth linux",
+   "lang": "en"
+  },
+  {
+   "text": "перезапустить службу linux",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl перезапустить сервис",
+   "lang": "ru"
+  },
+  {
+   "text": "как перезапустить nginx",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапуск службы ubuntu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Restart the specified system service. Replace <SERVICE> with the name of the service you want to restart (e.g., nginx, apache2, bluetooth).",
+   "cmd": "sudo systemctl restart <SERVICE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SERVICE",
+     "description": "Name of the systemd unit to restart",
+     "example": "nginx",
+     "discover_cmd": "systemctl list-units --type=service --state=running"
+    }
+   ],
+   "expect": "The command returns to the prompt without output if successful.",
+   "alternatives": [
+    {
+     "explain": "Restart multiple services at once.",
+     "cmd": "sudo systemctl restart <SERVICE1> <SERVICE2>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "SERVICE1",
+       "description": "First service name",
+       "example": "nginx"
+      },
+      {
+       "name": "SERVICE2",
+       "description": "Second service name",
+       "example": "php-fpm"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restarting is usually idempotent, but if the service fails to start, you can try restarting it again.",
+   "cmd": "sudo systemctl restart <SERVICE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SERVICE",
+     "description": "Name of the service",
+     "example": "nginx"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Restarting a service will briefly interrupt any connections or tasks it is handling.",
+  "Ensure you know the correct service name to avoid restarting the wrong one."
+ ],
+ "see_also": [
+  "linux-check-service-status",
+  "linux-start-system-service",
+  "linux-systemctl-manage-service"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-restart.md",
+  "title": "tldr-pages: systemctl-restart",
+  "license": "CC-BY-4.0"
+ }
+}

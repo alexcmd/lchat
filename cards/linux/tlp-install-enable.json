@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "tlp-install-enable",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install and enable TLP for battery saving",
+ "summary": "TLP is a tool that automatically optimizes laptop battery life. Installing and enabling it applies power-saving settings immediately without complex configuration.",
+ "aliases": [
+  {
+   "text": "install tlp",
+   "lang": "en"
+  },
+  {
+   "text": "battery saving linux",
+   "lang": "en"
+  },
+  {
+   "text": "enable tlp service",
+   "lang": "en"
+  },
+  {
+   "text": "laptop battery optimization",
+   "lang": "en"
+  },
+  {
+   "text": "tlp setup",
+   "lang": "en"
+  },
+  {
+   "text": "установить tlp",
+   "lang": "ru"
+  },
+  {
+   "text": "экономия батареи linux",
+   "lang": "ru"
+  },
+  {
+   "text": "включить tlp",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить энергосбережение ноутбука",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the TLP package using the package manager.",
+   "risk": "low",
+   "needs_root": true
+  },
+  {
+   "explain": "Enable and start the TLP service so it runs on boot and immediately.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Mask the systemd-rfkill service and socket to prevent conflicts with TLP's radio management.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Unmask the rfkill services.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Disable and stop the TLP service.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Remove the TLP package.",
+   "risk": "low",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Masking systemd-rfkill prevents other tools from managing radio switches via systemd; TLP will handle this instead."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/TLP#Installation",
+  "title": "TLP",
+  "revision_id": 871782,
+  "license": "GFDL-1.3-or-later"
+ }
+}

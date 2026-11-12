@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-xargs-run-command-on-input",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a command on piped input using xargs",
+ "summary": "Use xargs to pass the output of one command as arguments to another. This is useful when a command doesn't accept piped input directly, like passing a list of files to `rm` or `echo`.",
+ "aliases": [
+  {
+   "text": "xargs",
+   "lang": "en"
+  },
+  {
+   "text": "pass output to command",
+   "lang": "en"
+  },
+  {
+   "text": "pipe to xargs",
+   "lang": "en"
+  },
+  {
+   "text": "xargs example",
+   "lang": "en"
+  },
+  {
+   "text": "kak ispolzovat xargs",
+   "lang": "ru"
+  },
+  {
+   "text": "peredat vyvod komandy",
+   "lang": "ru"
+  },
+  {
+   "text": "xargs primer",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of a source command into xargs, followed by the command you want to run. xargs splits the input into arguments.",
+   "cmd": "<ARGUMENTS_SOURCE> | xargs <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ARGUMENTS_SOURCE",
+     "description": "The command whose output will be used as arguments (e.g., 'ls', 'find . -name *.txt')",
+     "example": "ls"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command to execute with those arguments (e.g., 'echo', 'rm')",
+     "example": "echo"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/xargs.md",
+  "title": "tldr-pages: xargs",
+  "license": "CC-BY-4.0"
+ }
+}

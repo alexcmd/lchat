@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-npm-install-global",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Install an npm package globally",
+ "summary": "Install a command-line tool or package globally so it is available in your terminal from any directory.",
+ "aliases": [
+  {
+   "text": "install global package",
+   "lang": "en"
+  },
+  {
+   "text": "npm install -g",
+   "lang": "en"
+  },
+  {
+   "text": "install cli tool",
+   "lang": "en"
+  },
+  {
+   "text": "установить глобально",
+   "lang": "ru"
+  },
+  {
+   "text": "npm install -g",
+   "lang": "ru"
+  },
+  {
+   "text": "установить утилиту",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the package globally using the --global flag. Note that on some systems you may need to configure the prefix location for global installs.",
+   "cmd": "npm install <PACKAGE_NAME> --global",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the npm package to install globally",
+     "example": "typescript"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/npm.md",
+  "title": "tldr-pages: npm",
+  "license": "CC-BY-4.0"
+ }
+}

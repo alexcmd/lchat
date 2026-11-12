@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "linux-mount-specific-fstab-entry",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount a specific filesystem defined in /etc/fstab",
+ "summary": "Mount a single drive or partition by specifying its mount point, using the settings from the system configuration file.",
+ "aliases": [
+  {
+   "text": "mount fstab entry",
+   "lang": "en"
+  },
+  {
+   "text": "mount by mount point",
+   "lang": "en"
+  },
+  {
+   "text": "mount specific drive fstab",
+   "lang": "en"
+  },
+  {
+   "text": "mount /mnt/data",
+   "lang": "en"
+  },
+  {
+   "text": "montirovat po tochke montirovaniya",
+   "lang": "ru"
+  },
+  {
+   "text": "montirovat iz fstab",
+   "lang": "ru"
+  },
+  {
+   "text": "mount point",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Specify the mount point path. The system will look up the device and options in /etc/fstab and mount it.",
+   "cmd": "sudo mount <MOUNT_POINT>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "MOUNT_POINT",
+     "description": "The directory path defined in /etc/fstab (e.g., /mnt/data)",
+     "example": "/mnt/data"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "The mount point must be defined in /etc/fstab.",
+  "You need administrator privileges."
+ ],
+ "rollback": [
+  {
+   "explain": "Unmount the specific mount point.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/mount.md",
+  "title": "tldr-pages: mount",
+  "license": "CC-BY-4.0"
+ }
+}

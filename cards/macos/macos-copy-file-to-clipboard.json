@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-copy-file-to-clipboard",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Copy the contents of a file to the clipboard",
+ "summary": "Use pbcopy to send the text content of a file directly to your clipboard, so you can paste it anywhere.",
+ "aliases": [
+  {
+   "text": "copy file content to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "pbcopy file",
+   "lang": "en"
+  },
+  {
+   "text": "copy text from file to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "копировать содержимое файла в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "pbcopy файл",
+   "lang": "ru"
+  },
+  {
+   "text": "скопировать текст из файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Redirect the content of the specified file into pbcopy, which places it on the clipboard.",
+   "cmd": "pbcopy < <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file whose content you want to copy.",
+     "example": "~/Documents/notes.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pbcopy.md",
+  "title": "tldr-pages: pbcopy",
+  "license": "CC-BY-4.0"
+ }
+}

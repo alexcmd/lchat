@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-uv-remove-dependency",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Remove a Python dependency with uv",
+ "summary": "Use `uv remove` to uninstall a package and remove it from your project's dependencies in `pyproject.toml`.",
+ "aliases": [
+  {
+   "text": "uv remove package",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall python package uv",
+   "lang": "en"
+  },
+  {
+   "text": "remove dependency uv",
+   "lang": "en"
+  },
+  {
+   "text": "uv remove",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет uv",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать зависимость uv",
+   "lang": "ru"
+  },
+  {
+   "text": "uv удалить пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "uv remove",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Replace <PACKAGE> with the name of the Python package you want to remove from your project.",
+   "cmd": "uv remove <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the Python package to remove.",
+     "example": "requests"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uv.md",
+  "title": "tldr-pages: uv",
+  "license": "CC-BY-4.0"
+ }
+}

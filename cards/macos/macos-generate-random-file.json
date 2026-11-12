@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "macos-generate-random-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Generate a file with random bytes",
+ "summary": "Create a file filled with random data using the system's random number generator. Useful for testing or creating dummy files.",
+ "aliases": [
+  {
+   "text": "generate random file mac",
+   "lang": "en"
+  },
+  {
+   "text": "create random bytes file",
+   "lang": "en"
+  },
+  {
+   "text": "dd random file",
+   "lang": "en"
+  },
+  {
+   "text": "создать файл случайных данных",
+   "lang": "ru"
+  },
+  {
+   "text": "генерация случайного файла",
+   "lang": "ru"
+  },
+  {
+   "text": "dd urandom",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create a file containing random bytes. Replace <BLOCK_SIZE> with the size of each block in bytes (e.g., 100), <COUNT> with the number of blocks (e.g., 1), and <OUTPUT_FILE> with the path to the new file.",
+   "cmd": "dd bs=<BLOCK_SIZE> count=<COUNT> if=/dev/urandom of=<OUTPUT_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "BLOCK_SIZE",
+     "description": "Size of each block in bytes",
+     "example": "100"
+    },
+    {
+     "name": "COUNT",
+     "description": "Number of blocks to write",
+     "example": "1"
+    },
+    {
+     "name": "OUTPUT_FILE",
+     "description": "Path to the output file",
+     "example": "~/random.bin"
+    }
+   ],
+   "expect": "A new file is created at the specified path containing random data."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dd.md",
+  "title": "tldr-pages: dd",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-set-system-date",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Set the system date and time",
+ "summary": "Manually set the system clock to a specific date and time. This requires administrator privileges.",
+ "aliases": [
+  {
+   "text": "set system date",
+   "lang": "en"
+  },
+  {
+   "text": "change system time",
+   "lang": "en"
+  },
+  {
+   "text": "set date manually",
+   "lang": "en"
+  },
+  {
+   "text": "изменить системное время",
+   "lang": "ru"
+  },
+  {
+   "text": "установить дату",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить время в системе",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the system date and time using the format MMDDhhmmYYYY.ss. Note that YYYY and .ss are optional.",
+   "cmd": "sudo date <DATE_STRING>",
+   "risk": "medium",
+   "needs_root": true,
+   "expect": "The system clock is updated to the specified time.",
+   "placeholders": [
+    {
+     "name": "DATE_STRING",
+     "description": "Date in MMDDhhmmYYYY.ss format",
+     "example": "093023592021.59"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct command to revert to the previous time. Re-enable automatic time synchronization (e.g., via NTP or systemd-timesyncd) to correct the clock.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Manually setting the system time can break applications that rely on accurate timestamps, such as SSL/TLS verification, cron jobs, and logging systems.",
+  "Ensure you have the correct format (MMDDhhmmYYYY) to avoid setting an invalid date."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/date.md",
+  "title": "tldr-pages: date",
+  "license": "CC-BY-4.0"
+ }
+}

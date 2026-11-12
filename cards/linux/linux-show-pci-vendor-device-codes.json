@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-pci-vendor-device-codes",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show PCI vendor and device codes",
+ "summary": "Use lspci with the -nn flag to see both the human-readable names and the numeric vendor/device IDs for your hardware. This is useful when searching for drivers online.",
+ "aliases": [
+  {
+   "text": "show pci vendor codes",
+   "lang": "en"
+  },
+  {
+   "text": "pci device ids",
+   "lang": "en"
+  },
+  {
+   "text": "lspci -nn",
+   "lang": "en"
+  },
+  {
+   "text": "hardware vendor id",
+   "lang": "en"
+  },
+  {
+   "text": "numeric pci codes",
+   "lang": "en"
+  },
+  {
+   "text": "коды производителей pci",
+   "lang": "ru"
+  },
+  {
+   "text": "id производителя устройства",
+   "lang": "ru"
+  },
+  {
+   "text": "lspci -nn",
+   "lang": "ru"
+  },
+  {
+   "text": "вендор id pci",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lspci with the -nn flag to display vendor and device codes as both numbers and names.",
+   "cmd": "lspci -nn",
+   "risk": "low",
+   "expect": "A list of devices where each line includes names and numeric IDs in brackets, e.g., '[8086:1234]'"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lspci.md",
+  "title": "tldr-pages: lspci",
+  "license": "CC-BY-4.0"
+ }
+}

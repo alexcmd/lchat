@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "cpu-check-frequency-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check CPU frequency and governor",
+ "summary": "View the current CPU frequency, available governors, and the active scaling driver using cpupower.",
+ "aliases": [
+  {
+   "text": "check cpu frequency",
+   "lang": "en"
+  },
+  {
+   "text": "cpu governor status",
+   "lang": "en"
+  },
+  {
+   "text": "cpupower frequency info",
+   "lang": "en"
+  },
+  {
+   "text": "проверить частоту процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "текущий governor cpu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "cpupower package installed"
+ ],
+ "steps": [
+  {
+   "explain": "Display detailed information about CPU frequency scaling, including the current governor and frequency.",
+   "cmd": "cpupower frequency-info",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/CPU_frequency_scaling#Scaling_drivers",
+  "title": "CPU frequency scaling",
+  "revision_id": 886037,
+  "license": "GFDL-1.3-or-later"
+ }
+}

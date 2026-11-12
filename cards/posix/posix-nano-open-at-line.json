@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "posix-nano-open-at-line",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Open a file in nano at a specific line and column",
+ "summary": "You can start nano with the cursor positioned at a specific line and column number, which is useful for jumping directly to a location in a long file.",
+ "aliases": [
+  {
+   "text": "nano open at line",
+   "lang": "en"
+  },
+  {
+   "text": "jump to line in nano",
+   "lang": "en"
+  },
+  {
+   "text": "nano start at line number",
+   "lang": "en"
+  },
+  {
+   "text": "открыть nano на строке",
+   "lang": "ru"
+  },
+  {
+   "text": "перейти к строке в nano",
+   "lang": "ru"
+  },
+  {
+   "text": "nano открыть с позиции",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the file with the cursor placed at the specified line and column.",
+   "cmd": "nano +<LINE>,<COLUMN> <FILE>",
+   "placeholders": [
+    {
+     "name": "LINE",
+     "description": "The line number where the cursor should start.",
+     "example": "10"
+    },
+    {
+     "name": "COLUMN",
+     "description": "The column number where the cursor should start.",
+     "example": "5"
+    },
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to edit.",
+     "example": "config.conf"
+    }
+   ],
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nano.md",
+  "title": "tldr-pages: nano",
+  "license": "CC-BY-4.0"
+ }
+}

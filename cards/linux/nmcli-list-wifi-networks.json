@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "nmcli-list-wifi-networks",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List available Wi-Fi networks",
+ "summary": "Scan and display a list of Wi-Fi networks available in your area using NetworkManager.",
+ "aliases": [
+  {
+   "text": "list wifi networks",
+   "lang": "en"
+  },
+  {
+   "text": "scan for wifi",
+   "lang": "en"
+  },
+  {
+   "text": "show available wifi",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli wifi list",
+   "lang": "en"
+  },
+  {
+   "text": "какие вай фай сети доступны",
+   "lang": "ru"
+  },
+  {
+   "text": "просмотреть доступные сети wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli wifi scan",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use nmcli to scan and list all available Wi-Fi access points.",
+   "cmd": "nmcli device wifi",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-device.md",
+  "title": "tldr-pages: nmcli-device",
+  "license": "CC-BY-4.0"
+ }
+}

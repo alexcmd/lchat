@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-schedule-shutdown-time",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Schedule a Mac shutdown at a specific time",
+ "summary": "Set your Mac to automatically shut down at a specific time of day, such as 1:00 PM. This is useful for powering off the computer after work hours.",
+ "aliases": [
+  {
+   "text": "schedule shutdown mac",
+   "lang": "en"
+  },
+  {
+   "text": "shutdown mac at 1pm",
+   "lang": "en"
+  },
+  {
+   "text": "timed shutdown mac",
+   "lang": "en"
+  },
+  {
+   "text": "выключить мак в определенное время",
+   "lang": "ru"
+  },
+  {
+   "text": "планировщик выключения мак",
+   "lang": "ru"
+  },
+  {
+   "text": "выключение по времени мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command schedules a system shutdown at 13:00 (1:00 PM). The time uses a 24-hour clock format (HHMM).",
+   "cmd": "sudo shutdown -h 1300",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To cancel a scheduled shutdown, run the shutdown command with the -c flag.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Ensure you save all work before the scheduled time.",
+  "The system will power off automatically at the specified time."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/shutdown.md",
+  "title": "tldr-pages: shutdown",
+  "license": "CC-BY-4.0"
+ }
+}

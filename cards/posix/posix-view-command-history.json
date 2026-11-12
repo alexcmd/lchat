@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-command-history",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View command-line history",
+ "summary": "Show a list of commands you have typed in the terminal. This helps you find a command you used recently or remember what you did.",
+ "aliases": [
+  {
+   "text": "show command history",
+   "lang": "en"
+  },
+  {
+   "text": "list previous commands",
+   "lang": "en"
+  },
+  {
+   "text": "history of commands",
+   "lang": "en"
+  },
+  {
+   "text": "what did i type",
+   "lang": "en"
+  },
+  {
+   "text": "show terminal history",
+   "lang": "en"
+  },
+  {
+   "text": "kak posmotret istoriyu komand",
+   "lang": "ru"
+  },
+  {
+   "text": "istoriya komand v termine",
+   "lang": "ru"
+  },
+  {
+   "text": "kakie komandy ya vvel",
+   "lang": "ru"
+  },
+  {
+   "text": "spisok komand",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the full list of commands from your session history with line numbers.",
+   "cmd": "history",
+   "risk": "low",
+   "expect": "A numbered list of previously executed commands appears."
+  },
+  {
+   "explain": "Alternatively, display only the last 20 commands to see recent activity.",
+   "cmd": "history 20",
+   "risk": "low",
+   "expect": "A numbered list of the last 20 commands appears."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/history.md",
+  "title": "tldr-pages: history",
+  "license": "CC-BY-4.0"
+ }
+}

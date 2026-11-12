@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "linux-filter-systemd-units-by-type",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Filter systemd units by type",
+ "summary": "Show only specific types of systemd units, such as services, sockets, or timers. This helps focus on a particular category of system components.",
+ "aliases": [
+  {
+   "text": "list systemd services only",
+   "lang": "en"
+  },
+  {
+   "text": "show systemd timers",
+   "lang": "en"
+  },
+  {
+   "text": "filter systemctl by type",
+   "lang": "en"
+  },
+  {
+   "text": "показать только службы systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "фильтровать systemctl по типу",
+   "lang": "ru"
+  },
+  {
+   "text": "список таймеров systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "list services",
+   "lang": "en"
+  },
+  {
+   "text": "list timers",
+   "lang": "en"
+  },
+  {
+   "text": "юниты по типу",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl status type",
+   "lang": "en"
+  },
+  {
+   "text": "filter units by type",
+   "lang": "en"
+  },
+  {
+   "text": "список таймеров",
+   "lang": "ru"
+  },
+  {
+   "text": "показать только сервисы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --type flag followed by the unit type (e.g., service, socket, timer) to filter the list.",
+   "cmd": "systemctl list-units --type <UNIT_TYPE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UNIT_TYPE",
+     "description": "The type of unit to list, such as service, socket, or timer.",
+     "example": "service"
+    }
+   ],
+   "expect": "A list of units matching the specified type."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-units.md",
+  "title": "tldr-pages: systemctl-list-units",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-filter-systemd-units-by-state"
+ ]
+}

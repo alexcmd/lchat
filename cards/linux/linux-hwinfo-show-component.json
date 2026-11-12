@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-hwinfo-show-component",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show detailed information for a specific hardware component",
+ "summary": "Use hwinfo with a specific component flag to view detailed technical information about one part of your system, like the CPU, network card, or USB devices.",
+ "aliases": [
+  {
+   "text": "show cpu info",
+   "lang": "en"
+  },
+  {
+   "text": "check network card details",
+   "lang": "en"
+  },
+  {
+   "text": "hwinfo cpu",
+   "lang": "en"
+  },
+  {
+   "text": "hwinfo memory",
+   "lang": "en"
+  },
+  {
+   "text": "детали процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о видеокарте",
+   "lang": "ru"
+  },
+  {
+   "text": "hwinfo сетевая карта",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run hwinfo with the --component flag to display detailed information for a specific hardware type.",
+   "cmd": "hwinfo --<COMPONENT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMPONENT",
+     "description": "The hardware component to query, e.g., cpu, memory, disk, gfxcard, network, usb, pci, keyboard, mouse, monitor, sound, fingerprint.",
+     "example": "cpu"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/hwinfo.md",
+  "title": "tldr-pages: hwinfo",
+  "license": "CC-BY-4.0"
+ }
+}

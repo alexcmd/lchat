@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "posix-gh-create-pr",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a new pull request using the gh CLI",
+ "summary": "Open a new pull request for the current repository from the terminal. The CLI will guide you through selecting the base branch and entering details.",
+ "aliases": [
+  {
+   "text": "create pull request gh",
+   "lang": "en"
+  },
+  {
+   "text": "gh pr new",
+   "lang": "en"
+  },
+  {
+   "text": "gh pr create",
+   "lang": "en"
+  },
+  {
+   "text": "sozdat pull request gh",
+   "lang": "ru"
+  },
+  {
+   "text": "gh novyy pull request",
+   "lang": "ru"
+  },
+  {
+   "text": "gh pr sozdat",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "GitHub CLI (gh) is installed",
+  "You are in a directory that is a git repository linked to GitHub",
+  "You have committed and pushed your changes to a branch",
+  "You are logged in to GitHub with gh auth login"
+ ],
+ "steps": [
+  {
+   "explain": "Start the interactive process to create a new pull request.",
+   "cmd": "gh pr create",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/gh.md",
+  "title": "tldr-pages: gh",
+  "license": "CC-BY-4.0"
+ }
+}

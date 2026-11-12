@@ -1,0 +1,133 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-show-package-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show detailed information about a package",
+ "summary": "View details such as version, description, dependencies, and size for a specific package before installing it.",
+ "aliases": [
+  {
+   "text": "show package info",
+   "lang": "en"
+  },
+  {
+   "text": "apt show",
+   "lang": "en"
+  },
+  {
+   "text": "details about package",
+   "lang": "en"
+  },
+  {
+   "text": "информация о пакете",
+   "lang": "ru"
+  },
+  {
+   "text": "детали пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-cache show",
+   "lang": "en"
+  },
+  {
+   "text": "что делает пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "package details",
+   "lang": "en"
+  },
+  {
+   "text": "what does this package do",
+   "lang": "en"
+  },
+  {
+   "text": "описание пакета apt",
+   "lang": "ru"
+  },
+  {
+   "text": "package status",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg status package",
+   "lang": "en"
+  },
+  {
+   "text": "details about installed package",
+   "lang": "en"
+  },
+  {
+   "text": "статус пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg info пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "версия пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Displays detailed metadata about the specified package.",
+   "cmd": "apt show <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The exact name of the package to inspect.",
+     "example": "curl"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Display metadata and description for the specified package.",
+     "cmd": "apt-cache show <PACKAGE>",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "Name of the package",
+       "example": "vim"
+      }
+     ],
+     "risk": "low"
+    },
+    {
+     "explain": "Use dpkg-query with the status flag and the package name to show its details.",
+     "cmd": "dpkg-query -s <PACKAGE>",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "The name of the installed package.",
+       "example": "libc6"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt.md",
+  "title": "tldr-pages: apt",
+  "license": "CC-BY-4.0"
+ }
+}

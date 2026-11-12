@@ -1,0 +1,164 @@
+{
+ "schema_version": 2,
+ "id": "error-zsh-command-not-found",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'command not found' in the macOS Terminal and install the missing tool",
+ "summary": "The Terminal prints 'command not found' when zsh cannot find a program with the name you typed. The cause is usually a typo, a tool that is not installed, or a folder missing from the search path; these steps check each one and install the tool with Homebrew.",
+ "error_patterns": [
+  "zsh:1: command not found:",
+  "command not found: "
+ ],
+ "aliases": [
+  {
+   "text": "zsh command not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac terminal command not found",
+   "lang": "en"
+  },
+  {
+   "text": "command not found mac what to do",
+   "lang": "en"
+  },
+  {
+   "text": "terminal says command not found macos",
+   "lang": "en"
+  },
+  {
+   "text": "how to install missing command on mac",
+   "lang": "en"
+  },
+  {
+   "text": "brew command not found",
+   "lang": "en"
+  },
+  {
+   "text": "mac typo in terminal command",
+   "lang": "en"
+  },
+  {
+   "text": "zsh: команда не найдена",
+   "lang": "ru"
+  },
+  {
+   "text": "команда не найдена мак терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "терминал мак пишет command not found",
+   "lang": "ru"
+  },
+  {
+   "text": "что делать command not found mac",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить недостающую команду на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "brew команда не найдена",
+   "lang": "ru"
+  },
+  {
+   "text": "komanda ne najdena mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app open",
+  "Internet connection for the Homebrew search and install steps"
+ ],
+ "steps": [
+  {
+   "explain": "Read the message. 'zsh:1: command not found: NAME' means zsh looked for a program called NAME and found none. Check the spelling first, then follow the steps below.",
+   "risk": "low"
+  },
+  {
+   "explain": "Check whether a program with exactly this name is installed. command -v prints its path, or nothing if it is not found.",
+   "cmd": "command -v <TOOL_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TOOL_NAME",
+     "description": "the name from the error message, without any spaces",
+     "example": "wget"
+    }
+   ],
+   "expect": "A path such as /opt/homebrew/bin/wget means the program is installed. No output means no program with this name is found."
+  },
+  {
+   "explain": "Show the folders zsh searches for programs. A program installed in a folder that is missing from this list is not found.",
+   "cmd": "echo \"$PATH\"",
+   "risk": "low",
+   "expect": "A list of folders separated by colons, such as /usr/bin:/bin:/opt/homebrew/bin. On Apple Silicon Macs /opt/homebrew/bin should be in the list if Homebrew is installed."
+  },
+  {
+   "explain": "Search the built-in manuals for a word that describes the task, to learn the exact name of the program you need.",
+   "cmd": "man -k <KEYWORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYWORD",
+     "description": "a word about the task you want to do",
+     "example": "download"
+    }
+   ],
+   "expect": "Lines that start with a program name followed by a short description. No lines means the word matched no manual page."
+  },
+  {
+   "explain": "Search Homebrew, the package manager for command-line tools on macOS, for the name. This needs an Internet connection. If brew is not found, Homebrew is not installed.",
+   "cmd": "brew search <TOOL_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TOOL_NAME",
+     "description": "the program name to look for",
+     "example": "wget"
+    }
+   ],
+   "expect": "Matching package names, usually listed under a heading such as ==> Formulae. Nothing listed means the name is not in Homebrew under that name."
+  },
+  {
+   "explain": "Install the tool with Homebrew. Use the exact package name from the search results.",
+   "cmd": "brew install <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "package name from the brew search results",
+     "example": "wget"
+    }
+   ],
+   "expect": "Homebrew downloads and installs the package, then the prompt returns."
+  },
+  {
+   "explain": "Clear zsh's memory of program locations, so the newly installed tool is found without opening a new Terminal window.",
+   "cmd": "hash -r",
+   "risk": "low",
+   "expect": "No output."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "command -v <TOOL_NAME>",
+   "expect": "Prints the path of the tool, for example /opt/homebrew/bin/wget. The 'command not found' message no longer appears when you run the tool by name."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://zsh",
+  "title": "zsh manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "linux-uninstall-gnome-extension",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Uninstall a GNOME extension",
+ "summary": "Remove a specific GNOME Shell extension from your system. This deletes the extension files, so you will need to reinstall it if you want to use it again.",
+ "aliases": [
+  {
+   "text": "uninstall gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "remove gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "delete gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "удалить расширение gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "снести расширение gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать расширение gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the uninstall command with the specific extension ID to remove it.",
+   "cmd": "gnome-extensions uninstall \"<EXTENSION_ID>\"",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "EXTENSION_ID",
+     "description": "The unique ID of the extension to uninstall",
+     "example": "user-theme@gnome-shell-extensions.gcampax.github.com",
+     "discover_cmd": "gnome-extensions list"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the extension from the GNOME Extensions website or your package manager.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This action removes the extension files. You will need to download and install the extension again to use it."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gnome-extensions.md",
+  "title": "tldr-pages: gnome-extensions",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-gnome-extensions"
+ ]
+}

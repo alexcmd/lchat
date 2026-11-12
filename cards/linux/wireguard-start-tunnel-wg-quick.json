@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "wireguard-start-tunnel-wg-quick",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Start WireGuard tunnel with wg-quick",
+ "summary": "Bring up a WireGuard interface using a configuration file located in /etc/wireguard/. This is the standard way to start a tunnel.",
+ "aliases": [
+  {
+   "text": "start wireguard",
+   "lang": "en"
+  },
+  {
+   "text": "wg-quick up",
+   "lang": "en"
+  },
+  {
+   "text": "connect wireguard",
+   "lang": "en"
+  },
+  {
+   "text": "wireguard up",
+   "lang": "en"
+  },
+  {
+   "text": "запустить wireguard",
+   "lang": "ru"
+  },
+  {
+   "text": "подключить wireguard",
+   "lang": "ru"
+  },
+  {
+   "text": "wg-quick up",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "wireguard-tools"
+  ]
+ },
+ "prerequisites": [
+  "A configuration file exists at /etc/wireguard/<INTERFACE_NAME>.conf"
+ ],
+ "steps": [
+  {
+   "explain": "Start the WireGuard interface defined by the configuration file.",
+   "cmd": "sudo wg-quick up <INTERFACE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The name of the interface, matching the config file name (without .conf)",
+     "example": "wg0"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "sudo wg",
+   "expect": "Shows the interface and peer status"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Stop the WireGuard interface.",
+   "cmd": "sudo wg-quick down <INTERFACE_NAME>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The interface name used to start the tunnel",
+     "example": "wg0"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure no other network manager is managing this interface to avoid conflicts."
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/WireGuard#Persistent_configuration",
+  "title": "WireGuard",
+  "revision_id": 886758,
+  "license": "GFDL-1.3-or-later"
+ }
+}

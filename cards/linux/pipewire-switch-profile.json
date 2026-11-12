@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "pipewire-switch-profile",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Switch PipeWire audio profile",
+ "summary": "Change the active profile of an audio device (e.g., from Analog Stereo to HDMI) using wpctl.",
+ "aliases": [
+  {
+   "text": "switch pipewire profile",
+   "lang": "en"
+  },
+  {
+   "text": "change audio output hdmi",
+   "lang": "en"
+  },
+  {
+   "text": "wpctl set-profile",
+   "lang": "en"
+  },
+  {
+   "text": "переключить профиль звука",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить выход на hdmi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "wireplumber"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List available devices and their IDs using wpctl status.",
+   "cmd": "wpctl status",
+   "risk": "low"
+  },
+  {
+   "explain": "Set the profile for the desired device ID. Profile 1 is usually Analog Stereo, 3 is often HDMI or Digital Stereo.",
+   "cmd": "wpctl set-profile <DEVICE_ID> <PROFILE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The ID of the audio device from wpctl status",
+     "discover_cmd": "wpctl status"
+    },
+    {
+     "name": "PROFILE_ID",
+     "description": "The ID of the profile to switch to (e.g., 1 for Analog, 3 for HDMI)",
+     "example": "3"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PipeWire#Switching_between_device_profiles",
+  "title": "PipeWire",
+  "revision_id": 883268,
+  "license": "GFDL-1.3-or-later"
+ }
+}

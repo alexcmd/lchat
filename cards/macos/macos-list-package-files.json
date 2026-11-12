@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-package-files",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List files installed by a specific package",
+ "summary": "See exactly which files were installed on your system by a specific software package. Useful for debugging or finding where an app put its files.",
+ "aliases": [
+  {
+   "text": "list files in package",
+   "lang": "en"
+  },
+  {
+   "text": "what files did pkg install",
+   "lang": "en"
+  },
+  {
+   "text": "pkgutil files",
+   "lang": "en"
+  },
+  {
+   "text": "show package contents",
+   "lang": "en"
+  },
+  {
+   "text": "какие файлы установил пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "содержимое пакета pkgutil",
+   "lang": "ru"
+  },
+  {
+   "text": "файлы пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use pkgutil with the --files flag and the package ID to list all files associated with that package.",
+   "cmd": "pkgutil --files <PACKAGE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_ID",
+     "description": "The identifier of the installed package (e.g., com.microsoft.Word)",
+     "example": "com.microsoft.Word",
+     "discover_cmd": "pkgutil --pkgs"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pkgutil.md",
+  "title": "tldr-pages: pkgutil",
+  "license": "CC-BY-4.0"
+ }
+}

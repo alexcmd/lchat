@@ -1,0 +1,135 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-unit-active-state",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if a systemd unit is active",
+ "summary": "Use `systemctl is-active` to quickly check if a specific service or unit is currently running. It returns 'active' if the unit is running, and 'inactive' or 'failed' otherwise.",
+ "aliases": [
+  {
+   "text": "check if service is running",
+   "lang": "en"
+  },
+  {
+   "text": "is systemd unit active",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl is-active",
+   "lang": "en"
+  },
+  {
+   "text": "check service status quickly",
+   "lang": "en"
+  },
+  {
+   "text": "проверить активен ли сервис",
+   "lang": "ru"
+  },
+  {
+   "text": "запущен ли юнит systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "статус службы systemctl",
+   "lang": "ru"
+  },
+  {
+   "text": "check unit state",
+   "lang": "en"
+  },
+  {
+   "text": "is service active",
+   "lang": "en"
+  },
+  {
+   "text": "is service enabled",
+   "lang": "en"
+  },
+  {
+   "text": "is service failed",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl is-enabled",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl is-failed",
+   "lang": "en"
+  },
+  {
+   "text": "proverit sostoyanie sluzhby",
+   "lang": "ru"
+  },
+  {
+   "text": "aktivna li sluzhba",
+   "lang": "ru"
+  },
+  {
+   "text": "vkluchena li sluzhba",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command with the name of the unit you want to check. Replace <UNIT> with the service name (e.g., sshd.service).",
+   "cmd": "systemctl is-active <UNIT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UNIT",
+     "description": "Name of the systemd unit to check",
+     "example": "sshd.service"
+    }
+   ],
+   "expect": "Output is 'active' if the unit is running, or 'inactive'/'failed' if not.",
+   "alternatives": [
+    {
+     "explain": "Check multiple units at once by listing them separated by spaces.",
+     "cmd": "systemctl is-active <UNIT1> <UNIT2>",
+     "placeholders": [
+      {
+       "name": "UNIT1",
+       "description": "First unit name"
+      },
+      {
+       "name": "UNIT2",
+       "description": "Second unit name"
+      }
+     ]
+    },
+    {
+     "explain": "Check a user-specific unit (not a system service) by adding the --user flag.",
+     "cmd": "systemctl is-active <UNIT> --user",
+     "placeholders": [
+      {
+       "name": "UNIT",
+       "description": "Name of the user unit"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-is-active.md",
+  "title": "tldr-pages: systemctl-is-active",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-check-service-status",
+  "linux-check-user-service-status"
+ ]
+}

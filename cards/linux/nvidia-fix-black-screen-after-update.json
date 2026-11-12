@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "nvidia-fix-black-screen-after-update",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix black screen or poweroff after NVIDIA driver update",
+ "summary": "If your screen stays black after updating the NVIDIA driver or the machine powers off when closing X, try these workarounds.",
+ "aliases": [
+  {
+   "text": "nvidia black screen after update",
+   "lang": "en"
+  },
+  {
+   "text": "screen black after nvidia update",
+   "lang": "en"
+  },
+  {
+   "text": "machine powers off when closing x",
+   "lang": "en"
+  },
+  {
+   "text": "черный экран после обновления nvidia",
+   "lang": "ru"
+  },
+  {
+   "text": "выключается при закрытии xorg",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Black screen at X startup",
+  "Machine poweroff at X shutdown"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "You can access the system via TTY or SSH to edit files."
+ ],
+ "steps": [
+  {
+   "explain": "Prepend the xrandr command to your xinitrc file to force display detection on startup.",
+   "risk": "low"
+  },
+  {
+   "explain": "Alternatively, add the kernel parameter rcutree.gp_init_delay=1 to your bootloader configuration.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Alternatively, add 'nvidia' to the MODULES array in /etc/mkinitcpio.conf and regenerate the initramfs.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the added line from ~/.xinitrc.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Editing bootloader or mkinitcpio requires regenerating initramfs and rebooting."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#Black_screen_at_X_startup_/_Machine_poweroff_at_X_shutdown",
+  "title": "NVIDIA/Troubleshooting",
+  "revision_id": 887471,
+  "license": "GFDL-1.3-or-later"
+ }
+}

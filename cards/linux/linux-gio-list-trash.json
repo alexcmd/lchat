@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "linux-gio-list-trash",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List items in the trash bin",
+ "summary": "View a list of all files and folders currently sitting in your trash bin.",
+ "aliases": [
+  {
+   "text": "list trash items",
+   "lang": "en"
+  },
+  {
+   "text": "show trash contents",
+   "lang": "en"
+  },
+  {
+   "text": "gio trash list",
+   "lang": "en"
+  },
+  {
+   "text": "что в корзине",
+   "lang": "ru"
+  },
+  {
+   "text": "список корзины",
+   "lang": "ru"
+  },
+  {
+   "text": "gio trash --list",
+   "lang": "ru"
+  },
+  {
+   "text": "list trash files",
+   "lang": "en"
+  },
+  {
+   "text": "what is in my trash linux",
+   "lang": "en"
+  },
+  {
+   "text": "show trash contents terminal",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть содержимое корзины терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "список удаленных файлов gio",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display a list of all items currently in the trash.",
+   "cmd": "gio trash --list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gio-trash.md",
+  "title": "tldr-pages: gio-trash",
+  "license": "CC-BY-4.0"
+ }
+}

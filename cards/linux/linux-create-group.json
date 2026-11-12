@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-create-group",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Create a new group",
+ "summary": "Create a new user group on the system.",
+ "aliases": [
+  {
+   "text": "create group linux",
+   "lang": "en"
+  },
+  {
+   "text": "add new group",
+   "lang": "en"
+  },
+  {
+   "text": "groupadd command",
+   "lang": "en"
+  },
+  {
+   "text": "создать группу linux",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить новую группу",
+   "lang": "ru"
+  },
+  {
+   "text": "как создать группу",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create a new group with the specified name.",
+   "cmd": "sudo groupadd <GROUP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "GROUP_NAME",
+     "description": "The name of the new group",
+     "example": "developers"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the group.",
+   "cmd": "sudo groupdel <GROUP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "GROUP_NAME",
+     "description": "The name of the group to delete",
+     "example": "developers"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure the group name does not already exist."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Users_and_groups#Group_management",
+  "title": "Users and groups",
+  "revision_id": 872887,
+  "license": "GFDL-1.3-or-later"
+ }
+}

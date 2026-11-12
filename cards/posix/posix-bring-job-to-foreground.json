@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-bring-job-to-foreground",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Bring a background job to the foreground",
+ "summary": "Use the `fg` command to bring a suspended or background job back to the foreground so you can interact with it directly in your terminal.",
+ "aliases": [
+  {
+   "text": "bring job to foreground",
+   "lang": "en"
+  },
+  {
+   "text": "fg command",
+   "lang": "en"
+  },
+  {
+   "text": "resume background process",
+   "lang": "en"
+  },
+  {
+   "text": "unpause terminal job",
+   "lang": "en"
+  },
+  {
+   "text": "вернуть процесс в терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "команда fg",
+   "lang": "ru"
+  },
+  {
+   "text": "продолжить фоновую задачу",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть остановленный процесс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Bring the most recently suspended or running background job to the foreground.",
+   "cmd": "fg",
+   "risk": "low"
+  },
+  {
+   "explain": "Bring a specific job to the foreground by its job number. Use `jobs` to find the job number if you don't know it.",
+   "cmd": "fg %<JOB_NUMBER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "JOB_NUMBER",
+     "description": "The job number of the background process you want to bring to the foreground.",
+     "example": "1",
+     "discover_cmd": "jobs"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/fg.md",
+  "title": "tldr-pages: fg",
+  "license": "CC-BY-4.0"
+ }
+}

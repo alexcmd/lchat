@@ -1,0 +1,127 @@
+{
+ "schema_version": 2,
+ "id": "linux-secure-boot-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check whether Secure Boot is enabled",
+ "summary": "Secure Boot is a UEFI feature that allows only signed boot software to run. Check it before installing some drivers or another operating system. This check only reads the setting and changes nothing.",
+ "aliases": [
+  {
+   "text": "is secure boot on",
+   "lang": "en"
+  },
+  {
+   "text": "check secure boot linux",
+   "lang": "en"
+  },
+  {
+   "text": "secure boot status ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "secureboot enabled or not",
+   "lang": "en"
+  },
+  {
+   "text": "how to see if secure boot is on",
+   "lang": "en"
+  },
+  {
+   "text": "mokutil sb state",
+   "lang": "en"
+  },
+  {
+   "text": "uefi secure boot check",
+   "lang": "en"
+  },
+  {
+   "text": "включен ли secure boot",
+   "lang": "ru"
+  },
+  {
+   "text": "как проверить secure boot linux",
+   "lang": "ru"
+  },
+  {
+   "text": "секьюр бут включен или нет",
+   "lang": "ru"
+  },
+  {
+   "text": "безопасная загрузка uefi статус",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать включен secure boot убунту",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window open on the Linux computer"
+ ],
+ "steps": [
+  {
+   "explain": "Secure Boot exists only on computers that start in UEFI mode. If this folder exists, the computer uses UEFI. If it does not, the computer uses an older BIOS and Secure Boot does not apply.",
+   "cmd": "ls /sys/firmware/efi",
+   "expect": "UEFI computer: a list of entries such as efivars and runtime. Older BIOS computer: 'No such file or directory'.",
+   "risk": "low"
+  },
+  {
+   "explain": "Check whether the mokutil tool, which reads the Secure Boot state, is already installed. Nothing printed means it is missing.",
+   "cmd": "command -v mokutil",
+   "expect": "A path such as /usr/bin/mokutil or /usr/sbin/mokutil. No output means it is not installed.",
+   "risk": "low"
+  },
+  {
+   "explain": "Run this only if the previous check printed nothing. Installs mokutil from your distribution's official repositories. Enter your password when asked.",
+   "cmd": "sudo apt install mokutil",
+   "variants": {
+    "ubuntu": "sudo apt install mokutil",
+    "mint": "sudo apt install mokutil",
+    "debian": "sudo apt install mokutil",
+    "fedora": "sudo dnf install mokutil"
+   },
+   "needs_root": true,
+   "expect": "The install finishes without errors and the command in the previous step now prints a path.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Shows the Secure Boot state. This command only reads the state and changes nothing.",
+   "cmd": "mokutil --sb-state",
+   "expect": "'SecureBoot enabled' or 'SecureBoot disabled'. On a system without EFI variables it prints 'EFI variables are not supported on this system'.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "The checks change nothing. If you installed mokutil only for this check, remove it with your package manager: sudo apt remove mokutil on Ubuntu, Mint or Debian, sudo dnf remove mokutil on Fedora.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Installing mokutil needs administrator rights (sudo) and changes the system. Install only from your distribution's own repositories.",
+  "Do not change Secure Boot or MOK keys from this card. Those steps are not covered here and can stop the system from starting."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/mokutil",
+  "title": "mokutil manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

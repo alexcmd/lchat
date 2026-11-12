@@ -1,0 +1,133 @@
+{
+ "schema_version": 2,
+ "id": "error-is-a-directory-cat",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Is a directory' when cat is used on a folder",
+ "summary": "The cat command prints the text inside a file. A folder has no text to print, so cat stops with the message Is a directory. List the folder to see its files, then read the file you need with cat.",
+ "aliases": [
+  {
+   "text": "cat is a directory",
+   "lang": "en"
+  },
+  {
+   "text": "cat Is a directory error",
+   "lang": "en"
+  },
+  {
+   "text": "linux cat folder not a file",
+   "lang": "en"
+  },
+  {
+   "text": "cat won't open a folder",
+   "lang": "en"
+  },
+  {
+   "text": "how to see what is inside a folder in linux",
+   "lang": "en"
+  },
+  {
+   "text": "list folder contents terminal",
+   "lang": "en"
+  },
+  {
+   "text": "cat Is a directory что значит",
+   "lang": "ru"
+  },
+  {
+   "text": "это директория а не файл linux",
+   "lang": "ru"
+  },
+  {
+   "text": "cat не открывает папку",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть что внутри папки в терминале linux",
+   "lang": "ru"
+  },
+  {
+   "text": "ls список файлов в папке linux",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Is a directory"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You have a Linux terminal open",
+  "You know the path of the folder you tried to read"
+ ],
+ "steps": [
+  {
+   "explain": "cat prints the text of a file. You gave it a folder, which only holds other files, so there is no text to print. List the folder to see what it contains. Folders are shown with a / at the end.",
+   "cmd": "ls -F <FOLDER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FOLDER",
+     "description": "Path of the folder you tried to read with cat.",
+     "example": "/etc"
+    }
+   ],
+   "expect": "A list of file and folder names, such as hosts and alternatives/. Names ending with / are folders.",
+   "alternatives": [
+    {
+     "explain": "Show the same list with details: permissions, owner, size and date of each item.",
+     "cmd": "ls -l <FOLDER>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FOLDER",
+       "description": "Path of the folder you tried to read with cat.",
+       "example": "/etc"
+      }
+     ],
+     "expect": "One line per item. A line starting with - is a file, and a line starting with d is a folder."
+    }
+   ]
+  },
+  {
+   "explain": "Read one file from the list. Write the folder path, a slash, and the file name, so cat gets the path of the file and not of the folder.",
+   "cmd": "cat <FOLDER>/<FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FOLDER",
+     "description": "Path of the folder that holds the file.",
+     "example": "/tmp/demo"
+    },
+    {
+     "name": "FILE",
+     "description": "Name of a file inside the folder, taken from the list in the previous step.",
+     "example": "a.txt"
+    }
+   ],
+   "expect": "The text inside the file appears. No Is a directory message is shown."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls -ld <FOLDER>",
+   "expect": "The first character of the line is d, which confirms that the path is a folder."
+  },
+  {
+   "cmd": "cat <FOLDER>/<FILE>",
+   "expect": "The text of the file is printed, without the Is a directory message."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/cat",
+  "title": "cat manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

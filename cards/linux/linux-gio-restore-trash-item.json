@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-gio-restore-trash-item",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Restore a specific item from the trash",
+ "summary": "Move a specific file or folder back from the trash to its original location using its unique ID.",
+ "aliases": [
+  {
+   "text": "restore file from trash",
+   "lang": "en"
+  },
+  {
+   "text": "undo delete file",
+   "lang": "en"
+  },
+  {
+   "text": "gio trash restore",
+   "lang": "en"
+  },
+  {
+   "text": "восстановить файл из корзины",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть файл из корзины",
+   "lang": "ru"
+  },
+  {
+   "text": "gio trash trash://",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Restore the item with the specified ID from the trash.",
+   "cmd": "gio trash trash://<ITEM_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ITEM_ID",
+     "description": "The unique ID of the item in the trash",
+     "example": "1234567890",
+     "discover_cmd": "gio trash --list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gio-trash.md",
+  "title": "tldr-pages: gio-trash",
+  "license": "CC-BY-4.0"
+ }
+}

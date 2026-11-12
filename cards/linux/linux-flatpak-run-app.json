@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "linux-flatpak-run-app",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Run a Flatpak application",
+ "summary": "Launch an installed Flatpak application from the command line.",
+ "aliases": [
+  {
+   "text": "run flatpak app",
+   "lang": "en"
+  },
+  {
+   "text": "launch flatpak",
+   "lang": "en"
+  },
+  {
+   "text": "start flatpak application",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak run",
+   "lang": "en"
+  },
+  {
+   "text": "запустить flatpak приложение",
+   "lang": "ru"
+  },
+  {
+   "text": "как запустить flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak run app",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak run command",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Executes the installed application identified by its app ID.",
+   "cmd": "flatpak run <APP_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_ID",
+     "description": "The unique identifier of the application (e.g., org.gnome.Calculator).",
+     "example": "org.gnome.Calculator"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flatpak.md",
+  "title": "tldr-pages: flatpak",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-bluetooth-list-known-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List known Bluetooth devices",
+ "summary": "Show a list of Bluetooth devices that your computer has previously paired with or knows about.",
+ "aliases": [
+  {
+   "text": "list bluetooth devices",
+   "lang": "en"
+  },
+  {
+   "text": "show paired bluetooth devices",
+   "lang": "en"
+  },
+  {
+   "text": "bluetoothctl devices",
+   "lang": "en"
+  },
+  {
+   "text": "check paired bluetooth",
+   "lang": "en"
+  },
+  {
+   "text": "список bluetooth устройств",
+   "lang": "ru"
+  },
+  {
+   "text": "показать известные bluetooth",
+   "lang": "ru"
+  },
+  {
+   "text": "bluetoothctl devices",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bluez"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display all known Bluetooth devices.",
+   "cmd": "bluetoothctl devices",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/bluetoothctl.md",
+  "title": "tldr-pages: bluetoothctl",
+  "license": "CC-BY-4.0"
+ }
+}

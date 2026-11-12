@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-curl-download-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Download a file from the internet using curl",
+ "summary": "Use curl to download a file and save it with its original name. This is useful for grabbing files directly from a URL without opening a browser.",
+ "aliases": [
+  {
+   "text": "download file with curl",
+   "lang": "en"
+  },
+  {
+   "text": "curl download file",
+   "lang": "en"
+  },
+  {
+   "text": "save file from url terminal",
+   "lang": "en"
+  },
+  {
+   "text": "скачать файл через curl",
+   "lang": "ru"
+  },
+  {
+   "text": "curl скачать файл",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузить файл из интернета в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -O flag to tell curl to save the downloaded content to a file named after the last part of the URL.",
+   "cmd": "curl -O <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "URL",
+     "description": "The full URL of the file to download",
+     "example": "https://example.com/filename.zip"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/curl.md",
+  "title": "tldr-pages: curl",
+  "license": "CC-BY-4.0"
+ }
+}

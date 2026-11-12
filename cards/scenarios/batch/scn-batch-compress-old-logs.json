@@ -1,0 +1,138 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-compress-old-logs",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compress log files older than a number of days",
+ "summary": "Finds the log files in a folder that have not changed for more than a set number of days and compresses each one with gzip. Each file becomes a smaller .gz file, which zcat or zless can still read. You see the list before anything changes.",
+ "aliases": [
+  {
+   "text": "compress log files older than N days",
+   "lang": "en"
+  },
+  {
+   "text": "gzip old logs linux",
+   "lang": "en"
+  },
+  {
+   "text": "compress logs older than 30 days",
+   "lang": "en"
+  },
+  {
+   "text": "find and gzip old log files",
+   "lang": "en"
+  },
+  {
+   "text": "free disk space by compressing logs",
+   "lang": "en"
+  },
+  {
+   "text": "rotate old logs manually with gzip",
+   "lang": "en"
+  },
+  {
+   "text": "сжать старые логи старше N дней",
+   "lang": "ru"
+  },
+  {
+   "text": "архивировать логи старше 30 дней linux",
+   "lang": "ru"
+  },
+  {
+   "text": "gzip старых лог файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место сжатием логов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "find",
+   "gzip"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview: list the .log files whose last change is more than DAYS days ago. -mtime +30 means older than 30 full days. Nothing changes yet.",
+   "risk": "low",
+   "cmd": "find <LOG_DIR> -name '*.log' -mtime +<DAYS> -print",
+   "expect": "Paths such as logs/myapp/old.log. An empty output means no file is that old.",
+   "placeholders": [
+    {
+     "name": "LOG_DIR",
+     "description": "Folder with the log files",
+     "example": "logs/myapp",
+     "discover_cmd": "ls"
+    },
+    {
+     "name": "DAYS",
+     "description": "Age in days; files older than this are compressed",
+     "example": "30"
+    }
+   ]
+  },
+  {
+   "explain": "Compress each old log. gzip writes a .gz file and removes the original; -v prints the name of each file it replaces.",
+   "risk": "medium",
+   "cmd": "find <LOG_DIR> -name '*.log' -mtime +<DAYS> -exec gzip -v {} +",
+   "expect": "One line per file, such as: ./old.log: ... -- replaced with ./old.log.gz",
+   "placeholders": [
+    {
+     "name": "LOG_DIR",
+     "description": "Folder with the log files",
+     "example": "logs/myapp"
+    },
+    {
+     "name": "DAYS",
+     "description": "Age in days",
+     "example": "30"
+    }
+   ]
+  },
+  {
+   "explain": "List the compressed logs.",
+   "risk": "low",
+   "cmd": "find <LOG_DIR> -name '*.log.gz'",
+   "expect": "Paths ending in .log.gz for the files that were compressed.",
+   "placeholders": [
+    {
+     "name": "LOG_DIR",
+     "description": "Folder with the log files",
+     "example": "logs/myapp"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://www.gnu.org/software/gzip/manual/gzip.html",
+  "title": "gzip - GNU gzip manual",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "rollback": [
+  {
+   "explain": "Unpack the compressed logs again. This restores every .log.gz file in the folder, so check the list first.",
+   "risk": "medium",
+   "cmd": "find <LOG_DIR> -name '*.log.gz' -exec gunzip {} +",
+   "placeholders": [
+    {
+     "name": "LOG_DIR",
+     "description": "Folder with the log files",
+     "example": "logs/myapp"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "A program that is still writing to a log keeps writing to the old file after it is replaced, so those lines are lost. Do not compress logs that a running program uses; rotate them first with logrotate.",
+  "Compressing removes the original file. Test a copy first if the logs matter."
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-yay-show-stats",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show package statistics and system health",
+ "summary": "Display statistics about installed packages and the overall health of the system.",
+ "aliases": [
+  {
+   "text": "yay stats",
+   "lang": "en"
+  },
+  {
+   "text": "yay -Ps",
+   "lang": "en"
+  },
+  {
+   "text": "system health yay",
+   "lang": "en"
+  },
+  {
+   "text": "yay statistics",
+   "lang": "en"
+  },
+  {
+   "text": "статистика yay",
+   "lang": "ru"
+  },
+  {
+   "text": "yay проверка системы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "yay"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Shows statistics for installed packages and system health.",
+   "cmd": "yay -Ps",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/yay.md",
+  "title": "tldr-pages: yay",
+  "license": "CC-BY-4.0"
+ }
+}

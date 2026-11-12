@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-herd-site",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open Herd site in browser",
+ "summary": "Open the local website associated with your current directory in the default web browser. This is useful for quickly viewing your development site.",
+ "aliases": [
+  {
+   "text": "open herd site",
+   "lang": "en"
+  },
+  {
+   "text": "herd open",
+   "lang": "en"
+  },
+  {
+   "text": "open local site",
+   "lang": "en"
+  },
+  {
+   "text": "открыть сайт herd",
+   "lang": "ru"
+  },
+  {
+   "text": "herd open",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть локальный сайт",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the site for the current directory in the browser.",
+   "cmd": "herd open",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/herd.md",
+  "title": "tldr-pages: herd",
+  "license": "CC-BY-4.0"
+ }
+}

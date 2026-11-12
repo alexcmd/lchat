@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "nvidia-load-settings",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Load NVIDIA Settings on Login",
+ "summary": "Automatically apply saved NVIDIA settings (like resolution or color depth) when you log in.",
+ "aliases": [
+  {
+   "text": "nvidia settings not saving",
+   "lang": "en"
+  },
+  {
+   "text": "apply nvidia settings on boot",
+   "lang": "en"
+  },
+  {
+   "text": "nvidia-settings load config",
+   "lang": "en"
+  },
+  {
+   "text": "загрузить настройки nvidia",
+   "lang": "ru"
+  },
+  {
+   "text": "nvidia settings reset",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "desktop": [
+   "any"
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "NVIDIA driver installed",
+  "Settings saved in ~/.nvidia-settings-rc"
+ ],
+ "steps": [
+  {
+   "explain": "Load the saved configuration from ~/.nvidia-settings-rc.",
+   "cmd": "nvidia-settings --load-config-only",
+   "risk": "low"
+  },
+  {
+   "explain": "Add 'nvidia-settings --load-config-only' to your autostart file (e.g., ~/.config/autostart/ or ~/.xinitrc).",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "nvidia-settings -q CurrentMetaMode",
+   "expect": "Shows the expected resolution/layout."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NVIDIA#nvidia-settings",
+  "title": "NVIDIA",
+  "revision_id": 884018,
+  "license": "GFDL-1.3-or-later"
+ }
+}

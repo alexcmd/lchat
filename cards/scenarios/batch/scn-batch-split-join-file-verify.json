@@ -1,0 +1,131 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-split-join-file-verify",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Split a large file into parts and join it back with a checksum check",
+ "summary": "Cuts a big file into numbered pieces, for example to fit a size limit, and joins the pieces back into one file. A SHA-256 checksum of the original, saved before splitting, proves that the joined file is identical.",
+ "aliases": [
+  {
+   "text": "split large file into parts and join back",
+   "lang": "en"
+  },
+  {
+   "text": "split file linux and join again checksum",
+   "lang": "en"
+  },
+  {
+   "text": "cut big file into pieces linux",
+   "lang": "en"
+  },
+  {
+   "text": "join split file parts",
+   "lang": "en"
+  },
+  {
+   "text": "split iso into chunks verify checksum",
+   "lang": "en"
+  },
+  {
+   "text": "verify split file after joining",
+   "lang": "en"
+  },
+  {
+   "text": "разрезать большой файл на части и склеить обратно",
+   "lang": "ru"
+  },
+  {
+   "text": "разбить файл на куски linux",
+   "lang": "ru"
+  },
+  {
+   "text": "склеить части файла linux",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить контрольную сумму после склейки файла",
+   "lang": "ru"
+  },
+  {
+   "text": "разделить большой файл на части для флешки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "split",
+   "sha256sum"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Save the checksum of the original file. The line written to the .sha256 file is the proof you check the joined file against.",
+   "risk": "low",
+   "cmd": "sha256sum \"<FILE>\" > \"<FILE>.sha256\"",
+   "expect": "No output. The .sha256 file holds one line: a 64-character hex string and the file name.",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The big file to split",
+     "example": "backup image.iso",
+     "discover_cmd": "ls"
+    }
+   ]
+  },
+  {
+   "explain": "Cut the file into pieces of 100 MB each. -d gives numbered suffixes and -a 3 uses three digits, so the pieces are part-000, part-001 and so on.",
+   "risk": "low",
+   "cmd": "split -b 100M -d -a 3 \"<FILE>\" \"<FILE>.part-\"",
+   "expect": "No output. New files named <FILE>.part-000, .part-001 and so on appear next to the original.",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The big file to split",
+     "example": "backup image.iso"
+    }
+   ]
+  },
+  {
+   "explain": "Join the pieces back into a new file. The glob lists the pieces in order because the numbers have the same width. The original is not touched.",
+   "risk": "low",
+   "cmd": "cat \"<FILE>.part-\"* > \"<FILE>.joined\"",
+   "expect": "No output. The joined file has the same size as the original.",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The original file name",
+     "example": "backup image.iso"
+    }
+   ]
+  },
+  {
+   "explain": "Compare the checksum of the joined file with the saved one. MISMATCH means do not delete the parts or the original.",
+   "risk": "low",
+   "cmd": "[ \"$(sha256sum < \"<FILE>.joined\" | cut -d' ' -f1)\" = \"$(cut -d' ' -f1 \"<FILE>.sha256\")\" ] && echo \"checksum OK\" || echo \"checksum MISMATCH\"",
+   "expect": "checksum OK",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The original file name",
+     "example": "backup image.iso"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://www.gnu.org/software/coreutils/manual/html_node/split-invocation.html",
+  "title": "split invocation",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "warnings": [
+  "The pieces and the joined file take as much disk space as the original, so check free space first.",
+  "Quote file names with spaces, as the commands here do."
+ ]
+}

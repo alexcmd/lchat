@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-directory-tree-hidden",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View directory tree including hidden files",
+ "summary": "Display the directory structure including hidden files (those starting with a dot) and with colorized output for better readability.",
+ "aliases": [
+  {
+   "text": "tree with hidden files",
+   "lang": "en"
+  },
+  {
+   "text": "show hidden files tree",
+   "lang": "en"
+  },
+  {
+   "text": "tree -a",
+   "lang": "en"
+  },
+  {
+   "text": "derevo s skrytymi faylami",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat' skrytye fayly derevom",
+   "lang": "ru"
+  },
+  {
+   "text": "struktura so skrytymi katalogami",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `tree` with the `-a` flag to include hidden files and `-C` to force colorization.",
+   "cmd": "tree -a -C",
+   "risk": "low",
+   "expect": "A colorized tree showing all files, including those starting with a dot."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tree.md",
+  "title": "tldr-pages: tree",
+  "license": "CC-BY-4.0"
+ }
+}

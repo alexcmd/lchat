@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "linux-aptitude-remove-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a package with aptitude",
+ "summary": "Uninstalls a specified software package and any packages that depend on it. This cleans up your system by removing unused software.",
+ "aliases": [
+  {
+   "text": "aptitude remove",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall package aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "delete software aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "aptitude remove",
+   "lang": "ru"
+  },
+  {
+   "text": "снести программу aptitude",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Removes the specified package and all packages depending on it.",
+   "cmd": "sudo aptitude remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to remove",
+     "example": "vim"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-install the package if you need to undo the removal.",
+   "cmd": "sudo aptitude install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to re-install",
+     "example": "vim"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Removing packages may remove other software that depends on them."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/aptitude.md",
+  "title": "tldr-pages: aptitude",
+  "license": "CC-BY-4.0"
+ }
+}

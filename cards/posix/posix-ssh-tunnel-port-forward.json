@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "posix-ssh-tunnel-port-forward",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Forward a local port to a remote service via SSH",
+ "summary": "Create a secure tunnel that forwards traffic from a local port to a specific port on a remote server. This is often used to access services like web servers or databases securely.",
+ "aliases": [
+  {
+   "text": "ssh port forwarding",
+   "lang": "en"
+  },
+  {
+   "text": "ssh tunnel",
+   "lang": "en"
+  },
+  {
+   "text": "forward port ssh",
+   "lang": "en"
+  },
+  {
+   "text": "ssh local forwarding",
+   "lang": "en"
+  },
+  {
+   "text": "проброс порта ssh",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh туннель",
+   "lang": "ru"
+  },
+  {
+   "text": "форуардинг портов ssh",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -L flag to forward a local port to a remote host and port. The -N and -T flags prevent opening a shell and disable pseudo-terminal allocation, keeping the connection purely for forwarding.",
+   "cmd": "ssh <USERNAME>@<REMOTE_HOST> -L <LOCAL_PORT>:<REMOTE_TARGET>:<REMOTE_PORT> -N -T",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username on the jump/ssh server"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "The hostname or IP of the ssh server"
+    },
+    {
+     "name": "LOCAL_PORT",
+     "description": "The port on your local machine to listen on",
+     "example": "9999"
+    },
+    {
+     "name": "REMOTE_TARGET",
+     "description": "The hostname or IP of the final target service",
+     "example": "example.org"
+    },
+    {
+     "name": "REMOTE_PORT",
+     "description": "The port on the final target service",
+     "example": "80"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh.md",
+  "title": "tldr-pages: ssh",
+  "license": "CC-BY-4.0"
+ }
+}

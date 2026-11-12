@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "udev-monitor-events",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Monitor udev events",
+ "summary": "Watch udev events in real-time to see how the system reacts to plugging or unplugging devices. Useful for debugging device detection.",
+ "aliases": [
+  {
+   "text": "monitor udev events",
+   "lang": "en"
+  },
+  {
+   "text": "udevadm monitor",
+   "lang": "en"
+  },
+  {
+   "text": "watch device events",
+   "lang": "en"
+  },
+  {
+   "text": "udev live events",
+   "lang": "en"
+  },
+  {
+   "text": "мониторить события udev",
+   "lang": "ru"
+  },
+  {
+   "text": "udevadm monitor",
+   "lang": "ru"
+  },
+  {
+   "text": "смотреть события устройств",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run udevadm monitor to see kernel and udev events as they happen. Press Ctrl+C to stop.",
+   "cmd": "udevadm monitor",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Udev#List_the_attributes_of_a_device",
+  "title": "Udev",
+  "revision_id": 883820,
+  "license": "GFDL-1.3-or-later"
+ }
+}

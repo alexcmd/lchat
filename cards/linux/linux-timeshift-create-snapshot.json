@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-timeshift-create-snapshot",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Create a new Timeshift snapshot",
+ "summary": "Manually create a system restore point. Use this before making major system changes or installing new software to ensure you can revert if something goes wrong.",
+ "aliases": [
+  {
+   "text": "create timeshift snapshot",
+   "lang": "en"
+  },
+  {
+   "text": "make timeshift backup",
+   "lang": "en"
+  },
+  {
+   "text": "new restore point",
+   "lang": "en"
+  },
+  {
+   "text": "timeshift create",
+   "lang": "en"
+  },
+  {
+   "text": "создать снапшот timeshift",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать бэкап системы",
+   "lang": "ru"
+  },
+  {
+   "text": "создать точку восстановления",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Timeshift is installed and configured"
+ ],
+ "steps": [
+  {
+   "explain": "Create a new snapshot immediately, regardless of the schedule.",
+   "cmd": "sudo timeshift --create",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/timeshift.md",
+  "title": "tldr-pages: timeshift",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-paru-update-all-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update all system and AUR packages with paru",
+ "summary": "Synchronize package lists and upgrade all installed packages, including those from the AUR. This is the standard way to keep an Arch-based system up to date when using paru.",
+ "aliases": [
+  {
+   "text": "update all packages paru",
+   "lang": "en"
+  },
+  {
+   "text": "paru update system",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade aur packages",
+   "lang": "en"
+  },
+  {
+   "text": "arch linux update paru",
+   "lang": "en"
+  },
+  {
+   "text": "обновить все пакеты paru",
+   "lang": "ru"
+  },
+  {
+   "text": "paru обновление системы",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить aur",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "paru"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run paru without arguments to synchronize the package database and upgrade all outdated packages. It will prompt for confirmation before proceeding.",
+   "cmd": "paru",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no simple command to downgrade all packages at once. If an update breaks your system, you may need to manually downgrade specific packages using 'paru -U' with older package files or check the Arch Wiki for recovery steps.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Always read the news on the Arch Linux website before updating, as major updates may require manual intervention.",
+  "Ensure you have enough disk space for the download and build process."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/paru.md",
+  "title": "tldr-pages: paru",
+  "license": "CC-BY-4.0"
+ }
+}

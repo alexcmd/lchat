@@ -1,0 +1,128 @@
+{
+ "schema_version": 2,
+ "id": "linux-paru-install-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install a package from the AUR using paru",
+ "summary": "Use paru to search for and install packages from the Arch User Repository (AUR) or official repositories. It acts as a wrapper for pacman, handling the build and installation process interactively.",
+ "aliases": [
+  {
+   "text": "install aur package paru",
+   "lang": "en"
+  },
+  {
+   "text": "how to install package with paru",
+   "lang": "en"
+  },
+  {
+   "text": "paru install",
+   "lang": "en"
+  },
+  {
+   "text": "aur helper install",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет через paru",
+   "lang": "ru"
+  },
+  {
+   "text": "paru установка пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить aur пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "install aur package",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет из aur",
+   "lang": "ru"
+  },
+  {
+   "text": "yay install",
+   "lang": "en"
+  },
+  {
+   "text": "search aur",
+   "lang": "en"
+  },
+  {
+   "text": "yay search package",
+   "lang": "en"
+  },
+  {
+   "text": "yay поиск пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "paru"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for the package and install it. Paru will ask for confirmation and may prompt for sudo password during the build/install phase.",
+   "cmd": "paru <PACKAGE_NAME_OR_SEARCH_TERM>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME_OR_SEARCH_TERM",
+     "description": "The name of the package you want to install or a search term to find it.",
+     "example": "spotify"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Searches for the package name or keyword in both official repositories and the AUR, then prompts you to select which packages to install.",
+     "cmd": "yay <PACKAGE_NAME>",
+     "placeholders": [
+      {
+       "name": "PACKAGE_NAME",
+       "description": "Name or search term for the package",
+       "example": "visual-studio-code-bin"
+      }
+     ],
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package, its configuration files, and dependencies that are no longer needed.",
+   "cmd": "paru -Rns <PACKAGE_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The exact name of the installed package.",
+     "example": "spotify"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing from the AUR involves building software from source. Always verify the PKGBUILD and source integrity if you are unsure about the package's safety.",
+  "This command may require administrator privileges (sudo) to install the final package."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/paru.md",
+  "title": "tldr-pages: paru",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-pacman-install-package",
+  "linux-pacman-search-package"
+ ]
+}

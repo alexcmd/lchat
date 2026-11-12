@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-specific-update",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install a specific macOS software update",
+ "summary": "Download and install one specific update by name. Use this when you know exactly which update you want to apply.",
+ "aliases": [
+  {
+   "text": "install specific update mac",
+   "lang": "en"
+  },
+  {
+   "text": "update one app terminal",
+   "lang": "en"
+  },
+  {
+   "text": "softwareupdate install name",
+   "lang": "en"
+  },
+  {
+   "text": "установить конкретное обновление мак",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить одно приложение терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "softwareupdate установить имя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the software update tool with the install flag and the name of the update you want to apply.",
+   "cmd": "sudo softwareupdate --install <UPDATE_NAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "UPDATE_NAME",
+     "description": "The exact name of the update as listed by 'softwareupdate --list'.",
+     "example": "macOS Sequoia 15.1",
+     "discover_cmd": "softwareupdate --list"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short install flag.",
+     "cmd": "sudo softwareupdate -i <UPDATE_NAME>",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "UPDATE_NAME",
+       "description": "The exact name of the update as listed by 'softwareupdate --list'.",
+       "example": "macOS Sequoia 15.1",
+       "discover_cmd": "softwareupdate --list"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no simple command to undo a software update. You may need to restore from a Time Machine backup if an update causes issues.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Installing updates can take a long time and may require a restart.",
+  "Ensure you have a backup before installing updates."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/softwareupdate.md",
+  "title": "tldr-pages: softwareupdate",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-current-wifi-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get currently connected Wi-Fi network name",
+ "summary": "Find out the name (SSID) of the Wi-Fi network your Mac is currently connected to.",
+ "aliases": [
+  {
+   "text": "what wifi am i connected to mac",
+   "lang": "en"
+  },
+  {
+   "text": "current wifi name mac",
+   "lang": "en"
+  },
+  {
+   "text": "show connected wifi network mac",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup getairportnetwork",
+   "lang": "en"
+  },
+  {
+   "text": "какой wifi подключен на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "имя текущей сети wifi mac",
+   "lang": "ru"
+  },
+  {
+   "text": "показать подключенную сеть wifi mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Get the name of the currently connected Wi-Fi network. Replace <INTERFACE> with your Wi-Fi interface, usually en0 or en1.",
+   "cmd": "networksetup -getairportnetwork <INTERFACE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The Wi-Fi interface name, usually en0 or en1.",
+     "example": "en0"
+    }
+   ],
+   "expect": "The SSID (name) of the connected Wi-Fi network."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/networksetup.md",
+  "title": "tldr-pages: networksetup",
+  "license": "CC-BY-4.0"
+ }
+}

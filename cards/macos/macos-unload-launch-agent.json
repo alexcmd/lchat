@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-unload-launch-agent",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Unload a user launch agent",
+ "summary": "Stop and remove a launch agent from the active list. The agent will not run until you load it again or restart your Mac.",
+ "aliases": [
+  {
+   "text": "unload launch agent",
+   "lang": "en"
+  },
+  {
+   "text": "disable background script mac",
+   "lang": "en"
+  },
+  {
+   "text": "stop launchd agent",
+   "lang": "en"
+  },
+  {
+   "text": "deactivate plist agent",
+   "lang": "en"
+  },
+  {
+   "text": "выгрузить агент запуска",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить фоновый скрипт",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить launchd агент",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unload the specified launch agent plist file. It will stop running and won't start again until reloaded or after a reboot.",
+   "cmd": "launchctl unload ~/Library/LaunchAgents/<AGENT_NAME>.plist",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "AGENT_NAME",
+     "description": "The name of the launch agent plist file (without .plist extension)",
+     "example": "com.example.myagent"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/launchctl.md",
+  "title": "tldr-pages: launchctl",
+  "license": "CC-BY-4.0"
+ }
+}

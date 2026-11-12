@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-uv-build-project",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Build Python project with uv",
+ "summary": "Use `uv build` to create source and binary distributions of your Python project. This is useful for packaging your project for distribution.",
+ "aliases": [
+  {
+   "text": "uv build",
+   "lang": "en"
+  },
+  {
+   "text": "build python project uv",
+   "lang": "en"
+  },
+  {
+   "text": "package python project uv",
+   "lang": "en"
+  },
+  {
+   "text": "uv create distribution",
+   "lang": "en"
+  },
+  {
+   "text": "uv собрать проект",
+   "lang": "ru"
+  },
+  {
+   "text": "uv создать дистрибутив",
+   "lang": "ru"
+  },
+  {
+   "text": "uv build",
+   "lang": "ru"
+  },
+  {
+   "text": "uv упаковка проекта",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command in your project directory to build the distributions.",
+   "cmd": "uv build",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uv.md",
+  "title": "tldr-pages: uv",
+  "license": "CC-BY-4.0"
+ }
+}

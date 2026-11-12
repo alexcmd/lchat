@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-append-path",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Add a directory to the PATH variable",
+ "summary": "Append a folder to your system's search path so you can run programs from that folder without typing the full path. This change applies only to the current terminal session.",
+ "aliases": [
+  {
+   "text": "add to path",
+   "lang": "en"
+  },
+  {
+   "text": "append to path",
+   "lang": "en"
+  },
+  {
+   "text": "add folder to path",
+   "lang": "en"
+  },
+  {
+   "text": "export path",
+   "lang": "en"
+  },
+  {
+   "text": "dobavit v path",
+   "lang": "ru"
+  },
+  {
+   "text": "kak dobavit katalog v path",
+   "lang": "ru"
+  },
+  {
+   "text": "export path v terminal",
+   "lang": "ru"
+  },
+  {
+   "text": "dobavit papku v path",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Update the PATH variable by appending a new directory to the existing list of paths.",
+   "cmd": "export PATH=$PATH:<PATH_TO_APPEND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATH_TO_APPEND",
+     "description": "The full path to the directory you want to add",
+     "example": "/usr/local/bin"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/export.md",
+  "title": "tldr-pages: export",
+  "license": "CC-BY-4.0"
+ }
+}

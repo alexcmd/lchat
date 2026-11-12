@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "macos-concept-system-data-storage",
+ "platform": "macos",
+ "kind": "concept",
+ "title": "What 'System Data' means in macOS storage",
+ "summary": "System Data is the macOS storage category for files that do not fit the other groups, such as caches, logs, temporary files and virtual-memory files. It can look very large, and macOS manages most of it on its own.",
+ "aliases": [
+  {
+   "text": "what is system data on mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac system data too big",
+   "lang": "en"
+  },
+  {
+   "text": "why system data takes so much space",
+   "lang": "en"
+  },
+  {
+   "text": "macos storage system data what is it",
+   "lang": "en"
+  },
+  {
+   "text": "other storage on mac what is it",
+   "lang": "en"
+  },
+  {
+   "text": "system data 100 gb mac",
+   "lang": "en"
+  },
+  {
+   "text": "что такое system data на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "системные данные занимают много места мак",
+   "lang": "ru"
+  },
+  {
+   "text": "почему system data так много места",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое системные данные в хранилище macos",
+   "lang": "ru"
+  },
+  {
+   "text": "sistem data mac chto eto",
+   "lang": "ru"
+  },
+  {
+   "text": "зачем на маке столько занято system data",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos",
+    "min_version": "13"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A Mac running macOS 13 or later, so the Storage page is in System Settings"
+ ],
+ "steps": [
+  {
+   "explain": "Open the Storage page to see the category list. Choose Apple menu > System Settings > General > Storage. Wait a few seconds while macOS calculates the sizes.",
+   "gui": "Apple menu > System Settings > General > Storage (macOS 13 or later). Find the entry named System Data in the category list.",
+   "risk": "low",
+   "expect": "A bar split into colored categories and a list below it. The System Data entry shows a size in GB, and it may be one of the largest entries."
+  },
+  {
+   "explain": "System Data holds files outside the named categories: caches (temporary copies kept for speed), logs (system and background records), temporary files, virtual-memory files used when RAM is full, and local Time Machine snapshots.",
+   "risk": "low",
+   "expect": "No action here. You now know which kinds of files make up the System Data number."
+  },
+  {
+   "explain": "Understand why it can look huge. Caches grow as you use apps and websites. Snapshots and virtual-memory files stay on disk while they are in use. Heavy users can see tens of gigabytes, and on some Macs with a small SSD it can reach 100 GB or more. The size is not a sign of a fault by itself.",
+   "risk": "low",
+   "expect": "The number in System Data changes over time as caches grow and get cleared."
+  },
+  {
+   "explain": "When free space runs low, macOS removes caches and logs that are safe to delete, so most users need not clean System Data by hand. To free more space, use the Storage page suggestions, such as emptying the Trash.",
+   "gui": "On the Storage page, read the suggestions listed above the category bar, and use the Trash and large-file options the page offers.",
+   "risk": "low",
+   "expect": "Freed space appears in the bar. System Data may shrink, but it may also grow again later."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Do not delete files inside System folders or the private system folders by hand to shrink System Data. This can break apps or macOS."
+ ],
+ "see_also": [],
+ "source": {
+  "url": "https://support.apple.com/guide/mac-help/optimize-storage-space-sysp4ee93ca4/mac",
+  "title": "Apple Support: Optimize storage space on Mac; card written from Apple storage guide and cross-checked against secondary sources",
+  "license": "LicenseRef-Apple-Support-Copyright"
+ },
+ "updated": "2026-10-24"
+}

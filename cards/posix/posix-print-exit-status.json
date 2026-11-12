@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-print-exit-status",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print the exit status of the last command",
+ "summary": "Check if the previous command succeeded or failed by printing its exit code. A status of 0 usually means success, while non-zero values indicate errors.",
+ "aliases": [
+  {
+   "text": "print exit status",
+   "lang": "en"
+  },
+  {
+   "text": "check last command result",
+   "lang": "en"
+  },
+  {
+   "text": "echo $?",
+   "lang": "en"
+  },
+  {
+   "text": "last command exit code",
+   "lang": "en"
+  },
+  {
+   "text": "вывести код возврата",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить результат последней команды",
+   "lang": "ru"
+  },
+  {
+   "text": "echo $?",
+   "lang": "ru"
+  },
+  {
+   "text": "код завершения команды",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run echo with the special variable $? immediately after another command. This variable holds the exit status of the most recently executed foreground command.",
+   "cmd": "echo $?",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/echo.md",
+  "title": "tldr-pages: echo",
+  "license": "CC-BY-4.0"
+ }
+}

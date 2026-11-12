@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "linux-run-command-as-root-pkexec",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Run a command as root using pkexec",
+ "summary": "Use pkexec to run a single command with administrator privileges. It typically asks for your password in a graphical window instead of the terminal.",
+ "aliases": [
+  {
+   "text": "run command as root",
+   "lang": "en"
+  },
+  {
+   "text": "pkexec command",
+   "lang": "en"
+  },
+  {
+   "text": "admin privileges terminal",
+   "lang": "en"
+  },
+  {
+   "text": "run as root without sudo",
+   "lang": "en"
+  },
+  {
+   "text": "запустить команду от рута",
+   "lang": "ru"
+  },
+  {
+   "text": "pkexec команда",
+   "lang": "ru"
+  },
+  {
+   "text": "права администратора терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить от имени root",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Execute the desired command with root privileges. A graphical dialog will usually appear asking for your password.",
+   "cmd": "pkexec <COMMAND>",
+   "risk": "medium",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command you want to run as root",
+     "example": "ls /root"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo for a command run as root. If the command changed settings, you must manually revert them.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Running commands as root can change system settings or delete files. Be careful with the command you enter."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pkexec.md",
+  "title": "tldr-pages: pkexec",
+  "license": "CC-BY-4.0"
+ }
+}

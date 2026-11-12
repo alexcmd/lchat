@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-pamac-install-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install a package using pamac",
+ "summary": "Use pamac to install software on Arch-based systems like Manjaro. This command fetches and installs the specified package from the repositories or AUR.",
+ "aliases": [
+  {
+   "text": "install package pamac",
+   "lang": "en"
+  },
+  {
+   "text": "pamac install",
+   "lang": "en"
+  },
+  {
+   "text": "how to install app pamac",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет pamac",
+   "lang": "ru"
+  },
+  {
+   "text": "pamac установка пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить программу через pamac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pamac"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the specified package using pamac.",
+   "cmd": "pamac install <PACKAGE_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the package to install.",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package and its orphaned dependencies.",
+   "cmd": "pamac remove --orphans <PACKAGE_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the package to remove.",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing packages modifies your system. Ensure you trust the source."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pamac.md",
+  "title": "tldr-pages: pamac",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-generate-powertop-html-report",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Generate an HTML power usage report with powertop",
+ "summary": "Create a detailed HTML report of your system's power consumption. This helps you visualize which components are using the most energy.",
+ "aliases": [
+  {
+   "text": "powertop html report",
+   "lang": "en"
+  },
+  {
+   "text": "generate power report linux",
+   "lang": "en"
+  },
+  {
+   "text": "powertop --html",
+   "lang": "en"
+  },
+  {
+   "text": "battery report html",
+   "lang": "en"
+  },
+  {
+   "text": "создать html отчет powertop",
+   "lang": "ru"
+  },
+  {
+   "text": "отчет энергопотребления html",
+   "lang": "ru"
+  },
+  {
+   "text": "powertop html",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "powertop installed"
+ ],
+ "steps": [
+  {
+   "explain": "Generate an HTML report named <REPORT_FILE> in the current directory. Replace <REPORT_FILE> with your desired filename.",
+   "cmd": "sudo powertop --html=<REPORT_FILE>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REPORT_FILE",
+     "description": "The name of the HTML file to create.",
+     "example": "power_report.html"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/powertop.md",
+  "title": "tldr-pages: powertop",
+  "license": "CC-BY-4.0"
+ }
+}

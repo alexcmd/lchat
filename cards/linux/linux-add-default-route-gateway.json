@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "linux-add-default-route-gateway",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Add a default route via a gateway",
+ "summary": "Configure your system to send all unknown traffic through a specific gateway IP address. This is typically used when setting up a static network configuration or fixing routing issues.",
+ "aliases": [
+  {
+   "text": "add default route",
+   "lang": "en"
+  },
+  {
+   "text": "set default gateway",
+   "lang": "en"
+  },
+  {
+   "text": "ip route add default",
+   "lang": "en"
+  },
+  {
+   "text": "configure gateway",
+   "lang": "en"
+  },
+  {
+   "text": "добавить маршрут по умолчанию",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить шлюз",
+   "lang": "ru"
+  },
+  {
+   "text": "ip route add default via",
+   "lang": "ru"
+  },
+  {
+   "text": "шлюз по умолчанию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add a default route that directs all traffic not matching other routes to the specified gateway IP.",
+   "cmd": "sudo ip route add default via <GATEWAY_IP>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "GATEWAY_IP",
+     "description": "The IP address of your gateway/router",
+     "example": "192.168.1.1"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the default route to revert to the previous configuration.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Incorrect gateway settings can disconnect you from the network.",
+  "Ensure the gateway IP is reachable on your local network."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-route.md",
+  "title": "tldr-pages: ip-route",
+  "license": "CC-BY-4.0"
+ }
+}

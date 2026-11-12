@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-files-by-size",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List files sorted by size",
+ "summary": "See which files are taking up the most space in a directory. This helps identify large files quickly.",
+ "aliases": [
+  {
+   "text": "sort files by size",
+   "lang": "en"
+  },
+  {
+   "text": "list largest files",
+   "lang": "en"
+  },
+  {
+   "text": "ls sort by size",
+   "lang": "en"
+  },
+  {
+   "text": "find big files",
+   "lang": "en"
+  },
+  {
+   "text": "kak posmotret razmer faylov",
+   "lang": "ru"
+  },
+  {
+   "text": "sortirovka po razmeru",
+   "lang": "ru"
+  },
+  {
+   "text": "ls -S",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List files in long format, sorted by size (largest first), recursively.",
+   "cmd": "ls -lSR",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ls.md",
+  "title": "tldr-pages: ls",
+  "license": "CC-BY-4.0"
+ }
+}

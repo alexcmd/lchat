@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "posix-python-run-script",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a Python script",
+ "summary": "Execute a Python script file from the terminal. You can also start an interactive session after the script finishes or run a single line of code.",
+ "aliases": [
+  {
+   "text": "run python script",
+   "lang": "en"
+  },
+  {
+   "text": "execute python file",
+   "lang": "en"
+  },
+  {
+   "text": "how to run .py file",
+   "lang": "en"
+  },
+  {
+   "text": "python command line",
+   "lang": "en"
+  },
+  {
+   "text": "запустить скрипт python",
+   "lang": "ru"
+  },
+  {
+   "text": "как выполнить python файл",
+   "lang": "ru"
+  },
+  {
+   "text": "python скрипт терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the specified Python script file.",
+   "cmd": "python <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the Python script you want to run",
+     "example": "script.py"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Run the script and then start an interactive Python shell (REPL) so you can continue working.",
+     "cmd": "python -i <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the Python script",
+       "example": "script.py"
+      }
+     ]
+    },
+    {
+     "explain": "Execute a single Python expression directly from the command line.",
+     "cmd": "python -c \"<EXPRESSION>\"",
+     "placeholders": [
+      {
+       "name": "EXPRESSION",
+       "description": "The Python code to execute",
+       "example": "print('Hello')"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/python.md",
+  "title": "tldr-pages: python",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,119 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-python-tool-pipx",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install a Python command-line tool with pipx on macOS",
+ "summary": "pipx installs a Python command-line program in its own private environment and makes its command available in Terminal. Your system Python stays untouched.",
+ "aliases": [
+  {
+   "text": "install python command line tool mac",
+   "lang": "en"
+  },
+  {
+   "text": "pipx mac install",
+   "lang": "en"
+  },
+  {
+   "text": "how to install pipx on macos",
+   "lang": "en"
+  },
+  {
+   "text": "pipx command not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "install python app on mac without breaking python",
+   "lang": "en"
+  },
+  {
+   "text": "pip install command line tool mac global",
+   "lang": "en"
+  },
+  {
+   "text": "установить python программу на мак",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить pipx на макбук",
+   "lang": "ru"
+  },
+  {
+   "text": "пипикс мак установка",
+   "lang": "ru"
+  },
+  {
+   "text": "поставить консольную утилиту python на mac",
+   "lang": "ru"
+  },
+  {
+   "text": "установить python утилиту отдельно от системы мак",
+   "lang": "ru"
+  },
+  {
+   "text": "pipx не найден mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app open",
+  "Homebrew installed (check with: command -v brew)",
+  "Know the name of the Python package, for example httpie"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether pipx is already installed. If this prints a path, skip the next step.",
+   "cmd": "command -v pipx",
+   "expect": "Nothing is printed if pipx is not installed yet. If it is installed, a path such as /opt/homebrew/bin/pipx (Apple Silicon) or /usr/local/bin/pipx (Intel) is printed.",
+   "risk": "low"
+  },
+  {
+   "explain": "Install pipx with Homebrew. pipx itself gets its own Python, so the Python that came with macOS is not changed.",
+   "cmd": "brew install pipx",
+   "expect": "Homebrew downloads and installs pipx. On success a line starting with 🍺 shows the install folder.",
+   "risk": "low"
+  },
+  {
+   "explain": "Add the folder where pipx puts program commands (~/.local/bin) to your PATH, so Terminal can find them. This edits your shell settings file (for example ~/.zshrc) once.",
+   "cmd": "pipx ensurepath",
+   "expect": "Prints 'Success! Added' with the folder and tells you to open a new terminal, or says the folder is already in PATH.",
+   "risk": "low"
+  },
+  {
+   "explain": "Install the Python package. pipx creates a separate environment for it and makes its commands available everywhere in Terminal.",
+   "cmd": "pipx install <PACKAGE>",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package that provides the command-line tool",
+     "example": "httpie"
+    }
+   ],
+   "expect": "Shows 'installed package <PACKAGE>' with its version, then 'These apps are now globally available' and the command names, for example '- http'.",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "pipx list",
+   "expect": "A line 'package <PACKAGE> <version>' appears for each installed tool, with its command names listed below it. If nothing is installed, it prints 'nothing has been installed with pipx'."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-error-externally-managed-python"
+ ],
+ "source": {
+  "url": "x-man-page://pipx",
+  "title": "pipx manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-toggle-all-radios",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Turn all radio switches on or off",
+ "summary": "Enable or disable all network radio switches (Wi-Fi and WWAN) simultaneously. Useful for quickly entering airplane mode or restoring connectivity.",
+ "aliases": [
+  {
+   "text": "turn all radios off",
+   "lang": "en"
+  },
+  {
+   "text": "enable all radios",
+   "lang": "en"
+  },
+  {
+   "text": "disable all radios",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli radio all on",
+   "lang": "en"
+  },
+  {
+   "text": "выключить все радиомодули",
+   "lang": "ru"
+  },
+  {
+   "text": "включить все радиомодули",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli radio all off",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Turn all radio switches (Wi-Fi and WWAN) on or off. Replace <STATE> with 'on' to enable or 'off' to disable.",
+   "cmd": "nmcli radio all <STATE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "STATE",
+     "description": "The state to set: 'on' or 'off'",
+     "example": "on"
+    }
+   ],
+   "expect": "The command completes without error. All wireless connectivity changes immediately."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, set all radio switches back to their previous state.",
+   "cmd": "nmcli radio all <PREVIOUS_STATE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PREVIOUS_STATE",
+     "description": "The state radios were in before (on or off)",
+     "example": "on"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Turning all radios off will disconnect you from all wireless networks (Wi-Fi and cellular)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-radio.md",
+  "title": "tldr-pages: nmcli-radio",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-nmcli-toggle-wifi",
+  "linux-nmcli-toggle-wwan"
+ ]
+}

@@ -1,0 +1,185 @@
+{
+ "schema_version": 2,
+ "id": "linux-usb-mount-drive-manually",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount a USB drive from the terminal",
+ "summary": "Find the USB partition with lsblk, check its size and label, then attach it to an empty folder under /mnt so you can open its files. Mounting does not erase anything on the drive.",
+ "aliases": [
+  {
+   "text": "mount usb drive linux terminal",
+   "lang": "en"
+  },
+  {
+   "text": "mount usb stick from command line",
+   "lang": "en"
+  },
+  {
+   "text": "how to mount usb in linux",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk mount usb drive",
+   "lang": "en"
+  },
+  {
+   "text": "mount flash drive terminal linux",
+   "lang": "en"
+  },
+  {
+   "text": "mount external disk to mnt usb",
+   "lang": "en"
+  },
+  {
+   "text": "access usb files command line linux",
+   "lang": "en"
+  },
+  {
+   "text": "смонтировать флешку в терминале linux",
+   "lang": "ru"
+  },
+  {
+   "text": "подключить флешку через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "как смонтировать usb linux",
+   "lang": "ru"
+  },
+  {
+   "text": "монтирование флешки вручную linux",
+   "lang": "ru"
+  },
+  {
+   "text": "примонтировать флешку в mnt",
+   "lang": "ru"
+  },
+  {
+   "text": "смонтировать usb диск командой",
+   "lang": "ru"
+  },
+  {
+   "text": "montirovat fleshku v terminale linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The USB drive is plugged in",
+  "You have administrator (sudo) rights"
+ ],
+ "steps": [
+  {
+   "explain": "List all disks and partitions with their file system type, label and mount point. Find your USB stick by its size and label, and note the partition name (for example sdb1). Do not guess: the name can change after replugging.",
+   "cmd": "lsblk -f",
+   "risk": "low",
+   "expect": "A tree: the system disk with its partitions, and a USB stick with a partition such as sdb1, a FSTYPE such as vfat, exfat or ntfs, and a LABEL. Empty MOUNTPOINTS means not mounted.",
+   "alternatives": [
+    {
+     "explain": "Same list, but with the size and transport columns. TRAN shows usb for the stick, so you can confirm it by size and bus.",
+     "cmd": "lsblk -o NAME,SIZE,FSTYPE,LABEL,TRAN,MOUNTPOINT",
+     "risk": "low",
+     "expect": "The stick shows TRAN usb and a SIZE that matches the drive you plugged in."
+    }
+   ]
+  },
+  {
+   "explain": "Create an empty folder that will be the mount point. Files of the USB drive will appear inside it.",
+   "cmd": "sudo mkdir -p /mnt/usb",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "No output if successful."
+  },
+  {
+   "explain": "Attach the partition you confirmed in step 1 to the folder. Replace <PARTITION> with its name, without /dev/.",
+   "cmd": "sudo mount /dev/<PARTITION> /mnt/usb",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PARTITION",
+     "description": "USB partition name from lsblk -f, without /dev/. Check size and LABEL before using it.",
+     "example": "sdb1",
+     "discover_cmd": "lsblk -f"
+    }
+   ],
+   "expect": "No output if successful. An error such as 'unknown filesystem type' or 'wrong fs type' means the file system is not supported or needs a driver (see warnings).",
+   "alternatives": [
+    {
+     "explain": "Mount read-only. Use this when you only want to look at or copy files and do not want anything written to the drive.",
+     "cmd": "sudo mount -o ro /dev/<PARTITION> /mnt/usb",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PARTITION",
+       "description": "USB partition name from lsblk -f, without /dev/.",
+       "example": "sdb1",
+       "discover_cmd": "lsblk -f"
+      }
+     ],
+     "expect": "No output if successful. Files can be read but not changed."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "findmnt /mnt/usb",
+   "expect": "One line with TARGET /mnt/usb, the SOURCE /dev/ partition you mounted and its FSTYPE."
+  },
+  {
+   "cmd": "ls /mnt/usb",
+   "expect": "The files and folders stored on the USB drive."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Confirm the partition by SIZE and LABEL in lsblk -f before mounting. Mounting the wrong disk, such as your system disk, is the main mistake to avoid.",
+  "Always unmount before you unplug the drive. Removing it while mounted can corrupt files on it.",
+  "Many desktops (Ubuntu, Mint, Fedora) mount USB drives automatically under /media or /run/media. If MOUNTPOINTS is already filled in lsblk -f, unmount it first or open it from the file manager.",
+  "Drives formatted as NTFS may need the ntfs-3g driver, which this card does not install. Read-only mounting (the alternative above) helps only if the driver is present."
+ ],
+ "rollback": [
+  {
+   "explain": "Detach the drive from the folder. Do this before unplugging the stick.",
+   "cmd": "sudo umount /mnt/usb",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Remove the empty mount folder if you no longer need it. rmdir refuses to remove a folder that still has files in it.",
+   "cmd": "sudo rmdir /mnt/usb",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "see_also": [
+  "linux-unmount-device",
+  "linux-list-partitions-table-mountpoints",
+  "linux-list-usb-devices"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/mount",
+  "title": "mount manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

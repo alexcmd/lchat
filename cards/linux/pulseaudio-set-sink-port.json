@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-set-sink-port",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Switch PulseAudio output port",
+ "summary": "Manually switch the active port on a sound card, such as switching between speakers and headphones. This is useful if automatic switching fails.",
+ "aliases": [
+  {
+   "text": "switch audio port",
+   "lang": "en"
+  },
+  {
+   "text": "headphones speakers switch",
+   "lang": "en"
+  },
+  {
+   "text": "pactl set-sink-port",
+   "lang": "en"
+  },
+  {
+   "text": "change output port pulseaudio",
+   "lang": "en"
+  },
+  {
+   "text": "переключить разъем вывода",
+   "lang": "ru"
+  },
+  {
+   "text": "наушники динамики переключить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the active port for a sink. Replace <SINK_INDEX> with the sink index and <PORT_NAME> with the port name (e.g., analog-output-headphones).",
+   "cmd": "pactl set-sink-port <SINK_INDEX> <PORT_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SINK_INDEX",
+     "description": "The index of the output device.",
+     "discover_cmd": "pactl list sinks short"
+    },
+    {
+     "name": "PORT_NAME",
+     "description": "The name of the port, e.g., 'analog-output-headphones'.",
+     "discover_cmd": "LC_ALL=C.UTF-8 pactl list sinks | grep \"Ports:\" -A 5"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio#Script_for_switching_output_ports",
+  "title": "PulseAudio",
+  "revision_id": 861028,
+  "license": "GFDL-1.3-or-later"
+ }
+}

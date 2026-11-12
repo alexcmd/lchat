@@ -1,0 +1,136 @@
+{
+ "schema_version": 2,
+ "id": "flatpak-uninstall-app",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Uninstall a Flatpak application",
+ "summary": "Remove a Flatpak application. You can also choose to delete its user data.",
+ "aliases": [
+  {
+   "text": "uninstall flatpak app",
+   "lang": "en"
+  },
+  {
+   "text": "remove flatpak",
+   "lang": "en"
+  },
+  {
+   "text": "удалить flatpak приложение",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak uninstall",
+   "lang": "ru"
+  },
+  {
+   "text": "remove flatpak app/en",
+   "lang": "en"
+  },
+  {
+   "text": "delete flatpak application/en",
+   "lang": "en"
+  },
+  {
+   "text": "как удалить flatpak/ru",
+   "lang": "ru"
+  },
+  {
+   "text": "remove flatpak app",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall flatpak",
+   "lang": "en"
+  },
+  {
+   "text": "delete flatpak application",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak remove",
+   "lang": "en"
+  },
+  {
+   "text": "как удалить flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak remove app",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Uninstall the application. Add --delete-data to also remove user data and permissions.",
+   "cmd": "flatpak uninstall <APP_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_ID",
+     "description": "The ID of the application to remove",
+     "example": "org.libreoffice.LibreOffice",
+     "discover_cmd": "flatpak list"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Uninstall and delete all user data associated with the app.",
+     "cmd": "flatpak uninstall --delete-data <APP_ID>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "APP_ID",
+       "description": "The ID of the application to remove",
+       "example": "org.libreoffice.LibreOffice"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "flatpak list",
+   "expect": "The application is no longer in the list."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the application to restore it. Note that deleted user data cannot be automatically restored.",
+   "cmd": "flatpak install <REMOTE> <APP_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REMOTE",
+     "description": "The remote repository name",
+     "example": "flathub"
+    },
+    {
+     "name": "APP_ID",
+     "description": "The application ID",
+     "example": "org.libreoffice.LibreOffice"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Using --delete-data permanently removes user settings and data for that application."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Flatpak#Uninstall_a_runtime_or_application",
+  "title": "Flatpak",
+  "revision_id": 886042,
+  "license": "GFDL-1.3-or-later"
+ }
+}

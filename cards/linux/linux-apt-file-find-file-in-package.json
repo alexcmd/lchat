@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-file-find-file-in-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find which package contains a specific file",
+ "summary": "Use apt-file to search for files inside apt packages, even if they are not installed yet. This helps you identify which package provides a missing command or library.",
+ "aliases": [
+  {
+   "text": "find package for file",
+   "lang": "en"
+  },
+  {
+   "text": "which package has this file",
+   "lang": "en"
+  },
+  {
+   "text": "apt-file search",
+   "lang": "en"
+  },
+  {
+   "text": "find file in apt packages",
+   "lang": "en"
+  },
+  {
+   "text": "find package for file",
+   "lang": "ru"
+  },
+  {
+   "text": "which package has this file",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-file search",
+   "lang": "ru"
+  },
+  {
+   "text": "find file in apt packages",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "prerequisites": [
+  "apt-file is installed (sudo apt install apt-file)"
+ ],
+ "steps": [
+  {
+   "explain": "Update the apt-file database to ensure it knows about the latest packages. This requires administrator rights.",
+   "cmd": "sudo apt update",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Search for the package that contains the specified file or path.",
+   "cmd": "apt-file search <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The filename or path you are looking for",
+     "example": "libssl.so.1.1"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "No rollback needed for searching, but you can remove the apt-file package if you no longer need it.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "The first search may take a few seconds as the database is loaded."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-file.md",
+  "title": "tldr-pages: apt-file",
+  "license": "CC-BY-4.0"
+ }
+}

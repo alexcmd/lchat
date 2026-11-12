@@ -1,0 +1,116 @@
+{
+ "schema_version": 2,
+ "id": "linux-view-error-logs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "View error logs from the previous boot",
+ "summary": "Use journalctl to view only error-level messages from the previous boot. This is helpful for diagnosing issues that occurred before the last reboot.",
+ "aliases": [
+  {
+   "text": "view error logs",
+   "lang": "en"
+  },
+  {
+   "text": "previous boot errors",
+   "lang": "en"
+  },
+  {
+   "text": "journalctl errors",
+   "lang": "en"
+  },
+  {
+   "text": "check boot errors",
+   "lang": "en"
+  },
+  {
+   "text": "system errors last boot",
+   "lang": "en"
+  },
+  {
+   "text": "priority 3 logs",
+   "lang": "en"
+  },
+  {
+   "text": "boot before last errors",
+   "lang": "en"
+  },
+  {
+   "text": "diagnose boot issues",
+   "lang": "en"
+  },
+  {
+   "text": "errors from previous boot",
+   "lang": "en"
+  },
+  {
+   "text": "systemd error logs",
+   "lang": "en"
+  },
+  {
+   "text": "ошибки предыдущей загрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "журнал ошибок",
+   "lang": "ru"
+  },
+  {
+   "text": "journalctl errors",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибки при загрузке",
+   "lang": "ru"
+  },
+  {
+   "text": "логи ошибок системы",
+   "lang": "ru"
+  },
+  {
+   "text": "приоритет 3",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибки до перезагрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "диагностика загрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибки прошлого запуска",
+   "lang": "ru"
+  },
+  {
+   "text": "системные ошибки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show all messages with priority level 3 (errors) from the boot before the last shutdown.",
+   "cmd": "journalctl --boot -1 --priority 3",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/journalctl.md",
+  "title": "tldr-pages: journalctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-services-list-failed-units"
+ ]
+}

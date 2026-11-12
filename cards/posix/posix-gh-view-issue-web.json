@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-gh-view-issue-web",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View a GitHub issue in the web browser",
+ "summary": "Open a specific issue in your default web browser using its number or URL. This is useful for viewing details or comments that are easier to read in the browser.",
+ "aliases": [
+  {
+   "text": "open github issue in browser",
+   "lang": "en"
+  },
+  {
+   "text": "gh issue view web",
+   "lang": "en"
+  },
+  {
+   "text": "gh issue view -w",
+   "lang": "en"
+  },
+  {
+   "text": "otkryt issue v brauzere",
+   "lang": "ru"
+  },
+  {
+   "text": "gh smotret issue",
+   "lang": "ru"
+  },
+  {
+   "text": "gh issue v okne",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "GitHub CLI (gh) is installed",
+  "You are logged in to GitHub with gh auth login"
+ ],
+ "steps": [
+  {
+   "explain": "Open the specified issue in your default web browser.",
+   "cmd": "gh issue view --web <ISSUE_NUMBER_OR_URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ISSUE_NUMBER_OR_URL",
+     "description": "The issue number (e.g., 123) or the full URL of the issue",
+     "example": "123"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/gh.md",
+  "title": "tldr-pages: gh",
+  "license": "CC-BY-4.0"
+ }
+}

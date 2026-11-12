@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "posix-print-environment-variables",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print all environment variables",
+ "summary": "Display a list of all environment variables and their values currently set in your shell session.",
+ "aliases": [
+  {
+   "text": "printenv",
+   "lang": "en"
+  },
+  {
+   "text": "show environment variables",
+   "lang": "en"
+  },
+  {
+   "text": "list env vars",
+   "lang": "en"
+  },
+  {
+   "text": "echo all variables",
+   "lang": "en"
+  },
+  {
+   "text": "printenv all",
+   "lang": "en"
+  },
+  {
+   "text": "какие переменные окружения",
+   "lang": "ru"
+  },
+  {
+   "text": "показать переменные окружения",
+   "lang": "ru"
+  },
+  {
+   "text": "printenv список",
+   "lang": "ru"
+  },
+  {
+   "text": "вывести env",
+   "lang": "ru"
+  },
+  {
+   "text": "check environment",
+   "lang": "en"
+  },
+  {
+   "text": "what is my path",
+   "lang": "en"
+  },
+  {
+   "text": "список env",
+   "lang": "ru"
+  },
+  {
+   "text": "какой у меня path",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the printenv command without arguments to display all environment variables.",
+   "cmd": "printenv",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Run the env command without arguments to print all current environment variables.",
+     "cmd": "env",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/printenv.md",
+  "title": "tldr-pages: printenv",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-print-specific-environment-variable",
+  "posix-set-env-var"
+ ]
+}

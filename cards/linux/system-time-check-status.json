@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "system-time-check-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check current system time and time zone",
+ "summary": "View the current system time, whether it is synchronized, and the active time zone. This helps diagnose issues where the clock is wrong or not updating.",
+ "aliases": [
+  {
+   "text": "check system time",
+   "lang": "en"
+  },
+  {
+   "text": "what is my time zone",
+   "lang": "en"
+  },
+  {
+   "text": "timedatectl status",
+   "lang": "en"
+  },
+  {
+   "text": "clock wrong",
+   "lang": "en"
+  },
+  {
+   "text": "проверить время",
+   "lang": "ru"
+  },
+  {
+   "text": "какая временная зона",
+   "lang": "ru"
+  },
+  {
+   "text": "неверное время",
+   "lang": "ru"
+  },
+  {
+   "text": "check timezone",
+   "lang": "en"
+  },
+  {
+   "text": "проверить часовой пояс",
+   "lang": "ru"
+  },
+  {
+   "text": "what is the current time",
+   "lang": "en"
+  },
+  {
+   "text": "show date and time",
+   "lang": "en"
+  },
+  {
+   "text": "проверить время системы",
+   "lang": "ru"
+  },
+  {
+   "text": "какое сейчас время",
+   "lang": "ru"
+  },
+  {
+   "text": "показать дату и время",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the current system time, time zone, and synchronization status.",
+   "cmd": "timedatectl",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/System_time#System_clock",
+  "title": "System time",
+  "revision_id": 887572,
+  "license": "GFDL-1.3-or-later"
+ }
+}

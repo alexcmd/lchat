@@ -1,0 +1,102 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-file-in-textmate",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open a file in TextMate",
+ "summary": "Use the `mate` command to open files in the TextMate editor from the Terminal. You can open one or more files, or specify the file type if it's not recognized automatically.",
+ "aliases": [
+  {
+   "text": "open file in textmate",
+   "lang": "en"
+  },
+  {
+   "text": "mate command",
+   "lang": "en"
+  },
+  {
+   "text": "edit file in textmate terminal",
+   "lang": "en"
+  },
+  {
+   "text": "открыть файл в textmate",
+   "lang": "ru"
+  },
+  {
+   "text": "команда mate",
+   "lang": "ru"
+  },
+  {
+   "text": "редактировать файл в textmate",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `mate` command followed by the path to the file you want to edit. You can list multiple files separated by spaces.",
+   "cmd": "mate <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file(s) you want to open in TextMate.",
+     "example": "~/Documents/notes.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "If TextMate doesn't recognize the file type, you can force it to use a specific syntax highlighting mode.",
+     "cmd": "mate --type <FILETYPE> <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILETYPE",
+       "description": "The type of file, e.g., 'python', 'html', 'markdown'.",
+       "example": "python"
+      },
+      {
+       "name": "FILE",
+       "description": "The path to the file.",
+       "example": "~/script.py"
+      }
+     ]
+    },
+    {
+     "explain": "Open the file and position the cursor at a specific line and column (format: line:column).",
+     "cmd": "mate --line <LINE>:<COLUMN> <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "LINE",
+       "description": "The line number to jump to.",
+       "example": "10"
+      },
+      {
+       "name": "COLUMN",
+       "description": "The column number to jump to.",
+       "example": "5"
+      },
+      {
+       "name": "FILE",
+       "description": "The path to the file.",
+       "example": "~/script.py"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mate.md",
+  "title": "tldr-pages: mate",
+  "license": "CC-BY-4.0"
+ }
+}

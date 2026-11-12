@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "posix-ping-host",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check if a host is reachable",
+ "summary": "Send network packets to a host to see if it responds. This helps verify internet connectivity or if a specific device on your network is online.",
+ "aliases": [
+  {
+   "text": "ping a website",
+   "lang": "en"
+  },
+  {
+   "text": "check internet connection",
+   "lang": "en"
+  },
+  {
+   "text": "is server online",
+   "lang": "en"
+  },
+  {
+   "text": "ping command",
+   "lang": "en"
+  },
+  {
+   "text": "проверить доступность сайта",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить интернет",
+   "lang": "ru"
+  },
+  {
+   "text": "доступен ли хост",
+   "lang": "ru"
+  },
+  {
+   "text": "check if internet is working",
+   "lang": "en"
+  },
+  {
+   "text": "test connection to server",
+   "lang": "en"
+  },
+  {
+   "text": "ping command mac",
+   "lang": "en"
+  },
+  {
+   "text": "пинг сайта",
+   "lang": "ru"
+  },
+  {
+   "text": "команда пинг",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send ICMP echo requests to the specified host. It will keep sending packets until you stop it (Ctrl+C).",
+   "cmd": "ping <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The IP address or domain name of the host to ping.",
+     "example": "google.com"
+    }
+   ],
+   "expect": "Lines showing time and packet size for each reply, or 'Request timed out' if unreachable."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ping.md",
+  "title": "tldr-pages: ping",
+  "license": "CC-BY-4.0"
+ }
+}

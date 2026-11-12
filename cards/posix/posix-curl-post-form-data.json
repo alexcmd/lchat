@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-curl-post-form-data",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Send form-encoded data with curl",
+ "summary": "Send a POST request with form data (application/x-www-form-urlencoded). This is commonly used to submit simple forms or interact with APIs that expect form fields.",
+ "aliases": [
+  {
+   "text": "curl post form data",
+   "lang": "en"
+  },
+  {
+   "text": "send post request curl",
+   "lang": "en"
+  },
+  {
+   "text": "curl -X POST -d",
+   "lang": "en"
+  },
+  {
+   "text": "отправить форму через curl",
+   "lang": "ru"
+  },
+  {
+   "text": "curl пост запрос с данными",
+   "lang": "ru"
+  },
+  {
+   "text": "отправить данные формы в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use -X POST to specify the method and -d to send the form-encoded data.",
+   "cmd": "curl -X POST -d '<DATA>' <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DATA",
+     "description": "The form data to send, e.g. name=bob",
+     "example": "name=bob"
+    },
+    {
+     "name": "URL",
+     "description": "The URL to send the request to",
+     "example": "http://example.com/form"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/curl.md",
+  "title": "tldr-pages: curl",
+  "license": "CC-BY-4.0"
+ }
+}

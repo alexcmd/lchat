@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "posix-ping-show-timeouts",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Ping a host and show timeouts",
+ "summary": "Display a message when no response is received from the host. By default, ping might just stay silent on timeouts.",
+ "aliases": [
+  {
+   "text": "ping show timeouts",
+   "lang": "en"
+  },
+  {
+   "text": "ping no response message",
+   "lang": "en"
+  },
+  {
+   "text": "ping -O",
+   "lang": "en"
+  },
+  {
+   "text": "пинг показать таймауты",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг без ответа",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send packets to the host and display a message if no response was received.",
+   "cmd": "ping -O <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The IP address or domain name of the host to ping.",
+     "example": "google.com"
+    }
+   ],
+   "expect": "Explicit message shown when a packet times out."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ping.md",
+  "title": "tldr-pages: ping",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-current-shell",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find out which shell is running now",
+ "summary": "Print the name of the shell that runs in this terminal window. The command only reads information and changes nothing.",
+ "aliases": [
+  {
+   "text": "which shell am I using",
+   "lang": "en"
+  },
+  {
+   "text": "what shell is running in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "check current shell",
+   "lang": "en"
+  },
+  {
+   "text": "which shel am i using",
+   "lang": "en"
+  },
+  {
+   "text": "how to see my terminal shell",
+   "lang": "en"
+  },
+  {
+   "text": "какой шелл сейчас запущен",
+   "lang": "ru"
+  },
+  {
+   "text": "какую оболочку использует терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать какой shell я использую",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить текущий shell",
+   "lang": "ru"
+  },
+  {
+   "text": "какой командный интерпретатор в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ps"
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open"
+ ],
+ "steps": [
+  {
+   "explain": "Ask ps for the program name of the process whose ID is $$, which is the shell running this terminal. Read-only.",
+   "cmd": "ps -p $$ -o comm=",
+   "risk": "low",
+   "expect": "The shell name, for example bash or zsh. On macOS it can start with a dash, such as -zsh, or show a full path such as /bin/zsh."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/ps",
+  "title": "ps manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

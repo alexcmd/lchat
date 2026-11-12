@@ -1,0 +1,158 @@
+{
+ "schema_version": 2,
+ "id": "posix-host-query-specific-dns-server",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Query a specific DNS server",
+ "summary": "Use the `host` command to look up a domain using a specific DNS server instead of the system default.",
+ "aliases": [
+  {
+   "text": "host specific dns server",
+   "lang": "en"
+  },
+  {
+   "text": "query dns server manually",
+   "lang": "en"
+  },
+  {
+   "text": "dns lookup custom server",
+   "lang": "en"
+  },
+  {
+   "text": "host 8.8.8.8",
+   "lang": "en"
+  },
+  {
+   "text": "dns запрос на конкретный сервер",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить dns на сервере",
+   "lang": "ru"
+  },
+  {
+   "text": "host dns server",
+   "lang": "ru"
+  },
+  {
+   "text": "check dns with 8.8.8.8",
+   "lang": "en"
+  },
+  {
+   "text": "manual dns lookup",
+   "lang": "en"
+  },
+  {
+   "text": "ручной dns lookup",
+   "lang": "ru"
+  },
+  {
+   "text": "query specific dns server",
+   "lang": "en"
+  },
+  {
+   "text": "drill dns query",
+   "lang": "en"
+  },
+  {
+   "text": "check dns record",
+   "lang": "en"
+  },
+  {
+   "text": "drill txt record",
+   "lang": "en"
+  },
+  {
+   "text": "запрос к dns серверу",
+   "lang": "ru"
+  },
+  {
+   "text": "drill dns запрос",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить dns запись",
+   "lang": "ru"
+  },
+  {
+   "text": "nslookup specific server",
+   "lang": "en"
+  },
+  {
+   "text": "nslookup against server",
+   "lang": "en"
+  },
+  {
+   "text": "zaprosit konkretnyi dns server",
+   "lang": "ru"
+  },
+  {
+   "text": "nslookup 8.8.8.8",
+   "lang": "ru"
+  },
+  {
+   "text": "provirit dns na servere",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the specified DNS server for the domain's records.",
+   "cmd": "host <DOMAIN> <DNS_SERVER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to look up",
+     "example": "example.com"
+    },
+    {
+     "name": "DNS_SERVER",
+     "description": "The IP address of the DNS server to query",
+     "example": "8.8.8.8"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use drill to query a specific nameserver for a specific record type (e.g., TXT) for a domain.",
+     "cmd": "drill <DOMAIN> @<NAMESERVER> <RECORD_TYPE>",
+     "placeholders": [
+      {
+       "name": "DOMAIN",
+       "description": "The domain name to query",
+       "example": "archlinux.org"
+      },
+      {
+       "name": "NAMESERVER",
+       "description": "The IP address of the DNS server to query",
+       "example": "8.8.8.8"
+      },
+      {
+       "name": "RECORD_TYPE",
+       "description": "The type of DNS record to retrieve (e.g., A, AAAA, TXT, MX)",
+       "example": "TXT"
+      }
+     ],
+     "expect": "The command outputs the requested DNS record from the specified server.",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/host.md",
+  "title": "tldr-pages: host",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-nslookup-domain-ip"
+ ]
+}

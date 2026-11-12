@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-open-files-by-user",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List files opened by a specific user",
+ "summary": "Use lsof to see all files currently opened by a particular user account. This can help troubleshoot issues related to a specific user's session or applications.",
+ "aliases": [
+  {
+   "text": "list files by user",
+   "lang": "en"
+  },
+  {
+   "text": "lsof user",
+   "lang": "en"
+  },
+  {
+   "text": "files opened by user",
+   "lang": "en"
+  },
+  {
+   "text": "what files is user using",
+   "lang": "en"
+  },
+  {
+   "text": "какие файлы открыты пользователем",
+   "lang": "ru"
+  },
+  {
+   "text": "lsof пользователь",
+   "lang": "ru"
+  },
+  {
+   "text": "открытые файлы пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "что использует пользователь",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsof with the -u flag and the username to list all files opened by that user.",
+   "cmd": "lsof -u <USERNAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username whose open files you want to list",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/lsof.md",
+  "title": "tldr-pages: lsof",
+  "license": "CC-BY-4.0"
+ }
+}

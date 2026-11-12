@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-decompress-file-lzma",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Decompress an LZMA file",
+ "summary": "Use xz with the format flag to extract an .lzma compressed file.",
+ "aliases": [
+  {
+   "text": "decompress lzma file",
+   "lang": "en"
+  },
+  {
+   "text": "unzip lzma",
+   "lang": "en"
+  },
+  {
+   "text": "extract lzma archive",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать lzma",
+   "lang": "ru"
+  },
+  {
+   "text": "разархивировать lzma",
+   "lang": "ru"
+  },
+  {
+   "text": "распаковать архив lzma",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run xz with the decompress and format flags set to lzma and the path to the .lzma file.",
+   "cmd": "xz --decompress --format lzma <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .lzma file to decompress",
+     "example": "document.txt.lzma"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/xz.md",
+  "title": "tldr-pages: xz",
+  "license": "CC-BY-4.0"
+ }
+}

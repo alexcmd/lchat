@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "posix-monitor-processes-htop",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Monitor running processes with htop",
+ "summary": "htop is an interactive terminal tool that shows a live list of running processes, CPU and memory usage. It is easier to read and navigate than the classic top command.",
+ "aliases": [
+  {
+   "text": "htop",
+   "lang": "en"
+  },
+  {
+   "text": "monitor processes",
+   "lang": "en"
+  },
+  {
+   "text": "check running programs",
+   "lang": "en"
+  },
+  {
+   "text": "htop command",
+   "lang": "en"
+  },
+  {
+   "text": "htop",
+   "lang": "ru"
+  },
+  {
+   "text": "монитор процессов",
+   "lang": "ru"
+  },
+  {
+   "text": "htop как пользоваться",
+   "lang": "ru"
+  },
+  {
+   "text": "htop как запустить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start htop to open the interactive process monitor.",
+   "cmd": "htop",
+   "risk": "low",
+   "expect": "A full-screen interface showing CPU, memory, and a list of processes.",
+   "alternatives": [
+    {
+     "explain": "Start htop in read-only mode, disabling all features that can change system or process settings.",
+     "cmd": "htop --readonly",
+     "risk": "low"
+    },
+    {
+     "explain": "Start htop showing only processes owned by a specific user.",
+     "cmd": "htop -u <USERNAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "USERNAME",
+       "description": "The username whose processes to display",
+       "example": "john"
+      }
+     ]
+    },
+    {
+     "explain": "Start htop with a tree view to show parent-child relationships between processes.",
+     "cmd": "htop -t",
+     "risk": "low"
+    },
+    {
+     "explain": "Start htop sorted by a specific item (e.g., CPU, MEM).",
+     "cmd": "htop -s <SORT_ITEM>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SORT_ITEM",
+       "description": "The column to sort by",
+       "example": "CPU"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/htop.md",
+  "title": "tldr-pages: htop",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "posix-sftp-transfer-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Transfer files with SFTP",
+ "summary": "Copy files between your local computer and a remote server while inside an active SFTP session. Use 'get' to download and 'put' to upload.",
+ "aliases": [
+  {
+   "text": "sftp download file",
+   "lang": "en"
+  },
+  {
+   "text": "sftp upload file",
+   "lang": "en"
+  },
+  {
+   "text": "sftp get put",
+   "lang": "en"
+  },
+  {
+   "text": "copy files sftp",
+   "lang": "en"
+  },
+  {
+   "text": "скачать файл через sftp",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузить файл через sftp",
+   "lang": "ru"
+  },
+  {
+   "text": "sftp передача файлов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Inside the SFTP interactive prompt, use 'get' to download a file from the remote server to your current local directory.",
+   "cmd": "get <REMOTE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REMOTE_FILE",
+     "description": "Path to the file on the remote server"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use 'get -R' to download an entire directory recursively.",
+     "cmd": "get -R <REMOTE_DIRECTORY>",
+     "placeholders": [
+      {
+       "name": "REMOTE_DIRECTORY",
+       "description": "Path to the directory on the remote server"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Inside the SFTP interactive prompt, use 'put' to upload a file from your current local directory to the remote server.",
+   "cmd": "put <LOCAL_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LOCAL_FILE",
+     "description": "Path to the file on your local computer"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sftp.md",
+  "title": "tldr-pages: sftp",
+  "license": "CC-BY-4.0"
+ }
+}

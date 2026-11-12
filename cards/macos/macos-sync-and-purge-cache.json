@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "macos-sync-and-purge-cache",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Sync disk writes and clear inactive memory caches",
+ "summary": "This command sequence first ensures all disk writes are complete, then clears inactive memory and filesystem caches. This can help free up RAM and ensure a clean state for disk operations.",
+ "aliases": [
+  {
+   "text": "sync and purge",
+   "lang": "en"
+  },
+  {
+   "text": "clear cache mac",
+   "lang": "en"
+  },
+  {
+   "text": "purge inactive memory",
+   "lang": "en"
+  },
+  {
+   "text": "flush cache and sync",
+   "lang": "en"
+  },
+  {
+   "text": "clear system cache",
+   "lang": "en"
+  },
+  {
+   "text": "синхронизация и очистка кэша",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить кэш памяти",
+   "lang": "ru"
+  },
+  {
+   "text": "purge cache mac",
+   "lang": "ru"
+  },
+  {
+   "text": "сброс кэша файловой системы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run sync to flush disk writes, then use sudo purge to clear inactive memory and filesystem caches.",
+   "cmd": "sudo sync; sudo purge",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Clearing caches may temporarily slow down the system as it rebuilds them.",
+  "Requires administrator privileges."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct undo for clearing caches; the system will rebuild them automatically as needed.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sync.md",
+  "title": "tldr-pages: sync",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "tlp-enable-wifi-on-boot",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable Wi-Fi radio on boot with TLP",
+ "summary": "By default, TLP keeps the Wi-Fi radio off to save power. This setting ensures Wi-Fi turns on automatically when the computer starts.",
+ "aliases": [
+  {
+   "text": "wifi off on boot tlp",
+   "lang": "en"
+  },
+  {
+   "text": "enable wifi startup tlp",
+   "lang": "en"
+  },
+  {
+   "text": "tlp wifi not starting",
+   "lang": "en"
+  },
+  {
+   "text": "wifi disabled by tlp",
+   "lang": "en"
+  },
+  {
+   "text": "включить wifi при загрузке tlp",
+   "lang": "ru"
+  },
+  {
+   "text": "wifi не включается tlp",
+   "lang": "ru"
+  },
+  {
+   "text": "tlp wifi startup",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "tlp"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Edit /etc/tlp.conf and set DEVICES_TO_ENABLE_ON_STARTUP=\"wifi\".",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Restart the TLP service to apply the changes.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Edit /etc/tlp.conf and remove the DEVICES_TO_ENABLE_ON_STARTUP line or clear its value.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Restart the TLP service.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Enabling Wi-Fi on boot may slightly increase power consumption at startup."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/TLP#Enable_Wi-Fi_radio_on_boot",
+  "title": "TLP",
+  "revision_id": 871782,
+  "license": "GFDL-1.3-or-later"
+ }
+}

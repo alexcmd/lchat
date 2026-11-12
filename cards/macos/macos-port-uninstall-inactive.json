@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "macos-port-uninstall-inactive",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove inactive MacPorts packages",
+ "summary": "Clean up old versions of packages that are no longer in use.",
+ "aliases": [
+  {
+   "text": "remove old macports packages",
+   "lang": "en"
+  },
+  {
+   "text": "port uninstall inactive",
+   "lang": "en"
+  },
+  {
+   "text": "clean up port",
+   "lang": "en"
+  },
+  {
+   "text": "удалить неактивные пакеты macports",
+   "lang": "ru"
+  },
+  {
+   "text": "port uninstall inactive",
+   "lang": "ru"
+  },
+  {
+   "text": "ochistit port ot starego",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "MacPorts"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Uninstall packages that are installed but not currently active (e.g., old versions). Requires administrator privileges.",
+   "cmd": "sudo port uninstall inactive",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the specific package if you accidentally removed something needed.",
+   "cmd": "sudo port install <PACKAGE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to reinstall.",
+     "example": "python3"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This removes old versions. Ensure you do not need them for compatibility reasons."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/port.md",
+  "title": "tldr-pages: port",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,177 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-cron-job-log-flock",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Schedule a cron job that writes a log and never runs twice at once",
+  "summary": "A cron job runs a command at fixed times. Wrapping it in flock stops a new run from starting while the previous one still holds the lock, and sending its output to a log file lets you check what happened.",
+  "aliases": [
+    {
+      "text": "cron job with logging",
+      "lang": "en"
+    },
+    {
+      "text": "cron flock prevent double run",
+      "lang": "en"
+    },
+    {
+      "text": "cron job log file linux",
+      "lang": "en"
+    },
+    {
+      "text": "run script every night crontab",
+      "lang": "en"
+    },
+    {
+      "text": "cron job overlapping runs",
+      "lang": "en"
+    },
+    {
+      "text": "crontab not running script",
+      "lang": "en"
+    },
+    {
+      "text": "flock cron lock file",
+      "lang": "en"
+    },
+    {
+      "text": "schedule command crontab linux",
+      "lang": "en"
+    },
+    {
+      "text": "cron задача с логом",
+      "lang": "ru"
+    },
+    {
+      "text": "cron не запускать дважды",
+      "lang": "ru"
+    },
+    {
+      "text": "crontab запуск скрипта каждую ночь",
+      "lang": "ru"
+    },
+    {
+      "text": "cron запускается два раза одновременно",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "cron",
+      "flock"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Create the folder for the log file.",
+      "risk": "low",
+      "cmd": "mkdir -p <LOG_DIR>",
+      "placeholders": [
+        {
+          "name": "LOG_DIR",
+          "description": "Folder for the job's log file",
+          "example": "/home/deck/logs"
+        }
+      ]
+    },
+    {
+      "explain": "Run the job once by hand through the same lock and log that cron will use. The exit code 0 means the job worked.",
+      "risk": "low",
+      "cmd": "flock -n <LOCK_FILE> <JOB_SCRIPT> >> <LOG_DIR>/nightly.log 2>&1; echo \"job exit code: $?\"",
+      "expect": "The line 'job exit code: 0' and the job's output in nightly.log.",
+      "placeholders": [
+        {
+          "name": "LOCK_FILE",
+          "description": "Lock file that stops a second run",
+          "example": "/home/deck/.cache/nightly.lock"
+        },
+        {
+          "name": "JOB_SCRIPT",
+          "description": "Absolute path to the job script or program",
+          "example": "/home/deck/bin/nightly-job.sh"
+        },
+        {
+          "name": "LOG_DIR",
+          "description": "Folder for the job's log file",
+          "example": "/home/deck/logs"
+        }
+      ]
+    },
+    {
+      "explain": "Add one line to your crontab: run the job every day at 02:30. The existing lines are kept, because the current list is read first. In a crontab line a percent sign must be written as \\%.",
+      "risk": "medium",
+      "cmd": "(crontab -l 2>/dev/null; echo '30 2 * * * flock -n <LOCK_FILE> <JOB_SCRIPT> >> <LOG_DIR>/nightly.log 2>&1') | crontab -",
+      "expect": "No output.",
+      "placeholders": [
+        {
+          "name": "LOCK_FILE",
+          "description": "Lock file that stops a second run",
+          "example": "/home/deck/.cache/nightly.lock"
+        },
+        {
+          "name": "JOB_SCRIPT",
+          "description": "Absolute path to the job script or program",
+          "example": "/home/deck/bin/nightly-job.sh"
+        },
+        {
+          "name": "LOG_DIR",
+          "description": "Folder for the job's log file",
+          "example": "/home/deck/logs"
+        }
+      ]
+    },
+    {
+      "explain": "Check that the line was saved once.",
+      "risk": "low",
+      "cmd": "crontab -l",
+      "expect": "The line that starts with '30 2 * * *' and contains flock and the job path."
+    },
+    {
+      "explain": "After the scheduled time, read the end of the log. Cron does not show errors on screen, so the log is the only report.",
+      "risk": "low",
+      "cmd": "tail -n 20 <LOG_DIR>/nightly.log",
+      "expect": "Output from the last run. A missing file means cron has not run the job yet.",
+      "placeholders": [
+        {
+          "name": "LOG_DIR",
+          "description": "Folder for the job's log file",
+          "example": "/home/deck/logs"
+        }
+      ]
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "Remove the job's line from the crontab and keep all other lines.",
+      "risk": "medium",
+      "cmd": "crontab -l | grep -v -F '<JOB_SCRIPT>' | crontab -",
+      "placeholders": [
+        {
+          "name": "JOB_SCRIPT",
+          "description": "Path that appears in the line to remove",
+          "example": "/home/deck/bin/nightly-job.sh"
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    "Writing 'crontab -' replaces the whole crontab. The command in step 3 keeps the existing lines, so check 'crontab -l' afterwards.",
+    "Cron runs with a short PATH and no login shell. Use absolute paths for every program and script in the line.",
+    "flock -n skips the run and exits with code 1 when the previous run still holds the lock. That is the intended behaviour."
+  ],
+  "see_also": [
+    "scn-admin-nightly-user-timer-backup"
+  ],
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+    "title": "crontab(5) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

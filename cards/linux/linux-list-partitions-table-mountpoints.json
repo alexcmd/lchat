@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-partitions-table-mountpoints",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List partitions in a table with mountpoints",
+ "summary": "Display a formatted table of all partitions that includes their current mount points. This helps you see which partition is mounted where.",
+ "aliases": [
+  {
+   "text": "list partitions table",
+   "lang": "en"
+  },
+  {
+   "text": "show mount points",
+   "lang": "en"
+  },
+  {
+   "text": "blkid table",
+   "lang": "en"
+  },
+  {
+   "text": "partitions with mountpoints",
+   "lang": "en"
+  },
+  {
+   "text": "disk table view",
+   "lang": "en"
+  },
+  {
+   "text": "таблица разделов",
+   "lang": "ru"
+  },
+  {
+   "text": "показать точки монтирования",
+   "lang": "ru"
+  },
+  {
+   "text": "blkid list",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the list output format to show partitions in a table including their current mountpoints.",
+   "cmd": "sudo blkid --output list",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/blkid.md",
+  "title": "tldr-pages: blkid",
+  "license": "CC-BY-4.0"
+ }
+}

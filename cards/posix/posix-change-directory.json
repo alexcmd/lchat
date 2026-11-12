@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change the current working directory",
+ "summary": "Use the cd command to move between folders in the terminal. You can go to a specific path, move up one level, or return to your home folder.",
+ "aliases": [
+  {
+   "text": "change directory",
+   "lang": "en"
+  },
+  {
+   "text": "cd command",
+   "lang": "en"
+  },
+  {
+   "text": "go to folder",
+   "lang": "en"
+  },
+  {
+   "text": "move to directory",
+   "lang": "en"
+  },
+  {
+   "text": "cd to path",
+   "lang": "en"
+  },
+  {
+   "text": "изменить директорию",
+   "lang": "ru"
+  },
+  {
+   "text": "команда cd",
+   "lang": "ru"
+  },
+  {
+   "text": "перейти в папку",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить каталог",
+   "lang": "ru"
+  },
+  {
+   "text": "cd в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Navigate to a specific directory by providing its path.",
+   "cmd": "cd <PATH_TO_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATH_TO_DIRECTORY",
+     "description": "The path to the directory you want to enter.",
+     "example": "/usr/local/bin"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cd.md",
+  "title": "tldr-pages: cd",
+  "license": "CC-BY-4.0"
+ }
+}

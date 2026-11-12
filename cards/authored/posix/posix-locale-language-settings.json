@@ -1,0 +1,117 @@
+{
+ "schema_version": 2,
+ "id": "posix-locale-language-settings",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show the language and locale settings",
+ "summary": "Check which language, text encoding, and number and date formats your system uses. This only reads the settings and changes nothing.",
+ "aliases": [
+  {
+   "text": "check system language",
+   "lang": "en"
+  },
+  {
+   "text": "show locale settings",
+   "lang": "en"
+  },
+  {
+   "text": "what encoding does my system use",
+   "lang": "en"
+  },
+  {
+   "text": "check LANG variable",
+   "lang": "en"
+  },
+  {
+   "text": "date and number format settings",
+   "lang": "en"
+  },
+  {
+   "text": "locale command",
+   "lang": "en"
+  },
+  {
+   "text": "какой язык в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "настройки локали",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить локаль",
+   "lang": "ru"
+  },
+  {
+   "text": "какая кодировка в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "формат дат и чисел в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "команда locale",
+   "lang": "ru"
+  },
+  {
+   "text": "show current locale",
+   "lang": "en"
+  },
+  {
+   "text": "what is my locale",
+   "lang": "en"
+  },
+  {
+   "text": "текущая локаль",
+   "lang": "ru"
+  },
+  {
+   "text": "какая у меня локаль",
+   "lang": "ru"
+  },
+  {
+   "text": "check locale settings",
+   "lang": "en"
+  },
+  {
+   "text": "locale env vars",
+   "lang": "en"
+  },
+  {
+   "text": "переменные окружения локали",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the current locale settings. The LANG line is the default language and encoding; each LC_ line sets one category, such as LC_NUMERIC for numbers, LC_TIME for dates and LC_CTYPE for text encoding.",
+   "cmd": "locale",
+   "risk": "low",
+   "expect": "Lines such as LANG=en_US.UTF-8: the part before the dot is language and region, the part after it is the encoding. On a minimal system LANG may be empty and categories show \"POSIX\"."
+  },
+  {
+   "explain": "List the locales installed on this system. Only locales from this list can be used, so your current one should appear here.",
+   "cmd": "locale -a",
+   "risk": "low",
+   "expect": "A list of names such as C, C.utf8 and POSIX on a minimal system. A desktop system usually lists more, such as en_US.utf8 or ru_RU.utf8."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/locale",
+  "title": "locale manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-set-locale",
+  "linux-show-locale-keyboard"
+ ]
+}

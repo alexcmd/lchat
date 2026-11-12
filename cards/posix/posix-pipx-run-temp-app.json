@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "posix-pipx-run-temp-app",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a Python app temporarily without installing it",
+ "summary": "Use pipx to run a Python application in a temporary virtual environment. This is useful for trying out tools without permanently installing them.",
+ "aliases": [
+  {
+   "text": "run python app without installing",
+   "lang": "en"
+  },
+  {
+   "text": "pipx run",
+   "lang": "en"
+  },
+  {
+   "text": "try python tool temporarily",
+   "lang": "en"
+  },
+  {
+   "text": "run pycowsay with pipx",
+   "lang": "en"
+  },
+  {
+   "text": "temporary python environment",
+   "lang": "en"
+  },
+  {
+   "text": "запустить python утилиту без установки",
+   "lang": "ru"
+  },
+  {
+   "text": "pipx run",
+   "lang": "ru"
+  },
+  {
+   "text": "временно запустить python приложение",
+   "lang": "ru"
+  },
+  {
+   "text": "попробовать python инструмент",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "pipx is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run the specified Python package in a temporary virtual environment. The environment is deleted after the command finishes.",
+   "cmd": "pipx run <PACKAGE> <ARGS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the Python package to run",
+     "example": "pycowsay"
+    },
+    {
+     "name": "ARGS",
+     "description": "Arguments to pass to the application",
+     "example": "moo"
+    }
+   ],
+   "expect": "The application runs and outputs its result."
+  },
+  {
+   "explain": "If the executable name differs from the package name, use --spec to specify the package and then the executable.",
+   "cmd": "pipx run --spec <PACKAGE> <EXECUTABLE> <ARGS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the Python package containing the executable",
+     "example": "httpx-cli"
+    },
+    {
+     "name": "EXECUTABLE",
+     "description": "The name of the executable to run",
+     "example": "httpx"
+    },
+    {
+     "name": "ARGS",
+     "description": "Arguments to pass to the executable",
+     "example": "http://www.github.com"
+    }
+   ],
+   "expect": "The specified executable runs with the given arguments."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pipx.md",
+  "title": "tldr-pages: pipx",
+  "license": "CC-BY-4.0"
+ }
+}

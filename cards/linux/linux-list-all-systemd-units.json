@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-all-systemd-units",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List all systemd units including inactive ones",
+ "summary": "Show every unit systemd knows about, including those that are currently stopped or inactive. This gives a complete overview of system services, sockets, and timers.",
+ "aliases": [
+  {
+   "text": "list all systemd units",
+   "lang": "en"
+  },
+  {
+   "text": "show inactive services",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl list all units",
+   "lang": "en"
+  },
+  {
+   "text": "перечислить все юниты systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "показать неактивные службы",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl список всех юнитов",
+   "lang": "ru"
+  },
+  {
+   "text": "list all units",
+   "lang": "en"
+  },
+  {
+   "text": "show all services",
+   "lang": "en"
+  },
+  {
+   "text": "показать все службы",
+   "lang": "ru"
+  },
+  {
+   "text": "список всех юнитов",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl status all",
+   "lang": "en"
+  },
+  {
+   "text": "list inactive services",
+   "lang": "en"
+  },
+  {
+   "text": "все сервисы systemd",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run systemctl list-units with the --all flag to include inactive units in the output.",
+   "cmd": "systemctl list-units --all",
+   "risk": "low",
+   "expect": "A list of all units, including those with 'inactive' or 'dead' state.",
+   "alternatives": [
+    {
+     "explain": "List all units in the system, including inactive and disabled ones.",
+     "cmd": "systemctl status --all",
+     "expect": "A long list of all units, showing their state (active, inactive, failed, etc.).",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-units.md",
+  "title": "tldr-pages: systemctl-list-units",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-filter-systemd-units-by-state"
+ ]
+}

@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "systemd-poweroff",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Shut down and power off the system",
+ "summary": "Safely turn off your computer using systemd.",
+ "aliases": [
+  {
+   "text": "power off",
+   "lang": "en"
+  },
+  {
+   "text": "shutdown computer",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl poweroff",
+   "lang": "en"
+  },
+  {
+   "text": "turn off pc",
+   "lang": "en"
+  },
+  {
+   "text": "выключить компьютер",
+   "lang": "ru"
+  },
+  {
+   "text": "выключение системы",
+   "lang": "ru"
+  },
+  {
+   "text": "системctl poweroff",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Shut down and power off the system. This may require root privileges depending on your polkit configuration.",
+   "cmd": "systemctl poweroff",
+   "risk": "low",
+   "expect": "The system shuts down."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd#Power_management",
+  "title": "Systemd",
+  "revision_id": 887711,
+  "license": "GFDL-1.3-or-later"
+ }
+}

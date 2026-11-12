@@ -1,0 +1,121 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-command-not-found-brew",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'zsh: command not found: brew' after installing Homebrew",
+ "summary": "Homebrew is installed, but the Terminal does not yet know where the brew program is. Adding Homebrew's setup line to your zsh profile makes brew work in new Terminal windows.",
+ "aliases": [
+  {
+   "text": "zsh: command not found: brew",
+   "lang": "en"
+  },
+  {
+   "text": "brew command not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "command not found brew after install",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew installed but brew not found",
+   "lang": "en"
+  },
+  {
+   "text": "brew not working in new terminal",
+   "lang": "en"
+  },
+  {
+   "text": "brew: command not found macos",
+   "lang": "en"
+  },
+  {
+   "text": "zsh: command not found: brew",
+   "lang": "ru"
+  },
+  {
+   "text": "brew не найден после установки",
+   "lang": "ru"
+  },
+  {
+   "text": "команда brew не найдена на mac",
+   "lang": "ru"
+  },
+  {
+   "text": "homebrew установлен но brew не работает",
+   "lang": "ru"
+  },
+  {
+   "text": "brew не работает в новом терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "как сделать чтобы brew работал в терминале",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "zsh: command not found: brew"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "zsh",
+   "brew"
+  ]
+ },
+ "prerequisites": [
+  "Homebrew was installed with the official installer, so the brew program exists in /opt/homebrew (Apple Silicon) or /usr/local (Intel)"
+ ],
+ "steps": [
+  {
+   "explain": "Find out where Homebrew is installed. On Apple Silicon Macs it is in /opt/homebrew, on Intel Macs in /usr/local. The command only lists files and changes nothing.",
+   "cmd": "ls -d /opt/homebrew/bin/brew /usr/local/bin/brew",
+   "risk": "low"
+  },
+  {
+   "explain": "Check whether your zsh profile already has a Homebrew line. No output means the line is missing, so the next step is needed. The command only reads the file.",
+   "cmd": "grep -n \"brew shellenv\" ~/.zprofile",
+   "risk": "low"
+  },
+  {
+   "explain": "Add Homebrew's setup line to the end of ~/.zprofile. zsh reads this file when a new Terminal window opens, and the line puts brew on your PATH. Run it only once, or the line will be added twice.",
+   "cmd": "echo 'eval \"$(/opt/homebrew/bin/brew shellenv)\"' >> ~/.zprofile",
+   "alternatives": [
+    {
+     "explain": "Use this line instead on an Intel Mac, where Homebrew is in /usr/local.",
+     "cmd": "echo 'eval \"$(/usr/local/bin/brew shellenv)\"' >> ~/.zprofile",
+     "risk": "low"
+    }
+   ],
+   "risk": "low"
+  },
+  {
+   "explain": "Load the updated profile into the current Terminal window, so brew works here without opening a new window.",
+   "cmd": "source ~/.zprofile",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "command -v brew",
+   "expect": "Prints /opt/homebrew/bin/brew on Apple Silicon or /usr/local/bin/brew on Intel. Nothing printed means brew is still not on the PATH."
+  },
+  {
+   "cmd": "brew --version",
+   "expect": "Prints a line starting with Homebrew and a version number, for example Homebrew 4.x."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://brew",
+  "title": "brew manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

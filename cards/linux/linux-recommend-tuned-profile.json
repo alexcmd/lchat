@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-recommend-tuned-profile",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Get recommended system performance tuning profile",
+ "summary": "Ask the system to recommend a suitable performance tuning profile based on your hardware and current configuration. This is a safe way to find an optimal profile without guessing.",
+ "aliases": [
+  {
+   "text": "recommend tuned profile",
+   "lang": "en"
+  },
+  {
+   "text": "suggest performance profile",
+   "lang": "en"
+  },
+  {
+   "text": "what tuned profile should i use",
+   "lang": "en"
+  },
+  {
+   "text": "linux recommended tuning profile",
+   "lang": "en"
+  },
+  {
+   "text": "рекомендовать профиль tuned",
+   "lang": "ru"
+  },
+  {
+   "text": "какой профиль выбрать tuned",
+   "lang": "ru"
+  },
+  {
+   "text": "подходящий профиль производительности",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "tuned"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Get a recommendation for the best performance tuning profile for your system.",
+   "cmd": "tuned-adm recommend",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/tuned-adm.md",
+  "title": "tldr-pages: tuned-adm",
+  "license": "CC-BY-4.0"
+ }
+}

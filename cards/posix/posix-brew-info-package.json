@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-brew-info-package",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show information about a Homebrew package",
+ "summary": "Display details such as version, installation path, and dependencies for a specific formula or cask.",
+ "aliases": [
+  {
+   "text": "brew info package",
+   "lang": "en"
+  },
+  {
+   "text": "show details of brew package",
+   "lang": "en"
+  },
+  {
+   "text": "brew info",
+   "lang": "en"
+  },
+  {
+   "text": "what does this brew package do",
+   "lang": "en"
+  },
+  {
+   "text": "информация о пакете brew",
+   "lang": "ru"
+  },
+  {
+   "text": "brew info детали",
+   "lang": "ru"
+  },
+  {
+   "text": "сведения о программе homebrew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display information about a formula or cask.",
+   "cmd": "brew info <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the formula or cask",
+     "example": "wget",
+     "discover_cmd": "brew list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/brew.md",
+  "title": "tldr-pages: brew",
+  "license": "CC-BY-4.0"
+ }
+}

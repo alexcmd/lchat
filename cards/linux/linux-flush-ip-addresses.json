@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-flush-ip-addresses",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Flush IP addresses from a network interface",
+ "summary": "Remove all IP addresses in a specific scope from a network interface. This is often used to reset an interface's configuration.",
+ "aliases": [
+  {
+   "text": "flush ip addresses",
+   "lang": "en"
+  },
+  {
+   "text": "clear ip from interface",
+   "lang": "en"
+  },
+  {
+   "text": "reset network interface ip",
+   "lang": "en"
+  },
+  {
+   "text": "ip flush command",
+   "lang": "en"
+  },
+  {
+   "text": "очистить ip адреса",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить настройки ip интерфейса",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить все ip с интерфейса",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete all IP addresses in the 'global' scope from a network interface. Requires root privileges.",
+   "cmd": "sudo ip address flush <INTERFACE> scope global",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The network interface name.",
+     "example": "eth0",
+     "discover_cmd": "ip address"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct command to restore flushed addresses. You must manually re-add them using 'ip address add' or restart the network service.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Flushing addresses will disconnect the interface from the network.",
+  "Ensure you know how to restore connectivity (e.g., via DHCP or manual configuration) before flushing."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-address.md",
+  "title": "tldr-pages: ip-address",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-add-ip-address",
+  "linux-remove-ip-address"
+ ]
+}

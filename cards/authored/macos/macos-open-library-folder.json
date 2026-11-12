@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-library-folder",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open the hidden Library folder on macOS",
+ "summary": "The Library folder in your home folder stores app settings and data, and Finder hides it by default. Open it in a Finder window whenever you need to look inside.",
+ "aliases": [
+  {
+   "text": "open library folder mac",
+   "lang": "en"
+  },
+  {
+   "text": "show hidden library folder macos",
+   "lang": "en"
+  },
+  {
+   "text": "where is the library folder on mac",
+   "lang": "en"
+  },
+  {
+   "text": "open ~/Library in finder",
+   "lang": "en"
+  },
+  {
+   "text": "mac user library folder app data",
+   "lang": "en"
+  },
+  {
+   "text": "открыть папку library на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как открыть скрытую папку library",
+   "lang": "ru"
+  },
+  {
+   "text": "где находится папка library mac",
+   "lang": "ru"
+  },
+  {
+   "text": "показать библиотеку пользователя mac",
+   "lang": "ru"
+  },
+  {
+   "text": "папка library finder открыть",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run open with the path ~/Library to show your user Library folder in a Finder window. The ~ stands for your home folder.",
+   "cmd": "open ~/Library",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Same folder written with the full $HOME path, useful if ~ does not work in your shell.",
+     "cmd": "open \"$HOME/Library\"",
+     "risk": "low",
+     "expect": "A Finder window opens showing folders such as Application Support, Caches and Preferences."
+    }
+   ],
+   "expect": "A Finder window opens showing folders such as Application Support, Caches and Preferences."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls ~/Library",
+   "expect": "A list of folder names such as Application Support, Caches and Preferences."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-open-current-folder-finder"
+ ],
+ "source": {
+  "url": "x-man-page://open",
+  "title": "open manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

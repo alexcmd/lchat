@@ -1,0 +1,115 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-mtu-size",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set the MTU size for a network interface",
+ "summary": "Change the Maximum Transmission Unit (MTU) size for a network interface. This is used to optimize network performance, often for jumbo frames.",
+ "aliases": [
+  {
+   "text": "set mtu size",
+   "lang": "en"
+  },
+  {
+   "text": "change mtu",
+   "lang": "en"
+  },
+  {
+   "text": "jumbo frames",
+   "lang": "en"
+  },
+  {
+   "text": "ip link mtu",
+   "lang": "en"
+  },
+  {
+   "text": "network mtu setting",
+   "lang": "en"
+  },
+  {
+   "text": "set mtu size",
+   "lang": "ru"
+  },
+  {
+   "text": "change mtu",
+   "lang": "ru"
+  },
+  {
+   "text": "jumbo frames",
+   "lang": "ru"
+  },
+  {
+   "text": "ip link mtu",
+   "lang": "ru"
+  },
+  {
+   "text": "network mtu setting",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `sudo ip link set` with the `mtu` option to set the new MTU size.",
+   "cmd": "sudo ip link set <INTERFACE> mtu <MTU_SIZE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface.",
+     "example": "eth0",
+     "discover_cmd": "ip link"
+    },
+    {
+     "name": "MTU_SIZE",
+     "description": "The new MTU size in bytes (e.g., 9000 for jumbo frames).",
+     "example": "9000"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short form `sudo ip l s`.",
+     "cmd": "sudo ip l s <INTERFACE> mtu <MTU_SIZE>",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The name of the network interface.",
+       "example": "eth0",
+       "discover_cmd": "ip link"
+      },
+      {
+       "name": "MTU_SIZE",
+       "description": "The new MTU size in bytes.",
+       "example": "9000"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert to the default MTU (usually 1500), set it back to 1500.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Incorrect MTU settings can cause packet fragmentation or dropped packets.",
+  "Requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-link.md",
+  "title": "tldr-pages: ip-link",
+  "license": "CC-BY-4.0"
+ }
+}

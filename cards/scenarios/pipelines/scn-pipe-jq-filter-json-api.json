@@ -1,0 +1,110 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-jq-filter-json-api",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Download JSON from a web address and keep only the fields you need",
+ "summary": "Fetch a JSON answer from a web address with curl and let jq filter it, for example to keep only the names of active items. The result is a plain list of values, one per line.",
+ "aliases": [
+  {
+   "text": "curl json filter jq",
+   "lang": "en"
+  },
+  {
+   "text": "get names from json api command line",
+   "lang": "en"
+  },
+  {
+   "text": "parse json from curl linux",
+   "lang": "en"
+  },
+  {
+   "text": "jq select only some fields",
+   "lang": "en"
+  },
+  {
+   "text": "extract values from json url terminal",
+   "lang": "en"
+  },
+  {
+   "text": "filter json response with jq",
+   "lang": "en"
+  },
+  {
+   "text": "скачать json и выбрать поля jq",
+   "lang": "ru"
+  },
+  {
+   "text": "curl и jq в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "достать данные из json по ссылке",
+   "lang": "ru"
+  },
+  {
+   "text": "фильтр json в командной строке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "curl",
+   "jq"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Look at the structure first. curl -s fetches the answer without the progress bar. jq '.' prints it with indentation so you can see the field names. head keeps 30 lines.",
+   "cmd": "curl -s <URL> | jq '.' | head -n 30",
+   "risk": "low",
+   "expect": "Indented JSON, for example {, then \"items\": [ with objects that have \"name\" and \"active\" fields.",
+   "placeholders": [
+    {
+     "name": "URL",
+     "description": "Web address that returns JSON",
+     "example": "https://api.example.com/items"
+    }
+   ]
+  },
+  {
+   "explain": "Keep only the wanted items. jq -r reads the data and prints strings without quotes. .items[] goes through each item, select keeps the ones where active is true, and .name prints the name field.",
+   "cmd": "curl -s <URL> | jq -r '.items[] | select(.active == true) | .name'",
+   "risk": "low",
+   "expect": "One name per line, for example alpha and gamma.",
+   "placeholders": [
+    {
+     "name": "URL",
+     "description": "Web address that returns JSON",
+     "example": "https://api.example.com/items"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Same filter on a JSON file already saved on disk, for example after curl -s URL -o items.json.",
+     "cmd": "jq -r '.items[] | select(.active == true) | .name' <JSON_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "JSON_FILE",
+       "description": "A saved JSON file",
+       "example": "items.json"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://jqlang.github.io/jq/manual/",
+  "title": "jq Manual",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

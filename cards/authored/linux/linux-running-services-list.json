@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "linux-running-services-list",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List services that are running now",
+ "summary": "On most current Linux systems, systemd starts and manages background programs called services, such as networking, printing and SSH. This command lists the services that are active right now.",
+ "aliases": [
+  {
+   "text": "what services are running linux",
+   "lang": "en"
+  },
+  {
+   "text": "list running services systemd",
+   "lang": "en"
+  },
+  {
+   "text": "show active services linux",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl list running services",
+   "lang": "en"
+  },
+  {
+   "text": "how to see running daemons linux",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl running units",
+   "lang": "en"
+  },
+  {
+   "text": "какие службы запущены в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "список запущенных служб systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "показать активные сервисы линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl посмотреть запущенные службы",
+   "lang": "ru"
+  },
+  {
+   "text": "kakie sluzhby zapushcheny linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "prerequisites": [
+  "A terminal on the Linux computer where systemd is the init system (see the linux-init-system-check card if unsure)"
+ ],
+ "steps": [
+  {
+   "explain": "List the systemd services that are running right now. The output opens in a pager: scroll with the arrow keys and press q to return to the prompt. Look at the ACTIVE and SUB columns: 'active' and 'running' mean the service is working now. The bottom of the output shows a count of listed units.",
+   "cmd": "systemctl list-units --type=service --state=running",
+   "risk": "low",
+   "needs_root": false,
+   "expect": "A table with UNIT, LOAD, ACTIVE, SUB and DESCRIPTION columns. Rows like cron.service with loaded active running, then a footer with a unit count.",
+   "alternatives": [
+    {
+     "explain": "Show all running units, not only services. This also includes timers, sockets, mount points and other unit types.",
+     "cmd": "systemctl list-units --state=running",
+     "risk": "low",
+     "needs_root": false,
+     "expect": "Like the first list, but rows can end in .timer, .socket, .mount, .device and other suffixes besides .service."
+    }
+   ]
+  },
+  {
+   "explain": "If the command prints 'System has not been booted with systemd as init system (PID 1)', this computer does not use systemd, or you are inside a container. Systemd commands cannot list services there. Check the init system with the linux-init-system-check card.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Inside a Docker container, or on a system without systemd, the command fails with 'System has not been booted with systemd as init system (PID 1)'. The services are not broken; systemd just does not manage this machine.",
+  "The list shows services that are running at this moment only. A service that is stopped or failed is not in this list."
+ ],
+ "see_also": [
+  "linux-init-system-check",
+  "linux-resolvectl-show-dns-settings"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/systemctl",
+  "title": "systemctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

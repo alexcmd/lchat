@@ -1,0 +1,152 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-disk-usage-threshold-warning",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Warn when a disk is fuller than a set limit",
+  "summary": "A small script reads how full a disk is and reports a warning when it passes your limit, for example 85 percent. Run it by hand, or from a timer or cron job, to hear about a filling disk before it is full.",
+  "aliases": [
+    {
+      "text": "warn when disk is almost full",
+      "lang": "en"
+    },
+    {
+      "text": "disk usage alert script",
+      "lang": "en"
+    },
+    {
+      "text": "check disk usage threshold linux",
+      "lang": "en"
+    },
+    {
+      "text": "script alert disk 90 percent",
+      "lang": "en"
+    },
+    {
+      "text": "df threshold warning",
+      "lang": "en"
+    },
+    {
+      "text": "disk full early warning linux",
+      "lang": "en"
+    },
+    {
+      "text": "monitor free space script",
+      "lang": "en"
+    },
+    {
+      "text": "notify when disk over percent",
+      "lang": "en"
+    },
+    {
+      "text": "предупреждение когда диск почти полный",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт проверки заполнения диска",
+      "lang": "ru"
+    },
+    {
+      "text": "оповещение при заполнении диска",
+      "lang": "ru"
+    },
+    {
+      "text": "следить за свободным местом на диске",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "df",
+      "notify-send"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script from the script section as ~/bin/disk-warn.sh, then make it executable.",
+      "risk": "low",
+      "cmd": "chmod +x <SCRIPT_PATH>",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved disk-warn.sh",
+          "example": "/home/deck/bin/disk-warn.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Look at the current fill level of the disk you want to watch.",
+      "risk": "low",
+      "cmd": "df -h <MOUNT_POINT>",
+      "expect": "A line with the Use% column for that mount point.",
+      "placeholders": [
+        {
+          "name": "MOUNT_POINT",
+          "description": "Folder where the disk or partition is mounted",
+          "example": "/home",
+          "discover_cmd": "df -h"
+        }
+      ]
+    },
+    {
+      "explain": "Test the warning with a low limit so that it fires. The script prints a WARNING line and returns exit code 2. Normal use is the next step.",
+      "risk": "low",
+      "cmd": "bash <SCRIPT_PATH> <MOUNT_POINT> 1; echo \"exit code: $?\"",
+      "expect": "'WARNING: /home is NN% full (limit 1%)' and 'exit code: 2'.",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved disk-warn.sh",
+          "example": "/home/deck/bin/disk-warn.sh"
+        },
+        {
+          "name": "MOUNT_POINT",
+          "description": "Folder where the disk or partition is mounted",
+          "example": "/home",
+          "discover_cmd": "df -h"
+        }
+      ]
+    },
+    {
+      "explain": "Real check with your limit, here 85 percent. The popup appears only when the script exits with a non-zero code, which means the disk is above the limit.",
+      "risk": "low",
+      "cmd": "<SCRIPT_PATH> <MOUNT_POINT> 85 || notify-send \"Disk warning\" \"<MOUNT_POINT> is above 85 percent\"",
+      "expect": "'OK: /home is NN% full (limit 85%)' and no popup when the disk is fine.",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved disk-warn.sh",
+          "example": "/home/deck/bin/disk-warn.sh"
+        },
+        {
+          "name": "MOUNT_POINT",
+          "description": "Folder where the disk or partition is mounted",
+          "example": "/home",
+          "discover_cmd": "df -h"
+        }
+      ]
+    },
+    {
+      "explain": "Run the check on a schedule. Put the same command in a systemd user timer or a cron line that runs every hour.",
+      "risk": "low"
+    }
+  ],
+  "risk": "low",
+  "script": {
+    "filename": "disk-warn.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\nset -euo pipefail\n# Print a warning line when a filesystem is fuller than THRESHOLD percent.\n# Exit status 0 = below threshold, 2 = at or above threshold (usable from cron or a timer).\n# Usage: disk-warn.sh MOUNT_POINT [THRESHOLD]\nMOUNT=\"${1:?usage: $0 MOUNT_POINT [THRESHOLD]}\"\nLIMIT=\"${2:-85}\"\nUSED=$(df --output=pcent \"$MOUNT\" | tail -n 1 | tr -dc '0-9')\nif (( USED >= LIMIT )); then\n  echo \"WARNING: $MOUNT is ${USED}% full (limit ${LIMIT}%)\" >&2\n  exit 2\nfi\necho \"OK: $MOUNT is ${USED}% full (limit ${LIMIT}%)\"\n",
+    "usage": "disk-warn.sh MOUNT_POINT [THRESHOLD]"
+  },
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man1/df.1.html",
+    "title": "df(1) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

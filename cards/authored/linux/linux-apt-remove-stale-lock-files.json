@@ -1,0 +1,144 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-remove-stale-lock-files",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Remove stale apt lock files when no apt process is running",
+ "summary": "apt or dpkg says the package database is locked. First check that no package program is still running. Only if none is, delete the leftover lock files and finish any interrupted package setup. If a program is running, wait for it to finish instead.",
+ "aliases": [
+  {
+   "text": "apt could not get lock",
+   "lang": "en"
+  },
+  {
+   "text": "unable to acquire the dpkg frontend lock",
+   "lang": "en"
+  },
+  {
+   "text": "apt is locked by another process",
+   "lang": "en"
+  },
+  {
+   "text": "delete apt lock file",
+   "lang": "en"
+  },
+  {
+   "text": "remove dpkg lock ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "apt lock stuck debian mint",
+   "lang": "en"
+  },
+  {
+   "text": "how to unlock apt-get",
+   "lang": "en"
+  },
+  {
+   "text": "apt не может получить блокировку",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg заблокирован другим процессом",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить lock файлы apt",
+   "lang": "ru"
+  },
+  {
+   "text": "снять блокировку apt ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка could not get lock ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "как разблокировать apt-get",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить файлы блокировки dpkg mint",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Could not get lock",
+  "Unable to acquire the dpkg frontend lock"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Open a terminal window",
+  "Know your administrator password (sudo)",
+  "Close any Software Updater or App Center window"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether an apt, dpkg, PackageKit or automatic-update program is running. Read-only. If it prints any line, stop: a running program holds the lock, so wait for it to finish instead of deleting anything.",
+   "cmd": "pgrep -a 'apt|dpkg|packagekit|unattended'",
+   "risk": "low",
+   "expect": "Nothing is printed and the exit status is 1: no such program is running. Debian may also print a 'pgrep: pattern that searches for process name' warning line; it is harmless."
+  },
+  {
+   "explain": "List the four lock files that apt and dpkg use. Read-only. A 'No such file or directory' line for one of them means that file is already gone, which is fine.",
+   "cmd": "ls -l /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/cache/apt/archives/lock /var/lib/apt/lists/lock",
+   "risk": "low",
+   "expect": "One line per file, owned by root, size 0, for example -rw-r----- 1 root root 0 ... /var/lib/dpkg/lock-frontend."
+  },
+  {
+   "explain": "Delete the four lock files. They are empty; apt and dpkg create them again the next time they run. Run this only when step 1 printed nothing.",
+   "cmd": "sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/cache/apt/archives/lock /var/lib/apt/lists/lock",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Usually no output after the password prompt. Running the list command from step 2 again now shows 'No such file or directory' for each file."
+  },
+  {
+   "explain": "Finish any package installation or removal that was interrupted and left half done. Prints nothing if there is nothing to finish.",
+   "cmd": "sudo dpkg --configure -a",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Either no output, or lines starting with 'Setting up' for packages it finished. The command ends without an 'E:' error line."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "sudo apt-get check",
+   "expect": "Three lines: 'Reading package lists...', 'Building dependency tree...' and 'Reading state information...', then the prompt returns. An 'E:' line means a problem is still left."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Nothing to undo. apt and dpkg recreate the lock files automatically the next time they run, and deleting an empty lock file does not change any installed package.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Run this only when no package program is running. Deleting a lock file while apt or dpkg is working can leave the package database broken.",
+  "A leftover lock file alone normally does not block apt: Linux releases the lock when the program that held it exits. If apt still reports a lock, a program is usually running, so wait for it first.",
+  "Requires administrator rights (sudo).",
+  "If dpkg --configure -a prints an error, keep the message and ask for help before running more commands."
+ ],
+ "see_also": [
+  "linux-apt-update-package-list"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/dpkg",
+  "title": "dpkg manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

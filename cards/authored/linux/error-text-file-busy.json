@@ -1,0 +1,207 @@
+{
+ "schema_version": 2,
+ "id": "error-text-file-busy",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Text file busy - cannot overwrite a program that is running",
+ "summary": "Linux does not let you replace a program file while the program is running, and cp shows this as 'Text file busy'. Stop the program first, then copy the new file.",
+ "aliases": [
+  {
+   "text": "text file busy",
+   "lang": "en"
+  },
+  {
+   "text": "cp text file busy",
+   "lang": "en"
+  },
+  {
+   "text": "cannot create regular file text file busy",
+   "lang": "en"
+  },
+  {
+   "text": "can't copy file, program is running",
+   "lang": "en"
+  },
+  {
+   "text": "cannot overwrite running program linux",
+   "lang": "en"
+  },
+  {
+   "text": "how to replace a running binary",
+   "lang": "en"
+  },
+  {
+   "text": "text file busy how to fix",
+   "lang": "en"
+  },
+  {
+   "text": "text file busy ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "не могу скопировать файл программа запущена",
+   "lang": "ru"
+  },
+  {
+   "text": "не могу перезаписать запущенную программу linux",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка cp text file busy",
+   "lang": "ru"
+  },
+  {
+   "text": "файл занят нельзя заменить программу",
+   "lang": "ru"
+  },
+  {
+   "text": "как заменить запущенную программу linux",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Text file busy"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pgrep"
+  ]
+ },
+ "prerequisites": [
+  "The path of the file named in the error message",
+  "A terminal window open"
+ ],
+ "steps": [
+  {
+   "explain": "Find the running copy of the program. Use the path from the error message. The first number on each line is the process ID (PID) you need in the next steps.",
+   "cmd": "pgrep -a -f <PROGRAM_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM_PATH",
+     "description": "Path of the program file the error message names",
+     "example": "/home/user/bin/tool"
+    }
+   ],
+   "expect": "A line like '12 /tmp/busy': the number is the PID. No output means nothing runs from that path, so the file is not the cause."
+  },
+  {
+   "explain": "Stop the running program. Save your work in it first. Replace <PID> with the number from the previous step.",
+   "cmd": "kill <PID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PID",
+     "description": "Process number from the first column of the previous step",
+     "example": "12",
+     "discover_cmd": "ps -eo pid,args"
+    }
+   ],
+   "expect": "No output. The program closes. Running the first command again prints nothing.",
+   "alternatives": [
+    {
+     "explain": "If the program does not close, force it to quit. Unsaved work in it will be lost.",
+     "cmd": "kill -9 <PID>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PID",
+       "description": "Process number from the first step",
+       "example": "12",
+       "discover_cmd": "ps -eo pid,args"
+      }
+     ],
+     "expect": "No output. The program is stopped."
+    }
+   ]
+  },
+  {
+   "explain": "Keep a backup copy of the old program file, in case you need to go back.",
+   "cmd": "cp <PROGRAM_PATH> <PROGRAM_PATH>.bak",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM_PATH",
+     "description": "Path of the program file being replaced",
+     "example": "/home/user/bin/tool"
+    }
+   ],
+   "expect": "No output. A file ending in .bak appears next to the program."
+  },
+  {
+   "explain": "Copy the new version of the program over the old file.",
+   "cmd": "cp <NEW_FILE> <PROGRAM_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NEW_FILE",
+     "description": "Path to the new version of the program",
+     "example": "/home/user/Downloads/tool"
+    },
+    {
+     "name": "PROGRAM_PATH",
+     "description": "Path of the program file being replaced",
+     "example": "/home/user/bin/tool"
+    }
+   ],
+   "expect": "No output when the copy works. If the program is still running, the 'Text file busy' error appears again.",
+   "alternatives": [
+    {
+     "explain": "Delete the old file and copy the new one in one command. This works even while the old program still runs; the running copy keeps working until it is closed.",
+     "cmd": "cp --remove-destination <NEW_FILE> <PROGRAM_PATH>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "NEW_FILE",
+       "description": "Path to the new version of the program",
+       "example": "/home/user/Downloads/tool"
+      },
+      {
+       "name": "PROGRAM_PATH",
+       "description": "Path of the program file being replaced",
+       "example": "/home/user/bin/tool"
+      }
+     ],
+     "expect": "No output. The file is replaced."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "cmp <NEW_FILE> <PROGRAM_PATH>",
+   "expect": "No output: the new file and the installed program are identical."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Put the backup copy back over the new file. Stop the new program first, as in the kill step.",
+   "cmd": "cp --remove-destination <PROGRAM_PATH>.bak <PROGRAM_PATH>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PROGRAM_PATH",
+     "description": "Path of the program file that was replaced",
+     "example": "/home/user/bin/tool"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Killing a program can lose unsaved work. Save your files before you stop it.",
+  "Only copy a new program file that you trust and that is built for your system.",
+  "Do not replace programs in system folders such as /usr or /bin by hand unless you know what you are doing."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/cp",
+  "title": "cp manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

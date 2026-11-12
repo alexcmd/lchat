@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-sensor-temps",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check CPU and hardware temperatures",
+ "summary": "Use the `sensors` command to see current temperature readings from your CPU and other hardware components. This helps you check if your computer is overheating.",
+ "aliases": [
+  {
+   "text": "check cpu temperature linux",
+   "lang": "en"
+  },
+  {
+   "text": "how hot is my cpu",
+   "lang": "en"
+  },
+  {
+   "text": "show hardware sensors",
+   "lang": "en"
+  },
+  {
+   "text": "linux temperature monitor",
+   "lang": "en"
+  },
+  {
+   "text": "check overheating linux",
+   "lang": "en"
+  },
+  {
+   "text": "проверить температуру процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "какая температура cpu",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг температуры linux",
+   "lang": "ru"
+  },
+  {
+   "text": "сказать температуру железа",
+   "lang": "ru"
+  },
+  {
+   "text": "греется ли ноутбук",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the sensors command to display current readings from all detected sensor chips.",
+   "cmd": "sensors",
+   "risk": "low",
+   "expect": "A list of sensor chips (like coretemp-isa-0000) with their current temperature readings in degrees Celsius."
+  },
+  {
+   "explain": "If you prefer Fahrenheit, add the --fahrenheit flag.",
+   "cmd": "sensors --fahrenheit",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show readings in JSON format for easier parsing or scripting.",
+     "cmd": "sensors -j",
+     "risk": "low"
+    },
+    {
+     "explain": "Show raw sensor output, useful for debugging.",
+     "cmd": "sensors -u",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/sensors.md",
+  "title": "tldr-pages: sensors",
+  "license": "CC-BY-4.0"
+ }
+}

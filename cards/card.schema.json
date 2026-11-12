@@ -1,0 +1,686 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/lnxhelp/card.schema.json",
+  "title": "Linux/macOS helper knowledge card (lchat variant: longer cmd, optional script)",
+  "description": "Atomic, verified recipe for one user task, one error, or one concept. Canonical language: English; user phrasings in any language go to aliases.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "platform",
+    "kind",
+    "title",
+    "summary",
+    "aliases",
+    "applies_to",
+    "steps",
+    "risk",
+    "source"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{2,63}$",
+      "description": "Stable slug, e.g. wifi-nm-connect. Never reused for a different task."
+    },
+    "platform": {
+      "enum": [
+        "linux",
+        "macos",
+        "posix"
+      ],
+      "description": "linux = Linux only; macos = macOS only; posix = the same commands work on both (git, ssh, ls). family 'any' means any distro/version WITHIN the platform."
+    },
+    "kind": {
+      "enum": [
+        "task",
+        "error",
+        "concept"
+      ],
+      "description": "task = how to do X; error = what an error message means and how to fix it; concept = short explanation without commands (sudo, package manager, mount)."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 120
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 400,
+      "description": "1-3 sentences a beginner understands. No commands here."
+    },
+    "aliases": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 30,
+      "description": "How beginners actually phrase it, including typos and non-English. Used by BM25 and embeddings.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text",
+          "lang"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 160
+          },
+          "lang": {
+            "type": "string",
+            "pattern": "^[a-z]{2}$"
+          }
+        }
+      }
+    },
+    "error_patterns": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Literal substrings of the error output (no regex), stable across versions. Matched exactly by the CLI before any retrieval.",
+      "items": {
+        "type": "string",
+        "minLength": 6,
+        "maxLength": 200
+      }
+    },
+    "applies_to": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "distros"
+      ],
+      "properties": {
+        "distros": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "family"
+            ],
+            "properties": {
+              "family": {
+                "enum": [
+                  "any",
+                  "arch",
+                  "debian",
+                  "ubuntu",
+                  "mint",
+                  "fedora",
+                  "opensuse",
+                  "macos",
+                  "other"
+                ]
+              },
+              "min_version": {
+                "type": "string",
+                "maxLength": 16,
+                "description": "Inclusive, dotted numeric: '24.04' for Ubuntu, '13' for macOS Ventura."
+              },
+              "max_version": {
+                "type": "string",
+                "maxLength": 16
+              }
+            }
+          }
+        },
+        "desktop": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "any",
+              "gnome",
+              "kde",
+              "xfce",
+              "cinnamon",
+              "mate",
+              "lxqt",
+              "aqua",
+              "other"
+            ]
+          }
+        },
+        "display_server": {
+          "enum": [
+            "any",
+            "x11",
+            "wayland"
+          ]
+        },
+        "requires": {
+          "type": "array",
+          "description": "Packages, services or binaries that must exist (NetworkManager, systemd, flatpak, Homebrew).",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          }
+        }
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "description": "Plain-language conditions, e.g. 'Internet connection', 'Know your Wi-Fi name'.",
+      "items": {
+        "type": "string",
+        "maxLength": 160
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    },
+    "verify": {
+      "type": "array",
+      "description": "How the user checks it worked.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "cmd",
+          "expect"
+        ],
+        "properties": {
+          "cmd": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "expect": {
+            "type": "string",
+            "maxLength": 200
+          }
+        }
+      }
+    },
+    "rollback": {
+      "type": "array",
+      "description": "How to undo, mandatory for risk medium/high.",
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    },
+    "risk": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Max risk over all steps. high = data loss or unbootable system possible."
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 240
+      }
+    },
+    "see_also": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]{2,63}$"
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "title",
+        "license"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "title": {
+          "type": "string"
+        },
+        "revision_id": {
+          "type": "integer"
+        },
+        "license": {
+          "type": "string",
+          "description": "SPDX id of the source text license, e.g. GFDL-1.3-or-later for Arch Wiki, CC-BY-4.0 for tldr-pages content; BSD-2-Clause for Homebrew docs"
+        }
+      }
+    },
+    "updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "output_guide": {
+      "type": "array",
+      "maxItems": 12,
+      "description": "How to read the typical output: fields, columns or lines that appear in it (pattern must occur in an expect text or in the tool's help/man text), with a plain meaning.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pattern",
+          "meaning"
+        ],
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "description": "Literal text as it appears in the output, e.g. Use% or the field name."
+          },
+          "meaning": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        }
+      }
+    },
+    "cause": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "kind=error only: why this error happens, in plain words, based on the tool's documentation or the expect texts."
+    },
+    "script": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "filename",
+        "content",
+        "usage"
+      ],
+      "description": "lchat extension: a complete script the card is about. Steps then say how to save, check and run it.",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{1,64}$"
+        },
+        "lang": {
+          "enum": [
+            "bash",
+            "sh"
+          ]
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 8000,
+          "description": "The full script text, starting with a shebang."
+        },
+        "usage": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "How to call it, e.g. ./backup.sh <SRC> <DEST>"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "error"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error_patterns"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "risk": {
+            "enum": [
+              "medium",
+              "high"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "rollback",
+          "warnings"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "platform": {
+            "const": "macos"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "applies_to": {
+            "properties": {
+              "distros": {
+                "items": {
+                  "properties": {
+                    "family": {
+                      "const": "macos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "platform": {
+            "const": "linux"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "applies_to": {
+            "properties": {
+              "distros": {
+                "items": {
+                  "properties": {
+                    "family": {
+                      "not": {
+                        "const": "macos"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "not": {
+              "const": "error"
+            }
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "cause"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "explain",
+        "risk"
+      ],
+      "properties": {
+        "explain": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "What this step does and why, for a beginner."
+        },
+        "cmd": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Exactly one shell command. Placeholders as <UPPER_SNAKE>. Omit for GUI-only steps. lchat: up to 1000 chars, so a pipeline or a short chained one-liner fits."
+        },
+        "variants": {
+          "type": "object",
+          "description": "Per-family command when it differs, e.g. package installs, or GNU vs BSD flags on posix cards. Keys = applies_to.distros.family values.",
+          "propertyNames": {
+            "enum": [
+              "arch",
+              "debian",
+              "ubuntu",
+              "mint",
+              "fedora",
+              "opensuse",
+              "macos"
+            ]
+          },
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "gui": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Equivalent clicks in the desktop UI (GNOME Settings, KDE System Settings, macOS System Settings), if any."
+        },
+        "needs_root": {
+          "type": "boolean",
+          "default": false
+        },
+        "risk": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "placeholders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "description"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9_]{1,31}$"
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 160
+              },
+              "example": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "discover_cmd": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "Read-only command that lists valid values, e.g. lsblk for <DEVICE>."
+              }
+            }
+          }
+        },
+        "expect": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "What the user should see."
+        },
+        "alternatives": {
+          "type": "array",
+          "maxItems": 4,
+          "description": "Other ways to do THIS step (a different flag or option for the same goal), not further steps.",
+          "items": {
+            "$ref": "#/$defs/alternative"
+          }
+        },
+        "flags": {
+          "type": "array",
+          "maxItems": 8,
+          "description": "Per flag used in this option's cmd: a beginner meaning, and the exact help or man line it is based on. The flag must appear in cmd; doc must appear in the cached help/man text of the tool (pipeline/cards.py).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "flag",
+              "meaning"
+            ],
+            "properties": {
+              "flag": {
+                "type": "string",
+                "pattern": "^--?[A-Za-z0-9][A-Za-z0-9_-]*$",
+                "maxLength": 40
+              },
+              "meaning": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120,
+                "description": "Plain-language meaning for a beginner, based on doc."
+              },
+              "doc": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "description": "The exact help/man line (whitespace-normalised substring) the meaning is based on."
+              }
+            }
+          }
+        }
+      }
+    },
+    "alternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "explain",
+        "cmd"
+      ],
+      "description": "Same shape as a step, without nested alternatives. risk defaults to low; the card risk must cover it.",
+      "properties": {
+        "explain": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "cmd": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "variants": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "arch",
+              "debian",
+              "ubuntu",
+              "mint",
+              "fedora",
+              "opensuse",
+              "macos"
+            ]
+          },
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "gui": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "needs_root": {
+          "type": "boolean",
+          "default": false
+        },
+        "risk": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "default": "low"
+        },
+        "placeholders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "description"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9_]{1,31}$"
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 160
+              },
+              "example": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "discover_cmd": {
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "expect": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "flags": {
+          "type": "array",
+          "maxItems": 8,
+          "description": "Per flag used in this option's cmd: a beginner meaning, and the exact help or man line it is based on. The flag must appear in cmd; doc must appear in the cached help/man text of the tool (pipeline/cards.py).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "flag",
+              "meaning"
+            ],
+            "properties": {
+              "flag": {
+                "type": "string",
+                "pattern": "^--?[A-Za-z0-9][A-Za-z0-9_-]*$",
+                "maxLength": 40
+              },
+              "meaning": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120,
+                "description": "Plain-language meaning for a beginner, based on doc."
+              },
+              "doc": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "description": "The exact help/man line (whitespace-normalised substring) the meaning is based on."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

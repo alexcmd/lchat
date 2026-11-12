@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "macos-shuffle-file-lines",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Shuffle the order of lines in a text file",
+ "summary": "Use the shuf command to randomly reorder the lines of a text file. This is useful for creating random lists or test data.",
+ "aliases": [
+  {
+   "text": "shuffle lines in file",
+   "lang": "en"
+  },
+  {
+   "text": "randomize file order",
+   "lang": "en"
+  },
+  {
+   "text": "shuf command mac",
+   "lang": "en"
+  },
+  {
+   "text": "перемешать строки в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "случайный порядок строк",
+   "lang": "ru"
+  },
+  {
+   "text": "shuf перемешать",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run shuf with the path to your file to print the lines in a random order to the terminal.",
+   "cmd": "shuf <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to shuffle",
+     "example": "names.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Output only the first 5 shuffled lines instead of all of them.",
+     "cmd": "shuf --head-count=5 <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the text file you want to shuffle",
+       "example": "names.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Save the shuffled output to a new file instead of printing it.",
+     "cmd": "shuf <INPUT_FILE> --output <OUTPUT_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "INPUT_FILE",
+       "description": "Path to the source file",
+       "example": "names.txt"
+      },
+      {
+       "name": "OUTPUT_FILE",
+       "description": "Path to the destination file",
+       "example": "shuffled.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/shuf.md",
+  "title": "tldr-pages: shuf",
+  "license": "CC-BY-4.0"
+ }
+}

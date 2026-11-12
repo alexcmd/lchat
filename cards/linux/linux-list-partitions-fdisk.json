@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-partitions-fdisk",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List disk partitions",
+ "summary": "View the partition table of all storage drives on your computer to see how they are divided.",
+ "aliases": [
+  {
+   "text": "list partitions",
+   "lang": "en"
+  },
+  {
+   "text": "show disk partitions",
+   "lang": "en"
+  },
+  {
+   "text": "fdisk list",
+   "lang": "en"
+  },
+  {
+   "text": "check disk layout",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть разделы диска",
+   "lang": "ru"
+  },
+  {
+   "text": "список разделов",
+   "lang": "ru"
+  },
+  {
+   "text": "fdisk список",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть разметку диска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List the partition tables for all available devices.",
+   "cmd": "sudo fdisk -l",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "A list of disks and their partitions with sizes and types."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/fdisk.md",
+  "title": "tldr-pages: fdisk",
+  "license": "CC-BY-4.0"
+ }
+}

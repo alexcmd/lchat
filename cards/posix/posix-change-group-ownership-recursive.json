@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-group-ownership-recursive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Recursively change group ownership of a directory",
+ "summary": "Use chgrp with the recursive flag to change the group ownership of a directory and all its contents.",
+ "aliases": [
+  {
+   "text": "chgrp recursive",
+   "lang": "en"
+  },
+  {
+   "text": "change group recursively",
+   "lang": "en"
+  },
+  {
+   "text": "chgrp -R",
+   "lang": "en"
+  },
+  {
+   "text": "изменить группу рекурсивно",
+   "lang": "ru"
+  },
+  {
+   "text": "chgrp рекурсивно",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --recursive flag to apply the group change to the directory and everything inside it.",
+   "cmd": "chgrp -R <GROUP> <DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "GROUP",
+     "description": "The name of the group to assign",
+     "example": "developers"
+    },
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the target directory",
+     "example": "project_folder"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Change the group back recursively to the original value.",
+   "cmd": "chgrp -R <ORIGINAL_GROUP> <DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_GROUP",
+     "description": "The original group name"
+    },
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the target directory"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This affects all files and subdirectories. Be careful not to change system directories unless you know what you are doing."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chgrp.md",
+  "title": "tldr-pages: chgrp",
+  "license": "CC-BY-4.0"
+ }
+}

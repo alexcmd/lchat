@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "linux-add-static-route",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Add a static route to a specific network",
+ "summary": "Manually add a route for a specific destination network or IP address through a gateway. This is useful for accessing private networks or specific subnets that are not automatically discovered.",
+ "aliases": [
+  {
+   "text": "add static route",
+   "lang": "en"
+  },
+  {
+   "text": "ip route add",
+   "lang": "en"
+  },
+  {
+   "text": "manual route",
+   "lang": "en"
+  },
+  {
+   "text": "add route to network",
+   "lang": "en"
+  },
+  {
+   "text": "добавить статический маршрут",
+   "lang": "ru"
+  },
+  {
+   "text": "ip route add",
+   "lang": "ru"
+  },
+  {
+   "text": "маршрут к сети",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить маршрут",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add a static route for a specific destination IP or network, directing traffic through a gateway and out a specific interface.",
+   "cmd": "sudo ip route add <DESTINATION_IP> via <GATEWAY_IP> dev <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The destination IP address or network (e.g., 10.0.0.0/24)",
+     "example": "10.0.0.0/24"
+    },
+    {
+     "name": "GATEWAY_IP",
+     "description": "The IP address of the gateway to use",
+     "example": "192.168.1.1"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface to use (e.g., eth0, wlan0)",
+     "example": "eth0"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the static route to remove it from the routing table.",
+   "cmd": "sudo ip route delete <DESTINATION_IP> dev <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The destination IP address or network",
+     "example": "10.0.0.0/24"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface used",
+     "example": "eth0"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Incorrect routes can cause connectivity issues for specific networks.",
+  "Routes added this way are temporary and lost on reboot unless saved in configuration files."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-route.md",
+  "title": "tldr-pages: ip-route",
+  "license": "CC-BY-4.0"
+ }
+}

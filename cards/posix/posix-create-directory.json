@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a new directory",
+ "summary": "Use the mkdir command to create one or more new folders. You can specify the full path or just the name of the folder you want to create.",
+ "aliases": [
+  {
+   "text": "create folder",
+   "lang": "en"
+  },
+  {
+   "text": "make directory",
+   "lang": "en"
+  },
+  {
+   "text": "mkdir",
+   "lang": "en"
+  },
+  {
+   "text": "new folder",
+   "lang": "en"
+  },
+  {
+   "text": "создать папку",
+   "lang": "ru"
+  },
+  {
+   "text": "создать директорию",
+   "lang": "ru"
+  },
+  {
+   "text": "mkdir",
+   "lang": "ru"
+  },
+  {
+   "text": "новая папка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mkdir followed by the path or name of the directory you want to create.",
+   "cmd": "mkdir <DIRECTORY_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY_PATH",
+     "description": "The path or name of the directory to create",
+     "example": "Documents/Projects"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/mkdir.md",
+  "title": "tldr-pages: mkdir",
+  "license": "CC-BY-4.0"
+ }
+}

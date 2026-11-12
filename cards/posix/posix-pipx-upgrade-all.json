@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-pipx-upgrade-all",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Upgrade all Python apps installed with pipx",
+ "summary": "Update all Python applications installed via pipx to their latest versions. This ensures your command-line tools are up to date.",
+ "aliases": [
+  {
+   "text": "upgrade all pipx packages",
+   "lang": "en"
+  },
+  {
+   "text": "update python tools with pipx",
+   "lang": "en"
+  },
+  {
+   "text": "pipx upgrade-all",
+   "lang": "en"
+  },
+  {
+   "text": "update all python apps",
+   "lang": "en"
+  },
+  {
+   "text": "обновить все пакеты pipx",
+   "lang": "ru"
+  },
+  {
+   "text": "pipx upgrade-all",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить python утилиты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "pipx is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Upgrade all installed pipx packages to their latest available versions.",
+   "cmd": "pipx upgrade-all",
+   "risk": "low",
+   "expect": "A list of upgraded packages is displayed."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pipx.md",
+  "title": "tldr-pages: pipx",
+  "license": "CC-BY-4.0"
+ }
+}

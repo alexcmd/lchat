@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-disk-space-for-path",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check disk space for a specific file or directory",
+ "summary": "Find out which filesystem a specific file or directory is on and how much space is used on that filesystem.",
+ "aliases": [
+  {
+   "text": "check disk space for folder",
+   "lang": "en"
+  },
+  {
+   "text": "df specific directory",
+   "lang": "en"
+  },
+  {
+   "text": "which disk is this file on",
+   "lang": "en"
+  },
+  {
+   "text": "disk usage for path",
+   "lang": "en"
+  },
+  {
+   "text": "проверить место для папки",
+   "lang": "ru"
+  },
+  {
+   "text": "df для директории",
+   "lang": "ru"
+  },
+  {
+   "text": "на каком диске файл",
+   "lang": "ru"
+  },
+  {
+   "text": "how much space in downloads folder",
+   "lang": "en"
+  },
+  {
+   "text": "disk space for folder",
+   "lang": "en"
+  },
+  {
+   "text": "check space for directory",
+   "lang": "en"
+  },
+  {
+   "text": "df path",
+   "lang": "en"
+  },
+  {
+   "text": "df путь",
+   "lang": "ru"
+  },
+  {
+   "text": "место на диске для директории",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `df` followed by the path to the file or directory to see the filesystem usage for that specific location.",
+   "cmd": "df <PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATH",
+     "description": "The path to the file or directory you want to check.",
+     "example": "/home/user/documents"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/df.md",
+  "title": "tldr-pages: df",
+  "license": "CC-BY-4.0"
+ }
+}

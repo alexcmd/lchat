@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-list-installed-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List all installed packages",
+ "summary": "Show a list of all software packages currently installed on your system.",
+ "aliases": [
+  {
+   "text": "list installed packages",
+   "lang": "en"
+  },
+  {
+   "text": "show installed software",
+   "lang": "en"
+  },
+  {
+   "text": "apt list installed",
+   "lang": "en"
+  },
+  {
+   "text": "список установленных пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "какие программы установлены",
+   "lang": "ru"
+  },
+  {
+   "text": "list installed packages dpkg",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg list",
+   "lang": "en"
+  },
+  {
+   "text": "check installed packages",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg список",
+   "lang": "ru"
+  },
+  {
+   "text": "какие пакеты установлены",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Lists all packages that are currently installed on the system.",
+   "cmd": "apt list --installed",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "List all installed packages whose names match the given pattern. Use a wildcard like '*' to match multiple packages.",
+     "cmd": "dpkg --list <PATTERN>",
+     "placeholders": [
+      {
+       "name": "PATTERN",
+       "description": "Package name pattern to search for, use '*' for wildcards",
+       "example": "python*"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt.md",
+  "title": "tldr-pages: apt",
+  "license": "CC-BY-4.0"
+ }
+}

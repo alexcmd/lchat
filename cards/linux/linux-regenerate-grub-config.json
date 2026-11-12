@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "linux-regenerate-grub-config",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Regenerate the GRUB boot menu configuration",
+ "summary": "Updates the GRUB bootloader configuration file. This is necessary after installing a new kernel, changing boot options, or modifying /etc/default/grub.",
+ "aliases": [
+  {
+   "text": "update grub",
+   "lang": "en"
+  },
+  {
+   "text": "regenerate grub config",
+   "lang": "en"
+  },
+  {
+   "text": "fix grub menu",
+   "lang": "en"
+  },
+  {
+   "text": "grub-mkconfig",
+   "lang": "en"
+  },
+  {
+   "text": "обновить grub",
+   "lang": "ru"
+  },
+  {
+   "text": "пересоздать конфиг grub",
+   "lang": "ru"
+  },
+  {
+   "text": "не видно новую систему в grub",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Generate the GRUB configuration file and write it to the standard location. This updates the boot menu.",
+   "cmd": "sudo grub-mkconfig -o /boot/grub/grub.cfg",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Simulate the generation and print the result to the screen without saving, to check for errors first.",
+     "cmd": "sudo grub-mkconfig",
+     "needs_root": true,
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If the new configuration breaks booting, you may need to restore a backup of /boot/grub/grub.cfg from before the change, or use a live USB to repair the bootloader.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Incorrect GRUB configuration can make the system unbootable.",
+  "Ensure you have a backup of /boot/grub/grub.cfg or a live USB available before proceeding."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/grub-mkconfig.md",
+  "title": "tldr-pages: grub-mkconfig",
+  "license": "CC-BY-4.0"
+ }
+}

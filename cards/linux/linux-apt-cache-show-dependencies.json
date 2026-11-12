@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-cache-show-dependencies",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show dependencies for a package",
+ "summary": "List other packages that this package requires to function.",
+ "aliases": [
+  {
+   "text": "show dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "what does this package need",
+   "lang": "en"
+  },
+  {
+   "text": "apt-cache depends",
+   "lang": "en"
+  },
+  {
+   "text": "package requirements",
+   "lang": "en"
+  },
+  {
+   "text": "зависимости пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "что нужно для пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "зависимости apt",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List the packages that the specified package depends on.",
+   "cmd": "apt-cache depends <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package",
+     "example": "gimp"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-cache.md",
+  "title": "tldr-pages: apt-cache",
+  "license": "CC-BY-4.0"
+ }
+}

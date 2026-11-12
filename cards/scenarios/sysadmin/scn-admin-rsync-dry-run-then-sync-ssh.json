@@ -1,0 +1,177 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-rsync-dry-run-then-sync-ssh",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Sync a local folder to a remote server with rsync, checking a dry run first",
+  "summary": "rsync copies only the files that changed to a folder on another machine over SSH. A dry run first lists what would be copied without touching anything, so you can read the list before the real copy.",
+  "aliases": [
+    {
+      "text": "rsync to remote server ssh",
+      "lang": "en"
+    },
+    {
+      "text": "dry run rsync before copy",
+      "lang": "en"
+    },
+    {
+      "text": "sync folder to server rsync",
+      "lang": "en"
+    },
+    {
+      "text": "rsync -n preview changes",
+      "lang": "en"
+    },
+    {
+      "text": "copy only changed files to remote",
+      "lang": "en"
+    },
+    {
+      "text": "rsync over ssh example",
+      "lang": "en"
+    },
+    {
+      "text": "rsync trailing slash meaning",
+      "lang": "en"
+    },
+    {
+      "text": "mirror folder to remote host",
+      "lang": "en"
+    },
+    {
+      "text": "синхронизировать папку с сервером rsync",
+      "lang": "ru"
+    },
+    {
+      "text": "rsync по ssh пример",
+      "lang": "ru"
+    },
+    {
+      "text": "проверить rsync перед копированием",
+      "lang": "ru"
+    },
+    {
+      "text": "скопировать только изменённые файлы на сервер",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "rsync",
+      "ssh"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Dry run: show what would be copied without changing anything. -n is the dry run. Lines starting with >f are files that would be sent, and cd lines are folders. The trailing slash on the local folder means copy its contents.",
+      "risk": "low",
+      "cmd": "rsync -avhn --itemize-changes -e ssh <LOCAL_DIR>/ <REMOTE_USER>@<REMOTE_HOST>:<REMOTE_DIR>/",
+      "expect": "The list of files to send, then 'total size is ... (DRY RUN)'.",
+      "placeholders": [
+        {
+          "name": "LOCAL_DIR",
+          "description": "Local folder to send (its contents are copied)",
+          "example": "/home/deck/site"
+        },
+        {
+          "name": "REMOTE_USER",
+          "description": "Login name on the server",
+          "example": "deck"
+        },
+        {
+          "name": "REMOTE_HOST",
+          "description": "Server name or address",
+          "example": "web1.lan"
+        },
+        {
+          "name": "REMOTE_DIR",
+          "description": "Folder on the server that receives the copy",
+          "example": "/var/www/site"
+        }
+      ]
+    },
+    {
+      "explain": "Read the list before you go on. Stop if a file is missing from it or if a line starts with *deleting. A deleting line means the server would lose a file, so the command has --delete in it; remove that option.",
+      "risk": "low"
+    },
+    {
+      "explain": "Real copy: send the changed files over SSH. Files that exist on the server with a different size or time are overwritten with your local copy.",
+      "risk": "medium",
+      "cmd": "rsync -avh --progress -e ssh <LOCAL_DIR>/ <REMOTE_USER>@<REMOTE_HOST>:<REMOTE_DIR>/",
+      "expect": "Progress lines, then 'sent ... bytes  received ...' and 'total size is ... speedup is ...'.",
+      "placeholders": [
+        {
+          "name": "LOCAL_DIR",
+          "description": "Local folder to send (its contents are copied)",
+          "example": "/home/deck/site"
+        },
+        {
+          "name": "REMOTE_USER",
+          "description": "Login name on the server",
+          "example": "deck"
+        },
+        {
+          "name": "REMOTE_HOST",
+          "description": "Server name or address",
+          "example": "web1.lan"
+        },
+        {
+          "name": "REMOTE_DIR",
+          "description": "Folder on the server that receives the copy",
+          "example": "/var/www/site"
+        }
+      ]
+    },
+    {
+      "explain": "Run the dry run again. An empty result (the text 'server matches the local folder') means nothing is left to send.",
+      "risk": "low",
+      "cmd": "rsync -avhn --itemize-changes -e ssh <LOCAL_DIR>/ <REMOTE_USER>@<REMOTE_HOST>:<REMOTE_DIR>/ | grep -E '^[<>]f' || echo \"server matches the local folder\"",
+      "expect": "server matches the local folder",
+      "placeholders": [
+        {
+          "name": "LOCAL_DIR",
+          "description": "Local folder to send (its contents are copied)",
+          "example": "/home/deck/site"
+        },
+        {
+          "name": "REMOTE_USER",
+          "description": "Login name on the server",
+          "example": "deck"
+        },
+        {
+          "name": "REMOTE_HOST",
+          "description": "Server name or address",
+          "example": "web1.lan"
+        },
+        {
+          "name": "REMOTE_DIR",
+          "description": "Folder on the server that receives the copy",
+          "example": "/var/www/site"
+        }
+      ]
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "rsync cannot undo an overwrite. Restore the old version from a backup you made of the server folder before the copy, which is why you take one first.",
+      "risk": "medium"
+    }
+  ],
+  "warnings": [
+    "Do not add --delete unless the dry run shows exactly the files you want removed on the server.",
+    "Files that are newer on the server are overwritten too. Add -u to skip files that are newer on the receiving side.",
+    "Without the trailing slash after the local folder, the folder itself is copied inside the target instead of its contents."
+  ],
+  "source": {
+    "url": "https://download.samba.org/pub/rsync/rsync.html",
+    "title": "rsync manual (rsync(1))",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

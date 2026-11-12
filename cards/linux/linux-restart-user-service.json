@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-restart-user-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Restart a user service",
+ "summary": "Restart a background service that runs only for your user account, not the whole system. Useful for user-specific daemons like pipewire or user-level systemd timers.",
+ "aliases": [
+  {
+   "text": "restart user service linux",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl restart --user",
+   "lang": "en"
+  },
+  {
+   "text": "restart pipewire user",
+   "lang": "en"
+  },
+  {
+   "text": "перезапустить пользовательскую службу",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl --user restart",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапуск сервиса пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Restart the specified user service. Replace <SERVICE> with the name of the user unit (e.g., pipewire, gpg-agent).",
+   "cmd": "systemctl restart <SERVICE> --user",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVICE",
+     "description": "Name of the user systemd unit to restart",
+     "example": "pipewire",
+     "discover_cmd": "systemctl --user list-units --type=service --state=running"
+    }
+   ],
+   "expect": "The command returns to the prompt without output if successful."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-check-user-service-status",
+  "linux-start-user-service"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-restart.md",
+  "title": "tldr-pages: systemctl-restart",
+  "license": "CC-BY-4.0"
+ }
+}

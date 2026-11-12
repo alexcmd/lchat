@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "linux-bleachbit-open-gui",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Open BleachBit graphical interface",
+ "summary": "Launch the BleachBit graphical user interface to clean junk files using a visual menu instead of the command line.",
+ "aliases": [
+  {
+   "text": "open bleachbit gui",
+   "lang": "en"
+  },
+  {
+   "text": "bleachbit graphical interface",
+   "lang": "en"
+  },
+  {
+   "text": "start bleachbit app",
+   "lang": "en"
+  },
+  {
+   "text": "открыть графический интерфейс bleachbit",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить bleachbit gui",
+   "lang": "ru"
+  },
+  {
+   "text": "окно bleachbit",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start the graphical user interface version of BleachBit.",
+   "cmd": "bleachbit --gui",
+   "risk": "low",
+   "expect": "The BleachBit window opens."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/bleachbit.md",
+  "title": "tldr-pages: bleachbit",
+  "license": "CC-BY-4.0"
+ }
+}

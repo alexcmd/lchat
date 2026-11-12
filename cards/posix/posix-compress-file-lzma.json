@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-compress-file-lzma",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compress a file using LZMA format",
+ "summary": "Use xz with the format flag to create an .lzma compressed file instead of the default .xz format.",
+ "aliases": [
+  {
+   "text": "compress to lzma",
+   "lang": "en"
+  },
+  {
+   "text": "create lzma archive",
+   "lang": "en"
+  },
+  {
+   "text": "lzma compression",
+   "lang": "en"
+  },
+  {
+   "text": "сжать в lzma",
+   "lang": "ru"
+  },
+  {
+   "text": "создать архив lzma",
+   "lang": "ru"
+  },
+  {
+   "text": "lzma сжатие",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run xz with the format flag set to lzma and the path to the file.",
+   "cmd": "xz --format lzma <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file to compress",
+     "example": "document.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/xz.md",
+  "title": "tldr-pages: xz",
+  "license": "CC-BY-4.0"
+ }
+}

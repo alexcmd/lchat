@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "macos-connect-to-wifi-network",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Connect to a specific Wi-Fi network",
+ "summary": "Connect your Mac to a Wi-Fi network by providing the network name and password via the terminal.",
+ "aliases": [
+  {
+   "text": "connect to wifi mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "join wifi network mac command",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup setairportnetwork",
+   "lang": "en"
+  },
+  {
+   "text": "connect wifi ssid password mac",
+   "lang": "en"
+  },
+  {
+   "text": "подключиться к wifi mac через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "подключить сеть wifi mac команда",
+   "lang": "ru"
+  },
+  {
+   "text": "networksetup подключиться к wifi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Connect to a Wi-Fi network. Replace <INTERFACE> with your Wi-Fi interface (e.g., en0), <SSID> with the network name, and <PASSWORD> with the network password.",
+   "cmd": "networksetup -setairportnetwork <INTERFACE> <SSID> <PASSWORD>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The Wi-Fi interface name, usually en0 or en1.",
+     "example": "en0"
+    },
+    {
+     "name": "SSID",
+     "description": "The name of the Wi-Fi network.",
+     "example": "MyHomeWiFi"
+    },
+    {
+     "name": "PASSWORD",
+     "description": "The password for the Wi-Fi network.",
+     "example": "secret123"
+    }
+   ],
+   "expect": "The command completes without error, and the Mac connects to the specified network."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This command changes your network connection. Ensure you have the correct SSID and password.",
+  "If the connection fails, you may need to disconnect and reconnect manually via System Settings."
+ ],
+ "rollback": [
+  {
+   "explain": "Disconnect from the current Wi-Fi network by turning Wi-Fi off and on again via System Settings or using the Wi-Fi menu bar icon.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/networksetup.md",
+  "title": "tldr-pages: networksetup",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-keymaps",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List available keyboard layouts",
+ "summary": "See a list of all keyboard layouts (keymaps) that are installed and available on your system.",
+ "aliases": [
+  {
+   "text": "list keymaps",
+   "lang": "en"
+  },
+  {
+   "text": "available keyboard layouts",
+   "lang": "en"
+  },
+  {
+   "text": "localectl list-keymaps",
+   "lang": "en"
+  },
+  {
+   "text": "список раскладок",
+   "lang": "ru"
+  },
+  {
+   "text": "доступные раскладки клавиатуры",
+   "lang": "ru"
+  },
+  {
+   "text": "какие раскладки есть",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all keyboard layouts that are currently available for use on the system.",
+   "cmd": "localectl list-keymaps",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/localectl.md",
+  "title": "tldr-pages: localectl",
+  "license": "CC-BY-4.0"
+ }
+}

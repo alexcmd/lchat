@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-resolvectl-flush-caches",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Flush local DNS caches",
+ "summary": "Clear all cached DNS records to force fresh lookups for domains.",
+ "aliases": [
+  {
+   "text": "flush dns cache",
+   "lang": "en"
+  },
+  {
+   "text": "clear dns cache linux",
+   "lang": "en"
+  },
+  {
+   "text": "resolvectl flush-caches",
+   "lang": "en"
+  },
+  {
+   "text": "очистить кэш dns",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить dns кэш",
+   "lang": "ru"
+  },
+  {
+   "text": "почистить dns",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-resolved"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Flush all local DNS caches managed by systemd-resolved.",
+   "cmd": "resolvectl flush-caches",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/resolvectl.md",
+  "title": "tldr-pages: resolvectl",
+  "license": "CC-BY-4.0"
+ }
+}

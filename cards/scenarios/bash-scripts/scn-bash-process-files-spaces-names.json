@@ -1,0 +1,150 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-process-files-spaces-names",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Process every file in a folder safely when names contain spaces",
+  "summary": "Goes through all text files in a folder, including subfolders, and handles each one. File names with spaces, quotes or other odd characters are handled correctly.",
+  "aliases": [
+    {
+      "text": "bash loop over files with spaces",
+      "lang": "en"
+    },
+    {
+      "text": "for loop filenames with spaces bash",
+      "lang": "en"
+    },
+    {
+      "text": "find print0 while read bash",
+      "lang": "en"
+    },
+    {
+      "text": "process files recursively in bash script",
+      "lang": "en"
+    },
+    {
+      "text": "bash handle file names with spaces",
+      "lang": "en"
+    },
+    {
+      "text": "bash script for each file in folder safely",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт обрабатывает файлы в папке с пробелами в именах",
+      "lang": "ru"
+    },
+    {
+      "text": "bash цикл по файлам с пробелами",
+      "lang": "ru"
+    },
+    {
+      "text": "как правильно перебрать файлы find в bash",
+      "lang": "ru"
+    },
+    {
+      "text": "обработать все txt файлы в папке рекурсивно скрипт",
+      "lang": "ru"
+    },
+    {
+      "text": "bash файлы с пробелами и кавычками в имени",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "process-spaces.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "process-spaces.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "process-spaces.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Create a folder with three text files whose names contain spaces or an apostrophe.",
+      "risk": "low",
+      "cmd": "mkdir -p notes/sub && printf 'one two\\nthree\\n' > \"notes/my notes.txt\" && printf 'x' > \"notes/it's here.txt\" && printf 'z\\n' > notes/sub/other.txt",
+      "expect": "No output. The folder notes now has three text files."
+    },
+    {
+      "explain": "Run the script on the folder. It prints the line and word counts for each file, subfolders included.",
+      "risk": "low",
+      "cmd": "./<FILE> <FOLDER>",
+      "expect": "one line per file with its lines and words, then processed 3 file(s)",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "process-spaces.sh"
+        },
+        {
+          "name": "FOLDER",
+          "description": "The folder to process, here the test folder",
+          "example": "notes"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "Do not loop with for f in $(find ...) or for f in *.txt when names may contain spaces: the shell splits them into pieces.",
+    "find does not sort its output. Pipe the results through sort if you need a fixed order.",
+    "Use -print0 together with read -d '' (as in this script) or with xargs -0; the NUL byte cannot appear in a file name."
+  ],
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man1/find.1.html",
+    "title": "find(1) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "process-spaces.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# process-spaces.sh - process every .txt file in a folder, safely.\n# Usage: ./process-spaces.sh DIRECTORY\n# Searches the folder recursively. For each .txt file it prints the line\n# and word counts. Names with spaces, quotes or even newlines work.\n\nset -euo pipefail\n\nif (( $# != 1 )) || [[ ! -d $1 ]]; then\n    echo \"usage: $0 DIRECTORY\" >&2\n    exit 2\nfi\nDIR=$1\n\ncount=0\n# find -print0 ends every name with a NUL byte (a byte that never occurs in a\n# file name). read -d '' reads up to that NUL, so the name arrives unchanged.\n# Never write \"for f in $(find ...)\": the shell would split names at spaces.\nwhile IFS= read -r -d '' file; do\n    count=$((count + 1))\n    # wc prints the number with padding on some systems; ${x// /} removes spaces.\n    lines=$(wc -l < \"$file\")\n    words=$(wc -w < \"$file\")\n    printf '%s: %s lines, %s words\\n' \"$file\" \"${lines// /}\" \"${words// /}\"\ndone < <(find \"$DIR\" -type f -name '*.txt' -print0)\n\necho \"processed $count file(s)\"\n",
+    "usage": "./process-spaces.sh DIRECTORY"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

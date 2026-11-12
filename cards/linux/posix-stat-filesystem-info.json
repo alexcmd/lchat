@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-stat-filesystem-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show filesystem information for a file",
+ "summary": "Use stat to display information about the filesystem where a specific file is located, rather than the file itself.",
+ "aliases": [
+  {
+   "text": "filesystem info",
+   "lang": "en"
+  },
+  {
+   "text": "stat filesystem",
+   "lang": "en"
+  },
+  {
+   "text": "disk info for file",
+   "lang": "en"
+  },
+  {
+   "text": "file system details",
+   "lang": "en"
+  },
+  {
+   "text": "информация о файловой системе",
+   "lang": "ru"
+  },
+  {
+   "text": "стат файловая система",
+   "lang": "ru"
+  },
+  {
+   "text": "данные о диске файла",
+   "lang": "ru"
+  },
+  {
+   "text": "фс для файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --file-system option to display details about the filesystem containing the specified file.",
+   "cmd": "stat --file-system <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to a file on the target filesystem",
+     "example": "/home/user/file.txt"
+    }
+   ],
+   "expect": "Output showing filesystem properties like block size, total blocks, and free blocks."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/stat.md",
+  "title": "tldr-pages: stat",
+  "license": "CC-BY-4.0"
+ }
+}

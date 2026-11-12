@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-tar-contents",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List files inside a tar archive",
+ "summary": "View the contents of a .tar archive without extracting it. This helps you check what files are included before unpacking.",
+ "aliases": [
+  {
+   "text": "list tar contents",
+   "lang": "en"
+  },
+  {
+   "text": "see files in tar archive",
+   "lang": "en"
+  },
+  {
+   "text": "view tar file list",
+   "lang": "en"
+  },
+  {
+   "text": "what is inside tar",
+   "lang": "en"
+  },
+  {
+   "text": "просмотреть содержимое tar",
+   "lang": "ru"
+  },
+  {
+   "text": "список файлов в tar",
+   "lang": "ru"
+  },
+  {
+   "text": "что внутри архива tar",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List the contents of the tar archive verbosely, showing file names and permissions.",
+   "cmd": "tar tvf <ARCHIVE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ARCHIVE_FILE",
+     "description": "The path to the archive file to inspect",
+     "example": "backup.tar"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tar.md",
+  "title": "tldr-pages: tar",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "linux-dconf-list-directory",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List dconf keys in a directory",
+ "summary": "View all sub-keys and sub-directories under a specific path in the dconf database to find the exact key you need.",
+ "aliases": [
+  {
+   "text": "list dconf keys",
+   "lang": "en"
+  },
+  {
+   "text": "browse dconf settings",
+   "lang": "en"
+  },
+  {
+   "text": "dconf list",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть список ключей dconf",
+   "lang": "ru"
+  },
+  {
+   "text": "где найти настройку в dconf",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all keys and sub-directories under a specific path. Replace <DIR_PATH> with the directory path, e.g., org/gnome/desktop/interface/.",
+   "cmd": "dconf list /<DIR_PATH>/",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIR_PATH",
+     "description": "The directory path to list, starting with /",
+     "example": "org/gnome/desktop/interface"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dconf.md",
+  "title": "tldr-pages: dconf",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-dconf-read-key",
+  "linux-gsettings-list-schema"
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "macos-prevent-disk-sleep",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Prevent disk from sleeping",
+ "summary": "Use caffeinate with the -m flag to stop the hard drive from spinning down. This is useful during long file operations or backups.",
+ "aliases": [
+  {
+   "text": "prevent disk sleep",
+   "lang": "en"
+  },
+  {
+   "text": "keep hard drive awake",
+   "lang": "en"
+  },
+  {
+   "text": "mac disk sleep",
+   "lang": "en"
+  },
+  {
+   "text": "caffeinate disk",
+   "lang": "en"
+  },
+  {
+   "text": "не давать диску уснуть",
+   "lang": "ru"
+  },
+  {
+   "text": "жесткий диск не засыпает",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run caffeinate with the -m flag to prevent the disk from sleeping. Press Ctrl+C to stop the command and allow normal sleep behavior.",
+   "cmd": "caffeinate -m",
+   "risk": "low",
+   "expect": "The command runs in the foreground. The disk will not spin down."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/caffeinate.md",
+  "title": "tldr-pages: caffeinate",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-remove-spacers-from-dock",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove all spacers from the Dock",
+ "summary": "Use dockutil to remove all spacer tiles from the Dock at once. This cleans up the Dock if you have added many spacers.",
+ "aliases": [
+  {
+   "text": "remove spacers from dock",
+   "lang": "en"
+  },
+  {
+   "text": "dockutil remove spacers",
+   "lang": "en"
+  },
+  {
+   "text": "clear dock separators",
+   "lang": "en"
+  },
+  {
+   "text": "убрать разделители из дока",
+   "lang": "ru"
+  },
+  {
+   "text": "dockutil удалить разделители",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить док от пробелов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "dockutil is installed (usually via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Removes all spacer tiles from the current user's Dock.",
+   "cmd": "dockutil --remove spacer-tiles",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dockutil.md",
+  "title": "tldr-pages: dockutil",
+  "license": "CC-BY-4.0"
+ }
+}

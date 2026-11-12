@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-list-package-files",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List files installed by a package",
+ "summary": "Use dpkg to see which files were installed by a specific package. This is useful for debugging or finding where a program's files are located.",
+ "aliases": [
+  {
+   "text": "list package files dpkg",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg listfiles",
+   "lang": "en"
+  },
+  {
+   "text": "what files does package install",
+   "lang": "en"
+  },
+  {
+   "text": "файлы пакета dpkg",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg список файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "где файлы пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all files that belong to the specified installed package.",
+   "cmd": "dpkg --listfiles <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the installed package",
+     "example": "bash"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dpkg.md",
+  "title": "tldr-pages: dpkg",
+  "license": "CC-BY-4.0"
+ }
+}

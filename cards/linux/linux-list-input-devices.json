@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-input-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List all input devices",
+ "summary": "Show a list of all connected input devices like keyboards, mice, and touchpads. This helps identify device IDs needed for further configuration.",
+ "aliases": [
+  {
+   "text": "list input devices",
+   "lang": "en"
+  },
+  {
+   "text": "show connected mice and keyboards",
+   "lang": "en"
+  },
+  {
+   "text": "xinput list",
+   "lang": "en"
+  },
+  {
+   "text": "find device id",
+   "lang": "en"
+  },
+  {
+   "text": "список устройств ввода",
+   "lang": "ru"
+  },
+  {
+   "text": "показать мыши и клавиатуры",
+   "lang": "ru"
+  },
+  {
+   "text": "найти id устройства",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xinput"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to display all input devices recognized by the X server.",
+   "cmd": "xinput list",
+   "risk": "low",
+   "expect": "A list of devices with their IDs and types (master/slave)."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xinput.md",
+  "title": "tldr-pages: xinput",
+  "license": "CC-BY-4.0"
+ }
+}

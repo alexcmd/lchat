@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-unmount-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unmount a storage device partition",
+ "summary": "Safely unmount a partition so you can disconnect the drive without losing data. This is the command-line equivalent of clicking 'Eject'.",
+ "aliases": [
+  {
+   "text": "unmount drive",
+   "lang": "en"
+  },
+  {
+   "text": "eject usb",
+   "lang": "en"
+  },
+  {
+   "text": "udisksctl unmount",
+   "lang": "en"
+  },
+  {
+   "text": "safely remove drive",
+   "lang": "en"
+  },
+  {
+   "text": "unmount /dev/sdb1",
+   "lang": "en"
+  },
+  {
+   "text": "отключить флешку",
+   "lang": "ru"
+  },
+  {
+   "text": "размонтировать раздел",
+   "lang": "ru"
+  },
+  {
+   "text": "udisksctl unmount",
+   "lang": "ru"
+  },
+  {
+   "text": "безопасное извлечение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unmount the specified partition. Ensure no programs are using files on this drive before running this.",
+   "cmd": "udisksctl unmount --block-device <PARTITION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PARTITION",
+     "description": "The path to the partition to unmount, e.g. /dev/sdb1",
+     "example": "/dev/sdb1",
+     "discover_cmd": "udisksctl status"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/udisksctl.md",
+  "title": "tldr-pages: udisksctl",
+  "license": "CC-BY-4.0"
+ }
+}

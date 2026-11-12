@@ -1,0 +1,144 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-sed-replace-many-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Replace a word in many files at once and keep .bak backups",
+ "summary": "Find every file under a folder that contains the old text and replace it with the new text in place. Each changed file keeps its original as a .bak copy. Use it to rename a setting or a function across a project.",
+ "aliases": [
+  {
+   "text": "replace text in multiple files linux",
+   "lang": "en"
+  },
+  {
+   "text": "sed replace in all files with backup",
+   "lang": "en"
+  },
+  {
+   "text": "find and replace in many files command line",
+   "lang": "en"
+  },
+  {
+   "text": "change word in all files in folder",
+   "lang": "en"
+  },
+  {
+   "text": "sed -i backup multiple files",
+   "lang": "en"
+  },
+  {
+   "text": "rename variable in all files recursively",
+   "lang": "en"
+  },
+  {
+   "text": "заменить текст во всех файлах linux",
+   "lang": "ru"
+  },
+  {
+   "text": "заменить слово во многих файлах sed",
+   "lang": "ru"
+  },
+  {
+   "text": "массовая замена в файлах терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск и замена в файлах с резервной копией",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview first. grep -rn lists every line under DIR that contains the old text, with file name and line number. Nothing is changed.",
+   "cmd": "grep -rn -- '<OLD_TEXT>' <DIR>",
+   "risk": "low",
+   "expect": "Lines such as src/main.py:12:    old_name() with file, line number and text.",
+   "placeholders": [
+    {
+     "name": "OLD_TEXT",
+     "description": "The text to replace",
+     "example": "old_name"
+    },
+    {
+     "name": "DIR",
+     "description": "Folder to search",
+     "example": "src"
+    }
+   ]
+  },
+  {
+   "explain": "Replace the text. grep -rlZ lists the files that contain the old text, separated by zero bytes, so odd names are safe. xargs -0 -r passes them to sed, and -r does nothing if the list is empty. sed -i.bak edits each file and keeps the original as file.bak.",
+   "cmd": "grep -rlZ -- '<OLD_TEXT>' <DIR> | xargs -0 -r sed -i.bak 's/<OLD_TEXT>/<NEW_TEXT>/g'",
+   "risk": "medium",
+   "expect": "Usually no output. Each changed file now has a matching .bak copy next to it.",
+   "placeholders": [
+    {
+     "name": "OLD_TEXT",
+     "description": "The text to replace",
+     "example": "old_name"
+    },
+    {
+     "name": "NEW_TEXT",
+     "description": "The replacement text",
+     "example": "new_name"
+    },
+    {
+     "name": "DIR",
+     "description": "Folder to change",
+     "example": "src"
+    }
+   ]
+  },
+  {
+   "explain": "Check that the old text is gone from the real files. --exclude skips the .bak copies.",
+   "cmd": "grep -rl --exclude='*.bak' -- '<OLD_TEXT>' <DIR>",
+   "risk": "low",
+   "expect": "No output means no file still contains the old text. grep exits with status 1 in that case, which is not an error.",
+   "placeholders": [
+    {
+     "name": "OLD_TEXT",
+     "description": "The text that should be gone",
+     "example": "old_name"
+    },
+    {
+     "name": "DIR",
+     "description": "Folder you changed",
+     "example": "src"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Put the backups back. Every X.bak file is moved over X, so the original text returns. Run it on the same folder.",
+   "cmd": "find <DIR> -type f -name '*.bak' -exec sh -c 'for f; do mv -- \"$f\" \"${f%.bak}\"; done' sh {} +",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder you changed",
+     "example": "src"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "The replacement changes every matching file under the folder. Check the preview step first.",
+  "The old text is a pattern: . * [ ] \\ are special. Use a plain word, and never put a slash / in either text, because it ends the sed command early.",
+  "Rolling back with the .bak copies overwrites the changed files, so edits made after the replacement are lost."
+ ],
+ "source": {
+  "url": "https://www.gnu.org/software/sed/manual/sed.html",
+  "title": "sed, a stream editor (GNU sed manual)",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

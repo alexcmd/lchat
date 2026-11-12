@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-prevent-sleep-restart",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Prevent Mac from sleeping and enable auto-restart",
+ "summary": "Configure the Mac to never go to sleep and to automatically restart after a power failure or system freeze. Useful for servers or long-running tasks.",
+ "aliases": [
+  {
+   "text": "mac never sleep",
+   "lang": "en"
+  },
+  {
+   "text": "disable sleep mac",
+   "lang": "en"
+  },
+  {
+   "text": "auto restart mac after crash",
+   "lang": "en"
+  },
+  {
+   "text": "не давать маку засыпать",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить сон macos",
+   "lang": "ru"
+  },
+  {
+   "text": "автоперезагрузка мака",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable sleep mode and enable automatic restart on power failure or kernel panic.",
+   "cmd": "sudo systemsetup -setsleep off -setrestartpowerfailure on -setrestartfreeze on",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-enable sleep mode and disable automatic restarts to return to default behavior.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Disabling sleep increases power consumption and heat generation.",
+  "This command requires administrator privileges."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/systemsetup.md",
+  "title": "tldr-pages: systemsetup",
+  "license": "CC-BY-4.0"
+ }
+}

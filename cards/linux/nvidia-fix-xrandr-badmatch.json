@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "nvidia-fix-xrandr-badmatch",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix xrandr BadMatch error with NVIDIA",
+ "summary": "If xrandr --addmode fails with BadMatch, the NVIDIA driver may be restricting modes. Allow non-EDID modes in the Xorg configuration.",
+ "aliases": [
+  {
+   "text": "xrandr badmatch nvidia",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr addmode error nvidia",
+   "lang": "en"
+  },
+  {
+   "text": "allow non edid modes nvidia",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка badmatch xrandr",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr не добавляет режим nvidia",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "X Error of failed request: BadMatch"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "Edit /etc/X11/xorg.conf.d/20-nvidia.conf. In the Device section, add the line: Option \"ModeValidation\" \"AllowNonEdidModes\".",
+   "risk": "medium"
+  },
+  {
+   "explain": "Restart Xorg.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the Option line from the configuration file and restart Xorg.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Allowing non-EDID modes can potentially set unsupported refresh rates or resolutions."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#xrandr_BadMatch",
+  "title": "NVIDIA/Troubleshooting",
+  "revision_id": 887471,
+  "license": "GFDL-1.3-or-later"
+ }
+}

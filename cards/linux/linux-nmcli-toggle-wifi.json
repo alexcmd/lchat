@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-toggle-wifi",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Turn Wi-Fi on or off",
+ "summary": "Enable or disable the Wi-Fi radio switch using NetworkManager. This is useful if you want to quickly disconnect from all wireless networks without removing the adapter.",
+ "aliases": [
+  {
+   "text": "turn wifi off",
+   "lang": "en"
+  },
+  {
+   "text": "enable wifi",
+   "lang": "en"
+  },
+  {
+   "text": "disable wifi",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli wifi on",
+   "lang": "en"
+  },
+  {
+   "text": "выключить wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "включить wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli wifi off",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Turn the Wi-Fi radio switch on or off. Replace <STATE> with 'on' to enable or 'off' to disable.",
+   "cmd": "nmcli radio wifi <STATE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "STATE",
+     "description": "The state to set: 'on' or 'off'",
+     "example": "on"
+    }
+   ],
+   "expect": "The command completes without error. Wi-Fi connectivity changes immediately."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, set the Wi-Fi radio switch back to its previous state.",
+   "cmd": "nmcli radio wifi <PREVIOUS_STATE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PREVIOUS_STATE",
+     "description": "The state Wi-Fi was in before (on or off)",
+     "example": "on"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Turning Wi-Fi off will disconnect you from all wireless networks immediately."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-radio.md",
+  "title": "tldr-pages: nmcli-radio",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-nmcli-check-wifi-status"
+ ]
+}

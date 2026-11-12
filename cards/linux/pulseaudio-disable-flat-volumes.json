@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-disable-flat-volumes",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable flat volumes to fix volume jumps",
+ "summary": "If the master volume jumps to 100% when an application starts, or if per-application volumes change unexpectedly, disabling flat volumes can fix this.",
+ "aliases": [
+  {
+   "text": "volume jumps to 100%",
+   "lang": "en"
+  },
+  {
+   "text": "disable flat volumes pulseaudio",
+   "lang": "en"
+  },
+  {
+   "text": "master volume changes automatically",
+   "lang": "en"
+  },
+  {
+   "text": "громкость прыгает на 100",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить flat volumes",
+   "lang": "ru"
+  },
+  {
+   "text": "pulseaudio volume issue",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Find the line 'flat-volumes = yes' (or commented out) and change it to:\nflat-volumes = no",
+   "cmd": "",
+   "risk": "medium",
+   "needs_root": false,
+   "gui": "Open ~/.config/pulse/daemon.conf (or /etc/pulse/daemon.conf) in a text editor."
+  },
+  {
+   "explain": "Kill the current PulseAudio instance.",
+   "cmd": "pulseaudio -k",
+   "risk": "low",
+   "needs_root": false
+  },
+  {
+   "explain": "Start PulseAudio again to apply the change.",
+   "cmd": "pulseaudio --start",
+   "risk": "low",
+   "needs_root": false
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Change 'flat-volumes' back to 'yes' in daemon.conf and restart PulseAudio.",
+   "cmd": "pulseaudio -k",
+   "risk": "low",
+   "needs_root": false
+  }
+ ],
+ "warnings": [
+  "Disabling flat volumes may change how volume controls behave in some applications."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio/Troubleshooting#Per-application_volumes_change_when_the_Master_volume_is_adjusted",
+  "title": "PulseAudio/Troubleshooting",
+  "revision_id": 883273,
+  "license": "GFDL-1.3-or-later"
+ }
+}

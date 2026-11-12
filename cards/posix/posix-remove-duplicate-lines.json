@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-remove-duplicate-lines",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Remove duplicate lines from a text file",
+ "summary": "This command removes consecutive duplicate lines from a file. Since `uniq` only checks adjacent lines, you must sort the file first to catch all duplicates.",
+ "aliases": [
+  {
+   "text": "remove duplicate lines",
+   "lang": "en"
+  },
+  {
+   "text": "delete duplicate lines",
+   "lang": "en"
+  },
+  {
+   "text": "uniq command",
+   "lang": "en"
+  },
+  {
+   "text": "remove duplicates from file",
+   "lang": "en"
+  },
+  {
+   "text": "убрать дубликаты строк",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить повторяющиеся строки",
+   "lang": "ru"
+  },
+  {
+   "text": "команда uniq",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать дубли из файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Sort the file to group identical lines together, then pipe the output to `uniq` to keep only one instance of each line.",
+   "cmd": "sort <FILE> | uniq",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file with duplicate lines",
+     "example": "data.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uniq.md",
+  "title": "tldr-pages: uniq",
+  "license": "CC-BY-4.0"
+ }
+}

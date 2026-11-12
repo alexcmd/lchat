@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-gh-checkout-pr",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check out a GitHub pull request locally",
+ "summary": "Fetch and switch to the branch associated with a specific pull request. This allows you to test or review the changes locally.",
+ "aliases": [
+  {
+   "text": "checkout github pr gh",
+   "lang": "en"
+  },
+  {
+   "text": "gh pr checkout",
+   "lang": "en"
+  },
+  {
+   "text": "gh co pr",
+   "lang": "en"
+  },
+  {
+   "text": "proverit pull request lokali",
+   "lang": "ru"
+  },
+  {
+   "text": "gh checkout pr",
+   "lang": "ru"
+  },
+  {
+   "text": "skachat branch pr",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "GitHub CLI (gh) is installed",
+  "You are in a directory that is a git repository linked to GitHub",
+  "You are logged in to GitHub with gh auth login"
+ ],
+ "steps": [
+  {
+   "explain": "Fetch the branch for the specified pull request and check it out.",
+   "cmd": "gh pr checkout <PR_NUMBER_OR_URL_OR_BRANCH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PR_NUMBER_OR_URL_OR_BRANCH",
+     "description": "The PR number (e.g., 456), the full URL, or the branch name",
+     "example": "456"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/gh.md",
+  "title": "tldr-pages: gh",
+  "license": "CC-BY-4.0"
+ }
+}

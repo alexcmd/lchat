@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "macos-create-keychain",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create a new keychain",
+ "summary": "Create a new keychain file with a specified password. This is useful for isolating credentials for specific applications or projects.",
+ "aliases": [
+  {
+   "text": "create keychain",
+   "lang": "en"
+  },
+  {
+   "text": "make new keychain",
+   "lang": "en"
+  },
+  {
+   "text": "new keychain file",
+   "lang": "en"
+  },
+  {
+   "text": "security create-keychain",
+   "lang": "en"
+  },
+  {
+   "text": "создать связку ключей",
+   "lang": "ru"
+  },
+  {
+   "text": "новая связка ключей",
+   "lang": "ru"
+  },
+  {
+   "text": "создать keychain",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create a new keychain file at the specified path, protected by the given password.",
+   "cmd": "security create-keychain -p <PASSWORD> <KEYCHAIN_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PASSWORD",
+     "description": "The password to protect the new keychain."
+    },
+    {
+     "name": "KEYCHAIN_PATH",
+     "description": "The full path where the new keychain file should be created.",
+     "example": "~/Library/Keychains/my.keychain"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/security.md",
+  "title": "tldr-pages: security",
+  "license": "CC-BY-4.0"
+ }
+}

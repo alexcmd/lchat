@@ -1,0 +1,119 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-update-fails-metadata",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix Fedora DNF error 'Failed to download metadata' for a repository",
+ "summary": "DNF could not download the list of available packages from one of your software sources, so updates and installs stop. Clearing the saved copy of these lists and downloading them again fixes many temporary network problems.",
+ "aliases": [
+  {
+   "text": "dnf failed to download metadata",
+   "lang": "en"
+  },
+  {
+   "text": "fedora failed to download metadata for repo",
+   "lang": "en"
+  },
+  {
+   "text": "dnf cannot download repo metadata fedora",
+   "lang": "en"
+  },
+  {
+   "text": "fedora dnf update error metadata",
+   "lang": "en"
+  },
+  {
+   "text": "dnf update fails fedora",
+   "lang": "en"
+  },
+  {
+   "text": "clear dnf cache fedora",
+   "lang": "en"
+  },
+  {
+   "text": "dnf metadata download error",
+   "lang": "en"
+  },
+  {
+   "text": "dnf не может скачать метаданные",
+   "lang": "ru"
+  },
+  {
+   "text": "fedora ошибка failed to download metadata",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить кеш dnf fedora",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf ошибка скачивания метаданных репозитория",
+   "lang": "ru"
+  },
+  {
+   "text": "fedora не скачивается список пакетов",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Failed to download metadata",
+  "Usable URL not found"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ],
+  "requires": [
+   "dnf"
+  ]
+ },
+ "prerequisites": [
+  "Internet connection",
+  "Write down the repository name from the error text, for example broken-test in: for repository \"broken-test\""
+ ],
+ "steps": [
+  {
+   "explain": "List the repository files DNF reads. Look for a file that belongs to the repository named in the error. A misspelled or removed repository file is a common cause.",
+   "cmd": "ls /etc/yum.repos.d/",
+   "risk": "low",
+   "expect": "A list of files ending in .repo, such as fedora.repo and fedora-updates.repo."
+  },
+  {
+   "explain": "Mark the saved repository lists as expired. DNF keeps the installed packages and downloads the lists again the next time it needs them.",
+   "cmd": "sudo dnf clean expire-cache",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "A line like 'Removed N files, ... 0 errors occurred.' (N depends on the cache).",
+   "alternatives": [
+    {
+     "explain": "Delete all saved repository lists now. DNF downloads them again on the next use. Use this if expire-cache did not help.",
+     "cmd": "sudo dnf clean metadata",
+     "needs_root": true,
+     "risk": "low",
+     "expect": "A line like 'Removed N files, N directories ... 0 errors occurred.'"
+    }
+   ]
+  },
+  {
+   "explain": "Download the repository lists again. If every repository answers, the last line says 'Metadata cache created.' If the same error appears, the repository address in the file from the first step is wrong or the server is down.",
+   "cmd": "sudo dnf makecache",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Ends with 'Metadata cache created.' If it fails, a line starts with 'Failed to download metadata' and the command exits with an error."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "dnf repolist",
+   "expect": "A table with columns 'repo id' and 'repo name' that lists your enabled repositories, such as fedora and updates."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/dnf",
+  "title": "dnf manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

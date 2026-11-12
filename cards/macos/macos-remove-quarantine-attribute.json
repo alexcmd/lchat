@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "macos-remove-quarantine-attribute",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove the quarantine attribute from a file",
+ "summary": "Extended attributes like 'com.apple.quarantine' can prevent files from opening or running. You can remove this specific attribute using the xattr command.",
+ "aliases": [
+  {
+   "text": "remove quarantine attribute",
+   "lang": "en"
+  },
+  {
+   "text": "fix cannot open file mac",
+   "lang": "en"
+  },
+  {
+   "text": "remove com.apple.quarantine",
+   "lang": "en"
+  },
+  {
+   "text": "unquarantine file mac",
+   "lang": "en"
+  },
+  {
+   "text": "remove extended attribute mac",
+   "lang": "en"
+  },
+  {
+   "text": "удалить атрибут карантина",
+   "lang": "ru"
+  },
+  {
+   "text": "файл не открывается mac",
+   "lang": "ru"
+  },
+  {
+   "text": "снять карантин с файла",
+   "lang": "ru"
+  },
+  {
+   "text": "xattr remove quarantine",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete the 'com.apple.quarantine' extended attribute from the specified file. This often resolves issues where macOS blocks a file from opening because it was downloaded from the internet.",
+   "cmd": "xattr -d com.apple.quarantine <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to modify",
+     "example": "~/Downloads/app.zip"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/xattr.md",
+  "title": "tldr-pages: xattr",
+  "license": "CC-BY-4.0"
+ }
+}

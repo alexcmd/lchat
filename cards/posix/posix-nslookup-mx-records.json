@@ -1,0 +1,107 @@
+{
+ "schema_version": 2,
+ "id": "posix-nslookup-mx-records",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find mail servers for a domain using nslookup",
+ "summary": "Use nslookup to find the mail servers (MX records) responsible for receiving email for a domain. This is useful for checking email configuration.",
+ "aliases": [
+  {
+   "text": "find mx records",
+   "lang": "en"
+  },
+  {
+   "text": "check mail servers",
+   "lang": "en"
+  },
+  {
+   "text": "nslookup mx",
+   "lang": "en"
+  },
+  {
+   "text": "email server lookup",
+   "lang": "en"
+  },
+  {
+   "text": "najti mx zapisi",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit pochtovye servera",
+   "lang": "ru"
+  },
+  {
+   "text": "nslookup mx domain",
+   "lang": "ru"
+  },
+  {
+   "text": "check mx record",
+   "lang": "en"
+  },
+  {
+   "text": "find mail server for domain",
+   "lang": "en"
+  },
+  {
+   "text": "узнать mx запись",
+   "lang": "ru"
+  },
+  {
+   "text": "почтовый сервер домена",
+   "lang": "ru"
+  },
+  {
+   "text": "resolvectl mx query",
+   "lang": "en"
+  },
+  {
+   "text": "проверить mx",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query for the mail server (MX record) of the domain, showing details of the transaction.",
+   "cmd": "nslookup -type=MX -debug <DOMAIN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to look up",
+     "example": "example.com"
+    }
+   ],
+   "expect": "The command outputs the MX records for the domain, listing the mail servers and their priorities.",
+   "alternatives": [
+    {
+     "explain": "Query the DNS resolver for the MX (Mail Exchange) record of the specified domain.",
+     "cmd": "resolvectl --legend no --type MX query <DOMAIN>",
+     "placeholders": [
+      {
+       "name": "DOMAIN",
+       "description": "The domain name to query for MX records.",
+       "example": "gmail.com"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nslookup.md",
+  "title": "tldr-pages: nslookup",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-nslookup-domain-ip"
+ ]
+}

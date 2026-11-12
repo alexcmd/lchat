@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-search-files-by-content",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Search for files containing specific text",
+ "summary": "Use mdfind to find files that contain a specific word or phrase inside them. This searches the content of your documents, not just their names.",
+ "aliases": [
+  {
+   "text": "find file by content mac",
+   "lang": "en"
+  },
+  {
+   "text": "search text inside files terminal",
+   "lang": "en"
+  },
+  {
+   "text": "mdfind content",
+   "lang": "en"
+  },
+  {
+   "text": "как найти файл по содержимому на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск текста в файлах терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "mdfind содержимое",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mdfind with your search query in quotes. This searches the text content of files indexed by Spotlight.",
+   "cmd": "mdfind \"<QUERY>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "QUERY",
+     "description": "The text or phrase you want to find inside files.",
+     "example": "meeting notes"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mdfind.md",
+  "title": "tldr-pages: mdfind",
+  "license": "CC-BY-4.0"
+ }
+}

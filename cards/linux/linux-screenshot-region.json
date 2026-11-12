@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-screenshot-region",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Take a screenshot of a selected region",
+ "summary": "Use `maim` with the select flag to interactively choose a part of the screen and save it to a file.",
+ "aliases": [
+  {
+   "text": "screenshot selected region",
+   "lang": "en"
+  },
+  {
+   "text": "maim select region",
+   "lang": "en"
+  },
+  {
+   "text": "crop screenshot linux",
+   "lang": "en"
+  },
+  {
+   "text": "select area for screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот выделенной области",
+   "lang": "ru"
+  },
+  {
+   "text": "выделить область для скриншота",
+   "lang": "ru"
+  },
+  {
+   "text": "скриншот части экрана",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "maim"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --select flag to draw a box around the area you want to capture, then save it to a file.",
+   "cmd": "maim --select <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path where the screenshot will be saved",
+     "example": "~/region.png"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/maim.md",
+  "title": "tldr-pages: maim",
+  "license": "CC-BY-4.0"
+ }
+}

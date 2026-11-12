@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-sync-disk-writes",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Force disk writes to finish immediately",
+ "summary": "The `sync` command ensures that all data currently being written to your Mac's storage is physically saved to the disk right now. This is useful if you want to guarantee that files are fully written before shutting down or removing a drive.",
+ "aliases": [
+  {
+   "text": "sync disk",
+   "lang": "en"
+  },
+  {
+   "text": "flush disk writes",
+   "lang": "en"
+  },
+  {
+   "text": "force save to disk",
+   "lang": "en"
+  },
+  {
+   "text": "sync command mac",
+   "lang": "en"
+  },
+  {
+   "text": "ensure files are written",
+   "lang": "en"
+  },
+  {
+   "text": "синхронизация диска",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительно записать на диск",
+   "lang": "ru"
+  },
+  {
+   "text": "команда sync",
+   "lang": "ru"
+  },
+  {
+   "text": "сброс буфера диска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the sync command to flush all pending write operations from the system memory to the physical disks.",
+   "cmd": "sync",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sync.md",
+  "title": "tldr-pages: sync",
+  "license": "CC-BY-4.0"
+ }
+}

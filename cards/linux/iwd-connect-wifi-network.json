@@ -1,0 +1,186 @@
+{
+ "schema_version": 2,
+ "id": "iwd-connect-wifi-network",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Connect to a Wi-Fi network using iwctl",
+ "summary": "Use the iwctl command-line tool to scan for and connect to a Wi-Fi network. This assumes iwd is already installed and running.",
+ "aliases": [
+  {
+   "text": "connect wifi iwctl",
+   "lang": "en"
+  },
+  {
+   "text": "iwctl connect network",
+   "lang": "en"
+  },
+  {
+   "text": "scan wifi iwd",
+   "lang": "en"
+  },
+  {
+   "text": "join wifi network iwd",
+   "lang": "en"
+  },
+  {
+   "text": "подключиться к wifi iwctl",
+   "lang": "ru"
+  },
+  {
+   "text": "iwctl подключение к сети",
+   "lang": "ru"
+  },
+  {
+   "text": "сканировать wifi iwd",
+   "lang": "ru"
+  },
+  {
+   "text": "подключиться к wifi iwd",
+   "lang": "ru"
+  },
+  {
+   "text": "iwctl connect wifi/en",
+   "lang": "en"
+  },
+  {
+   "text": "connect to wifi iwctl/en",
+   "lang": "en"
+  },
+  {
+   "text": "iwctl connect wifi",
+   "lang": "en"
+  },
+  {
+   "text": "connect to wifi iwctl",
+   "lang": "en"
+  },
+  {
+   "text": "iwctl station connect",
+   "lang": "en"
+  },
+  {
+   "text": "join wifi network iwctl",
+   "lang": "en"
+  },
+  {
+   "text": "iwctl wifi password",
+   "lang": "en"
+  },
+  {
+   "text": "подключить wifi iwctl",
+   "lang": "ru"
+  },
+  {
+   "text": "iwctl ввести пароль wifi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "iwd",
+   "iwctl"
+  ]
+ },
+ "prerequisites": [
+  "iwd service is running",
+  "User is in the 'network' or 'wheel' group, or using sudo"
+ ],
+ "steps": [
+  {
+   "explain": "Start the interactive iwctl prompt.",
+   "cmd": "iwctl",
+   "risk": "low",
+   "expect": "Prompt changes to [iwd]#",
+   "alternatives": [
+    {
+     "explain": "Connect to the specified Wi-Fi network. If the network is secured, you will be prompted to enter the password.",
+     "cmd": "iwctl station <STATION> connect <NETWORK_NAME>",
+     "placeholders": [
+      {
+       "name": "STATION",
+       "description": "The name of your Wi-Fi interface, e.g., wlan0 or phy0",
+       "example": "wlan0",
+       "discover_cmd": "iwctl station list"
+      },
+      {
+       "name": "NETWORK_NAME",
+       "description": "The name (SSID) of the Wi-Fi network you want to connect to",
+       "example": "MyHomeWiFi",
+       "discover_cmd": "iwctl station <STATION> get-networks"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "List available Wi-Fi devices to find your device name (e.g., wlan0).",
+   "cmd": "device list",
+   "risk": "low",
+   "expect": "A list of devices is shown."
+  },
+  {
+   "explain": "Scan for available networks using your device name.",
+   "cmd": "station <DEVICE_NAME> scan",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "Your Wi-Fi interface name, e.g., wlan0",
+     "discover_cmd": "iwctl device list"
+    }
+   ]
+  },
+  {
+   "explain": "List the scanned networks to find the SSID you want to connect to.",
+   "cmd": "station <DEVICE_NAME> get-networks",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "Your Wi-Fi interface name",
+     "discover_cmd": "iwctl device list"
+    }
+   ]
+  },
+  {
+   "explain": "Connect to the chosen network. You will be prompted for the password if required.",
+   "cmd": "station <DEVICE_NAME> connect <SSID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "Your Wi-Fi interface name",
+     "discover_cmd": "iwctl device list"
+    },
+    {
+     "name": "SSID",
+     "description": "The name of the Wi-Fi network",
+     "discover_cmd": "iwctl station <DEVICE_NAME> get-networks"
+    }
+   ],
+   "expect": "Connection established or password prompt appears."
+  }
+ ],
+ "risk": "low",
+ "verify": [
+  {
+   "cmd": "station <DEVICE_NAME> show",
+   "expect": "State is 'connected' and SSID is shown."
+  }
+ ],
+ "see_also": [
+  "nmcli-connect-wifi-network"
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Iwd#Connect_to_a_network",
+  "title": "Iwd",
+  "revision_id": 887570,
+  "license": "GFDL-1.3-or-later"
+ }
+}

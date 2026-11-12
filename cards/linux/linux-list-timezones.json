@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-timezones",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List all available timezones",
+ "summary": "Display a list of all timezones recognized by the system. Use this to find the correct timezone name before setting it.",
+ "aliases": [
+  {
+   "text": "list timezones",
+   "lang": "en"
+  },
+  {
+   "text": "show available timezones",
+   "lang": "en"
+  },
+  {
+   "text": "find timezone name",
+   "lang": "en"
+  },
+  {
+   "text": "timedatectl list timezones",
+   "lang": "en"
+  },
+  {
+   "text": "список часовых поясов",
+   "lang": "ru"
+  },
+  {
+   "text": "показать доступные часовые пояса",
+   "lang": "ru"
+  },
+  {
+   "text": "найти название часового пояса",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all valid timezone strings that can be used with the set-timezone command.",
+   "cmd": "timedatectl list-timezones",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/timedatectl.md",
+  "title": "tldr-pages: timedatectl",
+  "license": "CC-BY-4.0"
+ }
+}

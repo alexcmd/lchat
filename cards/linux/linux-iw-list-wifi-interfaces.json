@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-iw-list-wifi-interfaces",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List wireless network interfaces",
+ "summary": "Shows all physical and logical Wi-Fi interfaces on your computer. Useful for finding the name of your Wi-Fi card (like wlan0) to use in other commands.",
+ "aliases": [
+  {
+   "text": "list wifi interfaces",
+   "lang": "en"
+  },
+  {
+   "text": "show wifi devices",
+   "lang": "en"
+  },
+  {
+   "text": "find wifi card name",
+   "lang": "en"
+  },
+  {
+   "text": "iw dev",
+   "lang": "en"
+  },
+  {
+   "text": "list wireless interfaces",
+   "lang": "en"
+  },
+  {
+   "text": "показать wifi интерфейсы",
+   "lang": "ru"
+  },
+  {
+   "text": "список wifi адаптеров",
+   "lang": "ru"
+  },
+  {
+   "text": "имя wifi карты",
+   "lang": "ru"
+  },
+  {
+   "text": "iw dev",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Lists all wireless network interfaces detected by the system.",
+   "cmd": "iw dev",
+   "risk": "low",
+   "expect": "A list of interfaces, typically starting with 'wlan' or 'phy'."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/iw.md",
+  "title": "tldr-pages: iw",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-network-interfaces",
+  "linux-nmcli-show-status"
+ ]
+}

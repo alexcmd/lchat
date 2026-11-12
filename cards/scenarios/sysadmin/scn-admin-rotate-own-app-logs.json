@@ -1,0 +1,166 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-rotate-own-app-logs",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Rotate a growing application log by size and keep a few old copies",
+  "summary": "When an app log grows too big, copy it to a numbered backup, empty the original, and delete the oldest copy. The app keeps writing to the same file name. A small script does this for one log file, without root rights.",
+  "aliases": [
+    {
+      "text": "rotate application log linux",
+      "lang": "en"
+    },
+    {
+      "text": "log file too big clean",
+      "lang": "en"
+    },
+    {
+      "text": "keep last 5 log copies",
+      "lang": "en"
+    },
+    {
+      "text": "copytruncate log rotation",
+      "lang": "en"
+    },
+    {
+      "text": "rotate own log without root",
+      "lang": "en"
+    },
+    {
+      "text": "app log grows forever linux",
+      "lang": "en"
+    },
+    {
+      "text": "shrink log file size script",
+      "lang": "en"
+    },
+    {
+      "text": "log rotation script bash",
+      "lang": "en"
+    },
+    {
+      "text": "ротация логов приложения",
+      "lang": "ru"
+    },
+    {
+      "text": "лог файл слишком большой linux",
+      "lang": "ru"
+    },
+    {
+      "text": "хранить несколько старых логов",
+      "lang": "ru"
+    },
+    {
+      "text": "очистить большой лог не удаляя",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт ротации логов без root",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script from the script section as ~/bin/app-log-rotate.sh, then make it executable.",
+      "risk": "low",
+      "cmd": "chmod +x <SCRIPT_PATH>",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved app-log-rotate.sh",
+          "example": "/home/deck/bin/app-log-rotate.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the current size of the log. The script rotates only when the file is at least MAX_BYTES large.",
+      "risk": "low",
+      "cmd": "ls -l <LOG_FILE>",
+      "expect": "A line with the size in bytes, for example 11200000 for about 11 MB.",
+      "placeholders": [
+        {
+          "name": "LOG_FILE",
+          "description": "Log file to rotate",
+          "example": "/home/deck/app/logs/app.log"
+        }
+      ]
+    },
+    {
+      "explain": "Rotate the log: copy it to name.1, empty the original, and shift older copies up to KEEP. The app keeps writing to the same file name.",
+      "risk": "medium",
+      "cmd": "bash <SCRIPT_PATH> <LOG_FILE> 10485760 5",
+      "expect": "'rotated ... kept 5 old copies', or 'no rotation needed' when the log is still small.",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved app-log-rotate.sh",
+          "example": "/home/deck/bin/app-log-rotate.sh"
+        },
+        {
+          "name": "LOG_FILE",
+          "description": "Log file to rotate",
+          "example": "/home/deck/app/logs/app.log"
+        }
+      ]
+    },
+    {
+      "explain": "Check the result. The original should now be small or empty, and the copies should hold the old lines.",
+      "risk": "low",
+      "cmd": "ls -l <LOG_FILE>*",
+      "expect": "The original log with a small size and files ending in .1 and .2 with the old sizes.",
+      "placeholders": [
+        {
+          "name": "LOG_FILE",
+          "description": "Log file to rotate",
+          "example": "/home/deck/app/logs/app.log"
+        }
+      ]
+    },
+    {
+      "explain": "Run the rotation regularly, for example from the nightly timer or a cron line, with the same arguments.",
+      "risk": "low"
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "Put the old lines back: join the newest copy and the current log into a new file, then check it and replace the original once the app is stopped.",
+      "risk": "medium",
+      "cmd": "cat <LOG_FILE>.1 <LOG_FILE> > <LOG_FILE>.restored",
+      "placeholders": [
+        {
+          "name": "LOG_FILE",
+          "description": "Log file to rotate",
+          "example": "/home/deck/app/logs/app.log"
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    "The copy-then-empty method can lose lines the app writes in the moment between the copy and the empty. This is acceptable for ordinary logs, not for audit trails.",
+    "Apps that keep the log open without append mode may write zero bytes (sparse gaps) after the file is emptied. Use an app that opens its log in append mode.",
+    "Only the oldest copy beyond KEEP is deleted. Check the folder for other files with the same name pattern first."
+  ],
+  "script": {
+    "filename": "app-log-rotate.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\nset -euo pipefail\n# Rotate one log file by size: app.log -> app.log.1 -> app.log.2 ... ; keep KEEP old copies.\n# Usage: app-log-rotate.sh LOG_FILE [MAX_BYTES] [KEEP]\nLOG=\"${1:?usage: $0 LOG_FILE [MAX_BYTES] [KEEP]}\"\nMAX=\"${2:-10485760}\"\nKEEP=\"${3:-5}\"\n[[ -f \"$LOG\" ]] || { echo \"no such log: $LOG\" >&2; exit 1; }\nSIZE=$(stat -c %s \"$LOG\")\nif (( SIZE < MAX )); then\n  echo \"no rotation needed ($SIZE bytes < $MAX)\"\n  exit 0\nfi\nrm -f -- \"$LOG.$KEEP\"\nfor (( i = KEEP - 1; i >= 1; i-- )); do\n  [[ -e \"$LOG.$i\" ]] && mv -- \"$LOG.$i\" \"$LOG.$((i + 1))\"\ndone\ncp -- \"$LOG\" \"$LOG.1\"\n: > \"$LOG\"\necho \"rotated $LOG ($SIZE bytes), kept $KEEP old copies\"\n",
+    "usage": "app-log-rotate.sh LOG_FILE [MAX_BYTES] [KEEP]"
+  },
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man8/logrotate.8.html",
+    "title": "logrotate(8) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

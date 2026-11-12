@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-mount-create-directory-if-missing",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount a device and create the mount point if it doesn't exist",
+ "summary": "Mount a storage device to a directory, automatically creating the directory if it is missing.",
+ "aliases": [
+  {
+   "text": "mount and create directory",
+   "lang": "en"
+  },
+  {
+   "text": "mount with mkdir",
+   "lang": "en"
+  },
+  {
+   "text": "auto create mount point",
+   "lang": "en"
+  },
+  {
+   "text": "mount device new folder",
+   "lang": "en"
+  },
+  {
+   "text": "montirovat s sozdaniem kataloga",
+   "lang": "ru"
+  },
+  {
+   "text": "sozdat papku pri montirovanii",
+   "lang": "ru"
+  },
+  {
+   "text": "mount mkdir",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --mkdir flag to create the target directory if it does not exist, then mount the device to it.",
+   "cmd": "sudo mount --mkdir <DEVICE_FILE> <TARGET_DIRECTORY>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DEVICE_FILE",
+     "description": "Path to the device file (e.g., /dev/sdb1)",
+     "example": "/dev/sdb1",
+     "discover_cmd": "lsblk"
+    },
+    {
+     "name": "TARGET_DIRECTORY",
+     "description": "Path to the directory to create and mount to",
+     "example": "/mnt/new_disk"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "You need administrator privileges to mount devices and create system directories."
+ ],
+ "rollback": [
+  {
+   "explain": "Unmount the device.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/mount.md",
+  "title": "tldr-pages: mount",
+  "license": "CC-BY-4.0"
+ }
+}

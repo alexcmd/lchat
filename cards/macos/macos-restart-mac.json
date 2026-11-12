@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "macos-restart-mac",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Restart the Mac",
+ "summary": "Use the Terminal to restart your Mac immediately. This is useful if the graphical menu is unresponsive or you prefer command-line control.",
+ "aliases": [
+  {
+   "text": "restart mac",
+   "lang": "en"
+  },
+  {
+   "text": "reboot mac",
+   "lang": "en"
+  },
+  {
+   "text": "force restart mac",
+   "lang": "en"
+  },
+  {
+   "text": "restart computer terminal",
+   "lang": "en"
+  },
+  {
+   "text": "перезагрузить мак",
+   "lang": "ru"
+  },
+  {
+   "text": "ребут мак",
+   "lang": "ru"
+  },
+  {
+   "text": "как перезагрузить мак через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительная перезагрузка мака",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the reboot command with administrator privileges to restart the system immediately.",
+   "cmd": "sudo reboot",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The Mac will begin the shutdown process and restart shortly."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no command to cancel a reboot once initiated. You must wait for the system to restart.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Save all open documents before running this command, as they may not be saved automatically.",
+  "This command requires your administrator password."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/reboot.md",
+  "title": "tldr-pages: reboot",
+  "license": "CC-BY-4.0"
+ }
+}

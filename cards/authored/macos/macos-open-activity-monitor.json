@@ -1,0 +1,108 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-activity-monitor",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open Activity Monitor from Terminal",
+ "summary": "Use the open command in Terminal to start Activity Monitor, the macOS app with a graphical list of running programs and their CPU, memory, energy, disk and network use.",
+ "aliases": [
+  {
+   "text": "open activity monitor",
+   "lang": "en"
+  },
+  {
+   "text": "activity monitor terminal",
+   "lang": "en"
+  },
+  {
+   "text": "open activity monitor from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "mac task manager",
+   "lang": "en"
+  },
+  {
+   "text": "activity monitor command line mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac process list window",
+   "lang": "en"
+  },
+  {
+   "text": "activty monitor mac",
+   "lang": "en"
+  },
+  {
+   "text": "открыть activity monitor",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть активити монитор из терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "диспетчер задач mac открыть",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг системы mac открыть",
+   "lang": "ru"
+  },
+  {
+   "text": "как запустить activity monitor в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть актаивити монитор",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app open (Applications > Utilities > Terminal)"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the Activity Monitor app is in its usual folder. If the command prints the path ending in Activity Monitor.app, the app is there. If it says No such file or directory, the app was moved or removed; search for Activity Monitor with Spotlight instead.",
+   "cmd": "ls -d \"/System/Applications/Utilities/Activity Monitor.app\"",
+   "risk": "low",
+   "expect": "The full path /System/Applications/Utilities/Activity Monitor.app is printed."
+  },
+  {
+   "explain": "Start Activity Monitor. The -a option names the app to open. The command prints nothing when it works; the app window appears on screen.",
+   "cmd": "open -a \"Activity Monitor\"",
+   "risk": "low",
+   "expect": "No text is printed. The Activity Monitor window opens with the list of processes.",
+   "gui": "Open Finder, go to Applications > Utilities and double-click Activity Monitor. Or press Command-Space, type Activity Monitor and press Return.",
+   "alternatives": [
+    {
+     "explain": "Open the app by its full path. Use this when opening by name does not work.",
+     "cmd": "open \"/System/Applications/Utilities/Activity Monitor.app\"",
+     "risk": "low",
+     "expect": "No text is printed. The Activity Monitor window opens."
+    }
+   ]
+  },
+  {
+   "explain": "Check that the Activity Monitor process is running. This is optional and only confirms the app started; it does not change anything.",
+   "cmd": "pgrep -l \"Activity Monitor\"",
+   "risk": "low",
+   "expect": "One line with a process ID and the name Activity Monitor, for example: 1234 Activity Monitor. If nothing is printed, the app is not running."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://open",
+  "title": "open manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

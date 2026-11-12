@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-search-unit-files-by-name",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search systemd unit files by name pattern",
+ "summary": "Find unit files whose names match a specific pattern. This is useful for locating configuration files for a specific service or component.",
+ "aliases": [
+  {
+   "text": "find unit file by name",
+   "lang": "en"
+  },
+  {
+   "text": "search systemctl units",
+   "lang": "en"
+  },
+  {
+   "text": "list sshd unit files",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl pattern search",
+   "lang": "en"
+  },
+  {
+   "text": "find service config",
+   "lang": "en"
+  },
+  {
+   "text": "найти unit файл по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск юнитов systemctl",
+   "lang": "ru"
+  },
+  {
+   "text": "список файлов sshd",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl поиск по имени",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List unit files that match a name pattern. You can use wildcards like '*' to match multiple files.",
+   "cmd": "systemctl list-unit-files '<PATTERN>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "A glob pattern to match unit file names.",
+     "example": "sshd*"
+    }
+   ],
+   "expect": "A list of unit files whose names match the pattern."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-unit-files.md",
+  "title": "tldr-pages: systemctl-list-unit-files",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-unit-files",
+  "linux-check-unit-active-state"
+ ]
+}

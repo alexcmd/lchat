@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-while-read-safe-loop",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a command on each file in a folder with a safe loop",
+ "summary": "Go through a list of files or lines one item at a time and do something with each. The read settings keep spaces, backslashes and leading blanks intact, so a name such as my report.txt is handled correctly.",
+ "aliases": [
+  {
+   "text": "loop over lines of command output bash",
+   "lang": "en"
+  },
+  {
+   "text": "while read line bash safe",
+   "lang": "en"
+  },
+  {
+   "text": "for each file run command bash loop",
+   "lang": "en"
+  },
+  {
+   "text": "bash read lines with spaces",
+   "lang": "en"
+  },
+  {
+   "text": "IFS read -r loop",
+   "lang": "en"
+  },
+  {
+   "text": "process each file in folder bash script",
+   "lang": "en"
+  },
+  {
+   "text": "цикл по строкам вывода команды bash",
+   "lang": "ru"
+  },
+  {
+   "text": "обработать каждый файл в папке в цикле",
+   "lang": "ru"
+  },
+  {
+   "text": "while read с пробелами в именах bash",
+   "lang": "ru"
+  },
+  {
+   "text": "перебрать файлы в скрипте bash",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "find -print0 ends each name with a zero byte, so spaces survive. IFS= and -r keep each name exactly as it is, and -d '' ends each read at the zero byte. The loop body counts the lines of each file.",
+   "cmd": "find <DIR> -type f -name '*.<EXT>' -print0 | while IFS= read -r -d '' FILE; do printf '%6s lines  %s\\n' \"$(wc -l < \"$FILE\")\" \"$FILE\"; done",
+   "risk": "low",
+   "expect": "One line per file, for example '    12 lines  notes/my report.txt'.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder to search",
+     "example": "notes"
+    },
+    {
+     "name": "EXT",
+     "description": "File ending without the dot",
+     "example": "txt"
+    }
+   ]
+  },
+  {
+   "explain": "Read a plain list of lines, one at a time. IFS= keeps leading and trailing spaces, -r keeps backslashes as they are, and printf prints each line without interpreting it.",
+   "cmd": "while IFS= read -r LINE; do printf 'item: %s\\n' \"$LINE\"; done < <LIST_FILE>",
+   "risk": "low",
+   "expect": "One line per input line, each starting with item:",
+   "placeholders": [
+    {
+     "name": "LIST_FILE",
+     "description": "A text file with one item per line",
+     "example": "list.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html",
+  "title": "Bash Reference Manual: Bash Builtin Commands (read)",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

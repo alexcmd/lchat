@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "macos-concept-intel-vs-apple-silicon-homebrew",
+ "platform": "macos",
+ "kind": "concept",
+ "title": "Why Homebrew paths differ on Apple Silicon and Intel Macs",
+ "summary": "Homebrew installs programs in /opt/homebrew on Apple Silicon Macs (M1 and later) and in /usr/local on Intel Macs. Guides and paths must match your chip, or the shell will not find the program.",
+ "aliases": [
+  {
+   "text": "homebrew path apple silicon",
+   "lang": "en"
+  },
+  {
+   "text": "why is homebrew in opt homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew usr local vs opt homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew intel vs m1 folder",
+   "lang": "en"
+  },
+  {
+   "text": "which homebrew folder does my mac use",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew apple silicon intel difference",
+   "lang": "en"
+  },
+  {
+   "text": "is homebrew for m1 or intel",
+   "lang": "en"
+  },
+  {
+   "text": "почему пути homebrew разные на m1 и intel",
+   "lang": "ru"
+  },
+  {
+   "text": "homebrew на m1 где папка",
+   "lang": "ru"
+  },
+  {
+   "text": "хоумбрю opt homebrew или usr local",
+   "lang": "ru"
+  },
+  {
+   "text": "какой homebrew нужен для intel и m1",
+   "lang": "ru"
+  },
+  {
+   "text": "путь homebrew на маке м1",
+   "lang": "ru"
+  },
+  {
+   "text": "хомбрю intel или apple silicon",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "prerequisites": [
+  "Homebrew installed (only needed for the second step)"
+ ],
+ "steps": [
+  {
+   "explain": "Check which chip your Mac has. arm64 means Apple Silicon (M1 and later). x86_64 means an Intel Mac.",
+   "cmd": "uname -m",
+   "risk": "low",
+   "expect": "arm64 on Apple Silicon Macs, x86_64 on Intel Macs."
+  },
+  {
+   "explain": "Print the folder where Homebrew is installed. /opt/homebrew means the Apple Silicon Homebrew, /usr/local means the Intel Homebrew. Use the folder this command prints, not the one from an older guide.",
+   "cmd": "brew --prefix",
+   "risk": "low",
+   "expect": "/opt/homebrew on Apple Silicon, /usr/local on Intel. A 'command not found' message means Homebrew is not installed or not on PATH."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "brew --prefix",
+   "expect": "Prints /opt/homebrew (Apple Silicon) or /usr/local (Intel), matching the chip from uname -m."
+  }
+ ],
+ "warnings": [
+  "A terminal opened with Rosetta ('Open using Rosetta') reports x86_64 from uname -m even on an Apple Silicon Mac. Trust the folder from brew --prefix when you need to know which Homebrew is in use.",
+  "Do not copy /usr/local/bin paths onto an Apple Silicon Mac, or /opt/homebrew paths onto an Intel Mac. The program is not found at the wrong folder."
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://brew",
+  "title": "brew manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

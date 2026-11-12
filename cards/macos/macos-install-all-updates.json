@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-all-updates",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install all available macOS software updates",
+ "summary": "Download and install every pending software update for your Mac. This ensures your system and apps are up to date.",
+ "aliases": [
+  {
+   "text": "install all updates mac",
+   "lang": "en"
+  },
+  {
+   "text": "update everything terminal",
+   "lang": "en"
+  },
+  {
+   "text": "softwareupdate install all",
+   "lang": "en"
+  },
+  {
+   "text": "update mac via terminal",
+   "lang": "en"
+  },
+  {
+   "text": "установить все обновления мак",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить все через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "softwareupdate установить все",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить мак командой",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the software update tool with the install and all flags to download and install every available update.",
+   "cmd": "sudo softwareupdate --install --all",
+   "risk": "medium",
+   "needs_root": true,
+   "alternatives": [
+    {
+     "explain": "Use short flags for the same result.",
+     "cmd": "sudo softwareupdate -i -a",
+     "risk": "medium",
+     "needs_root": true
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no simple command to undo a software update. You may need to restore from a Time Machine backup if an update causes issues.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Installing updates can take a long time and may require a restart.",
+  "Ensure you have a backup before installing major updates."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/softwareupdate.md",
+  "title": "tldr-pages: softwareupdate",
+  "license": "CC-BY-4.0"
+ }
+}

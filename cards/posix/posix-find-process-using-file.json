@@ -1,0 +1,130 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-process-using-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find which process is using a specific file",
+ "summary": "Use lsof to see which applications or processes currently have a specific file open. This helps identify what is holding a file, which is useful if you cannot delete or move it.",
+ "aliases": [
+  {
+   "text": "find process using file",
+   "lang": "en"
+  },
+  {
+   "text": "who is using this file",
+   "lang": "en"
+  },
+  {
+   "text": "lsof file",
+   "lang": "en"
+  },
+  {
+   "text": "which app has file open",
+   "lang": "en"
+  },
+  {
+   "text": "find process by file",
+   "lang": "en"
+  },
+  {
+   "text": "какой процесс использует файл",
+   "lang": "ru"
+  },
+  {
+   "text": "кто держит файл",
+   "lang": "ru"
+  },
+  {
+   "text": "lsof файл",
+   "lang": "ru"
+  },
+  {
+   "text": "какое приложение открыло файл",
+   "lang": "ru"
+  },
+  {
+   "text": "найти процесс по файлу",
+   "lang": "ru"
+  },
+  {
+   "text": "file in use linux",
+   "lang": "en"
+  },
+  {
+   "text": "fuser file",
+   "lang": "en"
+  },
+  {
+   "text": "файл занят linux",
+   "lang": "ru"
+  },
+  {
+   "text": "fuser найти процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "file in use mac",
+   "lang": "en"
+  },
+  {
+   "text": "fuser mac",
+   "lang": "en"
+  },
+  {
+   "text": "кто использует файл",
+   "lang": "ru"
+  },
+  {
+   "text": "файл занят",
+   "lang": "ru"
+  },
+  {
+   "text": "fuser",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsof with the path to the file to list all processes that have it open.",
+   "cmd": "lsof <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The full path to the file you want to check",
+     "example": "/etc/hosts"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Run fuser with the path to the file or directory to see the Process IDs (PIDs) of any programs accessing it.",
+     "cmd": "fuser <FILE_OR_DIRECTORY>",
+     "placeholders": [
+      {
+       "name": "FILE_OR_DIRECTORY",
+       "description": "Path to the file or directory you want to check",
+       "example": "/home/user/document.txt"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/lsof.md",
+  "title": "tldr-pages: lsof",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-list-open-files-by-pid"
+ ]
+}

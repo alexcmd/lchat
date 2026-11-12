@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-file-type",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check the type of a file",
+ "summary": "Use the `file` command to identify what kind of file a specific file is (e.g., text, image, executable, compressed archive). This is useful when a file has no extension or the wrong extension.",
+ "aliases": [
+  {
+   "text": "check file type",
+   "lang": "en"
+  },
+  {
+   "text": "what is this file",
+   "lang": "en"
+  },
+  {
+   "text": "identify file format",
+   "lang": "en"
+  },
+  {
+   "text": "file command",
+   "lang": "en"
+  },
+  {
+   "text": "kakoy tip fajla",
+   "lang": "ru"
+  },
+  {
+   "text": "chem yavlyaetsya fayl",
+   "lang": "ru"
+  },
+  {
+   "text": "opredelit tip fajla",
+   "lang": "ru"
+  },
+  {
+   "text": "kakoy eto fayl",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `file` command followed by the path to the file you want to inspect. It will output a description of the file's content type.",
+   "cmd": "file <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to check.",
+     "example": "document.pdf"
+    }
+   ],
+   "expect": "Output describing the file type, e.g., 'PDF document, version 1.4'."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/file.md",
+  "title": "tldr-pages: file",
+  "license": "CC-BY-4.0"
+ }
+}

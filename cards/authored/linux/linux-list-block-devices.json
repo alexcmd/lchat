@@ -1,0 +1,132 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-block-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List disks, partitions and their sizes",
+ "summary": "Shows every disk and partition in the computer with its size and the place where it is mounted. This is a read-only check that changes nothing.",
+ "aliases": [
+  {
+   "text": "list disks linux",
+   "lang": "en"
+  },
+  {
+   "text": "show partitions linux",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk",
+   "lang": "en"
+  },
+  {
+   "text": "linux disk size command",
+   "lang": "en"
+  },
+  {
+   "text": "see all partitions and sizes",
+   "lang": "en"
+  },
+  {
+   "text": "linux disk management command line",
+   "lang": "en"
+  },
+  {
+   "text": "lsbkl",
+   "lang": "en"
+  },
+  {
+   "text": "как посмотреть диски в линуксе",
+   "lang": "ru"
+  },
+  {
+   "text": "показать разделы диска linux",
+   "lang": "ru"
+  },
+  {
+   "text": "список дисков и разделов lsblk",
+   "lang": "ru"
+  },
+  {
+   "text": "линукс сколько места на диске посмотреть",
+   "lang": "ru"
+  },
+  {
+   "text": "диски линукс команда",
+   "lang": "ru"
+  },
+  {
+   "text": "list storage devices",
+   "lang": "en"
+  },
+  {
+   "text": "check hard drives",
+   "lang": "en"
+  },
+  {
+   "text": "какие диски есть",
+   "lang": "ru"
+  },
+  {
+   "text": "показать диски",
+   "lang": "ru"
+  },
+  {
+   "text": "list disks",
+   "lang": "en"
+  },
+  {
+   "text": "show partitions",
+   "lang": "en"
+  },
+  {
+   "text": "список разделов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Open a terminal window"
+ ],
+ "steps": [
+  {
+   "explain": "Show all disks and partitions with their size, type and mount point. Look for lines with TYPE disk (whole disks) and TYPE part (partitions) and their SIZE. An empty MOUNTPOINT means the partition is not mounted. Read-only: nothing is changed.",
+   "cmd": "lsblk -o NAME,SIZE,TYPE,MOUNTPOINT",
+   "risk": "low",
+   "expect": "A header line NAME SIZE TYPE MOUNTPOINT, then each disk followed by its partitions indented below it. On a normal install the system partition shows / in MOUNTPOINT.",
+   "alternatives": [
+    {
+     "explain": "Same disks and partitions with the default columns. The output is wider and MOUNTPOINTS can show several paths for one partition.",
+     "cmd": "lsblk",
+     "risk": "low"
+    },
+    {
+     "explain": "Also show the filesystem type, label and UUID of each partition.",
+     "cmd": "lsblk -f",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lsblk -d -o NAME,SIZE,TYPE",
+   "expect": "Only whole disks are listed, one line each with TYPE disk. Partitions are not shown."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/lsblk",
+  "title": "lsblk manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "arch-install-list-disks"
+ ],
+ "updated": "2026-10-24"
+}

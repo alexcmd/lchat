@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "macos-orb-delete-vm",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Delete an OrbStack virtual machine",
+ "summary": "Remove a virtual machine and its data from your Mac. This action is permanent and cannot be undone.",
+ "aliases": [
+  {
+   "text": "delete orb vm",
+   "lang": "en"
+  },
+  {
+   "text": "remove orbstack machine",
+   "lang": "en"
+  },
+  {
+   "text": "orb delete",
+   "lang": "en"
+  },
+  {
+   "text": "удалить вм orb",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить машину orbstack",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "orb"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete a virtual machine by name. Replace <VM_NAME> with the name of the VM you want to remove.",
+   "cmd": "orb delete <VM_NAME>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "VM_NAME",
+     "description": "The name of the virtual machine to delete.",
+     "example": "my-ubuntu"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Deleting a VM permanently removes all data inside it. Ensure you have backed up any important files before proceeding."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no command to undo a VM deletion. You must recreate the VM and restore data from backups.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/orb.md",
+  "title": "tldr-pages: orb",
+  "license": "CC-BY-4.0"
+ }
+}

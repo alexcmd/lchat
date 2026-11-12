@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-gpu-status",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check GPU status",
+ "summary": "Displays the current status of a specific GPU. Useful for verifying if a GPU is active or ready for ejection.",
+ "aliases": [
+  {
+   "text": "check gpu status",
+   "lang": "en"
+  },
+  {
+   "text": "gpu health mac",
+   "lang": "en"
+  },
+  {
+   "text": "safeejectgpu status",
+   "lang": "en"
+  },
+  {
+   "text": "состояние видеокарты",
+   "lang": "ru"
+  },
+  {
+   "text": "статус гпу",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Get the status of the GPU with the specified ID.",
+   "cmd": "SafeEjectGPU gpuid <GPU_ID> status",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "GPU_ID",
+     "description": "The ID of the GPU to check",
+     "discover_cmd": "SafeEjectGPU gpus"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/safeejectgpu.md",
+  "title": "tldr-pages: safeejectgpu",
+  "license": "CC-BY-4.0"
+ }
+}

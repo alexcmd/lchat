@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "posix-ncdu-exclude-pattern",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Exclude files from ncdu analysis by pattern",
+ "summary": "Ignore specific files or types when analyzing disk usage with ncdu. This helps focus on relevant data by filtering out noise like logs or temporary files.",
+ "aliases": [
+  {
+   "text": "ncdu exclude files",
+   "lang": "en"
+  },
+  {
+   "text": "ncdu ignore pattern",
+   "lang": "en"
+  },
+  {
+   "text": "ncdu --exclude",
+   "lang": "en"
+  },
+  {
+   "text": "ncdu filter files",
+   "lang": "en"
+  },
+  {
+   "text": "isklyuchit fayly ncdu",
+   "lang": "ru"
+  },
+  {
+   "text": "ncdu ignorirovat shablon",
+   "lang": "ru"
+  },
+  {
+   "text": "ncdu exclude pattern",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run ncdu while excluding files that match a specific pattern. Replace <PATTERN> with the glob pattern (e.g., '*.txt').",
+   "cmd": "ncdu --exclude '<PATTERN>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "The file pattern to exclude (e.g., '*.log', '*.tmp').",
+     "example": "*.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ncdu.md",
+  "title": "tldr-pages: ncdu",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-ncdu-analyze-directory"
+ ]
+}

@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "posix-copy-directory-recursive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy a directory and its contents",
+ "summary": "Copy a folder and everything inside it to a new location. Use the recursive flag to include subfolders and files.",
+ "aliases": [
+  {
+   "text": "copy directory",
+   "lang": "en"
+  },
+  {
+   "text": "cp directory",
+   "lang": "en"
+  },
+  {
+   "text": "copy folder recursively",
+   "lang": "en"
+  },
+  {
+   "text": "cp -r",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat papku",
+   "lang": "ru"
+  },
+  {
+   "text": "cp papku",
+   "lang": "ru"
+  },
+  {
+   "text": "kopirovat katalog",
+   "lang": "ru"
+  },
+  {
+   "text": "cp rekursivno",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy the source directory and all its contents to the target directory. If the target exists, the source directory is copied inside it.",
+   "cmd": "cp -r <SOURCE_DIRECTORY> <TARGET_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE_DIRECTORY",
+     "description": "Path to the directory you want to copy",
+     "example": "my_project"
+    },
+    {
+     "name": "TARGET_DIRECTORY",
+     "description": "Path to the destination directory",
+     "example": "backups/my_project"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag for recursive copy.",
+     "cmd": "cp -r <SOURCE_DIRECTORY> <TARGET_DIRECTORY>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SOURCE_DIRECTORY",
+       "description": "Path to the directory you want to copy",
+       "example": "my_project"
+      },
+      {
+       "name": "TARGET_DIRECTORY",
+       "description": "Path to the destination directory",
+       "example": "backups/my_project"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cp.md",
+  "title": "tldr-pages: cp",
+  "license": "CC-BY-4.0"
+ }
+}

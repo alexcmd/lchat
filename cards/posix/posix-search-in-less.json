@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-search-in-less",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Search for text inside a file viewed with less",
+ "summary": "Find specific words or patterns while reading a file in the `less` viewer.",
+ "aliases": [
+  {
+   "text": "search in less",
+   "lang": "en"
+  },
+  {
+   "text": "find text in terminal file viewer",
+   "lang": "en"
+  },
+  {
+   "text": "grep in less",
+   "lang": "en"
+  },
+  {
+   "text": "how to search inside less",
+   "lang": "en"
+  },
+  {
+   "text": "искать текст в less",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск в просмотрщике less",
+   "lang": "ru"
+  },
+  {
+   "text": "найти слово в файле терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "While viewing a file in `less`, press `/` then type the text you want to find and press Enter.",
+   "cmd": "/<PATTERN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "The text or pattern to search for",
+     "example": "error"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Search backwards from the current position.",
+     "cmd": "?<PATTERN>",
+     "placeholders": [
+      {
+       "name": "PATTERN",
+       "description": "The text or pattern to search for",
+       "example": "error"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/less.md",
+  "title": "tldr-pages: less",
+  "license": "CC-BY-4.0"
+ }
+}

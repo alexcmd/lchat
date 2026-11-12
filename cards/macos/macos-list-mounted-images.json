@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-mounted-images",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List mounted disk images",
+ "summary": "Show a list of all currently mounted disk images and their details.",
+ "aliases": [
+  {
+   "text": "list mounted images",
+   "lang": "en"
+  },
+  {
+   "text": "hdiutil info",
+   "lang": "en"
+  },
+  {
+   "text": "check mounted dmgs",
+   "lang": "en"
+  },
+  {
+   "text": "список образов дисков",
+   "lang": "ru"
+  },
+  {
+   "text": "какие образы смонтированы",
+   "lang": "ru"
+  },
+  {
+   "text": "инфо hdiutil",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Displays information about all currently mounted disk images.",
+   "cmd": "hdiutil info",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/hdiutil.md",
+  "title": "tldr-pages: hdiutil",
+  "license": "CC-BY-4.0"
+ }
+}

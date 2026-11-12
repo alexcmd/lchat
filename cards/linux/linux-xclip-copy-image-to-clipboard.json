@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-xclip-copy-image-to-clipboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy an image file to the system clipboard using xclip",
+ "summary": "Use xclip to copy an image file (like a PNG) to the system clipboard so you can paste it into image editors or chat applications.",
+ "aliases": [
+  {
+   "text": "copy image to clipboard linux",
+   "lang": "en"
+  },
+  {
+   "text": "xclip copy png",
+   "lang": "en"
+  },
+  {
+   "text": "copy picture to clipboard terminal",
+   "lang": "en"
+  },
+  {
+   "text": "скопировать картинку в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "xclip скопировать изображение",
+   "lang": "ru"
+  },
+  {
+   "text": "скопировать png в буфер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xclip"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -target flag to specify the image MIME type (e.g., image/png) and copy the file to the clipboard.",
+   "cmd": "xclip -selection clipboard -target image/png <IMAGE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IMAGE_FILE",
+     "description": "Path to the image file (e.g., screenshot.png)"
+    }
+   ],
+   "expect": "The command runs silently. You can now paste the image in other applications."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xclip.md",
+  "title": "tldr-pages: xclip",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-resolvectl-query-srv-record",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Resolve SRV record",
+ "summary": "Resolve a Service (SRV) record, commonly used for services like XMPP or LDAP.",
+ "aliases": [
+  {
+   "text": "resolve srv record",
+   "lang": "en"
+  },
+  {
+   "text": "check srv dns",
+   "lang": "en"
+  },
+  {
+   "text": "resolvectl service",
+   "lang": "en"
+  },
+  {
+   "text": "srv запись dns",
+   "lang": "ru"
+  },
+  {
+   "text": "найти сервис по dns",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить srv",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-resolved"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Resolve an SRV record by specifying the service, protocol, and name.",
+   "cmd": "resolvectl service _<SERVICE>._<PROTOCOL> <NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVICE",
+     "description": "The service name (e.g., xmpp-server).",
+     "example": "xmpp-server"
+    },
+    {
+     "name": "PROTOCOL",
+     "description": "The protocol (e.g., tcp or udp).",
+     "example": "tcp"
+    },
+    {
+     "name": "NAME",
+     "description": "The domain name for the service.",
+     "example": "gmail.com"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/resolvectl.md",
+  "title": "tldr-pages: resolvectl",
+  "license": "CC-BY-4.0"
+ }
+}

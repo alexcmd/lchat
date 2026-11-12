@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-pip-uninstall-package",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Uninstall a Python package",
+ "summary": "Remove a previously installed Python package from your system.",
+ "aliases": [
+  {
+   "text": "uninstall python package",
+   "lang": "en"
+  },
+  {
+   "text": "pip uninstall",
+   "lang": "en"
+  },
+  {
+   "text": "remove python library",
+   "lang": "en"
+  },
+  {
+   "text": "удалить python пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "pip uninstall библиотека",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить модуль python",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified package. If you installed it with --user, you might need to run this without sudo.",
+   "cmd": "pip uninstall <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package to uninstall",
+     "example": "requests"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the package if you removed it by mistake.",
+   "cmd": "pip install <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package to reinstall",
+     "example": "requests"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Uninstalling system-wide packages may require sudo."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pip.md",
+  "title": "tldr-pages: pip",
+  "license": "CC-BY-4.0"
+ }
+}

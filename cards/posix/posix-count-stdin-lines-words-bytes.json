@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "posix-count-stdin-lines-words-bytes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Count lines, words, and bytes from command output",
+ "summary": "Pipe the output of another command into wc to count its lines, words, and bytes. This is useful for analyzing the size of command results.",
+ "aliases": [
+  {
+   "text": "count output of command",
+   "lang": "en"
+  },
+  {
+   "text": "wc stdin",
+   "lang": "en"
+  },
+  {
+   "text": "pipe to wc",
+   "lang": "en"
+  },
+  {
+   "text": "count command output",
+   "lang": "en"
+  },
+  {
+   "text": "wc all counts",
+   "lang": "en"
+  },
+  {
+   "text": "подсчитать вывод команды",
+   "lang": "ru"
+  },
+  {
+   "text": "wc из stdin",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать строки вывода",
+   "lang": "ru"
+  },
+  {
+   "text": "wc без файла",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько строк выдала команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run a command and pipe its output to wc. Without flags, wc prints the count of lines, words, and bytes for the incoming data.",
+   "cmd": "<COMMAND> | wc",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command whose output you want to count",
+     "example": "find ."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wc.md",
+  "title": "tldr-pages: wc",
+  "license": "CC-BY-4.0"
+ }
+}

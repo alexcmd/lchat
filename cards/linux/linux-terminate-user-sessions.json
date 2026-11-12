@@ -1,0 +1,110 @@
+{
+ "schema_version": 2,
+ "id": "linux-terminate-user-sessions",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Log out a user from all sessions",
+ "summary": "Forcefully terminate all active login sessions for a specific user, logging them out immediately.",
+ "aliases": [
+  {
+   "text": "log out user",
+   "lang": "en"
+  },
+  {
+   "text": "terminate user sessions",
+   "lang": "en"
+  },
+  {
+   "text": "force logout user",
+   "lang": "en"
+  },
+  {
+   "text": "kick user off",
+   "lang": "en"
+  },
+  {
+   "text": "loginctl terminate user",
+   "lang": "en"
+  },
+  {
+   "text": "end user session",
+   "lang": "en"
+  },
+  {
+   "text": "disconnect user",
+   "lang": "en"
+  },
+  {
+   "text": "log out user",
+   "lang": "ru"
+  },
+  {
+   "text": "terminate user sessions",
+   "lang": "ru"
+  },
+  {
+   "text": "force logout user",
+   "lang": "ru"
+  },
+  {
+   "text": "kick user off",
+   "lang": "ru"
+  },
+  {
+   "text": "loginctl terminate user",
+   "lang": "ru"
+  },
+  {
+   "text": "end user session",
+   "lang": "ru"
+  },
+  {
+   "text": "disconnect user",
+   "lang": "ru"
+  },
+  {
+   "text": "log out user",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo loginctl terminate-user with the username to end all their active sessions. This requires root privileges.",
+   "cmd": "sudo loginctl terminate-user <USERNAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username whose sessions should be terminated"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo command for terminating sessions. The user must log back in manually.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This action immediately disconnects the user from all their sessions.",
+  "Unsaved work in the user's applications may be lost."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/loginctl.md",
+  "title": "tldr-pages: loginctl",
+  "license": "CC-BY-4.0"
+ }
+}

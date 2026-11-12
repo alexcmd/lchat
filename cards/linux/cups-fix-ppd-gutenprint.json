@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "cups-fix-ppd-gutenprint",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update PPD files for Gutenprint drivers",
+ "summary": "Run the cups-genppdupdate command to update Printer Description files if you see errors about PPD version incompatibility with Gutenprint.",
+ "aliases": [
+  {
+   "text": "cups ppd gutenprint error",
+   "lang": "en"
+  },
+  {
+   "text": "update ppd files cups",
+   "lang": "en"
+  },
+  {
+   "text": "gutenprint ppd mismatch",
+   "lang": "en"
+  },
+  {
+   "text": "обновить ppd gutenprint",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the PPD update utility to regenerate printer description files.",
+   "cmd": "sudo /usr/bin/cups-genppdupdate",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If printing breaks, restore the previous PPD files from backup or reinstall the printer driver.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This command modifies system printer configuration files."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/CUPS/Troubleshooting#The_PPD_version_is_not_compatible_with_gutenprint",
+  "title": "CUPS/Troubleshooting",
+  "revision_id": 873801,
+  "license": "GFDL-1.3-or-later"
+ }
+}

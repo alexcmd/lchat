@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-rpm-show-package-changelog",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show changelog of an RPM package",
+ "summary": "Display the change history for a specific installed package.",
+ "aliases": [
+  {
+   "text": "show rpm package changelog",
+   "lang": "en"
+  },
+  {
+   "text": "rpm changelog",
+   "lang": "en"
+  },
+  {
+   "text": "what changed in this package",
+   "lang": "en"
+  },
+  {
+   "text": "показать changelog пакета rpm",
+   "lang": "ru"
+  },
+  {
+   "text": "история изменений пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "rpm changelog",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "opensuse"
+   },
+   {
+    "family": "other"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the RPM database to display the changelog for the specified package.",
+   "cmd": "rpm -q --changelog <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "Name of the installed package",
+     "example": "kernel"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/rpm.md",
+  "title": "tldr-pages: rpm",
+  "license": "CC-BY-4.0"
+ }
+}

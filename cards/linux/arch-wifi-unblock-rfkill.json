@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "arch-wifi-unblock-rfkill",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unblock Wi-Fi if soft-blocked by rfkill",
+ "summary": "If Wi-Fi is disabled by software (soft-blocked), use rfkill to unblock it. Hardware blocks require a physical switch.",
+ "aliases": [
+  {
+   "text": "wifi soft blocked",
+   "lang": "en"
+  },
+  {
+   "text": "rfkill unblock wifi",
+   "lang": "en"
+  },
+  {
+   "text": "wifi disabled by rfkill",
+   "lang": "en"
+  },
+  {
+   "text": "wifi заблокирован rfkill",
+   "lang": "ru"
+  },
+  {
+   "text": "разблокировать wifi rfkill",
+   "lang": "ru"
+  },
+  {
+   "text": "wifi hard blocked",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "rfkill"
+  ]
+ },
+ "prerequisites": [],
+ "steps": [
+  {
+   "explain": "Check the current status of wireless devices. Look for 'SOFT' and 'HARD' columns. If SOFT is 'blocked', proceed to the next step.",
+   "cmd": "rfkill",
+   "risk": "low"
+  },
+  {
+   "explain": "Unblock the wireless interface. This only works if the device is soft-blocked, not hard-blocked.",
+   "cmd": "sudo rfkill unblock wlan",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "rfkill",
+   "expect": "The 'wlan' device shows 'unblocked' in both SOFT and HARD columns."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Network_configuration/Wireless#Rfkill_caveat",
+  "title": "Network configuration/Wireless",
+  "revision_id": 886317,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,130 @@
+{
+ "schema_version": 2,
+ "id": "linux-disk-full-vacuum-journal-logs",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Shrink systemd journal logs to 200 MB to free disk space",
+ "summary": "systemd stores system logs in a journal that can grow to several gigabytes and fill the disk. This checks how much space the journal uses, then deletes the oldest archived logs until the total is below 200 MB.",
+ "aliases": [
+  {
+   "text": "disk full journal logs",
+   "lang": "en"
+  },
+  {
+   "text": "journal taking too much disk space",
+   "lang": "en"
+  },
+  {
+   "text": "journalctl disk usage",
+   "lang": "en"
+  },
+  {
+   "text": "system logs eating disk space",
+   "lang": "en"
+  },
+  {
+   "text": "shrink journal logs",
+   "lang": "en"
+  },
+  {
+   "text": "var log journal too big",
+   "lang": "en"
+  },
+  {
+   "text": "journalctl limit size",
+   "lang": "en"
+  },
+  {
+   "text": "диск заполнен логами",
+   "lang": "ru"
+  },
+  {
+   "text": "журнал systemd занимает много места",
+   "lang": "ru"
+  },
+  {
+   "text": "уменьшить размер журнала journalctl",
+   "lang": "ru"
+  },
+  {
+   "text": "логи занимают много места",
+   "lang": "ru"
+  },
+  {
+   "text": "logi zanimayut mnogo mesta",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить системные логи место на диске",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "prerequisites": [
+  "Your system uses systemd (most current desktop Linux systems do)",
+  "Administrator (sudo) password"
+ ],
+ "steps": [
+  {
+   "explain": "Check how much disk space the journal uses. This is read-only. If the number is several gigabytes, the journal is the likely cause of the full disk.",
+   "cmd": "journalctl --disk-usage",
+   "risk": "low",
+   "expect": "A line like 'Archived and active journals take up 1.4G in the file system.' A small number, such as 0B or tens of megabytes, means the journal is not the problem."
+  },
+  {
+   "explain": "Delete the oldest archived journal files until the journal takes less than 200 MB. The active journal file is not deleted.",
+   "cmd": "sudo journalctl --vacuum-size=200M",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "A line like 'Vacuuming done, freed 1.2G of archived journals from /var/log/journal.' Enter your sudo password when asked."
+  },
+  {
+   "explain": "Check the journal size again. It should now be close to 200 MB or less. The active journal can keep the total slightly above 200 MB.",
+   "cmd": "journalctl --disk-usage",
+   "risk": "low",
+   "expect": "The number is now around 200M or lower."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Deleted journal logs cannot be restored. The journal starts growing again as the system runs, so the size limit must be repeated later if the disk fills up again.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This permanently deletes old system log entries. Logs from before a past crash or error may be lost, so copy them first if you still need them for debugging.",
+  "Run only the sudo command above. Do not delete the files in /var/log/journal by hand."
+ ],
+ "see_also": [
+  "linux-clean-old-logs",
+  "journal-view-errors"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/journalctl",
+  "title": "journalctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

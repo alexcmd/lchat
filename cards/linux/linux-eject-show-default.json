@@ -1,0 +1,50 @@
+{
+ "schema_version": 2,
+ "id": "linux-eject-show-default",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show the default eject device",
+ "summary": "Display which device the eject command will use by default if no device is specified.",
+ "aliases": [
+  {
+   "text": "show default eject device",
+   "lang": "en"
+  },
+  {
+   "text": "what is default cd drive",
+   "lang": "en"
+  },
+  {
+   "text": "eject default",
+   "lang": "en"
+  },
+  {
+   "text": "какой диск по умолчанию",
+   "lang": "ru"
+  },
+  {
+   "text": "show default device",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print the default device path that eject will target.",
+   "cmd": "eject --default",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/eject.md",
+  "title": "tldr-pages: eject",
+  "license": "CC-BY-4.0"
+ }
+}

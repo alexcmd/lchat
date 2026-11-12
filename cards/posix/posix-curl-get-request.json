@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-curl-get-request",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Make an HTTP GET request and view the response",
+ "summary": "Send a simple HTTP GET request to a URL and display the response content in the terminal. Useful for checking API endpoints or viewing raw HTML.",
+ "aliases": [
+  {
+   "text": "curl get request",
+   "lang": "en"
+  },
+  {
+   "text": "view website source in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "curl url content",
+   "lang": "en"
+  },
+  {
+   "text": "сделать гет запрос через curl",
+   "lang": "ru"
+  },
+  {
+   "text": "curl посмотреть содержимое сайта",
+   "lang": "ru"
+  },
+  {
+   "text": "отправить гет запрос в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run curl with the URL to fetch the content and print it to the standard output.",
+   "cmd": "curl <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "URL",
+     "description": "The URL to request",
+     "example": "https://example.com"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/curl.md",
+  "title": "tldr-pages: curl",
+  "license": "CC-BY-4.0"
+ }
+}

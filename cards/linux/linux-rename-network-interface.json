@@ -1,0 +1,115 @@
+{
+ "schema_version": 2,
+ "id": "linux-rename-network-interface",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Rename a network interface",
+ "summary": "Assign a custom, meaningful name to a network interface for easier identification.",
+ "aliases": [
+  {
+   "text": "rename network interface",
+   "lang": "en"
+  },
+  {
+   "text": "change network card name",
+   "lang": "en"
+  },
+  {
+   "text": "alias network interface",
+   "lang": "en"
+  },
+  {
+   "text": "ip link alias",
+   "lang": "en"
+  },
+  {
+   "text": "rename eth0",
+   "lang": "en"
+  },
+  {
+   "text": "rename network interface",
+   "lang": "ru"
+  },
+  {
+   "text": "change network card name",
+   "lang": "ru"
+  },
+  {
+   "text": "alias network interface",
+   "lang": "ru"
+  },
+  {
+   "text": "ip link alias",
+   "lang": "ru"
+  },
+  {
+   "text": "rename eth0",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `sudo ip link set` with the `alias` option to give the interface a new name.",
+   "cmd": "sudo ip link set <INTERFACE> alias \"<NEW_NAME>\"",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The current name of the network interface.",
+     "example": "eth0",
+     "discover_cmd": "ip link"
+    },
+    {
+     "name": "NEW_NAME",
+     "description": "The new name you want to assign to the interface.",
+     "example": "LAN Interface"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short form `sudo ip l s` with `al` for alias.",
+     "cmd": "sudo ip l s <INTERFACE> al \"<NEW_NAME>\"",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The current name of the network interface.",
+       "example": "eth0",
+       "discover_cmd": "ip link"
+      },
+      {
+       "name": "NEW_NAME",
+       "description": "The new name you want to assign to the interface.",
+       "example": "LAN Interface"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To remove the alias, set the alias to an empty string.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Renaming an interface might break scripts or configurations that rely on the original name.",
+  "Requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-link.md",
+  "title": "tldr-pages: ip-link",
+  "license": "CC-BY-4.0"
+ }
+}

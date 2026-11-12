@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-active-developer-directory",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check Active Developer Directory",
+ "summary": "Show the path to the currently active Xcode or Command Line Tools directory. This helps verify which version of the developer tools your system is using.",
+ "aliases": [
+  {
+   "text": "check xcode path",
+   "lang": "en"
+  },
+  {
+   "text": "xcode select print path",
+   "lang": "en"
+  },
+  {
+   "text": "where is xcode installed",
+   "lang": "en"
+  },
+  {
+   "text": "check developer tools path",
+   "lang": "en"
+  },
+  {
+   "text": "проверить путь xcode",
+   "lang": "ru"
+  },
+  {
+   "text": "где установлен xcode",
+   "lang": "ru"
+  },
+  {
+   "text": "xcode select print path",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print the path to the currently selected developer directory.",
+   "cmd": "xcode-select --print-path",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/xcode-select.md",
+  "title": "tldr-pages: xcode-select",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-dconf-read-key",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Read a specific dconf configuration value",
+ "summary": "Use dconf to view the current value of a specific configuration key in the GNOME settings database.",
+ "aliases": [
+  {
+   "text": "read dconf key",
+   "lang": "en"
+  },
+  {
+   "text": "check gnome setting value",
+   "lang": "en"
+  },
+  {
+   "text": "dconf read",
+   "lang": "en"
+  },
+  {
+   "text": "как посмотреть значение dconf",
+   "lang": "ru"
+  },
+  {
+   "text": "прочитать настройку gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Read the value of a specific configuration key. Replace <KEY_PATH> with the full path to the key, e.g., /org/gnome/desktop/interface/cursor-size.",
+   "cmd": "dconf read /<KEY_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_PATH",
+     "description": "The full path to the dconf key, starting with /",
+     "example": "org/gnome/desktop/interface/cursor-size"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dconf.md",
+  "title": "tldr-pages: dconf",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-gsettings-get-value"
+ ]
+}

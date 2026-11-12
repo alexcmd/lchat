@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-files-by-time",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List files sorted by modification time",
+ "summary": "See the most recently changed files first. This is useful for finding files you just edited or downloaded.",
+ "aliases": [
+  {
+   "text": "sort by date",
+   "lang": "en"
+  },
+  {
+   "text": "list recent files",
+   "lang": "en"
+  },
+  {
+   "text": "ls sort by time",
+   "lang": "en"
+  },
+  {
+   "text": "newest files first",
+   "lang": "en"
+  },
+  {
+   "text": "kak posmotret poslednie fayly",
+   "lang": "ru"
+  },
+  {
+   "text": "sortirovka po date",
+   "lang": "ru"
+  },
+  {
+   "text": "ls -t",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List files in long format, sorted by modification time (oldest first).",
+   "cmd": "ls -ltr",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ls.md",
+  "title": "tldr-pages: ls",
+  "license": "CC-BY-4.0"
+ }
+}

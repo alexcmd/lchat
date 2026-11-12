@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-developer-cannot-be-verified",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Open an app blocked by 'cannot be opened because the developer cannot be verified'",
+ "summary": "macOS blocks some apps because it cannot verify their developer. You can allow this one app once from Finder or System Settings, and Gatekeeper stays on for everything else.",
+ "aliases": [
+  {
+   "text": "cannot be opened because the developer cannot be verified",
+   "lang": "en"
+  },
+  {
+   "text": "mac developer cannot be verified open app",
+   "lang": "en"
+  },
+  {
+   "text": "macos unidentified developer open app",
+   "lang": "en"
+  },
+  {
+   "text": "open app from unidentified developer mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac app blocked can't open",
+   "lang": "en"
+  },
+  {
+   "text": "right click open mac app blocked",
+   "lang": "en"
+  },
+  {
+   "text": "не открывается приложение разработчик не проверен mac",
+   "lang": "ru"
+  },
+  {
+   "text": "mac не открывает программу неизвестный разработчик",
+   "lang": "ru"
+  },
+  {
+   "text": "как открыть приложение от неизвестного разработчика",
+   "lang": "ru"
+  },
+  {
+   "text": "нельзя открыть разработчик не может быть проверен",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть приложение несмотря на предупреждение mac",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "cannot be opened because the developer cannot be verified"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You downloaded the app from its developer's official website or another source you trust",
+  "You are logged in as the Mac's administrator if System Settings asks for a password"
+ ],
+ "steps": [
+  {
+   "explain": "Check what macOS thinks of the app. This only reads the verdict and changes nothing. A blocked app is reported as rejected.",
+   "cmd": "spctl --assess --verbose APP_PATH",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_PATH",
+     "description": "Full path to the .app bundle that macOS blocks",
+     "example": "/Applications/Example.app",
+     "discover_cmd": "ls /Applications"
+    }
+   ],
+   "expect": "For a blocked app: a line ending in rejected, often followed by a source= line. The command exits with code 3 when the assessment is denied."
+  },
+  {
+   "explain": "Approve this one app once. Gatekeeper stays on for every other app. Use the first route; if it is missing, use the System Settings route.",
+   "risk": "low",
+   "gui": "Finder: Control-click the app > Open > Open. If there is no Open button (macOS 15 or later), double-click the app, close the warning, then go to System Settings > Privacy & Security, scroll to Security, click Open Anyway next to the app's name, and confirm with your password or Touch ID."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Approve only apps whose source you trust. The warning appears because macOS cannot verify who made the app.",
+  "Do not turn Gatekeeper off for the whole Mac just to open one app; that lowers protection for every app.",
+  "Open Anyway is offered only for a short time after the blocked attempt. If it has gone, double-click the app again."
+ ],
+ "see_also": [
+  "macos-concept-gatekeeper-quarantine",
+  "macos-error-app-is-damaged",
+  "macos-list-gatekeeper-rules"
+ ],
+ "source": {
+  "url": "x-man-page://spctl",
+  "title": "spctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

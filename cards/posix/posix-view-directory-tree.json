@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-directory-tree",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View directory structure as a tree",
+ "summary": "Use the `tree` command to see the contents of a directory in a visual, hierarchical format. This helps you understand how files and folders are organized without scrolling through a long list.",
+ "aliases": [
+  {
+   "text": "view directory tree",
+   "lang": "en"
+  },
+  {
+   "text": "show folder structure",
+   "lang": "en"
+  },
+  {
+   "text": "tree command",
+   "lang": "en"
+  },
+  {
+   "text": "visualize files",
+   "lang": "en"
+  },
+  {
+   "text": "directory hierarchy",
+   "lang": "en"
+  },
+  {
+   "text": "kak posmotret strukturu papok",
+   "lang": "ru"
+  },
+  {
+   "text": "derevo katalogov",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat' fayly v vide dereva",
+   "lang": "ru"
+  },
+  {
+   "text": "struktura direktorii",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `tree` command with the `-L` flag to limit the depth of the directory tree displayed. Replace <NUM> with the number of levels you want to see.",
+   "cmd": "tree -L <NUM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NUM",
+     "description": "The maximum depth of directories to display.",
+     "example": "2"
+    }
+   ],
+   "expect": "A list of files and folders indented to show their hierarchy, limited to the specified depth."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tree.md",
+  "title": "tldr-pages: tree",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "macos-enable-user-account-cli",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Enable a user account using the command line",
+ "summary": "Use the `pwpolicy` command to enable a previously disabled user account, allowing them to log in again. This requires administrator privileges.",
+ "aliases": [
+  {
+   "text": "enable user account macos terminal",
+   "lang": "en"
+  },
+  {
+   "text": "unblock user login macos",
+   "lang": "en"
+  },
+  {
+   "text": "pwpolicy enableuser",
+   "lang": "en"
+  },
+  {
+   "text": "включить пользователя macos",
+   "lang": "ru"
+  },
+  {
+   "text": "разблокировать вход пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "pwpolicy включить пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the pwpolicy command with sudo to enable the specified user account.",
+   "cmd": "sudo pwpolicy -u <USERNAME> -enableuser",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The short name of the user account to enable",
+     "example": "guest"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To disable the user again, use the disableuser flag with pwpolicy.",
+   "cmd": "sudo pwpolicy -u <USERNAME> -disableuser",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The short name of the user account to disable",
+     "example": "guest"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Enabling an account allows the user to log in. Ensure this is intended.",
+  "This does not restore deleted accounts, only re-enables disabled ones."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pwpolicy.md",
+  "title": "tldr-pages: pwpolicy",
+  "license": "CC-BY-4.0"
+ }
+}

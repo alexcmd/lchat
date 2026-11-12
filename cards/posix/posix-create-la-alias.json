@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-la-alias",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create 'la' alias for listing all files",
+ "summary": "Create a common shortcut 'la' that lists all files, including hidden ones, in the current directory. This is a popular convenience alias.",
+ "aliases": [
+  {
+   "text": "la alias",
+   "lang": "en"
+  },
+  {
+   "text": "list all files shortcut",
+   "lang": "en"
+  },
+  {
+   "text": "la command",
+   "lang": "en"
+  },
+  {
+   "text": "alias la",
+   "lang": "ru"
+  },
+  {
+   "text": "spisok vseh faylov",
+   "lang": "ru"
+  },
+  {
+   "text": "la dlya ls",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Define 'la' as a shortcut for 'ls --all' to show hidden files.",
+   "cmd": "alias la=\"ls --all\"",
+   "risk": "low",
+   "expect": "No output is displayed. You can now use 'la' to list all files."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/alias.md",
+  "title": "tldr-pages: alias",
+  "license": "CC-BY-4.0"
+ }
+}

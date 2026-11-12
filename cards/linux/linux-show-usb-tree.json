@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-usb-tree",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show USB device hierarchy as a tree",
+ "summary": "Display USB devices in a tree structure to see how they are connected to hubs and ports.",
+ "aliases": [
+  {
+   "text": "usb tree",
+   "lang": "en"
+  },
+  {
+   "text": "show usb hierarchy",
+   "lang": "en"
+  },
+  {
+   "text": "lsusb tree",
+   "lang": "en"
+  },
+  {
+   "text": "usb structure",
+   "lang": "en"
+  },
+  {
+   "text": "usb topology",
+   "lang": "en"
+  },
+  {
+   "text": "дерево usb устройств",
+   "lang": "ru"
+  },
+  {
+   "text": "иерархия usb",
+   "lang": "ru"
+  },
+  {
+   "text": "lsusb tree",
+   "lang": "ru"
+  },
+  {
+   "text": "структура usb",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --tree flag to display USB devices in a hierarchical tree format, showing connections to hubs.",
+   "cmd": "lsusb --tree",
+   "risk": "low",
+   "expect": "A tree-like output showing USB hubs and devices connected to them."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lsusb.md",
+  "title": "tldr-pages: lsusb",
+  "license": "CC-BY-4.0"
+ }
+}

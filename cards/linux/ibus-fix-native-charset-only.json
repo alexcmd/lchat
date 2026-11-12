@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "ibus-fix-native-charset-only",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix IBus inputting only native charset",
+ "summary": "Resolve issues where IBus input methods only type the keyboard's native characters instead of the intended language.",
+ "aliases": [
+  {
+   "text": "ibus native charset",
+   "lang": "en"
+  },
+  {
+   "text": "ibus wrong characters",
+   "lang": "en"
+  },
+  {
+   "text": "ibus input wrong",
+   "lang": "en"
+  },
+  {
+   "text": "ibus xim fix",
+   "lang": "en"
+  },
+  {
+   "text": "ibus только английские буквы",
+   "lang": "ru"
+  },
+  {
+   "text": "ibus неправильные символы",
+   "lang": "ru"
+  },
+  {
+   "text": "ibus ввод не тот",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "only input keyboard's native charset"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set GTK_IM_MODULE to xim in your environment configuration file (e.g., /etc/environment). Keep QT_IM_MODULE=ibus and XMODIFIERS=@im=ibus.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Revert GTK_IM_MODULE to ibus or remove the line.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Editing /etc/environment requires root privileges."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/IBus#Ibus_IME_packages_only_input_keyboard's_native_charset",
+  "title": "IBus",
+  "revision_id": 878551,
+  "license": "GFDL-1.3-or-later"
+ }
+}

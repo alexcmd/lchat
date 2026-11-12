@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-pip-upgrade-package",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Upgrade a Python package",
+ "summary": "Update an installed Python package to its latest version.",
+ "aliases": [
+  {
+   "text": "upgrade python package",
+   "lang": "en"
+  },
+  {
+   "text": "update python library",
+   "lang": "en"
+  },
+  {
+   "text": "pip upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "обновить python пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "pip install -U",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить библиотеку python",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --upgrade flag to update the specified package to the newest available version.",
+   "cmd": "pip install --upgrade <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package to upgrade",
+     "example": "requests"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Pip does not have a built-in downgrade command. You must manually install a specific older version if needed.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Upgrading packages can sometimes break scripts that rely on older versions."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pip.md",
+  "title": "tldr-pages: pip",
+  "license": "CC-BY-4.0"
+ }
+}

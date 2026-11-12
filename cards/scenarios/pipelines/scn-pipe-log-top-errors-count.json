@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-log-top-errors-count",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Count the most common error messages in a log file",
+ "summary": "Pick the lines that contain ERROR, take one field from each, count how often each value appears, and show the most frequent first. A long log becomes a short list of problems.",
+ "aliases": [
+  {
+   "text": "count most common errors in log",
+   "lang": "en"
+  },
+  {
+   "text": "log analysis grep sort uniq",
+   "lang": "en"
+  },
+  {
+   "text": "which error happens most in my log",
+   "lang": "en"
+  },
+  {
+   "text": "top errors in log file linux",
+   "lang": "en"
+  },
+  {
+   "text": "how many times each error appears in log",
+   "lang": "en"
+  },
+  {
+   "text": "summarize log errors",
+   "lang": "en"
+  },
+  {
+   "text": "посчитать самые частые ошибки в логе",
+   "lang": "ru"
+  },
+  {
+   "text": "анализ логов grep awk uniq",
+   "lang": "ru"
+  },
+  {
+   "text": "какая ошибка повторяется чаще всего",
+   "lang": "ru"
+  },
+  {
+   "text": "статистика ошибок в лог файле",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Count the ERROR lines first, so you know the total size of the problem. grep -c prints only the number of matching lines.",
+   "cmd": "grep -c ' ERROR ' <LOG_FILE>",
+   "risk": "low",
+   "expect": "A single number, for example 37.",
+   "placeholders": [
+    {
+     "name": "LOG_FILE",
+     "description": "The log file to read",
+     "example": "app.log"
+    }
+   ]
+  },
+  {
+   "explain": "Count the most common values. grep keeps ERROR lines, awk prints field 4 (the component in brackets for this log layout), sort groups equal values, uniq -c counts them, sort -nr puts the biggest count first, head keeps 10.",
+   "cmd": "grep ' ERROR ' <LOG_FILE> | awk '{print $4}' | sort | uniq -c | sort -nr | head -n 10",
+   "risk": "low",
+   "expect": "Lines such as '  37 [db]': the count first, then the value. Change the field number if your log has another layout.",
+   "placeholders": [
+    {
+     "name": "LOG_FILE",
+     "description": "The log file to read",
+     "example": "app.log"
+    }
+   ]
+  },
+  {
+   "explain": "Show the last few full error lines to see what the top values really say.",
+   "cmd": "grep ' ERROR ' <LOG_FILE> | tail -n 5",
+   "risk": "low",
+   "expect": "Full log lines with a timestamp, the word ERROR and the message.",
+   "placeholders": [
+    {
+     "name": "LOG_FILE",
+     "description": "The log file to read",
+     "example": "app.log"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://www.gnu.org/software/gawk/manual/gawk.html",
+  "title": "GNU Awk User's Guide",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

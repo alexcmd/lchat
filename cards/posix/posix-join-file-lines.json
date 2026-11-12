@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "posix-join-file-lines",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Join all lines of a file into a single line",
+ "summary": "Combine every line of a text file into one long line, separated by tabs or a custom character. Useful for creating CSVs or single-line logs from multi-line data.",
+ "aliases": [
+  {
+   "text": "join lines in file",
+   "lang": "en"
+  },
+  {
+   "text": "combine file lines into one",
+   "lang": "en"
+  },
+  {
+   "text": "paste file lines",
+   "lang": "en"
+  },
+  {
+   "text": "single line from file",
+   "lang": "en"
+  },
+  {
+   "text": "объединить строки в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "склеить строки в одну",
+   "lang": "ru"
+  },
+  {
+   "text": "paste -s",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the `paste` command with the serial flag to merge all lines of a file into a single line, using a tab as the default separator.",
+   "cmd": "paste -s <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to join",
+     "example": "data.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use a custom delimiter instead of a tab to separate the joined lines.",
+     "cmd": "paste -s -d <DELIMITER> <FILE>",
+     "placeholders": [
+      {
+       "name": "DELIMITER",
+       "description": "The character to use between joined lines",
+       "example": ","
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the text file",
+       "example": "data.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/paste.md",
+  "title": "tldr-pages: paste",
+  "license": "CC-BY-4.0"
+ }
+}

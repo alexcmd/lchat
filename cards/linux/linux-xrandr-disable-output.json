@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "linux-xrandr-disable-output",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable a specific monitor output",
+ "summary": "Turn off a specific display output. Useful if you have a monitor connected but don't want to use it, or if it's causing issues.",
+ "aliases": [
+  {
+   "text": "disable monitor linux",
+   "lang": "en"
+  },
+  {
+   "text": "turn off second monitor",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr off",
+   "lang": "en"
+  },
+  {
+   "text": "disconnect display linux",
+   "lang": "en"
+  },
+  {
+   "text": "otklyuchit monitor linux",
+   "lang": "ru"
+  },
+  {
+   "text": "vyklyuchit vtoroy ekran",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr output off",
+   "lang": "ru"
+  },
+  {
+   "text": "kak vyklyuchit monitor",
+   "lang": "ru"
+  },
+  {
+   "text": "disable phantom monitor",
+   "lang": "en"
+  },
+  {
+   "text": "turn off fake display",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr off output",
+   "lang": "en"
+  },
+  {
+   "text": "отключить фантомный монитор",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить лишний экран",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xrandr"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Turn off a specific display output. Replace <OUTPUT> with the name of the monitor you want to disable (e.g., VGA1).",
+   "cmd": "xrandr --output <OUTPUT> --off",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT",
+     "description": "Name of the display output to disable (e.g., VGA1)",
+     "discover_cmd": "xrandr --query"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xrandr.md",
+  "title": "tldr-pages: xrandr",
+  "license": "CC-BY-4.0"
+ }
+}

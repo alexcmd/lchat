@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "macos-read-app-defaults",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Read application configuration settings",
+ "summary": "View the current configuration values stored for a specific application on your Mac.",
+ "aliases": [
+  {
+   "text": "read app defaults",
+   "lang": "en"
+  },
+  {
+   "text": "check app settings terminal",
+   "lang": "en"
+  },
+  {
+   "text": "view application preferences",
+   "lang": "en"
+  },
+  {
+   "text": "defaults read",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть настройки приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "прочитать defaults",
+   "lang": "ru"
+  },
+  {
+   "text": "конфиг приложения терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Read the current value of a specific setting for an application.",
+   "cmd": "defaults read \"<APPLICATION>\" \"<OPTION>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APPLICATION",
+     "description": "The bundle identifier or name of the app (e.g., com.apple.Safari)",
+     "example": "com.apple.Safari"
+    },
+    {
+     "name": "OPTION",
+     "description": "The specific setting key you want to check",
+     "example": "ShowStatusBar"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Read the default value (before any user changes) for an application option.",
+     "cmd": "defaults read -app \"<APPLICATION>\" \"<OPTION>\"",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "APPLICATION",
+       "description": "The bundle identifier or name of the app",
+       "example": "com.apple.Safari"
+      },
+      {
+       "name": "OPTION",
+       "description": "The specific setting key",
+       "example": "ShowStatusBar"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/defaults.md",
+  "title": "tldr-pages: defaults",
+  "license": "CC-BY-4.0"
+ }
+}

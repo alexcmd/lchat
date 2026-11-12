@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-sort-processes-by-cpu",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Sort processes by CPU usage",
+ "summary": "Display running processes ordered by the amount of CPU they are using. Helps identify which apps are slowing down your Mac.",
+ "aliases": [
+  {
+   "text": "sort processes by cpu",
+   "lang": "en"
+  },
+  {
+   "text": "highest cpu usage",
+   "lang": "en"
+  },
+  {
+   "text": "which app uses most cpu",
+   "lang": "en"
+  },
+  {
+   "text": "ps -r",
+   "lang": "en"
+  },
+  {
+   "text": "cpu hog",
+   "lang": "en"
+  },
+  {
+   "text": "сортировка по процессору",
+   "lang": "ru"
+  },
+  {
+   "text": "кто грузит процессор",
+   "lang": "ru"
+  },
+  {
+   "text": "самые тяжелые процессы по cpu",
+   "lang": "ru"
+  },
+  {
+   "text": "ps -r mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List processes sorted by CPU usage.",
+   "cmd": "ps -r",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/ps.md",
+  "title": "tldr-pages: ps",
+  "license": "CC-BY-4.0"
+ }
+}

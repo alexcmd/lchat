@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "systemd-boot-reboot-to-entry",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reboot into a specific systemd-boot entry",
+ "summary": "Reboots the system directly into a specific boot entry, useful for dual-booting or testing kernels.",
+ "aliases": [
+  {
+   "text": "reboot to specific boot entry",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl reboot boot-loader-entry",
+   "lang": "en"
+  },
+  {
+   "text": "перезагрузиться в конкретную запись",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl reboot --boot-loader-entry",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "systemd-boot is installed",
+  "Know the entry ID"
+ ],
+ "steps": [
+  {
+   "explain": "Reboot the system into the specified boot loader entry.",
+   "cmd": "systemctl reboot --boot-loader-entry=<ENTRY_ID>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ENTRY_ID",
+     "description": "ID of the boot entry",
+     "example": "arch.conf",
+     "discover_cmd": "bootctl list"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Reboot into UEFI firmware setup.",
+     "cmd": "systemctl reboot --firmware-setup",
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "This is a one-time action. No rollback needed as it only affects the next boot.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Ensure the entry ID is correct. An invalid ID may result in booting the default entry or failing."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd-boot#Choosing_next_boot",
+  "title": "Systemd-boot",
+  "revision_id": 887252,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,113 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-command-not-found-python",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'zsh: command not found: python' on macOS",
+ "summary": "macOS does not have a command called python. The Terminal uses python3 instead. These steps check that python3 is installed and show its version.",
+ "aliases": [
+  {
+   "text": "zsh command not found python",
+   "lang": "en"
+  },
+  {
+   "text": "command not found python mac",
+   "lang": "en"
+  },
+  {
+   "text": "python command not found macos terminal",
+   "lang": "en"
+  },
+  {
+   "text": "mac python not working in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "why does python not work on mac",
+   "lang": "en"
+  },
+  {
+   "text": "pyhton command not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "python: command not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "zsh команда python не найдена",
+   "lang": "ru"
+  },
+  {
+   "text": "python command not found на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "команда python не найдена macos",
+   "lang": "ru"
+  },
+  {
+   "text": "python не работает в терминале на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "почему python не запускается на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "пайтон не найден zsh мак",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "zsh: command not found: python\n"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A Terminal window is open"
+ ],
+ "steps": [
+  {
+   "explain": "macOS does not provide a command named python. Use python3 instead. This command checks that python3 is installed and shows where it is. It only reads information.",
+   "cmd": "command -v python3",
+   "risk": "low",
+   "expect": "A path such as /usr/bin/python3 or /opt/homebrew/bin/python3. If nothing is printed, python3 is not installed."
+  },
+  {
+   "explain": "Show the Python version. Type python3 in place of python in every command you find online. On a Mac without Command Line Tools, /usr/bin/python3 may open a window asking to install them; you can click Cancel.",
+   "cmd": "python3 --version",
+   "risk": "low",
+   "expect": "A line like 'Python 3.x.y'.",
+   "alternatives": [
+    {
+     "explain": "The same check with the short option -V.",
+     "cmd": "python3 -V",
+     "risk": "low",
+     "expect": "A line like 'Python 3.x.y'."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "python3 --version",
+   "expect": "Python 3."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-python3-which-versions"
+ ],
+ "source": {
+  "url": "x-man-page://python3",
+  "title": "python3 manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

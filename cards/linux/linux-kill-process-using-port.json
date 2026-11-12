@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-kill-process-using-port",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Kill all processes using a TCP port",
+ "summary": "Forcefully terminate all processes that have a TCP connection on a specific port. Useful for clearing a port that is stuck or blocked by a zombie process.",
+ "aliases": [
+  {
+   "text": "kill process using port",
+   "lang": "en"
+  },
+  {
+   "text": "free port linux",
+   "lang": "en"
+  },
+  {
+   "text": "fuser kill port",
+   "lang": "en"
+  },
+  {
+   "text": "убить процесс на порту",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить порт linux",
+   "lang": "ru"
+  },
+  {
+   "text": "fuser убить порт",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send the SIGKILL signal to all processes with a TCP connection on the specified port.",
+   "cmd": "fuser --kill <PORT>/tcp",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "The TCP port number whose users should be killed",
+     "example": "80"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This forcefully kills network services or applications using the port.",
+  "Ensure you are not killing a critical system service or your own remote session."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct undo for killing processes. You must restart the affected services or applications manually.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/fuser.md",
+  "title": "tldr-pages: fuser",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-find-process-using-port"
+ ]
+}

@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-screenshot-region-to-clipboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy a selected screenshot region to the clipboard",
+ "summary": "Capture a selected part of the screen and copy the image directly to the clipboard using `maim` and `xclip`.",
+ "aliases": [
+  {
+   "text": "screenshot to clipboard linux",
+   "lang": "en"
+  },
+  {
+   "text": "copy screenshot to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "maim xclip screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "copy region screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать скриншот",
+   "lang": "ru"
+  },
+  {
+   "text": "скриншот в буфер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "maim",
+   "xclip"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of maim's select mode into xclip to store the image in the clipboard.",
+   "cmd": "maim --select | xclip -selection clipboard -target image/png",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/maim.md",
+  "title": "tldr-pages: maim",
+  "license": "CC-BY-4.0"
+ }
+}

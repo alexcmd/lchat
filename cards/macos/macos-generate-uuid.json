@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-generate-uuid",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Generate a new UUID string",
+ "summary": "UUIDs are unique identifiers used by developers and some system tools. This command generates a new random UUID string.",
+ "aliases": [
+  {
+   "text": "generate uuid",
+   "lang": "en"
+  },
+  {
+   "text": "create uuid",
+   "lang": "en"
+  },
+  {
+   "text": "make uuid",
+   "lang": "en"
+  },
+  {
+   "text": "uuidgen",
+   "lang": "en"
+  },
+  {
+   "text": "generate unique id",
+   "lang": "en"
+  },
+  {
+   "text": "сгенерировать uuid",
+   "lang": "ru"
+  },
+  {
+   "text": "создать uuid",
+   "lang": "ru"
+  },
+  {
+   "text": "сгенерировать уникальный идентификатор",
+   "lang": "ru"
+  },
+  {
+   "text": "uuidgen",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the uuidgen command to print a new random UUID to the terminal.",
+   "cmd": "uuidgen",
+   "risk": "low",
+   "expect": "A string in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx appears."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/uuidgen.md",
+  "title": "tldr-pages: uuidgen",
+  "license": "CC-BY-4.0"
+ }
+}

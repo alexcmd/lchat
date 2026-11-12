@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-local-timemachine-snapshots",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List local Time Machine snapshots that take up System Data space",
+ "summary": "Time Machine can keep local snapshots of your startup disk, and they can make the System Data category in Storage settings large. This read-only check lists these snapshots so you can see whether they are the cause.",
+ "aliases": [
+  {
+   "text": "time machine local snapshots",
+   "lang": "en"
+  },
+  {
+   "text": "list time machine snapshots",
+   "lang": "en"
+  },
+  {
+   "text": "system data too big mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac system data taking space time machine",
+   "lang": "en"
+  },
+  {
+   "text": "tmutil listlocalsnapshots",
+   "lang": "en"
+  },
+  {
+   "text": "local snapshots macos",
+   "lang": "en"
+  },
+  {
+   "text": "show time machine snapshots on mac",
+   "lang": "en"
+  },
+  {
+   "text": "локальные снимки time machine",
+   "lang": "ru"
+  },
+  {
+   "text": "системные данные на маке занимают много места",
+   "lang": "ru"
+  },
+  {
+   "text": "system data на mac много места",
+   "lang": "ru"
+  },
+  {
+   "text": "список снапшотов тайм машин",
+   "lang": "ru"
+  },
+  {
+   "text": "снимки тайм машин на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "tmutil список локальных снимков",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Open Terminal (Applications > Utilities > Terminal)"
+ ],
+ "steps": [
+  {
+   "explain": "Show how full the startup disk is. Note the Used and Avail columns of the row whose last column is /, to compare with the System Data size shown in Storage settings later.",
+   "cmd": "df -h /",
+   "risk": "low",
+   "expect": "A table with Size, Used and Avail columns; the row ending in / is the startup disk."
+  },
+  {
+   "explain": "List the local Time Machine snapshots stored on the startup disk. Each line is one snapshot; the date in its name shows when it was taken. This command shows names and dates only, not sizes. macOS removes these snapshots by itself when disk space runs low.",
+   "cmd": "tmutil listlocalsnapshots /",
+   "risk": "low",
+   "expect": "Usually a header like 'Snapshots for disk /:' and one line per snapshot, e.g. com.apple.TimeMachine.2026-10-20-101500.local. No lines means none.",
+   "alternatives": [
+    {
+     "explain": "Show only the creation dates of the local snapshots, one per line, in the form YYYY-MM-DD-HHMMSS.",
+     "cmd": "tmutil listlocalsnapshotdates /",
+     "risk": "low",
+     "expect": "One date per line, such as 2026-10-20-101500. An empty result means there are no local snapshots."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "This card only lists snapshots. Do not delete them with this card; deleting Time Machine snapshots is a separate task and should be done only after you understand what they are."
+ ],
+ "source": {
+  "url": "x-man-page://tmutil",
+  "title": "tmutil manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

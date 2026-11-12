@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "linux-monitor-virtual-memory-over-time",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Monitor virtual memory and CPU activity over time",
+ "summary": "Use vmstat with a delay and count to watch system performance continuously. This helps spot trends in memory usage or CPU load over a short period.",
+ "aliases": [
+  {
+   "text": "monitor vmstat",
+   "lang": "en"
+  },
+  {
+   "text": "watch memory usage",
+   "lang": "en"
+  },
+  {
+   "text": "vmstat every 2 seconds",
+   "lang": "en"
+  },
+  {
+   "text": "continuous system stats",
+   "lang": "en"
+  },
+  {
+   "text": "следить за памятью",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг нагрузки linux",
+   "lang": "ru"
+  },
+  {
+   "text": "vmstat 2 5",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run vmstat with a 2-second delay and a count of 5 to display reports every 2 seconds for 5 times. This allows you to observe changes in system activity over a 10-second window.",
+   "cmd": "vmstat 2 5",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/vmstat.md",
+  "title": "tldr-pages: vmstat",
+  "license": "CC-BY-4.0"
+ }
+}

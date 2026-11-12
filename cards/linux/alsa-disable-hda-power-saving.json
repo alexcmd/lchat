@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "alsa-disable-hda-power-saving",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable HD Audio power saving to fix pops",
+ "summary": "Disabling power saving for the snd_hda_intel module can fix popping or clicking sounds when audio starts or stops.",
+ "aliases": [
+  {
+   "text": "alsa pop sound fix",
+   "lang": "en"
+  },
+  {
+   "text": "disable alsa power saving",
+   "lang": "en"
+  },
+  {
+   "text": "snd_hda_intel power_save",
+   "lang": "en"
+  },
+  {
+   "text": "щелчки при запуске звука",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить энергосбережение звука",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create or edit the file /etc/modprobe.d/alsa-base.conf and add the line: options snd_hda_intel power_save=0 power_save_controller=N",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Reboot the system to apply the kernel module parameter.",
+   "cmd": "sudo reboot",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the line added to /etc/modprobe.d/alsa-base.conf or delete the file if it was created just for this.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Reboot the system.",
+   "cmd": "sudo reboot",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Disabling power saving may slightly increase power consumption."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture/Troubleshooting#Power_saving",
+  "title": "Advanced Linux Sound Architecture/Troubleshooting",
+  "revision_id": 862000,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-add-files-to-zip",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Add files or folders to an existing Zip archive",
+ "summary": "You can add new files or directories to an existing .zip archive without recreating it. Use the recursive flag if you are adding a directory.",
+ "aliases": [
+  {
+   "text": "add file to zip",
+   "lang": "en"
+  },
+  {
+   "text": "append to zip archive",
+   "lang": "en"
+  },
+  {
+   "text": "update zip file",
+   "lang": "en"
+  },
+  {
+   "text": "добавить файл в архив",
+   "lang": "ru"
+  },
+  {
+   "text": "дописать в zip",
+   "lang": "ru"
+  },
+  {
+   "text": "расширить архив zip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the zip command with the existing archive name and the files or directories you want to add. Add the -r flag to include directories recursively.",
+   "cmd": "zip -r <EXISTING_ZIP> <FILES_OR_DIRS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "EXISTING_ZIP",
+     "description": "Path to the existing .zip archive",
+     "example": "backup.zip"
+    },
+    {
+     "name": "FILES_OR_DIRS",
+     "description": "Paths to files or directories to add",
+     "example": "new_photo.jpg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/zip.md",
+  "title": "tldr-pages: zip",
+  "license": "CC-BY-4.0"
+ }
+}

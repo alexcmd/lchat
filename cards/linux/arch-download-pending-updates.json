@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "arch-download-pending-updates",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Download pending updates to cache",
+ "summary": "List pending updates and automatically download the new package files to the local pacman cache. This prepares the system for a faster offline upgrade later.",
+ "aliases": [
+  {
+   "text": "download arch updates",
+   "lang": "en"
+  },
+  {
+   "text": "checkupdates download",
+   "lang": "en"
+  },
+  {
+   "text": "cache arch updates",
+   "lang": "en"
+  },
+  {
+   "text": "скачать обновления arch",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузить пакеты arch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Internet connection",
+  "checkupdates package installed"
+ ],
+ "steps": [
+  {
+   "explain": "Use the --download flag to list updates and fetch the package files into the pacman cache directory.",
+   "cmd": "checkupdates --download",
+   "risk": "low",
+   "expect": "Progress bars for downloading packages, followed by the list of updated packages."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/checkupdates.md",
+  "title": "tldr-pages: checkupdates",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "arch-check-pending-updates",
+  "linux-pacman-update-system"
+ ]
+}

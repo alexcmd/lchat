@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-network-connection-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if NetworkManager reports an active network connection",
+ "summary": "Use `nm-online` to ask NetworkManager if the system is currently connected to a network. It returns immediately with a success or failure status, which is useful for scripts or quick checks.",
+ "aliases": [
+  {
+   "text": "check network connection status",
+   "lang": "en"
+  },
+  {
+   "text": "is network connected",
+   "lang": "en"
+  },
+  {
+   "text": "nm-online",
+   "lang": "en"
+  },
+  {
+   "text": "networkmanager status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус сети",
+   "lang": "ru"
+  },
+  {
+   "text": "подключен ли интернет",
+   "lang": "ru"
+  },
+  {
+   "text": "nm-online проверить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `nm-online` to check if NetworkManager considers the network connection active. It exits with code 0 if connected, non-zero otherwise.",
+   "cmd": "nm-online",
+   "risk": "low",
+   "expect": "No output if connected; exit code 0. If not connected, it may print an error or exit non-zero.",
+   "alternatives": [
+    {
+     "explain": "Wait for a custom number of seconds for the network to become active.",
+     "cmd": "nm-online --timeout <SECONDS>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SECONDS",
+       "description": "Number of seconds to wait for connection",
+       "example": "10"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nm-online.md",
+  "title": "tldr-pages: nm-online",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "nmcli-show-networking-status",
+  "linux-nmcli-show-status"
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "security-list-suid-files",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find files with SUID or SGID bits set",
+ "summary": "List all executable files on the system that have the Setuid (SUID) or Setgid (SGID) bit. These files run with elevated privileges and are common targets for privilege escalation attacks.",
+ "aliases": [
+  {
+   "text": "find suid files",
+   "lang": "en"
+  },
+  {
+   "text": "list suid binaries",
+   "lang": "en"
+  },
+  {
+   "text": "security audit suid",
+   "lang": "en"
+  },
+  {
+   "text": "найти suid файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "check setuid permissions",
+   "lang": "en"
+  },
+  {
+   "text": "privilege escalation check",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search the entire filesystem for files with the SUID or SGID bit set. Errors from inaccessible directories are suppressed.",
+   "cmd": "find / -perm \"/u=s,g=s\" -type f 2>/dev/null",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Security#SUID_and_SGID_files",
+  "title": "Security",
+  "revision_id": 888599,
+  "license": "GFDL-1.3-or-later"
+ }
+}

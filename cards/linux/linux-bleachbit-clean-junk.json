@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-bleachbit-clean-junk",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clean junk files with BleachBit",
+ "summary": "Use BleachBit to delete junk files and free up disk space. Always preview first to ensure you don't delete important data.",
+ "aliases": [
+  {
+   "text": "clean junk files bleachbit",
+   "lang": "en"
+  },
+  {
+   "text": "delete cache with bleachbit",
+   "lang": "en"
+  },
+  {
+   "text": "bleachbit clean command",
+   "lang": "en"
+  },
+  {
+   "text": "очистить мусор bleachbit",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить кэш bleachbit",
+   "lang": "ru"
+  },
+  {
+   "text": "команда очистки bleachbit",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Perform the clean-up operation and delete files for specific cleaners.",
+   "cmd": "bleachbit --clean --preset <CLEANER_OPTIONS>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "CLEANER_OPTIONS",
+     "description": "Space-separated list of cleaner options, e.g., 'firefox.cache firefox.cookies'",
+     "example": "firefox.cache"
+    }
+   ],
+   "expect": "Files are deleted and disk space is freed."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This action permanently deletes files. Always use --preview first to check what will be removed."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no built-in undo for BleachBit deletions. Restore from backup if available.",
+   "risk": "medium"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/bleachbit.md",
+  "title": "tldr-pages: bleachbit",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-bleachbit-preview-clean"
+ ]
+}

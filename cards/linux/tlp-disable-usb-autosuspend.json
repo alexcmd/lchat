@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "tlp-disable-usb-autosuspend",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable USB autosuspend in TLP",
+ "summary": "TLP may power down USB devices like audio DACs when on battery. This setting disables that behavior to keep devices connected.",
+ "aliases": [
+  {
+   "text": "usb disconnects on battery",
+   "lang": "en"
+  },
+  {
+   "text": "disable usb autosuspend tlp",
+   "lang": "en"
+  },
+  {
+   "text": "tlp usb power saving off",
+   "lang": "en"
+  },
+  {
+   "text": "usb device sleeps tlp",
+   "lang": "en"
+  },
+  {
+   "text": "отключить usb autosuspend tlp",
+   "lang": "ru"
+  },
+  {
+   "text": "usb отключается на батарее",
+   "lang": "ru"
+  },
+  {
+   "text": "tlp не отключать usb",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "tlp"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Edit /etc/tlp.conf and set USB_AUTOSUSPEND=0.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Restart the TLP service to apply the changes.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Edit /etc/tlp.conf and remove the USB_AUTOSUSPEND=0 line or set it to 1.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Restart the TLP service.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Disabling USB autosuspend may slightly reduce battery life."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/TLP#USB_autosuspend",
+  "title": "TLP",
+  "revision_id": 871782,
+  "license": "GFDL-1.3-or-later"
+ }
+}

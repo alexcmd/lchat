@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "macos-create-bootable-usb",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create a bootable USB drive from an ISO file",
+ "summary": "Use the `dd` command to write an ISO image directly to a USB drive, making it bootable. This process erases all data on the target USB drive.",
+ "aliases": [
+  {
+   "text": "create bootable usb mac",
+   "lang": "en"
+  },
+  {
+   "text": "make usb bootable from iso",
+   "lang": "en"
+  },
+  {
+   "text": "dd iso to usb mac",
+   "lang": "en"
+  },
+  {
+   "text": "записать iso на флешку mac",
+   "lang": "ru"
+  },
+  {
+   "text": "создать загрузочную флешку",
+   "lang": "ru"
+  },
+  {
+   "text": "dd образ на usb",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "An ISO file you want to write",
+  "A USB drive inserted into the Mac",
+  "Knowledge of the USB drive's device identifier (e.g., /dev/disk2)"
+ ],
+ "steps": [
+  {
+   "explain": "Write the ISO file to the USB drive device. Replace <ISO_FILE> with the path to your ISO and <USB_DRIVE> with the device identifier of your USB drive (e.g., /dev/disk2). This command erases the USB drive.",
+   "cmd": "sudo dd if=<ISO_FILE> of=<USB_DRIVE> status=progress",
+   "needs_root": true,
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "ISO_FILE",
+     "description": "Path to the ISO image file",
+     "example": "~/Downloads/ubuntu.iso"
+    },
+    {
+     "name": "USB_DRIVE",
+     "description": "Device identifier of the target USB drive",
+     "example": "/dev/disk2"
+    }
+   ],
+   "expect": "The command will show progress as it writes data to the USB drive."
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This command will completely erase all data on the target USB drive.",
+  "Double-check the device identifier (<USB_DRIVE>) to avoid overwriting your main hard drive."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct rollback for `dd`. To restore the USB drive to a usable state, you must reformat it using Disk Utility.",
+   "cmd": "",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dd.md",
+  "title": "tldr-pages: dd",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-uv-init-project",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a new Python project with uv",
+ "summary": "Use `uv init` to set up a new Python project structure in your current folder or a specific directory. This creates the necessary configuration files like `pyproject.toml`.",
+ "aliases": [
+  {
+   "text": "create python project with uv",
+   "lang": "en"
+  },
+  {
+   "text": "uv init",
+   "lang": "en"
+  },
+  {
+   "text": "start new python project uv",
+   "lang": "en"
+  },
+  {
+   "text": "uv new project",
+   "lang": "en"
+  },
+  {
+   "text": "создать проект python uv",
+   "lang": "ru"
+  },
+  {
+   "text": "uv init",
+   "lang": "ru"
+  },
+  {
+   "text": "новый проект python uv",
+   "lang": "ru"
+  },
+  {
+   "text": "uv создать проект",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command in the folder where you want to create the project. It initializes the project structure.",
+   "cmd": "uv init",
+   "risk": "low"
+  },
+  {
+   "explain": "Alternatively, specify a path to create the project in a new or existing directory.",
+   "cmd": "uv init <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the directory where the project should be created.",
+     "example": "my_project"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uv.md",
+  "title": "tldr-pages: uv",
+  "license": "CC-BY-4.0"
+ }
+}

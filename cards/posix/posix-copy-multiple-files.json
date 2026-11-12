@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "posix-copy-multiple-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy multiple files to a directory",
+ "summary": "Copy several files at once into a specific destination directory.",
+ "aliases": [
+  {
+   "text": "copy multiple files",
+   "lang": "en"
+  },
+  {
+   "text": "cp multiple files",
+   "lang": "en"
+  },
+  {
+   "text": "copy files to directory",
+   "lang": "en"
+  },
+  {
+   "text": "cp -t",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat neskolko failov",
+   "lang": "ru"
+  },
+  {
+   "text": "cp neskolko failov",
+   "lang": "ru"
+  },
+  {
+   "text": "kopirovat gruppu failov",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy the listed files into the destination directory.",
+   "cmd": "cp -t <DESTINATION_DIRECTORY> <FILES>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DESTINATION_DIRECTORY",
+     "description": "Path to the directory where files should be copied",
+     "example": "backup/"
+    },
+    {
+     "name": "FILES",
+     "description": "Paths to the files you want to copy",
+     "example": "file1.txt file2.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag for target directory.",
+     "cmd": "cp -t <DESTINATION_DIRECTORY> <FILES>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "DESTINATION_DIRECTORY",
+       "description": "Path to the directory where files should be copied",
+       "example": "backup/"
+      },
+      {
+       "name": "FILES",
+       "description": "Paths to the files you want to copy",
+       "example": "file1.txt file2.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cp.md",
+  "title": "tldr-pages: cp",
+  "license": "CC-BY-4.0"
+ }
+}

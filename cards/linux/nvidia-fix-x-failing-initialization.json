@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "nvidia-fix-x-failing-initialization",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix X failing with 'Failing initialization of X screen'",
+ "summary": "If Xorg fails to initialize the screen and nvidia-smi shows no processes, update nvidia-utils and configure the primary GPU.",
+ "aliases": [
+  {
+   "text": "failing initialization of x screen",
+   "lang": "en"
+  },
+  {
+   "text": "gpu screens are not yet supported",
+   "lang": "en"
+  },
+  {
+   "text": "nvidia xorg init fail",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка инициализации xorg nvidia",
+   "lang": "ru"
+  },
+  {
+   "text": "gpu screens not supported nvidia",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Failing initialization of X screen",
+  "GPU screens are not yet supported by the NVIDIA driver"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "You have root access.",
+  "You are using the proprietary NVIDIA driver."
+ ],
+ "steps": [
+  {
+   "explain": "Update the nvidia-utils package to the latest version.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Copy the default output class configuration to the system Xorg directory.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Edit /etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf and add the line 'Option \"PrimaryGPU\" \"yes\"' inside the Device section.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the computer.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the copied configuration file.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Ensure you are using the proprietary driver, not the open-source one."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#X_fails_with_%22Failing_initialization_of_X_screen%22",
+  "title": "NVIDIA/Troubleshooting",
+  "revision_id": 887471,
+  "license": "GFDL-1.3-or-later"
+ }
+}

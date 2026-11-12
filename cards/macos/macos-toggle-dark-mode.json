@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "macos-toggle-dark-mode",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Toggle macOS Dark Mode",
+ "summary": "Switch between Light and Dark appearance modes on macOS. This command instantly changes the system theme.",
+ "aliases": [
+  {
+   "text": "toggle dark mode",
+   "lang": "en"
+  },
+  {
+   "text": "switch to dark mode",
+   "lang": "en"
+  },
+  {
+   "text": "turn on dark mode",
+   "lang": "en"
+  },
+  {
+   "text": "turn off dark mode",
+   "lang": "en"
+  },
+  {
+   "text": "dark mode mac",
+   "lang": "en"
+  },
+  {
+   "text": "переключить темную тему",
+   "lang": "ru"
+  },
+  {
+   "text": "включить темную тему",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить темную тему",
+   "lang": "ru"
+  },
+  {
+   "text": "темный режим мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to toggle the current appearance. If Dark Mode is off, it turns on; if on, it turns off.",
+   "cmd": "dark-mode",
+   "risk": "low",
+   "gui": "System Settings > Appearance > Click 'Auto', 'Light', or 'Dark'",
+   "alternatives": [
+    {
+     "explain": "Explicitly turn Dark Mode on.",
+     "cmd": "dark-mode on",
+     "risk": "low"
+    },
+    {
+     "explain": "Explicitly turn Dark Mode off (Light Mode).",
+     "cmd": "dark-mode off",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "dark-mode status",
+   "expect": "Displays whether Dark Mode is currently on or off."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dark-mode.md",
+  "title": "tldr-pages: dark-mode",
+  "license": "CC-BY-4.0"
+ }
+}

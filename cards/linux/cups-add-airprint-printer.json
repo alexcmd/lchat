@@ -1,0 +1,100 @@
+{
+ "schema_version": 2,
+ "id": "cups-add-airprint-printer",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Add a network printer using AirPrint or IPP Everywhere",
+ "summary": "Add a modern network printer that supports AirPrint or IPP Everywhere without needing specific drivers. This uses the 'everywhere' model.",
+ "aliases": [
+  {
+   "text": "add airprint printer",
+   "lang": "en"
+  },
+  {
+   "text": "add ipp printer",
+   "lang": "en"
+  },
+  {
+   "text": "driverless printer setup",
+   "lang": "en"
+  },
+  {
+   "text": "lpadmin everywhere",
+   "lang": "en"
+  },
+  {
+   "text": "добавить сетевой принтер",
+   "lang": "ru"
+  },
+  {
+   "text": "airprint linux",
+   "lang": "ru"
+  },
+  {
+   "text": "принтер без драйверов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "cups",
+   "avahi-daemon.service"
+  ]
+ },
+ "prerequisites": [
+  "CUPS is installed and running.",
+  "Avahi is installed and running for network discovery.",
+  "You know the IP address or hostname of the printer."
+ ],
+ "steps": [
+  {
+   "explain": "Add the printer queue using lpadmin. Replace <PRINTER_NAME> with a short name for the queue and <PRINTER_IP> with the printer's IP address.",
+   "cmd": "sudo lpadmin -p <PRINTER_NAME> -E -v \"ipp://<PRINTER_IP>/ipp/print\" -m everywhere",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PRINTER_NAME",
+     "description": "A short, descriptive name for the printer queue (no spaces).",
+     "example": "OfficePrinter"
+    },
+    {
+     "name": "PRINTER_IP",
+     "description": "The IP address of the network printer.",
+     "example": "192.168.1.50"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the printer queue.",
+   "cmd": "sudo lpadmin -x <PRINTER_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PRINTER_NAME",
+     "description": "The name of the printer queue to remove.",
+     "example": "OfficePrinter"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure the printer supports IPP Everywhere or AirPrint.",
+  "Avahi must be running for automatic discovery, though manual IP addition works without it."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/CUPS#AirPrint_and_IPP_Everywhere",
+  "title": "CUPS",
+  "revision_id": 888479,
+  "license": "GFDL-1.3-or-later"
+ }
+}

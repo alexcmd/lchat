@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-screensaver",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable the screensaver",
+ "summary": "Turn off the automatic screensaver so your display stays on. This is useful when you want to keep the screen active without changing power settings.",
+ "aliases": [
+  {
+   "text": "disable screensaver",
+   "lang": "en"
+  },
+  {
+   "text": "turn off screensaver",
+   "lang": "en"
+  },
+  {
+   "text": "stop screen from locking",
+   "lang": "en"
+  },
+  {
+   "text": "xset screensaver off",
+   "lang": "en"
+  },
+  {
+   "text": "отключить заставку",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить скринсейвер",
+   "lang": "ru"
+  },
+  {
+   "text": "экран не гаснет",
+   "lang": "ru"
+  },
+  {
+   "text": "xset s off",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xset"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command to disable the X screensaver immediately.",
+   "cmd": "xset s off",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xset.md",
+  "title": "tldr-pages: xset",
+  "license": "CC-BY-4.0"
+ }
+}

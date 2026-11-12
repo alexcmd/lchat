@@ -1,0 +1,135 @@
+{
+ "schema_version": 2,
+ "id": "error-file-exists-mkdir",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix mkdir error 'File exists' and create a folder safely",
+ "summary": "mkdir stops with 'File exists' when something with that name is already there. If it is a folder, you can use mkdir -p, which skips it without an error. If it is a file, choose another folder name.",
+ "aliases": [
+  {
+   "text": "mkdir file exists",
+   "lang": "en"
+  },
+  {
+   "text": "mkdir cannot create directory file exists",
+   "lang": "en"
+  },
+  {
+   "text": "why does mkdir say file exists",
+   "lang": "en"
+  },
+  {
+   "text": "linux folder already exists error",
+   "lang": "en"
+  },
+  {
+   "text": "mkdir -p create directory if exists",
+   "lang": "en"
+  },
+  {
+   "text": "cannot create folder file exists linux",
+   "lang": "en"
+  },
+  {
+   "text": "mkdir файл существует",
+   "lang": "ru"
+  },
+  {
+   "text": "мкдир cannot create directory ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "linux не могу создать папку file exists",
+   "lang": "ru"
+  },
+  {
+   "text": "папка уже существует mkdir",
+   "lang": "ru"
+  },
+  {
+   "text": "mkdir -p создать папку если уже есть",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "mkdir: cannot create directory",
+  "File exists"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Look at what already uses this name. A line starting with d is a folder. A line starting with - is a regular file, and mkdir cannot make a folder with that name.",
+   "cmd": "ls -ld <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The folder name you wanted to create",
+     "example": "projects",
+     "discover_cmd": "ls -la"
+    }
+   ],
+   "expect": "drwxr-xr-x ... projects means a folder already exists. -rw-r--r-- ... projects means a file has this name."
+  },
+  {
+   "explain": "Create the folder safely. The -p option does not fail when the folder already exists, and it also creates missing parent folders. It still fails with 'File exists' if the name belongs to a file.",
+   "cmd": "mkdir -p <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The folder name you wanted to create",
+     "example": "projects"
+    }
+   ],
+   "expect": "No message means the folder exists now, whether it was created or was already there. If 'File exists' appears again, a file has this name: go to the next step.",
+   "alternatives": [
+    {
+     "explain": "Same as above, but prints a message when a new folder is created.",
+     "cmd": "mkdir -pv <DIRECTORY>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "DIRECTORY",
+       "description": "The folder name you wanted to create",
+       "example": "projects"
+      }
+     ],
+     "expect": "mkdir: created directory 'projects' for a new folder. No message if the folder already existed."
+    }
+   ]
+  },
+  {
+   "explain": "Only if step 1 showed a file with this name: pick a folder name that is not used yet. Do not delete the file unless you know you do not need it.",
+   "cmd": "mkdir <NEW_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NEW_DIRECTORY",
+     "description": "A folder name that is not used yet",
+     "example": "projects-2"
+    }
+   ],
+   "expect": "No message means the new folder was created."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls -ld <DIRECTORY>",
+   "expect": "A line starting with d and the folder name, for example drwxr-xr-x ... projects"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/mkdir",
+  "title": "mkdir manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

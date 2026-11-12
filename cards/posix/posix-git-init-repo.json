@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-git-init-repo",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a new Git repository",
+ "summary": "Initialize a new Git repository in the current directory to start tracking changes to your files.",
+ "aliases": [
+  {
+   "text": "create git repo",
+   "lang": "en"
+  },
+  {
+   "text": "start version control",
+   "lang": "en"
+  },
+  {
+   "text": "git init",
+   "lang": "en"
+  },
+  {
+   "text": "создать git репозиторий",
+   "lang": "ru"
+  },
+  {
+   "text": "инициализировать git",
+   "lang": "ru"
+  },
+  {
+   "text": "как начать работу с git",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command in the folder where you want to start tracking changes. It creates a hidden .git directory.",
+   "cmd": "git init",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/git.md",
+  "title": "tldr-pages: git",
+  "license": "CC-BY-4.0"
+ }
+}

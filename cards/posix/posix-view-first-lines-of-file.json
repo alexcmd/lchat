@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-first-lines-of-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View the first lines of a file",
+ "summary": "Use the `head` command to quickly see the beginning of a text file without opening it in an editor. This is useful for checking file contents, headers, or logs.",
+ "aliases": [
+  {
+   "text": "view first lines of file",
+   "lang": "en"
+  },
+  {
+   "text": "head command",
+   "lang": "en"
+  },
+  {
+   "text": "see start of file",
+   "lang": "en"
+  },
+  {
+   "text": "preview file content",
+   "lang": "en"
+  },
+  {
+   "text": "show top of file",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть начало файла",
+   "lang": "ru"
+  },
+  {
+   "text": "команда head",
+   "lang": "ru"
+  },
+  {
+   "text": "первые строки файла",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть начало файла",
+   "lang": "ru"
+  },
+  {
+   "text": "see start of text file",
+   "lang": "en"
+  },
+  {
+   "text": "просмотр начала текстового файла",
+   "lang": "ru"
+  },
+  {
+   "text": "head command mac",
+   "lang": "en"
+  },
+  {
+   "text": "preview file content terminal",
+   "lang": "en"
+  },
+  {
+   "text": "head в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the first few lines of a specified file. By default, `head` shows 10 lines, but you can specify a different count with `-n`.",
+   "cmd": "head -n <COUNT> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COUNT",
+     "description": "Number of lines to display from the beginning of the file.",
+     "example": "5"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to view.",
+     "example": "notes.txt"
+    }
+   ],
+   "expect": "The terminal prints the first <COUNT> lines of the file."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/head.md",
+  "title": "tldr-pages: head",
+  "license": "CC-BY-4.0"
+ }
+}

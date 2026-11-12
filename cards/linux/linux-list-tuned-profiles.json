@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-tuned-profiles",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List available system performance tuning profiles",
+ "summary": "Show all performance tuning profiles available on your Linux system. You can then choose one to apply if the current one doesn't suit your needs.",
+ "aliases": [
+  {
+   "text": "list tuned profiles",
+   "lang": "en"
+  },
+  {
+   "text": "show available tuning profiles",
+   "lang": "en"
+  },
+  {
+   "text": "what tuned profiles are there",
+   "lang": "en"
+  },
+  {
+   "text": "linux performance profiles list",
+   "lang": "en"
+  },
+  {
+   "text": "список профилей tuned",
+   "lang": "ru"
+  },
+  {
+   "text": "доступные профили производительности",
+   "lang": "ru"
+  },
+  {
+   "text": "какие есть профили tuned",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "tuned"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all available performance tuning profiles.",
+   "cmd": "tuned-adm list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/tuned-adm.md",
+  "title": "tldr-pages: tuned-adm",
+  "license": "CC-BY-4.0"
+ }
+}

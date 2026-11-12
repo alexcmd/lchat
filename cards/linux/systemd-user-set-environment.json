@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "systemd-user-set-environment",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set environment variables for systemd user services",
+ "summary": "Define environment variables that will be available to systemd user services. This is necessary because user services do not inherit variables from your shell profile (like .bashrc).",
+ "aliases": [
+  {
+   "text": "set env var for systemd user",
+   "lang": "en"
+  },
+  {
+   "text": "systemd user environment variables",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl --user set-environment",
+   "lang": "en"
+  },
+  {
+   "text": "environment.d systemd user",
+   "lang": "en"
+  },
+  {
+   "text": "переменные окружения systemd user",
+   "lang": "ru"
+  },
+  {
+   "text": "systemd user env",
+   "lang": "ru"
+  },
+  {
+   "text": "не видит переменные окружения сервис",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create a .conf file in ~/.config/environment.d/ with lines of the form NAME=VAL. This affects only that user's user unit.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reload the systemd user manager to apply the changes.",
+   "cmd": "systemctl --user daemon-reload",
+   "risk": "low"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "systemctl --user show-environment",
+   "expect": "Your new variables should appear in the list."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove the configuration file you created from ~/.config/environment.d/.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reload the systemd user manager.",
+   "cmd": "systemctl --user daemon-reload",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "User services do not inherit variables from .bashrc or .profile. You must set them explicitly here."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd/User#Environment_variables",
+  "title": "Systemd/User",
+  "revision_id": 885754,
+  "license": "GFDL-1.3-or-later"
+ }
+}

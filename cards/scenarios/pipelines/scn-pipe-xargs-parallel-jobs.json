@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-xargs-parallel-jobs",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a command on many files at the same time",
+ "summary": "Hand a long list of files to xargs and let it run several copies of a command at once. Large batch jobs such as checksums or conversions finish sooner on a multi-core computer.",
+ "aliases": [
+  {
+   "text": "run command on many files in parallel linux",
+   "lang": "en"
+  },
+  {
+   "text": "xargs -P parallel",
+   "lang": "en"
+  },
+  {
+   "text": "speed up processing many files",
+   "lang": "en"
+  },
+  {
+   "text": "multiple jobs at once xargs",
+   "lang": "en"
+  },
+  {
+   "text": "parallel md5sum files",
+   "lang": "en"
+  },
+  {
+   "text": "use all cpu cores for batch job",
+   "lang": "en"
+  },
+  {
+   "text": "запустить команду на многих файлах параллельно",
+   "lang": "ru"
+  },
+  {
+   "text": "ускорить обработку файлов xargs",
+   "lang": "ru"
+  },
+  {
+   "text": "параллельная обработка файлов в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "использовать все ядра для пакетной задачи",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Count the CPU cores. A JOBS value up to this number keeps every core busy without overloading the computer.",
+   "cmd": "nproc",
+   "risk": "low",
+   "expect": "A number such as 4."
+  },
+  {
+   "explain": "find sends file names separated by zero bytes. xargs -0 reads them, -n 1 gives each run one file, and -P sets how many runs go at the same time. md5sum prints a checksum for each file.",
+   "cmd": "find <DIR> -type f -name '*.<EXT>' -print0 | xargs -0 -P <JOBS> -n 1 md5sum",
+   "risk": "low",
+   "expect": "One line per file: a long hexadecimal checksum, then the file name. Lines can come out in a different order, because copies finish at different times.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder with the files",
+     "example": "photos"
+    },
+    {
+     "name": "EXT",
+     "description": "File ending without the dot",
+     "example": "jpg"
+    },
+    {
+     "name": "JOBS",
+     "description": "How many copies run at once",
+     "example": "4"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Too many jobs can make the computer slow. For jobs that read a lot from the disk, keep JOBS low."
+ ],
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/xargs.1.html",
+  "title": "xargs(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-directory-tree-filter-pattern",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View directory tree filtered by file pattern",
+ "summary": "Display only files that match a specific pattern (like *.txt) and hide directories that do not contain any matching files.",
+ "aliases": [
+  {
+   "text": "tree filter by extension",
+   "lang": "en"
+  },
+  {
+   "text": "show only txt files tree",
+   "lang": "en"
+  },
+  {
+   "text": "tree -P",
+   "lang": "en"
+  },
+  {
+   "text": "derevo s fil'trom",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat' tol'ko txt fayly",
+   "lang": "ru"
+  },
+  {
+   "text": "derevo po shablonu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `tree` with `-P` followed by a glob pattern (e.g., *.txt) and `--prune` to remove empty branches.",
+   "cmd": "tree -P <PATTERN> --prune",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "A glob pattern to match files, e.g., *.txt or *.jpg.",
+     "example": "*.txt"
+    }
+   ],
+   "expect": "A tree showing only files matching the pattern and the directories containing them."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tree.md",
+  "title": "tldr-pages: tree",
+  "license": "CC-BY-4.0"
+ }
+}

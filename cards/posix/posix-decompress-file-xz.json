@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-decompress-file-xz",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Decompress an XZ file",
+ "summary": "Use xz to extract a .xz compressed file back to its original form. The .xz file is deleted by default unless you specify to keep it.",
+ "aliases": [
+  {
+   "text": "decompress xz file",
+   "lang": "en"
+  },
+  {
+   "text": "unzip xz",
+   "lang": "en"
+  },
+  {
+   "text": "extract xz archive",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать xz",
+   "lang": "ru"
+  },
+  {
+   "text": "разархивировать xz",
+   "lang": "ru"
+  },
+  {
+   "text": "распаковать архив xz",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run xz with the decompress flag and the path to the .xz file.",
+   "cmd": "xz --decompress <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .xz file to decompress",
+     "example": "document.txt.xz"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Decompress and write the output to stdout (keeps the original .xz file).",
+     "cmd": "xz --decompress --stdout <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the .xz file to decompress",
+       "example": "document.txt.xz"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/xz.md",
+  "title": "tldr-pages: xz",
+  "license": "CC-BY-4.0"
+ }
+}

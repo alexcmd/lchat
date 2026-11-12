@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "avahi-error-systemd-resolved-conflict",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix Avahi not working due to systemd-resolved mDNS conflict",
+ "summary": "If Avahi fails to resolve .local hostnames or services, it might be because systemd-resolved's built-in mDNS is interfering. You need to disable systemd-resolved's mDNS or switch to the full mdns NSS module.",
+ "aliases": [
+  {
+   "text": "avahi not resolving .local",
+   "lang": "en"
+  },
+  {
+   "text": "systemd-resolved avahi conflict",
+   "lang": "en"
+  },
+  {
+   "text": "mdns not working",
+   "lang": "en"
+  },
+  {
+   "text": "avahi broken by resolved",
+   "lang": "en"
+  },
+  {
+   "text": "avahi не работает с resolved",
+   "lang": "ru"
+  },
+  {
+   "text": "конфликт avahi и systemd-resolved",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "avahi-browse yields nothing",
+  "nss-mdns does not seem to forward requests"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Avahi installed",
+  "systemd-resolved installed"
+ ],
+ "steps": [
+  {
+   "explain": "Check if your DNS server returns NXDOMAIN for the 'local' domain. If it does not, systemd-resolved is likely interfering.",
+   "cmd": "host -t SOA local",
+   "risk": "low",
+   "expect": "If it returns something other than NXDOMAIN, proceed to the next step."
+  },
+  {
+   "explain": "Edit /etc/nsswitch.conf to use the full 'mdns' module instead of 'mdns_minimal'. Change the hosts line to include 'mdns [NOTFOUND=return]'.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Create /etc/mdns.allow and add '.local.' and '.local' to it to restrict Avahi to the local domain.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Revert /etc/nsswitch.conf to use mdns_minimal.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Delete /etc/mdns.allow.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Using the full mdns module can break reverse lookups in tools like mtr and traceroute.",
+  "Ensure you have a backup of /etc/nsswitch.conf before editing."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Avahi#systemd-resolved_prevents_nss-mdns_from_working",
+  "title": "Avahi",
+  "revision_id": 888153,
+  "license": "GFDL-1.3-or-later"
+ }
+}

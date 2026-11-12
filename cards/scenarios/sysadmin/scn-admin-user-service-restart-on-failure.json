@@ -1,0 +1,184 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-user-service-restart-on-failure",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Run a script as a user service that restarts itself after a failure",
+  "summary": "A systemd user service keeps a script running in the background and starts it again when it crashes. You write a short unit file, load it, start it, and read its log. It runs under your own account, with no root rights.",
+  "aliases": [
+    {
+      "text": "keep script running systemd user service",
+      "lang": "en"
+    },
+    {
+      "text": "restart script on failure linux",
+      "lang": "en"
+    },
+    {
+      "text": "systemd service restart on failure",
+      "lang": "en"
+    },
+    {
+      "text": "run script in background at login",
+      "lang": "en"
+    },
+    {
+      "text": "user service restart always linux",
+      "lang": "en"
+    },
+    {
+      "text": "my script crashes restart automatically",
+      "lang": "en"
+    },
+    {
+      "text": "systemd user unit example",
+      "lang": "en"
+    },
+    {
+      "text": "daemon script systemd user",
+      "lang": "en"
+    },
+    {
+      "text": "запуск скрипта как службы systemd",
+      "lang": "ru"
+    },
+    {
+      "text": "перезапуск скрипта при сбое linux",
+      "lang": "ru"
+    },
+    {
+      "text": "фоновый скрипт который не падает",
+      "lang": "ru"
+    },
+    {
+      "text": "служба systemd для своего скрипта",
+      "lang": "ru"
+    },
+    {
+      "text": "автоматически перезапускать программу linux",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "systemd"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Create the unit file. It says what to run. Restart=on-failure starts the script again after an error exit. StartLimit stops endless restarts after 5 failures within 5 minutes.",
+      "risk": "low",
+      "cmd": "mkdir -p ~/.config/systemd/user && cat > ~/.config/systemd/user/<SERVICE_NAME>.service <<'EOF'\n[Unit]\nDescription=My script service\nStartLimitIntervalSec=300\nStartLimitBurst=5\n\n[Service]\nExecStart=<SCRIPT_PATH>\nRestart=on-failure\nRestartSec=5\n\n[Install]\nWantedBy=default.target\nEOF",
+      "placeholders": [
+        {
+          "name": "SERVICE_NAME",
+          "description": "Name for the service, without .service",
+          "example": "my-watcher"
+        },
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Absolute path to the script; it must be executable",
+          "example": "/home/deck/bin/my-watcher.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the unit file for errors. A warning that the ExecStart file is missing means the script is not in place yet.",
+      "risk": "low",
+      "cmd": "systemd-analyze verify ~/.config/systemd/user/<SERVICE_NAME>.service",
+      "expect": "No output, or only the missing-file warning.",
+      "placeholders": [
+        {
+          "name": "SERVICE_NAME",
+          "description": "Name for the service, without .service",
+          "example": "my-watcher"
+        }
+      ]
+    },
+    {
+      "explain": "Load the unit file, then start the service now and at every login.",
+      "risk": "medium",
+      "cmd": "systemctl --user daemon-reload && systemctl --user enable --now <SERVICE_NAME>.service",
+      "expect": "A line 'Created symlink ...' about default.target.wants.",
+      "placeholders": [
+        {
+          "name": "SERVICE_NAME",
+          "description": "Name for the service, without .service",
+          "example": "my-watcher"
+        }
+      ]
+    },
+    {
+      "explain": "Check the state. A long-running script shows 'active (running)'. 'activating (auto-restart)' means it crashed and systemd is waiting to start it again.",
+      "risk": "low",
+      "cmd": "systemctl --user status <SERVICE_NAME>.service --no-pager",
+      "expect": "'Active: active (running)' for a script that stays up.",
+      "placeholders": [
+        {
+          "name": "SERVICE_NAME",
+          "description": "Name for the service, without .service",
+          "example": "my-watcher"
+        }
+      ]
+    },
+    {
+      "explain": "Read the service log. Restart attempts appear as 'Scheduled restart job' lines.",
+      "risk": "low",
+      "cmd": "journalctl --user -u <SERVICE_NAME>.service -n 50 --no-pager",
+      "expect": "Messages from the script, and 'Scheduled restart job' lines after a crash.",
+      "placeholders": [
+        {
+          "name": "SERVICE_NAME",
+          "description": "Name for the service, without .service",
+          "example": "my-watcher"
+        }
+      ]
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "Stop the service and stop it from starting at login.",
+      "risk": "medium",
+      "cmd": "systemctl --user disable --now <SERVICE_NAME>.service",
+      "placeholders": [
+        {
+          "name": "SERVICE_NAME",
+          "description": "Name for the service, without .service",
+          "example": "my-watcher"
+        }
+      ]
+    },
+    {
+      "explain": "Delete the unit file and reload the user manager.",
+      "risk": "medium",
+      "cmd": "rm ~/.config/systemd/user/<SERVICE_NAME>.service && systemctl --user daemon-reload",
+      "placeholders": [
+        {
+          "name": "SERVICE_NAME",
+          "description": "Name for the service, without .service",
+          "example": "my-watcher"
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    "The script runs at every login and is restarted after errors. A script that fails right away is stopped by the start limit; read the log to see why.",
+    "A script that exits with code 0 is not restarted. Make it exit with an error code when it fails.",
+    "This unit expects a script that stays in the foreground. A script that forks into the background needs a different Type= setting."
+  ],
+  "see_also": [
+    "scn-admin-nightly-user-timer-backup"
+  ],
+  "source": {
+    "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html",
+    "title": "systemd.service(5)",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

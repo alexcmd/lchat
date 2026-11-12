@@ -1,0 +1,154 @@
+{
+ "schema_version": 2,
+ "id": "error-read-only-file-system",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Read-only file system: find which mount is read-only and make it writable",
+ "summary": "The error means the disk, USB stick or partition that holds this folder is mounted read-only, so nothing can be written there even if your permissions allow it. These steps show which mount is read-only and, when it is safe, how to make it writable again.",
+ "aliases": [
+  {
+   "text": "read-only file system",
+   "lang": "en"
+  },
+  {
+   "text": "cannot touch read-only file system",
+   "lang": "en"
+  },
+  {
+   "text": "why can't I save a file in linux read only",
+   "lang": "en"
+  },
+  {
+   "text": "linux folder is read only cannot write",
+   "lang": "en"
+  },
+  {
+   "text": "which drive is read only linux",
+   "lang": "en"
+  },
+  {
+   "text": "make read only usb writable linux",
+   "lang": "en"
+  },
+  {
+   "text": "EROFS linux error",
+   "lang": "en"
+  },
+  {
+   "text": "файловая система только для чтения linux",
+   "lang": "ru"
+  },
+  {
+   "text": "read-only file system ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "linux не могу записать файл read only",
+   "lang": "ru"
+  },
+  {
+   "text": "линукс папка только для чтения как исправить",
+   "lang": "ru"
+  },
+  {
+   "text": "linux ne mogu zapisat fayl read only",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Read-only file system"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Find out which mount holds this folder and whether its options start with ro, which means read-only. Replace <FOLDER> with the folder that refuses writes.",
+   "cmd": "findmnt -n -o TARGET,OPTIONS -T <FOLDER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FOLDER",
+     "description": "The folder where saving or copying fails",
+     "example": "/home/me/Documents",
+     "discover_cmd": "pwd"
+    }
+   ],
+   "expect": "One line with the mount point and its options, for example '/ ro,relatime,...'. When the options start with ro, the whole mount is read-only."
+  },
+  {
+   "explain": "List all read-only mounts on the system. A USB stick, a CD or an ISO image, or a disk that the system switched to read-only after errors can show up here. A Docker container started with --read-only also shows ro on /.",
+   "cmd": "findmnt -n -o TARGET,FSTYPE,OPTIONS | grep -w ro",
+   "risk": "low",
+   "expect": "Lines with the mount point, file system type and options that include ro. If nothing is printed, no mount is read-only; the problem is then file permissions (Permission denied) instead.",
+   "alternatives": [
+    {
+     "explain": "Same check by reading the kernel's list of mounts directly.",
+     "cmd": "grep -w ro /proc/mounts",
+     "risk": "low",
+     "expect": "Lines in the same kind of format; a read-only mount has ro in its option list."
+    }
+   ]
+  },
+  {
+   "explain": "Read the kernel log for disk problems. If the system switched a disk to read-only because of errors, the log says so. Needs administrator rights.",
+   "cmd": "sudo dmesg --level=err,warn | tail -n 20",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Often nothing relevant. Lines with 'I/O error' or 'remounting filesystem read-only' mean the disk itself has a problem; read the warnings before step 4."
+  },
+  {
+   "explain": "Make a read-only disk writable again. This works for disks that were mounted read-only by mistake or switched to read-only by the system. It does not work for CDs, DVDs or ISO images, which are always read-only: copy the files to another place instead.",
+   "cmd": "sudo mount -o remount,rw <MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "MOUNT_POINT",
+     "description": "The mount point from step 1 or step 2, the first column of the output",
+     "example": "/media/me/USB",
+     "discover_cmd": "findmnt -n -o TARGET,FSTYPE -l"
+    }
+   ],
+   "expect": "No output and the prompt comes back. Then step 1 shows rw at the start of the options instead of ro."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "test -w <FOLDER> && echo writable || echo read-only",
+   "expect": "writable, when the folder is on a mount that accepts writes. If it still says read-only, the mount is still read-only."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Undo step 4 if you decide the mount should be read-only again.",
+   "cmd": "sudo mount -o remount,ro <MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "MOUNT_POINT",
+     "description": "The same mount point you used in step 4",
+     "example": "/media/me/USB",
+     "discover_cmd": "findmnt -n -o TARGET,FSTYPE -l"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Check step 3 before step 4. If the log shows I/O errors, the disk is probably failing: stop writing to it, copy what you can to another disk, and do not rely on it.",
+  "Remounting with rw does not repair the file system. If the system switched the disk to read-only after errors, check it with fsck while it is unmounted.",
+  "Do not change read-only system folders such as /usr or /boot to fix an app. A read-only system folder is usually intentional."
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://manpages.debian.org/findmnt",
+  "title": "findmnt manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

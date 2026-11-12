@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-pip-show-package-info",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show details for an installed Python package",
+ "summary": "View information such as version, location, and dependencies for a specific installed Python package.",
+ "aliases": [
+  {
+   "text": "pip show package info",
+   "lang": "en"
+  },
+  {
+   "text": "check python package version",
+   "lang": "en"
+  },
+  {
+   "text": "pip show",
+   "lang": "en"
+  },
+  {
+   "text": "информация о python пакете",
+   "lang": "ru"
+  },
+  {
+   "text": "версия python библиотеки",
+   "lang": "ru"
+  },
+  {
+   "text": "pip show версия",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display metadata for a specific installed package, including its version and installation path.",
+   "cmd": "pip show <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the installed Python package",
+     "example": "requests"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pip.md",
+  "title": "tldr-pages: pip",
+  "license": "CC-BY-4.0"
+ }
+}

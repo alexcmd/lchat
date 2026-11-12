@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-search-files-by-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Search for files by name using Spotlight command line",
+ "summary": "Use the mdfind command to quickly locate files on your Mac by their name. This is useful when you know part of a filename but not its exact location.",
+ "aliases": [
+  {
+   "text": "find file by name mac",
+   "lang": "en"
+  },
+  {
+   "text": "search files by name terminal",
+   "lang": "en"
+  },
+  {
+   "text": "mdfind name",
+   "lang": "en"
+  },
+  {
+   "text": "как найти файл по имени на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск файлов по имени терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "mdfind имя файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mdfind with the -name flag followed by the partial or full name of the file you are looking for.",
+   "cmd": "mdfind -name <FILE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_NAME",
+     "description": "The name or part of the name of the file you want to find.",
+     "example": "report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mdfind.md",
+  "title": "tldr-pages: mdfind",
+  "license": "CC-BY-4.0"
+ }
+}

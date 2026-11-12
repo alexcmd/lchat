@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-pipx-uninstall-python-app",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Uninstall a Python application installed with pipx",
+ "summary": "Remove a Python application that was previously installed using pipx. This deletes the isolated virtual environment associated with the app.",
+ "aliases": [
+  {
+   "text": "uninstall python tool with pipx",
+   "lang": "en"
+  },
+  {
+   "text": "remove pipx package",
+   "lang": "en"
+  },
+  {
+   "text": "pipx uninstall",
+   "lang": "en"
+  },
+  {
+   "text": "delete python app installed by pipx",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall black with pipx",
+   "lang": "en"
+  },
+  {
+   "text": "удалить python утилиту через pipx",
+   "lang": "ru"
+  },
+  {
+   "text": "pipx uninstall",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить пакет pipx",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить python приложение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "pipx is installed",
+  "The package is currently installed"
+ ],
+ "steps": [
+  {
+   "explain": "Uninstall the specified package and remove its virtual environment.",
+   "cmd": "pipx uninstall <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the Python package to uninstall",
+     "example": "black"
+    }
+   ],
+   "expect": "A confirmation message that the package has been uninstalled."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pipx.md",
+  "title": "tldr-pages: pipx",
+  "license": "CC-BY-4.0"
+ }
+}

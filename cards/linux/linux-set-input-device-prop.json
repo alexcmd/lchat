@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-input-device-prop",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change a setting of an input device",
+ "summary": "Modify a specific property of an input device, such as acceleration or button mapping. Requires the device ID, property ID, and new value.",
+ "aliases": [
+  {
+   "text": "change mouse speed",
+   "lang": "en"
+  },
+  {
+   "text": "set input property",
+   "lang": "en"
+  },
+  {
+   "text": "xinput set-prop",
+   "lang": "en"
+  },
+  {
+   "text": "изменить настройку мыши",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить ускорение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xinput"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set a property value for the device. Use 'xinput list-props' to find the property ID.",
+   "cmd": "xinput set-prop <DEVICE_ID> <SETTING_ID> <VALUE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the input device.",
+     "example": "12",
+     "discover_cmd": "xinput list"
+    },
+    {
+     "name": "SETTING_ID",
+     "description": "The numeric ID of the property to change.",
+     "example": "139",
+     "discover_cmd": "xinput list-props <DEVICE_ID>"
+    },
+    {
+     "name": "VALUE",
+     "description": "The new value for the property.",
+     "example": "1.5"
+    }
+   ],
+   "expect": "The property value is updated."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xinput.md",
+  "title": "tldr-pages: xinput",
+  "license": "CC-BY-4.0"
+ }
+}

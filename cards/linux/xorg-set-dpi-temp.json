@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "xorg-set-dpi-temp",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set Xorg DPI temporarily",
+ "summary": "Change the DPI scaling of the X server for the current session. This affects how large UI elements and fonts appear.",
+ "aliases": [
+  {
+   "text": "change dpi xorg",
+   "lang": "en"
+  },
+  {
+   "text": "scale display x11",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr dpi",
+   "lang": "en"
+  },
+  {
+   "text": "увеличить шрифты xorg",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить dpi",
+   "lang": "ru"
+  },
+  {
+   "text": "масштабирование экрана linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xorg-xrandr"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the DPI to a specific value (e.g., 144 for 150% scaling). Note that applications must be restarted to apply this change.",
+   "cmd": "xrandr --dpi 144",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Xorg#Setting_DPI_manually",
+  "title": "Xorg",
+  "revision_id": 884435,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-bluetooth-remove-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a paired Bluetooth device",
+ "summary": "Delete a Bluetooth device from your computer's list of known devices. You will need to pair it again if you want to use it later.",
+ "aliases": [
+  {
+   "text": "remove bluetooth device",
+   "lang": "en"
+  },
+  {
+   "text": "unpair bluetooth device",
+   "lang": "en"
+  },
+  {
+   "text": "forget bluetooth device",
+   "lang": "en"
+  },
+  {
+   "text": "bluetoothctl remove",
+   "lang": "en"
+  },
+  {
+   "text": "удалить bluetooth устройство",
+   "lang": "ru"
+  },
+  {
+   "text": "забыть bluetooth устройство",
+   "lang": "ru"
+  },
+  {
+   "text": "отвязать bluetooth",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bluez"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified Bluetooth device from the list of known devices.",
+   "cmd": "bluetoothctl remove <MAC_ADDRESS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MAC_ADDRESS",
+     "description": "The MAC address of the Bluetooth device to remove.",
+     "example": "11:22:33:44:55:66",
+     "discover_cmd": "bluetoothctl devices"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/bluetoothctl.md",
+  "title": "tldr-pages: bluetoothctl",
+  "license": "CC-BY-4.0"
+ }
+}

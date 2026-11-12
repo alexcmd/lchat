@@ -1,0 +1,136 @@
+{
+ "schema_version": 2,
+ "id": "posix-ssh-copy-id",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Install your public key on a remote server",
+ "summary": "Use ssh-copy-id to automatically add your local public SSH key to a remote server's authorized_keys file. This allows you to log in without a password in the future.",
+ "aliases": [
+  {
+   "text": "ssh copy id",
+   "lang": "en"
+  },
+  {
+   "text": "add ssh key to server",
+   "lang": "en"
+  },
+  {
+   "text": "setup ssh key login",
+   "lang": "en"
+  },
+  {
+   "text": "ssh-copy-id",
+   "lang": "en"
+  },
+  {
+   "text": "copy ssh key to remote",
+   "lang": "en"
+  },
+  {
+   "text": "настроить ssh ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "скопировать ssh ключ на сервер",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh copy id",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить публичный ключ ssh",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You have generated an SSH key pair locally (e.g., using ssh-keygen)",
+  "You know the username and hostname/IP of the remote server",
+  "You have password access to the remote server for this initial setup"
+ ],
+ "steps": [
+  {
+   "explain": "Copies your default public key to the remote server. You will be prompted for the remote user's password once.",
+   "cmd": "ssh-copy-id <USERNAME>@<REMOTE_HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username on the remote server",
+     "example": "john"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "The hostname or IP address of the remote server",
+     "example": "example.com"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Copies a specific public key file instead of the default one.",
+     "cmd": "ssh-copy-id -i <PUBLIC_KEY_FILE> <USERNAME>@<REMOTE_HOST>",
+     "placeholders": [
+      {
+       "name": "PUBLIC_KEY_FILE",
+       "description": "Path to the public key file (e.g., ~/.ssh/id_rsa.pub)",
+       "example": "~/.ssh/id_rsa.pub"
+      },
+      {
+       "name": "USERNAME",
+       "description": "The username on the remote server",
+       "example": "john"
+      },
+      {
+       "name": "REMOTE_HOST",
+       "description": "The hostname or IP address of the remote server",
+       "example": "example.com"
+      }
+     ]
+    },
+    {
+     "explain": "Copies a specific public key to a remote server using a non-standard SSH port.",
+     "cmd": "ssh-copy-id -i <PUBLIC_KEY_FILE> -p <PORT> <USERNAME>@<REMOTE_HOST>",
+     "placeholders": [
+      {
+       "name": "PUBLIC_KEY_FILE",
+       "description": "Path to the public key file",
+       "example": "~/.ssh/id_rsa.pub"
+      },
+      {
+       "name": "PORT",
+       "description": "The SSH port number on the remote server",
+       "example": "2222"
+      },
+      {
+       "name": "USERNAME",
+       "description": "The username on the remote server",
+       "example": "john"
+      },
+      {
+       "name": "REMOTE_HOST",
+       "description": "The hostname or IP address of the remote server",
+       "example": "example.com"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh-copy-id.md",
+  "title": "tldr-pages: ssh-copy-id",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-generate-ssh-key",
+  "posix-ssh-connect"
+ ]
+}

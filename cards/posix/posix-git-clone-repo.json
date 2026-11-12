@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "posix-git-clone-repo",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Clone a remote Git repository",
+ "summary": "Download a copy of a project from the internet to your computer so you can work on it locally.",
+ "aliases": [
+  {
+   "text": "clone git repo",
+   "lang": "en"
+  },
+  {
+   "text": "download project from github",
+   "lang": "en"
+  },
+  {
+   "text": "git clone",
+   "lang": "en"
+  },
+  {
+   "text": "скачать git репозиторий",
+   "lang": "ru"
+  },
+  {
+   "text": "клонировать git",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузить проект с гитхаба",
+   "lang": "ru"
+  },
+  {
+   "text": "download github project",
+   "lang": "en"
+  },
+  {
+   "text": "clone github repo with gh",
+   "lang": "en"
+  },
+  {
+   "text": "gh repo clone",
+   "lang": "en"
+  },
+  {
+   "text": "sklonirovat repozitoriy gh",
+   "lang": "ru"
+  },
+  {
+   "text": "gh clone",
+   "lang": "ru"
+  },
+  {
+   "text": "kak sklonirovat github",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Replace the URL with the address of the repository you want to download. This creates a new folder with the project files.",
+   "cmd": "git clone <REPO_URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REPO_URL",
+     "description": "The URL of the remote Git repository (e.g., https://github.com/user/repo.git)"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Clone the specified repository from GitHub to your current directory.",
+     "cmd": "gh repo clone <OWNER>/<REPOSITORY>",
+     "placeholders": [
+      {
+       "name": "OWNER",
+       "description": "The username or organization that owns the repository",
+       "example": "octocat"
+      },
+      {
+       "name": "REPOSITORY",
+       "description": "The name of the repository",
+       "example": "hello-world"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/git.md",
+  "title": "tldr-pages: git",
+  "license": "CC-BY-4.0"
+ }
+}

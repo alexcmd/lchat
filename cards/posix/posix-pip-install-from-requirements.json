@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-pip-install-from-requirements",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Install Python packages from a requirements file",
+ "summary": "Install all packages listed in a requirements.txt file at once.",
+ "aliases": [
+  {
+   "text": "install from requirements.txt",
+   "lang": "en"
+  },
+  {
+   "text": "pip install -r",
+   "lang": "en"
+  },
+  {
+   "text": "restore python packages",
+   "lang": "en"
+  },
+  {
+   "text": "pip install -r requirements.txt",
+   "lang": "ru"
+  },
+  {
+   "text": "установить пакеты из файла",
+   "lang": "ru"
+  },
+  {
+   "text": "восстановить python окружение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --requirement flag to install all packages listed in the specified file.",
+   "cmd": "pip install --requirement <FILE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the requirements file",
+     "example": "requirements.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no single command to undo this. You must manually uninstall the packages that were installed.",
+   "cmd": "pip uninstall <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of a package to uninstall",
+     "example": "requests"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing from a requirements file can change many packages at once. Ensure you trust the source of the file."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pip.md",
+  "title": "tldr-pages: pip",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-delete-files-interactive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delete files with confirmation",
+ "summary": "Removes files one by one, asking for confirmation before deleting each one. This helps prevent accidental deletion of wrong files.",
+ "aliases": [
+  {
+   "text": "delete file confirm",
+   "lang": "en"
+  },
+  {
+   "text": "rm interactive",
+   "lang": "en"
+  },
+  {
+   "text": "remove file ask before delete",
+   "lang": "en"
+  },
+  {
+   "text": "delete files safely",
+   "lang": "en"
+  },
+  {
+   "text": "удалить файл с подтверждением",
+   "lang": "ru"
+  },
+  {
+   "text": "rm интерактивно",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить файлы спрашивая перед удалением",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Prompts you to confirm the removal of each file. Type 'y' to delete or 'n' to skip.",
+   "cmd": "rm -i <FILE_PATHS>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "FILE_PATHS",
+     "description": "One or more paths to the files you want to delete.",
+     "example": "file1.txt file2.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Deleted files are not moved to the Trash/Recycle Bin and cannot be easily recovered.",
+  "Always read the prompt carefully to ensure you are deleting the intended file."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no built-in command to undo file deletion. You must restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rm.md",
+  "title": "tldr-pages: rm",
+  "license": "CC-BY-4.0"
+ }
+}

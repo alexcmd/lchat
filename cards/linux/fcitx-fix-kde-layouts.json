@@ -1,0 +1,91 @@
+{
+ "schema_version": 2,
+ "id": "fcitx-fix-kde-layouts",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix keyboard layouts in KDE with Fcitx",
+ "summary": "Resolve issues where KDE keyboard layouts do not switch correctly when Fcitx is running by disabling KDE's own layout configuration.",
+ "aliases": [
+  {
+   "text": "kde fcitx keyboard layout",
+   "lang": "en"
+  },
+  {
+   "text": "fcitx kde layout not switching",
+   "lang": "en"
+  },
+  {
+   "text": "kde input devices fcitx",
+   "lang": "en"
+  },
+  {
+   "text": "kde fcitx раскладка клавиатуры",
+   "lang": "ru"
+  },
+  {
+   "text": "не переключается раскладка kde fcitx",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "kde"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Stop Fcitx if it is running.",
+   "cmd": "fcitx-remote -c",
+   "risk": "low",
+   "expect": "Fcitx stops."
+  },
+  {
+   "explain": "Open KDE System Settings.",
+   "gui": "Open 'System Settings' from the application launcher.",
+   "risk": "low"
+  },
+  {
+   "explain": "Go to Input Devices > Layouts and uncheck 'Configure layouts'.",
+   "gui": "Navigate to 'Input Devices' > 'Layouts' tab. Uncheck the box 'Configure layouts'.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Go to Input Devices > Advanced and uncheck 'Configure keyboard options'.",
+   "gui": "Navigate to 'Input Devices' > 'Advanced' tab. Uncheck the box 'Configure keyboard options'.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Start Fcitx again.",
+   "cmd": "fcitx &",
+   "risk": "low",
+   "expect": "Fcitx starts in the background."
+  },
+  {
+   "explain": "Configure your layouts in Fcitx via the tray icon.",
+   "gui": "Right-click the Fcitx tray icon, select 'Configure', and add your desired layouts.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-enable 'Configure layouts' and 'Configure keyboard options' in KDE System Settings.",
+   "gui": "Go back to System Settings > Input Devices and re-check the boxes.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Disabling KDE layout configuration means you must manage all keyboard layouts through Fcitx."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Fcitx#fcitx_and_KDE",
+  "title": "Fcitx",
+  "revision_id": 869571,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,116 @@
+{
+ "schema_version": 2,
+ "id": "xrandr-set-resolution",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set screen resolution with xrandr",
+ "summary": "Use xrandr to change the resolution of a specific monitor output. This change is temporary and lasts only for the current session.",
+ "aliases": [
+  {
+   "text": "change resolution linux",
+   "lang": "en"
+  },
+  {
+   "text": "set screen size xrandr",
+   "lang": "en"
+  },
+  {
+   "text": "fix low resolution",
+   "lang": "en"
+  },
+  {
+   "text": "изменить разрешение экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr set mode",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить разрешение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xorg-xrandr"
+  ]
+ },
+ "prerequisites": [
+  "Know your output name (e.g., HDMI-1, VGA-1) and desired resolution."
+ ],
+ "steps": [
+  {
+   "explain": "List available outputs and resolutions to find the correct output name and mode.",
+   "cmd": "xrandr",
+   "risk": "low",
+   "expect": "A list of outputs (e.g., HDMI-1 connected) and supported resolutions."
+  },
+  {
+   "explain": "Set the resolution for the specific output. Replace <OUTPUT_NAME> and <RESOLUTION> with your values.",
+   "cmd": "xrandr --output <OUTPUT_NAME> --mode <RESOLUTION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_NAME",
+     "description": "The name of the monitor output, e.g., HDMI-1",
+     "example": "HDMI-1",
+     "discover_cmd": "xrandr"
+    },
+    {
+     "name": "RESOLUTION",
+     "description": "The desired resolution, e.g., 1920x1080",
+     "example": "1920x1080"
+    }
+   ]
+  },
+  {
+   "explain": "Optionally, set a specific refresh rate if multiple are available for the chosen resolution.",
+   "cmd": "xrandr --output <OUTPUT_NAME> --mode <RESOLUTION> --rate <RATE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_NAME",
+     "description": "The name of the monitor output",
+     "example": "HDMI-1"
+    },
+    {
+     "name": "RESOLUTION",
+     "description": "The desired resolution",
+     "example": "1920x1080"
+    },
+    {
+     "name": "RATE",
+     "description": "The refresh rate in Hz, e.g., 60",
+     "example": "60"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Turn on the output and set the preferred (maximum) resolution automatically.",
+     "cmd": "xrandr --output <OUTPUT_NAME> --auto",
+     "placeholders": [
+      {
+       "name": "OUTPUT_NAME",
+       "description": "The name of the monitor output",
+       "example": "HDMI-1"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Xrandr#Testing_configuration",
+  "title": "Xrandr",
+  "revision_id": 881138,
+  "license": "GFDL-1.3-or-later"
+ }
+}

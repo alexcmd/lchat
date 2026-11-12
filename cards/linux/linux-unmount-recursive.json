@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "linux-unmount-recursive",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Recursively unmount directories",
+ "summary": "Unmount a directory and all subdirectories mounted within it. Useful when you have nested mounts and want to clean them up in one go.",
+ "aliases": [
+  {
+   "text": "recursive unmount",
+   "lang": "en"
+  },
+  {
+   "text": "unmount subdirectories",
+   "lang": "en"
+  },
+  {
+   "text": "umount -R",
+   "lang": "en"
+  },
+  {
+   "text": "unmount all nested",
+   "lang": "en"
+  },
+  {
+   "text": "рекурсивно отмонтировать",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить вложенные папки",
+   "lang": "ru"
+  },
+  {
+   "text": "umount рекурсивно",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unmount the specified directory and any filesystems mounted inside it recursively.",
+   "cmd": "sudo umount --recursive <MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "MOUNT_POINT",
+     "description": "The path to the top-level directory containing nested mounts.",
+     "example": "/mnt/data"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure no applications are using files in any of the nested mounts, or the operation may fail or cause data loss."
+ ],
+ "rollback": [
+  {
+   "explain": "Remount the filesystems individually using the mount command.",
+   "risk": "medium"
+  }
+ ],
+ "see_also": [
+  "fs-unmount",
+  "linux-list-mounted-filesystems"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/umount.md",
+  "title": "tldr-pages: umount",
+  "license": "CC-BY-4.0"
+ }
+}

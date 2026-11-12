@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-clean-all",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clean all DNF cache and metadata",
+ "summary": "Removes all cached package files and repository metadata from DNF. This frees up disk space and forces DNF to download fresh information the next time you update or install software.",
+ "aliases": [
+  {
+   "text": "clean dnf cache",
+   "lang": "en"
+  },
+  {
+   "text": "dnf clean all",
+   "lang": "en"
+  },
+  {
+   "text": "clear dnf cache",
+   "lang": "en"
+  },
+  {
+   "text": "free space dnf",
+   "lang": "en"
+  },
+  {
+   "text": "dnf cache cleanup",
+   "lang": "en"
+  },
+  {
+   "text": "почистить кэш dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить кэш пакетов fedora",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "clean package cache fedora",
+   "lang": "en"
+  },
+  {
+   "text": "dnf clean",
+   "lang": "en"
+  },
+  {
+   "text": "очистить кэш dnf",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to remove all cached packages and repository metadata.",
+   "cmd": "sudo dnf clean all",
+   "risk": "low",
+   "needs_root": true
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf-clean.md",
+  "title": "tldr-pages: dnf-clean",
+  "license": "CC-BY-4.0"
+ }
+}

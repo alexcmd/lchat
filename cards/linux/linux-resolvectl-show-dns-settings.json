@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "linux-resolvectl-show-dns-settings",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show current DNS settings",
+ "summary": "Display the current DNS configuration and status of the systemd-resolved service.",
+ "aliases": [
+  {
+   "text": "show dns settings",
+   "lang": "en"
+  },
+  {
+   "text": "check dns config",
+   "lang": "en"
+  },
+  {
+   "text": "resolvectl status",
+   "lang": "en"
+  },
+  {
+   "text": "какие dns сервера",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть настройки dns",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить dns linux",
+   "lang": "ru"
+  },
+  {
+   "text": "what dns am i using",
+   "lang": "en"
+  },
+  {
+   "text": "проверить dns серверы systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "какой dns используется",
+   "lang": "ru"
+  },
+  {
+   "text": "check dns servers systemd",
+   "lang": "en"
+  },
+  {
+   "text": "resolvectl domain",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-resolved"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run resolvectl without arguments to display the current DNS settings and global status.",
+   "cmd": "resolvectl",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Display the current DNS configuration, including servers and search domains for each interface.",
+     "cmd": "resolvectl status",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/resolvectl.md",
+  "title": "tldr-pages: resolvectl",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-force-shutdown-system",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Force shut down the Linux system",
+ "summary": "Power off the computer immediately without waiting for services to stop gracefully. Use this if the system is frozen or unresponsive.",
+ "aliases": [
+  {
+   "text": "force shutdown linux",
+   "lang": "en"
+  },
+  {
+   "text": "force poweroff",
+   "lang": "en"
+  },
+  {
+   "text": "system frozen shutdown",
+   "lang": "en"
+  },
+  {
+   "text": "hard shutdown linux",
+   "lang": "en"
+  },
+  {
+   "text": "принудительно выключить",
+   "lang": "ru"
+  },
+  {
+   "text": "завис линукс выключить",
+   "lang": "ru"
+  },
+  {
+   "text": "force poweroff linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command forces the system to power off immediately. It does not wait for services to stop gracefully, which can lead to data loss if files are being written.",
+   "cmd": "systemctl poweroff --force",
+   "risk": "high",
+   "expect": "The system will power off immediately."
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "There is no rollback for a forced shutdown once the power is cut. You must restart the computer manually.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "This can cause data loss or filesystem corruption if files are currently being written.",
+  "Only use this if the system is unresponsive and a normal shutdown is not working."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-poweroff.md",
+  "title": "tldr-pages: systemctl-poweroff",
+  "license": "CC-BY-4.0"
+ }
+}

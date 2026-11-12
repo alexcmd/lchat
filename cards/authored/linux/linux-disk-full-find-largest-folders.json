@@ -1,0 +1,166 @@
+{
+ "schema_version": 2,
+ "id": "linux-disk-full-find-largest-folders",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find the biggest folders filling the disk",
+ "summary": "List the folders that take the most space, one level deep, so you can see what fills the disk. The commands only read information and delete nothing. Folders that only root can read may need sudo.",
+ "aliases": [
+  {
+   "text": "what folder takes the most space linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux find large folders",
+   "lang": "en"
+  },
+  {
+   "text": "linux biggest folders disk full",
+   "lang": "en"
+  },
+  {
+   "text": "du command biggest folders",
+   "lang": "en"
+  },
+  {
+   "text": "what is eating my disk space linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux which folder uses most space",
+   "lang": "en"
+  },
+  {
+   "text": "linux du sort largest directories",
+   "lang": "en"
+  },
+  {
+   "text": "что занимает место на диске linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какая папка занимает больше всего места linux",
+   "lang": "ru"
+  },
+  {
+   "text": "linux найти самые большие папки",
+   "lang": "ru"
+  },
+  {
+   "text": "диск заполнен linux какие папки занимают место",
+   "lang": "ru"
+  },
+  {
+   "text": "linux du sort папки по размеру",
+   "lang": "ru"
+  },
+  {
+   "text": "что съело место на диске linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window",
+  "Your password, only if the command asks for sudo"
+ ],
+ "steps": [
+  {
+   "explain": "Show the size of each folder directly inside the chosen folder, sorted from smallest to largest, and keep the 15 biggest. -x stays on one disk. 2>/dev/null hides 'Permission denied' messages. Read-only, but a big disk can take minutes.",
+   "cmd": "du -xh --max-depth=1 <FOLDER> 2>/dev/null | sort -h | tail -n 15",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FOLDER",
+     "description": "Folder to scan: / for the whole system, or ~ for your home folder",
+     "example": "/",
+     "discover_cmd": "df -h"
+    }
+   ],
+   "expect": "Lines like '4.2G<TAB>/var'. The biggest folders are at the bottom. The last line is FOLDER itself with its total size. Without sudo, folders you cannot read are skipped silently.",
+   "alternatives": [
+    {
+     "explain": "Use sudo to also read folders that only root can open, such as /root or /var/lib. You are asked for your password. Read-only.",
+     "cmd": "sudo du -xh --max-depth=1 <FOLDER> 2>/dev/null | sort -h | tail -n 15",
+     "needs_root": true,
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FOLDER",
+       "description": "Folder to scan: / for the whole system, or ~ for your home folder",
+       "example": "/",
+       "discover_cmd": "df -h"
+      }
+     ],
+     "expect": "The same kind of list. Sizes for root-only folders now appear, so the total for / can be bigger than without sudo."
+    }
+   ]
+  },
+  {
+   "explain": "Look inside the biggest folder from the previous step the same way. Repeat with the biggest subfolder until you find the one that holds most of the data. Read-only.",
+   "cmd": "du -xh --max-depth=1 <BIG_FOLDER> 2>/dev/null | sort -h | tail -n 15",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "BIG_FOLDER",
+     "description": "A folder from the bottom of the previous list, for example /var or ~/Downloads",
+     "example": "/var",
+     "discover_cmd": "ls -d /*/"
+    }
+   ],
+   "expect": "The same kind of list, now for the subfolders of BIG_FOLDER. The last line is BIG_FOLDER with its total size.",
+   "alternatives": [
+    {
+     "explain": "Use sudo to read a folder that only root can open, such as /var or /root. You are asked for your password. Read-only.",
+     "cmd": "sudo du -xh --max-depth=1 <BIG_FOLDER> 2>/dev/null | sort -h | tail -n 15",
+     "needs_root": true,
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "BIG_FOLDER",
+       "description": "A folder from the bottom of the previous list, for example /var or ~/Downloads",
+       "example": "/var",
+       "discover_cmd": "ls -d /*/"
+      }
+     ],
+     "expect": "The same kind of list, including subfolders that only root can read."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "du -xh --max-depth=0 ~",
+   "expect": "One line: a size such as 2.3G, a tab, then your home folder path. This confirms the size check works."
+  }
+ ],
+ "risk": "low",
+ "warnings": [],
+ "see_also": [
+  "linux-disk-full-check-space-and-inodes"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/du",
+  "title": "du manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

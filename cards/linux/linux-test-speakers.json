@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "linux-test-speakers",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Test speakers with audio tones",
+ "summary": "Use the speaker-test command to play pink noise, sine waves, or WAV files through your speakers. This helps verify that audio output is working correctly and identify which channels are active.",
+ "aliases": [
+  {
+   "text": "test speakers linux",
+   "lang": "en"
+  },
+  {
+   "text": "check audio output",
+   "lang": "en"
+  },
+  {
+   "text": "play test tone",
+   "lang": "en"
+  },
+  {
+   "text": "speaker test alsa",
+   "lang": "en"
+  },
+  {
+   "text": "проверить динамики",
+   "lang": "ru"
+  },
+  {
+   "text": "тест звука линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "проиграть тестовый сигнал",
+   "lang": "ru"
+  },
+  {
+   "text": "спикер тест",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "alsa-utils"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run speaker-test to play pink noise through the default audio device. Press Ctrl+C to stop the test.",
+   "cmd": "speaker-test",
+   "risk": "low",
+   "expect": "You should hear pink noise coming from the speakers. The terminal will display channel information."
+  },
+  {
+   "explain": "To test with a sine wave at a specific frequency (e.g., 440 Hz), use the sine test mode. Replace <FREQUENCY> with the desired Hz value.",
+   "cmd": "speaker-test -t sine -f <FREQUENCY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FREQUENCY",
+     "description": "Frequency of the sine wave in Hz",
+     "example": "440"
+    }
+   ],
+   "expect": "You should hear a pure tone at the specified frequency."
+  },
+  {
+   "explain": "To test multichannel setups (e.g., 5.1 surround), specify the number of channels. Replace <CHANNELS> with a number from 1 to 8.",
+   "cmd": "speaker-test -t wav -c <CHANNELS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CHANNELS",
+     "description": "Number of audio channels to test (1-8)",
+     "example": "6"
+    }
+   ],
+   "expect": "You should hear test sounds cycling through the specified number of channels."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/speaker-test.md",
+  "title": "tldr-pages: speaker-test",
+  "license": "CC-BY-4.0"
+ }
+}

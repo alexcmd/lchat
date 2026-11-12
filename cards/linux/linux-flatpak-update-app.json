@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-flatpak-update-app",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update a specific Flatpak app",
+ "summary": "Update only one specific Flatpak application instead of all of them. Useful if you want to control which app gets updated.",
+ "aliases": [
+  {
+   "text": "update one flatpak app",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak update specific app",
+   "lang": "en"
+  },
+  {
+   "text": "update flatpak app id",
+   "lang": "en"
+  },
+  {
+   "text": "обновить одно приложение flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak update app",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Update a specific application by providing its application ID.",
+   "cmd": "flatpak update <APP_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_ID",
+     "description": "The ID of the Flatpak application to update, e.g., org.mozilla.firefox",
+     "example": "org.mozilla.firefox",
+     "discover_cmd": "flatpak list --app"
+    }
+   ],
+   "expect": "The specified application is updated to the latest version."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flatpak-update.md",
+  "title": "tldr-pages: flatpak-update",
+  "license": "CC-BY-4.0"
+ }
+}

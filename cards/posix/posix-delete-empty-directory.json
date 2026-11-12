@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "posix-delete-empty-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delete empty directory",
+ "summary": "Removes a directory only if it is empty. This is a safer method than recursive deletion because it fails if the directory contains any files.",
+ "aliases": [
+  {
+   "text": "delete empty folder",
+   "lang": "en"
+  },
+  {
+   "text": "remove empty directory",
+   "lang": "en"
+  },
+  {
+   "text": "rm -d",
+   "lang": "en"
+  },
+  {
+   "text": "delete empty dir",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пустую папку",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить пустой каталог",
+   "lang": "ru"
+  },
+  {
+   "text": "rm -d",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить пустую директорию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Removes the specified directory. The command will fail if the directory is not empty.",
+   "cmd": "rm -d <DIRECTORY_PATH>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DIRECTORY_PATH",
+     "description": "Path to the empty directory you want to delete.",
+     "example": "empty_folder"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "The command will fail if the directory contains any files or subdirectories.",
+  "Deleted directories cannot be easily recovered."
+ ],
+ "rollback": [
+  {
+   "explain": "You can recreate the directory using 'mkdir <DIRECTORY_PATH>' if you know the name.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rm.md",
+  "title": "tldr-pages: rm",
+  "license": "CC-BY-4.0"
+ }
+}

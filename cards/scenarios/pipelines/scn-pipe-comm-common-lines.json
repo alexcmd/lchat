@@ -1,0 +1,121 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-comm-common-lines",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find the lines that two lists share, or that only one of them has",
+ "summary": "Compare two lists line by line and print the lines present in both, or the lines present only in the first list. Good for finding users who are in two lists or items that are missing from one.",
+ "aliases": [
+  {
+   "text": "lines common to two files",
+   "lang": "en"
+  },
+  {
+   "text": "comm command linux",
+   "lang": "en"
+  },
+  {
+   "text": "find items in both lists",
+   "lang": "en"
+  },
+  {
+   "text": "what lines are only in file1",
+   "lang": "en"
+  },
+  {
+   "text": "intersection of two files shell",
+   "lang": "en"
+  },
+  {
+   "text": "missing items between two lists",
+   "lang": "en"
+  },
+  {
+   "text": "найти общие строки в двух файлах",
+   "lang": "ru"
+  },
+  {
+   "text": "что есть только в одном из списков linux",
+   "lang": "ru"
+  },
+  {
+   "text": "пересечение двух списков в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "сравнить два списка и найти отсутствующие",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "comm compares two sorted lists in three columns: only in the first, only in the second, and in both. -1 and -2 hide the first two columns, so only lines in both remain. comm needs sorted input, so sort runs first.",
+   "cmd": "comm -12 <(sort <FILE_A>) <(sort <FILE_B>)",
+   "risk": "low",
+   "expect": "Only the lines that appear in both files, one per line.",
+   "placeholders": [
+    {
+     "name": "FILE_A",
+     "description": "First list",
+     "example": "users-a.txt"
+    },
+    {
+     "name": "FILE_B",
+     "description": "Second list",
+     "example": "users-b.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "join matches lines by their first word instead. Use it when each line starts with an ID followed by more columns. Both files must be sorted on that first word.",
+     "cmd": "join <(sort <FILE_A>) <(sort <FILE_B>)",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE_A",
+       "description": "First list",
+       "example": "users-a.txt"
+      },
+      {
+       "name": "FILE_B",
+       "description": "Second list",
+       "example": "users-b.txt"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Show the lines that are only in the first list. -2 and -3 hide the columns for the second list and for the lines in both.",
+   "cmd": "comm -23 <(sort <FILE_A>) <(sort <FILE_B>)",
+   "risk": "low",
+   "expect": "Lines that exist in FILE_A but are missing from FILE_B.",
+   "placeholders": [
+    {
+     "name": "FILE_A",
+     "description": "First list",
+     "example": "users-a.txt"
+    },
+    {
+     "name": "FILE_B",
+     "description": "Second list",
+     "example": "users-b.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/comm.1.html",
+  "title": "comm(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

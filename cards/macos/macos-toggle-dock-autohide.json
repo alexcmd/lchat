@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "macos-toggle-dock-autohide",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Enable or disable Dock auto-hide",
+ "summary": "Use the `m` command-line tool to quickly toggle the setting that hides the Dock when not in use. This is useful for freeing up screen space or keeping the Dock always visible.",
+ "aliases": [
+  {
+   "text": "hide dock automatically",
+   "lang": "en"
+  },
+  {
+   "text": "dock auto hide mac",
+   "lang": "en"
+  },
+  {
+   "text": "make dock disappear",
+   "lang": "en"
+  },
+  {
+   "text": "show dock always",
+   "lang": "en"
+  },
+  {
+   "text": "m dock autohide",
+   "lang": "en"
+  },
+  {
+   "text": "как скрыть док автоматически",
+   "lang": "ru"
+  },
+  {
+   "text": "автоскрытие дока мак",
+   "lang": "ru"
+  },
+  {
+   "text": "док не исчезает",
+   "lang": "ru"
+  },
+  {
+   "text": "включить автоскрытие дока",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to enable automatic hiding of the Dock. Replace YES with NO to disable it.",
+   "cmd": "m dock autohide <YES>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "YES",
+     "description": "Use YES to enable auto-hide, or NO to disable it.",
+     "example": "YES"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/m.md",
+  "title": "tldr-pages: m",
+  "license": "CC-BY-4.0"
+ }
+}

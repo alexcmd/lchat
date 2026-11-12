@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "macos-delete-static-route",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Delete a specific static route",
+ "summary": "Remove a previously added static route from the routing table.",
+ "aliases": [
+  {
+   "text": "delete route mac",
+   "lang": "en"
+  },
+  {
+   "text": "remove route macos",
+   "lang": "en"
+  },
+  {
+   "text": "route delete",
+   "lang": "en"
+  },
+  {
+   "text": "удалить маршрут",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать маршрут мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete a specific route from the routing table. This requires administrator privileges.",
+   "cmd": "sudo route delete \"<DESTINATION_IP>\"",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The destination IP or subnet to remove.",
+     "example": "192.168.1.50"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-add the route if you deleted it by mistake.",
+   "cmd": "sudo route add \"<DESTINATION_IP>\" \"<GATEWAY_ADDRESS>\"",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The destination IP or subnet.",
+     "example": "192.168.1.50"
+    },
+    {
+     "name": "GATEWAY_ADDRESS",
+     "description": "The gateway IP address.",
+     "example": "192.168.1.1"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Deleting a necessary route can break connectivity to that destination."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/route.md",
+  "title": "tldr-pages: route",
+  "license": "CC-BY-4.0"
+ }
+}

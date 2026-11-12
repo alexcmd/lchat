@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-clean-empty-directories-in-current-dir",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Clean all empty directories in current folder",
+ "summary": "Remove all empty subdirectories in the current working directory. Non-empty directories are ignored.",
+ "aliases": [
+  {
+   "text": "clean empty folders",
+   "lang": "en"
+  },
+  {
+   "text": "delete all empty directories",
+   "lang": "en"
+  },
+  {
+   "text": "rmdir *",
+   "lang": "en"
+  },
+  {
+   "text": "remove empty subfolders",
+   "lang": "en"
+  },
+  {
+   "text": "очистить пустые папки",
+   "lang": "ru"
+  },
+  {
+   "text": "rmdir *",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить все пустые директории",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove all empty directories in the current folder. The shell expands '*' to all items; rmdir ignores files and non-empty directories.",
+   "cmd": "rmdir *",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rmdir.md",
+  "title": "tldr-pages: rmdir",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-delete-empty-directory"
+ ]
+}

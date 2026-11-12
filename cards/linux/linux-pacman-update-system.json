@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-update-system",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update all installed packages on Arch Linux",
+ "summary": "Synchronize the package database and upgrade all installed packages to their latest versions. This is the standard way to keep an Arch Linux system up to date.",
+ "aliases": [
+  {
+   "text": "update arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "pacman update",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade all packages",
+   "lang": "en"
+  },
+  {
+   "text": "обновить арх линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить пакеты pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить систему в арх",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Synchronize the package database and upgrade all outdated packages. You will be prompted to confirm the installation.",
+   "cmd": "sudo pacman -Syu",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no simple command to downgrade all packages at once. If an update breaks your system, you may need to manually downgrade specific packages using `pacman -U` with older package files from the cache or mirror.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Always read the Arch Linux news before updating, especially if you haven't updated in a long time.",
+  "Do not interrupt the update process once it has started."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman.md",
+  "title": "tldr-pages: pacman",
+  "license": "CC-BY-4.0"
+ }
+}

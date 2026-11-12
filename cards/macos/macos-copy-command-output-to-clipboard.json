@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-copy-command-output-to-clipboard",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Copy the output of a command to the clipboard",
+ "summary": "Pipe the result of any command into pbcopy to copy its output to your clipboard for easy pasting.",
+ "aliases": [
+  {
+   "text": "copy command output to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "pbcopy command result",
+   "lang": "en"
+  },
+  {
+   "text": "pipe output to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "скопировать вывод команды в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "pbcopy вывод команды",
+   "lang": "ru"
+  },
+  {
+   "text": "скопировать результат терминала",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run a command and pipe its standard output to pbcopy, which copies the result to the clipboard.",
+   "cmd": "<COMMAND> | pbcopy",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command whose output you want to copy.",
+     "example": "find . -type f -name \"*.png\""
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pbcopy.md",
+  "title": "tldr-pages: pbcopy",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-sort-lines-by-frequency",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sort lines by frequency of occurrence",
+ "summary": "This command counts how many times each line appears and sorts the results so the most frequent lines appear first.",
+ "aliases": [
+  {
+   "text": "sort by frequency",
+   "lang": "en"
+  },
+  {
+   "text": "most frequent lines",
+   "lang": "en"
+  },
+  {
+   "text": "sort uniq count",
+   "lang": "en"
+  },
+  {
+   "text": "top lines by count",
+   "lang": "en"
+  },
+  {
+   "text": "отсортировать по частоте",
+   "lang": "ru"
+  },
+  {
+   "text": "самые частые строки",
+   "lang": "ru"
+  },
+  {
+   "text": "топ строк по количеству",
+   "lang": "ru"
+  },
+  {
+   "text": "сортировка uniq -c",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Sort the file, count occurrences with `uniq --count`, then pipe to `sort` with numeric and reverse flags to order by highest count first.",
+   "cmd": "sort <FILE> | uniq --count | sort --numeric-sort --reverse",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file",
+     "example": "data.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uniq.md",
+  "title": "tldr-pages: uniq",
+  "license": "CC-BY-4.0"
+ }
+}

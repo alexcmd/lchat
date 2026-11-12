@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "macos-run-container-background",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run a container in the background",
+ "summary": "Starts a container in detached mode with a specific name and port mapping. Useful for running web servers or services.",
+ "aliases": [
+  {
+   "text": "run container background",
+   "lang": "en"
+  },
+  {
+   "text": "container run detach",
+   "lang": "en"
+  },
+  {
+   "text": "run container with port",
+   "lang": "en"
+  },
+  {
+   "text": "запустить контейнер в фоне",
+   "lang": "ru"
+  },
+  {
+   "text": "container run -d",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Starts a container in the background (--detach), assigns it a name, and maps a port from the container to your Mac.",
+   "cmd": "container run --detach --name <CONTAINER_NAME> --publish <PORT_MAPPING> <IMAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CONTAINER_NAME",
+     "description": "A name you choose for the container to identify it later."
+    },
+    {
+     "name": "PORT_MAPPING",
+     "description": "Port mapping in format HOST_PORT:CONTAINER_PORT (e.g., 8080:80)."
+    },
+    {
+     "name": "IMAGE",
+     "description": "The name of the container image to run."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/container.md",
+  "title": "tldr-pages: container",
+  "license": "CC-BY-4.0"
+ }
+}

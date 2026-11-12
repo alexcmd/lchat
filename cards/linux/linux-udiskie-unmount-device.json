@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-udiskie-unmount-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unmount a device using udiskie",
+ "summary": "Use udiskie-umount to safely unmount a mounted device, such as a USB drive or partition, before removing it.",
+ "aliases": [
+  {
+   "text": "unmount usb drive udiskie",
+   "lang": "en"
+  },
+  {
+   "text": "safely remove usb linux",
+   "lang": "en"
+  },
+  {
+   "text": "udiskie umount command",
+   "lang": "en"
+  },
+  {
+   "text": "отмонтировать флешку udiskie",
+   "lang": "ru"
+  },
+  {
+   "text": "безопасное извлечение usb linux",
+   "lang": "ru"
+  },
+  {
+   "text": "команда udiskie-umount",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "udiskie"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unmount the device at the specified mount point.",
+   "cmd": "udiskie-umount <MOUNT_POINT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MOUNT_POINT",
+     "description": "The path where the device is mounted, e.g. /run/media/user/USB",
+     "example": "/run/media/user/USB",
+     "discover_cmd": "lsblk"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/udiskie-umount.md",
+  "title": "tldr-pages: udiskie-umount",
+  "license": "CC-BY-4.0"
+ }
+}

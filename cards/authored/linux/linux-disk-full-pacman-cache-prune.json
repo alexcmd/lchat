@@ -1,0 +1,162 @@
+{
+ "schema_version": 2,
+ "id": "linux-disk-full-pacman-cache-prune",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Free disk space by removing old pacman package files on Arch",
+ "summary": "Arch Linux keeps every package file it downloads in a cache folder, and old versions pile up there. This shows how big the cache is, previews what can be deleted, and then deletes old versions with paccache while keeping the two newest of each package. Installed programs are not removed.",
+ "aliases": [
+  {
+   "text": "arch linux disk full pacman cache",
+   "lang": "en"
+  },
+  {
+   "text": "free space arch linux package cache",
+   "lang": "en"
+  },
+  {
+   "text": "pacman cache too big",
+   "lang": "en"
+  },
+  {
+   "text": "paccache clean old package files",
+   "lang": "en"
+  },
+  {
+   "text": "arch linux out of disk space pacman",
+   "lang": "en"
+  },
+  {
+   "text": "clean pacman cache keep last 2 versions",
+   "lang": "en"
+  },
+  {
+   "text": "delete old pacman package files arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman cache takes all disk space",
+   "lang": "en"
+  },
+  {
+   "text": "арч линукс мало места кэш пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "кэш pacman занимает много места",
+   "lang": "ru"
+  },
+  {
+   "text": "почистить кэш pacman освободить место",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить старые файлы пакетов arch",
+   "lang": "ru"
+  },
+  {
+   "text": "paccache очистка кэша",
+   "lang": "ru"
+  },
+  {
+   "text": "арч диск заполнен кэш pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "как освободить место arch linux pacman",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "pacman"
+  ]
+ },
+ "prerequisites": [
+  "Arch Linux with the pacman package manager",
+  "Internet connection (only if the install step has to download pacman-contrib)",
+  "Administrator password (for sudo)"
+ ],
+ "steps": [
+  {
+   "explain": "Check how much space the package cache uses. This only reads the folder and changes nothing. The first value is the size, for example 3.2G means about 3.2 gigabytes.",
+   "cmd": "du -sh /var/cache/pacman/pkg",
+   "risk": "low",
+   "expect": "One line such as 3.2G /var/cache/pacman/pkg (your number will differ)."
+  },
+  {
+   "explain": "Make sure the paccache tool is installed. It comes from the pacman-contrib package. --needed skips the install when the package is already there.",
+   "cmd": "sudo pacman -S --needed pacman-contrib",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Either an install summary you confirm with Y, or the line: warning: pacman-contrib-... is up to date -- skipping"
+  },
+  {
+   "explain": "Dry run: list the old package files that would be deleted. -d deletes nothing. -k2 keeps the 2 newest versions of each package. -v prints the list.",
+   "cmd": "paccache -dvk2",
+   "risk": "low",
+   "expect": "A line '==> Candidate packages:' with old pacman-contrib-... files, then '==> finished dry run'. Or: no candidate packages found for pruning."
+  },
+  {
+   "explain": "Delete the old package files shown in the dry run. The 2 newest versions of each package stay, so you can still go back to an older version if an update breaks something. Installed programs stay as they are.",
+   "cmd": "sudo paccache -rvk2",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Lines that start with 'removed', then '==> finished: N packages removed (disk space saved: ...)'.",
+   "alternatives": [
+    {
+     "explain": "Keep the 3 newest versions instead of 2. This is the paccache default. It is a little safer and frees less space.",
+     "cmd": "sudo paccache -rvk3",
+     "needs_root": true,
+     "risk": "medium",
+     "expect": "Lines that start with 'removed', then '==> finished: N packages removed'."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "du -sh /var/cache/pacman/pkg",
+   "expect": "A smaller number than in the first step, for example 412M /var/cache/pacman/pkg."
+  },
+  {
+   "cmd": "paccache -dvk2",
+   "expect": "==> no candidate packages found for pruning, which means there is nothing left to clean."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Deleted cache files cannot be restored from this computer. pacman downloads the current versions again when you install or update. Very old versions can be fetched from the Arch Linux Archive.",
+   "risk": "low"
+  },
+  {
+   "explain": "Only if you want to remove the paccache tool again. Answer Y at the prompt. pacman stops with an error if another program needs pacman-contrib.",
+   "cmd": "sudo pacman -R pacman-contrib",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Lists pacman-contrib under Package (1) and asks: Do you want to remove these packages? [Y/n]"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "The dry run (-d) deletes nothing. Read its list before you run the removal step.",
+  "Deleted package files are gone from the cache. Installing or downgrading to one of those exact versions later needs the internet and the Arch Linux Archive.",
+  "Arch does not support installing packages on an out-of-date system. If the install step fails, run a full system update first, then try again."
+ ],
+ "see_also": [
+  "linux-paccache-dry-run",
+  "linux-paccache-clean-cache",
+  "linux-disk-full-check-space-and-inodes"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/paccache",
+  "title": "paccache manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

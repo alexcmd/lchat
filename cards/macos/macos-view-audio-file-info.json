@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-audio-file-info",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View detailed information about an audio file",
+ "summary": "Use the built-in `afinfo` command to see technical details about an audio file, such as its format, duration, and sample rate. This is useful for checking file properties without opening a media player.",
+ "aliases": [
+  {
+   "text": "check audio file info",
+   "lang": "en"
+  },
+  {
+   "text": "audio file metadata mac",
+   "lang": "en"
+  },
+  {
+   "text": "afinfo command",
+   "lang": "en"
+  },
+  {
+   "text": "how to see audio file details",
+   "lang": "en"
+  },
+  {
+   "text": "kak posmotret info o audio fayle",
+   "lang": "ru"
+  },
+  {
+   "text": "informaciya o audio fayle mac",
+   "lang": "ru"
+  },
+  {
+   "text": "afinfo",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit format audio",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `afinfo` followed by the path to your audio file to display its full technical metadata.",
+   "cmd": "afinfo <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the audio file you want to inspect.",
+     "example": "~/Music/song.mp3"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the `--brief` flag to get a concise, one-line summary of the file's format and duration.",
+     "cmd": "afinfo --brief <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The path to the audio file you want to inspect.",
+       "example": "~/Music/song.mp3"
+      }
+     ]
+    },
+    {
+     "explain": "Use the `--info` flag to see the file's metadata tags (like artist, title) and InfoDictionary contents.",
+     "cmd": "afinfo --info <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The path to the audio file you want to inspect.",
+       "example": "~/Music/song.mp3"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/afinfo.md",
+  "title": "tldr-pages: afinfo",
+  "license": "CC-BY-4.0"
+ }
+}

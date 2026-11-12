@@ -1,0 +1,114 @@
+{
+ "schema_version": 2,
+ "id": "posix-ssh-connect",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Connect to a remote server via SSH",
+ "summary": "Use the ssh command to securely log into a remote computer. You will need the username and the address (hostname or IP) of the remote machine.",
+ "aliases": [
+  {
+   "text": "ssh connect",
+   "lang": "en"
+  },
+  {
+   "text": "connect to remote server",
+   "lang": "en"
+  },
+  {
+   "text": "ssh login",
+   "lang": "en"
+  },
+  {
+   "text": "how to ssh",
+   "lang": "en"
+  },
+  {
+   "text": "подключиться по ssh",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh подключение",
+   "lang": "ru"
+  },
+  {
+   "text": "как зайти на сервер через ssh",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh логин",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the ssh command with the username and remote host. You may be prompted for a password or asked to accept the server's key.",
+   "cmd": "ssh <USERNAME>@<REMOTE_HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username on the remote server",
+     "example": "john"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "The hostname or IP address of the remote server",
+     "example": "example.com"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Connect using a specific private key file instead of the default keys.",
+     "cmd": "ssh <USERNAME>@<REMOTE_HOST> -i <KEY_FILE>",
+     "placeholders": [
+      {
+       "name": "USERNAME",
+       "description": "The username on the remote server"
+      },
+      {
+       "name": "REMOTE_HOST",
+       "description": "The hostname or IP address of the remote server"
+      },
+      {
+       "name": "KEY_FILE",
+       "description": "Path to the private key file",
+       "example": "~/.ssh/id_rsa"
+      }
+     ]
+    },
+    {
+     "explain": "Connect to a specific port if the server does not use the default port 22.",
+     "cmd": "ssh <USERNAME>@<REMOTE_HOST> -p <PORT>",
+     "placeholders": [
+      {
+       "name": "USERNAME",
+       "description": "The username on the remote server"
+      },
+      {
+       "name": "REMOTE_HOST",
+       "description": "The hostname or IP address of the remote server"
+      },
+      {
+       "name": "PORT",
+       "description": "The port number to connect to",
+       "example": "2222"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh.md",
+  "title": "tldr-pages: ssh",
+  "license": "CC-BY-4.0"
+ }
+}

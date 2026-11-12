@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-list-modules",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List loaded PulseAudio modules",
+ "summary": "Show all modules currently loaded by the PulseAudio daemon. This helps verify if a specific feature or module is active.",
+ "aliases": [
+  {
+   "text": "list pulseaudio modules",
+   "lang": "en"
+  },
+  {
+   "text": "check loaded modules",
+   "lang": "en"
+  },
+  {
+   "text": "pacmd list-modules",
+   "lang": "en"
+  },
+  {
+   "text": "pactl list modules",
+   "lang": "en"
+  },
+  {
+   "text": "какие модули загружены pulseaudio",
+   "lang": "ru"
+  },
+  {
+   "text": "список модулей pulseaudio",
+   "lang": "ru"
+  },
+  {
+   "text": "list modules short",
+   "lang": "en"
+  },
+  {
+   "text": "краткий список модулей",
+   "lang": "ru"
+  },
+  {
+   "text": "pactl list modules short",
+   "lang": "en"
+  },
+  {
+   "text": "quick module list",
+   "lang": "en"
+  },
+  {
+   "text": "pulseaudio module index",
+   "lang": "en"
+  },
+  {
+   "text": "индексы модулей pulseaudio",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all loaded modules in a short format.",
+   "cmd": "pactl list modules short",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio#Microphone_echo/noise_cancellation",
+  "title": "PulseAudio",
+  "revision_id": 861028,
+  "license": "GFDL-1.3-or-later"
+ }
+}

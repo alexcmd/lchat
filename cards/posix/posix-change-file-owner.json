@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-file-owner",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change the owner of a file or directory",
+ "summary": "Use chown to change who owns a file or folder. You usually need administrator rights (sudo) to change the owner to another user.",
+ "aliases": [
+  {
+   "text": "change file owner",
+   "lang": "en"
+  },
+  {
+   "text": "chown file",
+   "lang": "en"
+  },
+  {
+   "text": "make file mine",
+   "lang": "en"
+  },
+  {
+   "text": "change ownership",
+   "lang": "en"
+  },
+  {
+   "text": "сменить владельца файла",
+   "lang": "ru"
+  },
+  {
+   "text": "chown файл",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать файл своим",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить владельца",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run chown with sudo to change the owner of the specified file or directory to the target user.",
+   "cmd": "sudo chown <USER> <FILE_OR_DIRECTORY>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USER",
+     "description": "The username of the new owner",
+     "example": "john"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or directory",
+     "example": "/home/john/file.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, change the owner back to the original user. You need to know the previous owner.",
+   "cmd": "sudo chown <ORIGINAL_USER> <FILE_OR_DIRECTORY>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_USER",
+     "description": "The previous owner's username",
+     "example": "root"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or directory",
+     "example": "/home/john/file.txt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing ownership incorrectly can prevent you or other users from accessing files.",
+  "You typically need sudo privileges to change the owner to a different user."
+ ],
+ "see_also": [
+  "file-change-ownership",
+  "posix-stat-owner-group"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chown.md",
+  "title": "tldr-pages: chown",
+  "license": "CC-BY-4.0"
+ }
+}

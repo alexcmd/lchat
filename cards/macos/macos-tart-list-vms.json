@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-tart-list-vms",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List virtual machines managed by Tart",
+ "summary": "Tart is a tool for running macOS and Linux virtual machines on Apple Silicon Macs. This command shows all VMs currently created or pulled on your Mac.",
+ "aliases": [
+  {
+   "text": "tart list vms",
+   "lang": "en"
+  },
+  {
+   "text": "show tart virtual machines",
+   "lang": "en"
+  },
+  {
+   "text": "list macos vms tart",
+   "lang": "en"
+  },
+  {
+   "text": "tart vms",
+   "lang": "en"
+  },
+  {
+   "text": "какие виртуалки в tart",
+   "lang": "ru"
+  },
+  {
+   "text": "список виртуальных машин tart",
+   "lang": "ru"
+  },
+  {
+   "text": "показать вмс tart",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Lists all virtual machines known to Tart.",
+   "cmd": "tart list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tart.md",
+  "title": "tldr-pages: tart",
+  "license": "CC-BY-4.0"
+ }
+}

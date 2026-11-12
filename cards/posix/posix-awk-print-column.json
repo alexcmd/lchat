@@ -1,0 +1,100 @@
+{
+ "schema_version": 2,
+ "id": "posix-awk-print-column",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print a specific column from a text file",
+ "summary": "Use awk to extract and display a specific column (field) from a space-separated text file. You can also filter lines by content before printing.",
+ "aliases": [
+  {
+   "text": "print column from file",
+   "lang": "en"
+  },
+  {
+   "text": "extract field from text",
+   "lang": "en"
+  },
+  {
+   "text": "awk print column",
+   "lang": "en"
+  },
+  {
+   "text": "show specific column",
+   "lang": "en"
+  },
+  {
+   "text": "вывести колонку из файла",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь столбец из текста",
+   "lang": "ru"
+  },
+  {
+   "text": "awk вывести поле",
+   "lang": "ru"
+  },
+  {
+   "text": "показать колонку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print the 5th column of a space-separated file. Change $5 to the column number you need.",
+   "cmd": "awk '{print $5}' <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file",
+     "example": "data.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Print the 2nd column only for lines containing a specific string.",
+     "cmd": "awk '/<STRING>/ {print $2}' <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "STRING",
+       "description": "Text to search for in the line",
+       "example": "error"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the text file",
+       "example": "log.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Print the last column of each line, using a comma as the field separator.",
+     "cmd": "awk -F ',' '{print $NF}' <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the CSV or comma-separated file",
+       "example": "data.csv"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/awk.md",
+  "title": "tldr-pages: awk",
+  "license": "CC-BY-4.0"
+ }
+}

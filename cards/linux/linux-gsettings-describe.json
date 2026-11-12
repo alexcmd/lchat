@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-gsettings-describe",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Describe a GNOME setting key",
+ "summary": "Use gsettings to display the human-readable description of a specific key. This helps you understand what a setting does.",
+ "aliases": [
+  {
+   "text": "describe gnome setting",
+   "lang": "en"
+  },
+  {
+   "text": "gsettings describe",
+   "lang": "en"
+  },
+  {
+   "text": "what does gnome key do",
+   "lang": "en"
+  },
+  {
+   "text": "описание настройки gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "gsettings describe ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "что делает ключ gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "cinnamon",
+   "mate"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the human-readable description of a specific key. Replace the placeholders with the actual schema ID and key name.",
+   "cmd": "gsettings describe <SCHEMA_ID> <KEY_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCHEMA_ID",
+     "description": "The schema ID, e.g., org.gnome.desktop.interface",
+     "example": "org.gnome.desktop.interface"
+    },
+    {
+     "name": "KEY_NAME",
+     "description": "The key name, e.g., gtk-theme",
+     "example": "gtk-theme"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gsettings.md",
+  "title": "tldr-pages: gsettings",
+  "license": "CC-BY-4.0"
+ }
+}

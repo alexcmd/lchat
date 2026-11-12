@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-set-logging",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set NetworkManager logging level",
+ "summary": "Change the logging level and/or domains for NetworkManager. This requires administrator privileges.",
+ "aliases": [
+  {
+   "text": "set nmcli logging",
+   "lang": "en"
+  },
+  {
+   "text": "change networkmanager log level",
+   "lang": "en"
+  },
+  {
+   "text": "enable debug logging nm",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli general logging level",
+   "lang": "en"
+  },
+  {
+   "text": "изменить уровень логирования",
+   "lang": "ru"
+  },
+  {
+   "text": "включить debug networkmanager",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the logging level and/or domains for NetworkManager.",
+   "cmd": "sudo nmcli general logging level <LEVEL> domain <DOMAINS>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "LEVEL",
+     "description": "The logging level to set.",
+     "example": "INFO",
+     "discover_cmd": "nmcli general logging"
+    },
+    {
+     "name": "DOMAINS",
+     "description": "Comma-separated list of domains to log.",
+     "example": "CORE,DEVICE"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reset logging to default or previous level.",
+   "cmd": "sudo nmcli general logging level INFO",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Setting logging to DEBUG or TRACE can generate a large amount of log data."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-general.md",
+  "title": "tldr-pages: nmcli-general",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-stat-owner-group",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show owner and group of a file",
+ "summary": "Use stat with a custom format to display only the user owner and group owner of a specific file.",
+ "aliases": [
+  {
+   "text": "show file owner",
+   "lang": "en"
+  },
+  {
+   "text": "who owns this file",
+   "lang": "en"
+  },
+  {
+   "text": "file group owner",
+   "lang": "en"
+  },
+  {
+   "text": "stat owner",
+   "lang": "en"
+  },
+  {
+   "text": "владелец файла",
+   "lang": "ru"
+  },
+  {
+   "text": "группа файла",
+   "lang": "ru"
+  },
+  {
+   "text": "кто владелец файла",
+   "lang": "ru"
+  },
+  {
+   "text": "стат владелец",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --format option with the %U (user owner) and %G (group owner) specifiers to print the ownership details.",
+   "cmd": "stat -c \"%U %G\" <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file",
+     "example": "config.conf"
+    }
+   ],
+   "expect": "Output showing the username and group name separated by a space."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/stat.md",
+  "title": "tldr-pages: stat",
+  "license": "CC-BY-4.0"
+ }
+}

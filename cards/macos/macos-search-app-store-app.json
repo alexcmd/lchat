@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "macos-search-app-store-app",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Search for an app in the Mac App Store",
+ "summary": "Search the Mac App Store for an application by name and see its price. This is useful for finding apps or checking costs before installing.",
+ "aliases": [
+  {
+   "text": "search app store",
+   "lang": "en"
+  },
+  {
+   "text": "find app in mac app store",
+   "lang": "en"
+  },
+  {
+   "text": "mas search",
+   "lang": "en"
+  },
+  {
+   "text": "check app price",
+   "lang": "en"
+  },
+  {
+   "text": "поиск в app store",
+   "lang": "ru"
+  },
+  {
+   "text": "найти приложение в mac app store",
+   "lang": "ru"
+  },
+  {
+   "text": "mas search",
+   "lang": "ru"
+  },
+  {
+   "text": "цена приложения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mas"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for an application by name. The --price flag shows the cost of the app.",
+   "cmd": "mas search \"<APP_NAME>\" --price",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_NAME",
+     "description": "The name of the application to search for",
+     "example": "Xcode"
+    }
+   ],
+   "expect": "A list of matching applications with their prices."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mas.md",
+  "title": "tldr-pages: mas",
+  "license": "CC-BY-4.0"
+ }
+}

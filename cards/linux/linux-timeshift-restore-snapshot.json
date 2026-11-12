@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "linux-timeshift-restore-snapshot",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Restore system using Timeshift",
+ "summary": "Revert your system to a previous state using a Timeshift snapshot. This is useful if a recent update or change broke your system.",
+ "aliases": [
+  {
+   "text": "restore timeshift snapshot",
+   "lang": "en"
+  },
+  {
+   "text": "undo system changes",
+   "lang": "en"
+  },
+  {
+   "text": "revert to previous state",
+   "lang": "en"
+  },
+  {
+   "text": "timeshift restore",
+   "lang": "en"
+  },
+  {
+   "text": "восстановить систему из снапшота",
+   "lang": "ru"
+  },
+  {
+   "text": "откатить изменения timeshift",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть систему к предыдущему состоянию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Timeshift is installed",
+  "At least one snapshot exists"
+ ],
+ "steps": [
+  {
+   "explain": "Start the interactive restore process to select a snapshot.",
+   "cmd": "sudo timeshift --restore",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Restore a specific snapshot by name.",
+     "cmd": "sudo timeshift --restore --snapshot <SNAPSHOT_NAME>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "SNAPSHOT_NAME",
+       "description": "The name of the snapshot to restore, e.g., '2023-10-27_14-30-00'",
+       "discover_cmd": "sudo timeshift --list"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Restoring will revert system files and settings to the state they were in when the snapshot was created.",
+  "User data in home directories is typically not affected unless explicitly configured, but always verify your settings."
+ ],
+ "rollback": [
+  {
+   "explain": "If the restore fails or causes issues, you may need to boot from a live USB and manually restore files or reinstall the system. Timeshift itself does not provide a simple 'undo restore' command once the process completes.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/timeshift.md",
+  "title": "tldr-pages: timeshift",
+  "license": "CC-BY-4.0"
+ }
+}

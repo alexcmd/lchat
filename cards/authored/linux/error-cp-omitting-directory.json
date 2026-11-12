@@ -1,0 +1,146 @@
+{
+ "schema_version": 2,
+ "id": "error-cp-omitting-directory",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Copy a folder with cp -r (fixes \"cp: -r not specified; omitting directory\")",
+ "summary": "cp refuses to copy a folder unless you add -r (recursive), which tells it to copy the folder together with everything inside it. Add -r before the source and destination.",
+ "aliases": [
+  {
+   "text": "cp omitting directory",
+   "lang": "en"
+  },
+  {
+   "text": "cp -r not specified",
+   "lang": "en"
+  },
+  {
+   "text": "cp copy folder error linux",
+   "lang": "en"
+  },
+  {
+   "text": "how to copy a folder in linux terminal",
+   "lang": "en"
+  },
+  {
+   "text": "what does cp -r mean",
+   "lang": "en"
+  },
+  {
+   "text": "cp omitting directory ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "cp -r not specified ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "как скопировать папку linux терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "cp kopirovat papku",
+   "lang": "ru"
+  },
+  {
+   "text": "что значит флаг -r в cp",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "cp: -r not specified; omitting directory"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check that the thing you want to copy is a folder. A d at the start of the line means it is a folder.",
+   "cmd": "ls -ld <SOURCE_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE_DIR",
+     "description": "The folder you want to copy",
+     "example": "photos",
+     "discover_cmd": "ls -d */"
+    }
+   ],
+   "expect": "A line starting with d, for example drwxr-xr-x ... photos"
+  },
+  {
+   "explain": "Copy the folder and everything inside it. -r (recursive) is the flag that lets cp copy a folder; without it cp stops with the error above. If DEST_DIR does not exist, it becomes the copy. If DEST_DIR already exists, the copy goes inside it.",
+   "cmd": "cp -r <SOURCE_DIR> <DEST_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE_DIR",
+     "description": "The folder you want to copy",
+     "example": "photos"
+    },
+    {
+     "name": "DEST_DIR",
+     "description": "Name of the new copy, or of an existing folder to copy into",
+     "example": "photos-copy"
+    }
+   ],
+   "expect": "No message appears and the prompt comes back; the folder is copied.",
+   "alternatives": [
+    {
+     "explain": "Capital -R means the same as -r for cp: copy directories recursively.",
+     "cmd": "cp -R <SOURCE_DIR> <DEST_DIR>",
+     "placeholders": [
+      {
+       "name": "SOURCE_DIR",
+       "description": "The folder you want to copy",
+       "example": "photos"
+      },
+      {
+       "name": "DEST_DIR",
+       "description": "Name of the new copy, or of an existing folder to copy into",
+       "example": "photos-copy"
+      }
+     ],
+     "expect": "Same as the main command: the folder is copied with no message."
+    },
+    {
+     "explain": "Long form of the same flag, easier to read for beginners.",
+     "cmd": "cp --recursive <SOURCE_DIR> <DEST_DIR>",
+     "placeholders": [
+      {
+       "name": "SOURCE_DIR",
+       "description": "The folder you want to copy",
+       "example": "photos"
+      },
+      {
+       "name": "DEST_DIR",
+       "description": "Name of the new copy, or of an existing folder to copy into",
+       "example": "photos-copy"
+      }
+     ],
+     "expect": "Same as the main command: the folder is copied with no message."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls -R <DEST_DIR>",
+   "expect": "Lists the files that were inside the original folder."
+  }
+ ],
+ "warnings": [
+  "If DEST_DIR already contains files with the same names, cp -r overwrites them without asking."
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/cp",
+  "title": "cp manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

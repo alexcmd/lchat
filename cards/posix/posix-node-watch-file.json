@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "posix-node-watch-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a Node.js script with auto-restart on changes",
+ "summary": "Execute a JavaScript file and automatically restart the process whenever the file or its imports are modified. This is useful for development to avoid manually restarting the server after every code change.",
+ "aliases": [
+  {
+   "text": "node watch mode",
+   "lang": "en"
+  },
+  {
+   "text": "auto restart node script",
+   "lang": "en"
+  },
+  {
+   "text": "node --watch",
+   "lang": "en"
+  },
+  {
+   "text": "nodemon alternative",
+   "lang": "en"
+  },
+  {
+   "text": "авто перезапуск node скрипта",
+   "lang": "ru"
+  },
+  {
+   "text": "node watch флаг",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапуск при изменении файла node",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "node"
+  ]
+ },
+ "prerequisites": [
+  "Node.js version 18.11 or higher"
+ ],
+ "steps": [
+  {
+   "explain": "Use the --watch flag to run the file and restart it when changes are detected.",
+   "cmd": "node --watch <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the JavaScript file to watch and run",
+     "example": "server.js"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/node.md",
+  "title": "tldr-pages: node",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,116 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-mime-type",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check the MIME type of a file",
+ "summary": "Use the `file` command with the `-i` flag to get the MIME type (e.g., text/plain, image/png) of a file. This is often used by web servers and email clients to determine how to handle a file.",
+ "aliases": [
+  {
+   "text": "check mime type",
+   "lang": "en"
+  },
+  {
+   "text": "get mime type",
+   "lang": "en"
+  },
+  {
+   "text": "file mime type",
+   "lang": "en"
+  },
+  {
+   "text": "kakoy mime tip",
+   "lang": "ru"
+  },
+  {
+   "text": "opredelit mime tip",
+   "lang": "ru"
+  },
+  {
+   "text": "mime tip fajla",
+   "lang": "ru"
+  },
+  {
+   "text": "check file type linux",
+   "lang": "en"
+  },
+  {
+   "text": "what is this file type",
+   "lang": "en"
+  },
+  {
+   "text": "определить тип файла linux",
+   "lang": "ru"
+  },
+  {
+   "text": "check file mime type",
+   "lang": "en"
+  },
+  {
+   "text": "what type is this file",
+   "lang": "en"
+  },
+  {
+   "text": "mime type of file",
+   "lang": "en"
+  },
+  {
+   "text": "xdg-mime query filetype",
+   "lang": "en"
+  },
+  {
+   "text": "какой тип у файла",
+   "lang": "ru"
+  },
+  {
+   "text": "mime type файла",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать тип файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `file` command with the `-i` (or `--mime`) flag followed by the path to the file. It will output the MIME encoding type.",
+   "cmd": "file -i <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to check.",
+     "example": "image.jpg"
+    }
+   ],
+   "expect": "Output showing the MIME type, e.g., 'image/jpeg'.",
+   "alternatives": [
+    {
+     "explain": "Query the MIME type of a file. Replace <FILE> with the path to the file.",
+     "cmd": "xdg-mime query filetype <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The path to the file you want to check.",
+       "example": "photo.jpeg"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/file.md",
+  "title": "tldr-pages: file",
+  "license": "CC-BY-4.0"
+ }
+}

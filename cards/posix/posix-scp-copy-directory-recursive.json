@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "posix-scp-copy-directory-recursive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy a whole folder from a remote computer",
+ "summary": "Use scp with the recursive flag to copy an entire directory and all its contents from a remote computer to your local machine. This is handy for backing up project folders or downloading large datasets.",
+ "aliases": [
+  {
+   "text": "copy folder from server",
+   "lang": "en"
+  },
+  {
+   "text": "scp directory recursive",
+   "lang": "en"
+  },
+  {
+   "text": "download folder from remote",
+   "lang": "en"
+  },
+  {
+   "text": "copy directory recursively",
+   "lang": "en"
+  },
+  {
+   "text": "scp -r folder",
+   "lang": "en"
+  },
+  {
+   "text": "скачать папку с сервера",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать директорию с сервера",
+   "lang": "ru"
+  },
+  {
+   "text": "scp рекурсивно",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузить папку с удаленного хоста",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "SSH access to the remote host",
+  "Know the remote directory path"
+ ],
+ "steps": [
+  {
+   "explain": "Recursively copy the contents of a directory from the remote host to a local directory.",
+   "cmd": "scp -r <REMOTE_HOST>:<REMOTE_DIRECTORY> <LOCAL_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REMOTE_HOST",
+     "description": "Hostname or IP of the remote computer",
+     "example": "user@192.168.1.10"
+    },
+    {
+     "name": "REMOTE_DIRECTORY",
+     "description": "Path to the directory on the remote computer",
+     "example": "projects/myapp"
+    },
+    {
+     "name": "LOCAL_DIRECTORY",
+     "description": "Destination directory on your computer",
+     "example": "~/Projects"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/scp.md",
+  "title": "tldr-pages: scp",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "sane-error-invalid-argument",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Invalid argument' error in SANE",
+ "summary": "Resolve the 'sane_start: Invalid argument' error which often occurs when the device is not specified or firmware is missing. Specifying the device explicitly usually fixes it.",
+ "aliases": [
+  {
+   "text": "sane invalid argument",
+   "lang": "en"
+  },
+  {
+   "text": "scanimage invalid argument",
+   "lang": "en"
+  },
+  {
+   "text": "sane_start invalid argument",
+   "lang": "en"
+  },
+  {
+   "text": "scanner error invalid argument",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка invalid argument сканер",
+   "lang": "ru"
+  },
+  {
+   "text": "scanimage не сканирует",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "sane_start: Invalid argument"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List available devices to find the correct device name.",
+   "cmd": "scanimage -L",
+   "risk": "low"
+  },
+  {
+   "explain": "Run the scan command again, explicitly specifying the device name found in the previous step. Replace <DEVICE_NAME> with the actual string.",
+   "cmd": "scanimage --device \"<DEVICE_NAME>\" --format=tiff --output-file test.tiff --progress",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_NAME",
+     "description": "The device identifier string from scanimage -L output",
+     "example": "pixma:04A91749_247936",
+     "discover_cmd": "scanimage -L"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/SANE#Verification",
+  "title": "SANE",
+  "revision_id": 887209,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "vulkan-error-initialization-failed",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix Vulkan ERROR_INITIALIZATION_FAILED on older AMD GPUs",
+ "summary": "Older AMD GPUs (GCN1/GCN2) require enabling SI/CIK support in the amdgpu driver to work with Vulkan.",
+ "aliases": [
+  {
+   "text": "vulkan initialization failed",
+   "lang": "en"
+  },
+  {
+   "text": "amdgpu vulkan error",
+   "lang": "en"
+  },
+  {
+   "text": "vulkaninfo failed amd",
+   "lang": "en"
+  },
+  {
+   "text": "vulkan error init",
+   "lang": "en"
+  },
+  {
+   "text": "vulkan initialization failed",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка инициализации vulkan",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "ERROR_INITIALIZATION_FAILED"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check if the amdgpu driver is correctly loaded for your GPU.",
+   "cmd": "lspci -k",
+   "risk": "low",
+   "expect": "Kernel driver in use: amdgpu for your VGA controller."
+  },
+  {
+   "explain": "Edit your bootloader configuration to add 'amdgpu.si_support=1 amdgpu.cik_support=1' to the kernel parameters. See AMDGPU#Enable Southern Islands (SI) and Sea Islands (CIK) support for details.",
+   "cmd": "",
+   "risk": "high"
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "Revert the changes made to the bootloader configuration.",
+   "cmd": "",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Modifying kernel parameters can make the system unbootable if done incorrectly. Ensure you have a backup or recovery method."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Vulkan#AMDGPU_-_ERROR_INITIALIZATION_FAILED_after_vulkaninfo",
+  "title": "Vulkan",
+  "revision_id": 882740,
+  "license": "GFDL-1.3-or-later"
+ }
+}

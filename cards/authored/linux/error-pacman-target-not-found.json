@@ -1,0 +1,171 @@
+{
+ "schema_version": 2,
+ "id": "error-pacman-target-not-found",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix pacman error: target not found when installing a package",
+ "summary": "pacman says 'target not found' when the package name you typed is not in its package list. Find the exact name, refresh the list with a full upgrade, then run the install again.",
+ "aliases": [
+  {
+   "text": "pacman target not found",
+   "lang": "en"
+  },
+  {
+   "text": "pacman error target not found arch",
+   "lang": "en"
+  },
+  {
+   "text": "arch linux pacman package not found",
+   "lang": "en"
+  },
+  {
+   "text": "pacman cannot find package arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman wrong package name",
+   "lang": "en"
+  },
+  {
+   "text": "pacman target not foud arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman target not found ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman пакет не найден arch",
+   "lang": "ru"
+  },
+  {
+   "text": "arch linux pacman не могу найти пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman неправильное имя пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman установка ошибка target not found",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman не находит пакет",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "error: target not found"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Arch Linux with an internet connection",
+  "An account that is allowed to use sudo (an administrator account)"
+ ],
+ "steps": [
+  {
+   "explain": "Search the package list for a word from the program name. The exact name is the part after the slash, for example nano in core/nano. This command only reads the list.",
+   "cmd": "pacman -Ss <SEARCH_WORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_WORD",
+     "description": "A word from the name of the program you want",
+     "example": "nano"
+    }
+   ],
+   "expect": "Lines like 'core/nano 9.2-1', each followed by a short description. The part after the slash (nano) is the exact name. No lines means no package matches the word."
+  },
+  {
+   "explain": "Check that the exact name exists. pacman -Si prints the details of one package name and only reads the list.",
+   "cmd": "pacman -Si <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Exact package name copied from the search result",
+     "example": "nano",
+     "discover_cmd": "pacman -Slq"
+    }
+   ],
+   "expect": "Lines starting with 'Repository' and 'Name', for example 'Name : nano'. If you see \"error: package '<PACKAGE>' was not found\", the name is wrong: go back to the search and copy the name exactly."
+  },
+  {
+   "explain": "Refresh the package list on this computer, which may be old. This also upgrades installed programs, so it takes a while. Do not use pacman -Sy alone, because that can break Arch.",
+   "cmd": "sudo pacman -Syu",
+   "risk": "medium",
+   "needs_root": true,
+   "expect": "sudo asks for your password. pacman prints ':: Synchronizing package databases...', then the packages to upgrade and 'Proceed with installation? [Y/n]'. Type y and press Enter."
+  },
+  {
+   "explain": "Install the package by its exact name. Use the name that the previous steps confirmed. Replace <PACKAGE> with it.",
+   "cmd": "sudo pacman -S <PACKAGE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Exact package name confirmed by pacman -Si",
+     "example": "nano",
+     "discover_cmd": "pacman -Slq"
+    }
+   ],
+   "expect": "pacman lists the package and asks 'Proceed with installation? [Y/n]'. Type y and press Enter. 'error: target not found: <PACKAGE>' means the name is still not in the Arch repositories."
+  },
+  {
+   "explain": "Check that the package is installed. pacman -Q prints the installed name and version and only reads the list.",
+   "cmd": "pacman -Q <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Same package name as in the install step",
+     "example": "nano"
+    }
+   ],
+   "expect": "The name and version, for example 'nano 9.2-1'. If you see \"error: package '<PACKAGE>' was not found\", the install did not finish."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package again if you installed the wrong one. This removes only that package. It does not undo the upgrade from the refresh step.",
+   "cmd": "sudo pacman -R <PACKAGE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Same package name as in the install step",
+     "example": "nano"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "sudo pacman -Syu upgrades every installed package and can take a long time. Do not interrupt it, because a half-finished upgrade can break the system.",
+  "Do not run pacman -Sy alone and then install. Refreshing the list without upgrading the system leaves Arch in a partly updated state. Always use -Syu.",
+  "Type your password only when sudo asks for it, and read the package list before you answer y.",
+  "If sudo says 'is not in the sudoers file', your account cannot use sudo. Ask the owner of the computer to add it.",
+  "A wrong name gives 'target not found' and nothing is installed. Copy the name from the search exactly, including dashes."
+ ],
+ "see_also": [
+  "error-pacman-needs-root",
+  "linux-pacman-search-package",
+  "linux-pacman-install-package",
+  "linux-pacman-update-system"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/pacman",
+  "title": "pacman manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

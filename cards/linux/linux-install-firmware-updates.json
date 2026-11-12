@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-install-firmware-updates",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install available firmware updates",
+ "summary": "Apply the firmware updates that were previously detected. This may require a reboot to take effect.",
+ "aliases": [
+  {
+   "text": "install firmware updates",
+   "lang": "en"
+  },
+  {
+   "text": "fwupdmgr update",
+   "lang": "en"
+  },
+  {
+   "text": "apply firmware update",
+   "lang": "en"
+  },
+  {
+   "text": "обновить прошивку",
+   "lang": "ru"
+  },
+  {
+   "text": "установить обновления прошивки",
+   "lang": "ru"
+  },
+  {
+   "text": "fwupdmgr update",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "fwupd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the firmware updates that were previously detected.",
+   "cmd": "sudo fwupdmgr update",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Do not interrupt the update process or power off the computer while it is running, as this can damage your hardware.",
+  "A reboot is usually required after the update completes."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct command to revert firmware updates. If the update fails or causes issues, you may need to re-flash the previous firmware version using the manufacturer's tools.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/fwupdmgr.md",
+  "title": "tldr-pages: fwupdmgr",
+  "license": "CC-BY-4.0"
+ }
+}

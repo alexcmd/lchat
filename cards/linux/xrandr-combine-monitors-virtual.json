@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "xrandr-combine-monitors-virtual",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Combine monitors into one virtual display",
+ "summary": "Use RandR 1.5+ to combine multiple physical monitors into a single virtual display. This allows windows to span across monitors seamlessly, similar to Xinerama but without restarting X.",
+ "aliases": [
+  {
+   "text": "combine monitors linux",
+   "lang": "en"
+  },
+  {
+   "text": "virtual display xrandr",
+   "lang": "en"
+  },
+  {
+   "text": "span windows across monitors",
+   "lang": "en"
+  },
+  {
+   "text": "объединить мониторы в один",
+   "lang": "ru"
+  },
+  {
+   "text": "виртуальный дисплей xrandr",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xrandr"
+  ]
+ },
+ "prerequisites": [
+  "RandR version 1.5 or higher.",
+  "Desktop environment supports virtual displays (e.g., Openbox works, some DEs do not)."
+ ],
+ "steps": [
+  {
+   "explain": "List the current monitors to get their names.",
+   "cmd": "xrandr --listmonitors",
+   "risk": "low",
+   "expect": "A list of monitors with IDs and names."
+  },
+  {
+   "explain": "Create a virtual display combining the listed monitors. 'auto' calculates the size automatically.",
+   "cmd": "xrandr --setmonitor <VIRTUAL_NAME> auto <MONITOR_LIST>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "VIRTUAL_NAME",
+     "description": "Name for the new virtual monitor",
+     "example": "Virtual1"
+    },
+    {
+     "name": "MONITOR_LIST",
+     "description": "Comma-separated list of physical monitor names",
+     "example": "DisplayPort-4,DisplayPort-3,HDMI-A-0",
+     "discover_cmd": "xrandr --listmonitors"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Use xrandr --delmonitor with the name you gave the virtual display.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Some desktop environments do not support this feature.",
+  "Monitor order in the command does not determine physical position; you may need to rearrange them with xrandr --output ... --right-of ... after creating the virtual display."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Multihead#Combine_screens_into_virtual_display",
+  "title": "Multihead",
+  "revision_id": 888512,
+  "license": "GFDL-1.3-or-later"
+ }
+}

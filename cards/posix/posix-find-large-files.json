@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-large-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find large files and directories",
+ "summary": "Identify what is taking up the most space in a directory by listing items larger than a specific size threshold.",
+ "aliases": [
+  {
+   "text": "find large files",
+   "lang": "en"
+  },
+  {
+   "text": "what is taking up space",
+   "lang": "en"
+  },
+  {
+   "text": "list big files",
+   "lang": "en"
+  },
+  {
+   "text": "du threshold",
+   "lang": "en"
+  },
+  {
+   "text": "найти большие файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "что занимает место",
+   "lang": "ru"
+  },
+  {
+   "text": "список больших папок",
+   "lang": "ru"
+  },
+  {
+   "text": "du порог",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all files and directories (including hidden ones) in the current directory that are larger than the specified threshold.",
+   "cmd": "du -ah -t <THRESHOLD> .[^.]* *",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "THRESHOLD",
+     "description": "The minimum size to display, e.g., 1G, 500M, or 100K.",
+     "example": "1G"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/du.md",
+  "title": "tldr-pages: du",
+  "license": "CC-BY-4.0"
+ }
+}

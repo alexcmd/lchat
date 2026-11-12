@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "ibus-set-environment-variables",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set IBus environment variables",
+ "summary": "Configure environment variables required for IBus to work correctly with GTK and Qt applications.",
+ "aliases": [
+  {
+   "text": "ibus environment variables",
+   "lang": "en"
+  },
+  {
+   "text": "set ibus env vars",
+   "lang": "en"
+  },
+  {
+   "text": "GTK_IM_MODULE ibus",
+   "lang": "en"
+  },
+  {
+   "text": "ibus variables",
+   "lang": "en"
+  },
+  {
+   "text": "ibus переменные окружения",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить переменные ibus",
+   "lang": "ru"
+  },
+  {
+   "text": "ibus env",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add the following lines to your environment configuration file (e.g., ~/.pam_environment or /etc/environment). For Wayland: GTK_IM_MODULE=wayland, XMODIFIERS=@im=ibus, QT_IM_MODULES=wayland;ibus, QT_IM_MODULE=ibus. For X11: GTK_IM_MODULE=ibus, XMODIFIERS=@im=ibus, QT_IM_MODULE=ibus.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the added lines from your environment configuration file.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Editing system-wide files requires root privileges.",
+  "Incorrect variables can break input methods."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/IBus#Integration",
+  "title": "IBus",
+  "revision_id": 878551,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-gh-view-pr-web",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View a GitHub pull request in the web browser",
+ "summary": "Open a specific pull request in your default web browser using its number, URL, or branch name. This is useful for reviewing code changes and comments.",
+ "aliases": [
+  {
+   "text": "open github pr in browser",
+   "lang": "en"
+  },
+  {
+   "text": "gh pr view web",
+   "lang": "en"
+  },
+  {
+   "text": "gh pr view -w",
+   "lang": "en"
+  },
+  {
+   "text": "otkryt pull request v brauzere",
+   "lang": "ru"
+  },
+  {
+   "text": "gh smotret pr",
+   "lang": "ru"
+  },
+  {
+   "text": "gh pr v okne",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "GitHub CLI (gh) is installed",
+  "You are logged in to GitHub with gh auth login"
+ ],
+ "steps": [
+  {
+   "explain": "Open the specified pull request in your default web browser.",
+   "cmd": "gh pr view --web <PR_NUMBER_OR_URL_OR_BRANCH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PR_NUMBER_OR_URL_OR_BRANCH",
+     "description": "The PR number (e.g., 456), the full URL, or the branch name",
+     "example": "456"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/gh.md",
+  "title": "tldr-pages: gh",
+  "license": "CC-BY-4.0"
+ }
+}

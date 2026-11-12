@@ -1,0 +1,102 @@
+{
+ "schema_version": 2,
+ "id": "macos-concept-zsh-profile-files",
+ "platform": "macos",
+ "kind": "concept",
+ "title": "zshrc, zprofile and zshenv: which file to edit on macOS",
+ "summary": "zsh reads a few hidden setup files when a Terminal session starts. Most personal changes go in ~/.zshrc, and ~/.zprofile is for one-time login setup; ~/.zshenv is rarely needed.",
+ "updated": "2026-10-24",
+ "aliases": [
+  {
+   "text": "zshrc or zprofile which one",
+   "lang": "en"
+  },
+  {
+   "text": "what is zshrc on mac",
+   "lang": "en"
+  },
+  {
+   "text": "zprofile vs zshrc difference",
+   "lang": "en"
+  },
+  {
+   "text": "which zsh file to edit mac",
+   "lang": "en"
+  },
+  {
+   "text": "what is zshenv",
+   "lang": "en"
+  },
+  {
+   "text": "mac terminal startup file",
+   "lang": "en"
+  },
+  {
+   "text": "zsh config file macos",
+   "lang": "en"
+  },
+  {
+   "text": "zshrc zprofile zshenv",
+   "lang": "en"
+  },
+  {
+   "text": "что такое zshrc",
+   "lang": "ru"
+  },
+  {
+   "text": "zshrc или zprofile что выбрать",
+   "lang": "ru"
+  },
+  {
+   "text": "в каком файле настройки терминала на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "разница zshrc и zprofile",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое zshenv",
+   "lang": "ru"
+  },
+  {
+   "text": "какой файл редактировать zsh mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "zsh reads its startup files in this order: ~/.zshenv for every zsh, then ~/.zprofile for login shells, then ~/.zshrc for interactive shells, and finally ~/.zlogin for login shells. Files in /etc are read as well, but beginners do not need them.",
+   "risk": "low"
+  },
+  {
+   "explain": "Put most personal changes into ~/.zshrc, such as aliases, prompt settings, and extra folders added to PATH. zsh reads it for every new interactive window or tab in Terminal.",
+   "risk": "low"
+  },
+  {
+   "explain": "Use ~/.zprofile for setup that should run once when you log in, not in every tab. Installers such as Homebrew often ask you to put their PATH setup here.",
+   "risk": "low"
+  },
+  {
+   "explain": "Leave ~/.zshenv alone unless you have a clear reason. zsh reads it for every zsh, including ones started by scripts, so keep it very small and never print text from it.",
+   "risk": "low"
+  },
+  {
+   "explain": "Open a new Terminal window after you change one of these files. Windows that were already open keep the old settings.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://zsh",
+  "title": "zsh manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

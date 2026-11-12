@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "posix-node-eval-code",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Evaluate JavaScript code from the command line",
+ "summary": "Run a short piece of JavaScript code directly in the terminal without creating a file. Useful for quick calculations or testing simple expressions.",
+ "aliases": [
+  {
+   "text": "node eval code",
+   "lang": "en"
+  },
+  {
+   "text": "run javascript one liner",
+   "lang": "en"
+  },
+  {
+   "text": "node -e",
+   "lang": "en"
+  },
+  {
+   "text": "execute js command line",
+   "lang": "en"
+  },
+  {
+   "text": "выполнить код node в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "node -e пример",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить джаваскрипт одной строкой",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "node"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --eval flag to execute the JavaScript code provided as a string argument.",
+   "cmd": "node --eval \"<CODE>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CODE",
+     "description": "JavaScript code to evaluate",
+     "example": "console.log('Hello')"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short form -e instead of --eval.",
+     "cmd": "node -e \"<CODE>\"",
+     "placeholders": [
+      {
+       "name": "CODE",
+       "description": "JavaScript code to evaluate",
+       "example": "console.log('Hello')"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/node.md",
+  "title": "tldr-pages: node",
+  "license": "CC-BY-4.0"
+ }
+}

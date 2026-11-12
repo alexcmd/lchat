@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "nouveau-error-pointer-flat-panel",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Pointer to flat panel table invalid' error",
+ "summary": "Resolve boot issues or lspci freezes caused by this Nouveau error by blacklisting the driver at boot and loading it manually later.",
+ "aliases": [
+  {
+   "text": "pointer to flat panel table invalid",
+   "lang": "en"
+  },
+  {
+   "text": "nouveau boot error flat panel",
+   "lang": "en"
+  },
+  {
+   "text": "lspci freezes nouveau",
+   "lang": "en"
+  },
+  {
+   "text": "nouveau startup issue fix",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка pointer to flat panel table invalid",
+   "lang": "ru"
+  },
+  {
+   "text": "nouveau не грузится ошибка",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Pointer to flat panel table invalid"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add 'modprobe.blacklist=nouveau' to your kernel parameters in your bootloader config.",
+   "cmd": "",
+   "risk": "medium"
+  },
+  {
+   "explain": "After booting, load the Nouveau module manually.",
+   "cmd": "sudo modprobe nouveau",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove 'modprobe.blacklist=nouveau' from kernel parameters.",
+   "cmd": "",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This is a workaround for specific hardware bugs. Check for kernel updates that might fix the underlying issue."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Nouveau#Pointer_to_flat_panel_table_invalid",
+  "title": "Nouveau",
+  "revision_id": 884148,
+  "license": "GFDL-1.3-or-later"
+ }
+}

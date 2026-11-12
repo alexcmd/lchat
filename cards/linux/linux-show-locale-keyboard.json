@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-locale-keyboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show current system locale and keyboard layout",
+ "summary": "Check which language, region, and keyboard layout your Linux system is currently using.",
+ "aliases": [
+  {
+   "text": "show locale",
+   "lang": "en"
+  },
+  {
+   "text": "check keyboard layout",
+   "lang": "en"
+  },
+  {
+   "text": "what is my locale",
+   "lang": "en"
+  },
+  {
+   "text": "localectl status",
+   "lang": "en"
+  },
+  {
+   "text": "показать локаль",
+   "lang": "ru"
+  },
+  {
+   "text": "какая раскладка клавиатуры",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить язык системы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run localectl without arguments to display the current system locale and keyboard mapping settings.",
+   "cmd": "localectl",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/localectl.md",
+  "title": "tldr-pages: localectl",
+  "license": "CC-BY-4.0"
+ }
+}

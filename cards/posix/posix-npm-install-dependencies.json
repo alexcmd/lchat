@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-npm-install-dependencies",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Install project dependencies",
+ "summary": "Download and install all packages listed in your project's package.json file. This is usually the first step after cloning a repository.",
+ "aliases": [
+  {
+   "text": "install node modules",
+   "lang": "en"
+  },
+  {
+   "text": "npm install",
+   "lang": "en"
+  },
+  {
+   "text": "install dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "установить зависимости",
+   "lang": "ru"
+  },
+  {
+   "text": "npm install",
+   "lang": "ru"
+  },
+  {
+   "text": "установить модули node",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run npm install to download all dependencies defined in package.json into the node_modules folder.",
+   "cmd": "npm install",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/npm.md",
+  "title": "tldr-pages: npm",
+  "license": "CC-BY-4.0"
+ }
+}

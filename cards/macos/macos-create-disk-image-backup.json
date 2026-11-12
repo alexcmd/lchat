@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "macos-create-disk-image-backup",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create a disk image backup",
+ "summary": "Create a complete backup of a disk or partition into an IMG file. This file can be used to restore the disk later.",
+ "aliases": [
+  {
+   "text": "create disk image backup mac",
+   "lang": "en"
+  },
+  {
+   "text": "backup drive to img file",
+   "lang": "en"
+  },
+  {
+   "text": "dd backup disk",
+   "lang": "en"
+  },
+  {
+   "text": "создать образ диска",
+   "lang": "ru"
+  },
+  {
+   "text": "резервная копия диска dd",
+   "lang": "ru"
+  },
+  {
+   "text": "dd backup img",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Sufficient free space on the destination drive for the backup file",
+  "Knowledge of the source disk device identifier"
+ ],
+ "steps": [
+  {
+   "explain": "Create a backup image of a disk. Replace <SOURCE_DRIVE> with the device identifier (e.g., /dev/disk2) and <OUTPUT_FILE> with the path for the .img file.",
+   "cmd": "sudo dd if=<SOURCE_DRIVE> of=<OUTPUT_FILE> status=progress",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE_DRIVE",
+     "description": "Device identifier of the disk to backup",
+     "example": "/dev/disk2"
+    },
+    {
+     "name": "OUTPUT_FILE",
+     "description": "Path to the output .img file",
+     "example": "~/backup.img"
+    }
+   ],
+   "expect": "Progress information is displayed as the backup is created."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure the destination has enough space for the entire disk image.",
+  "The backup file can be very large."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no undo command on this page for the backup file itself. To remove the backup, delete the file manually via Finder or Terminal.",
+   "cmd": "",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dd.md",
+  "title": "tldr-pages: dd",
+  "license": "CC-BY-4.0"
+ }
+}

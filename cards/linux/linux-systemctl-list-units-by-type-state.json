@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-systemctl-list-units-by-type-state",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List units filtered by type and state",
+ "summary": "List systemd units filtered by their type (e.g., service, socket) and their state (e.g., running, failed). Useful for finding specific groups of units.",
+ "aliases": [
+  {
+   "text": "list services by state",
+   "lang": "en"
+  },
+  {
+   "text": "list sockets",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl list-units",
+   "lang": "en"
+  },
+  {
+   "text": "filter units by type",
+   "lang": "en"
+  },
+  {
+   "text": "show running services",
+   "lang": "en"
+  },
+  {
+   "text": "show failed services",
+   "lang": "en"
+  },
+  {
+   "text": "spisok sluzhb po tipu",
+   "lang": "ru"
+  },
+  {
+   "text": "spisok soketov",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl list-units",
+   "lang": "ru"
+  },
+  {
+   "text": "filtr sluzhb po tipu",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat rabotayushchie sluzhby",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use systemctl list-units with the --type flag to specify the unit type and --state to filter by state.",
+   "cmd": "systemctl list-units --type <TYPE> --state <STATE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TYPE",
+     "description": "The type of unit to list: service, socket, automount, etc.",
+     "example": "service"
+    },
+    {
+     "name": "STATE",
+     "description": "The state to filter by: running, failed, etc.",
+     "example": "failed"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl.md",
+  "title": "tldr-pages: systemctl",
+  "license": "CC-BY-4.0"
+ }
+}

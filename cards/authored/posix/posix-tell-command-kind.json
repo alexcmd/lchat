@@ -1,0 +1,124 @@
+{
+ "schema_version": 2,
+ "id": "posix-tell-command-kind",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Tell whether a name is a builtin, alias, function or program",
+ "summary": "Ask the shell what kind of command a typed word is: a command built into the shell, an alias (a nickname for another command), a function, or a separate program file. This only reads information and changes nothing.",
+ "aliases": [
+  {
+   "text": "is cd a builtin or program",
+   "lang": "en"
+  },
+  {
+   "text": "is ls a program or builtin",
+   "lang": "en"
+  },
+  {
+   "text": "what kind of command is cd",
+   "lang": "en"
+  },
+  {
+   "text": "check if command is an alias",
+   "lang": "en"
+  },
+  {
+   "text": "type command linux",
+   "lang": "en"
+  },
+  {
+   "text": "builtin or program how to tell",
+   "lang": "en"
+  },
+  {
+   "text": "is it a shell function or a program",
+   "lang": "en"
+  },
+  {
+   "text": "cd встроенная команда или программа",
+   "lang": "ru"
+  },
+  {
+   "text": "это алиас или программа",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать встроенная ли это команда",
+   "lang": "ru"
+  },
+  {
+   "text": "какой тип у команды в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "type команда терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run type followed by the word you want to check. The shell answers in one line and does not run the command. If nothing matches, it says 'not found'.",
+   "cmd": "type <NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NAME",
+     "description": "The word to check: a command name such as cd, ls or ll",
+     "example": "cd"
+    }
+   ],
+   "expect": "cd: 'cd is a shell builtin' (part of the shell). ls: 'ls is /usr/bin/ls' (a path = separate program). 'is aliased to' (bash) or 'is an alias for' (zsh) = alias; 'is a function' = function.",
+   "alternatives": [
+    {
+     "explain": "Show every match in the order the shell looks, not only the first one. Use it when a name may exist in more than one place.",
+     "cmd": "type -a <NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "NAME",
+       "description": "The word to check",
+       "example": "ls"
+      }
+     ],
+     "expect": "One line per match, for example 'ls is /usr/bin/ls' and then 'ls is /bin/ls'. A shell builtin or alias appears on its own line before the file paths."
+    },
+    {
+     "explain": "Standard POSIX form of the same check. Works in bash and zsh, so it is safe to use on macOS and on Linux.",
+     "cmd": "command -V <NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "NAME",
+       "description": "The word to check",
+       "example": "cd"
+      }
+     ],
+     "expect": "One line that names the kind of command, for example 'cd is a shell builtin'."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "type cd",
+   "expect": "cd is a shell builtin"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "posix-check-command-installed",
+  "posix-builtin-command-help"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "type manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

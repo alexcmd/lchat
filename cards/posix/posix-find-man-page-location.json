@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-man-page-location",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find the location of a manual page",
+ "summary": "Use `man -w` to see where the manual page file for a command is stored on your system, instead of displaying its content.",
+ "aliases": [
+  {
+   "text": "where is man page",
+   "lang": "en"
+  },
+  {
+   "text": "find man page file",
+   "lang": "en"
+  },
+  {
+   "text": "man -w",
+   "lang": "en"
+  },
+  {
+   "text": "location of manual",
+   "lang": "en"
+  },
+  {
+   "text": "path to man page",
+   "lang": "en"
+  },
+  {
+   "text": "gde nakhoditsya man page",
+   "lang": "ru"
+  },
+  {
+   "text": "najti fayl manual",
+   "lang": "ru"
+  },
+  {
+   "text": "man -w",
+   "lang": "ru"
+  },
+  {
+   "text": "raspolozhenie manual",
+   "lang": "ru"
+  },
+  {
+   "text": "put k man page",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `man -w` followed by the command name to print the file path of its manual page.",
+   "cmd": "man -w <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The name of the command whose manual page location you want to find.",
+     "example": "ls"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "You can also use the long option `--where`.",
+     "cmd": "man -w <COMMAND>",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The name of the command whose manual page location you want to find.",
+       "example": "ls"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/man.md",
+  "title": "tldr-pages: man",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-open-man-page"
+ ]
+}

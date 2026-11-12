@@ -1,0 +1,100 @@
+{
+ "schema_version": 2,
+ "id": "linux-gio-trash-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Move files to the trash bin",
+ "summary": "Use the gio command to move files or folders to the trash, similar to right-clicking and selecting 'Move to Trash' in the file manager.",
+ "aliases": [
+  {
+   "text": "move file to trash",
+   "lang": "en"
+  },
+  {
+   "text": "gio trash file",
+   "lang": "en"
+  },
+  {
+   "text": "delete file to trash",
+   "lang": "en"
+  },
+  {
+   "text": "переместить файл в корзину",
+   "lang": "ru"
+  },
+  {
+   "text": "gio trash",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить в корзину",
+   "lang": "ru"
+  },
+  {
+   "text": "move file to trash cli/en",
+   "lang": "en"
+  },
+  {
+   "text": "удалить в корзину через консоль/ru",
+   "lang": "ru"
+  },
+  {
+   "text": "move file to trash cli",
+   "lang": "en"
+  },
+  {
+   "text": "gio trash command",
+   "lang": "en"
+  },
+  {
+   "text": "delete file to recycle bin terminal",
+   "lang": "en"
+  },
+  {
+   "text": "trash file linux command",
+   "lang": "en"
+  },
+  {
+   "text": "переместить файл в корзину терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "gio trash как использовать",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить в корзину через консоль",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Move the specified file or directory to the trash bin.",
+   "cmd": "gio trash <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file or directory to move to trash",
+     "example": "~/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gio-trash.md",
+  "title": "tldr-pages: gio-trash",
+  "license": "CC-BY-4.0"
+ }
+}

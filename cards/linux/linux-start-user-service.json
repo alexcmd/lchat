@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-start-user-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Start a user service",
+ "summary": "Start a background service that runs only for your current user account, not the whole system. Useful for user-specific daemons like notification servers or user-level sync tools.",
+ "aliases": [
+  {
+   "text": "start user service",
+   "lang": "en"
+  },
+  {
+   "text": "start user unit",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl start user",
+   "lang": "en"
+  },
+  {
+   "text": "запустить пользовательскую службу",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить сервис пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "user systemd start",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Starts the specified service for the current user session.",
+   "cmd": "systemctl start <UNIT> --user",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UNIT",
+     "description": "The name of the user service to start",
+     "example": "pipewire",
+     "discover_cmd": "systemctl --user list-units --type=service --all"
+    }
+   ],
+   "expect": "The command returns without error if the user service starts successfully."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-check-user-service-status"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-start.md",
+  "title": "tldr-pages: systemctl-start",
+  "license": "CC-BY-4.0"
+ }
+}

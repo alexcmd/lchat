@@ -1,0 +1,134 @@
+{
+ "schema_version": 2,
+ "id": "linux-os-release-distro",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find out which Linux distribution and version I have",
+ "summary": "Every Linux system stores the name and version of its distribution in the file /etc/os-release. Printing that file shows which Linux you run, such as Ubuntu or Fedora, and its version number.",
+ "aliases": [
+  {
+   "text": "which linux distro do i have",
+   "lang": "en"
+  },
+  {
+   "text": "what version of linux am i running",
+   "lang": "en"
+  },
+  {
+   "text": "check linux version",
+   "lang": "en"
+  },
+  {
+   "text": "linux distribution name",
+   "lang": "en"
+  },
+  {
+   "text": "os-release linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux equivalent of winver",
+   "lang": "en"
+  },
+  {
+   "text": "какой дистрибутив linux у меня",
+   "lang": "ru"
+  },
+  {
+   "text": "какая версия линукса стоит",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать версию linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать версию ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "kakoy distributiv linux u menya",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать какой линукс установлен",
+   "lang": "ru"
+  },
+  {
+   "text": "what distro am i running",
+   "lang": "en"
+  },
+  {
+   "text": "linux distribution info",
+   "lang": "en"
+  },
+  {
+   "text": "узнать дистрибутив",
+   "lang": "ru"
+  },
+  {
+   "text": "какая версия линукса",
+   "lang": "ru"
+  },
+  {
+   "text": "lsb_release",
+   "lang": "en"
+  },
+  {
+   "text": "show os name and version",
+   "lang": "en"
+  },
+  {
+   "text": "какой у меня линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о системе linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open"
+ ],
+ "steps": [
+  {
+   "explain": "Prints the release file that modern Linux systems have. Look for PRETTY_NAME (the full name with version) and VERSION_ID (the version number).",
+   "cmd": "cat /etc/os-release",
+   "gui": "Open the system Settings app and look for an About page; on GNOME and KDE Plasma it shows the distribution name and version.",
+   "risk": "low",
+   "expect": "Lines such as PRETTY_NAME=\"Ubuntu 24.04.5 LTS\" and VERSION_ID=\"24.04\", with your own system's name and version.",
+   "alternatives": [
+    {
+     "explain": "Shows only the name and version lines, without the rest of the file.",
+     "cmd": "grep -E \"^(PRETTY_NAME|VERSION_ID)=\" /etc/os-release",
+     "risk": "low"
+    },
+    {
+     "explain": "Print all available information about the Linux Standard Base and your distribution, including ID, description, release, and codename.",
+     "cmd": "lsb_release --all",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "grep -E \"^PRETTY_NAME=\" /etc/os-release",
+   "expect": "One line with your distribution name and version inside quotes."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/cat",
+  "title": "cat manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

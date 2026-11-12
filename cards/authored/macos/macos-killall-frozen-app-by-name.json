@@ -1,0 +1,145 @@
+{
+ "schema_version": 2,
+ "id": "macos-killall-frozen-app-by-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Quit a frozen app from Terminal by name with killall",
+ "summary": "If an app is frozen and Force Quit does not close it, you can stop all of its processes from Terminal by typing the app's process name with killall. Anything not saved in that app is lost, so try a normal quit first.",
+ "aliases": [
+  {
+   "text": "mac app frozen how to close from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "force quit not working mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "killall mac app",
+   "lang": "en"
+  },
+  {
+   "text": "kill app by name mac",
+   "lang": "en"
+  },
+  {
+   "text": "end task on mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "mac app not responding close in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "зависло приложение mac терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительно закрыть приложение терминал мак",
+   "lang": "ru"
+  },
+  {
+   "text": "killall mac как пользоваться",
+   "lang": "ru"
+  },
+  {
+   "text": "убить процесс по имени mac",
+   "lang": "ru"
+  },
+  {
+   "text": "мак приложение не отвечает как закрыть",
+   "lang": "ru"
+  },
+  {
+   "text": "закрыть зависшую программу в терминале mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the name of the frozen app, for example Safari"
+ ],
+ "steps": [
+  {
+   "explain": "Dry run: list the processes that killall would stop for this app name. Nothing is stopped in this step. Check that the names in the output match the app you want to close.",
+   "cmd": "killall -s \"<APP_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_NAME",
+     "description": "Process name of the frozen app, as shown in Activity Monitor or in the discover command output.",
+     "example": "Safari",
+     "discover_cmd": "ps -axco comm"
+    }
+   ],
+   "expect": "Lines that name the matching processes and their PIDs, with nothing stopped. If no process has that name, the command reports that no matching process was found."
+  },
+  {
+   "explain": "Ask the app and all of its processes to quit with the normal TERM signal. Wait about 10 seconds. A frozen app may ignore this signal and stay open.",
+   "cmd": "killall \"<APP_NAME>\"",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "APP_NAME",
+     "description": "Process name of the frozen app, the same name you used in the dry run.",
+     "example": "Safari",
+     "discover_cmd": "ps -axco comm"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Same signal, but killall asks for confirmation before it stops each process. Type y to stop it or n to keep it running.",
+     "cmd": "killall -I \"<APP_NAME>\"",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "APP_NAME",
+       "description": "Process name of the frozen app.",
+       "example": "Safari",
+       "discover_cmd": "ps -axco comm"
+      }
+     ]
+    },
+    {
+     "explain": "Use only if the step above did nothing after about 10 seconds. KILL is the signal Force Quit sends. It stops the processes at once, so the app gets no chance to save.",
+     "cmd": "killall -KILL \"<APP_NAME>\"",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "APP_NAME",
+       "description": "Process name of the frozen app.",
+       "example": "Safari",
+       "discover_cmd": "ps -axco comm"
+      }
+     ]
+    }
+   ],
+   "expect": "Usually no output when the processes stop. If no process has that name, killall prints an error instead."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Killing an app cannot be undone. Open the app again from Launchpad, Applications or Spotlight. Work that was not saved before the app was stopped is not recovered.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Unsaved changes in the app are lost when it is stopped this way.",
+  "Try the app's own Quit (Command-Q) or the Force Quit window first, if the app responds at all.",
+  "killall stops every process with that name, including helper processes that belong to the same app.",
+  "Use the exact process name. A name that is too short or a common word can stop other programs too; run the dry run first.",
+  "Do not use sudo for this. Stopping your own apps does not need administrator rights."
+ ],
+ "source": {
+  "url": "x-man-page://killall",
+  "title": "killall manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-nala-fetch-mirrors",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fetch fast mirrors with nala",
+ "summary": "Automatically find and configure the fastest package mirrors to improve download speeds using nala.",
+ "aliases": [
+  {
+   "text": "fetch mirrors nala",
+   "lang": "en"
+  },
+  {
+   "text": "fast mirrors nala",
+   "lang": "en"
+  },
+  {
+   "text": "nala fetch",
+   "lang": "en"
+  },
+  {
+   "text": "выбрать быстрые зеркала nala",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить зеркала nala",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ],
+  "requires": [
+   "nala"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Fetch and configure fast mirrors to improve download speeds.",
+   "cmd": "sudo nala fetch",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore your previous sources.list configuration if available.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This command modifies your repository configuration."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nala.md",
+  "title": "tldr-pages: nala",
+  "license": "CC-BY-4.0"
+ }
+}

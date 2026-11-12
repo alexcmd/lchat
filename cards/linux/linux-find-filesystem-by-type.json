@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-find-filesystem-by-type",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find filesystems by type",
+ "summary": "List only the mounted filesystems that match a specific type, such as ext4, btrfs, or virtiofs. Useful for filtering out noise when you only care about a specific file system format.",
+ "aliases": [
+  {
+   "text": "list ext4 filesystems",
+   "lang": "en"
+  },
+  {
+   "text": "find btrfs mounts",
+   "lang": "en"
+  },
+  {
+   "text": "filter mounts by type",
+   "lang": "en"
+  },
+  {
+   "text": "findmnt types",
+   "lang": "en"
+  },
+  {
+   "text": "найти файловые системы ext4",
+   "lang": "ru"
+  },
+  {
+   "text": "список монтирований по типу",
+   "lang": "ru"
+  },
+  {
+   "text": "findmnt -t ext4",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --types flag to filter the output by filesystem type.",
+   "cmd": "findmnt --types <TYPE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TYPE",
+     "description": "Filesystem type, e.g., ext4, btrfs, xfs",
+     "example": "ext4"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/findmnt.md",
+  "title": "tldr-pages: findmnt",
+  "license": "CC-BY-4.0"
+ }
+}

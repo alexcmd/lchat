@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-install-deb",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install a .deb package file",
+ "summary": "Use dpkg to install a downloaded .deb package file. This is useful when you have a specific package file and want to install it manually.",
+ "aliases": [
+  {
+   "text": "install deb file",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg install",
+   "lang": "en"
+  },
+  {
+   "text": "how to install deb",
+   "lang": "en"
+  },
+  {
+   "text": "установить deb пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg установить",
+   "lang": "ru"
+  },
+  {
+   "text": "как поставить deb",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the specified .deb package file using dpkg. You need administrator rights to install software.",
+   "cmd": "sudo dpkg --install <FILE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .deb package file you want to install",
+     "example": "./package.deb"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package if you need to undo the installation.",
+   "cmd": "sudo dpkg --remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to remove"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing .deb files manually bypasses dependency resolution. If the package has missing dependencies, you may need to install them separately or use apt instead."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dpkg.md",
+  "title": "tldr-pages: dpkg",
+  "license": "CC-BY-4.0"
+ }
+}

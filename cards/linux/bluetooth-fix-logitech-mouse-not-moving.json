@@ -1,0 +1,136 @@
+{
+ "schema_version": 2,
+ "id": "bluetooth-fix-logitech-mouse-not-moving",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix Logitech BLE mouse not moving after pairing",
+ "summary": "If your Logitech or Keychron Bluetooth mouse pairs but doesn't move, you need to explicitly trust and unblock the device in bluetoothctl.",
+ "aliases": [
+  {
+   "text": "logitech mouse not moving",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth mouse paired but not working",
+   "lang": "en"
+  },
+  {
+   "text": "keychron mouse not moving",
+   "lang": "en"
+  },
+  {
+   "text": "bluetoothctl unblock mouse",
+   "lang": "en"
+  },
+  {
+   "text": "мышь logitech не двигается",
+   "lang": "ru"
+  },
+  {
+   "text": "bluetooth мышь подключена но не работает",
+   "lang": "ru"
+  },
+  {
+   "text": "как разблокировать мышь bluetooth",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bluez"
+  ]
+ },
+ "prerequisites": [
+  "Bluetooth service is running",
+  "Mouse is in pairing mode"
+ ],
+ "steps": [
+  {
+   "explain": "Open the Bluetooth control interface.",
+   "cmd": "bluetoothctl",
+   "risk": "low"
+  },
+  {
+   "explain": "Turn Bluetooth off.",
+   "cmd": "power off",
+   "risk": "low"
+  },
+  {
+   "explain": "Turn Bluetooth back on.",
+   "cmd": "power on",
+   "risk": "low"
+  },
+  {
+   "explain": "Start scanning for devices.",
+   "cmd": "scan on",
+   "risk": "low"
+  },
+  {
+   "explain": "Remove the mouse if it is already paired. Replace <MAC_ADDRESS> with the mouse's MAC.",
+   "cmd": "remove <MAC_ADDRESS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MAC_ADDRESS",
+     "description": "The MAC address of the mouse",
+     "example": "AA:BB:CC:DD:EE:FF",
+     "discover_cmd": "bluetoothctl devices"
+    }
+   ]
+  },
+  {
+   "explain": "Put the mouse in pairing mode (usually by holding a button). Wait for it to appear in the scan list.",
+   "risk": "low"
+  },
+  {
+   "explain": "Trust the device so it can connect automatically.",
+   "cmd": "trust <MAC_ADDRESS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MAC_ADDRESS",
+     "description": "The MAC address of the mouse"
+    }
+   ]
+  },
+  {
+   "explain": "Pair the mouse with the computer.",
+   "cmd": "pair <MAC_ADDRESS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MAC_ADDRESS",
+     "description": "The MAC address of the mouse"
+    }
+   ]
+  },
+  {
+   "explain": "Connect to the mouse.",
+   "cmd": "connect <MAC_ADDRESS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MAC_ADDRESS",
+     "description": "The MAC address of the mouse"
+    }
+   ]
+  },
+  {
+   "explain": "Unblock the device control. This is the critical step for Logitech/Keychron mice.",
+   "cmd": "unblock",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_M720,_anywhere_mouse_2,_etc)",
+  "title": "Bluetooth mouse",
+  "revision_id": 886731,
+  "license": "GFDL-1.3-or-later"
+ }
+}

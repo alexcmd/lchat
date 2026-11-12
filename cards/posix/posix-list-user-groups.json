@@ -1,0 +1,130 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-user-groups",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List groups a user belongs to",
+ "summary": "Show which groups the current user or a specific user is a member of. This helps verify permissions or troubleshoot access issues.",
+ "aliases": [
+  {
+   "text": "list groups",
+   "lang": "en"
+  },
+  {
+   "text": "what groups am i in",
+   "lang": "en"
+  },
+  {
+   "text": "check user groups",
+   "lang": "en"
+  },
+  {
+   "text": "show groups for user",
+   "lang": "en"
+  },
+  {
+   "text": "groups command",
+   "lang": "en"
+  },
+  {
+   "text": "какие группы у пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "список групп",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить группы",
+   "lang": "ru"
+  },
+  {
+   "text": "группы пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "id of another user",
+   "lang": "en"
+  },
+  {
+   "text": "list user groups linux",
+   "lang": "en"
+  },
+  {
+   "text": "groups command linux",
+   "lang": "en"
+  },
+  {
+   "text": "id command linux",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть группы юзера",
+   "lang": "ru"
+  },
+  {
+   "text": "check user id",
+   "lang": "en"
+  },
+  {
+   "text": "kakoy id u drugogo user",
+   "lang": "ru"
+  },
+  {
+   "text": "id drugogo polzovatelya",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command without arguments to see the groups for the currently logged-in user.",
+   "cmd": "groups",
+   "risk": "low",
+   "expect": "A space-separated list of group names (e.g., 'user sudo audio').",
+   "alternatives": [
+    {
+     "explain": "Run id with a username to display that user's UID, GID, and group memberships.",
+     "cmd": "id <USERNAME>",
+     "placeholders": [
+      {
+       "name": "USERNAME",
+       "description": "The username to check",
+       "example": "john"
+      }
+     ],
+     "expect": "Output showing uid, gid, and groups for the specified user",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "To check groups for a different user, provide their username as an argument.",
+   "cmd": "groups <USERNAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The name of the user whose groups you want to list.",
+     "example": "john"
+    }
+   ],
+   "expect": "A space-separated list of group names for the specified user."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/groups.md",
+  "title": "tldr-pages: groups",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-check-user-and-groups"
+ ]
+}

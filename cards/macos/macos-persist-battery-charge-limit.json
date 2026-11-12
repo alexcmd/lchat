@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "macos-persist-battery-charge-limit",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Make battery charge limit persistent after reboot",
+ "summary": "Ensure that your custom battery charge limit remains active after restarting your Mac or resetting the SMC.",
+ "aliases": [
+  {
+   "text": "keep battery limit after restart",
+   "lang": "en"
+  },
+  {
+   "text": "persist battery charge limit",
+   "lang": "en"
+  },
+  {
+   "text": "bclm persist",
+   "lang": "en"
+  },
+  {
+   "text": "save battery limit mac",
+   "lang": "en"
+  },
+  {
+   "text": "сохранить лимит заряда после перезагрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать лимит батареи постоянным",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The `bclm` tool must be installed.",
+  "A charge limit should already be set using `sudo bclm write`."
+ ],
+ "steps": [
+  {
+   "explain": "Apply the current charge limit persistently so it survives reboots and SMC resets.",
+   "cmd": "sudo bclm persist",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove the persistent charge limit setting.",
+   "cmd": "sudo bclm unpersist",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This modifies system-level power management persistence."
+ ],
+ "see_also": [
+  "macos-set-battery-charge-limit"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/bclm.md",
+  "title": "tldr-pages: bclm",
+  "license": "CC-BY-4.0"
+ }
+}

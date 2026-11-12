@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-record-screen",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Record the screen to a video file",
+ "summary": "Start a screen recording and save it as a video file. Stop the recording by pressing Ctrl+C in the terminal.",
+ "aliases": [
+  {
+   "text": "record screen mac",
+   "lang": "en"
+  },
+  {
+   "text": "screen recording terminal",
+   "lang": "en"
+  },
+  {
+   "text": "screencapture video",
+   "lang": "en"
+  },
+  {
+   "text": "record desktop mac",
+   "lang": "en"
+  },
+  {
+   "text": "screen capture video mac",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the screencapture command with the -v flag and the path for the video file. The recording starts immediately.",
+   "cmd": "screencapture -v <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The full path and filename for the video, e.g., ~/Desktop/recording.mp4",
+     "example": "~/Desktop/recording.mp4"
+    }
+   ],
+   "expect": "The terminal will wait for input. Press Ctrl+C to stop the recording."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/screencapture.md",
+  "title": "tldr-pages: screencapture",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-stat-terse-output",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show file info without labels",
+ "summary": "Use the terse mode of stat to display raw data values only, without the descriptive labels, which is useful for scripting or quick reading.",
+ "aliases": [
+  {
+   "text": "stat terse",
+   "lang": "en"
+  },
+  {
+   "text": "raw file info",
+   "lang": "en"
+  },
+  {
+   "text": "stat without labels",
+   "lang": "en"
+  },
+  {
+   "text": "compact stat output",
+   "lang": "en"
+  },
+  {
+   "text": "стат без меток",
+   "lang": "ru"
+  },
+  {
+   "text": "сырые данные файла",
+   "lang": "ru"
+  },
+  {
+   "text": "короткий вывод stat",
+   "lang": "ru"
+  },
+  {
+   "text": "терсе режим",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --terse option to print only the values of the file properties, omitting the labels.",
+   "cmd": "stat -t <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file",
+     "example": "data.csv"
+    }
+   ],
+   "expect": "A single line of space-separated values representing file properties."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/stat.md",
+  "title": "tldr-pages: stat",
+  "license": "CC-BY-4.0"
+ }
+}

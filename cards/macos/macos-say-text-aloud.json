@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "macos-say-text-aloud",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Say a phrase aloud using text-to-speech",
+ "summary": "Use the `say` command to have your Mac speak a phrase out loud. You can also save the speech to an audio file or read a text file.",
+ "aliases": [
+  {
+   "text": "say text aloud",
+   "lang": "en"
+  },
+  {
+   "text": "text to speech mac",
+   "lang": "en"
+  },
+  {
+   "text": "make mac talk",
+   "lang": "en"
+  },
+  {
+   "text": "say command mac",
+   "lang": "en"
+  },
+  {
+   "text": "kak sdelat chtob mak govoril",
+   "lang": "ru"
+  },
+  {
+   "text": "ozvuchka teksta mac",
+   "lang": "ru"
+  },
+  {
+   "text": "say komanda",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Type the phrase you want the Mac to speak inside quotes.",
+   "cmd": "say \"<PHRASE>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PHRASE",
+     "description": "The text you want the Mac to speak aloud.",
+     "example": "Hello world"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Read the contents of a text file aloud.",
+     "cmd": "say --input-file <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the text file to read.",
+       "example": "notes.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Save the spoken text to an audio file instead of playing it.",
+     "cmd": "say --output-file <AUDIO_FILE> \"<PHRASE>\"",
+     "placeholders": [
+      {
+       "name": "AUDIO_FILE",
+       "description": "Path to the .aiff file to create.",
+       "example": "output.aiff"
+      },
+      {
+       "name": "PHRASE",
+       "description": "The text to convert to speech.",
+       "example": "Hello world"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/say.md",
+  "title": "tldr-pages: say",
+  "license": "CC-BY-4.0"
+ }
+}

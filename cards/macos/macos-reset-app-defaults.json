@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "macos-reset-app-defaults",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Reset application settings to factory defaults",
+ "summary": "Delete all custom configuration settings for an application, effectively resetting it to its initial state.",
+ "aliases": [
+  {
+   "text": "reset app settings",
+   "lang": "en"
+  },
+  {
+   "text": "delete app preferences",
+   "lang": "en"
+  },
+  {
+   "text": "defaults delete",
+   "lang": "en"
+  },
+  {
+   "text": "factory reset app",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить настройки приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить настройки приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "defaults delete",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete all stored defaults for a specific application. This removes all custom settings and preferences.",
+   "cmd": "defaults delete \"<APPLICATION>\"",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "APPLICATION",
+     "description": "The bundle identifier or name of the app",
+     "example": "com.apple.Safari"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This action deletes ALL custom settings for the app. You cannot undo this.",
+  "The app will behave as if it were freshly installed."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no command to restore deleted defaults. You must manually reconfigure the app or restore from a backup.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/defaults.md",
+  "title": "tldr-pages: defaults",
+  "license": "CC-BY-4.0"
+ }
+}

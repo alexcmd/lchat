@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-go-previous-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Go to the previously chosen directory",
+ "summary": "Switch back to the directory you were in before the last cd command.",
+ "aliases": [
+  {
+   "text": "cd previous directory",
+   "lang": "en"
+  },
+  {
+   "text": "go back to last directory",
+   "lang": "en"
+  },
+  {
+   "text": "cd -",
+   "lang": "en"
+  },
+  {
+   "text": "previous working directory",
+   "lang": "en"
+  },
+  {
+   "text": "toggle directory",
+   "lang": "en"
+  },
+  {
+   "text": "вернуться в прошлую директорию",
+   "lang": "ru"
+  },
+  {
+   "text": "cd -",
+   "lang": "ru"
+  },
+  {
+   "text": "предыдущая папка",
+   "lang": "ru"
+  },
+  {
+   "text": "назад в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "переключить директорию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the current directory to the previously chosen directory.",
+   "cmd": "cd -",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cd.md",
+  "title": "tldr-pages: cd",
+  "license": "CC-BY-4.0"
+ }
+}

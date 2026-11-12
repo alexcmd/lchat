@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-first-app-store-result",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install the first matching Mac App Store app",
+ "summary": "Quickly install the first application that matches your search term. This is a shortcut for when you know the app name and don't want to look up the ID.",
+ "aliases": [
+  {
+   "text": "install first app result",
+   "lang": "en"
+  },
+  {
+   "text": "mas lucky",
+   "lang": "en"
+  },
+  {
+   "text": "quick install app store",
+   "lang": "en"
+  },
+  {
+   "text": "установить первое приложение",
+   "lang": "ru"
+  },
+  {
+   "text": "mas lucky",
+   "lang": "ru"
+  },
+  {
+   "text": "быстрая установка app store",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mas"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the first application that would be returned by a search for the given term.",
+   "cmd": "mas lucky \"<SEARCH_TERM>\"",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SEARCH_TERM",
+     "description": "The name or keyword to search for",
+     "example": "Slack"
+    }
+   ],
+   "expect": "The first matching app is installed."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct command to uninstall an app via mas. You must delete the app from the Applications folder in Finder.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This installs the first result, which might not be the exact app you want if the search term is ambiguous."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mas.md",
+  "title": "tldr-pages: mas",
+  "license": "CC-BY-4.0"
+ }
+}

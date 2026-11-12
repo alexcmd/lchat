@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-routing-table",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show the network routing table",
+ "summary": "Display the system's routing table to see how network traffic is directed. This command shows the default gateway and other routes without resolving IP addresses to hostnames for faster output.",
+ "aliases": [
+  {
+   "text": "show routing table mac",
+   "lang": "en"
+  },
+  {
+   "text": "netstat routing table",
+   "lang": "en"
+  },
+  {
+   "text": "check network routes mac",
+   "lang": "en"
+  },
+  {
+   "text": "показать таблицу маршрутизации mac",
+   "lang": "ru"
+  },
+  {
+   "text": "netstat маршруты",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть маршруты на маке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run netstat with flags to print the routing table (-r) and avoid resolving IP addresses to hostnames (-n), which makes the output faster and cleaner.",
+   "cmd": "netstat -nr",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show only the IPv4 routing table.",
+     "cmd": "netstat -nr -f inet",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/netstat.md",
+  "title": "tldr-pages: netstat",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-list-network-interfaces",
+  "macos-get-network-info"
+ ]
+}

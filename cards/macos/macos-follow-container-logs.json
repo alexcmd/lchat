@@ -1,0 +1,56 @@
+{
+ "schema_version": 2,
+ "id": "macos-follow-container-logs",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Follow container logs",
+ "summary": "Displays the log output of a container and keeps updating as new logs are generated.",
+ "aliases": [
+  {
+   "text": "follow container logs",
+   "lang": "en"
+  },
+  {
+   "text": "container logs",
+   "lang": "en"
+  },
+  {
+   "text": "view container output",
+   "lang": "en"
+  },
+  {
+   "text": "логи контейнера",
+   "lang": "ru"
+  },
+  {
+   "text": "container logs -f",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Shows the logs for a specific container and follows them in real-time.",
+   "cmd": "container logs --follow <CONTAINER_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CONTAINER_NAME",
+     "description": "The name of the container whose logs you want to see."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/container.md",
+  "title": "tldr-pages: container",
+  "license": "CC-BY-4.0"
+ }
+}

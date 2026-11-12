@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-network-info",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show network settings for a specific device",
+ "summary": "Display detailed network configuration information for a specific network service, such as Wi-Fi or Ethernet.",
+ "aliases": [
+  {
+   "text": "show wifi settings mac",
+   "lang": "en"
+  },
+  {
+   "text": "network info for wifi mac",
+   "lang": "en"
+  },
+  {
+   "text": "check network configuration mac",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup getinfo",
+   "lang": "en"
+  },
+  {
+   "text": "показать настройки сети mac",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о сети wifi mac",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить конфигурацию сети mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Get information for a specific network service. Replace <SERVICE_NAME> with the name from the list of services (e.g., \"Wi-Fi\").",
+   "cmd": "networksetup -getinfo \"<SERVICE_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the network service, e.g., Wi-Fi or Ethernet.",
+     "example": "Wi-Fi",
+     "discover_cmd": "networksetup -listallnetworkservices"
+    }
+   ],
+   "expect": "Network configuration details like IP address, subnet mask, and router."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/networksetup.md",
+  "title": "tldr-pages: networksetup",
+  "license": "CC-BY-4.0"
+ }
+}

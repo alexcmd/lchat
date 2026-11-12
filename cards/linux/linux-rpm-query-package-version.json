@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-rpm-query-package-version",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check installed version of an RPM package",
+ "summary": "Use rpm to find out which version of a specific package is installed on your system.",
+ "aliases": [
+  {
+   "text": "check rpm package version",
+   "lang": "en"
+  },
+  {
+   "text": "what version of httpd is installed",
+   "lang": "en"
+  },
+  {
+   "text": "rpm query package",
+   "lang": "en"
+  },
+  {
+   "text": "проверить версию пакета rpm",
+   "lang": "ru"
+  },
+  {
+   "text": "какая версия пакета установлена",
+   "lang": "ru"
+  },
+  {
+   "text": "rpm версия пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "opensuse"
+   },
+   {
+    "family": "other"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the RPM database for the installed version of the specified package.",
+   "cmd": "rpm -q <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "Name of the package to check, e.g. httpd",
+     "example": "httpd"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/rpm.md",
+  "title": "tldr-pages: rpm",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,140 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-homebrew",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install Homebrew on a new Mac (Apple Silicon or Intel)",
+ "summary": "Homebrew is the most common package manager for macOS. The official install script installs it, and then you add it to your shell so the brew command works in Terminal.",
+ "aliases": [
+  {
+   "text": "install homebrew on mac",
+   "lang": "en"
+  },
+  {
+   "text": "how to install brew on macos",
+   "lang": "en"
+  },
+  {
+   "text": "brew command not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew setup new mac",
+   "lang": "en"
+  },
+  {
+   "text": "install homebrew apple silicon",
+   "lang": "en"
+  },
+  {
+   "text": "install brew m1 mac",
+   "lang": "en"
+  },
+  {
+   "text": "установить homebrew на мак",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить brew на макбук",
+   "lang": "ru"
+  },
+  {
+   "text": "установка хомбрю на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "brew не найден на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "поставить homebrew на m1",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You know the login password of your Mac account (it must be an administrator account)",
+  "The Mac is connected to the internet",
+  "Terminal is open (Applications, Utilities, Terminal)"
+ ],
+ "steps": [
+  {
+   "explain": "Check which kind of Mac you have. The output arm64 means Apple Silicon (M1 or newer). The output x86_64 means Intel. The next steps differ for the two.",
+   "cmd": "uname -m",
+   "risk": "low",
+   "expect": "One line: arm64 (Apple Silicon) or x86_64 (Intel)."
+  },
+  {
+   "explain": "Run the official Homebrew install script from brew.sh. Press Return when it asks, enter your Mac password when prompted, and wait. Do not add sudo in front of this command.",
+   "cmd": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+   "risk": "medium",
+   "expect": "Lines starting with ==> are printed, and the output ends with 'Installation successful!'. The download takes several minutes."
+  },
+  {
+   "explain": "Add Homebrew to your shell profile so that brew is found in every new Terminal window. On Apple Silicon use this line.",
+   "cmd": "echo 'eval \"$(/opt/homebrew/bin/brew shellenv)\"' >> ~/.zprofile",
+   "risk": "low",
+   "expect": "No output. One line is appended to ~/.zprofile. Running this command twice adds the line twice, which is harmless.",
+   "alternatives": [
+    {
+     "explain": "On Intel Macs use this line instead, because Homebrew is installed in /usr/local.",
+     "cmd": "echo 'eval \"$(/usr/local/bin/brew shellenv)\"' >> ~/.zprofile",
+     "risk": "low",
+     "expect": "No output. One line is appended to ~/.zprofile."
+    }
+   ]
+  },
+  {
+   "explain": "Load Homebrew into the current Terminal window now, so you do not have to open a new window. On Apple Silicon use this line.",
+   "cmd": "eval \"$(/opt/homebrew/bin/brew shellenv)\"",
+   "risk": "low",
+   "expect": "No output and no error.",
+   "alternatives": [
+    {
+     "explain": "On Intel Macs use this line instead.",
+     "cmd": "eval \"$(/usr/local/bin/brew shellenv)\"",
+     "risk": "low",
+     "expect": "No output and no error."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "brew --version",
+   "expect": "The first line starts with 'Homebrew ' followed by a version number."
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "Remove the eval line that was added to ~/.zprofile. Open the file in TextEdit or any editor and delete the line that contains brew shellenv.",
+   "risk": "low"
+  },
+  {
+   "explain": "To remove Homebrew completely, run the official uninstall.sh script from the Homebrew/install repository on GitHub. Read the script first, because it deletes the Homebrew folders.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "The install script asks for your Mac password and may install the Xcode Command Line Tools, which is a large download.",
+  "Never run the install script as root or with sudo in front of it. The script stops with the message: Don't run this as root!",
+  "Install Homebrew only from the official URL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh, which is linked from brew.sh."
+ ],
+ "see_also": [
+  "posix-brew-install-package",
+  "posix-brew-doctor"
+ ],
+ "source": {
+  "url": "x-man-page://brew",
+  "title": "brew manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

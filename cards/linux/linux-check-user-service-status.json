@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-user-service-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check the status of a user service",
+ "summary": "View the status of systemd units that run in the user's session rather than the system-wide session.",
+ "aliases": [
+  {
+   "text": "check user service",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl status user",
+   "lang": "en"
+  },
+  {
+   "text": "user session services",
+   "lang": "en"
+  },
+  {
+   "text": "проверить пользовательскую службу",
+   "lang": "ru"
+  },
+  {
+   "text": "статус сервиса пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl --user",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the status of a unit running in the user's systemd instance.",
+   "cmd": "systemctl status <UNIT> --user",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UNIT",
+     "description": "The name of the user unit (e.g., pipewire, gnome-keyring)",
+     "example": "pipewire"
+    }
+   ],
+   "expect": "Output showing the status of the user unit."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-status.md",
+  "title": "tldr-pages: systemctl-status",
+  "license": "CC-BY-4.0"
+ }
+}

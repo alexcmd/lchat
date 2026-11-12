@@ -1,0 +1,140 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-xcrun-invalid-developer-path",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'xcrun: error: invalid active developer path' after a macOS update",
+ "summary": "After a macOS update, git or a compiler can stop working with an error about an invalid active developer path. Check which developer folder the Mac uses, then reinstall the Command Line Tools or point the Mac to a folder that exists.",
+ "aliases": [
+  {
+   "text": "xcrun error invalid active developer path",
+   "lang": "en"
+  },
+  {
+   "text": "xcrun eror invalid developer path",
+   "lang": "en"
+  },
+  {
+   "text": "git stopped working after macos update",
+   "lang": "en"
+  },
+  {
+   "text": "xcrun error after mac update",
+   "lang": "en"
+  },
+  {
+   "text": "xcode-select install error mac",
+   "lang": "en"
+  },
+  {
+   "text": "reinstall command line tools mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac update broke git",
+   "lang": "en"
+  },
+  {
+   "text": "xcrun ошибка invalid active developer path",
+   "lang": "ru"
+  },
+  {
+   "text": "git не работает после обновления macos",
+   "lang": "ru"
+  },
+  {
+   "text": "xcrun ошибка после обновления mac",
+   "lang": "ru"
+  },
+  {
+   "text": "переустановить command line tools mac",
+   "lang": "ru"
+  },
+  {
+   "text": "ксрун ошибка developer path mac",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "unable to find Xcode installation from active developer path"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the folder the Mac uses for developer tools. Look for a path ending in CommandLineTools or Xcode.app/Contents/Developer. Write the path down. If it names a folder that no longer exists, the tools cannot run and the next step fixes it.",
+   "cmd": "xcode-select --print-path",
+   "expect": "/Library/Developer/CommandLineTools or /Applications/Xcode.app/Contents/Developer",
+   "risk": "low"
+  },
+  {
+   "explain": "Open the macOS dialog that installs the Command Line Tools (git, make, clang). Click Install and wait until it finishes; this can take several minutes.",
+   "cmd": "xcode-select --install",
+   "expect": "A dialog asks to install the command line developer tools.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Use this instead if the path from the first step points to an Xcode.app you deleted or moved. It clears the custom path so macOS uses the default one again. Asks for your administrator password.",
+     "cmd": "sudo xcode-select --reset",
+     "needs_root": true,
+     "risk": "medium",
+     "expect": "No output when it works."
+    },
+    {
+     "explain": "Use this if Xcode.app is installed in Applications and you want the tools to come from it. Asks for your administrator password.",
+     "cmd": "sudo xcode-select --switch /Applications/Xcode.app",
+     "needs_root": true,
+     "risk": "medium",
+     "expect": "No output when it works."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "xcode-select --print-path",
+   "expect": "Prints a path, and the folder it names exists."
+  },
+  {
+   "cmd": "xcrun --find clang",
+   "expect": "Prints a path to clang inside the active developer folder, for example /Library/Developer/CommandLineTools/usr/bin/clang."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Only if you ran the reset or switch alternative: set the path back to the one you wrote down in the first step.",
+   "cmd": "sudo xcode-select --switch <OLD_PATH>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "OLD_PATH",
+     "description": "Developer folder printed by the first step, before you changed it",
+     "example": "/Library/Developer/CommandLineTools"
+    }
+   ],
+   "expect": "No output when it works."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "The reset and switch commands change the developer tools for every user on this Mac.",
+  "Do not delete the CommandLineTools folder by hand; use the install dialog instead.",
+  "The install dialog needs an internet connection and can take several minutes."
+ ],
+ "see_also": [
+  "macos-install-xcode-command-line-tools",
+  "macos-check-active-developer-directory",
+  "macos-switch-xcode-version"
+ ],
+ "source": {
+  "url": "x-man-page://xcode-select",
+  "title": "xcode-select manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

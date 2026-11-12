@@ -1,0 +1,161 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-find-kill-cpu-hog",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Find a program using all the CPU and stop it safely",
+  "summary": "List the programs that use the most processor time, check which one is stuck, and ask it to stop. Force it to stop only if it ignores that request. Work only on programs you started or know.",
+  "aliases": [
+    {
+      "text": "find process using most cpu",
+      "lang": "en"
+    },
+    {
+      "text": "kill runaway process linux",
+      "lang": "en"
+    },
+    {
+      "text": "program using 100 percent cpu",
+      "lang": "en"
+    },
+    {
+      "text": "stop frozen program linux",
+      "lang": "en"
+    },
+    {
+      "text": "top cpu process kill",
+      "lang": "en"
+    },
+    {
+      "text": "fan loud what process cpu",
+      "lang": "en"
+    },
+    {
+      "text": "kill process by cpu usage",
+      "lang": "en"
+    },
+    {
+      "text": "stuck process linux kill -9",
+      "lang": "en"
+    },
+    {
+      "text": "какая программа грузит процессор",
+      "lang": "ru"
+    },
+    {
+      "text": "убить зависший процесс linux",
+      "lang": "ru"
+    },
+    {
+      "text": "процесс съедает весь cpu",
+      "lang": "ru"
+    },
+    {
+      "text": "как остановить программу которая тормозит",
+      "lang": "ru"
+    },
+    {
+      "text": "kill -9 когда не помогает",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "ps",
+      "kill"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "List the programs that use the most processor time. Note: %CPU here is an average over each program's whole life, so a program that was busy earlier still shows high. The alternative line shows the current load.",
+      "risk": "low",
+      "cmd": "ps -eo pid,user,pcpu,etime,args --sort=-pcpu | head -n 8",
+      "expect": "A header line (PID USER %CPU ELAPSED COMMAND) and up to 7 rows, highest %CPU first.",
+      "alternatives": [
+        {
+          "explain": "Show the current load instead of the lifetime average. top runs one update and sorts by CPU.",
+          "cmd": "top -b -n 1 -o %CPU | head -n 15"
+        }
+      ]
+    },
+    {
+      "explain": "Look at the suspect process. Make sure the command is a program you started or know, not a system service.",
+      "risk": "low",
+      "cmd": "ps -o pid,ppid,user,etime,args -p <PID>",
+      "expect": "One row with the same PID and the full command line.",
+      "placeholders": [
+        {
+          "name": "PID",
+          "description": "Process ID from the list in step 1",
+          "example": "4321",
+          "discover_cmd": "ps -eo pid,pcpu,args --sort=-pcpu | head -n 5"
+        }
+      ]
+    },
+    {
+      "explain": "Ask the program to stop politely (SIGTERM). A well-written program saves its data and exits.",
+      "risk": "medium",
+      "cmd": "kill -TERM <PID>",
+      "expect": "No output. The program may print a goodbye message in its own window.",
+      "placeholders": [
+        {
+          "name": "PID",
+          "description": "Process ID from the list in step 1",
+          "example": "4321",
+          "discover_cmd": "ps -eo pid,pcpu,args --sort=-pcpu | head -n 5"
+        }
+      ]
+    },
+    {
+      "explain": "Wait a few seconds and check again. No row after the header means the program has stopped. A row with STAT Z is a finished program waiting for its parent; it uses no CPU.",
+      "risk": "low",
+      "cmd": "sleep 5; ps -p <PID> -o pid,stat,args",
+      "expect": "Only the header line when the program has stopped.",
+      "placeholders": [
+        {
+          "name": "PID",
+          "description": "Process ID from the list in step 1",
+          "example": "4321",
+          "discover_cmd": "ps -eo pid,pcpu,args --sort=-pcpu | head -n 5"
+        }
+      ]
+    },
+    {
+      "explain": "Only if step 4 still shows the process: force it to stop. The program gets no chance to save, so files it was writing may be left incomplete.",
+      "risk": "medium",
+      "cmd": "kill -KILL <PID>",
+      "expect": "No output.",
+      "placeholders": [
+        {
+          "name": "PID",
+          "description": "Process ID from the list in step 1",
+          "example": "4321",
+          "discover_cmd": "ps -eo pid,pcpu,args --sort=-pcpu | head -n 5"
+        }
+      ]
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "A stopped program is not restored automatically. Start it again the way you normally do; if it is a service, use its service manager. Unsaved work in it is lost.",
+      "risk": "medium"
+    }
+  ],
+  "warnings": [
+    "Do not stop the display server, the audio server or anything owned by root or another user unless you know what it is; those need administrator rights.",
+    "kill -KILL cannot be caught by the program, so unsaved data in it is lost. Use it only after the polite request failed.",
+    "ps %CPU is an average over the process's life. Use the top line in step 1 to see the current load."
+  ],
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man1/ps.1.html",
+    "title": "ps(1) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

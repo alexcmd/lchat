@@ -1,0 +1,113 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-invalid-pgp-signature-fix",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix pacman error 'invalid or corrupted package (PGP signature)' by refreshing the Arch keyring",
+ "summary": "Pacman refuses to install a package when it cannot check the package's digital signature, usually because its Arch Linux keys are outdated. Refreshing the archlinux-keyring package and loading its keys lets pacman verify packages again.",
+ "aliases": [
+  {
+   "text": "pacman invalid or corrupted package PGP signature",
+   "lang": "en"
+  },
+  {
+   "text": "arch linux pacman signature error fix",
+   "lang": "en"
+  },
+  {
+   "text": "pacman keyring error",
+   "lang": "en"
+  },
+  {
+   "text": "pacman-key populate archlinux",
+   "lang": "en"
+  },
+  {
+   "text": "archlinux keyring update",
+   "lang": "en"
+  },
+  {
+   "text": "pacman invalid or corrupted package",
+   "lang": "en"
+  },
+  {
+   "text": "pacman ошибка подписи пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman invalid or corrupted package как исправить",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка PGP подписи pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить ключи pacman arch",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "invalid or corrupted package (PGP signature)"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "pacman"
+  ]
+ },
+ "prerequisites": [
+  "Internet connection",
+  "Administrator (sudo) password"
+ ],
+ "steps": [
+  {
+   "explain": "Check which keys pacman trusts. You should see a list of keys starting with 'pub' and an 'uid' line for each. An empty list or a gpg error means the keyring is broken and the next steps are needed.",
+   "cmd": "sudo pacman-key --list-keys",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "A list of 'pub' key entries under /etc/pacman.d/gnupg/pubring.gpg, ending without an 'error:' line."
+  },
+  {
+   "explain": "Update the archlinux-keyring package from the Arch servers. It contains the current Arch Linux package signing keys. Its package lists are refreshed too, but nothing else is upgraded.",
+   "cmd": "sudo pacman -Sy archlinux-keyring",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The output ends with 'Running post-transaction hooks...' and has no 'error:' lines. Type y and press Enter if pacman asks to proceed."
+  },
+  {
+   "explain": "Load the Arch Linux keys from the keyring package into pacman's key store and update its trust database.",
+   "cmd": "sudo pacman-key --populate archlinux",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Lines '==> Appending keys from archlinux.gpg...' and '==> Updating trust database...' with no error."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "pacman -Q archlinux-keyring",
+   "expect": "The line 'archlinux-keyring' followed by a version number, for example 'archlinux-keyring 20260909-1'. The number changes over time."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no simple undo: the keyring only adds trusted Arch Linux keys. Do not delete files in /etc/pacman.d/gnupg by hand. If the error comes back, repeat the steps above.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "pacman -Sy refreshes the package lists without upgrading installed packages. On an old system, run a full upgrade soon after (sudo pacman -Syu) because a partial upgrade can break the system.",
+  "If the error still appears after these steps, the package file itself may be damaged. Try again later, or ask in the Arch Linux forums or the Arch wiki before forcing the install."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/pacman",
+  "title": "pacman manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

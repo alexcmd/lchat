@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "bluetooth-fix-swapped-alt-super",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix swapped Alt and Super keys on Bluetooth keyboard",
+ "summary": "Some keyboards activate Apple mode which swaps Alt and Super keys. Removing the hid_apple kernel module and reconnecting the keyboard fixes this.",
+ "aliases": [
+  {
+   "text": "alt super swapped bluetooth",
+   "lang": "en"
+  },
+  {
+   "text": "keyboard apple mode linux",
+   "lang": "en"
+  },
+  {
+   "text": "fix alt super swap",
+   "lang": "en"
+  },
+  {
+   "text": "перепутаны alt super клавиатура",
+   "lang": "ru"
+  },
+  {
+   "text": "клавиатура apple mode linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the hid_apple kernel module which causes the key swap.",
+   "cmd": "sudo rmmod hid_apple",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Disconnect and reconnect your Bluetooth keyboard.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reboot the system to reload the hid_apple module and restore original behavior.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This change is temporary and will revert on reboot. To make it permanent, blacklist the hid_apple module."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Bluetooth_keyboard#Alt_and_Super_are_swapped",
+  "title": "Bluetooth keyboard",
+  "revision_id": 815659,
+  "license": "GFDL-1.3-or-later"
+ }
+}

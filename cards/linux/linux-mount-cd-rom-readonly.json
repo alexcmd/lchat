@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-mount-cd-rom-readonly",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount a CD-ROM or DVD as read-only",
+ "summary": "Access the contents of a physical CD or DVD drive in a specific directory without allowing changes.",
+ "aliases": [
+  {
+   "text": "mount cd rom",
+   "lang": "en"
+  },
+  {
+   "text": "access dvd drive",
+   "lang": "en"
+  },
+  {
+   "text": "mount iso9660",
+   "lang": "en"
+  },
+  {
+   "text": "read only cd mount",
+   "lang": "en"
+  },
+  {
+   "text": "montirovat disk cd",
+   "lang": "ru"
+  },
+  {
+   "text": "otkryt dvd disk",
+   "lang": "ru"
+  },
+  {
+   "text": "mount cdrom",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Mount the CD-ROM device using the iso9660 filesystem type and read-only options to /cdrom.",
+   "cmd": "sudo mount --types iso9660 --options ro /dev/cdrom /cdrom",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure /cdrom exists or is created beforehand if required by your system configuration.",
+  "You need administrator privileges to mount optical drives."
+ ],
+ "rollback": [
+  {
+   "explain": "Unmount the CD-ROM.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/mount.md",
+  "title": "tldr-pages: mount",
+  "license": "CC-BY-4.0"
+ }
+}

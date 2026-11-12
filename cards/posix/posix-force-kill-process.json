@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "posix-force-kill-process",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Force kill an unresponsive process",
+ "summary": "Send a SIGKILL signal to immediately stop a process that is not responding to normal termination requests.",
+ "aliases": [
+  {
+   "text": "force kill",
+   "lang": "en"
+  },
+  {
+   "text": "kill -9",
+   "lang": "en"
+  },
+  {
+   "text": "force stop app",
+   "lang": "en"
+  },
+  {
+   "text": "process not responding",
+   "lang": "en"
+  },
+  {
+   "text": "убить наповал",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительно закрыть",
+   "lang": "ru"
+  },
+  {
+   "text": "килл 9",
+   "lang": "ru"
+  },
+  {
+   "text": "завис процесс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send the SIGKILL signal (-9) to the process ID. This forces the operating system to terminate the process immediately without giving it a chance to clean up.",
+   "cmd": "kill -9 <PROCESS_ID>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PROCESS_ID",
+     "description": "The numeric ID of the process to force kill",
+     "example": "12345"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Force killing a process can lead to data loss or corrupted files if the program was in the middle of saving.",
+  "Use this only if the process does not respond to a normal kill signal."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct rollback for a killed process. You must restart the application manually if needed.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/kill.md",
+  "title": "tldr-pages: kill",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,112 @@
+{
+ "schema_version": 2,
+ "id": "posix-move-overwrite-control",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Control file overwriting when moving files",
+ "summary": "Use flags with mv to force overwriting, ask for confirmation, or prevent overwriting existing files at the destination.",
+ "aliases": [
+  {
+   "text": "mv overwrite",
+   "lang": "en"
+  },
+  {
+   "text": "mv force",
+   "lang": "en"
+  },
+  {
+   "text": "mv interactive",
+   "lang": "en"
+  },
+  {
+   "text": "mv no clobber",
+   "lang": "en"
+  },
+  {
+   "text": "mv перезапись",
+   "lang": "ru"
+  },
+  {
+   "text": "mv не перезаписывать",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Move a file and force overwrite the target if it exists, without prompting.",
+   "cmd": "mv -f <SOURCE> <TARGET>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE",
+     "description": "Path to the source file",
+     "example": "file.txt"
+    },
+    {
+     "name": "TARGET",
+     "description": "Path to the target file (will be overwritten)",
+     "example": "backup/file.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Move a file and prompt for confirmation before overwriting an existing target.",
+     "cmd": "mv -i <SOURCE> <TARGET>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SOURCE",
+       "description": "Path to the source file",
+       "example": "file.txt"
+      },
+      {
+       "name": "TARGET",
+       "description": "Path to the target file",
+       "example": "backup/file.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Move a file but do not overwrite the target if it already exists.",
+     "cmd": "mv -n <SOURCE> <TARGET>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SOURCE",
+       "description": "Path to the source file",
+       "example": "file.txt"
+      },
+      {
+       "name": "TARGET",
+       "description": "Path to the target file",
+       "example": "backup/file.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If you accidentally overwrote a file, you cannot undo the move directly. You must restore the file from a backup.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Using --force will permanently overwrite the target file without warning.",
+  "There is no built-in undo for mv; ensure you have backups if using --force."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/mv.md",
+  "title": "tldr-pages: mv",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,122 @@
+{
+ "schema_version": 2,
+ "id": "linux-manage-partitions-fdisk",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Manage disk partitions interactively",
+ "summary": "Use the interactive fdisk tool to create, delete, or view partitions on a specific drive. Changes are only saved when you explicitly write them.",
+ "aliases": [
+  {
+   "text": "fdisk interactive",
+   "lang": "en"
+  },
+  {
+   "text": "create partition",
+   "lang": "en"
+  },
+  {
+   "text": "delete partition",
+   "lang": "en"
+  },
+  {
+   "text": "edit disk partitions",
+   "lang": "en"
+  },
+  {
+   "text": "fdisk menu",
+   "lang": "en"
+  },
+  {
+   "text": "разметка диска",
+   "lang": "ru"
+  },
+  {
+   "text": "создать раздел",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить раздел",
+   "lang": "ru"
+  },
+  {
+   "text": "fdisk интерактивный",
+   "lang": "ru"
+  },
+  {
+   "text": "как разбить диск",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start the interactive fdisk session for a specific disk device.",
+   "cmd": "sudo fdisk <DEVICE>",
+   "needs_root": true,
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The disk device to manage, e.g. /dev/sda",
+     "example": "/dev/sda",
+     "discover_cmd": "lsblk"
+    }
+   ],
+   "expect": "The fdisk prompt appears."
+  },
+  {
+   "explain": "View the current partition table to see what exists.",
+   "cmd": "p",
+   "risk": "low",
+   "expect": "The partition table is displayed."
+  },
+  {
+   "explain": "Create a new partition. You will be prompted for details.",
+   "cmd": "n",
+   "risk": "high",
+   "expect": "Prompts for partition number, type, and size."
+  },
+  {
+   "explain": "Delete an existing partition. You will be prompted to select which one.",
+   "cmd": "d",
+   "risk": "high",
+   "expect": "Prompts for the partition number to delete."
+  },
+  {
+   "explain": "Write the changes to the disk. This step is irreversible for deleted data.",
+   "cmd": "w",
+   "risk": "high",
+   "expect": "fdisk exits and changes are saved."
+  },
+  {
+   "explain": "Quit without saving any changes made in this session.",
+   "cmd": "q",
+   "risk": "low",
+   "expect": "fdisk exits without writing changes."
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Deleting or modifying partitions can result in permanent data loss.",
+  "Ensure you have backed up important data before proceeding.",
+  "Changes are only applied when you use the 'w' command."
+ ],
+ "rollback": [
+  {
+   "explain": "If you have not yet written changes, quit to discard them.",
+   "cmd": "q",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/fdisk.md",
+  "title": "tldr-pages: fdisk",
+  "license": "CC-BY-4.0"
+ }
+}

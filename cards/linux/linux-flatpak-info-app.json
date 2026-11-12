@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-flatpak-info-app",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show information about a Flatpak application",
+ "summary": "Display details such as version, branch, and installation path for a specific Flatpak app.",
+ "aliases": [
+  {
+   "text": "flatpak info",
+   "lang": "en"
+  },
+  {
+   "text": "show flatpak app details",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak app info",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak show info",
+   "lang": "en"
+  },
+  {
+   "text": "информация о flatpak приложении",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak info app",
+   "lang": "ru"
+  },
+  {
+   "text": "детали flatpak",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Displays detailed information about the installed application identified by its app ID.",
+   "cmd": "flatpak info <APP_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_ID",
+     "description": "The unique identifier of the application.",
+     "example": "org.gnome.Calculator"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flatpak.md",
+  "title": "tldr-pages: flatpak",
+  "license": "CC-BY-4.0"
+ }
+}

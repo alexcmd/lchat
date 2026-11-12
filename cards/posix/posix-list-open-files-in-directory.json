@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-open-files-in-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List open files in a specific directory",
+ "summary": "Use lsof to see which files within a specific directory are currently open by any process. This helps identify what is accessing files in a particular folder.",
+ "aliases": [
+  {
+   "text": "list open files in directory",
+   "lang": "en"
+  },
+  {
+   "text": "lsof directory",
+   "lang": "en"
+  },
+  {
+   "text": "files open in folder",
+   "lang": "en"
+  },
+  {
+   "text": "what is using files in dir",
+   "lang": "en"
+  },
+  {
+   "text": "какие файлы открыты в папке",
+   "lang": "ru"
+  },
+  {
+   "text": "lsof директория",
+   "lang": "ru"
+  },
+  {
+   "text": "открытые файлы в папке",
+   "lang": "ru"
+  },
+  {
+   "text": "кто использует файлы в папке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsof with the +D flag and the directory path to list all open files within that directory.",
+   "cmd": "lsof +D <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the directory to check",
+     "example": "/home/user/projects"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/lsof.md",
+  "title": "tldr-pages: lsof",
+  "license": "CC-BY-4.0"
+ }
+}

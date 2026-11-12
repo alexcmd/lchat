@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-reattach-input-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reattach an input device to a master",
+ "summary": "Attach a floating input device back to a master pointer or keyboard. This restores normal behavior where the device controls the main cursor.",
+ "aliases": [
+  {
+   "text": "reattach device",
+   "lang": "en"
+  },
+  {
+   "text": "attach mouse",
+   "lang": "en"
+  },
+  {
+   "text": "xinput reattach",
+   "lang": "en"
+  },
+  {
+   "text": "присоединить устройство",
+   "lang": "ru"
+  },
+  {
+   "text": "привязать мышь",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xinput"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reattach the device to a master using the device ID and the master ID.",
+   "cmd": "xinput reattach <DEVICE_ID> <MASTER_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the input device to reattach.",
+     "example": "12",
+     "discover_cmd": "xinput list"
+    },
+    {
+     "name": "MASTER_ID",
+     "description": "The numeric ID of the master pointer or keyboard.",
+     "example": "8",
+     "discover_cmd": "xinput list"
+    }
+   ],
+   "expect": "The device is now controlled by the specified master."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xinput.md",
+  "title": "tldr-pages: xinput",
+  "license": "CC-BY-4.0"
+ }
+}

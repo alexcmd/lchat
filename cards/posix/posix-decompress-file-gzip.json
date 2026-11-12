@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "posix-decompress-file-gzip",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Decompress a gzip file",
+ "summary": "Use gzip to restore a compressed .gz file back to its original format. The compressed file is replaced by the original uncompressed file.",
+ "aliases": [
+  {
+   "text": "unzip file",
+   "lang": "en"
+  },
+  {
+   "text": "decompress gzip",
+   "lang": "en"
+  },
+  {
+   "text": "open gz file",
+   "lang": "en"
+  },
+  {
+   "text": "extract gz",
+   "lang": "en"
+  },
+  {
+   "text": "raspakovat fail",
+   "lang": "ru"
+  },
+  {
+   "text": "otkryt gz",
+   "lang": "ru"
+  },
+  {
+   "text": "raspakovat arhiv",
+   "lang": "ru"
+  },
+  {
+   "text": "razhmat gzip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Decompress the specified .gz file. The compressed file will be replaced by the original uncompressed file.",
+   "cmd": "gzip --decompress <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the compressed .gz file",
+     "example": "document.txt.gz"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Decompress the file and save the result to a specific new filename, keeping the original .gz file.",
+     "cmd": "gzip --stdout --decompress <FILE> > <OUTPUT_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the compressed .gz file",
+       "example": "document.txt.gz"
+      },
+      {
+       "name": "OUTPUT_FILE",
+       "description": "Path to the new uncompressed file",
+       "example": "document.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/gzip.md",
+  "title": "tldr-pages: gzip",
+  "license": "CC-BY-4.0"
+ }
+}

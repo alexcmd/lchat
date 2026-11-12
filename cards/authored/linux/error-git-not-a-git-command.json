@@ -1,0 +1,114 @@
+{
+ "schema_version": 2,
+ "id": "error-git-not-a-git-command",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'is not a git command' by finding the right git subcommand",
+ "summary": "Git prints \"is not a git command\" when the word after git is misspelled or does not exist. Git suggests the closest real command, and you can list all of them to find the right one.",
+ "aliases": [
+  {
+   "text": "git is not a git command",
+   "lang": "en"
+  },
+  {
+   "text": "git not a git command",
+   "lang": "en"
+  },
+  {
+   "text": "git misspelled command",
+   "lang": "en"
+  },
+  {
+   "text": "git unknown command",
+   "lang": "en"
+  },
+  {
+   "text": "git wrong subcommand",
+   "lang": "en"
+  },
+  {
+   "text": "git typo in command",
+   "lang": "en"
+  },
+  {
+   "text": "git: не является командой git",
+   "lang": "ru"
+  },
+  {
+   "text": "git неизвестная команда",
+   "lang": "ru"
+  },
+  {
+   "text": "git опечатка в команде",
+   "lang": "ru"
+  },
+  {
+   "text": "git неправильная команда",
+   "lang": "ru"
+  },
+  {
+   "text": "git ne komanda",
+   "lang": "ru"
+  },
+  {
+   "text": "git oshibka v komande",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "is not a git command. See 'git --help'.",
+  "The most similar command is"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "git is installed"
+ ],
+ "steps": [
+  {
+   "explain": "List every command git knows. Look for the real name closest to the word git rejected. The list is grouped under headings such as 'Main Porcelain Commands'; each line is a command name followed by a short description.",
+   "cmd": "git help -a",
+   "risk": "low",
+   "expect": "A long list of command names, for example 'status' with 'Show the working tree status'."
+  },
+  {
+   "explain": "Narrow the list to lines that contain part of the name you are looking for. Replace <PART> with a few letters you remember, such as stat.",
+   "cmd": "git help -a | grep -i <PART>",
+   "placeholders": [
+    {
+     "name": "PART",
+     "description": "Part of the git command name you are looking for",
+     "example": "stat",
+     "discover_cmd": "git help -a"
+    }
+   ],
+   "risk": "low",
+   "expect": "One or more lines with the real command name, such as 'status' followed by its description."
+  },
+  {
+   "explain": "Run git again with the correct command name in place of the misspelled one. git status shows the state of your project; it works only inside a folder that is a git repository (made with git init or git clone).",
+   "cmd": "git status",
+   "risk": "low",
+   "expect": "Inside a repository: a line 'On branch ...' and a list of changed files. Outside a repository: 'fatal: not a git repository'."
+  }
+ ],
+ "risk": "low",
+ "verify": [
+  {
+   "cmd": "git help -a | grep -w status",
+   "expect": "A line that starts with 'status' and says 'Show the working tree status'."
+  }
+ ],
+ "see_also": [],
+ "source": {
+  "url": "https://manpages.debian.org/git",
+  "title": "git manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

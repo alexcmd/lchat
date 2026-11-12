@@ -1,0 +1,153 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-sort-files-into-folders",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Sort files into folders by extension or by date",
+ "summary": "Moves the files in a folder into subfolders named after their extension, such as jpg or txt. Another way is to sort by the year and month the file was last changed. Preview the moves first; a move never overwrites an existing file.",
+ "aliases": [
+  {
+   "text": "sort files into folders by extension",
+   "lang": "en"
+  },
+  {
+   "text": "organize downloads into folders by file type",
+   "lang": "en"
+  },
+  {
+   "text": "move files into folders by year and month",
+   "lang": "en"
+  },
+  {
+   "text": "group files by extension linux",
+   "lang": "en"
+  },
+  {
+   "text": "sort files by date into folders",
+   "lang": "en"
+  },
+  {
+   "text": "move files to folders by type bash",
+   "lang": "en"
+  },
+  {
+   "text": "разложить файлы по папкам по расширению",
+   "lang": "ru"
+  },
+  {
+   "text": "рассортировать файлы по папкам по дате",
+   "lang": "ru"
+  },
+  {
+   "text": "разложить файлы по папкам по годам и месяцам",
+   "lang": "ru"
+  },
+  {
+   "text": "переместить файлы в папки по типу linux",
+   "lang": "ru"
+  },
+  {
+   "text": "навести порядок в папке загрузок",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bash"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview only: print the mv command for each file that has a dot in its name. The folder name is the text after the last dot. Files with no dot, such as README, are not moved by this loop.",
+   "risk": "low",
+   "cmd": "(cd <DIR> && for f in *.*; do [ -f \"$f\" ] || continue; printf 'mv -- %q %q\\n' \"$f\" \"${f##*.}/\"; done)",
+   "expect": "Lines such as: mv -- x\\ y.jpg jpg/",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder with the loose files",
+     "example": "inbox",
+     "discover_cmd": "ls"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Preview sorting by the year and month of the last change. Nothing is moved.",
+     "risk": "low",
+     "cmd": "(cd <DIR> && for f in *; do [ -f \"$f\" ] || continue; printf 'mv -- %q %q\\n' \"$f\" \"$(date -r \"$f\" +%Y/%m)/\"; done)",
+     "expect": "Lines such as: mv -- a\\ b 2023/07/",
+     "placeholders": [
+      {
+       "name": "DIR",
+       "description": "Folder with the loose files",
+       "example": "inbox"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Move the files into the extension folders. Each folder is created when needed; mv -n leaves a file in place if the target name already exists.",
+   "risk": "medium",
+   "cmd": "(cd <DIR> && for f in *.*; do [ -f \"$f\" ] || continue; d=\"${f##*.}\"; mkdir -p -- \"$d\" && mv -n -- \"$f\" \"$d/\"; done)",
+   "expect": "No output. The loose files are now inside folders named after their extensions.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Same folder as in the preview step",
+     "example": "inbox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Sort by the year and month of the last change instead of by extension.",
+     "risk": "medium",
+     "cmd": "(cd <DIR> && for f in *; do [ -f \"$f\" ] || continue; d=$(date -r \"$f\" +%Y/%m); mkdir -p -- \"$d\" && mv -n -- \"$f\" \"$d/\"; done)",
+     "placeholders": [
+      {
+       "name": "DIR",
+       "description": "Same folder as in the preview step",
+       "example": "inbox"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "List the folders and the files in them.",
+   "risk": "low",
+   "cmd": "(cd <DIR> && find . -mindepth 2 -type f | sort)",
+   "expect": "Paths such as ./jpg/x y.jpg, one per file.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder that was sorted",
+     "example": "inbox"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://www.gnu.org/software/coreutils/manual/html_node/mv-invocation.html",
+  "title": "mv invocation",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "rollback": [
+  {
+   "explain": "Move the files back to the main folder. The preview output lists every move, so reverse each one.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Files are moved, so other programs that expect them in the old place will not find them.",
+  "JPG and jpg become two different folders on Linux, because names are case-sensitive.",
+  "Files with no dot in the name are not moved by the extension loop."
+ ]
+}

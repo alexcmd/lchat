@@ -1,0 +1,130 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-interrupted-configure-fix",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix: dpkg was interrupted, you must manually run dpkg --configure -a",
+ "summary": "Apt stops with 'dpkg was interrupted' when an earlier install or update was cut off before it finished. Finishing the interrupted setup and then repairing broken dependencies usually fixes it.",
+ "aliases": [
+  {
+   "text": "dpkg was interrupted",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg was interrupted you must manually run dpkg configure -a",
+   "lang": "en"
+  },
+  {
+   "text": "apt dpkg interrupted ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "fix broken packages apt ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "apt broken dependencies fix",
+   "lang": "en"
+  },
+  {
+   "text": "how to fix dpkg configure -a",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg was interrupted что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg прерван, нужно вручную выполнить dpkg --configure -a",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка dpkg was interrupted ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "apt ошибка dpkg прервана",
+   "lang": "ru"
+  },
+  {
+   "text": "исправить сломанные зависимости apt",
+   "lang": "ru"
+  },
+  {
+   "text": "починить dpkg ubuntu",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "dpkg was interrupted, you must manually run"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The error appeared in a terminal after apt or apt-get was run, and no install or update is still running"
+ ],
+ "steps": [
+  {
+   "explain": "Check which packages are left half-installed. This only reads the package database and changes nothing.",
+   "cmd": "dpkg --audit",
+   "risk": "low",
+   "expect": "Empty output means no package is broken. If packages are listed under 'only half configured', continue with the next step."
+  },
+  {
+   "explain": "Finish setting up every package that the interrupted install left half-configured.",
+   "cmd": "sudo dpkg --configure -a",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Lines like 'Setting up <package> ...' appear and the prompt returns with no error."
+  },
+  {
+   "explain": "Install missing dependencies and repair packages whose dependencies are broken.",
+   "cmd": "sudo apt --fix-broken install",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Ends with a line like '0 upgraded, 0 newly installed' or a list of packages to install. If apt asks 'Do you want to continue?', type y and press Enter."
+  },
+  {
+   "explain": "Refresh the list of available packages so apt works from current information. This does not install or upgrade anything.",
+   "cmd": "sudo apt update",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Lines starting with 'Hit:' or 'Get:' appear, then 'Reading package lists...'. A message about upgradable packages is normal."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "dpkg --audit",
+   "expect": "No output. Nothing is left half-installed, and the command exits without errors."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Nothing here is undone automatically. The packages that were set up in the steps stay installed. To remove one you do not want, use 'sudo apt remove <PACKAGE>' with the package name shown by the earlier output.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Do not delete /var/lib/dpkg/lock or the files in /var/lib/dpkg/updates by hand. This can damage the package database.",
+  "Do not turn off the computer or close the terminal while dpkg or apt is running.",
+  "If the same error comes back, run 'dpkg --audit' again and note the package names it lists before trying anything else."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/dpkg",
+  "title": "dpkg manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

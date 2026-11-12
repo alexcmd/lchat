@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-view-kernel-messages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "View kernel messages",
+ "summary": "Display the kernel ring buffer, which contains messages from the boot process and hardware drivers. This is useful for troubleshooting hardware issues or checking why a device isn't working.",
+ "aliases": [
+  {
+   "text": "view kernel messages",
+   "lang": "en"
+  },
+  {
+   "text": "check dmesg",
+   "lang": "en"
+  },
+  {
+   "text": "see boot logs",
+   "lang": "en"
+  },
+  {
+   "text": "kernel log",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg command",
+   "lang": "en"
+  },
+  {
+   "text": "hardware error logs",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть сообщения ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "dmesg",
+   "lang": "ru"
+  },
+  {
+   "text": "логи загрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибки оборудования",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run dmesg with sudo to print all kernel messages to the terminal.",
+   "cmd": "sudo dmesg",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dmesg.md",
+  "title": "tldr-pages: dmesg",
+  "license": "CC-BY-4.0"
+ }
+}

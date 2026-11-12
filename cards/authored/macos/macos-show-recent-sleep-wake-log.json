@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-recent-sleep-wake-log",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View recent sleep and wake events in the power log",
+ "summary": "Show the latest entries of the Mac's power log, which record when it went to sleep, woke up, or had other power events. Use it to find out why the Mac slept or woke up. This command only reads the log.",
+ "aliases": [
+  {
+   "text": "why did my mac wake up",
+   "lang": "en"
+  },
+  {
+   "text": "mac woke up by itself",
+   "lang": "en"
+  },
+  {
+   "text": "show sleep wake history mac",
+   "lang": "en"
+  },
+  {
+   "text": "pmset -g log",
+   "lang": "en"
+  },
+  {
+   "text": "mac sleep log terminal",
+   "lang": "en"
+  },
+  {
+   "text": "why did mac go to sleep",
+   "lang": "en"
+  },
+  {
+   "text": "почему мак проснулся сам",
+   "lang": "ru"
+  },
+  {
+   "text": "журнал сна и пробуждения mac",
+   "lang": "ru"
+  },
+  {
+   "text": "история сна мака в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "почему мак ушел в сон",
+   "lang": "ru"
+  },
+  {
+   "text": "мак сам включился ночью",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset log",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app is open (Applications > Utilities > Terminal)"
+ ],
+ "steps": [
+  {
+   "explain": "Print the last 50 lines of the power log. The log is in time order, so the newest events are at the bottom. Look for lines with a date and time followed by words such as Sleep, Wake or DarkWake, and read the text after them for the reason.",
+   "cmd": "pmset -g log | tail -n 50",
+   "risk": "low",
+   "expect": "A list of lines, each starting with a date and time, with Sleep, Wake or DarkWake entries and short reason text. The newest entry is the last line.",
+   "alternatives": [
+    {
+     "explain": "Print the whole power log instead of only the last 50 lines. It can be long, so scroll up from the bottom to find older events.",
+     "cmd": "pmset -g log",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "The log text format can differ between macOS versions, so read the words rather than matching exact lines."
+ ],
+ "source": {
+  "url": "x-man-page://pmset",
+  "title": "pmset manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

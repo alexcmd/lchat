@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "macos-erase-disk-no-partitions",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Erase a disk and remove all partitions",
+ "summary": "Reformat a disk or volume using a specific partition scheme (like GPT) and delete all existing partitions. This erases all data on the selected device.",
+ "aliases": [
+  {
+   "text": "erase disk remove partitions",
+   "lang": "en"
+  },
+  {
+   "text": "wipe drive no partitions",
+   "lang": "en"
+  },
+  {
+   "text": "reformat disk to empty",
+   "lang": "en"
+  },
+  {
+   "text": "diskutil partitionDisk 0",
+   "lang": "en"
+  },
+  {
+   "text": "стереть диск удалить разделы",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить диск без разделов",
+   "lang": "ru"
+  },
+  {
+   "text": "форматировать диск в чистый",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reformat the specified disk device with the chosen partition scheme (e.g., GPT) and set the number of partitions to 0, effectively erasing all data and partition structures.",
+   "cmd": "diskutil partitionDisk <DISK_DEVICE> 0 <PARTITION_SCHEME>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "DISK_DEVICE",
+     "description": "The identifier of the disk to erase (e.g., /dev/disk2).",
+     "example": "/dev/disk2",
+     "discover_cmd": "diskutil list"
+    },
+    {
+     "name": "PARTITION_SCHEME",
+     "description": "The partition scheme to use: APM, MBR, or GPT.",
+     "example": "GPT"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "This command will permanently erase all data on the specified disk.",
+  "Ensure you have selected the correct disk identifier to avoid data loss on other drives."
+ ],
+ "rollback": [
+  {
+   "explain": "Data erased by this command cannot be recovered using standard tools. Restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/diskutil-partitiondisk.md",
+  "title": "tldr-pages: diskutil-partitiondisk",
+  "license": "CC-BY-4.0"
+ }
+}

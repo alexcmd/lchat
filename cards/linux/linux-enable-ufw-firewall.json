@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "linux-enable-ufw-firewall",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable the UFW firewall",
+ "summary": "Turn on the Uncomplicated Firewall (UFW) to protect your Linux system from unauthorized network access. This command reloads the firewall rules and ensures they are active immediately and on every boot.",
+ "aliases": [
+  {
+   "text": "enable ufw",
+   "lang": "en"
+  },
+  {
+   "text": "turn on firewall linux",
+   "lang": "en"
+  },
+  {
+   "text": "activate ufw",
+   "lang": "en"
+  },
+  {
+   "text": "ufw enable",
+   "lang": "en"
+  },
+  {
+   "text": "включить файрвол",
+   "lang": "ru"
+  },
+  {
+   "text": "активировать ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "включить брандмауэр",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ufw"
+  ]
+ },
+ "prerequisites": [
+  "Administrator (root) privileges"
+ ],
+ "steps": [
+  {
+   "explain": "Run the command to reload and enable the UFW firewall. You may be prompted to confirm that you want to proceed, as this can disconnect existing SSH sessions if not configured correctly.",
+   "cmd": "sudo ufw enable",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The firewall is active and rules are loaded."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Disable the firewall if you need to restore unrestricted network access.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Enabling the firewall may block existing connections, including remote SSH sessions. Ensure you have physical access or have configured UFW to allow SSH before enabling it."
+ ],
+ "see_also": [
+  "linux-check-ufw-status"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ufw-enable.md",
+  "title": "tldr-pages: ufw-enable",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "ime-concept-what-is-ime",
+ "platform": "linux",
+ "kind": "concept",
+ "title": "Understand what an Input Method Editor (IME) is",
+ "summary": "An Input Method Editor (IME) is a tool that lets you type characters not directly available on your keyboard, such as Chinese, Japanese, or Korean characters, by using sequences of Latin keys. It acts as a middleman between your keyboard and applications.",
+ "aliases": [
+  {
+   "text": "what is an ime",
+   "lang": "en"
+  },
+  {
+   "text": "how to type chinese on linux",
+   "lang": "en"
+  },
+  {
+   "text": "what is input method editor",
+   "lang": "en"
+  },
+  {
+   "text": "что такое имэ",
+   "lang": "ru"
+  },
+  {
+   "text": "как печатать на китайском",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое редактор ввода",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "An IME allows users to generate characters not natively available on their input devices by using sequences of characters that are natively available. For example, typing 'sake' in a Japanese IME might output '酒'.",
+   "risk": "low"
+  },
+  {
+   "explain": "Most IMEs work as part of an Input Method Framework (IMF), which allows switching between different IMEs and keyboard layouts. Common frameworks include IBus (often used in GNOME) and Fcitx5 (often used in KDE).",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Input_method",
+  "title": "Input method",
+  "revision_id": 887716,
+  "license": "GFDL-1.3-or-later"
+ }
+}

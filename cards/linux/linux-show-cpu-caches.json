@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-cpu-caches",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show CPU cache details",
+ "summary": "Display specific information about the CPU cache levels and sizes.",
+ "aliases": [
+  {
+   "text": "cpu cache info",
+   "lang": "en"
+  },
+  {
+   "text": "lscpu caches",
+   "lang": "en"
+  },
+  {
+   "text": "cache details",
+   "lang": "en"
+  },
+  {
+   "text": "кэш процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "lscpu кэш",
+   "lang": "ru"
+  },
+  {
+   "text": "размер кэша cpu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the caches flag to display detailed information about the CPU cache hierarchy.",
+   "cmd": "lscpu --caches",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lscpu.md",
+  "title": "tldr-pages: lscpu",
+  "license": "CC-BY-4.0"
+ }
+}

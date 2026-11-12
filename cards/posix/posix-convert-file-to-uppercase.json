@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-convert-file-to-uppercase",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Convert file content to uppercase",
+ "summary": "Use `tr` to translate all lowercase letters in a file to uppercase. The result is printed to the terminal.",
+ "aliases": [
+  {
+   "text": "convert text to uppercase",
+   "lang": "en"
+  },
+  {
+   "text": "make file uppercase",
+   "lang": "en"
+  },
+  {
+   "text": "tr upper case",
+   "lang": "en"
+  },
+  {
+   "text": "capitalize file content",
+   "lang": "en"
+  },
+  {
+   "text": "перевести текст в верхний регистр",
+   "lang": "ru"
+  },
+  {
+   "text": "tr заглавные буквы",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать текст капсом",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Translate the lower-case character class to the upper-case character class.",
+   "cmd": "tr < <FILE> \"[:lower:]\" \"[:upper:]\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file",
+     "example": "text.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tr.md",
+  "title": "tldr-pages: tr",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "schema_version": 2,
+ "id": "fcitx-set-environment-variables",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set Fcitx environment variables for GTK and Qt",
+ "summary": "Configure environment variables so that GTK and Qt applications use Fcitx for input instead of falling back to XIM.",
+ "aliases": [
+  {
+   "text": "fcitx environment variables",
+   "lang": "en"
+  },
+  {
+   "text": "set gtk_im_module fcitx",
+   "lang": "en"
+  },
+  {
+   "text": "fcitx not working in apps",
+   "lang": "en"
+  },
+  {
+   "text": "настроить переменные окружения fcitx",
+   "lang": "ru"
+  },
+  {
+   "text": "fcitx не работает в программах",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add the following lines to your ~/.xprofile file to register the input method modules. Log out and back in for changes to take effect.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Fcitx#Set_environment_variables_for_IM_modules",
+  "title": "Fcitx",
+  "revision_id": 869571,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-all-interfaces",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List all network interfaces including disabled ones",
+ "summary": "Display details for every network interface on the system, even those that are currently down or disabled.",
+ "aliases": [
+  {
+   "text": "list all network interfaces",
+   "lang": "en"
+  },
+  {
+   "text": "ifconfig -a",
+   "lang": "en"
+  },
+  {
+   "text": "show all network cards",
+   "lang": "en"
+  },
+  {
+   "text": "показать все сетевые интерфейсы",
+   "lang": "ru"
+  },
+  {
+   "text": "ifconfig все",
+   "lang": "ru"
+  },
+  {
+   "text": "список всех сетевых карт",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -a flag to show all interfaces, not just the active ones.",
+   "cmd": "ifconfig -a",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ifconfig.md",
+  "title": "tldr-pages: ifconfig",
+  "license": "CC-BY-4.0"
+ }
+}

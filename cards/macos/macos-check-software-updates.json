@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-software-updates",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check for available macOS software updates",
+ "summary": "List all pending software updates for your Mac using the command line. This shows you what is available before you decide to install anything.",
+ "aliases": [
+  {
+   "text": "check for updates terminal",
+   "lang": "en"
+  },
+  {
+   "text": "list available updates mac",
+   "lang": "en"
+  },
+  {
+   "text": "softwareupdate list",
+   "lang": "en"
+  },
+  {
+   "text": "what updates are available",
+   "lang": "en"
+  },
+  {
+   "text": "проверить обновления терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "список обновлений мак",
+   "lang": "ru"
+  },
+  {
+   "text": "softwareupdate список",
+   "lang": "ru"
+  },
+  {
+   "text": "какие обновления есть",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the software update tool with the list flag to see all pending updates.",
+   "cmd": "softwareupdate --list",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Use the short flag for the same result.",
+     "cmd": "softwareupdate -l",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/softwareupdate.md",
+  "title": "tldr-pages: softwareupdate",
+  "license": "CC-BY-4.0"
+ }
+}

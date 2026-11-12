@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "posix-ping-ipv6-local",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Ping all IPv6 local network hosts",
+ "summary": "Send IPv6 packets to the local network multicast address to discover or check all IPv6 hosts on your local segment.",
+ "aliases": [
+  {
+   "text": "ping ipv6 local",
+   "lang": "en"
+  },
+  {
+   "text": "ping all hosts ipv6",
+   "lang": "en"
+  },
+  {
+   "text": "ping ff02::1",
+   "lang": "en"
+  },
+  {
+   "text": "пинг ipv6 локальных",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг всех хостов ipv6",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send IPv6 packets to the all-nodes multicast address on the specified interface.",
+   "cmd": "ping -6 ff02::1%<INTERFACE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The network interface name (e.g., eth0, wlan0).",
+     "example": "eth0"
+    }
+   ],
+   "expect": "Replies from IPv6 hosts on the local network."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ping.md",
+  "title": "tldr-pages: ping",
+  "license": "CC-BY-4.0"
+ }
+}

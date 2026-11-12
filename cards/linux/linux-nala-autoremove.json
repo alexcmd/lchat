@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-nala-autoremove",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove unused packages with nala",
+ "summary": "Clean up your system by removing packages and dependencies that are no longer needed using nala.",
+ "aliases": [
+  {
+   "text": "autoremove nala",
+   "lang": "en"
+  },
+  {
+   "text": "clean unused packages nala",
+   "lang": "en"
+  },
+  {
+   "text": "nala autoremove",
+   "lang": "en"
+  },
+  {
+   "text": "очистить неиспользуемые пакеты nala",
+   "lang": "ru"
+  },
+  {
+   "text": "автоудаление nala",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ],
+  "requires": [
+   "nala"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove all unused packages and dependencies from the system.",
+   "cmd": "sudo nala autoremove",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall any accidentally removed packages manually.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Review the list of packages to be removed before confirming."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nala.md",
+  "title": "tldr-pages: nala",
+  "license": "CC-BY-4.0"
+ }
+}

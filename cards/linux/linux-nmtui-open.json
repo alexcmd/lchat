@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmtui-open",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Open the NetworkManager text interface",
+ "summary": "Launch the text-based user interface for NetworkManager to manage network connections, edit settings, or change the hostname without using the command line flags.",
+ "aliases": [
+  {
+   "text": "open nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "network manager text interface",
+   "lang": "en"
+  },
+  {
+   "text": "manage network in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "network settings terminal",
+   "lang": "en"
+  },
+  {
+   "text": "открыть nmtui",
+   "lang": "ru"
+  },
+  {
+   "text": "текстовый интерфейс сети",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить сеть в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "nmtui запуск",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start the nmtui program to open the interactive text menu.",
+   "cmd": "nmtui",
+   "risk": "low",
+   "expect": "A text-based menu appears with options like 'Edit a connection', 'Activate a connection', and 'Set system hostname'."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmtui.md",
+  "title": "tldr-pages: nmtui",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "nm-list-connections"
+ ]
+}

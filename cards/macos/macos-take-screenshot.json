@@ -1,0 +1,112 @@
+{
+ "schema_version": 2,
+ "id": "macos-take-screenshot",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Take a screenshot and save it to a file",
+ "summary": "Capture the entire screen and save the image to a specific file on your Mac. You can also capture just a selected area or include the mouse cursor.",
+ "aliases": [
+  {
+   "text": "take screenshot mac",
+   "lang": "en"
+  },
+  {
+   "text": "screencapture command",
+   "lang": "en"
+  },
+  {
+   "text": "save screenshot to file",
+   "lang": "en"
+  },
+  {
+   "text": "kak sdelat skrinshot na make",
+   "lang": "ru"
+  },
+  {
+   "text": "screenshot terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "capture screen macos",
+   "lang": "en"
+  },
+  {
+   "text": "screenshot area mac",
+   "lang": "en"
+  },
+  {
+   "text": "screenshot with cursor",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the screencapture command followed by the path where you want to save the image. This captures the entire screen.",
+   "cmd": "screencapture <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The full path and filename for the screenshot, e.g., ~/Desktop/screenshot.png",
+     "example": "~/Desktop/screenshot.png"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Capture only a selected rectangular area of the screen. You will be prompted to drag and select the area.",
+     "cmd": "screencapture -i <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The full path and filename for the screenshot",
+       "example": "~/Desktop/area.png"
+      }
+     ]
+    },
+    {
+     "explain": "Capture the entire screen including the mouse cursor.",
+     "cmd": "screencapture -C <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The full path and filename for the screenshot",
+       "example": "~/Desktop/cursor.png"
+      }
+     ]
+    },
+    {
+     "explain": "Capture the screen after a delay (in seconds). Useful for capturing menus or transient UI elements.",
+     "cmd": "screencapture -T <SECONDS> <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SECONDS",
+       "description": "Number of seconds to wait before taking the screenshot",
+       "example": "5"
+      },
+      {
+       "name": "FILE",
+       "description": "The full path and filename for the screenshot",
+       "example": "~/Desktop/delayed.png"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/screencapture.md",
+  "title": "tldr-pages: screencapture",
+  "license": "CC-BY-4.0"
+ }
+}

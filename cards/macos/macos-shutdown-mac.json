@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-shutdown-mac",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Shut down the Mac immediately",
+ "summary": "Turn off your Mac right now using the Terminal. This is useful if the menu is unresponsive or you want to ensure a clean power-off.",
+ "aliases": [
+  {
+   "text": "shutdown mac",
+   "lang": "en"
+  },
+  {
+   "text": "turn off mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "power off mac",
+   "lang": "en"
+  },
+  {
+   "text": "выключить мак",
+   "lang": "ru"
+  },
+  {
+   "text": "shutdown macos",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить компьютер терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command halts the system immediately, shutting down all processes and powering off the Mac.",
+   "cmd": "sudo shutdown -h now",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no command to undo an immediate shutdown once the power is cut. You must physically press the power button to turn the Mac back on.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "All unsaved work will be lost.",
+  "This action cannot be undone via command line once executed."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/shutdown.md",
+  "title": "tldr-pages: shutdown",
+  "license": "CC-BY-4.0"
+ }
+}

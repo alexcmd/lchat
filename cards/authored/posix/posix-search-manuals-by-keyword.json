@@ -1,0 +1,137 @@
+{
+ "schema_version": 2,
+ "id": "posix-search-manuals-by-keyword",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find a command by a keyword in the manuals",
+ "summary": "Linux and macOS keep a one-line description of every manual page. Search those descriptions for a word like 'copy' to find the command that does your task, then open its manual with man.",
+ "aliases": [
+  {
+   "text": "find command by keyword",
+   "lang": "en"
+  },
+  {
+   "text": "search manual pages",
+   "lang": "en"
+  },
+  {
+   "text": "man -k",
+   "lang": "en"
+  },
+  {
+   "text": "apropos",
+   "lang": "en"
+  },
+  {
+   "text": "which command copies files",
+   "lang": "en"
+  },
+  {
+   "text": "search man pages for a word",
+   "lang": "en"
+  },
+  {
+   "text": "find the right terminal command",
+   "lang": "en"
+  },
+  {
+   "text": "поиск команды по ключевому слову",
+   "lang": "ru"
+  },
+  {
+   "text": "найти команду в man",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск по man страницам",
+   "lang": "ru"
+  },
+  {
+   "text": "apropos как пользоваться",
+   "lang": "ru"
+  },
+  {
+   "text": "какая команда копирует файлы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти нужную команду в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "искать команду по описанию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window (Terminal on macOS, or a terminal app on Linux)",
+  "On Linux the man-db package and manual pages must be installed; minimal installs may lack them"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the search index works. You should see a one-line description of ls. If you see 'nothing appropriate' or 'command not found', the manual pages are missing: install the man-db package and its manual pages with your package manager.",
+   "cmd": "whatis ls",
+   "risk": "low",
+   "expect": "On Linux: 'ls (1)               - list directory contents'. Any one-line description of ls is fine."
+  },
+  {
+   "explain": "Search the one-line descriptions of all manual pages for a word that describes your task, such as 'copy'. Each result shows the command name, its manual section in brackets, and a short description. Pick the line that matches your goal. The output is cut to 20 lines.",
+   "cmd": "man -k KEYWORD | head -n 20",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYWORD",
+     "description": "English word that describes the task",
+     "example": "copy"
+    }
+   ],
+   "expect": "Lines such as 'cp (1)  - copy files and directories'. The name before the bracket is the command. 'copy: nothing appropriate.' means no match: try another word.",
+   "alternatives": [
+    {
+     "explain": "Same search with apropos, which prints the same lines. Add -s 1 to show only commands you type in Terminal (manual section 1).",
+     "cmd": "apropos -s 1 KEYWORD | head -n 20",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "KEYWORD",
+       "description": "English word that describes the task",
+       "example": "copy"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Open the full manual of the command you picked. Scroll with the arrow keys or the Space bar, and press q to quit.",
+   "cmd": "man COMMAND",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "Command name from the search results",
+     "example": "cp"
+    }
+   ],
+   "expect": "The page starts with NAME, SYNOPSIS and DESCRIPTION sections. Press q to return to the prompt."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "man -w cp",
+   "expect": "A file path such as /usr/share/man/man1/cp.1.gz (Linux) or a path ending in cp.1 (macOS). It shows that the manual exists."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/man",
+  "title": "man manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

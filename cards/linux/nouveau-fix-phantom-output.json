@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "nouveau-fix-phantom-output",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable phantom output in Nouveau",
+ "summary": "Fix display issues or suspend problems caused by the Nouveau driver detecting non-existent outputs (e.g., VGA-1) by disabling them via Xrandr or kernel parameters.",
+ "aliases": [
+  {
+   "text": "nouveau phantom output fix",
+   "lang": "en"
+  },
+  {
+   "text": "disable phantom vga nouveau",
+   "lang": "en"
+  },
+  {
+   "text": "nouveau detects fake monitor",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr disable phantom output",
+   "lang": "en"
+  },
+  {
+   "text": "исправить фантомный вывод nouveau",
+   "lang": "ru"
+  },
+  {
+   "text": "nouveau видит лишний монитор",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "Identify the phantom output name (e.g., VGA-1) using xrandr"
+ ],
+ "steps": [
+  {
+   "explain": "Disable the phantom output using xrandr. Replace <OUTPUT_NAME> with the detected phantom output (e.g., VGA-1).",
+   "cmd": "xrandr --output <OUTPUT_NAME> --off",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_NAME",
+     "description": "The name of the phantom output to disable",
+     "example": "VGA-1",
+     "discover_cmd": "xrandr --listmonitors"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Nouveau#Xrandr",
+  "title": "Nouveau",
+  "revision_id": 884148,
+  "license": "GFDL-1.3-or-later"
+ }
+}

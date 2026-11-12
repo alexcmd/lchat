@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "macos-toggle-firewall-cli",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Enable or disable the firewall via terminal",
+ "summary": "Use the `m` command-line tool to toggle the macOS firewall. Disabling the firewall can help troubleshoot network connectivity issues, but it should be re-enabled afterwards for security.",
+ "aliases": [
+  {
+   "text": "turn off firewall mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "disable firewall command line",
+   "lang": "en"
+  },
+  {
+   "text": "enable firewall mac cli",
+   "lang": "en"
+  },
+  {
+   "text": "m firewall disable",
+   "lang": "en"
+  },
+  {
+   "text": "firewall toggle mac",
+   "lang": "en"
+  },
+  {
+   "text": "отключить файрвол мак",
+   "lang": "ru"
+  },
+  {
+   "text": "включить файрвол командой",
+   "lang": "ru"
+  },
+  {
+   "text": "файрвол терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить брандмауэр мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to disable the firewall. Replace disable with enable to turn it back on.",
+   "cmd": "m firewall <ACTION>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ACTION",
+     "description": "Use disable to turn off the firewall, or enable to turn it on.",
+     "example": "disable"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-enable the firewall to restore network security.",
+   "cmd": "m firewall <ACTION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ACTION",
+     "description": "Use enable to turn the firewall back on.",
+     "example": "enable"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Disabling the firewall exposes your Mac to potential network threats. Only do this temporarily for troubleshooting."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/m.md",
+  "title": "tldr-pages: m",
+  "license": "CC-BY-4.0"
+ }
+}

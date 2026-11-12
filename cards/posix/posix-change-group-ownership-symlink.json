@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-group-ownership-symlink",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change group ownership of a symbolic link",
+ "summary": "Use chgrp with the no-dereference flag to change the group of the link itself, not the file it points to.",
+ "aliases": [
+  {
+   "text": "chgrp symlink",
+   "lang": "en"
+  },
+  {
+   "text": "change group of link",
+   "lang": "en"
+  },
+  {
+   "text": "chgrp -h",
+   "lang": "en"
+  },
+  {
+   "text": "изменить группу симлинка",
+   "lang": "ru"
+  },
+  {
+   "text": "chgrp ссылки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --no-dereference flag to target the symbolic link itself.",
+   "cmd": "chgrp -h <GROUP> <SYMLINK>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "GROUP",
+     "description": "The name of the group to assign",
+     "example": "users"
+    },
+    {
+     "name": "SYMLINK",
+     "description": "Path to the symbolic link",
+     "example": "my_link"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Change the group back to its original value.",
+   "cmd": "chgrp -h <ORIGINAL_GROUP> <SYMLINK>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_GROUP",
+     "description": "The original group name"
+    },
+    {
+     "name": "SYMLINK",
+     "description": "Path to the symbolic link"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Without the flag, chgrp changes the target file, not the link. Ensure you are targeting the correct object."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chgrp.md",
+  "title": "tldr-pages: chgrp",
+  "license": "CC-BY-4.0"
+ }
+}

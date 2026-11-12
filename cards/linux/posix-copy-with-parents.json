@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-copy-with-parents",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy file preserving directory structure",
+ "summary": "Copy a file while creating the necessary parent directories in the destination path.",
+ "aliases": [
+  {
+   "text": "copy with parents",
+   "lang": "en"
+  },
+  {
+   "text": "cp --parents",
+   "lang": "en"
+  },
+  {
+   "text": "copy file create directories",
+   "lang": "en"
+  },
+  {
+   "text": "copy preserving path",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat so strukturoy",
+   "lang": "ru"
+  },
+  {
+   "text": "cp sozdavaya papki",
+   "lang": "ru"
+  },
+  {
+   "text": "kopirovat s sozdaniem katalogov",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy the source file to the target, creating any missing intermediate directories along the way.",
+   "cmd": "cp --parents <SOURCE_PATH> <TARGET_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE_PATH",
+     "description": "Path to the source file",
+     "example": "src/main.c"
+    },
+    {
+     "name": "TARGET_FILE",
+     "description": "Path to the destination file",
+     "example": "backup/src/main.c"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cp.md",
+  "title": "tldr-pages: cp",
+  "license": "CC-BY-4.0"
+ }
+}

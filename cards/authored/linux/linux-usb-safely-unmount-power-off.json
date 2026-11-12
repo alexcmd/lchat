@@ -1,0 +1,178 @@
+{
+ "schema_version": 2,
+ "id": "linux-usb-safely-unmount-power-off",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Safely unmount and power off a USB drive",
+ "summary": "Before you unplug a USB drive, unmount its partition and power the drive off, so that all data is written and the drive is not damaged. This uses the udisksctl tool from the udisks2 package.",
+ "aliases": [
+  {
+   "text": "safely remove usb drive linux",
+   "lang": "en"
+  },
+  {
+   "text": "unmount usb drive linux",
+   "lang": "en"
+  },
+  {
+   "text": "power off usb drive linux",
+   "lang": "en"
+  },
+  {
+   "text": "how to unplug usb safely linux",
+   "lang": "en"
+  },
+  {
+   "text": "eject usb stick ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "safly unmount usb linux",
+   "lang": "en"
+  },
+  {
+   "text": "udisksctl unmount power-off",
+   "lang": "en"
+  },
+  {
+   "text": "безопасно извлечь флешку linux",
+   "lang": "ru"
+  },
+  {
+   "text": "размонтировать флешку linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как отключить флешку linux",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить usb диск linux",
+   "lang": "ru"
+  },
+  {
+   "text": "демонтировать usb накопитель linux",
+   "lang": "ru"
+  },
+  {
+   "text": "отмонтировать флешку ubuntu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "udisks2"
+  ]
+ },
+ "prerequisites": [
+  "Close the files and programs that use the USB drive.",
+  "Know that the commands below take a device name such as /dev/sdb1. Step 3 shows how to find it."
+ ],
+ "steps": [
+  {
+   "explain": "Check that the udisksctl tool is installed. It comes with the udisks2 package, which most Linux desktops already have. If nothing is printed, do the next step.",
+   "cmd": "command -v udisksctl",
+   "risk": "low",
+   "expect": "A path such as /usr/bin/udisksctl is printed."
+  },
+  {
+   "explain": "Install the udisks2 package. Run this only if the previous step printed nothing. It needs administrator rights and asks for your password.",
+   "cmd": "sudo apt install udisks2",
+   "needs_root": true,
+   "risk": "medium",
+   "variants": {
+    "fedora": "sudo dnf install udisks2",
+    "arch": "sudo pacman -S udisks2"
+   },
+   "expect": "The package is installed. Then command -v udisksctl prints a path."
+  },
+  {
+   "explain": "Find the name of your USB drive. Look for the row with TRAN set to usb: its name, such as sdb, is the drive. Its partition, such as sdb1, is the row below with a size and, if mounted, a mount point. Write down both names.",
+   "cmd": "lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT,TRAN",
+   "risk": "low",
+   "expect": "A table of devices. The USB drive has TRAN usb; its partition, for example sdb1, shows a MOUNTPOINT such as /media/... or /run/media/..."
+  },
+  {
+   "explain": "Unmount the USB partition. Replace <PARTITION> with the partition name from the previous step, written as a full path such as /dev/sdb1. If the drive has several partitions, unmount each one.",
+   "cmd": "udisksctl unmount -b <PARTITION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PARTITION",
+     "description": "Full device path of the USB partition to unmount",
+     "example": "/dev/sdb1",
+     "discover_cmd": "lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT,TRAN"
+    }
+   ],
+   "expect": "A message such as 'Unmounted /dev/sdb1.' The drive disappears from the file manager."
+  },
+  {
+   "explain": "Power off the whole USB drive, not one partition. Replace <DISK> with the drive name without a number, such as /dev/sdb. After this, the drive is safe to unplug.",
+   "cmd": "udisksctl power-off -b <DISK>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DISK",
+     "description": "Full device path of the whole USB drive, without a partition number",
+     "example": "/dev/sdb",
+     "discover_cmd": "lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT,TRAN"
+    }
+   ],
+   "expect": "The command finishes without an error message. Only then unplug the drive."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lsblk -o NAME,MOUNTPOINT,TRAN",
+   "expect": "The USB partition has an empty MOUNTPOINT column."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "If you unmounted the partition by mistake, plug the drive back in and mount it again. Replace <PARTITION> with the same partition path you used before.",
+   "cmd": "udisksctl mount -b <PARTITION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PARTITION",
+     "description": "Full device path of the USB partition to mount again",
+     "example": "/dev/sdb1",
+     "discover_cmd": "lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT,TRAN"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Do not unplug the drive before the power-off command has finished. Unplugging early can damage files or the drive.",
+  "Power off the whole disk (sdb), not a partition (sdb1). Check the names with lsblk first: a wrong name can unmount or power off another disk, including your system disk.",
+  "If the command says the device is busy, a program or a terminal still uses the drive. Close it and run the command again.",
+  "Step 2 installs a package and needs administrator rights. Skip it if udisksctl is already there."
+ ],
+ "see_also": [
+  "linux-list-usb-devices"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/udisksctl",
+  "title": "udisksctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

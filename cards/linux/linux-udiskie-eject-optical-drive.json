@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-udiskie-eject-optical-drive",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Eject an optical drive using udiskie",
+ "summary": "Unmount and physically eject a CD, DVD, or Blu-ray disc from the optical drive.",
+ "aliases": [
+  {
+   "text": "eject cd linux udiskie",
+   "lang": "en"
+  },
+  {
+   "text": "open cd tray linux",
+   "lang": "en"
+  },
+  {
+   "text": "udiskie eject",
+   "lang": "en"
+  },
+  {
+   "text": "извлечь диск linux",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть лоток cd linux",
+   "lang": "ru"
+  },
+  {
+   "text": "udiskie eject команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "udiskie"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unmount the optical drive and trigger the physical eject mechanism.",
+   "cmd": "udiskie-umount --eject <MOUNT_POINT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MOUNT_POINT",
+     "description": "The mount point of the optical drive",
+     "example": "/run/media/user/DVD",
+     "discover_cmd": "lsblk"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/udiskie-umount.md",
+  "title": "tldr-pages: udiskie-umount",
+  "license": "CC-BY-4.0"
+ }
+}

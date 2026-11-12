@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-pip-freeze-requirements",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Save installed Python packages to a file",
+ "summary": "Create a requirements.txt file listing all currently installed packages and their versions.",
+ "aliases": [
+  {
+   "text": "pip freeze",
+   "lang": "en"
+  },
+  {
+   "text": "save python requirements",
+   "lang": "en"
+  },
+  {
+   "text": "create requirements.txt",
+   "lang": "en"
+  },
+  {
+   "text": "pip freeze в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить список пакетов python",
+   "lang": "ru"
+  },
+  {
+   "text": "requirements txt python",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Output the list of installed packages and redirect it into a file named requirements.txt.",
+   "cmd": "pip freeze > <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the output file",
+     "example": "requirements.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pip.md",
+  "title": "tldr-pages: pip",
+  "license": "CC-BY-4.0"
+ }
+}

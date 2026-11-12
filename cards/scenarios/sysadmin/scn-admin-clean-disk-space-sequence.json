@@ -1,0 +1,159 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-clean-disk-space-sequence",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Find what fills the disk and free space step by step",
+  "summary": "Work from the biggest space users down: see how full the disk is, find the large folders, clear the system journal and the package download cache, then check the result. Each step frees or shows one kind of data.",
+  "aliases": [
+    {
+      "text": "disk full linux clean up",
+      "lang": "en"
+    },
+    {
+      "text": "free disk space step by step",
+      "lang": "en"
+    },
+    {
+      "text": "what is using my disk",
+      "lang": "en"
+    },
+    {
+      "text": "clear journal logs to free space",
+      "lang": "en"
+    },
+    {
+      "text": "clean package cache linux",
+      "lang": "en"
+    },
+    {
+      "text": "linux disk almost full",
+      "lang": "en"
+    },
+    {
+      "text": "find big folders linux",
+      "lang": "en"
+    },
+    {
+      "text": "reclaim disk space safely",
+      "lang": "en"
+    },
+    {
+      "text": "диск заполнен linux что удалить",
+      "lang": "ru"
+    },
+    {
+      "text": "освободить место на диске linux",
+      "lang": "ru"
+    },
+    {
+      "text": "очистить журнал systemd",
+      "lang": "ru"
+    },
+    {
+      "text": "очистить кэш пакетов",
+      "lang": "ru"
+    },
+    {
+      "text": "что занимает место на диске",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "journalctl",
+      "du",
+      "df"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "See how full the main disk is. The Use% column shows the percentage. Near 100% means the next large write will fail.",
+      "risk": "low",
+      "cmd": "df -h /",
+      "expect": "A line with a Size, Used, Avail and Use% column for the root disk."
+    },
+    {
+      "explain": "Find the biggest folders inside a place you suspect. du -x stays on one disk, and sort -h sorts by human-readable size, so the largest entries end up at the bottom.",
+      "risk": "low",
+      "cmd": "sudo du -xh --max-depth=1 <FOLDER> 2>/dev/null | sort -h | tail -n 10",
+      "expect": "Ten folders with sizes such as 2.1G, the largest last.",
+      "needs_root": true,
+      "placeholders": [
+        {
+          "name": "FOLDER",
+          "description": "Folder to measure",
+          "example": "/var",
+          "discover_cmd": "df -h"
+        }
+      ]
+    },
+    {
+      "explain": "Check your own cache folders. Cache data is recreated by the programs that made it, but deleting it is still a choice, so look at the sizes first.",
+      "risk": "low",
+      "cmd": "du -sh ~/.cache/* 2>/dev/null | sort -h | tail -n 10",
+      "expect": "The biggest cache folders in your home folder with their sizes."
+    },
+    {
+      "explain": "Check how much space the system journal (the log of system messages) uses.",
+      "risk": "low",
+      "cmd": "journalctl --disk-usage",
+      "expect": "A line such as 'Archived and active journals take up 43.1M in the file system.'"
+    },
+    {
+      "explain": "Shrink the journal to about 200 MB. The newest entries are kept, and the oldest archived ones are deleted.",
+      "risk": "medium",
+      "cmd": "sudo journalctl --vacuum-size=200M",
+      "expect": "A line 'Vacuuming done, freed ... of archived journals'.",
+      "needs_root": true
+    },
+    {
+      "explain": "Clear the package download cache. The cache only holds packages that were already installed, so programs keep working. Pick the command for your distribution; the default line is for Debian, Ubuntu and Mint.",
+      "risk": "medium",
+      "cmd": "sudo apt-get clean",
+      "expect": "Usually no output, or a short question on Arch that you answer with y.",
+      "needs_root": true,
+      "variants": {
+        "arch": "sudo pacman -Sc",
+        "fedora": "sudo dnf clean all",
+        "opensuse": "sudo zypper clean --all"
+      }
+    },
+    {
+      "explain": "Check the disk again and compare the Use% value with step 1.",
+      "risk": "low",
+      "cmd": "df -h /",
+      "expect": "A lower Use% value than in step 1."
+    }
+  ],
+  "risk": "medium",
+  "rollback": [
+    {
+      "explain": "Deleted journal entries and cache files cannot be restored. Package caches come back when you install or update packages again.",
+      "risk": "medium"
+    }
+  ],
+  "warnings": [
+    "Deleted logs cannot be restored. The 200 MB journal still keeps recent errors for troubleshooting.",
+    "Do not delete folders under /usr, /boot or /etc. This sequence only clears caches and old logs.",
+    "On SteamOS the system partition is read-only, so the pacman line fails unless you have unlocked it. Skip step 6 there.",
+    "The sizes in steps 2 and 3 are a guide. Check what a folder holds before you remove anything from it."
+  ],
+  "output_guide": [
+    {
+      "pattern": "Use%",
+      "meaning": "Share of the disk in use; close to 100% means it is almost full."
+    }
+  ],
+  "source": {
+    "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html",
+    "title": "journalctl(1)",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

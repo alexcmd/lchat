@@ -1,0 +1,118 @@
+{
+ "schema_version": 2,
+ "id": "posix-dig-query-record-type",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Query specific DNS record types",
+ "summary": "Use `dig` to look up specific types of DNS records like MX (mail servers), TXT (verification), or CNAME (aliases) for a domain.",
+ "aliases": [
+  {
+   "text": "dig mx record",
+   "lang": "en"
+  },
+  {
+   "text": "check txt record",
+   "lang": "en"
+  },
+  {
+   "text": "dig cname",
+   "lang": "en"
+  },
+  {
+   "text": "dns record types",
+   "lang": "en"
+  },
+  {
+   "text": "dig ns record",
+   "lang": "en"
+  },
+  {
+   "text": "проверить mx запись",
+   "lang": "ru"
+  },
+  {
+   "text": "dig txt запись",
+   "lang": "ru"
+  },
+  {
+   "text": "какие dns записи у домена",
+   "lang": "ru"
+  },
+  {
+   "text": "dns specific record type",
+   "lang": "en"
+  },
+  {
+   "text": "host lookup cname",
+   "lang": "en"
+  },
+  {
+   "text": "host -t command",
+   "lang": "en"
+  },
+  {
+   "text": "проверить txt запись",
+   "lang": "ru"
+  },
+  {
+   "text": "dns cname lookup",
+   "lang": "ru"
+  },
+  {
+   "text": "host -t dns",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the DNS for a specific record type. Replace <RECORD_TYPE> with the type you need (e.g., MX, TXT, CNAME, NS).",
+   "cmd": "dig +short <DOMAIN> <RECORD_TYPE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to look up",
+     "example": "example.com"
+    },
+    {
+     "name": "RECORD_TYPE",
+     "description": "The DNS record type to query (A, MX, TXT, CNAME, NS)",
+     "example": "MX"
+    }
+   ],
+   "expect": "The values for the requested record type.",
+   "alternatives": [
+    {
+     "explain": "Query the default DNS server for a specific record type (e.g., CNAME, TXT) of the domain.",
+     "cmd": "host -t <FIELD> <DOMAIN>",
+     "placeholders": [
+      {
+       "name": "FIELD",
+       "description": "The DNS record type to look up (e.g., CNAME, TXT, SOA)",
+       "example": "TXT"
+      },
+      {
+       "name": "DOMAIN",
+       "description": "The domain name to look up",
+       "example": "example.com"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/dig.md",
+  "title": "tldr-pages: dig",
+  "license": "CC-BY-4.0"
+ }
+}

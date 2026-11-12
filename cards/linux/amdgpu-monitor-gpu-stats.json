@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "amdgpu-monitor-gpu-stats",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Monitor AMD GPU temperature and usage via sysfs",
+ "summary": "Check GPU temperature, utilization, and clock speeds using system files without installing extra software.",
+ "aliases": [
+  {
+   "text": "check amd gpu temp",
+   "lang": "en"
+  },
+  {
+   "text": "amd gpu usage linux",
+   "lang": "en"
+  },
+  {
+   "text": "monitor radeon temp",
+   "lang": "en"
+  },
+  {
+   "text": "температура amd gpu",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузка видеокарты amd",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check GPU utilization percentage.",
+   "cmd": "cat /sys/class/drm/card0/device/gpu_busy_percent",
+   "risk": "low",
+   "expect": "A number between 0 and 100."
+  },
+  {
+   "explain": "Check GPU temperature in millidegrees Celsius.",
+   "cmd": "cat /sys/class/drm/card0/device/hwmon/hwmon*/temp1_input",
+   "risk": "low",
+   "expect": "A number like 45000 (which means 45°C)."
+  },
+  {
+   "explain": "Check current GPU clock frequency.",
+   "cmd": "cat /sys/class/drm/card0/device/pp_dpm_sclk",
+   "risk": "low",
+   "expect": "List of P-states with current active state marked by *."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/AMDGPU#Monitoring",
+  "title": "AMDGPU",
+  "revision_id": 888488,
+  "license": "GFDL-1.3-or-later"
+ }
+}

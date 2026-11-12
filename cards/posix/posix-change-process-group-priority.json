@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-process-group-priority",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change priority of a process group",
+ "summary": "Adjust the CPU priority for all processes belonging to a specific process group.",
+ "aliases": [
+  {
+   "text": "change process group priority",
+   "lang": "en"
+  },
+  {
+   "text": "renice group",
+   "lang": "en"
+  },
+  {
+   "text": "изменить приоритет группы процессов",
+   "lang": "ru"
+  },
+  {
+   "text": "renice группа",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -g flag to target all processes in a specific process group ID.",
+   "cmd": "renice -n <NICENESS_VALUE> -g <PROCESS_GROUP_ID>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "NICENESS_VALUE",
+     "description": "The new priority level, from -20 (highest) to 19 (lowest).",
+     "example": "10"
+    },
+    {
+     "name": "PROCESS_GROUP_ID",
+     "description": "The ID of the process group.",
+     "example": "5678"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert, set the niceness back to 0 for that group.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Requires root privileges to change priorities for groups you do not own."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/renice.md",
+  "title": "tldr-pages: renice",
+  "license": "CC-BY-4.0"
+ }
+}

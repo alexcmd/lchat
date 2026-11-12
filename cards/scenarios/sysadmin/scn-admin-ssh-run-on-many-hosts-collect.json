@@ -1,0 +1,160 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-ssh-run-on-many-hosts-collect",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Run one command on several servers over SSH and save each result",
+  "summary": "Read a list of servers, run the same command on each one over SSH, save every output in its own file, and print which servers failed. Use it for read-only checks such as uptime or free disk space.",
+  "aliases": [
+    {
+      "text": "run command on multiple servers ssh",
+      "lang": "en"
+    },
+    {
+      "text": "ssh loop collect output",
+      "lang": "en"
+    },
+    {
+      "text": "run same command on many hosts",
+      "lang": "en"
+    },
+    {
+      "text": "ssh to several servers at once",
+      "lang": "en"
+    },
+    {
+      "text": "collect uptime from all servers",
+      "lang": "en"
+    },
+    {
+      "text": "ssh batch command loop linux",
+      "lang": "en"
+    },
+    {
+      "text": "gather output from many ssh hosts",
+      "lang": "en"
+    },
+    {
+      "text": "ssh hosts file loop",
+      "lang": "en"
+    },
+    {
+      "text": "выполнить команду на нескольких серверах по ssh",
+      "lang": "ru"
+    },
+    {
+      "text": "собрать вывод с нескольких хостов",
+      "lang": "ru"
+    },
+    {
+      "text": "ssh цикл по списку серверов",
+      "lang": "ru"
+    },
+    {
+      "text": "проверить uptime на всех серверах",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "ssh"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script from the script section and make it executable. It reads the host list, runs your command on each host over SSH, and saves each host's output in its own file.",
+      "risk": "low",
+      "cmd": "chmod +x <SCRIPT_PATH>",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved collect.sh",
+          "example": "/home/deck/bin/collect.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Write the host list, one name per line. The names can be ssh config aliases or IP addresses. Set up key-based login first: the script never types a password.",
+      "risk": "low",
+      "cmd": "printf '%s\\n' web1.lan db1.lan nas.lan > <HOSTS_FILE>",
+      "placeholders": [
+        {
+          "name": "HOSTS_FILE",
+          "description": "Text file with one host per line",
+          "example": "/home/deck/hosts.txt"
+        }
+      ]
+    },
+    {
+      "explain": "Test the connection to one host first. 'reachable' means the key login works. 'Permission denied (publickey)' means the key is not on that host yet.",
+      "risk": "low",
+      "cmd": "ssh -o BatchMode=yes -o ConnectTimeout=5 <HOST> 'echo reachable'",
+      "expect": "reachable",
+      "placeholders": [
+        {
+          "name": "HOST",
+          "description": "One host name from the host list",
+          "example": "web1.lan",
+          "discover_cmd": "cat /home/deck/hosts.txt"
+        }
+      ]
+    },
+    {
+      "explain": "Run the command on every host. Use a read-only command such as uptime. Each host prints OK or FAIL, and the last line counts the failures.",
+      "risk": "low",
+      "cmd": "<SCRIPT_PATH> <HOSTS_FILE> <OUT_DIR> 'uptime'",
+      "expect": "Lines 'OK    web1.lan' or 'FAIL  ...', then 'failed hosts: 0' when all worked.",
+      "placeholders": [
+        {
+          "name": "SCRIPT_PATH",
+          "description": "Where you saved collect.sh",
+          "example": "/home/deck/bin/collect.sh"
+        },
+        {
+          "name": "HOSTS_FILE",
+          "description": "Text file with one host per line",
+          "example": "/home/deck/hosts.txt"
+        },
+        {
+          "name": "OUT_DIR",
+          "description": "Folder that receives one .out and one .err file per host",
+          "example": "/home/deck/collect-2026-11-12"
+        }
+      ]
+    },
+    {
+      "explain": "Read the results. The .out files hold each host's output; the .err files hold the error text of failed hosts.",
+      "risk": "low",
+      "cmd": "cat <OUT_DIR>/*.out; cat <OUT_DIR>/*.err",
+      "expect": "One block of output per host. Errors such as 'Connection timed out' appear only in .err files.",
+      "placeholders": [
+        {
+          "name": "OUT_DIR",
+          "description": "Folder used in the run",
+          "example": "/home/deck/collect-2026-11-12"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "The command runs under your account on every host in the list. Use only read-only commands unless you intend a change everywhere."
+  ],
+  "script": {
+    "filename": "collect.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\nset -euo pipefail\n# Run one command on every host in HOSTS_FILE over ssh and save each result.\n# Usage: collect.sh HOSTS_FILE OUT_DIR COMMAND\nHOSTS_FILE=\"${1:?usage: $0 HOSTS_FILE OUT_DIR COMMAND}\"\nOUT_DIR=\"${2:?missing OUT_DIR}\"\nCMD=\"${3:?missing COMMAND}\"\nmkdir -p \"$OUT_DIR\"\nfail=0\nwhile IFS= read -r host || [[ -n \"$host\" ]]; do\n  [[ -z \"$host\" || \"$host\" == \\#* ]] && continue\n  if timeout 60 ssh -o BatchMode=yes -o ConnectTimeout=10 \"$host\" \"$CMD\" > \"$OUT_DIR/$host.out\" 2> \"$OUT_DIR/$host.err\"; then\n    echo \"OK    $host\"\n  else\n    rc=$?\n    echo \"FAIL  $host (exit $rc, see $OUT_DIR/$host.err)\"\n    fail=$((fail + 1))\n  fi\ndone < \"$HOSTS_FILE\"\necho \"failed hosts: $fail\"\n[[ \"$fail\" -eq 0 ]]\n",
+    "usage": "collect.sh HOSTS_FILE OUT_DIR COMMAND"
+  },
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man1/ssh.1.html",
+    "title": "ssh(1) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

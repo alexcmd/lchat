@@ -1,0 +1,293 @@
+{
+ "schema_version": 2,
+ "id": "macos-launchd-agent-schedule-script",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run a script on a schedule with a LaunchAgent plist",
+ "summary": "Write a small settings file that tells macOS to run your script every set number of seconds or at a set time, then load it. The script runs in the background under your user account, without a Terminal window.",
+ "prerequisites": [
+  "A script file you can run with /bin/sh",
+  "The full path to the script, for example /Users/you/bin/backup.sh"
+ ],
+ "aliases": [
+  {
+   "text": "run script every hour mac",
+   "lang": "en"
+  },
+  {
+   "text": "schedule script on mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac cron job",
+   "lang": "en"
+  },
+  {
+   "text": "run script automatically at set time mac",
+   "lang": "en"
+  },
+  {
+   "text": "launchd plist script schedule",
+   "lang": "en"
+  },
+  {
+   "text": "make launch agent plist",
+   "lang": "en"
+  },
+  {
+   "text": "macos task scheduler script",
+   "lang": "en"
+  },
+  {
+   "text": "run my script every day on macOS",
+   "lang": "en"
+  },
+  {
+   "text": "запускать скрипт по расписанию на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как запускать скрипт каждый час mac",
+   "lang": "ru"
+  },
+  {
+   "text": "планировщик задач на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "cron на маке как сделать",
+   "lang": "ru"
+  },
+  {
+   "text": "автозапуск скрипта по таймеру mac",
+   "lang": "ru"
+  },
+  {
+   "text": "создать plist для запуска скрипта",
+   "lang": "ru"
+  },
+  {
+   "text": "запускать скрипт каждый день в определённое время на макбуке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create the folder for your own launch agents if it is missing. The -p flag does nothing when the folder already exists.",
+   "cmd": "mkdir -p ~/Library/LaunchAgents",
+   "risk": "low",
+   "expect": "No output."
+  },
+  {
+   "explain": "List the agent files already in the folder. Choose a label that is not in this list. Creating a file with an existing name replaces that agent.",
+   "cmd": "ls ~/Library/LaunchAgents",
+   "risk": "low",
+   "expect": "File names ending in .plist, one per line, for example com.example.backup.plist. The list is empty if you have no agents yet."
+  },
+  {
+   "explain": "Create an empty XML property list file named after your label. This overwrites any file that already has that name.",
+   "cmd": "plutil -create xml1 ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "expect": "No output. The file now exists and is empty.",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  },
+  {
+   "explain": "Store the agent name inside the file. launchd uses this Label key to identify the agent.",
+   "cmd": "plutil -insert Label -string <LABEL> ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "expect": "No output.",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  },
+  {
+   "explain": "Tell launchd what to run. /bin/sh runs your script, so the script does not need the execute permission. Use the full path to the script.",
+   "cmd": "plutil -insert ProgramArguments -json '[\"/bin/sh\",\"<SCRIPT_PATH>\"]' ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "expect": "No output.",
+   "placeholders": [
+    {
+     "name": "SCRIPT_PATH",
+     "description": "Full absolute path to your script, starting with /Users. Not ~.",
+     "example": "/Users/you/bin/backup.sh",
+     "discover_cmd": "echo $HOME"
+    },
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  },
+  {
+   "explain": "Run the script every 3600 seconds, which is one hour. Change 3600 for another interval. Runs that fall while the Mac is asleep are skipped.",
+   "cmd": "plutil -insert StartInterval -integer 3600 ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "expect": "No output. Use only one schedule key: this one or the calendar key in the alternative.",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Run once a day at 09:00 instead of every N seconds. If the Mac is asleep at that time, the run happens after it wakes. Do not combine it with StartInterval.",
+     "cmd": "plutil -insert StartCalendarInterval -json '{\"Hour\":9,\"Minute\":0}' ~/Library/LaunchAgents/<LABEL>.plist",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "LABEL",
+       "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+       "example": "com.example.backup",
+       "discover_cmd": "ls ~/Library/LaunchAgents"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Optional. Write what the script prints to a log file, so you can see what happened on each run.",
+   "cmd": "plutil -insert StandardOutPath -string <LOG_FILE> ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "expect": "No output.",
+   "placeholders": [
+    {
+     "name": "LOG_FILE",
+     "description": "Full absolute path of the log file for the script output. Not ~.",
+     "example": "/Users/you/Library/Logs/backup.log",
+     "discover_cmd": "echo $HOME"
+    },
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  },
+  {
+   "explain": "Check the file for syntax errors before loading it. A broken file cannot be loaded.",
+   "cmd": "plutil -lint ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "expect": "A line ending in ': OK' means the file is valid. Any other message names the problem, for example a missing value or an unknown type.",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  },
+  {
+   "explain": "Print the file in readable form. Check that Label, ProgramArguments and your schedule key are there and that the paths start with /Users.",
+   "cmd": "plutil -p ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "expect": "A readable block listing the keys you set, such as Label, ProgramArguments, StartInterval and StandardOutPath, with their values. The layout can change between macOS versions.",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  },
+  {
+   "explain": "Load the agent into your user session. launchd then runs the script on the schedule. Do this only after the checks above pass.",
+   "cmd": "launchctl bootstrap \"gui/$(id -u)\" ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "medium",
+   "needs_root": false,
+   "expect": "Usually no output. If it prints an error, the file was rejected or the label is already loaded. Unload it with the rollback step, then run plutil -lint again.",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "launchctl print \"gui/$(id -u)/<LABEL>\"",
+   "expect": "A block that starts with the service name and shows the program arguments and a state line, such as state = not running between runs."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Unload the agent so the script stops running on the schedule.",
+   "cmd": "launchctl bootout \"gui/$(id -u)\" ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  },
+  {
+   "explain": "Delete the settings file so the agent is not loaded again later.",
+   "cmd": "rm ~/Library/LaunchAgents/<LABEL>.plist",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "Unique agent name, reverse-DNS style. Also the plist file name without .plist. Must not match an existing agent.",
+     "example": "com.example.backup",
+     "discover_cmd": "ls ~/Library/LaunchAgents"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Paths inside the plist must be full paths such as /Users/you/bin/backup.sh. launchd does not expand the ~ symbol.",
+  "plutil -create replaces any existing file with the same name. Check the list from ls ~/Library/LaunchAgents before you create a file.",
+  "The script runs in the background under your account, without a Terminal window. Test it by hand first, for example with sh followed by the script path.",
+  "A label can be loaded only once. Running the bootstrap step again for a loaded label fails. Unload it with the rollback step first.",
+  "The script runs unattended on every schedule tick. Keep it limited to what you need and avoid commands that delete files."
+ ],
+ "see_also": [
+  "macos-load-launch-agent",
+  "macos-unload-launch-agent",
+  "macos-list-launch-agents",
+  "macos-print-launch-agent-details",
+  "macos-start-launch-agent",
+  "macos-stop-launch-agent",
+  "macos-view-plist-file",
+  "macos-concept-launchd-agents-daemons"
+ ],
+ "source": {
+  "url": "x-man-page://plutil",
+  "title": "plutil manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

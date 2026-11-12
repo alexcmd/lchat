@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-nano-backup-on-save",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Open a file in nano and create a backup on save",
+ "summary": "When editing important files, you can tell nano to automatically create a backup copy (with a tilde ~ suffix) every time you save.",
+ "aliases": [
+  {
+   "text": "nano backup on save",
+   "lang": "en"
+  },
+  {
+   "text": "create backup in nano",
+   "lang": "en"
+  },
+  {
+   "text": "nano backup file",
+   "lang": "en"
+  },
+  {
+   "text": "создать резервную копию в nano",
+   "lang": "ru"
+  },
+  {
+   "text": "nano бэкап при сохранении",
+   "lang": "ru"
+  },
+  {
+   "text": "резервная копия файла nano",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the file with the backup option enabled. A backup file will be created when you save.",
+   "cmd": "nano -B <FILE>",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to edit.",
+     "example": "important_config.txt"
+    }
+   ],
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nano.md",
+  "title": "tldr-pages: nano",
+  "license": "CC-BY-4.0"
+ }
+}

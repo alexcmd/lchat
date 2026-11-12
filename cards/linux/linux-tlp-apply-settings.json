@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-tlp-apply-settings",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Apply TLP power settings",
+ "summary": "TLP is a tool that automatically optimizes battery life on Linux laptops. This command applies the current power profile (battery or AC) immediately.",
+ "aliases": [
+  {
+   "text": "apply tlp settings",
+   "lang": "en"
+  },
+  {
+   "text": "force tlp update",
+   "lang": "en"
+  },
+  {
+   "text": "tlp start",
+   "lang": "en"
+  },
+  {
+   "text": "применить настройки tlp",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить профиль питания tlp",
+   "lang": "ru"
+  },
+  {
+   "text": "tlp start",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "tlp"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run TLP to apply the power settings appropriate for the current power source (battery or plugged in).",
+   "cmd": "sudo tlp start",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert to default system power management, you typically need to disable the TLP service or remove it, as there is no single 'undo' command for the applied settings.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This changes system power management behavior. If your laptop behaves unexpectedly, you may need to disable TLP."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/tlp.md",
+  "title": "tldr-pages: tlp",
+  "license": "CC-BY-4.0"
+ }
+}

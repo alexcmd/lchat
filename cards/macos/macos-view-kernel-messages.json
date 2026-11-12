@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-kernel-messages",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View kernel system messages",
+ "summary": "Display the kernel's log messages, which contain information about hardware detection, driver loading, and system events. This is useful for troubleshooting hardware issues or checking system startup logs.",
+ "aliases": [
+  {
+   "text": "view kernel messages",
+   "lang": "en"
+  },
+  {
+   "text": "check system logs",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg mac",
+   "lang": "en"
+  },
+  {
+   "text": "kernel log macos",
+   "lang": "en"
+  },
+  {
+   "text": "system messages mac",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть сообщения ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "логи системы macos",
+   "lang": "ru"
+  },
+  {
+   "text": "dmesg мак",
+   "lang": "ru"
+  },
+  {
+   "text": "журнал ядра",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the dmesg command to print all kernel messages to the terminal.",
+   "cmd": "dmesg",
+   "risk": "low",
+   "expect": "A long list of kernel messages appears in the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dmesg.md",
+  "title": "tldr-pages: dmesg",
+  "license": "CC-BY-4.0"
+ }
+}

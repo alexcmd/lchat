@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "systemd-error-shutdown-in-progress",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'There's already a shutdown or sleep operation in progress'",
+ "summary": "This error occurs when you try to power off or reboot while another shutdown or suspend job is already running. Cancel the pending jobs to proceed.",
+ "aliases": [
+  {
+   "text": "shutdown in progress error",
+   "lang": "en"
+  },
+  {
+   "text": "failed to power off system",
+   "lang": "en"
+  },
+  {
+   "text": "sleep operation in progress",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl poweroff error",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка выключения",
+   "lang": "ru"
+  },
+  {
+   "text": "уже идет выключение",
+   "lang": "ru"
+  },
+  {
+   "text": "не получается выключить",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Failed to power off system via logind: There's already a shutdown or sleep operation in progress"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Cancel all pending systemd jobs.",
+   "cmd": "sudo systemctl cancel",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "No output if successful."
+  },
+  {
+   "explain": "If the suspend service is stuck, stop it explicitly.",
+   "cmd": "sudo systemctl stop systemd-suspend.service",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The service stops."
+  },
+  {
+   "explain": "Try powering off again.",
+   "cmd": "systemctl poweroff",
+   "risk": "low",
+   "expect": "The system shuts down."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If the system becomes unstable, reboot it.",
+   "cmd": "systemctl reboot",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Canceling jobs can leave the system in an inconsistent state. Use only if the system is unresponsive to normal commands."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd#Troubleshooting",
+  "title": "Systemd",
+  "revision_id": 887711,
+  "license": "GFDL-1.3-or-later"
+ }
+}

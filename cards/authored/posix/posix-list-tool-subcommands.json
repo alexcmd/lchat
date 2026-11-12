@@ -1,0 +1,115 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-tool-subcommands",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List all git subcommands (what git can do)",
+ "summary": "See the main commands that git offers, such as add, commit and branch, so you can find the right one. This only prints a list and changes nothing.",
+ "aliases": [
+  {
+   "text": "list git commands",
+   "lang": "en"
+  },
+  {
+   "text": "what git commands are there",
+   "lang": "en"
+  },
+  {
+   "text": "show all git subcommands",
+   "lang": "en"
+  },
+  {
+   "text": "git commands list",
+   "lang": "en"
+  },
+  {
+   "text": "what can git do",
+   "lang": "en"
+  },
+  {
+   "text": "available git commands",
+   "lang": "en"
+  },
+  {
+   "text": "список команд git",
+   "lang": "ru"
+  },
+  {
+   "text": "какие команды есть в git",
+   "lang": "ru"
+  },
+  {
+   "text": "показать все команды git",
+   "lang": "ru"
+  },
+  {
+   "text": "что умеет git",
+   "lang": "ru"
+  },
+  {
+   "text": "команды гита",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "git"
+  ]
+ },
+ "prerequisites": [
+  "git must be installed. On macOS, if git is missing, running it opens a pop-up to install the Command Line Tools."
+ ],
+ "steps": [
+  {
+   "explain": "Check that git is installed. A path such as /usr/bin/git means it is installed. Empty output means git is missing.",
+   "cmd": "command -v git",
+   "risk": "low",
+   "expect": "A path such as /usr/bin/git"
+  },
+  {
+   "explain": "Print every git subcommand with a one-line description. Commands are grouped; the 'Main Porcelain Commands' group holds the everyday ones such as add, commit, branch and diff.",
+   "cmd": "git help -a",
+   "risk": "low",
+   "expect": "First line: \"See 'git help <command>' to read about a specific subcommand\". Then a 'Main Porcelain Commands' heading and one command per line, about 180 lines.",
+   "alternatives": [
+    {
+     "explain": "Same list, written with the long option form.",
+     "cmd": "git --help -a",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Narrow the list to commands that match a word you have in mind. Replace <WORD> with a keyword such as commit, remote or stash.",
+   "cmd": "git help -a | grep -i <WORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "WORD",
+     "description": "A keyword to search for in the command names and descriptions.",
+     "example": "commit",
+     "discover_cmd": "git help -a"
+    }
+   ],
+   "expect": "Only the matching lines, e.g. 'commit   Record changes to the repository' for the word commit."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "git help -a | head -n 3",
+   "expect": "The first line is \"See 'git help <command>' to read about a specific subcommand\"."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/git",
+  "title": "git manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

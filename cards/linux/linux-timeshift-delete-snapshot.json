@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "linux-timeshift-delete-snapshot",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete a specific Timeshift snapshot",
+ "summary": "Remove an old or unnecessary system restore point to free up disk space.",
+ "aliases": [
+  {
+   "text": "delete timeshift snapshot",
+   "lang": "en"
+  },
+  {
+   "text": "remove timeshift backup",
+   "lang": "en"
+  },
+  {
+   "text": "clean up timeshift",
+   "lang": "en"
+  },
+  {
+   "text": "timeshift delete",
+   "lang": "en"
+  },
+  {
+   "text": "удалить снапшот timeshift",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить старые бэкапы",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить точку восстановления",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Timeshift is installed",
+  "You know the name of the snapshot to delete"
+ ],
+ "steps": [
+  {
+   "explain": "Delete a specific snapshot by its name.",
+   "cmd": "sudo timeshift --delete --snapshot <SNAPSHOT_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SNAPSHOT_NAME",
+     "description": "The name of the snapshot to delete, e.g., '2023-10-27_14-30-00'",
+     "discover_cmd": "sudo timeshift --list"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Deleted snapshots cannot be recovered. Ensure you do not delete the most recent snapshot if you might need it soon."
+ ],
+ "rollback": [
+  {
+   "explain": "Deleted snapshots cannot be restored. There is no undo command for deletion.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/timeshift.md",
+  "title": "tldr-pages: timeshift",
+  "license": "CC-BY-4.0"
+ }
+}

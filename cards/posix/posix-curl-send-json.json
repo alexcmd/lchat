@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-curl-send-json",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Send JSON data with curl",
+ "summary": "Send a request with JSON data and the correct Content-Type header. This is essential for interacting with modern REST APIs.",
+ "aliases": [
+  {
+   "text": "curl send json",
+   "lang": "en"
+  },
+  {
+   "text": "curl post json",
+   "lang": "en"
+  },
+  {
+   "text": "curl json request",
+   "lang": "en"
+  },
+  {
+   "text": "отправить json через curl",
+   "lang": "ru"
+  },
+  {
+   "text": "curl json запрос",
+   "lang": "ru"
+  },
+  {
+   "text": "отправить json данные в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use -d to send the JSON string and -H to set the Content-Type header to application/json.",
+   "cmd": "curl -d '<JSON>' -H 'Content-Type: application/json' <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "JSON",
+     "description": "The JSON data to send",
+     "example": "{\"name\":\"bob\"}"
+    },
+    {
+     "name": "URL",
+     "description": "The URL to send the request to",
+     "example": "http://example.com/users/1234"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/curl.md",
+  "title": "tldr-pages: curl",
+  "license": "CC-BY-4.0"
+ }
+}

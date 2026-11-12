@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "sysrq-kill-memory-hog",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Kill memory-hogging process with SysRq",
+ "summary": "Use the OOM killer via SysRq to terminate a process that is consuming too much memory and making the system unresponsive.",
+ "aliases": [
+  {
+   "text": "sysrq oom kill",
+   "lang": "en"
+  },
+  {
+   "text": "kill memory hog",
+   "lang": "en"
+  },
+  {
+   "text": "system out of memory",
+   "lang": "en"
+  },
+  {
+   "text": "sysrq f",
+   "lang": "en"
+  },
+  {
+   "text": "убить процесс памяти",
+   "lang": "ru"
+  },
+  {
+   "text": "нехватка памяти убить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "SysRq must be enabled (see 'Enable full SysRq key functionality')."
+ ],
+ "steps": [
+  {
+   "explain": "Press Alt+SysRq+f. This invokes the OOM killer, which selects and kills a non-vital process using the most memory.",
+   "gui": "Hold Alt, press Print Screen/SysRq, then press F.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no rollback for killing a process. You may need to restart the affected application.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "The OOM killer uses heuristics and may kill an unexpected process. Use with caution.",
+  "This does not guarantee the system will become responsive immediately."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Keyboard_shortcuts#Killing_a_memory-hogging_process",
+  "title": "Keyboard shortcuts",
+  "revision_id": 886036,
+  "license": "GFDL-1.3-or-later"
+ }
+}

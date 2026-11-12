@@ -1,0 +1,186 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-confirm-before-delete",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Ask for confirmation before a bash script deletes files",
+  "summary": "Deletes temporary .tmp files in one folder, but first shows the list and asks you to type yes. Anything else cancels and nothing is deleted.",
+  "aliases": [
+    {
+      "text": "confirm before delete bash script",
+      "lang": "en"
+    },
+    {
+      "text": "ask yes before deleting files bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash script delete with confirmation",
+      "lang": "en"
+    },
+    {
+      "text": "safe delete of tmp files script",
+      "lang": "en"
+    },
+    {
+      "text": "bash read yes or no prompt",
+      "lang": "en"
+    },
+    {
+      "text": "bash ask before a destructive action",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт спрашивает подтверждение перед удалением",
+      "lang": "ru"
+    },
+    {
+      "text": "bash удалить временные файлы с подтверждением",
+      "lang": "ru"
+    },
+    {
+      "text": "как спросить y/n в bash скрипте",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт удаления файлов который переспрашивает",
+      "lang": "ru"
+    },
+    {
+      "text": "bash подтверждение перед опасной операцией",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "confirm-delete.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "confirm-delete.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "confirm-delete.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Create a test folder with two temporary files and one file to keep.",
+      "risk": "low",
+      "cmd": "mkdir -p scratch && touch scratch/a.tmp scratch/b.tmp scratch/keep.txt",
+      "expect": "No output. The folder scratch holds a.tmp, b.tmp and keep.txt."
+    },
+    {
+      "explain": "Run the script and answer no at the question. The script lists the two files and cancels.",
+      "risk": "low",
+      "cmd": "./<FILE> <FOLDER> < /dev/null; echo exit code $?",
+      "expect": "These 2 file(s) will be permanently deleted, then cancelled, nothing was deleted, exit code 0",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "confirm-delete.sh"
+        },
+        {
+          "name": "FOLDER",
+          "description": "The folder that holds the .tmp files, here the test folder",
+          "example": "scratch"
+        }
+      ]
+    },
+    {
+      "explain": "Check that nothing was deleted.",
+      "risk": "low",
+      "cmd": "ls scratch",
+      "expect": "a.tmp  b.tmp  keep.txt"
+    },
+    {
+      "explain": "Run the script and type yes at the question. Only the two .tmp files are deleted.",
+      "risk": "low",
+      "cmd": "printf 'yes\\n' | ./<FILE> <FOLDER>",
+      "expect": "deleted 2 file(s)",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "confirm-delete.sh"
+        },
+        {
+          "name": "FOLDER",
+          "description": "The folder that holds the .tmp files, here the test folder",
+          "example": "scratch"
+        }
+      ]
+    },
+    {
+      "explain": "Check what is left: keep.txt is not a .tmp file, so it stays.",
+      "risk": "low",
+      "cmd": "ls scratch",
+      "expect": "keep.txt"
+    }
+  ],
+  "risk": "high",
+  "warnings": [
+    "Deletion is permanent. rm does not move files to the trash, so a deleted file cannot be restored by the script.",
+    "The script removes only *.tmp files directly inside the folder you name, not in its subfolders. Still, check the folder name before you type yes.",
+    "--yes skips the question. Use it only in scripts you have already tested, never for a folder you have not looked at."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "confirm-delete.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# confirm-delete.sh - delete *.tmp files in one folder, but only after you confirm.\n# Usage: ./confirm-delete.sh DIRECTORY [--yes]\n# The script lists the files first. Then it asks you to type yes.\n# --yes skips the question; use it only in scripts you have already tested.\n# Deleted files are NOT moved to a trash folder: they are gone.\n\nset -euo pipefail\n\nif (( $# < 1 )) || [[ ! -d $1 ]]; then\n    echo \"usage: $0 DIRECTORY [--yes]\" >&2\n    exit 2\nfi\nDIR=$1\nASSUME_YES=0\nif [[ ${2:-} == \"--yes\" ]]; then\n    ASSUME_YES=1\nfi\n\n# Collect the list first, so the user sees exactly what will be deleted.\n# mapfile -d '' (bash 4.4+) reads the NUL-separated names from find.\nmapfile -d '' -t files < <(find \"$DIR\" -maxdepth 1 -type f -name '*.tmp' -print0)\n\nif (( ${#files[@]} == 0 )); then\n    echo \"no *.tmp files in $DIR, nothing to do\"\n    exit 0\nfi\n\necho \"These ${#files[@]} file(s) will be permanently deleted:\"\nprintf '  %s\\n' \"${files[@]}\"\n\nif (( ! ASSUME_YES )); then\n    # read -r -p shows the question and waits for one line of typed text.\n    # If there is no typed input at all (end of input), the answer stays empty.\n    answer=\"\"\n    read -r -p \"Type 'yes' to delete them: \" answer || true\n    if [[ $answer != \"yes\" ]]; then\n        echo \"cancelled, nothing was deleted\"\n        exit 0\n    fi\nfi\n\nrm -f -- \"${files[@]}\"\necho \"deleted ${#files[@]} file(s)\"\n",
+    "usage": "./confirm-delete.sh DIRECTORY [--yes]"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ],
+  "rollback": [
+    {
+      "explain": "The script cannot undo a deletion. If you have a backup of the folder, copy the files back from it. Otherwise the files are gone.",
+      "risk": "high"
+    }
+  ]
+}

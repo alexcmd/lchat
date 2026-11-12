@@ -1,0 +1,137 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-interface-details",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show network settings for a specific interface",
+ "summary": "Use ifconfig to view the IP address, MAC address, and status of a specific network interface like eth0 or wlan0.",
+ "aliases": [
+  {
+   "text": "show ip address of interface",
+   "lang": "en"
+  },
+  {
+   "text": "ifconfig eth0",
+   "lang": "en"
+  },
+  {
+   "text": "check network interface details",
+   "lang": "en"
+  },
+  {
+   "text": "показать настройки сетевого интерфейса",
+   "lang": "ru"
+  },
+  {
+   "text": "ifconfig wlan0",
+   "lang": "ru"
+  },
+  {
+   "text": "какой ip у интерфейса",
+   "lang": "ru"
+  },
+  {
+   "text": "check eth0 status",
+   "lang": "en"
+  },
+  {
+   "text": "show network interface info",
+   "lang": "en"
+  },
+  {
+   "text": "show eth0 details",
+   "lang": "en"
+  },
+  {
+   "text": "check wifi interface info",
+   "lang": "en"
+  },
+  {
+   "text": "ip show interface",
+   "lang": "en"
+  },
+  {
+   "text": "details for network card",
+   "lang": "en"
+  },
+  {
+   "text": "показать информацию об интерфейсе",
+   "lang": "ru"
+  },
+  {
+   "text": "детали сетевого адаптера",
+   "lang": "ru"
+  },
+  {
+   "text": "ip show wlan0",
+   "lang": "ru"
+  },
+  {
+   "text": "show interface details",
+   "lang": "en"
+  },
+  {
+   "text": "ip link show",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run ifconfig followed by the name of the interface you want to inspect.",
+   "cmd": "ifconfig <INTERFACE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The name of the network interface, e.g., eth0, wlan0, en0.",
+     "example": "eth0"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Display information for a specific network interface by name.",
+     "cmd": "ip address show <INTERFACE>",
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The name of the network interface (e.g., eth0, wlan0).",
+       "example": "wlan0",
+       "discover_cmd": "ip address"
+      }
+     ],
+     "risk": "low"
+    },
+    {
+     "explain": "Use `ip link show` followed by the interface name to see its specific details.",
+     "cmd": "ip link show <INTERFACE>",
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The name of the network interface, e.g., eth0, wlan0.",
+       "example": "eth0",
+       "discover_cmd": "ip link"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ifconfig.md",
+  "title": "tldr-pages: ifconfig",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-network-interfaces",
+  "linux-show-device-details"
+ ]
+}

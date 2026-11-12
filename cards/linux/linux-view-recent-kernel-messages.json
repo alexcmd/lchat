@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-view-recent-kernel-messages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show kernel messages from the last hour",
+ "summary": "Display only the kernel messages generated in the last hour. This helps focus on recent events without scrolling through the entire boot log.",
+ "aliases": [
+  {
+   "text": "kernel messages last hour",
+   "lang": "en"
+  },
+  {
+   "text": "recent dmesg",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg since 1 hour",
+   "lang": "en"
+  },
+  {
+   "text": "last hour kernel log",
+   "lang": "en"
+  },
+  {
+   "text": "recent kernel events",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg recent",
+   "lang": "en"
+  },
+  {
+   "text": "сообщения ядра за последний час",
+   "lang": "ru"
+  },
+  {
+   "text": "dmesg за час",
+   "lang": "ru"
+  },
+  {
+   "text": "последние логи ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "недавние события ядра",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --since flag with a time string to filter messages by time.",
+   "cmd": "sudo dmesg --since \"1 hour ago\"",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dmesg.md",
+  "title": "tldr-pages: dmesg",
+  "license": "CC-BY-4.0"
+ }
+}

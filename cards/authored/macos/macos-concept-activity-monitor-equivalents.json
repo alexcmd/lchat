@@ -1,0 +1,157 @@
+{
+ "schema_version": 2,
+ "id": "macos-concept-activity-monitor-equivalents",
+ "platform": "macos",
+ "kind": "concept",
+ "title": "Map Activity Monitor tabs to Terminal commands on macOS",
+ "summary": "Activity Monitor shows CPU, Memory, Energy, Disk and Network in a window. Terminal has built-in tools that show most of the same numbers as text: top and ps for processes, iostat for disks, and nettop for network traffic. Energy has no exact Terminal equivalent.",
+ "aliases": [
+  {
+   "text": "activity monitor in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "terminal version of activity monitor",
+   "lang": "en"
+  },
+  {
+   "text": "activity monitor command line mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac task manager terminal",
+   "lang": "en"
+  },
+  {
+   "text": "which terminal command is activity monitor",
+   "lang": "en"
+  },
+  {
+   "text": "top vs activity monitor",
+   "lang": "en"
+  },
+  {
+   "text": "activity monitor equivalent command",
+   "lang": "en"
+  },
+  {
+   "text": "activity monitor в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "аналог мониторинга системы в терминале mac",
+   "lang": "ru"
+  },
+  {
+   "text": "диспетчер задач mac через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг системы мак терминал команды",
+   "lang": "ru"
+  },
+  {
+   "text": "какая команда вместо activity monitor",
+   "lang": "ru"
+  },
+  {
+   "text": "activity monitor аналог командная строка",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг системы терминал вместо активити монитора",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app open (Applications > Utilities > Terminal)"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the Terminal tools are present on this Mac. They are built into macOS. Each line of output is the full path of one tool; a tool that prints nothing is missing.",
+   "cmd": "command -v top ps iostat nettop",
+   "risk": "low",
+   "expect": "Four lines with paths such as /usr/bin/top, /usr/bin/ps, /usr/sbin/iostat and /usr/bin/nettop."
+  },
+  {
+   "explain": "CPU tab: list the processes that use the most CPU. Read the second snapshot; the first one shows %CPU as invalid. The CPU line of the header shows user, system and idle percentages; idle is the free share.",
+   "cmd": "top -l 2 -s 1 -o cpu -n 10",
+   "risk": "low",
+   "expect": "Two snapshots, each with a CPU and PhysMem summary and a table of up to 10 processes sorted by CPU, highest first.",
+   "alternatives": [
+    {
+     "explain": "Same CPU ranking as a short one-off list with ps. Look at the %CPU column; it is a decaying average, so it is less exact than top's second snapshot.",
+     "cmd": "ps -A -o pid,%cpu,%mem,comm -r | head -n 11",
+     "risk": "low",
+     "expect": "A header line and up to 10 lines: process ID, CPU percent, memory percent and program name, highest CPU first."
+    }
+   ]
+  },
+  {
+   "explain": "Memory tab: list the processes that use the most memory. Look at the PhysMem line for used and unused memory. Free memory can look small on purpose, because macOS uses spare RAM as cache.",
+   "cmd": "top -l 2 -s 1 -o mem -n 10",
+   "risk": "low",
+   "expect": "The PhysMem line lists wired, active, inactive, used and free memory. The process table is sorted by the mem column, which is the physical memory footprint of each process."
+  },
+  {
+   "explain": "Alternative for memory: a short ps list sorted by memory. The rss column is the resident memory of each process in kilobytes.",
+   "cmd": "ps -A -o pid,%mem,rss,comm -m | head -n 11",
+   "risk": "low",
+   "expect": "A header line and up to 10 lines sorted by memory, largest first; the rss numbers are in kilobytes."
+  },
+  {
+   "explain": "Energy tab: Terminal has no command that shows the Energy Impact score. Open Activity Monitor and use its Energy tab to see which apps use the most power. top has no energy column.",
+   "risk": "low",
+   "gui": "Open Activity Monitor (Finder > Applications > Utilities > Activity Monitor), then click the Energy tab. The Energy Impact column ranks apps by power use."
+  },
+  {
+   "explain": "Disk tab: disk activity as a whole, not per app. Read the second block (last second). KB/t is the size of each transfer, tps the transfers per second, MB/s the throughput.",
+   "cmd": "iostat -d -c 2 -w 1",
+   "risk": "low",
+   "expect": "A header with a disk name such as disk0, then two blocks of rows with KB/t, tps and MB/s. The first block is the average since boot.",
+   "alternatives": [
+    {
+     "explain": "Show one disk only, updated every second for 3 samples. Replace <DISK> with a disk name from the header of the first command.",
+     "cmd": "iostat -d -w 1 -c 3 <DISK>",
+     "risk": "low",
+     "expect": "Three rows for the chosen disk, one per second.",
+     "placeholders": [
+      {
+       "name": "DISK",
+       "description": "Disk name from the iostat header, such as disk0",
+       "example": "disk0",
+       "discover_cmd": "iostat -d -c 1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Network tab: show network traffic for each process once, as CSV text. Look at the bytes in and bytes out columns to see which programs send and receive the most data. The -L 1 flag means one sample and then exit.",
+   "cmd": "nettop -P -L 1",
+   "risk": "low",
+   "expect": "CSV lines, one per process, with the process name and byte counters for input and output traffic.",
+   "alternatives": [
+    {
+     "explain": "Live view that updates every second, like the Network tab. Press q to quit. Press j to choose which columns are shown.",
+     "cmd": "nettop -P",
+     "risk": "low",
+     "expect": "A table of processes with traffic counters that refresh every second; press q to quit."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://top",
+  "title": "top manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

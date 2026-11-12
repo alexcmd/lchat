@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-uv-lock-dependencies",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a lock file with uv",
+ "summary": "Use `uv lock` to generate a `uv.lock` file that pins the exact versions of your project's dependencies. This ensures reproducible builds.",
+ "aliases": [
+  {
+   "text": "uv lock",
+   "lang": "en"
+  },
+  {
+   "text": "create lock file uv",
+   "lang": "en"
+  },
+  {
+   "text": "pin dependencies uv",
+   "lang": "en"
+  },
+  {
+   "text": "uv lock dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "uv создать лок файл",
+   "lang": "ru"
+  },
+  {
+   "text": "uv зафиксировать версии",
+   "lang": "ru"
+  },
+  {
+   "text": "uv lock",
+   "lang": "ru"
+  },
+  {
+   "text": "uv блокировка зависимостей",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command in your project directory to create or update the lock file.",
+   "cmd": "uv lock",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uv.md",
+  "title": "tldr-pages: uv",
+  "license": "CC-BY-4.0"
+ }
+}

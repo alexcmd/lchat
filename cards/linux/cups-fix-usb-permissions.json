@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "cups-fix-usb-permissions",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix USB printer permissions",
+ "summary": "If CUPS cannot access a USB printer, check the device permissions and ensure the 'lp' group has access.",
+ "aliases": [
+  {
+   "text": "cups usb permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "usb printer not detected permissions",
+   "lang": "en"
+  },
+  {
+   "text": "fix cups usb access",
+   "lang": "en"
+  },
+  {
+   "text": "ошибки доступа usb принтер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List USB devices to find the Bus and Device ID of your printer.",
+   "cmd": "lsusb",
+   "risk": "low"
+  },
+  {
+   "explain": "Check the permissions of the USB device file using the Bus and Device ID from the previous step.",
+   "cmd": "ls -l /dev/bus/usb/<BUS_ID>/<DEVICE_ID>",
+   "placeholders": [
+    {
+     "name": "BUS_ID",
+     "description": "The bus number from lsusb (e.g., 001)",
+     "example": "001"
+    },
+    {
+     "name": "DEVICE_ID",
+     "description": "The device number from lsusb (e.g., 002)",
+     "example": "002"
+    }
+   ],
+   "risk": "low"
+  },
+  {
+   "explain": "Temporarily change the group to 'lp' and permissions to allow read/write for the group.",
+   "cmd": "sudo chgrp lp /dev/bus/usb/<BUS_ID>/<DEVICE_ID>",
+   "placeholders": [
+    {
+     "name": "BUS_ID",
+     "description": "The bus number from lsusb",
+     "example": "001"
+    },
+    {
+     "name": "DEVICE_ID",
+     "description": "The device number from lsusb",
+     "example": "002"
+    }
+   ],
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Change the permissions to 664.",
+   "cmd": "sudo chmod 664 /dev/bus/usb/<BUS_ID>/<DEVICE_ID>",
+   "placeholders": [
+    {
+     "name": "BUS_ID",
+     "description": "The bus number from lsusb",
+     "example": "001"
+    },
+    {
+     "name": "DEVICE_ID",
+     "description": "The device number from lsusb",
+     "example": "002"
+    }
+   ],
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reboot the system to reset USB device permissions to default.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This is a temporary fix. For a permanent fix, create a udev rule."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/CUPS/Troubleshooting#Bad_permissions",
+  "title": "CUPS/Troubleshooting",
+  "revision_id": 873801,
+  "license": "GFDL-1.3-or-later"
+ }
+}

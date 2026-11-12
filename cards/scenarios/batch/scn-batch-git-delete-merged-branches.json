@@ -1,0 +1,169 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-git-delete-merged-branches",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete all local git branches that are already merged",
+ "summary": "Lists the local branches whose commits are already contained in your main branch and deletes them. Git refuses to delete a branch with unmerged work, and the branch you are on and the base branch are always kept.",
+ "aliases": [
+  {
+   "text": "delete merged git branches",
+   "lang": "en"
+  },
+  {
+   "text": "git remove all merged local branches",
+   "lang": "en"
+  },
+  {
+   "text": "clean up old git branches",
+   "lang": "en"
+  },
+  {
+   "text": "git branch -d merged bulk delete",
+   "lang": "en"
+  },
+  {
+   "text": "delete branches already merged into main",
+   "lang": "en"
+  },
+  {
+   "text": "git prune finished feature branches",
+   "lang": "en"
+  },
+  {
+   "text": "удалить все слитые ветки git",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить уже влитые локальные ветки",
+   "lang": "ru"
+  },
+  {
+   "text": "почистить старые ветки git",
+   "lang": "ru"
+  },
+  {
+   "text": "массово удалить ветки git которые уже слиты в main",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "git",
+   "xargs"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview: list the local branches that are merged into the base branch. The branch marked with * is the one you are on.",
+   "risk": "low",
+   "cmd": "git -C <REPO> branch --merged <BASE>",
+   "expect": "Branch names, one per line, with the current branch marked by *.",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app",
+     "discover_cmd": "ls"
+    },
+    {
+     "name": "BASE",
+     "description": "Main branch that the others must be merged into",
+     "example": "main"
+    }
+   ]
+  },
+  {
+   "explain": "Preview the exact list the delete step will use: merged branches without the base and the current branch. Nothing is deleted.",
+   "risk": "low",
+   "cmd": "git -C <REPO> branch --merged <BASE> --format='%(refname:short)' | grep -vxF -e <BASE> -e \"$(git -C <REPO> branch --show-current)\"",
+   "expect": "Only the names of branches that would be deleted, for example feat-old.",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app"
+    },
+    {
+     "name": "BASE",
+     "description": "Main branch",
+     "example": "main"
+    }
+   ]
+  },
+  {
+   "explain": "Delete those branches. git branch -d refuses any branch that is not fully merged, so unfinished work is safe.",
+   "risk": "medium",
+   "cmd": "git -C <REPO> branch --merged <BASE> --format='%(refname:short)' | grep -vxF -e <BASE> -e \"$(git -C <REPO> branch --show-current)\" | xargs -r git -C <REPO> branch -d",
+   "expect": "One line per branch: Deleted branch feat-old (was b01e033).",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app"
+    },
+    {
+     "name": "BASE",
+     "description": "Main branch",
+     "example": "main"
+    }
+   ]
+  },
+  {
+   "explain": "List the branches that are left.",
+   "risk": "low",
+   "cmd": "git -C <REPO> branch",
+   "expect": "Your main branch and any branches that were not merged.",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://git-scm.com/docs/git-branch",
+  "title": "git-branch Documentation",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "prerequisites": [
+  "A git repository and the name of its main branch, for example main"
+ ],
+ "rollback": [
+  {
+   "explain": "Bring back a deleted branch with the commit id from its 'was' line: git branch NAME COMMIT.",
+   "risk": "medium",
+   "cmd": "git -C <REPO> branch <NAME> <COMMIT>",
+   "placeholders": [
+    {
+     "name": "REPO",
+     "description": "Path of the git repository",
+     "example": "app"
+    },
+    {
+     "name": "NAME",
+     "description": "Name of the deleted branch",
+     "example": "feat-old"
+    },
+    {
+     "name": "COMMIT",
+     "description": "Commit id from the 'was' text",
+     "example": "b01e033"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Only local branches are deleted. Branches on the remote stay where they are.",
+  "Read the preview list before the delete step; the base branch and the current branch are excluded automatically."
+ ]
+}

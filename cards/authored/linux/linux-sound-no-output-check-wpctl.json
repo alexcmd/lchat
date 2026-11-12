@@ -1,0 +1,157 @@
+{
+ "schema_version": 2,
+ "id": "linux-sound-no-output-check-wpctl",
+ "platform": "linux",
+ "kind": "task",
+ "title": "No sound: check the output device and mute state",
+ "summary": "On a PipeWire desktop, sound can be muted or sent to the wrong output device. These steps show the current output, check the mute state, unmute it and choose the right device.",
+ "aliases": [
+  {
+   "text": "no sound linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux no sound pipewire",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu no sound output",
+   "lang": "en"
+  },
+  {
+   "text": "sound is muted linux",
+   "lang": "en"
+  },
+  {
+   "text": "speakers not working linux",
+   "lang": "en"
+  },
+  {
+   "text": "wpctl unmute",
+   "lang": "en"
+  },
+  {
+   "text": "sound goes to wrong device linux",
+   "lang": "en"
+  },
+  {
+   "text": "нет звука linux",
+   "lang": "ru"
+  },
+  {
+   "text": "нет звука на ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "звук выключен linux",
+   "lang": "ru"
+  },
+  {
+   "text": "звук не идет в колонки linux",
+   "lang": "ru"
+  },
+  {
+   "text": "звук уходит не в наушники linux",
+   "lang": "ru"
+  },
+  {
+   "text": "включить звук pipewire",
+   "lang": "ru"
+  },
+  {
+   "text": "wpctl размутить звук",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "wpctl"
+  ]
+ },
+ "prerequisites": [
+  "Desktop with PipeWire audio (the default on recent Ubuntu, Fedora and Arch desktops)",
+  "A terminal window open in your user account"
+ ],
+ "steps": [
+  {
+   "explain": "Show the audio devices and which one is the default output. The Sinks list shows the outputs; the line marked with * is the current default output. The number before the dot is the device ID.",
+   "cmd": "wpctl status",
+   "risk": "low",
+   "expect": "An Audio section with a Sinks: list, for example 'Built-in Audio Analog Stereo'. One line starts with * and is the default output.",
+   "alternatives": []
+  },
+  {
+   "explain": "Show the volume of the default output. If the line ends with [MUTED], the output is muted.",
+   "cmd": "wpctl get-volume @DEFAULT_AUDIO_SINK@",
+   "risk": "low",
+   "expect": "Volume: 0.40 (or similar). A [MUTED] at the end means the output is muted."
+  },
+  {
+   "explain": "Cross-check the default output name with the PulseAudio compatibility tool. Skip this step if pactl is not installed (it comes from pulseaudio-utils on Ubuntu, Debian, Mint and Fedora, and from libpulse on Arch).",
+   "cmd": "pactl info",
+   "risk": "low",
+   "expect": "A line 'Default Sink:' followed by the output device name, for example alsa_output.pci-0000_00_1f.3.analog-stereo."
+  },
+  {
+   "explain": "Unmute the default output. The value 0 turns mute off; 1 turns it on again.",
+   "cmd": "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0",
+   "risk": "low",
+   "expect": "No output on success. Run the get-volume command again: [MUTED] should be gone.",
+   "alternatives": [
+    {
+     "explain": "If the volume is at 0, set it to 50% (1.0 is 100%).",
+     "cmd": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.5",
+     "risk": "low",
+     "expect": "No output on success. The get-volume command now shows Volume: 0.50."
+    }
+   ]
+  },
+  {
+   "explain": "If the sound goes to the wrong device (for example the speakers instead of the headphones), make the right device the default. Use the ID from the Sinks list in the first step.",
+   "cmd": "wpctl set-default <SINK_ID>",
+   "placeholders": [
+    {
+     "name": "SINK_ID",
+     "description": "Number of the output device from the Sinks list in wpctl status",
+     "example": "47",
+     "discover_cmd": "wpctl status"
+    }
+   ],
+   "risk": "low",
+   "expect": "No output on success. The device you chose is now marked with * in wpctl status."
+  }
+ ],
+ "risk": "low",
+ "verify": [
+  {
+   "cmd": "wpctl get-volume @DEFAULT_AUDIO_SINK@",
+   "expect": "Volume: 0.40 with no [MUTED] at the end"
+  }
+ ],
+ "warnings": [
+  "Lower the volume before you unmute, especially with headphones on, so the sound does not start loud."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/wpctl",
+  "title": "wpctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

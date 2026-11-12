@@ -1,0 +1,159 @@
+{
+ "schema_version": 2,
+ "id": "linux-add-ip-address",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Add an IP address to a network interface",
+ "summary": "Assign a specific IP address to a network interface. This is useful for setting up static IPs or testing network configurations.",
+ "aliases": [
+  {
+   "text": "add ip address",
+   "lang": "en"
+  },
+  {
+   "text": "set static ip manually",
+   "lang": "en"
+  },
+  {
+   "text": "assign ip to interface",
+   "lang": "en"
+  },
+  {
+   "text": "ip add command",
+   "lang": "en"
+  },
+  {
+   "text": "добавить ip адрес",
+   "lang": "ru"
+  },
+  {
+   "text": "назначить ip интерфейсу",
+   "lang": "ru"
+  },
+  {
+   "text": "прописать статический ip",
+   "lang": "ru"
+  },
+  {
+   "text": "ip address add/en",
+   "lang": "en"
+  },
+  {
+   "text": "remove ip address",
+   "lang": "en"
+  },
+  {
+   "text": "set static ip",
+   "lang": "en"
+  },
+  {
+   "text": "ip address add",
+   "lang": "en"
+  },
+  {
+   "text": "ip address delete",
+   "lang": "en"
+  },
+  {
+   "text": "удалить ip адрес",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить статический ip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add an IP address to a specified network interface. Requires root privileges.",
+   "cmd": "sudo ip address add <IP_ADDRESS> dev <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "IP_ADDRESS",
+     "description": "The IP address to add (e.g., 192.168.1.10/24).",
+     "example": "192.168.1.10/24"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface name (e.g., eth0).",
+     "example": "eth0",
+     "discover_cmd": "ip address"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use `sudo ip address add` or `delete` with the IP address, subnet mask, and interface name.",
+     "cmd": "sudo ip address <ACTION> <IP_ADDRESS>/<MASK> dev <INTERFACE>",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "ACTION",
+       "description": "The action to perform: 'add' or 'delete'.",
+       "example": "add"
+      },
+      {
+       "name": "IP_ADDRESS",
+       "description": "The IP address to add or remove.",
+       "example": "192.168.1.100"
+      },
+      {
+       "name": "MASK",
+       "description": "The subnet mask in CIDR notation (e.g., 24 for 255.255.255.0).",
+       "example": "24"
+      },
+      {
+       "name": "INTERFACE",
+       "description": "The network interface name.",
+       "example": "eth0",
+       "discover_cmd": "ip link"
+      }
+     ],
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the IP address you just added to revert the change.",
+   "cmd": "sudo ip address delete <IP_ADDRESS> dev <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "IP_ADDRESS",
+     "description": "The IP address to remove.",
+     "example": "192.168.1.10/24"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface name.",
+     "example": "eth0"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Incorrect IP configuration can disconnect you from the network.",
+  "This change is temporary and will be lost after a reboot unless configured in network manager."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-address.md",
+  "title": "tldr-pages: ip-address",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-set-static-ip",
+  "linux-remove-ip-address"
+ ]
+}

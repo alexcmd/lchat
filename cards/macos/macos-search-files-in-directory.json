@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-search-files-in-directory",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Search for files within a specific folder",
+ "summary": "Limit your file search to a specific directory using mdfind. This is helpful when you know which folder contains the file but want to search its contents or names within that scope.",
+ "aliases": [
+  {
+   "text": "search files in folder mac",
+   "lang": "en"
+  },
+  {
+   "text": "mdfind onlyin",
+   "lang": "en"
+  },
+  {
+   "text": "search specific directory terminal",
+   "lang": "en"
+  },
+  {
+   "text": "как найти файлы в папке на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск в конкретной папке терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "mdfind в директории",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -onlyin flag to restrict the search to a specific directory path, followed by your search query.",
+   "cmd": "mdfind -onlyin <DIRECTORY> \"<QUERY>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the folder you want to search within.",
+     "example": "~/Documents"
+    },
+    {
+     "name": "QUERY",
+     "description": "The text or phrase to search for.",
+     "example": "invoice"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mdfind.md",
+  "title": "tldr-pages: mdfind",
+  "license": "CC-BY-4.0"
+ }
+}

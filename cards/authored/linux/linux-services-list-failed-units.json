@@ -1,0 +1,226 @@
+{
+ "schema_version": 2,
+ "id": "linux-services-list-failed-units",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List failed system services and read why one failed",
+ "summary": "Show the systemd services that failed to start or crashed, then read the last log lines of one of them to find the reason it broke.",
+ "aliases": [
+  {
+   "text": "which service failed linux",
+   "lang": "en"
+  },
+  {
+   "text": "failed systemd units",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl failed services",
+   "lang": "en"
+  },
+  {
+   "text": "why service won't start linux",
+   "lang": "en"
+  },
+  {
+   "text": "broken services ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "service failed to start logs",
+   "lang": "en"
+  },
+  {
+   "text": "какая служба не запустилась",
+   "lang": "ru"
+  },
+  {
+   "text": "упавшие службы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "сломанные сервисы systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "почему служба не запускается",
+   "lang": "ru"
+  },
+  {
+   "text": "логи упавшей службы",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl failed как посмотреть",
+   "lang": "ru"
+  },
+  {
+   "text": "list failed services",
+   "lang": "en"
+  },
+  {
+   "text": "check failed services",
+   "lang": "en"
+  },
+  {
+   "text": "what services failed",
+   "lang": "en"
+  },
+  {
+   "text": "список упавших служб",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибки systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl status failed",
+   "lang": "en"
+  },
+  {
+   "text": "list failed units",
+   "lang": "en"
+  },
+  {
+   "text": "проверить упавшие службы",
+   "lang": "ru"
+  },
+  {
+   "text": "какие сервисы не запустились",
+   "lang": "ru"
+  },
+  {
+   "text": "check failed units",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl failed",
+   "lang": "en"
+  },
+  {
+   "text": "show broken services",
+   "lang": "en"
+  },
+  {
+   "text": "spisok otkazavshih sluzhb",
+   "lang": "ru"
+  },
+  {
+   "text": "kakie sluzhby ne rabotayut",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit otkazy",
+   "lang": "ru"
+  },
+  {
+   "text": "list broken services",
+   "lang": "en"
+  },
+  {
+   "text": "systemd errors",
+   "lang": "en"
+  },
+  {
+   "text": "проверить упавшие сервисы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   },
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "prerequisites": [
+  "Linux that uses systemd (Ubuntu, Mint, Debian, Fedora, Arch)",
+  "Open a terminal"
+ ],
+ "steps": [
+  {
+   "explain": "List the services (units) that systemd marked as failed. Look at the ACTIVE and SUB columns: 'failed' means the unit stopped because of an error. The last line shows how many units failed.",
+   "cmd": "systemctl --failed",
+   "risk": "low",
+   "expect": "A table with UNIT, LOAD, ACTIVE and SUB columns and a final count such as '1 loaded units listed.', or '0 loaded units listed.' if nothing failed.",
+   "alternatives": [
+    {
+     "explain": "Show the status of all units that are currently in a failed state.",
+     "cmd": "systemctl status --failed",
+     "expect": "A list of failed units, or a message indicating no failed units were found.",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Show the status of one failed service. Replace <UNIT_NAME> with a name from the first list, for example cups.service. Look at the 'Active:' line and the last log lines at the bottom of the output.",
+   "cmd": "systemctl status <UNIT_NAME>",
+   "placeholders": [
+    {
+     "name": "UNIT_NAME",
+     "description": "Name of a failed service from the list (the .service suffix is optional)",
+     "example": "cups.service",
+     "discover_cmd": "systemctl --failed"
+    }
+   ],
+   "risk": "low",
+   "expect": "A header with the service name and an 'Active:' line that says 'failed' with a Result such as 'exit-code', followed by the last few log lines."
+  },
+  {
+   "explain": "Show the last 50 log lines of that service, oldest first. The error message near the end usually says why it failed, for example a missing file or a port that is already in use.",
+   "cmd": "journalctl -u <UNIT_NAME> -n 50 --no-pager",
+   "placeholders": [
+    {
+     "name": "UNIT_NAME",
+     "description": "Same failed service name as in the previous step",
+     "example": "cups.service",
+     "discover_cmd": "systemctl --failed"
+    }
+   ],
+   "risk": "low",
+   "expect": "Up to 50 log lines of the service, oldest first. The error line near the end gives the reason; if the list is empty or very short, try the alternative.",
+   "alternatives": [
+    {
+     "explain": "Use this if the output is empty or misses lines. The system log can need administrator rights to read, so run the same command with sudo and type your password.",
+     "cmd": "sudo journalctl -u <UNIT_NAME> -n 50 --no-pager",
+     "needs_root": true,
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "UNIT_NAME",
+       "description": "Same failed service name as in the previous step",
+       "example": "cups.service",
+       "discover_cmd": "systemctl --failed"
+      }
+     ],
+     "expect": "The same kind of log lines, now including messages that were hidden without sudo."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/systemctl",
+  "title": "systemctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

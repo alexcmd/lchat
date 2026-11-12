@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "udisks-set-noatime-default",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set noatime as default mount option for Udisks",
+ "summary": "Configure Udisks to mount removable drives with the noatime option by default. This prevents updating file access times, which can improve performance and reduce wear on flash media like USB sticks.",
+ "aliases": [
+  {
+   "text": "udisks noatime",
+   "lang": "en"
+  },
+  {
+   "text": "mount options udisks",
+   "lang": "en"
+  },
+  {
+   "text": "udisks2 mount options",
+   "lang": "en"
+  },
+  {
+   "text": "noatime usb stick",
+   "lang": "en"
+  },
+  {
+   "text": "настроить udisks noatime",
+   "lang": "ru"
+  },
+  {
+   "text": "параметры монтирования udisks",
+   "lang": "ru"
+  },
+  {
+   "text": "udisks2 conf",
+   "lang": "ru"
+  },
+  {
+   "text": "noatime флешка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "udisks2"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create or edit the file /etc/udisks2/mount_options.conf. Add the following lines to set noatime as the default option for all mounts:\n[defaults]\ndefaults=noatime",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the file /etc/udisks2/mount_options.conf or delete the added lines to revert to default behavior.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Editing system configuration files requires root privileges. Ensure you have a backup or know how to revert changes."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Udisks#Default_mount_options",
+  "title": "Udisks",
+  "revision_id": 885217,
+  "license": "GFDL-1.3-or-later"
+ }
+}

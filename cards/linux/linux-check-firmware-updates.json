@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-firmware-updates",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check for available firmware updates",
+ "summary": "Firmware updates fix bugs and security issues in hardware like SSDs, BIOS, and Wi-Fi cards. This command checks if any updates are available for your devices.",
+ "aliases": [
+  {
+   "text": "check firmware updates",
+   "lang": "en"
+  },
+  {
+   "text": "fwupdmgr get-updates",
+   "lang": "en"
+  },
+  {
+   "text": "update bios linux",
+   "lang": "en"
+  },
+  {
+   "text": "check ssd firmware",
+   "lang": "en"
+  },
+  {
+   "text": "проверить обновления прошивки",
+   "lang": "ru"
+  },
+  {
+   "text": "fwupdmgr обновления",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить биос линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "fwupd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Download the latest firmware metadata from the Linux Vendor Firmware Service (LVFS).",
+   "cmd": "fwupdmgr refresh",
+   "risk": "low"
+  },
+  {
+   "explain": "List the updates available for devices on your system.",
+   "cmd": "fwupdmgr get-updates",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/fwupdmgr.md",
+  "title": "tldr-pages: fwupdmgr",
+  "license": "CC-BY-4.0"
+ }
+}

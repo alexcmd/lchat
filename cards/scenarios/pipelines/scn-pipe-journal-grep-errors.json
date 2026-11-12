@@ -1,0 +1,101 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-journal-grep-errors",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show the error messages from the system journal since this boot",
+ "summary": "Read the system log for the current boot, keep only the lines that mention a word you choose, and show the last few. Use it to find out why a service or a device misbehaves.",
+ "aliases": [
+  {
+   "text": "grep journalctl errors linux",
+   "lang": "en"
+  },
+  {
+   "text": "show errors from system log",
+   "lang": "en"
+  },
+  {
+   "text": "journalctl filter by word",
+   "lang": "en"
+  },
+  {
+   "text": "find error in system logs this boot",
+   "lang": "en"
+  },
+  {
+   "text": "what errors happened since boot",
+   "lang": "en"
+  },
+  {
+   "text": "search journal for a word",
+   "lang": "en"
+  },
+  {
+   "text": "показать ошибки из системного журнала",
+   "lang": "ru"
+  },
+  {
+   "text": "journalctl поиск по слову",
+   "lang": "ru"
+  },
+  {
+   "text": "найти ошибку в логах systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибки с момента загрузки linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "journalctl"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the most recent error-level messages of the current boot. -b selects this boot, -p err keeps priority error and worse, and tail keeps the last 20 lines.",
+   "cmd": "journalctl -b -p err --no-pager | tail -n 20",
+   "risk": "low",
+   "expect": "Lines such as 'Nov 12 10:01:02 myhost kernel: ...' with the time, host, program and message."
+  },
+  {
+   "explain": "Search the whole boot log for a word, ignoring case. grep -i matches upper and lower case, and tail keeps the last 20 matches.",
+   "cmd": "journalctl -b --no-pager | grep -i '<WORD>' | tail -n 20",
+   "risk": "low",
+   "expect": "Matching log lines from this boot. No output means nothing in this boot mentions the word.",
+   "placeholders": [
+    {
+     "name": "WORD",
+     "description": "The word to search for",
+     "example": "bluetooth"
+    }
+   ]
+  },
+  {
+   "explain": "Count which program logs the most matches. awk prints the program name in field 5 and removes the [pid] part and the colon after it, sort and uniq -c count, sort -nr lists the biggest count first.",
+   "cmd": "journalctl -b --no-pager | grep -i '<WORD>' | awk '{sub(/[:\\[].*/, \"\", $5); print $5}' | sort | uniq -c | sort -nr | head -n 10",
+   "risk": "low",
+   "expect": "Lines such as '  14 bluetoothd': the count first, then the program name.",
+   "placeholders": [
+    {
+     "name": "WORD",
+     "description": "The word to search for",
+     "example": "bluetooth"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/journalctl.1.html",
+  "title": "journalctl(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-xargs-confirm-before-execution",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Prompt for confirmation before running xargs command",
+ "summary": "Use the interactive flag with xargs to ask for confirmation before executing the command for each set of arguments. This helps prevent accidental deletion or modification of files.",
+ "aliases": [
+  {
+   "text": "xargs confirm",
+   "lang": "en"
+  },
+  {
+   "text": "xargs ask before running",
+   "lang": "en"
+  },
+  {
+   "text": "xargs interactive",
+   "lang": "en"
+  },
+  {
+   "text": "xargs prompt",
+   "lang": "en"
+  },
+  {
+   "text": "xargs s podtverzhdeniem",
+   "lang": "ru"
+  },
+  {
+   "text": "xargs sprosit pered vypolneniem",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add the --interactive flag to xargs. You will be prompted to confirm each command execution by typing 'y' or 'Y'.",
+   "cmd": "<ARGUMENTS_SOURCE> | xargs --interactive <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ARGUMENTS_SOURCE",
+     "description": "The command providing the input data",
+     "example": "find . -name '*.tmp'"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command to run on the input",
+     "example": "rm"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/xargs.md",
+  "title": "tldr-pages: xargs",
+  "license": "CC-BY-4.0"
+ }
+}

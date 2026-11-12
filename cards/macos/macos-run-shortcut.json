@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-run-shortcut",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run a macOS Shortcut from the Terminal",
+ "summary": "Execute a specific Shortcut automation using the command line. This is useful for triggering complex automations without opening the Shortcuts app.",
+ "aliases": [
+  {
+   "text": "run shortcut from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "execute mac shortcut cli",
+   "lang": "en"
+  },
+  {
+   "text": "trigger shortcut command line",
+   "lang": "en"
+  },
+  {
+   "text": "запустить шорткат из терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "выполнить шорткат командной строкой",
+   "lang": "ru"
+  },
+  {
+   "text": "запуск шортката через терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the specified Shortcut by name. Replace <SHORTCUT_NAME> with the exact name of your Shortcut.",
+   "cmd": "shortcuts run \"<SHORTCUT_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SHORTCUT_NAME",
+     "description": "The exact name of the Shortcut you want to run",
+     "example": "Count holidays",
+     "discover_cmd": "shortcuts list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/shortcuts.md",
+  "title": "tldr-pages: shortcuts",
+  "license": "CC-BY-4.0"
+ }
+}

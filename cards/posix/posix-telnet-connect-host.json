@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "posix-telnet-connect-host",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Connect to a host or port using Telnet",
+ "summary": "Use the telnet command to open a raw TCP connection to a specific host or port. This is often used for testing if a service is reachable or for interacting with simple text-based protocols.",
+ "aliases": [
+  {
+   "text": "telnet to host",
+   "lang": "en"
+  },
+  {
+   "text": "check if port is open",
+   "lang": "en"
+  },
+  {
+   "text": "connect to server port",
+   "lang": "en"
+  },
+  {
+   "text": "telnet command",
+   "lang": "en"
+  },
+  {
+   "text": "telnet к хосту",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить порт",
+   "lang": "ru"
+  },
+  {
+   "text": "подключиться к порту",
+   "lang": "ru"
+  },
+  {
+   "text": "telnet как использовать",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Connect to the default port (usually 23) of a specified host.",
+   "cmd": "telnet <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The hostname or IP address to connect to",
+     "example": "example.com"
+    }
+   ]
+  },
+  {
+   "explain": "Connect to a specific port on a host. Useful for testing if a service is listening.",
+   "cmd": "telnet <IP_ADDRESS> <PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IP_ADDRESS",
+     "description": "The IP address or hostname of the target",
+     "example": "192.168.1.1"
+    },
+    {
+     "name": "PORT",
+     "description": "The port number to connect to",
+     "example": "80"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/telnet.md",
+  "title": "tldr-pages: telnet",
+  "license": "CC-BY-4.0"
+ }
+}

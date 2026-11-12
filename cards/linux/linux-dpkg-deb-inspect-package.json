@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-deb-inspect-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Inspect a .deb package file",
+ "summary": "View details about a Debian package file (.deb) without installing it. This shows the package name, version, description, and other metadata.",
+ "aliases": [
+  {
+   "text": "check deb file info",
+   "lang": "en"
+  },
+  {
+   "text": "what is inside this deb",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg-deb info",
+   "lang": "en"
+  },
+  {
+   "text": "view deb package details",
+   "lang": "en"
+  },
+  {
+   "text": "как посмотреть инфу о deb",
+   "lang": "ru"
+  },
+  {
+   "text": "что в файле deb",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg-deb -I",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display detailed information about the package, including name, version, architecture, and description.",
+   "cmd": "dpkg-deb --info <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .deb file",
+     "example": "./package.deb"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show only the package name and version on a single line.",
+     "cmd": "dpkg-deb --show <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the .deb file",
+       "example": "./package.deb"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dpkg-deb.md",
+  "title": "tldr-pages: dpkg-deb",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-dpkg-deb-list-contents"
+ ]
+}

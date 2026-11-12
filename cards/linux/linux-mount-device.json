@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-mount-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount a storage device partition",
+ "summary": "Mount a specific partition (like a USB stick or external drive) so you can access its files. The command prints the mount point where the files appear.",
+ "aliases": [
+  {
+   "text": "mount usb drive",
+   "lang": "en"
+  },
+  {
+   "text": "mount partition",
+   "lang": "en"
+  },
+  {
+   "text": "udisksctl mount",
+   "lang": "en"
+  },
+  {
+   "text": "access files on external drive",
+   "lang": "en"
+  },
+  {
+   "text": "mount /dev/sdb1",
+   "lang": "en"
+  },
+  {
+   "text": "подключить флешку",
+   "lang": "ru"
+  },
+  {
+   "text": "смонтировать раздел",
+   "lang": "ru"
+  },
+  {
+   "text": "udisksctl mount",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть файлы с внешнего диска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Mount the specified partition. The output will show the directory where the files are now accessible.",
+   "cmd": "udisksctl mount --block-device <PARTITION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PARTITION",
+     "description": "The path to the partition to mount, e.g. /dev/sdb1",
+     "example": "/dev/sdb1",
+     "discover_cmd": "udisksctl status"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/udisksctl.md",
+  "title": "tldr-pages: udisksctl",
+  "license": "CC-BY-4.0"
+ }
+}

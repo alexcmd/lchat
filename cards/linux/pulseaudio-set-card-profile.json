@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-set-card-profile",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set PulseAudio card profile",
+ "summary": "Change the audio profile of a sound card (e.g., from stereo to surround). This affects which inputs and outputs are available.",
+ "aliases": [
+  {
+   "text": "set pulseaudio profile",
+   "lang": "en"
+  },
+  {
+   "text": "change audio profile",
+   "lang": "en"
+  },
+  {
+   "text": "pacmd set-card-profile",
+   "lang": "en"
+  },
+  {
+   "text": "surround sound pulseaudio",
+   "lang": "en"
+  },
+  {
+   "text": "сменить профиль звуковой карты",
+   "lang": "ru"
+  },
+  {
+   "text": "включить surround pulseaudio",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the profile for a specific card. Replace <CARD_INDEX> with the card index (e.g., 0) and <PROFILE_NAME> with the desired profile name.",
+   "cmd": "pacmd set-card-profile <CARD_INDEX> <PROFILE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CARD_INDEX",
+     "description": "The index of the sound card.",
+     "discover_cmd": "pacmd list-cards"
+    },
+    {
+     "name": "PROFILE_NAME",
+     "description": "The name of the profile, e.g., 'output:analog-stereo+input:analog-stereo'.",
+     "discover_cmd": "pacmd list-cards"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio#Configuration_command",
+  "title": "PulseAudio",
+  "revision_id": 861028,
+  "license": "GFDL-1.3-or-later"
+ }
+}

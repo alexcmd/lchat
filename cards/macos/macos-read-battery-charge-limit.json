@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "macos-read-battery-charge-limit",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check current battery charge limit",
+ "summary": "View the currently configured maximum battery charge percentage on your MacBook using the `bclm` tool.",
+ "aliases": [
+  {
+   "text": "check battery charge limit",
+   "lang": "en"
+  },
+  {
+   "text": "what is my battery limit",
+   "lang": "en"
+  },
+  {
+   "text": "bclm read",
+   "lang": "en"
+  },
+  {
+   "text": "current charge limit mac",
+   "lang": "en"
+  },
+  {
+   "text": "какой лимит заряда батареи",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить лимит зарядки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The `bclm` tool must be installed."
+ ],
+ "steps": [
+  {
+   "explain": "Read and display the current battery charge limit setting.",
+   "cmd": "bclm read",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-set-battery-charge-limit"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/bclm.md",
+  "title": "tldr-pages: bclm",
+  "license": "CC-BY-4.0"
+ }
+}

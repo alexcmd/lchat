@@ -1,0 +1,159 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-kernel-modules",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List loaded kernel modules",
+ "summary": "Show which kernel drivers and modules are currently loaded, for example to check whether a Wi-Fi driver is active. This only reads information and changes nothing.",
+ "aliases": [
+  {
+   "text": "list kernel modules linux",
+   "lang": "en"
+  },
+  {
+   "text": "lsmod",
+   "lang": "en"
+  },
+  {
+   "text": "which drivers are loaded linux",
+   "lang": "en"
+  },
+  {
+   "text": "check if wifi driver is loaded",
+   "lang": "en"
+  },
+  {
+   "text": "show loaded kernel modules",
+   "lang": "en"
+  },
+  {
+   "text": "is wifi module active linux",
+   "lang": "en"
+  },
+  {
+   "text": "список загруженных модулей ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "какие драйверы загружены в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "показать модули ядра linux",
+   "lang": "ru"
+  },
+  {
+   "text": "лсмод список модулей",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить загружен ли драйвер wifi linux",
+   "lang": "ru"
+  },
+  {
+   "text": "драйвер вайфай загружен linux",
+   "lang": "ru"
+  },
+  {
+   "text": "check loaded drivers",
+   "lang": "en"
+  },
+  {
+   "text": "what drivers are running",
+   "lang": "en"
+  },
+  {
+   "text": "list modules",
+   "lang": "en"
+  },
+  {
+   "text": "check active kernel modules",
+   "lang": "en"
+  },
+  {
+   "text": "проверить загруженные модули",
+   "lang": "ru"
+  },
+  {
+   "text": "какие драйверы загружены",
+   "lang": "ru"
+  },
+  {
+   "text": "какие модули ядра загружены",
+   "lang": "ru"
+  },
+  {
+   "text": "показать загруженные модули",
+   "lang": "ru"
+  },
+  {
+   "text": "list kernel modules",
+   "lang": "en"
+  },
+  {
+   "text": "список модулей ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "list loaded kernel modules",
+   "lang": "en"
+  },
+  {
+   "text": "show kernel modules",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal access",
+  "lsmod is provided by the kmod package, which normal desktops install"
+ ],
+ "steps": [
+  {
+   "explain": "List every kernel module (driver) that is loaded right now. The 'Used by' column lists the modules that depend on each one; an empty column or 0 means nothing uses it. This is read-only.",
+   "cmd": "lsmod",
+   "risk": "low",
+   "expect": "A header line 'Module  Size  Used by' followed by one module per line, for example 'rosetta  12288  -2'. Desktops show dozens to hundreds of lines.",
+   "alternatives": [
+    {
+     "explain": "Read the same list directly from the kernel's /proc file. Use this if lsmod says 'command not found'. There is no header line; the columns are name, size, use count, dependents, state and address.",
+     "cmd": "cat /proc/modules",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Show only the modules whose name contains a given text, for example to check whether a Wi-Fi driver is loaded. No output means no matching module is loaded.",
+   "cmd": "lsmod | grep <MODULE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MODULE_NAME",
+     "description": "Part of the driver or module name to look for",
+     "example": "iwlwifi",
+     "discover_cmd": "lsmod"
+    }
+   ],
+   "expect": "One line per match that starts with the module name, for example 'iwlwifi  524288  0'. No output means that module is not loaded."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lsmod | head -5",
+   "expect": "The header 'Module  Size  Used by' and four module lines below it."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/lsmod",
+  "title": "lsmod manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "posix-delete-nested-empty-directories",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delete nested empty directories",
+ "summary": "Remove a directory and its parent directories if they are also empty. Useful for cleaning up empty folder structures.",
+ "aliases": [
+  {
+   "text": "delete nested empty folders",
+   "lang": "en"
+  },
+  {
+   "text": "remove parent directories",
+   "lang": "en"
+  },
+  {
+   "text": "rmdir parents",
+   "lang": "en"
+  },
+  {
+   "text": "delete empty folder structure",
+   "lang": "en"
+  },
+  {
+   "text": "удалить вложенные пустые папки",
+   "lang": "ru"
+  },
+  {
+   "text": "rmdir -p",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить пустые родительские директории",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified directory and its parent directories if they are empty. The --parents flag ensures that empty ancestors are also removed.",
+   "cmd": "rmdir -p <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the nested empty directory",
+     "example": "a/b/c"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rmdir.md",
+  "title": "tldr-pages: rmdir",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-delete-empty-directory"
+ ]
+}

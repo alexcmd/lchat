@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "linux-nala-install-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install or update a package with nala",
+ "summary": "Use nala to install a new program or update an existing one to the latest version. Nala provides clearer output than standard apt commands.",
+ "aliases": [
+  {
+   "text": "install package with nala",
+   "lang": "en"
+  },
+  {
+   "text": "nala install",
+   "lang": "en"
+  },
+  {
+   "text": "update package nala",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет через nala",
+   "lang": "ru"
+  },
+  {
+   "text": "nala установить",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить пакет nala",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ],
+  "requires": [
+   "nala"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the specified package. If the package is already installed, this updates it to the latest available version.",
+   "cmd": "sudo nala install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to install or update",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package if you no longer need it.",
+   "cmd": "sudo nala remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to remove",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing packages requires administrator privileges."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nala.md",
+  "title": "tldr-pages: nala",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "macos-sed-run-script",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run a sed script file on text",
+ "summary": "Apply a set of text editing rules stored in a script file to the output of a command. This is useful for complex or repeated text transformations.",
+ "aliases": [
+  {
+   "text": "run sed script",
+   "lang": "en"
+  },
+  {
+   "text": "sed script file",
+   "lang": "en"
+  },
+  {
+   "text": "apply sed script to file",
+   "lang": "en"
+  },
+  {
+   "text": "sed -f script",
+   "lang": "en"
+  },
+  {
+   "text": "запустить скрипт sed",
+   "lang": "ru"
+  },
+  {
+   "text": "файл скрипта sed",
+   "lang": "ru"
+  },
+  {
+   "text": "применить sed скрипт",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Execute the sed commands stored in a script file on the output of another command and print the result to the screen.",
+   "cmd": "<COMMAND> | sed -f <SCRIPT_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command that generates the text you want to process",
+     "example": "cat data.txt"
+    },
+    {
+     "name": "SCRIPT_FILE",
+     "description": "The path to the sed script file containing the editing rules",
+     "example": "cleanup.sed"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sed.md",
+  "title": "tldr-pages: sed",
+  "license": "CC-BY-4.0"
+ }
+}

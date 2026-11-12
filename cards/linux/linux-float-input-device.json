@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "linux-float-input-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disconnect an input device from its master",
+ "summary": "Detach an input device (like a mouse) from its master pointer. This makes the device independent, often used to create separate cursors for different devices.",
+ "aliases": [
+  {
+   "text": "float device",
+   "lang": "en"
+  },
+  {
+   "text": "detach mouse",
+   "lang": "en"
+  },
+  {
+   "text": "xinput float",
+   "lang": "en"
+  },
+  {
+   "text": "отсоединить устройство",
+   "lang": "ru"
+  },
+  {
+   "text": "отвязать мышь",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xinput"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disconnect the device from its master using its ID.",
+   "cmd": "xinput float <DEVICE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the input device to float.",
+     "example": "12",
+     "discover_cmd": "xinput list"
+    }
+   ],
+   "expect": "The device is no longer controlled by the master pointer."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Reattach the device to a master pointer. You need the master ID (usually 8 or 9 for core pointer).",
+   "cmd": "xinput reattach <DEVICE_ID> <MASTER_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the input device to reattach.",
+     "example": "12",
+     "discover_cmd": "xinput list"
+    },
+    {
+     "name": "MASTER_ID",
+     "description": "The numeric ID of the master pointer to attach to.",
+     "example": "8",
+     "discover_cmd": "xinput list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xinput.md",
+  "title": "tldr-pages: xinput",
+  "license": "CC-BY-4.0"
+ }
+}

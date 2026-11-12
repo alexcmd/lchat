@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-unlock-files",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Unlock files or folders to allow changes",
+ "summary": "Use the chflags command with the 'nouchg' flag to remove the read-only lock from files or folders. This restores normal editing and deletion permissions.",
+ "aliases": [
+  {
+   "text": "unlock file on mac",
+   "lang": "en"
+  },
+  {
+   "text": "make file editable mac",
+   "lang": "en"
+  },
+  {
+   "text": "chflags nouchg",
+   "lang": "en"
+  },
+  {
+   "text": "разблокировать файл на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "снять защиту с файла",
+   "lang": "ru"
+  },
+  {
+   "text": "chflags nouchg mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run chflags with the -R (recursive) and nouchg flags to unlock a directory and all its contents.",
+   "cmd": "chflags -R nouchg <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the directory to unlock",
+     "example": "~/Documents/Important"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/chflags.md",
+  "title": "tldr-pages: chflags",
+  "license": "CC-BY-4.0"
+ }
+}

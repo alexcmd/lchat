@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-copy-image-to-clipboard-wayland",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy an image file to the Wayland clipboard",
+ "summary": "Use wl-copy to copy the contents of an image file to the clipboard on Wayland desktops. This allows you to paste the image into other applications.",
+ "aliases": [
+  {
+   "text": "copy image to clipboard wayland",
+   "lang": "en"
+  },
+  {
+   "text": "wl-copy image",
+   "lang": "en"
+  },
+  {
+   "text": "copy file to clipboard linux",
+   "lang": "en"
+  },
+  {
+   "text": "скопировать картинку в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "wl-copy изображение",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать файл в буфер wayland",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "wl-clipboard"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Redirect the contents of an image file into wl-copy to copy it to the clipboard.",
+   "cmd": "wl-copy < <IMAGE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IMAGE_FILE",
+     "description": "Path to the image file you want to copy",
+     "example": "photo.png"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/wl-copy.md",
+  "title": "tldr-pages: wl-copy",
+  "license": "CC-BY-4.0"
+ }
+}

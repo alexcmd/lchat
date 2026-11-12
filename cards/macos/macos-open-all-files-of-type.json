@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-all-files-of-type",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open all files of a specific type in current folder",
+ "summary": "Launch the default application for every file with a certain extension in the current directory.",
+ "aliases": [
+  {
+   "text": "open all pdfs in folder",
+   "lang": "en"
+  },
+  {
+   "text": "open all images in directory",
+   "lang": "en"
+  },
+  {
+   "text": "open all files with extension",
+   "lang": "en"
+  },
+  {
+   "text": "открыть все файлы одного типа",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть все pdf в папке",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть все документы в директории",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use a wildcard pattern to match all files with the desired extension.",
+   "cmd": "open *.<EXT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "EXT",
+     "description": "File extension to match (without the dot)",
+     "example": "jpg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/open.md",
+  "title": "tldr-pages: open",
+  "license": "CC-BY-4.0"
+ }
+}

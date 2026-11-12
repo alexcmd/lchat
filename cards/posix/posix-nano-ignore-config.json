@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-nano-ignore-config",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Start nano without using configuration files",
+ "summary": "If your nano configuration is causing issues, you can start the editor with default settings by ignoring the configuration files.",
+ "aliases": [
+  {
+   "text": "nano ignore config",
+   "lang": "en"
+  },
+  {
+   "text": "start nano without config",
+   "lang": "en"
+  },
+  {
+   "text": "nano default settings",
+   "lang": "en"
+  },
+  {
+   "text": "запустить nano без конфига",
+   "lang": "ru"
+  },
+  {
+   "text": "игнорировать настройки nano",
+   "lang": "ru"
+  },
+  {
+   "text": "nano без конфигурации",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Start nano ignoring the configuration files.",
+   "cmd": "nano -I",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nano.md",
+  "title": "tldr-pages: nano",
+  "license": "CC-BY-4.0"
+ }
+}

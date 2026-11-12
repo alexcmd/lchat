@@ -1,0 +1,124 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-hardware-summary",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List hardware components in a summary table",
+ "summary": "Use lshw to see a concise, tabular overview of your computer's hardware, such as the CPU, memory, and storage devices.",
+ "aliases": [
+  {
+   "text": "list hardware",
+   "lang": "en"
+  },
+  {
+   "text": "show hardware info",
+   "lang": "en"
+  },
+  {
+   "text": "lshw short",
+   "lang": "en"
+  },
+  {
+   "text": "what hardware do i have",
+   "lang": "en"
+  },
+  {
+   "text": "hardware summary",
+   "lang": "en"
+  },
+  {
+   "text": "список оборудования",
+   "lang": "ru"
+  },
+  {
+   "text": "показать железо",
+   "lang": "ru"
+  },
+  {
+   "text": "характеристики компьютера",
+   "lang": "ru"
+  },
+  {
+   "text": "lshw краткий список",
+   "lang": "ru"
+  },
+  {
+   "text": "show all hardware info",
+   "lang": "en"
+  },
+  {
+   "text": "check system specs",
+   "lang": "en"
+  },
+  {
+   "text": "перечислить оборудование",
+   "lang": "ru"
+  },
+  {
+   "text": "какое железо в компьютере",
+   "lang": "ru"
+  },
+  {
+   "text": "hwinfo all",
+   "lang": "en"
+  },
+  {
+   "text": "список оборудования linux",
+   "lang": "ru"
+  },
+  {
+   "text": "inxi summary",
+   "lang": "en"
+  },
+  {
+   "text": "system info linux",
+   "lang": "en"
+  },
+  {
+   "text": "проверить характеристики системы",
+   "lang": "ru"
+  },
+  {
+   "text": "inxi обзор",
+   "lang": "ru"
+  },
+  {
+   "text": "какое железо",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lshw with the -short flag to display a compact table of all detected hardware components.",
+   "cmd": "sudo lshw -short",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "A table listing hardware classes (e.g., processor, memory, disk) with their descriptions.",
+   "alternatives": [
+    {
+     "explain": "Run hwinfo without arguments to probe and display all available hardware information.",
+     "cmd": "hwinfo",
+     "risk": "low"
+    },
+    {
+     "explain": "Run inxi without arguments to print a summary of CPU, memory, hard drive, and kernel information.",
+     "cmd": "inxi",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lshw.md",
+  "title": "tldr-pages: lshw",
+  "license": "CC-BY-4.0"
+ }
+}

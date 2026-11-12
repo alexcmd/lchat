@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "pacman-check-foreign-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List foreign packages",
+ "summary": "Show packages that are installed on your system but are not present in the official repositories. This includes AUR packages and manually installed software.",
+ "aliases": [
+  {
+   "text": "list aur packages",
+   "lang": "en"
+  },
+  {
+   "text": "pacman -Qm",
+   "lang": "en"
+  },
+  {
+   "text": "check foreign packages",
+   "lang": "en"
+  },
+  {
+   "text": "installed from aur",
+   "lang": "en"
+  },
+  {
+   "text": "список пакетов из aur",
+   "lang": "ru"
+  },
+  {
+   "text": "сторонние пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "list installed aur packages",
+   "lang": "en"
+  },
+  {
+   "text": "какие aur пакеты установлены",
+   "lang": "ru"
+  },
+  {
+   "text": "paru list manual packages",
+   "lang": "en"
+  },
+  {
+   "text": "show aur packages installed",
+   "lang": "en"
+  },
+  {
+   "text": "paru -Qqm",
+   "lang": "en"
+  },
+  {
+   "text": "список установленных aur пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "paru список пакетов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all packages that are not in the official repositories.",
+   "cmd": "pacman -Qm",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "List only the packages from the AUR that were manually installed by the user, not those pulled in as dependencies.",
+     "cmd": "paru -Qqm",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/System_maintenance#Check_for_orphans_and_dropped_packages",
+  "title": "System maintenance",
+  "revision_id": 885170,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "alsa-fix-crackling-headphones",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix crackling sound in headphones via ALSA",
+ "summary": "Crackling in headphones or speakers can often be fixed by muting or setting the Microphone volume to 0% in ALSA mixer.",
+ "aliases": [
+  {
+   "text": "headphones crackling linux",
+   "lang": "en"
+  },
+  {
+   "text": "alsa fix crackling",
+   "lang": "en"
+  },
+  {
+   "text": "sound static in headphones",
+   "lang": "en"
+  },
+  {
+   "text": "треск в наушниках linux",
+   "lang": "ru"
+  },
+  {
+   "text": "amixer mute mic",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the Microphone volume to 0% to stop feedback/crackling.",
+   "cmd": "amixer sset \"Mic\" 0%",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Alternatively, mute the Microphone channel completely.",
+     "cmd": "amixer sset \"Mic\" mute",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture/Troubleshooting#Audio_quality",
+  "title": "Advanced Linux Sound Architecture/Troubleshooting",
+  "revision_id": 862000,
+  "license": "GFDL-1.3-or-later"
+ }
+}

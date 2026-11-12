@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-hostname",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set hostname",
+ "summary": "Change the system hostname used for network identification.",
+ "aliases": [
+  {
+   "text": "change hostname",
+   "lang": "en"
+  },
+  {
+   "text": "set hostname",
+   "lang": "en"
+  },
+  {
+   "text": "scutil set hostname",
+   "lang": "en"
+  },
+  {
+   "text": "как изменить hostname",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить имя хоста мака",
+   "lang": "ru"
+  },
+  {
+   "text": "set hostname macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use scutil with sudo to set a new HostName. This affects how the machine identifies itself on the network.",
+   "cmd": "sudo scutil --set HostName <HOSTNAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "HOSTNAME",
+     "description": "The new hostname for your Mac",
+     "example": "mymac.local"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Set the HostName back to its original value.",
+   "cmd": "sudo scutil --set HostName <OLD_HOSTNAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "OLD_HOSTNAME",
+     "description": "The previous hostname"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing the hostname may disrupt network services or connections that rely on the old name."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/scutil.md",
+  "title": "tldr-pages: scutil",
+  "license": "CC-BY-4.0"
+ }
+}

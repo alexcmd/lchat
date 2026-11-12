@@ -1,0 +1,217 @@
+{
+ "schema_version": 2,
+ "id": "error-apt-unable-to-locate-package",
+ "platform": "linux",
+ "kind": "error",
+ "title": "E: Unable to locate package - apt cannot find the name you typed",
+ "summary": "apt says it cannot find a package with this name. Either the name is wrong or apt's list of software is old. Check the name, refresh the list, then install the package with its exact name.",
+ "aliases": [
+  {
+   "text": "E: Unable to locate package",
+   "lang": "en"
+  },
+  {
+   "text": "unable to locate package apt",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu unable to locate package",
+   "lang": "en"
+  },
+  {
+   "text": "debian unable to locate package",
+   "lang": "en"
+  },
+  {
+   "text": "apt-get install package not found",
+   "lang": "en"
+  },
+  {
+   "text": "apt install says package not found",
+   "lang": "en"
+  },
+  {
+   "text": "package not found apt ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "apt cannot find package",
+   "lang": "en"
+  },
+  {
+   "text": "E: Unable to locate package ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "apt не могу найти пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "unable to locate package как исправить",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-get install не находит пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "ubuntu не находит пакет apt",
+   "lang": "ru"
+  },
+  {
+   "text": "пакет не найден apt install",
+   "lang": "ru"
+  },
+  {
+   "text": "apt ne nahodit paket",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "E: Unable to locate package",
+  "Unable to locate package"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ],
+  "requires": [
+   "apt-get"
+  ]
+ },
+ "prerequisites": [
+  "A terminal window open",
+  "An internet connection, for the package list download",
+  "The package name from the error line, for example 'tree'"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether apt knows this exact name. Read the name in the error line and replace <PACKAGE_NAME> with it. This command changes nothing.",
+   "cmd": "apt-cache policy <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The package name from the error line, exactly as written",
+     "example": "tree"
+    }
+   ],
+   "expect": "'tree:' followed by 'Candidate: <version>' means apt knows the name. Go to the install step. No output at all means the name is not in apt's list: continue with the next steps."
+  },
+  {
+   "explain": "Download the newest list of packages from the software sources. This fixes an old or empty list. It does not install or change any programs.",
+   "cmd": "sudo apt-get update",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Lines starting with 'Get:' or 'Hit:', then 'Reading package lists...'. No line starting with 'E:' means the list is updated. Enter your password when asked; the screen does not show it."
+  },
+  {
+   "explain": "Check the name again now that the list is updated. Skip this step if the first step already showed a Candidate line.",
+   "cmd": "apt-cache policy <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The package name from the error line, exactly as written",
+     "example": "tree"
+    }
+   ],
+   "expect": "'Candidate: <version>' means the name is correct. No output means the name is wrong: continue with the next step to search for it."
+  },
+  {
+   "explain": "Search the package list for words that describe the program you want. Use the results to find the exact name in the first column. Skip this step if you already have the right name.",
+   "cmd": "apt-cache search <QUERY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "QUERY",
+     "description": "Words that describe the program",
+     "example": "tree"
+    }
+   ],
+   "expect": "One line per match: the package name, ' - ', then a short description. Copy the name before the ' - ' and use it in the install step."
+  },
+  {
+   "explain": "Install the package with the exact name you found. Use the name that apt showed, not the one from the error if it was misspelled.",
+   "cmd": "sudo apt-get install -y <PACKAGE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The exact package name apt showed in the earlier steps",
+     "example": "tree"
+    }
+   ],
+   "expect": "No 'E: Unable to locate package' line. The end of the output shows 'Setting up <PACKAGE_NAME>'.",
+   "alternatives": [
+    {
+     "explain": "The same install with the 'apt' command. It prints a warning about scripts; this is normal for a person typing commands.",
+     "cmd": "sudo apt install -y <PACKAGE_NAME>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PACKAGE_NAME",
+       "description": "The exact package name apt showed in the earlier steps",
+       "example": "tree"
+      }
+     ],
+     "expect": "The warning 'apt does not have a stable CLI interface' is normal. The end of the output shows 'Setting up <PACKAGE_NAME>'."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "dpkg -s <PACKAGE_NAME>",
+   "expect": "'Status: install ok installed' shows the package is installed."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package if you installed the wrong one. Other programs stay installed.",
+   "cmd": "sudo apt-get remove <PACKAGE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The package you installed by mistake",
+     "example": "tree"
+    }
+   ]
+  },
+  {
+   "explain": "The package list update has no undo. The list is only a cache; running the update again refreshes it.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Check the package name exactly. Similar names can be different programs, and installing the wrong one wastes disk space.",
+  "Installing a package runs its setup scripts with administrator rights. Install only packages you trust.",
+  "If apt still cannot find a name that you know is correct, the package may be in a repository that is not enabled, for example Ubuntu's 'universe' section. See the add-repository card before adding any new source."
+ ],
+ "see_also": [
+  "linux-apt-update-package-list",
+  "linux-apt-search-package",
+  "linux-apt-install-package",
+  "linux-add-apt-repository",
+  "linux-apt-remove-package"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/apt-get",
+  "title": "apt-get manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

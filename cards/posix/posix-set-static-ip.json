@@ -1,0 +1,140 @@
+{
+ "schema_version": 2,
+ "id": "posix-set-static-ip",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Assign an IP address to an interface",
+ "summary": "Manually set a static IP address for a network interface using ifconfig. This overrides any DHCP-assigned address.",
+ "aliases": [
+  {
+   "text": "set static ip address",
+   "lang": "en"
+  },
+  {
+   "text": "assign ip to interface",
+   "lang": "en"
+  },
+  {
+   "text": "ifconfig set ip",
+   "lang": "en"
+  },
+  {
+   "text": "изменить ip адрес",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить статический ip",
+   "lang": "ru"
+  },
+  {
+   "text": "ifconfig eth0 192.168.1.10",
+   "lang": "ru"
+  },
+  {
+   "text": "manual ip address",
+   "lang": "en"
+  },
+  {
+   "text": "ручной ip адрес",
+   "lang": "ru"
+  },
+  {
+   "text": "set static ip",
+   "lang": "en"
+  },
+  {
+   "text": "ip address add",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Assign the desired IP address to the interface. This requires root privileges.",
+   "cmd": "sudo ifconfig <INTERFACE_NAME> <IP_ADDRESS>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The name of the network interface, e.g., eth0.",
+     "example": "eth0"
+    },
+    {
+     "name": "IP_ADDRESS",
+     "description": "The IP address to assign, e.g., 192.168.1.10.",
+     "example": "192.168.1.10"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Add an IP address in CIDR notation (e.g., 192.168.1.10/24) to the interface. The '+' derives the broadcast address automatically.",
+     "cmd": "sudo ip address add <IP_ADDRESS>/<PREFIX_LEN> broadcast + dev <INTERFACE>",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "IP_ADDRESS",
+       "description": "The IP address to assign",
+       "example": "192.168.1.10"
+      },
+      {
+       "name": "PREFIX_LEN",
+       "description": "Subnet mask length (e.g., 24 for 255.255.255.0)",
+       "example": "24"
+      },
+      {
+       "name": "INTERFACE",
+       "description": "Name of the network interface",
+       "example": "enp2s0",
+       "discover_cmd": "ip link"
+      }
+     ],
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert to DHCP, you typically need to restart the network service or use a network manager command, as ifconfig does not have a direct 'dhcp' flag. Alternatively, bring the interface down and up again if a DHCP client is running.",
+   "cmd": "sudo ifconfig <INTERFACE_NAME> down",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The name of the network interface.",
+     "example": "eth0"
+    }
+   ],
+   "risk": "medium"
+  },
+  {
+   "explain": "Bring the interface back up to trigger DHCP.",
+   "cmd": "sudo ifconfig <INTERFACE_NAME> up",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE_NAME",
+     "description": "The name of the network interface.",
+     "example": "eth0"
+    }
+   ],
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Setting a static IP incorrectly can disconnect you from the network. Ensure the IP address is valid for your subnet and does not conflict with other devices."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ifconfig.md",
+  "title": "tldr-pages: ifconfig",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-xsel-clear-clipboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clear the clipboard contents",
+ "summary": "Use xsel to erase everything currently stored in the system clipboard. This is useful for privacy or to ensure no old data is accidentally pasted.",
+ "aliases": [
+  {
+   "text": "clear clipboard linux",
+   "lang": "en"
+  },
+  {
+   "text": "empty clipboard command",
+   "lang": "en"
+  },
+  {
+   "text": "xsel clear clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "delete clipboard contents",
+   "lang": "en"
+  },
+  {
+   "text": "очистить буфер обмена linux",
+   "lang": "ru"
+  },
+  {
+   "text": "xsel очистить буфер",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить содержимое буфера обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "обнулить буфер обмена",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xsel"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run xsel with the clear and clipboard flags to remove all data from the clipboard.",
+   "cmd": "xsel --clear --clipboard",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xsel.md",
+  "title": "tldr-pages: xsel",
+  "license": "CC-BY-4.0"
+ }
+}

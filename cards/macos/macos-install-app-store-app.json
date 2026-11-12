@@ -1,0 +1,115 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-app-store-app",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install or update a Mac App Store app",
+ "summary": "Install a specific application from the Mac App Store using its numeric product ID. This command also updates the app if it is already installed.",
+ "aliases": [
+  {
+   "text": "install app store app",
+   "lang": "en"
+  },
+  {
+   "text": "install mac app by id",
+   "lang": "en"
+  },
+  {
+   "text": "mas install",
+   "lang": "en"
+  },
+  {
+   "text": "update app store app",
+   "lang": "en"
+  },
+  {
+   "text": "установить приложение из app store",
+   "lang": "ru"
+  },
+  {
+   "text": "установить mac приложение по id",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить приложение app store",
+   "lang": "ru"
+  },
+  {
+   "text": "update one app store app",
+   "lang": "en"
+  },
+  {
+   "text": "mas upgrade app",
+   "lang": "en"
+  },
+  {
+   "text": "обновить одно приложение app store",
+   "lang": "ru"
+  },
+  {
+   "text": "update specific app",
+   "lang": "en"
+  },
+  {
+   "text": "обновить конкретное приложение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mas"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install or update an application using its exact numeric product ID. You can find the ID using 'mas list' or 'mas search'.",
+   "cmd": "mas install <PRODUCT_ID>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PRODUCT_ID",
+     "description": "The numeric product ID of the app",
+     "example": "497799835",
+     "discover_cmd": "mas list"
+    }
+   ],
+   "expect": "The application downloads and installs or updates.",
+   "alternatives": [
+    {
+     "explain": "Upgrade a specific application using its numeric product ID.",
+     "cmd": "mas upgrade \"<PRODUCT_ID>\"",
+     "placeholders": [
+      {
+       "name": "PRODUCT_ID",
+       "description": "The numeric product ID of the app",
+       "example": "497799835",
+       "discover_cmd": "mas outdated"
+      }
+     ],
+     "expect": "The specified app is updated.",
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct command to uninstall an app via mas. You must delete the app from the Applications folder in Finder.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Installing apps requires an active internet connection and a signed-in Apple ID."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mas.md",
+  "title": "tldr-pages: mas",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,149 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-user-and-groups",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show my user name and the groups I belong to",
+ "summary": "Your user name is the account you are logged in as. Your groups decide what you may do, for example use sudo for administrator tasks or run Docker. Two read-only commands show both.",
+ "aliases": [
+  {
+   "text": "which user am I logged in as",
+   "lang": "en"
+  },
+  {
+   "text": "show my username and groups",
+   "lang": "en"
+  },
+  {
+   "text": "which groups am I in",
+   "lang": "en"
+  },
+  {
+   "text": "am I in the sudo group",
+   "lang": "en"
+  },
+  {
+   "text": "check my groups linux",
+   "lang": "en"
+  },
+  {
+   "text": "what groups does my user have",
+   "lang": "en"
+  },
+  {
+   "text": "am I in the docker group",
+   "lang": "en"
+  },
+  {
+   "text": "под каким пользователем я вошел",
+   "lang": "ru"
+  },
+  {
+   "text": "покажи мое имя пользователя и группы",
+   "lang": "ru"
+  },
+  {
+   "text": "в каких группах я состою",
+   "lang": "ru"
+  },
+  {
+   "text": "я в группе sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить группы пользователя linux",
+   "lang": "ru"
+  },
+  {
+   "text": "в какой группе docker",
+   "lang": "ru"
+  },
+  {
+   "text": "check my user id",
+   "lang": "en"
+  },
+  {
+   "text": "show my uid and gid",
+   "lang": "en"
+  },
+  {
+   "text": "who am i",
+   "lang": "en"
+  },
+  {
+   "text": "list my groups",
+   "lang": "en"
+  },
+  {
+   "text": "whoami details",
+   "lang": "en"
+  },
+  {
+   "text": "kakoy u menya user id",
+   "lang": "ru"
+  },
+  {
+   "text": "moi gid",
+   "lang": "ru"
+  },
+  {
+   "text": "spisok grupp",
+   "lang": "ru"
+  },
+  {
+   "text": "kto ya",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open"
+ ],
+ "steps": [
+  {
+   "explain": "Print the login name of the account you are using. Read-only: nothing is changed. If the output is root, you are in the superuser account.",
+   "cmd": "id -un",
+   "risk": "low",
+   "expect": "Prints one word, your login name, for example tester."
+  },
+  {
+   "explain": "Print the groups your account belongs to, on one line. Look for sudo or wheel on Linux (allows administrator commands with sudo), admin on macOS (administrator rights), and docker (allows running Docker without sudo).",
+   "cmd": "id -Gn",
+   "risk": "low",
+   "expect": "Group names separated by spaces, for example: tester sudo. Your own group is usually in the list.",
+   "alternatives": [
+    {
+     "explain": "Print the user name, numeric IDs and all groups in one line. Use it when you also need the numbers, for example 1001 for your user.",
+     "cmd": "id",
+     "risk": "low",
+     "expect": "For example: uid=1001(tester) gid=1001(tester) groups=1001(tester),27(sudo). The groups are listed after groups=."
+    },
+    {
+     "explain": "Print only the group names of the current user, an older command that gives the same result as id -Gn.",
+     "cmd": "groups",
+     "risk": "low",
+     "expect": "Same group names as id -Gn, separated by spaces, for example: tester sudo."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "id -un",
+   "expect": "Prints your login name."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/id",
+  "title": "id manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

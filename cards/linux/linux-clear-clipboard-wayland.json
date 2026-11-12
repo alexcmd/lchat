@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "linux-clear-clipboard-wayland",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clear the Wayland clipboard",
+ "summary": "Use wl-copy with the --clear flag to empty the clipboard on Wayland desktops. This removes any previously copied text or images.",
+ "aliases": [
+  {
+   "text": "clear clipboard wayland",
+   "lang": "en"
+  },
+  {
+   "text": "wl-copy clear",
+   "lang": "en"
+  },
+  {
+   "text": "empty clipboard linux",
+   "lang": "en"
+  },
+  {
+   "text": "очистить буфер обмена wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "wl-copy очистить",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить буфер обмена линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "wl-clipboard"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Clear the current contents of the clipboard.",
+   "cmd": "wl-copy --clear",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/wl-copy.md",
+  "title": "tldr-pages: wl-copy",
+  "license": "CC-BY-4.0"
+ }
+}

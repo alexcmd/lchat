@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-dig-trace-resolution",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Trace DNS resolution path",
+ "summary": "Use `dig +trace` to see the entire path DNS servers take to resolve a domain name. This helps diagnose DNS propagation or configuration issues.",
+ "aliases": [
+  {
+   "text": "dig trace",
+   "lang": "en"
+  },
+  {
+   "text": "trace dns resolution",
+   "lang": "en"
+  },
+  {
+   "text": "dns propagation check",
+   "lang": "en"
+  },
+  {
+   "text": "dig +trace",
+   "lang": "en"
+  },
+  {
+   "text": "трассировка dns",
+   "lang": "ru"
+  },
+  {
+   "text": "dig trace домена",
+   "lang": "ru"
+  },
+  {
+   "text": "как работает dns запрос",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Perform iterative queries starting from the root servers to display the entire trace path used to resolve the domain.",
+   "cmd": "dig +trace <DOMAIN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to trace",
+     "example": "example.com"
+    }
+   ],
+   "expect": "A list of DNS servers and responses showing the resolution path."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/dig.md",
+  "title": "tldr-pages: dig",
+  "license": "CC-BY-4.0"
+ }
+}

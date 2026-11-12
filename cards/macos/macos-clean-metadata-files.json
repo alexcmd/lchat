@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-clean-metadata-files",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Clean up hidden metadata files (._*)",
+ "summary": "Remove or merge the hidden '._' files that macOS creates for file metadata. This is useful when copying files to non-Mac drives or sharing folders where these files appear as clutter.",
+ "aliases": [
+  {
+   "text": "clean up dot underscore files",
+   "lang": "en"
+  },
+  {
+   "text": "remove ._ files",
+   "lang": "en"
+  },
+  {
+   "text": "clean metadata files",
+   "lang": "en"
+  },
+  {
+   "text": "dot clean",
+   "lang": "en"
+  },
+  {
+   "text": "убрать файлы ._",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить метаданные файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить скрытые файлы ._",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Merge the metadata from ._ files into the main files and delete the ._ files. This is the standard cleanup.",
+   "cmd": "dot_clean -m <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the folder containing the files to clean",
+     "example": "~/Downloads"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dot_clean.md",
+  "title": "tldr-pages: dot_clean",
+  "license": "CC-BY-4.0"
+ }
+}

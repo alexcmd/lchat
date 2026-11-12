@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "posix-gh-pr-status",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check the status of pull requests in the current repository",
+ "summary": "View a summary of pull requests that are relevant to you, such as those you created or those assigned to you. This gives a quick overview of pending work.",
+ "aliases": [
+  {
+   "text": "gh pr status",
+   "lang": "en"
+  },
+  {
+   "text": "check pull request status gh",
+   "lang": "en"
+  },
+  {
+   "text": "gh status pr",
+   "lang": "en"
+  },
+  {
+   "text": "gh status pull request",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit status pr",
+   "lang": "ru"
+  },
+  {
+   "text": "gh moi pull request",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "GitHub CLI (gh) is installed",
+  "You are in a directory that is a git repository linked to GitHub",
+  "You are logged in to GitHub with gh auth login"
+ ],
+ "steps": [
+  {
+   "explain": "Display the status of pull requests relevant to the current user.",
+   "cmd": "gh pr status",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/gh.md",
+  "title": "tldr-pages: gh",
+  "license": "CC-BY-4.0"
+ }
+}

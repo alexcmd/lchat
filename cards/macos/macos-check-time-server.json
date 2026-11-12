@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-time-server",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check time from an SNTP server",
+ "summary": "Use the sntp command to query a time server and see the current time it reports. This is useful for verifying if your Mac's clock is accurate compared to a standard time source.",
+ "aliases": [
+  {
+   "text": "check time server",
+   "lang": "en"
+  },
+  {
+   "text": "sntp query",
+   "lang": "en"
+  },
+  {
+   "text": "verify mac clock",
+   "lang": "en"
+  },
+  {
+   "text": "check network time",
+   "lang": "en"
+  },
+  {
+   "text": "проверить время на сервере",
+   "lang": "ru"
+  },
+  {
+   "text": "сntp запрос",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить точность часов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the specified SNTP server to display the current time it reports.",
+   "cmd": "sntp <SERVER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVER",
+     "description": "The hostname of the SNTP server to query",
+     "example": "pool.ntp.org"
+    }
+   ],
+   "expect": "The command outputs the current time reported by the server."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sntp.md",
+  "title": "tldr-pages: sntp",
+  "license": "CC-BY-4.0"
+ }
+}

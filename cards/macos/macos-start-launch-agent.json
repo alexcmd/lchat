@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-start-launch-agent",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Manually start a launch agent or daemon",
+ "summary": "Force a loaded launch agent or daemon to run immediately, regardless of its scheduled time. This uses the agent's label, not the filename.",
+ "aliases": [
+  {
+   "text": "start launch agent",
+   "lang": "en"
+  },
+  {
+   "text": "run background task now",
+   "lang": "en"
+  },
+  {
+   "text": "force run launchd",
+   "lang": "en"
+  },
+  {
+   "text": "запустить агент вручную",
+   "lang": "ru"
+  },
+  {
+   "text": "выполнить фоновую задачу",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Manually trigger the execution of a known launch agent or daemon by its label.",
+   "cmd": "launchctl start <AGENT_LABEL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "AGENT_LABEL",
+     "description": "The label defined inside the plist file (often matches the filename)",
+     "example": "com.example.myagent"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/launchctl.md",
+  "title": "tldr-pages: launchctl",
+  "license": "CC-BY-4.0"
+ }
+}

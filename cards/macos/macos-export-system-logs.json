@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "macos-export-system-logs",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Export system logs to a file",
+ "summary": "Collect and save system logs from a specific time period to a file on disk. Useful for sharing logs with support or analyzing them later.",
+ "aliases": [
+  {
+   "text": "export system logs",
+   "lang": "en"
+  },
+  {
+   "text": "save logs to file",
+   "lang": "en"
+  },
+  {
+   "text": "collect logs",
+   "lang": "en"
+  },
+  {
+   "text": "log collect",
+   "lang": "en"
+  },
+  {
+   "text": "backup logs",
+   "lang": "en"
+  },
+  {
+   "text": "экспорт логов",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить логи в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "собрать логи",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Exports all logs to disk for the specified time period. Requires administrator privileges.",
+   "cmd": "sudo log collect --last <TIME_PERIOD> --output <OUTPUT_FILE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "TIME_PERIOD",
+     "description": "The duration of logs to collect (e.g., 1h, 24h, 7d).",
+     "example": "1h"
+    },
+    {
+     "name": "OUTPUT_FILE",
+     "description": "The path and filename for the log archive (must end in .logarchive).",
+     "example": "/tmp/logs.logarchive"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the exported log file if it was created by mistake.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This command requires administrator privileges (sudo).",
+  "Ensure you have enough disk space for the log archive."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/log.md",
+  "title": "tldr-pages: log",
+  "license": "CC-BY-4.0"
+ }
+}

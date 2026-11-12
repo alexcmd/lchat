@@ -1,0 +1,117 @@
+{
+ "schema_version": 2,
+ "id": "posix-cut-fields-from-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Extract specific fields or characters from a file using cut",
+ "summary": "Use the `cut` command to extract specific columns (fields) or character positions from a text file. This is useful for cleaning up data or getting just the part of a line you need.",
+ "aliases": [
+  {
+   "text": "cut fields from file",
+   "lang": "en"
+  },
+  {
+   "text": "extract column from text file",
+   "lang": "en"
+  },
+  {
+   "text": "get specific characters from file",
+   "lang": "en"
+  },
+  {
+   "text": "cut command example",
+   "lang": "en"
+  },
+  {
+   "text": "split file by delimiter",
+   "lang": "en"
+  },
+  {
+   "text": "вырезать колонку из файла",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь поля из файла",
+   "lang": "ru"
+  },
+  {
+   "text": "cut по разделителю",
+   "lang": "ru"
+  },
+  {
+   "text": "команда cut",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Extract specific fields (columns) from a file. By default, fields are separated by tabs. Replace <FIELDS> with the field numbers you want (e.g., '2,6' for fields 2 and 6, or '2-' for field 2 to the end).",
+   "cmd": "cut -f <FIELDS> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FIELDS",
+     "description": "Field numbers to extract, e.g., '2,6' or '2-'",
+     "example": "2,6"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the input file",
+     "example": "data.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Extract characters by position instead of fields. Replace <CHARS> with the character range (e.g., '5-10').",
+     "cmd": "cut -c <CHARS> <FILE>",
+     "placeholders": [
+      {
+       "name": "CHARS",
+       "description": "Character positions to extract, e.g., '5-10'",
+       "example": "5-10"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the input file",
+       "example": "data.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Use a custom delimiter (like a comma or space) to split fields. Replace <DELIMITER> with your separator.",
+     "cmd": "cut -d \"<DELIMITER>\" -f <FIELDS> <FILE>",
+     "placeholders": [
+      {
+       "name": "DELIMITER",
+       "description": "The character separating fields, e.g., ',' or ' '",
+       "example": ","
+      },
+      {
+       "name": "FIELDS",
+       "description": "Field numbers to extract",
+       "example": "1,3"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the input file",
+       "example": "data.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cut.md",
+  "title": "tldr-pages: cut",
+  "license": "CC-BY-4.0"
+ }
+}

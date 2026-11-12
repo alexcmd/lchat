@@ -1,0 +1,174 @@
+{
+ "schema_version": 2,
+ "id": "posix-error-ssh-publickey-denied",
+ "platform": "posix",
+ "kind": "error",
+ "title": "Diagnose 'Permission denied (publickey)' on ssh",
+ "summary": "ssh prints 'Permission denied (publickey)' when the server does not accept any of your SSH keys. Read the verbose ssh output to see which key was offered, then check the key file permissions and the IdentityFile setting.",
+ "aliases": [
+  {
+   "text": "Permission denied (publickey)",
+   "lang": "en"
+  },
+  {
+   "text": "ssh permission denied publickey",
+   "lang": "en"
+  },
+  {
+   "text": "ssh permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "ssh key rejected",
+   "lang": "en"
+  },
+  {
+   "text": "ssh not accepting my key",
+   "lang": "en"
+  },
+  {
+   "text": "ssh login fails with key",
+   "lang": "en"
+  },
+  {
+   "text": "ssh publickey error debug",
+   "lang": "en"
+  },
+  {
+   "text": "ssh отказано в доступе publickey",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh не принимает мой ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh ошибка permission denied ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "почему ssh пишет permission denied",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh сервер отклоняет ключ",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Permission denied (publickey)"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ssh"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Connect with verbose output. The -v flag makes ssh print each step, including every key it offers. Nothing is changed; the connection ends with the error.",
+   "cmd": "ssh -v <USER>@<HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USER",
+     "description": "Your account name on the remote server.",
+     "example": "alex"
+    },
+    {
+     "name": "HOST",
+     "description": "The server name or IP address you connect to.",
+     "example": "example.com"
+    }
+   ],
+   "expect": "Lines starting with 'debug1: Offering public key:' show the key ssh tried. The last message is 'Permission denied (publickey).' (after your user@server) when the server refuses the keys.",
+   "alternatives": [
+    {
+     "explain": "Maximum verbosity, with much more detail. Use it when -v output does not explain the failure.",
+     "cmd": "ssh -vvv <USER>@<HOST>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "USER",
+       "description": "Your account name on the remote server.",
+       "example": "alex"
+      },
+      {
+       "name": "HOST",
+       "description": "The server name or IP address you connect to.",
+       "example": "example.com"
+      }
+     ],
+     "expect": "Much longer output with the same 'debug1: Offering public key:' lines."
+    }
+   ]
+  },
+  {
+   "explain": "List your .ssh folder with permissions. The private key is the file without .pub; the .pub file is the public key.",
+   "cmd": "ls -l ~/.ssh",
+   "risk": "low",
+   "expect": "The private key usually shows -rw------- (600). A private key shown as -rw-r--r-- can be read by other users."
+  },
+  {
+   "explain": "Make the private key readable and writable only by you. ssh may refuse a private key that other users can read.",
+   "cmd": "chmod 600 <KEY_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_FILE",
+     "description": "Path to your private key file, not the .pub file.",
+     "example": "~/.ssh/id_ed25519",
+     "discover_cmd": "ls ~/.ssh"
+    }
+   ],
+   "expect": "No output. Run ls -l ~/.ssh again: the private key now shows -rw-------."
+  },
+  {
+   "explain": "Show the settings ssh really uses for this host, after reading ~/.ssh/config. Look at the 'identityfile' lines: they are the key files ssh tries. No connection is made.",
+   "cmd": "ssh -G <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The server name or IP address you connect to.",
+     "example": "example.com"
+    }
+   ],
+   "expect": "Lines such as 'identityfile ~/.ssh/id_ed25519' and 'user <USER>'. The identityfile line must point to the key you fixed in the previous step.",
+   "alternatives": [
+    {
+     "explain": "Show only the IdentityFile lines you wrote in your own config file. Prints nothing when that file has no IdentityFile line.",
+     "cmd": "grep -i identityfile ~/.ssh/config",
+     "risk": "low",
+     "expect": "Your IdentityFile lines, or nothing."
+    }
+   ]
+  },
+  {
+   "explain": "List the keys held by the ssh-agent, a background helper that stores unlocked keys. A key loaded there can be used even when its file is not in IdentityFile.",
+   "cmd": "ssh-add -l",
+   "risk": "low",
+   "expect": "A list of key fingerprints, or 'Could not open a connection to your authentication agent.' when no agent is running. The second case is not an error by itself."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ssh -o BatchMode=yes <USER>@<HOST> exit",
+   "expect": "Exit status 0 (check with echo $?) means the key is accepted. 'Permission denied (publickey).' means the server still refuses it."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Permission denied (publickey) can also mean the server does not have your public key (the .pub file) in its ~/.ssh/authorized_keys. Fixing that is done on the server and is not covered here."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/ssh",
+  "title": "ssh manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

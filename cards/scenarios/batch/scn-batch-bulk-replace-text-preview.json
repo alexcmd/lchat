@@ -1,0 +1,150 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-bulk-replace-text-preview",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Replace a word in many files at once, with a preview and backups",
+ "summary": "Finds every file in a folder that contains an old text and replaces it with a new text. You see the matching lines first. Each changed file keeps its original as a .bak copy next to it, so you can undo the change.",
+ "aliases": [
+  {
+   "text": "replace text in many files sed",
+   "lang": "en"
+  },
+  {
+   "text": "bulk find and replace in files linux",
+   "lang": "en"
+  },
+  {
+   "text": "sed replace word in all files recursively",
+   "lang": "en"
+  },
+  {
+   "text": "change a word in all config files",
+   "lang": "en"
+  },
+  {
+   "text": "preview grep before sed replace",
+   "lang": "en"
+  },
+  {
+   "text": "search and replace in a directory linux with backup",
+   "lang": "en"
+  },
+  {
+   "text": "заменить текст во всех файлах linux",
+   "lang": "ru"
+  },
+  {
+   "text": "массовая замена слова в файлах sed",
+   "lang": "ru"
+  },
+  {
+   "text": "найти и заменить текст в файлах папки",
+   "lang": "ru"
+  },
+  {
+   "text": "заменить слово во всех конфигах с резервной копией",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "grep",
+   "sed",
+   "xargs"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview: list every line that contains the old text. -F treats the text literally, so dots and stars are not special here. Nothing is changed.",
+   "risk": "low",
+   "cmd": "grep -rnF \"<OLD>\" <DIR>",
+   "expect": "Lines such as: config/app.conf:3:host=oldhost. Each file with a match shows up here.",
+   "placeholders": [
+    {
+     "name": "OLD",
+     "description": "Text to replace",
+     "example": "oldhost"
+    },
+    {
+     "name": "DIR",
+     "description": "Folder to search, searched recursively",
+     "example": "config",
+     "discover_cmd": "ls"
+    }
+   ]
+  },
+  {
+   "explain": "Replace the text in every file that contains it. Each changed file gets a .bak copy first. Files that are already .bak copies are skipped. The slash in the replacement must not be part of the old or new text.",
+   "risk": "medium",
+   "cmd": "grep -rlFZ --exclude='*.bak' \"<OLD>\" <DIR> | xargs -0 sed -i.bak 's/<OLD>/<NEW>/g'",
+   "expect": "No output. Each changed file now has a matching .bak file next to it.",
+   "placeholders": [
+    {
+     "name": "OLD",
+     "description": "Text to replace; no slash or regex symbols",
+     "example": "oldhost"
+    },
+    {
+     "name": "NEW",
+     "description": "Replacement text; no slash",
+     "example": "newhost"
+    },
+    {
+     "name": "DIR",
+     "description": "Same folder as in the preview",
+     "example": "config"
+    }
+   ]
+  },
+  {
+   "explain": "Check that the old text is gone. No output means no match is left outside the .bak copies.",
+   "risk": "low",
+   "cmd": "grep -rqF --exclude='*.bak' \"<OLD>\" <DIR> && echo 'old text still present' || echo 'no old text left'",
+   "expect": "no old text left",
+   "placeholders": [
+    {
+     "name": "OLD",
+     "description": "Old text",
+     "example": "oldhost"
+    },
+    {
+     "name": "DIR",
+     "description": "Folder that was changed",
+     "example": "config"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://www.gnu.org/software/sed/manual/sed.html",
+  "title": "sed, a stream editor",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "rollback": [
+  {
+   "explain": "Put back the originals: every .bak file is moved over the file it copied. Do this only if you have not started other edits in those files.",
+   "risk": "medium",
+   "cmd": "find <DIR> -name '*.bak' -exec sh -c 'mv -- \"$1\" \"${1%.bak}\"' _ {} \\;",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder that was changed",
+     "example": "config"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "The replacement also changes binary files and any file whose name is not filtered; use --include='*.conf' to limit the search.",
+  "The replace step is meant to run once. A second run changes the files again, and the .bak copies from the first run are not changed because of the exclude option.",
+  "A slash in the old or new text ends the sed pattern early. Escape it as a backslash slash, or avoid it."
+ ]
+}

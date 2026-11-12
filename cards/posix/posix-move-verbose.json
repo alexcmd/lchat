@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "posix-move-verbose",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Move files and show progress",
+ "summary": "Use the verbose flag with mv to see which files are being moved as the command runs.",
+ "aliases": [
+  {
+   "text": "mv verbose",
+   "lang": "en"
+  },
+  {
+   "text": "mv show files",
+   "lang": "en"
+  },
+  {
+   "text": "mv -v",
+   "lang": "en"
+  },
+  {
+   "text": "mv подробно",
+   "lang": "ru"
+  },
+  {
+   "text": "mv показать файлы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Move files and print the name of each file as it is moved.",
+   "cmd": "mv -v <SOURCE> <TARGET>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE",
+     "description": "Path to the source file(s)",
+     "example": "*.txt"
+    },
+    {
+     "name": "TARGET",
+     "description": "Path to the destination",
+     "example": "archive/"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Move the files back to their original location.",
+   "cmd": "mv <TARGET> <SOURCE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "TARGET",
+     "description": "Current path of the moved files",
+     "example": "archive/*.txt"
+    },
+    {
+     "name": "SOURCE",
+     "description": "Original path of the files",
+     "example": "*.txt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Moving files overwrites existing files at the target unless other flags are used."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/mv.md",
+  "title": "tldr-pages: mv",
+  "license": "CC-BY-4.0"
+ }
+}

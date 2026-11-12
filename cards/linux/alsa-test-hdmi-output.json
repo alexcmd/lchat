@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "alsa-test-hdmi-output",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Test HDMI audio output with aplay",
+ "summary": "Identify the correct HDMI audio device and test if sound is being sent to it using aplay.",
+ "aliases": [
+  {
+   "text": "test hdmi audio linux",
+   "lang": "en"
+  },
+  {
+   "text": "alsa hdmi no sound",
+   "lang": "en"
+  },
+  {
+   "text": "aplay hdmi test",
+   "lang": "en"
+  },
+  {
+   "text": "проверить звук hdmi",
+   "lang": "ru"
+  },
+  {
+   "text": "найти hdmi устройство alsa",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all playback hardware devices to find the card and device number for HDMI.",
+   "cmd": "aplay -l",
+   "risk": "low",
+   "expect": "Output lists devices like 'card 1: Generic [HD-Audio Generic], device 3: HDMI 0 [HDMI 0]'."
+  },
+  {
+   "explain": "Play a test sound to the specific HDMI device. Replace <CARD> and <DEVICE> with the numbers found in the previous step.",
+   "cmd": "aplay -D plughw:<CARD>,<DEVICE> /usr/share/sounds/alsa/Front_Center.wav",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CARD",
+     "description": "Card number for HDMI output",
+     "example": "1",
+     "discover_cmd": "aplay -l"
+    },
+    {
+     "name": "DEVICE",
+     "description": "Device number for HDMI output",
+     "example": "3",
+     "discover_cmd": "aplay -l"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture/Troubleshooting#HDMI",
+  "title": "Advanced Linux Sound Architecture/Troubleshooting",
+  "revision_id": 862000,
+  "license": "GFDL-1.3-or-later"
+ }
+}

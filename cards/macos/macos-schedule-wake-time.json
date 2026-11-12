@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "macos-schedule-wake-time",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Schedule automatic wake-up time",
+ "summary": "Set the Mac to automatically wake up at a specific time on selected days of the week.",
+ "aliases": [
+  {
+   "text": "schedule mac to wake up",
+   "lang": "en"
+  },
+  {
+   "text": "pmset repeat wake",
+   "lang": "en"
+  },
+  {
+   "text": "auto wake mac at 9am",
+   "lang": "en"
+  },
+  {
+   "text": "set wake schedule macos",
+   "lang": "en"
+  },
+  {
+   "text": "запланировать пробуждение mac",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset repeat wake",
+   "lang": "ru"
+  },
+  {
+   "text": "автопробуждение macos",
+   "lang": "ru"
+  },
+  {
+   "text": "будильник для mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo pmset repeat wake to schedule a wake-up time. Replace <DAYS> with a combination of M (Monday), T (Tuesday), W (Wednesday), R (Thursday), F (Friday), S (Saturday), U (Sunday). Replace <TIME> with the time in HH:MM:SS format.",
+   "cmd": "sudo pmset repeat wake <DAYS> <TIME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DAYS",
+     "description": "Days of the week: M, T, W, R, F, S, U. Example: MTWRF for weekdays.",
+     "example": "MTWRF"
+    },
+    {
+     "name": "TIME",
+     "description": "Time in HH:MM:SS format.",
+     "example": "09:00:00"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the scheduled wake-up by setting the repeat schedule to none.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "The Mac must be in sleep mode (not powered off) for the wake schedule to work."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pmset.md",
+  "title": "tldr-pages: pmset",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-find-filesystem-by-label",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find filesystem by label",
+ "summary": "Locate a mounted filesystem using its volume label instead of its device path or mount point. This is helpful if you named your USB drive or partition and want to find where it is mounted.",
+ "aliases": [
+  {
+   "text": "find mount by label",
+   "lang": "en"
+  },
+  {
+   "text": "where is my USB drive mounted",
+   "lang": "en"
+  },
+  {
+   "text": "findmnt label",
+   "lang": "en"
+  },
+  {
+   "text": "search filesystem by name",
+   "lang": "en"
+  },
+  {
+   "text": "найти диск по метке",
+   "lang": "ru"
+  },
+  {
+   "text": "где смонтирован флешка",
+   "lang": "ru"
+  },
+  {
+   "text": "findmnt LABEL=",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for the filesystem using its label.",
+   "cmd": "findmnt LABEL=<LABEL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LABEL",
+     "description": "The volume label, e.g., BigStorage",
+     "example": "BigStorage"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/findmnt.md",
+  "title": "tldr-pages: findmnt",
+  "license": "CC-BY-4.0"
+ }
+}

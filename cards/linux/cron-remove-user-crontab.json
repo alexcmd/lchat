@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "cron-remove-user-crontab",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove all user cron jobs",
+ "summary": "Delete all scheduled commands for your current user. This action is irreversible unless you have a backup.",
+ "aliases": [
+  {
+   "text": "delete cron jobs",
+   "lang": "en"
+  },
+  {
+   "text": "clear crontab",
+   "lang": "en"
+  },
+  {
+   "text": "remove all cron",
+   "lang": "en"
+  },
+  {
+   "text": "crontab -r",
+   "lang": "en"
+  },
+  {
+   "text": "удалить cron задачи",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить crontab",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить cron",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "cron"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove all entries from your user's crontab.",
+   "cmd": "crontab -r",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "You cannot automatically undo this. You must manually re-add your jobs using 'crontab -e' if you know what they were.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This deletes all your scheduled jobs permanently. Ensure you have a backup if you might need them later."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Cron#Basic_commands",
+  "title": "Cron",
+  "revision_id": 886598,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-wayland-screenshot-to-clipboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy a screenshot to the clipboard on Wayland",
+ "summary": "Take a screenshot and copy the image directly to your clipboard instead of saving it to a file. Requires a clipboard manager.",
+ "aliases": [
+  {
+   "text": "screenshot to clipboard wayland",
+   "lang": "en"
+  },
+  {
+   "text": "grim copy to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "copy screenshot linux wayland",
+   "lang": "en"
+  },
+  {
+   "text": "grim pipe clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот в буфер обмена wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "grim в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать скриншот wayland",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "grim",
+   "clipboard_manager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of grim to a clipboard manager (like wl-copy) to store the image in the clipboard.",
+   "cmd": "grim - | <CLIPBOARD_MANAGER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CLIPBOARD_MANAGER",
+     "description": "The command for your clipboard manager (e.g., wl-copy).",
+     "example": "wl-copy"
+    }
+   ],
+   "expect": "The screenshot is taken and stored in the clipboard, ready to be pasted."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/grim.md",
+  "title": "tldr-pages: grim",
+  "license": "CC-BY-4.0"
+ }
+}

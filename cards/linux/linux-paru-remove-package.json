@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-paru-remove-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a package and its dependencies with paru",
+ "summary": "Uninstall a package, remove its configuration files, and clean up dependencies that are no longer required by other packages.",
+ "aliases": [
+  {
+   "text": "remove package paru",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall package paru",
+   "lang": "en"
+  },
+  {
+   "text": "paru remove package",
+   "lang": "en"
+  },
+  {
+   "text": "delete package arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет paru",
+   "lang": "ru"
+  },
+  {
+   "text": "paru удаление пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить пакет arch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "paru"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified package, its configuration files (-n), and dependencies that are not needed by other packages (-s).",
+   "cmd": "paru -Rns <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to remove.",
+     "example": "spotify"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the package if you removed it by mistake.",
+   "cmd": "paru <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to reinstall.",
+     "example": "spotify"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Removing configuration files (-n) is permanent. If you plan to reinstall the package later, you might want to back up your configuration files first.",
+  "The -s flag removes dependencies. Ensure no other important software relies on them."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/paru.md",
+  "title": "tldr-pages: paru",
+  "license": "CC-BY-4.0"
+ }
+}

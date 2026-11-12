@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "macos-concept-system-settings-names",
+ "platform": "macos",
+ "kind": "concept",
+ "title": "System Settings vs System Preferences: which name fits your macOS",
+ "summary": "macOS 13 Ventura and later call the settings app System Settings. Older macOS versions call it System Preferences. Check your macOS version first, then follow the menu name that matches it.",
+ "updated": "2026-10-24",
+ "aliases": [
+  {
+   "text": "system preferences vs system settings",
+   "lang": "en"
+  },
+  {
+   "text": "where is system preferences on mac ventura",
+   "lang": "en"
+  },
+  {
+   "text": "mac system preferences missing",
+   "lang": "en"
+  },
+  {
+   "text": "system settings or system preferences which one",
+   "lang": "en"
+  },
+  {
+   "text": "control panel on mac",
+   "lang": "en"
+  },
+  {
+   "text": "what version of macos am I on",
+   "lang": "en"
+  },
+  {
+   "text": "системные настройки или системные параметры на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как называется системные настройки на macos 13",
+   "lang": "ru"
+  },
+  {
+   "text": "где системные настройки на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "пропали системные настройки mac",
+   "lang": "ru"
+  },
+  {
+   "text": "панель управления на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "какая версия macos у меня",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print your macOS version number. Read-only. Look at the first number: 13 or higher means the app is called System Settings, and 12 or lower means it is called System Preferences.",
+   "cmd": "sw_vers --productVersion",
+   "risk": "low",
+   "expect": "One line with the version, for example 13.0 or 14.6. Version 13 and later use System Settings; 12.x and older use System Preferences."
+  },
+  {
+   "explain": "Open the settings app from the Apple menu. On macOS 13 and later, the menu item is System Settings. On macOS 12 and earlier, it is System Preferences. Both use the same Apple menu, in the top-left corner of the screen.",
+   "risk": "low",
+   "gui": "Click the Apple menu at the top-left corner of the screen, then click System Settings (macOS 13 or later) or System Preferences (macOS 12 or earlier)."
+  },
+  {
+   "explain": "Use the name from the menu you see when you follow a guide. The same settings exist in both apps, but macOS 13 moved many of them into new places. The sidebar on the left lists the categories, such as Wi-Fi, Privacy & Security, or General.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [],
+ "source": {
+  "url": "x-man-page://sw_vers",
+  "title": "sw_vers manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

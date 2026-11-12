@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-specific-file-attribute",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View a specific file metadata attribute",
+ "summary": "Use mdls with the -name flag to retrieve only one specific piece of metadata about a file, such as its creation date or pixel dimensions, instead of the full list.",
+ "aliases": [
+  {
+   "text": "get file creation date",
+   "lang": "en"
+  },
+  {
+   "text": "check file dimensions",
+   "lang": "en"
+  },
+  {
+   "text": "mdls specific attribute",
+   "lang": "en"
+  },
+  {
+   "text": "get kMDItemFSCreationDate",
+   "lang": "en"
+  },
+  {
+   "text": "file metadata specific field",
+   "lang": "en"
+  },
+  {
+   "text": "получить дату создания файла",
+   "lang": "ru"
+  },
+  {
+   "text": "размеры изображения в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "mdls -name",
+   "lang": "ru"
+  },
+  {
+   "text": "один атрибут файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -name flag followed by the attribute key (e.g., kMDItemFSCreationDate) and the file path to show only that attribute.",
+   "cmd": "mdls -name <ATTRIBUTE> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ATTRIBUTE",
+     "description": "The specific metadata attribute key to retrieve (e.g., kMDItemFSCreationDate, kMDItemPixelWidth).",
+     "example": "kMDItemFSCreationDate"
+    },
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to inspect.",
+     "example": "~/Documents/photo.jpg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mdls.md",
+  "title": "tldr-pages: mdls",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-get-file-creation-date",
+  "macos-get-file-modification-date"
+ ]
+}

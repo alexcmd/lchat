@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-match-location",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show file name and line number for matches",
+ "summary": "Display the file name and line number where the pattern was found, with colored output. Helps locate the exact position of the text.",
+ "aliases": [
+  {
+   "text": "show line number grep",
+   "lang": "en"
+  },
+  {
+   "text": "grep with filename",
+   "lang": "en"
+  },
+  {
+   "text": "where is the match",
+   "lang": "en"
+  },
+  {
+   "text": "grep line number",
+   "lang": "en"
+  },
+  {
+   "text": "показать номер строки греп",
+   "lang": "ru"
+  },
+  {
+   "text": "имя файла и строка",
+   "lang": "ru"
+  },
+  {
+   "text": "где находится совпадение",
+   "lang": "ru"
+  },
+  {
+   "text": "номер строки в грепе",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print file name and line number for each match with color output.",
+   "cmd": "grep --with-filename --line-number --color=always \"<SEARCH_PATTERN>\" <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_PATTERN",
+     "description": "The text or regular expression to search for",
+     "example": "error"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the file to search",
+     "example": "log.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/grep.md",
+  "title": "tldr-pages: grep",
+  "license": "CC-BY-4.0"
+ }
+}

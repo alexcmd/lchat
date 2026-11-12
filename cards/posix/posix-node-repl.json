@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-node-repl",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Start the Node.js interactive shell (REPL)",
+ "summary": "Open an interactive JavaScript environment in the terminal. Useful for testing code snippets, checking library versions, or learning JavaScript syntax without creating a file.",
+ "aliases": [
+  {
+   "text": "node repl",
+   "lang": "en"
+  },
+  {
+   "text": "interactive javascript shell",
+   "lang": "en"
+  },
+  {
+   "text": "start node shell",
+   "lang": "en"
+  },
+  {
+   "text": "node console",
+   "lang": "en"
+  },
+  {
+   "text": "запустить консоль node",
+   "lang": "ru"
+  },
+  {
+   "text": "интерактивная оболочка node",
+   "lang": "ru"
+  },
+  {
+   "text": "node repl как открыть",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "node"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Type 'node' and press Enter to start the interactive JavaScript shell (REPL).",
+   "cmd": "node",
+   "risk": "low",
+   "expect": "You see a '>' prompt where you can type JavaScript code."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/node.md",
+  "title": "tldr-pages: node",
+  "license": "CC-BY-4.0"
+ }
+}

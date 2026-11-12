@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "posix-sort-file-to-output",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sort a file and save to a new file",
+ "summary": "Sort the lines of a text file and write the result to a specified output file. This can be used to sort a file in-place if the output file is the same as the input.",
+ "aliases": [
+  {
+   "text": "sort to file",
+   "lang": "en"
+  },
+  {
+   "text": "sort save output",
+   "lang": "en"
+  },
+  {
+   "text": "sort file to new file",
+   "lang": "en"
+  },
+  {
+   "text": "sort in place",
+   "lang": "en"
+  },
+  {
+   "text": "sortieren ausgabe datei",
+   "lang": "de"
+  },
+  {
+   "text": "ordenar salida archivo",
+   "lang": "es"
+  },
+  {
+   "text": "sortir vers fichier",
+   "lang": "fr"
+  },
+  {
+   "text": "sort output file",
+   "lang": "en"
+  },
+  {
+   "text": "sort redirect output",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --output flag to specify where to save the sorted lines.",
+   "cmd": "sort --output <OUTPUT_FILE> <INPUT_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_FILE",
+     "description": "Path to the file where sorted lines will be saved.",
+     "example": "sorted.txt"
+    },
+    {
+     "name": "INPUT_FILE",
+     "description": "Path to the file you want to sort.",
+     "example": "data.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sort.md",
+  "title": "tldr-pages: sort",
+  "license": "CC-BY-4.0"
+ }
+}

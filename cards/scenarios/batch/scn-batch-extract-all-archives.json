@@ -1,0 +1,131 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-extract-all-archives",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Extract all zip, tar.gz and 7z archives in a folder at once",
+ "summary": "Unpacks every zip, tar.gz, tar and 7z file in a folder in one go. Each archive gets its own folder named after it. A folder that already exists is skipped, so nothing is overwritten. A dry run shows what would happen first.",
+ "aliases": [
+  {
+   "text": "extract all zip files in folder",
+   "lang": "en"
+  },
+  {
+   "text": "unzip all archives in a folder linux",
+   "lang": "en"
+  },
+  {
+   "text": "extract all tar.gz and 7z files",
+   "lang": "en"
+  },
+  {
+   "text": "unpack every archive in a directory",
+   "lang": "en"
+  },
+  {
+   "text": "bulk extract archives bash",
+   "lang": "en"
+  },
+  {
+   "text": "extract many archives at once",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать все архивы в папке linux",
+   "lang": "ru"
+  },
+  {
+   "text": "распаковать все zip и 7z файлы сразу",
+   "lang": "ru"
+  },
+  {
+   "text": "массово распаковать архивы",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь все архивы из папки в отдельные папки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "unzip",
+   "tar",
+   "7z"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Save the script above as extract-all-archives.sh in your current folder, then make it runnable.",
+   "risk": "low",
+   "cmd": "chmod +x ./extract-all-archives.sh",
+   "expect": "No output."
+  },
+  {
+   "explain": "Dry run: show the folder each archive would be extracted to. Nothing is written.",
+   "risk": "low",
+   "cmd": "./extract-all-archives.sh --dry-run <DIR>",
+   "expect": "Lines such as: would extract: alpha.zip -> DIR/alpha/, or skip, folder exists.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder with the archives",
+     "example": "downloads/archives",
+     "discover_cmd": "ls"
+    }
+   ]
+  },
+  {
+   "explain": "Extract the archives. Upper-case extensions such as .ZIP work too.",
+   "risk": "low",
+   "cmd": "./extract-all-archives.sh <DIR>",
+   "expect": "Lines such as: extracted: alpha.zip -> DIR/alpha/",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder with the archives",
+     "example": "downloads/archives"
+    }
+   ]
+  },
+  {
+   "explain": "List the folders that were created.",
+   "risk": "low",
+   "cmd": "ls -1 <DIR>",
+   "expect": "One folder per archive, named after it without the extension.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder with the archives",
+     "example": "downloads/archives"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/tar.1.html",
+  "title": "tar(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "prerequisites": [
+  "The commands unzip, tar and 7z are installed",
+  "The archives are in one folder"
+ ],
+ "warnings": [
+  "Extract archives only from sources you trust; an archive can contain unexpected paths.",
+  "The script skips a folder that already exists, so a second run does nothing new."
+ ],
+ "script": {
+  "filename": "extract-all-archives.sh",
+  "lang": "bash",
+  "content": "#!/usr/bin/env bash\n# Extract every .zip, .tar.gz, .tgz, .tar and .7z archive in one folder.\n# Each archive goes into its own folder named after the archive (without extension).\n# Existing folders are skipped, so nothing is overwritten. Upper-case extensions work too.\n# Usage: extract-all-archives.sh [--dry-run] DIR\nset -euo pipefail\n\ndry=0\nif [ \"${1:-}\" = \"--dry-run\" ]; then\n  dry=1\n  shift\nfi\ndir=\"${1:?usage: $0 [--dry-run] DIR}\"\n[ -d \"$dir\" ] || { echo \"not a folder: $dir\" >&2; exit 1; }\n\nshopt -s nullglob nocaseglob\nfor archive in \"$dir\"/*.zip \"$dir\"/*.tar.gz \"$dir\"/*.tgz \"$dir\"/*.tar \"$dir\"/*.7z; do\n  name=\"$(basename \"$archive\")\"\n  base=\"${name%.*}\"\n  base=\"${base%.tar}\"\n  out=\"$dir/$base\"\n  if [ -e \"$out\" ]; then\n    echo \"skip, folder exists: $name -> $out\"\n    continue\n  fi\n  if [ \"$dry\" -eq 1 ]; then\n    echo \"would extract: $name -> $out/\"\n    continue\n  fi\n  mkdir -p -- \"$out\"\n  case \"${name,,}\" in\n    *.zip)         unzip -q -- \"$archive\" -d \"$out\" ;;\n    *.tar.gz|*.tgz) tar -xzf \"$archive\" -C \"$out\" ;;\n    *.tar)         tar -xf \"$archive\" -C \"$out\" ;;\n    *.7z)          7z x -y -o\"$out\" -- \"$archive\" >/dev/null ;;\n  esac\n  echo \"extracted: $name -> $out/\"\ndone\n",
+  "usage": "./extract-all-archives.sh [--dry-run] <DIR>"
+ }
+}

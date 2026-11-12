@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-enable-gnome-extension",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable a GNOME extension",
+ "summary": "Turn on a specific GNOME Shell extension that is currently disabled. You need the extension's unique ID, which you can find by listing your installed extensions.",
+ "aliases": [
+  {
+   "text": "enable gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "turn on gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "activate gnome extension",
+   "lang": "en"
+  },
+  {
+   "text": "включить расширение gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "активировать расширение gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить расширение gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the enable command with the specific extension ID to turn it on.",
+   "cmd": "gnome-extensions enable \"<EXTENSION_ID>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "EXTENSION_ID",
+     "description": "The unique ID of the extension to enable",
+     "example": "user-theme@gnome-shell-extensions.gcampax.github.com",
+     "discover_cmd": "gnome-extensions list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gnome-extensions.md",
+  "title": "tldr-pages: gnome-extensions",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-gnome-extensions"
+ ]
+}

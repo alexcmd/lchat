@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "linux-networkctl-reconfigure-interface",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reconfigure network interfaces",
+ "summary": "Apply new configuration to specific network interfaces. Requires reloading configuration files first if they were edited.",
+ "aliases": [
+  {
+   "text": "reconfigure network interface",
+   "lang": "en"
+  },
+  {
+   "text": "networkctl reconfigure",
+   "lang": "en"
+  },
+  {
+   "text": "apply config to interface",
+   "lang": "en"
+  },
+  {
+   "text": "перенастроить сетевой интерфейс",
+   "lang": "ru"
+  },
+  {
+   "text": "networkctl reconfigure",
+   "lang": "ru"
+  },
+  {
+   "text": "применить конфиг к интерфейсу",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-networkd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo to reconfigure the specified interfaces. If you edited config files, run 'sudo networkctl reload' first.",
+   "cmd": "sudo networkctl reconfigure <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface to reconfigure.",
+     "example": "eth0",
+     "discover_cmd": "networkctl"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, restore previous configuration, reload, and reconfigure again.",
+   "cmd": "sudo networkctl reconfigure <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface to reconfigure.",
+     "example": "eth0",
+     "discover_cmd": "networkctl"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Reconfiguring may temporarily disrupt network connectivity on the specified interfaces."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/networkctl.md",
+  "title": "tldr-pages: networkctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-networkctl-reload-config",
+  "linux-restart-system-service"
+ ]
+}

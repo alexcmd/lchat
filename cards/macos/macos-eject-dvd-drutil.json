@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-eject-dvd-drutil",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Eject a DVD or CD using drutil",
+ "summary": "Use the drutil command to safely eject a disk from your Mac's optical drive. This is useful if the standard eject button in Finder or the keyboard doesn't work.",
+ "aliases": [
+  {
+   "text": "eject dvd",
+   "lang": "en"
+  },
+  {
+   "text": "eject cd",
+   "lang": "en"
+  },
+  {
+   "text": "drutil eject",
+   "lang": "en"
+  },
+  {
+   "text": "force eject disk",
+   "lang": "en"
+  },
+  {
+   "text": "как извлечь диск",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь dvd",
+   "lang": "ru"
+  },
+  {
+   "text": "не выходит диск",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the drutil eject command to tell the optical drive to release the disk.",
+   "cmd": "drutil eject",
+   "risk": "low",
+   "expect": "The disk tray should open or the disk should be ejected."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/drutil.md",
+  "title": "tldr-pages: drutil",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-eject-cd-dvd"
+ ]
+}

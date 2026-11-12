@@ -1,0 +1,111 @@
+{
+ "schema_version": 2,
+ "id": "linux-iw-scan-wifi-networks",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Scan for available Wi-Fi networks",
+ "summary": "Scans for Wi-Fi networks nearby using a specific interface. Shows SSIDs and signal strength for networks in range.",
+ "aliases": [
+  {
+   "text": "scan wifi networks",
+   "lang": "en"
+  },
+  {
+   "text": "find wifi networks",
+   "lang": "en"
+  },
+  {
+   "text": "list available wifi",
+   "lang": "en"
+  },
+  {
+   "text": "iw scan",
+   "lang": "en"
+  },
+  {
+   "text": "check wifi networks",
+   "lang": "en"
+  },
+  {
+   "text": "найти wifi сети",
+   "lang": "ru"
+  },
+  {
+   "text": "список wifi сетей",
+   "lang": "ru"
+  },
+  {
+   "text": "просканировать wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "какие wifi сети доступны",
+   "lang": "ru"
+  },
+  {
+   "text": "scan wifi networks arch",
+   "lang": "en"
+  },
+  {
+   "text": "iw scan wifi",
+   "lang": "en"
+  },
+  {
+   "text": "просмотреть сети wifi arch",
+   "lang": "ru"
+  },
+  {
+   "text": "iw list networks",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Scans for wireless networks on the specified interface.",
+   "cmd": "iw dev <INTERFACE> scan",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of your wireless interface, e.g., wlan0",
+     "example": "wlan0",
+     "discover_cmd": "iw dev"
+    }
+   ],
+   "expect": "A list of nearby networks with their SSIDs and signal levels.",
+   "alternatives": [
+    {
+     "explain": "Scan for access points. Replace <INTERFACE> with your wireless interface name. Use 'less' to scroll through the output.",
+     "cmd": "sudo iw dev <INTERFACE> scan | less",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "Name of the wireless interface",
+       "example": "wlan0",
+       "discover_cmd": "iw dev"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/iw.md",
+  "title": "tldr-pages: iw",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-iw-list-wifi-interfaces",
+  "nmcli-list-wifi-networks"
+ ]
+}

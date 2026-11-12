@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-disk-size-bytes",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show disk sizes in bytes",
+ "summary": "Display the size of block devices in exact bytes instead of the default human-readable format (like GB or MB).",
+ "aliases": [
+  {
+   "text": "disk size in bytes",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk bytes",
+   "lang": "en"
+  },
+  {
+   "text": "exact disk size",
+   "lang": "en"
+  },
+  {
+   "text": "show size in bytes",
+   "lang": "en"
+  },
+  {
+   "text": "lsblk -b",
+   "lang": "en"
+  },
+  {
+   "text": "размер диска в байтах",
+   "lang": "ru"
+  },
+  {
+   "text": "lsblk bytes",
+   "lang": "ru"
+  },
+  {
+   "text": "точный размер диска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsblk with the bytes flag to print the SIZE column in raw bytes.",
+   "cmd": "lsblk --bytes",
+   "risk": "low",
+   "expect": "The SIZE column shows large integer numbers representing bytes."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lsblk.md",
+  "title": "tldr-pages: lsblk",
+  "license": "CC-BY-4.0"
+ }
+}

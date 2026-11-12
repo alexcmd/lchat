@@ -1,0 +1,130 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-gnome-proxy",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Configure system proxy in GNOME",
+ "summary": "Set manual proxy settings for GNOME desktop environment using gsettings. This affects applications that respect GNOME network settings, such as Chromium and Firefox.",
+ "aliases": [
+  {
+   "text": "gnome proxy settings",
+   "lang": "en"
+  },
+  {
+   "text": "gsettings set proxy",
+   "lang": "en"
+  },
+  {
+   "text": "linux gnome manual proxy",
+   "lang": "en"
+  },
+  {
+   "text": "настроить прокси в gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "gsettings прокси",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "prerequisites": [
+  "GNOME desktop environment installed.",
+  "Know your proxy host and port."
+ ],
+ "steps": [
+  {
+   "explain": "Set the proxy mode to manual.",
+   "cmd": "gsettings set org.gnome.system.proxy mode 'manual'",
+   "risk": "low"
+  },
+  {
+   "explain": "Set the HTTP proxy host. Replace <PROXY_HOST> with your proxy hostname.",
+   "cmd": "gsettings set org.gnome.system.proxy.http host '<PROXY_HOST>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROXY_HOST",
+     "description": "The hostname or IP address of the proxy server.",
+     "example": "proxy.localdomain.com"
+    }
+   ]
+  },
+  {
+   "explain": "Set the HTTP proxy port. Replace <PROXY_PORT> with your proxy port number.",
+   "cmd": "gsettings set org.gnome.system.proxy.http port <PROXY_PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROXY_PORT",
+     "description": "The port number of the proxy server.",
+     "example": "8080"
+    }
+   ]
+  },
+  {
+   "explain": "Set the HTTPS proxy host.",
+   "cmd": "gsettings set org.gnome.system.proxy.https host '<PROXY_HOST>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROXY_HOST",
+     "description": "The hostname or IP address of the proxy server.",
+     "example": "proxy.localdomain.com"
+    }
+   ]
+  },
+  {
+   "explain": "Set the HTTPS proxy port.",
+   "cmd": "gsettings set org.gnome.system.proxy.https port <PROXY_PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROXY_PORT",
+     "description": "The port number of the proxy server.",
+     "example": "8080"
+    }
+   ]
+  },
+  {
+   "explain": "Set the SOCKS proxy host.",
+   "cmd": "gsettings set org.gnome.system.proxy.socks host '<PROXY_HOST>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROXY_HOST",
+     "description": "The hostname or IP address of the proxy server.",
+     "example": "proxy.localdomain.com"
+    }
+   ]
+  },
+  {
+   "explain": "Set the SOCKS proxy port.",
+   "cmd": "gsettings set org.gnome.system.proxy.socks port <PROXY_PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROXY_PORT",
+     "description": "The port number of the proxy server.",
+     "example": "8080"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Proxy_server#Proxy_settings_on_GNOME",
+  "title": "Proxy server",
+  "revision_id": 873827,
+  "license": "GFDL-1.3-or-later"
+ }
+}

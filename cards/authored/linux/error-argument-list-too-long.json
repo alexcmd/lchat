@@ -1,0 +1,159 @@
+{
+ "schema_version": 2,
+ "id": "error-argument-list-too-long",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Argument list too long' when a wildcard matches too many files",
+ "summary": "The shell expands a wildcard such as * into a list of file names, and that list is too big for one command. Run the command through find and xargs instead, which splits the files into smaller batches.",
+ "aliases": [
+  {
+   "text": "argument list too long",
+   "lang": "en"
+  },
+  {
+   "text": "bash argument list too long linux",
+   "lang": "en"
+  },
+  {
+   "text": "cp * argument list too long",
+   "lang": "en"
+  },
+  {
+   "text": "rm * too many files error",
+   "lang": "en"
+  },
+  {
+   "text": "wildcard matches too many files",
+   "lang": "en"
+  },
+  {
+   "text": "ls * too many files in folder",
+   "lang": "en"
+  },
+  {
+   "text": "слишком длинный список аргументов",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка argument list too long",
+   "lang": "ru"
+  },
+  {
+   "text": "слишком много файлов для команды linux",
+   "lang": "ru"
+  },
+  {
+   "text": "команда со звездочкой не работает много файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "argument list too long что делать",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Argument list too long"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the folder that contains the files",
+  "Know the command you wanted to run on them"
+ ],
+ "steps": [
+  {
+   "explain": "Check the system limit on the total size of the arguments in one command. This is read-only. A typical value is about 2 MB.",
+   "cmd": "getconf ARG_MAX",
+   "risk": "low",
+   "expect": "A number such as 2097152 (about 2 MB). It is the maximum number of bytes for one command, including all file names."
+  },
+  {
+   "explain": "Count the files in the folder. This is read-only. If the count is large, a wildcard such as * matches too many names for one command.",
+   "cmd": "find <DIR> -maxdepth 1 -type f | wc -l",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "The folder with the files, without a trailing slash",
+     "example": "~/Downloads",
+     "discover_cmd": "ls -d */"
+    }
+   ],
+   "expect": "A number of files. A count of tens of thousands or more with long names can exceed the limit."
+  },
+  {
+   "explain": "Run your command on the files in small batches. find lists the matching files and xargs passes them to the command in pieces, so the limit is never exceeded. Replace ls -l with the command you wanted to run. Keep the pattern in single quotes.",
+   "cmd": "find <DIR> -maxdepth 1 -type f -name '<PATTERN>' -print0 | xargs -0 ls -l",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "The folder with the files, without a trailing slash",
+     "example": "~/Downloads",
+     "discover_cmd": "ls -d */"
+    },
+    {
+     "name": "PATTERN",
+     "description": "The file name pattern you used with the wildcard, in quotes",
+     "example": "*.jpg"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Same batching without a pipe: find passes the names to the command itself in batches.",
+     "cmd": "find <DIR> -maxdepth 1 -type f -name '<PATTERN>' -exec ls -l {} +",
+     "placeholders": [
+      {
+       "name": "DIR",
+       "description": "The folder with the files, without a trailing slash",
+       "example": "~/Downloads",
+       "discover_cmd": "ls -d */"
+      },
+      {
+       "name": "PATTERN",
+       "description": "The file name pattern you used with the wildcard, in quotes",
+       "example": "*.jpg"
+      }
+     ],
+     "expect": "The same listing as the main command."
+    },
+    {
+     "explain": "A loop handles one file at a time, so no command gets a long list. It is slow for many files, so use it for smaller folders.",
+     "cmd": "for f in <DIR>/<PATTERN>; do ls -l \"$f\"; done",
+     "placeholders": [
+      {
+       "name": "DIR",
+       "description": "The folder with the files, without a trailing slash",
+       "example": "/tmp/small",
+       "discover_cmd": "ls -d */"
+      },
+      {
+       "name": "PATTERN",
+       "description": "The file name pattern, for example *.jpg",
+       "example": "*.log"
+      }
+     ],
+     "expect": "One line per file, in the same order as the wildcard."
+    }
+   ],
+   "expect": "One line per matching file. The error does not appear."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Put the pattern in single quotes inside find, so the shell does not expand it before find runs.",
+  "Check the list first with the ls version. Do not replace ls -l with rm until the list is what you expect, because deleted files cannot be restored.",
+  "find -maxdepth 1 looks only at the folder itself, not at its subfolders."
+ ],
+ "see_also": [],
+ "source": {
+  "url": "https://manpages.debian.org/xargs",
+  "title": "xargs manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

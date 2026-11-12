@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "ibus-open-preferences",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Open IBus preferences",
+ "summary": "Launch the IBus configuration window to add keyboard layouts and set shortcuts.",
+ "aliases": [
+  {
+   "text": "ibus preferences",
+   "lang": "en"
+  },
+  {
+   "text": "ibus settings",
+   "lang": "en"
+  },
+  {
+   "text": "ibus config",
+   "lang": "en"
+  },
+  {
+   "text": "ibus setup",
+   "lang": "en"
+  },
+  {
+   "text": "ibus настройки",
+   "lang": "ru"
+  },
+  {
+   "text": "настройки ibus",
+   "lang": "ru"
+  },
+  {
+   "text": "ibus конфигурация",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the ibus-setup command in a terminal.",
+   "cmd": "ibus-setup",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Right-click the IBus tray icon and select Preferences.",
+     "gui": "Right-click tray icon > Preferences",
+     "risk": "low",
+     "cmd": ""
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/IBus#Configuration",
+  "title": "IBus",
+  "revision_id": 878551,
+  "license": "GFDL-1.3-or-later"
+ }
+}

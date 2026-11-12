@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-locale",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set system locale",
+ "summary": "Change the system-wide language and region settings, such as date formats and currency symbols.",
+ "aliases": [
+  {
+   "text": "change locale",
+   "lang": "en"
+  },
+  {
+   "text": "set language",
+   "lang": "en"
+  },
+  {
+   "text": "change system language",
+   "lang": "en"
+  },
+  {
+   "text": "localectl set-locale",
+   "lang": "en"
+  },
+  {
+   "text": "изменить локаль",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить язык системы",
+   "lang": "ru"
+  },
+  {
+   "text": "установить локаль",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set a specific locale variable (like LANG) to a new value. You usually need root privileges for this.",
+   "cmd": "sudo localectl set-locale <LOCALE_VAR>=<LOCALE_VALUE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "LOCALE_VAR",
+     "description": "The locale variable to set, e.g., LANG, LC_ALL, LC_TIME.",
+     "example": "LANG"
+    },
+    {
+     "name": "LOCALE_VALUE",
+     "description": "The desired locale setting, e.g., en_US.UTF-8, ru_RU.UTF-8.",
+     "example": "en_US.UTF-8",
+     "discover_cmd": "localectl list-locales"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert, set the locale variable back to its previous value using the same command.",
+   "cmd": "sudo localectl set-locale <LOCALE_VAR>=<PREVIOUS_VALUE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "LOCALE_VAR",
+     "description": "The locale variable you changed.",
+     "example": "LANG"
+    },
+    {
+     "name": "PREVIOUS_VALUE",
+     "description": "The locale value it had before you changed it.",
+     "example": "en_US.UTF-8"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing the system locale can affect how dates, numbers, and currencies are displayed in applications.",
+  "You may need to log out and back in for changes to take full effect."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/localectl.md",
+  "title": "tldr-pages: localectl",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "arch-refresh-package-lists",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Force refresh pacman package lists",
+ "summary": "Force pacman to refresh all package lists, useful when switching mirrors or fixing sync issues.",
+ "aliases": [
+  {
+   "text": "pacman refresh lists",
+   "lang": "en"
+  },
+  {
+   "text": "pacman -Syy",
+   "lang": "en"
+  },
+  {
+   "text": "force update package list",
+   "lang": "en"
+  },
+  {
+   "text": "pacman sync error",
+   "lang": "en"
+  },
+  {
+   "text": "обновить списки пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman не обновляется",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Refresh all package lists and upgrade the system. The double -y flag forces a refresh even if lists appear up to date.",
+   "cmd": "sudo pacman -Syyu",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Use -Syyuu to downgrade packages that are newer than the mirror's version, preventing partial upgrades.",
+   "cmd": "sudo pacman -Syyuu",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Using -Syy is generally unnecessary and wastes bandwidth. Use it only when switching mirrors or fixing sync errors.",
+  "If you force refresh, consider using -Syyuu to avoid partial upgrades if the new mirror is out of sync."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Mirrors#Force_pacman_to_refresh_the_package_lists",
+  "title": "Mirrors",
+  "revision_id": 882914,
+  "license": "GFDL-1.3-or-later"
+ }
+}

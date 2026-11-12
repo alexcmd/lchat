@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-compress-file-bzip2",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compress a file with bzip2",
+ "summary": "Use bzip2 to compress a single file into a .bz2 archive. This reduces file size but is slower than gzip.",
+ "aliases": [
+  {
+   "text": "compress file with bzip2",
+   "lang": "en"
+  },
+  {
+   "text": "bzip2 compress",
+   "lang": "en"
+  },
+  {
+   "text": "make bz2 archive",
+   "lang": "en"
+  },
+  {
+   "text": "сжать файл bzip2",
+   "lang": "ru"
+  },
+  {
+   "text": "bzip2 сжатие",
+   "lang": "ru"
+  },
+  {
+   "text": "создать архив bz2",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run bzip2 on the file you want to compress. The original file is replaced by a .bz2 file.",
+   "cmd": "bzip2 <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file to compress",
+     "example": "document.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/bzip2.md",
+  "title": "tldr-pages: bzip2",
+  "license": "CC-BY-4.0"
+ }
+}

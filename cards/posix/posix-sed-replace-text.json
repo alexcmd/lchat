@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-sed-replace-text",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Replace text in a stream using sed",
+ "summary": "Use sed to find and replace specific words or patterns in text output from another command. This is useful for quickly modifying command output without editing files.",
+ "aliases": [
+  {
+   "text": "sed replace text",
+   "lang": "en"
+  },
+  {
+   "text": "find and replace in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "replace string in command output",
+   "lang": "en"
+  },
+  {
+   "text": "sed substitute word",
+   "lang": "en"
+  },
+  {
+   "text": "sed заменить текст",
+   "lang": "ru"
+  },
+  {
+   "text": "найти и заменить в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "sed замена строки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of a command to sed to replace all occurrences of 'apple' with 'mango'. The 'g' flag ensures all matches on each line are replaced.",
+   "cmd": "<COMMAND> | sed 's/apple/mango/g'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command whose output you want to modify",
+     "example": "echo \"I like apple\""
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sed.md",
+  "title": "tldr-pages: sed",
+  "license": "CC-BY-4.0"
+ }
+}

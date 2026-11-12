@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-service-security",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check security scores of running services",
+ "summary": "View the security settings and potential vulnerabilities of currently running systemd units. This helps assess the security posture of your system services.",
+ "aliases": [
+  {
+   "text": "check service security",
+   "lang": "en"
+  },
+  {
+   "text": "systemd security score",
+   "lang": "en"
+  },
+  {
+   "text": "systemd analyze security",
+   "lang": "en"
+  },
+  {
+   "text": "service hardening status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить безопасность сервисов",
+   "lang": "ru"
+  },
+  {
+   "text": "systemd security",
+   "lang": "ru"
+  },
+  {
+   "text": "оценка безопасности systemd",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show security scores for all running units.",
+   "cmd": "systemd-analyze security",
+   "risk": "low",
+   "expect": "A list of services with their security scores and details."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemd-analyze.md",
+  "title": "tldr-pages: systemd-analyze",
+  "license": "CC-BY-4.0"
+ }
+}

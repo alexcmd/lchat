@@ -1,0 +1,56 @@
+{
+ "schema_version": 2,
+ "id": "macos-exec-in-container",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Execute command in running container",
+ "summary": "Runs a command inside a container that is already running. Useful for debugging or managing files inside the container.",
+ "aliases": [
+  {
+   "text": "exec in container",
+   "lang": "en"
+  },
+  {
+   "text": "run command in container",
+   "lang": "en"
+  },
+  {
+   "text": "container exec",
+   "lang": "en"
+  },
+  {
+   "text": "выполнить команду в контейнере",
+   "lang": "ru"
+  },
+  {
+   "text": "войти в контейнер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Executes a command (like 'sh' for a shell) inside a running container identified by its name.",
+   "cmd": "container exec --interactive --tty <CONTAINER_NAME> sh",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CONTAINER_NAME",
+     "description": "The name of the running container."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/container.md",
+  "title": "tldr-pages: container",
+  "license": "CC-BY-4.0"
+ }
+}

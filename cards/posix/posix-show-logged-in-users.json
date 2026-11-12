@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-logged-in-users",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show who is logged in",
+ "summary": "List the usernames, terminal lines, and login times of all currently active sessions on the computer.",
+ "aliases": [
+  {
+   "text": "who is logged in",
+   "lang": "en"
+  },
+  {
+   "text": "check active sessions",
+   "lang": "en"
+  },
+  {
+   "text": "list logged in users",
+   "lang": "en"
+  },
+  {
+   "text": "who command",
+   "lang": "en"
+  },
+  {
+   "text": "кто в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "кто залогинен",
+   "lang": "ru"
+  },
+  {
+   "text": "список активных сессий",
+   "lang": "ru"
+  },
+  {
+   "text": "кто сейчас в системе",
+   "lang": "ru"
+  },
+  {
+   "text": "list login sessions",
+   "lang": "en"
+  },
+  {
+   "text": "loginctl list sessions",
+   "lang": "en"
+  },
+  {
+   "text": "show logged in users",
+   "lang": "en"
+  },
+  {
+   "text": "who is on the computer",
+   "lang": "en"
+  },
+  {
+   "text": "list sessions",
+   "lang": "en"
+  },
+  {
+   "text": "check who is logged in",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `who` command to display a list of all currently logged-in sessions, showing the username, terminal line, and login time.",
+   "cmd": "who",
+   "risk": "low",
+   "expect": "A list of usernames, terminal lines (e.g., tty1, pts/0), and timestamps for active sessions.",
+   "alternatives": [
+    {
+     "explain": "Run loginctl without arguments to print a table of all current sessions.",
+     "cmd": "loginctl",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/who.md",
+  "title": "tldr-pages: who",
+  "license": "CC-BY-4.0"
+ }
+}

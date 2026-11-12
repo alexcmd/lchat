@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-nslookup-domain-ip",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find the IP address of a domain using nslookup",
+ "summary": "Use nslookup to find the IP address associated with a website or domain name. This checks what your computer's default DNS server returns for that name.",
+ "aliases": [
+  {
+   "text": "nslookup domain",
+   "lang": "en"
+  },
+  {
+   "text": "find ip address of website",
+   "lang": "en"
+  },
+  {
+   "text": "check dns record",
+   "lang": "en"
+  },
+  {
+   "text": "nslookup example.com",
+   "lang": "en"
+  },
+  {
+   "text": "kak uznat ip adresa saita",
+   "lang": "ru"
+  },
+  {
+   "text": "nslookup domen",
+   "lang": "ru"
+  },
+  {
+   "text": "provirit dns zapros",
+   "lang": "ru"
+  },
+  {
+   "text": "ip adresa po imeni",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the default name server for the IP address (A record) of the specified domain.",
+   "cmd": "nslookup <DOMAIN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to look up, e.g. example.com",
+     "example": "example.com"
+    }
+   ],
+   "expect": "The command outputs the IP address(es) associated with the domain."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nslookup.md",
+  "title": "tldr-pages: nslookup",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "dns-resolve-domain-nss",
+  "posix-host-lookup-domain"
+ ]
+}

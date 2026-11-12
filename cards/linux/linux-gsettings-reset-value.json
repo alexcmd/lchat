@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-gsettings-reset-value",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reset a GNOME setting to default",
+ "summary": "Use gsettings to reset a specific GNOME configuration key to its default value. This removes any custom value you have set.",
+ "aliases": [
+  {
+   "text": "reset gnome setting",
+   "lang": "en"
+  },
+  {
+   "text": "gsettings reset",
+   "lang": "en"
+  },
+  {
+   "text": "restore default gnome config",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить настройку gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "gsettings reset значение",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть настройку по умолчанию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "cinnamon",
+   "mate"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reset a specific key within a schema to its default value. Replace the placeholders with the actual schema ID and key name.",
+   "cmd": "gsettings reset <SCHEMA_ID> <KEY_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCHEMA_ID",
+     "description": "The schema ID, e.g., org.gnome.desktop.interface",
+     "example": "org.gnome.desktop.interface"
+    },
+    {
+     "name": "KEY_NAME",
+     "description": "The key name, e.g., gtk-theme",
+     "example": "gtk-theme"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gsettings.md",
+  "title": "tldr-pages: gsettings",
+  "license": "CC-BY-4.0"
+ }
+}

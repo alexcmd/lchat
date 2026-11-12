@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "macos-monitor-power-metrics",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Monitor CPU and power usage with powermetrics",
+ "summary": "Use the powermetrics command to see detailed statistics about CPU usage, power consumption, and system wakeups. This tool is primarily for developers or advanced users diagnosing performance issues.",
+ "aliases": [
+  {
+   "text": "check cpu usage mac",
+   "lang": "en"
+  },
+  {
+   "text": "powermetrics",
+   "lang": "en"
+  },
+  {
+   "text": "monitor power usage mac",
+   "lang": "en"
+  },
+  {
+   "text": "cpu stats mac",
+   "lang": "en"
+  },
+  {
+   "text": "проверить нагрузку на процессор mac",
+   "lang": "ru"
+  },
+  {
+   "text": "powermetrics mac",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг питания mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run powermetrics with sudo to gather and display CPU, power, and wakeup metrics. By default, it samples every 5 seconds.",
+   "cmd": "sudo powermetrics",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "A continuous stream of text showing CPU frequency, power usage, and process lists."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/powermetrics.md",
+  "title": "tldr-pages: powermetrics",
+  "license": "CC-BY-4.0"
+ }
+}

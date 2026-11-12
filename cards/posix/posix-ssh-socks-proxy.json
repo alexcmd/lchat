@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "posix-ssh-socks-proxy",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a SOCKS proxy via SSH dynamic port forwarding",
+ "summary": "Set up a dynamic port forwarding tunnel that acts as a SOCKS proxy. This allows you to route web traffic or other applications through the remote server.",
+ "aliases": [
+  {
+   "text": "ssh socks proxy",
+   "lang": "en"
+  },
+  {
+   "text": "ssh dynamic port forwarding",
+   "lang": "en"
+  },
+  {
+   "text": "ssh -D",
+   "lang": "en"
+  },
+  {
+   "text": "ssh proxy",
+   "lang": "en"
+  },
+  {
+   "text": "ssh socks",
+   "lang": "ru"
+  },
+  {
+   "text": "динамический проброс портов ssh",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh прокси",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh -D proxy",
+   "lang": "en"
+  },
+  {
+   "text": "ssh socks5",
+   "lang": "en"
+  },
+  {
+   "text": "linux ssh tunnel proxy",
+   "lang": "en"
+  },
+  {
+   "text": "ssh прокси socks",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -D flag to create a SOCKS proxy on a local port. Applications configured to use this proxy will route their traffic through the SSH connection.",
+   "cmd": "ssh <USERNAME>@<REMOTE_HOST> -D <LOCAL_PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username on the remote server"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "The hostname or IP address of the remote server"
+    },
+    {
+     "name": "LOCAL_PORT",
+     "description": "The local port to bind the SOCKS proxy to",
+     "example": "1080"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh.md",
+  "title": "tldr-pages: ssh",
+  "license": "CC-BY-4.0"
+ }
+}

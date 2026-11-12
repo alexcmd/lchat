@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-clean-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clean only cached DNF packages",
+ "summary": "Removes downloaded package files that are stored in the cache but keeps the repository metadata. This saves disk space while keeping the list of available updates intact.",
+ "aliases": [
+  {
+   "text": "clean dnf packages",
+   "lang": "en"
+  },
+  {
+   "text": "remove dnf cached packages",
+   "lang": "en"
+  },
+  {
+   "text": "dnf clean packages",
+   "lang": "en"
+  },
+  {
+   "text": "delete downloaded packages dnf",
+   "lang": "en"
+  },
+  {
+   "text": "почистить скачанные пакеты dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf clean packages",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить кэш пакетов fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to remove only the cached package files.",
+   "cmd": "sudo dnf clean packages",
+   "risk": "low",
+   "needs_root": true
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf-clean.md",
+  "title": "tldr-pages: dnf-clean",
+  "license": "CC-BY-4.0"
+ }
+}

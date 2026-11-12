@@ -1,0 +1,232 @@
+{
+ "schema_version": 2,
+ "id": "error-pip-externally-managed",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Install a Python package when pip says externally-managed-environment",
+ "summary": "Ubuntu 24.04 and Debian 12 block pip from installing packages into the system Python. Create a separate virtual environment for the package, then install it there. The system Python stays untouched.",
+ "aliases": [
+  {
+   "text": "externally-managed-environment",
+   "lang": "en"
+  },
+  {
+   "text": "pip externally managed environment ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "pip install error externally managed",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu 24.04 pip install not working",
+   "lang": "en"
+  },
+  {
+   "text": "debian 12 pip refuses to install",
+   "lang": "en"
+  },
+  {
+   "text": "how to pip install on ubuntu 24.04",
+   "lang": "en"
+  },
+  {
+   "text": "externally-managed-environment ошибка pip",
+   "lang": "ru"
+  },
+  {
+   "text": "pip не устанавливает пакеты ubuntu 24.04",
+   "lang": "ru"
+  },
+  {
+   "text": "pip externally managed environment что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить python пакет через pip на ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "pip install не работает debian 12",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "externally-managed-environment",
+  "This environment is externally managed"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu",
+    "min_version": "24.04"
+   },
+   {
+    "family": "debian",
+    "min_version": "12"
+   },
+   {
+    "family": "mint",
+    "min_version": "22"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window on Ubuntu 24.04, Debian 12 or Linux Mint 22",
+  "Your user account can use sudo (it asks for your password)",
+  "An internet connection"
+ ],
+ "steps": [
+  {
+   "explain": "Check which system you have. Ubuntu 24.04 and Debian 12 show their version here, and this card applies to them.",
+   "cmd": "grep PRETTY_NAME /etc/os-release",
+   "risk": "low",
+   "expect": "A line like PRETTY_NAME=\"Ubuntu 24.04 LTS\" or PRETTY_NAME=\"Debian GNU/Linux 12 (bookworm)\"."
+  },
+  {
+   "explain": "Check the Python version. Any Python 3 works here; the venv step below uses the same python3 command.",
+   "cmd": "python3 --version",
+   "risk": "low",
+   "expect": "Python 3.12.x on Ubuntu 24.04, Python 3.11.x on Debian 12."
+  },
+  {
+   "explain": "Look for the marker file that tells pip the system Python is managed by apt. If the file is listed, pip will refuse to install into the system Python.",
+   "cmd": "ls /usr/lib/python3*/EXTERNALLY-MANAGED",
+   "risk": "low",
+   "expect": "A path like /usr/lib/python3.12/EXTERNALLY-MANAGED (python3.11 on Debian 12). If you see No such file, this card's error does not apply to your system."
+  },
+  {
+   "explain": "Refresh the list of available packages so that the next install finds the latest version.",
+   "cmd": "sudo apt-get update",
+   "risk": "medium",
+   "needs_root": true,
+   "expect": "Lines starting with Hit, Get or Reading package lists, and no error at the end."
+  },
+  {
+   "explain": "Install the tool that creates virtual environments. A virtual environment is a private folder with its own Python packages, so nothing goes into the system Python.",
+   "cmd": "sudo apt-get install -y python3-venv",
+   "risk": "medium",
+   "needs_root": true,
+   "expect": "The last lines say Setting up python3-venv, and the command returns to the prompt."
+  },
+  {
+   "explain": "Create a virtual environment in a folder of your choice. Use a folder you own, such as one in your home directory.",
+   "cmd": "python3 -m venv <VENV_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "Folder to create for the virtual environment. It must not exist yet.",
+     "example": "~/venvs/demo",
+     "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+    }
+   ],
+   "expect": "No output. The folder appears with a bin directory inside.",
+   "alternatives": []
+  },
+  {
+   "explain": "Install the package into the virtual environment with its own pip. The system Python is not changed.",
+   "cmd": "<VENV_DIR>/bin/pip install <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "The folder created in the previous step.",
+     "example": "~/venvs/demo",
+     "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+    },
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package on PyPI.",
+     "example": "requests",
+     "discover_cmd": "echo requests"
+    }
+   ],
+   "expect": "A line that starts with Successfully installed and names the package.",
+   "alternatives": [
+    {
+     "explain": "Same install, run through the Python of the virtual environment. Use this if the pip command above is not found.",
+     "cmd": "<VENV_DIR>/bin/python -m pip install <PACKAGE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "VENV_DIR",
+       "description": "The folder created in the previous step.",
+       "example": "~/venvs/demo",
+       "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+      },
+      {
+       "name": "PACKAGE",
+       "description": "Name of the Python package on PyPI.",
+       "example": "requests",
+       "discover_cmd": "echo requests"
+      }
+     ],
+     "expect": "A line that starts with Successfully installed and names the package."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "<VENV_DIR>/bin/pip show <PACKAGE>",
+   "expect": "A block that starts with Name: followed by the package name, and a Version line."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove the package from the virtual environment.",
+   "cmd": "<VENV_DIR>/bin/pip uninstall -y <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "The virtual environment folder.",
+     "example": "~/venvs/demo",
+     "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+    },
+    {
+     "name": "PACKAGE",
+     "description": "Package to remove.",
+     "example": "requests",
+     "discover_cmd": "echo requests"
+    }
+   ],
+   "expect": "Successfully uninstalled <PACKAGE>."
+  },
+  {
+   "explain": "Delete the whole virtual environment folder. Only use the folder you created in this card, and check its name first.",
+   "cmd": "rm -r <VENV_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "The virtual environment folder you created. Double-check the name: this deletes it.",
+     "example": "~/venvs/demo",
+     "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+    }
+   ],
+   "expect": "No output. The folder is gone."
+  },
+  {
+   "explain": "Remove the virtual environment tool if you do not need it. Other programs do not depend on it.",
+   "cmd": "sudo apt-get remove -y python3-venv",
+   "risk": "medium",
+   "needs_root": true,
+   "expect": "The line Removing python3-venv appears, and the command returns to the prompt."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Do not use pip install --break-system-packages or sudo pip install. They write into the system Python, and apt tools that depend on it can break.",
+  "Packages in a virtual environment work only for programs started with that environment's python or pip. Use <VENV_DIR>/bin/python to run your code.",
+  "The rm -r command deletes the folder and everything in it. Check that the path is the venv you created.",
+  "The sudo commands ask for your password and install system packages. Run them only on your own computer."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/python3",
+  "title": "python3 manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

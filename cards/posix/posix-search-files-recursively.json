@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-search-files-recursively",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Search for text in all files within a directory",
+ "summary": "Recursively search through all files in a directory and its subdirectories for a specific pattern. Binary files are ignored by default in this example.",
+ "aliases": [
+  {
+   "text": "search all files in folder",
+   "lang": "en"
+  },
+  {
+   "text": "grep recursive",
+   "lang": "en"
+  },
+  {
+   "text": "find text in directory",
+   "lang": "en"
+  },
+  {
+   "text": "search folder contents",
+   "lang": "en"
+  },
+  {
+   "text": "как найти текст во всех файлах",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск по папке",
+   "lang": "ru"
+  },
+  {
+   "text": "греп рекурсивно",
+   "lang": "ru"
+  },
+  {
+   "text": "найти строку в папке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for a pattern in all files recursively in a directory, ignoring binary files.",
+   "cmd": "grep --recursive --binary-files=without-match \"<SEARCH_PATTERN>\" <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_PATTERN",
+     "description": "The text or regular expression to search for",
+     "example": "TODO"
+    },
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the directory to search",
+     "example": "src/"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/grep.md",
+  "title": "tldr-pages: grep",
+  "license": "CC-BY-4.0"
+ }
+}

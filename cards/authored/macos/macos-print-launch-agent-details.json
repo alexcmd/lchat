@@ -1,0 +1,137 @@
+{
+ "schema_version": 2,
+ "id": "macos-print-launch-agent-details",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show which program a launch agent runs and whether it is loaded",
+ "summary": "Print the details of one background launch agent, found by its label. The output shows the file or program it runs and whether it is currently running or loaded.",
+ "aliases": [
+  {
+   "text": "launchctl print service",
+   "lang": "en"
+  },
+  {
+   "text": "show launch agent details",
+   "lang": "en"
+  },
+  {
+   "text": "which program does launch agent run mac",
+   "lang": "en"
+  },
+  {
+   "text": "is my launch agent loaded on mac",
+   "lang": "en"
+  },
+  {
+   "text": "launch agent info mac",
+   "lang": "en"
+  },
+  {
+   "text": "launchctl print label",
+   "lang": "en"
+  },
+  {
+   "text": "подробности агента запуска launchctl",
+   "lang": "ru"
+  },
+  {
+   "text": "какая программа запускается агентом на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "показать информацию о launch agent",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить загружен ли агент запуска",
+   "lang": "ru"
+  },
+  {
+   "text": "launchctl print какой файл запускается",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Find your user ID number. The launch agent path uses it, and it is usually 501 on the first account of a Mac.",
+   "cmd": "id -u",
+   "risk": "low",
+   "expect": "A single number, for example 501. Your number may be different."
+  },
+  {
+   "explain": "List the loaded launch agents and find the label of the one you want. The label is the third column, usually written like com.example.name. The first column is the process ID, a dash means it is not running.",
+   "cmd": "launchctl list",
+   "risk": "low",
+   "expect": "Three columns: PID, last exit status, label. One row per agent, for example 1234 0 com.example.backup."
+  },
+  {
+   "explain": "Print the details of one agent. Look for the program or arguments lines, which show the file it runs, and for state, which shows running or not running. last exit code shows how the last run ended. The output format can change between macOS versions.",
+   "cmd": "launchctl print gui/<UID>/<LABEL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UID",
+     "description": "Your user ID number from the id -u command",
+     "example": "501",
+     "discover_cmd": "id -u"
+    },
+    {
+     "name": "LABEL",
+     "description": "The label of the launch agent, from the third column of launchctl list",
+     "example": "com.example.backup",
+     "discover_cmd": "launchctl list"
+    }
+   ],
+   "expect": "A long text block that starts with the service name and lists program or arguments, state = running or state = not running, and last exit code.",
+   "alternatives": [
+    {
+     "explain": "Use this form if you are not logged in to the desktop, for example when connected over SSH. The user domain is used instead of the gui domain.",
+     "cmd": "launchctl print user/<UID>/<LABEL>",
+     "placeholders": [
+      {
+       "name": "UID",
+       "description": "Your user ID number from the id -u command",
+       "example": "501",
+       "discover_cmd": "id -u"
+      },
+      {
+       "name": "LABEL",
+       "description": "The label of the launch agent, from the third column of launchctl list",
+       "example": "com.example.backup",
+       "discover_cmd": "launchctl list"
+      }
+     ],
+     "risk": "low",
+     "expect": "The same kind of details block for the agent."
+    },
+    {
+     "explain": "Use this form for a system-wide service, which is usually defined in /Library/LaunchDaemons. Anyone can read the system domain, so no sudo is needed to print it.",
+     "cmd": "launchctl print system/<LABEL>",
+     "placeholders": [
+      {
+       "name": "LABEL",
+       "description": "The label of the system service, from the third column of launchctl list",
+       "example": "com.apple.example",
+       "discover_cmd": "launchctl list"
+      }
+     ],
+     "risk": "low",
+     "expect": "The same kind of details block for the service."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://launchctl",
+  "title": "launchctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "macos-remove-persistent-battery-charge-limit",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove persistent battery charge limit",
+ "summary": "Undo the persistent battery charge limit setting so that the limit no longer applies after reboots.",
+ "aliases": [
+  {
+   "text": "remove battery limit persistence",
+   "lang": "en"
+  },
+  {
+   "text": "unpersist battery charge limit",
+   "lang": "en"
+  },
+  {
+   "text": "bclm unpersist",
+   "lang": "en"
+  },
+  {
+   "text": "undo persistent battery limit",
+   "lang": "en"
+  },
+  {
+   "text": "убрать постоянный лимит заряда",
+   "lang": "ru"
+  },
+  {
+   "text": "отменить сохранение лимита батареи",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The `bclm` tool must be installed.",
+  "A persistent charge limit must have been previously set."
+ ],
+ "steps": [
+  {
+   "explain": "Remove the persistent charge limit setting.",
+   "cmd": "sudo bclm unpersist",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Re-apply the persistent charge limit if needed.",
+   "cmd": "sudo bclm persist",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This modifies system-level power management persistence."
+ ],
+ "see_also": [
+  "macos-persist-battery-charge-limit"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/bclm.md",
+  "title": "tldr-pages: bclm",
+  "license": "CC-BY-4.0"
+ }
+}

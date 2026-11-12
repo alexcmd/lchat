@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "eth-identify-cable",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Identify network port by blinking LEDs",
+ "summary": "Make the LEDs on a network interface blink to help physically identify which port or cable corresponds to a specific interface.",
+ "aliases": [
+  {
+   "text": "blink network led",
+   "lang": "en"
+  },
+  {
+   "text": "identify network port",
+   "lang": "en"
+  },
+  {
+   "text": "ethtool identify",
+   "lang": "en"
+  },
+  {
+   "text": "мигать светодиодом сети",
+   "lang": "ru"
+  },
+  {
+   "text": "найти сетевой порт",
+   "lang": "ru"
+  },
+  {
+   "text": "ethtool -p",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Blink the LEDs on the specified interface for a given number of seconds.",
+   "cmd": "sudo ethtool -p <INTERFACE> <SECONDS>",
+   "risk": "low",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of your network interface.",
+     "example": "eth0",
+     "discover_cmd": "ip link"
+    },
+    {
+     "name": "SECONDS",
+     "description": "Duration in seconds to blink the LEDs.",
+     "example": "10"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ethtool.md",
+  "title": "tldr-pages: ethtool",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "eth-check-driver-status"
+ ]
+}

@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "posix-node-print-version",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print Node.js and dependency versions",
+ "summary": "Quickly check the versions of Node.js and its core dependencies (like V8, OpenSSL) by printing the process.versions object. This is faster than opening the REPL.",
+ "aliases": [
+  {
+   "text": "check node version",
+   "lang": "en"
+  },
+  {
+   "text": "node versions",
+   "lang": "en"
+  },
+  {
+   "text": "print node versions",
+   "lang": "en"
+  },
+  {
+   "text": "node -p process.versions",
+   "lang": "en"
+  },
+  {
+   "text": "узнать версию node",
+   "lang": "ru"
+  },
+  {
+   "text": "версии зависимостей node",
+   "lang": "ru"
+  },
+  {
+   "text": "node print versions",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "node"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --print flag to evaluate and output the result of 'process.versions'.",
+   "cmd": "node --print \"process.versions\"",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Use the short form -p instead of --print.",
+     "cmd": "node -p \"process.versions\""
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/node.md",
+  "title": "tldr-pages: node",
+  "license": "CC-BY-4.0"
+ }
+}

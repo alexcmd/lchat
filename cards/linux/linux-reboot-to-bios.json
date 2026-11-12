@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-reboot-to-bios",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reboot into BIOS/UEFI setup",
+ "summary": "Restart your computer and enter the BIOS or UEFI firmware settings menu. This is useful for changing boot order or hardware settings.",
+ "aliases": [
+  {
+   "text": "reboot to bios",
+   "lang": "en"
+  },
+  {
+   "text": "enter uefi setup",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl reboot firmware",
+   "lang": "en"
+  },
+  {
+   "text": "open bios from linux",
+   "lang": "en"
+  },
+  {
+   "text": "перезагрузить в биос",
+   "lang": "ru"
+  },
+  {
+   "text": "войти в uefi",
+   "lang": "ru"
+  },
+  {
+   "text": "настройки биос из линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command reboots the system and instructs the firmware to enter the setup menu on the next boot.",
+   "cmd": "systemctl reboot --firmware-setup",
+   "risk": "medium",
+   "needs_root": false
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no command to cancel a reboot once initiated. Save your work before running this.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "All unsaved work will be lost.",
+  "Requires UEFI firmware support."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-reboot.md",
+  "title": "tldr-pages: systemctl-reboot",
+  "license": "CC-BY-4.0"
+ }
+}

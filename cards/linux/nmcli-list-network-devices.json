@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "nmcli-list-network-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List network devices and status",
+ "summary": "Display a list of all network interfaces and their current connection status.",
+ "aliases": [
+  {
+   "text": "list network devices",
+   "lang": "en"
+  },
+  {
+   "text": "show network interfaces",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli device list",
+   "lang": "en"
+  },
+  {
+   "text": "network status",
+   "lang": "en"
+  },
+  {
+   "text": "список сетевых устройств",
+   "lang": "ru"
+  },
+  {
+   "text": "показать сетевые интерфейсы",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli device",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all network devices and their current status.",
+   "cmd": "nmcli device",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-device.md",
+  "title": "tldr-pages: nmcli-device",
+  "license": "CC-BY-4.0"
+ }
+}

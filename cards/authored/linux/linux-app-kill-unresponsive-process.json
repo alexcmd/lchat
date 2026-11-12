@@ -1,0 +1,204 @@
+{
+ "schema_version": 2,
+ "id": "linux-app-kill-unresponsive-process",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Force-close a frozen program from the terminal",
+ "summary": "Find the process ID of the frozen program, ask it to stop normally, and only if it stays open, force it to stop. Forcing a program to stop can lose unsaved work.",
+ "aliases": [
+  {
+   "text": "linux app not responding force close",
+   "lang": "en"
+  },
+  {
+   "text": "kill frozen program linux",
+   "lang": "en"
+  },
+  {
+   "text": "force quit app linux terminal",
+   "lang": "en"
+  },
+  {
+   "text": "linux program froze how to close it",
+   "lang": "en"
+  },
+  {
+   "text": "kill unresponsive process linux",
+   "lang": "en"
+  },
+  {
+   "text": "end task linux",
+   "lang": "en"
+  },
+  {
+   "text": "линукс программа зависла как закрыть",
+   "lang": "ru"
+  },
+  {
+   "text": "убить зависший процесс linux",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительно закрыть программу linux терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "линукс программа не отвечает закрыть",
+   "lang": "ru"
+  },
+  {
+   "text": "диспетчер задач linux завершить задачу",
+   "lang": "ru"
+  },
+  {
+   "text": "убить процесс по имени линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window open",
+  "The name of the frozen program"
+ ],
+ "steps": [
+  {
+   "explain": "Find the process ID (PID) of the frozen program. The search matches the program name and its full command line.",
+   "cmd": "pgrep -fl <PROGRAM_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM_NAME",
+     "description": "Part of the frozen program's name, as shown in the process list",
+     "example": "firefox",
+     "discover_cmd": "ps -eo comm"
+    }
+   ],
+   "expect": "One line per match, such as '1234 firefox'. The first number is the process ID. No output means nothing matched: try another part of the name.",
+   "alternatives": [
+    {
+     "explain": "Match only the exact process name. This avoids unrelated programs that contain the same word.",
+     "cmd": "pgrep -x <PROGRAM_NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROGRAM_NAME",
+       "description": "Exact process name of the frozen program",
+       "example": "firefox",
+       "discover_cmd": "ps -eo comm"
+      }
+     ],
+     "expect": "Only the process IDs are printed, one per line, for processes named exactly this."
+    }
+   ]
+  },
+  {
+   "explain": "Ask the program to close itself with the normal stop signal (SIGTERM). It can save its data and exit cleanly. Wait about 10 seconds before the next step.",
+   "cmd": "kill <PROCESS_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_ID",
+     "description": "Process ID of the frozen program from step 1",
+     "example": "1234",
+     "discover_cmd": "ps -eo pid,comm"
+    }
+   ],
+   "expect": "Nothing is printed when the signal is sent. A frozen program may ignore it."
+  },
+  {
+   "explain": "Check whether the program has closed. No output means it is gone. A line with its name means it is still running.",
+   "cmd": "pgrep -fl <PROGRAM_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM_NAME",
+     "description": "Part of the frozen program's name, as in step 1",
+     "example": "firefox",
+     "discover_cmd": "ps -eo comm"
+    }
+   ],
+   "expect": "No output: the program closed, so skip step 4 and go to step 5. A line is printed: the program is still running, so go on to step 4."
+  },
+  {
+   "explain": "Only if the program is still running: force it to stop with the SIGKILL signal. The program cannot save anything, so its unsaved work is lost.",
+   "cmd": "kill -9 <PROCESS_ID>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PROCESS_ID",
+     "description": "Process ID of the frozen program from step 1",
+     "example": "1234",
+     "discover_cmd": "ps -eo pid,comm"
+    }
+   ],
+   "expect": "Nothing is printed. The program stops at once. A shell may print a line ending in 'Killed' for a job it started itself.",
+   "alternatives": [
+    {
+     "explain": "The same forced stop, written with the signal name after -s instead of its number.",
+     "cmd": "kill -s KILL <PROCESS_ID>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PROCESS_ID",
+       "description": "Process ID of the frozen program from step 1",
+       "example": "1234",
+       "discover_cmd": "ps -eo pid,comm"
+      }
+     ],
+     "expect": "Nothing is printed. The program stops at once."
+    }
+   ]
+  },
+  {
+   "explain": "Check again that the program is gone.",
+   "cmd": "pgrep -fl <PROGRAM_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM_NAME",
+     "description": "Part of the frozen program's name, as in step 1",
+     "example": "firefox",
+     "discover_cmd": "ps -eo comm"
+    }
+   ],
+   "expect": "No output: the program has stopped. If its line is still printed, see the warnings."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Nothing to undo: the program is closed. Start it again from the application menu, or type its name in the terminal. Unsaved changes are not recovered.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Unsaved work in the program is lost when it is forced to stop. Try step 2 first, and save your work if the program still responds.",
+  "Check the process ID from step 1 before you kill it. A wrong ID can close another program or the desktop itself.",
+  "A program waiting for the disk or the network (process state D) cannot be stopped even with kill -9. Restart the computer in that case.",
+  "Programs run by another user, such as root, need administrator rights (sudo). This card covers only your own programs."
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://manpages.debian.org/kill",
+  "title": "kill manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

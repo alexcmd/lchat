@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "usb-mount-write-users",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount USB drive with write access for regular users",
+ "summary": "By default, mounting a USB drive as root might restrict write access to other users. This command mounts the drive with specific options to allow regular users to write to it.",
+ "aliases": [
+  {
+   "text": "mount usb write access",
+   "lang": "en"
+  },
+  {
+   "text": "usb read only fix",
+   "lang": "en"
+  },
+  {
+   "text": "allow write usb linux",
+   "lang": "en"
+  },
+  {
+   "text": "mount usb as user",
+   "lang": "en"
+  },
+  {
+   "text": "флешка только чтение",
+   "lang": "ru"
+  },
+  {
+   "text": "запись на флешку",
+   "lang": "ru"
+  },
+  {
+   "text": "монтировать usb с правами",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You know the device path (e.g., /dev/sdb1) and the mount point (e.g., /mnt/usb)."
+ ],
+ "steps": [
+  {
+   "explain": "Mount the USB device with options that set the group to 'users' and file/directory masks to allow write access for group members. Replace <DEVICE> with your USB partition and <MOUNT_POINT> with the directory where you want to access the files.",
+   "cmd": "sudo mount -o gid=users,fmask=113,dmask=002 <DEVICE> <MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The USB partition device path",
+     "example": "/dev/sdb1",
+     "discover_cmd": "lsblk"
+    },
+    {
+     "name": "MOUNT_POINT",
+     "description": "The directory to mount the USB drive to",
+     "example": "/mnt/usb"
+    }
+   ],
+   "expect": "The command completes without error. You can now create files in <MOUNT_POINT> as a regular user."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure the mount point directory exists before running the command.",
+  "If the file system is read-only (e.g., NTFS without proper drivers), this command will not enable writing."
+ ],
+ "rollback": [
+  {
+   "explain": "Unmount the drive to revert the changes.",
+   "risk": "low"
+  }
+ ],
+ "see_also": [
+  "arch-install-mount-filesystems"
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/USB_storage_devices#Allow_writing_by_regular_users",
+  "title": "USB storage devices",
+  "revision_id": 880630,
+  "license": "GFDL-1.3-or-later"
+ }
+}

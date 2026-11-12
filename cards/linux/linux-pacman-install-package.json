@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-install-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install a new package on Arch Linux",
+ "summary": "Install a specific software package from the official repositories. This command also installs any required dependencies automatically.",
+ "aliases": [
+  {
+   "text": "install package arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman install",
+   "lang": "en"
+  },
+  {
+   "text": "add software arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет арх",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить программу в арх",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman -S",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the specified package. Replace <PACKAGE_NAME> with the name of the software you want to install.",
+   "cmd": "sudo pacman -S <PACKAGE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the package to install",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package and its dependencies that were installed with it.",
+   "cmd": "sudo pacman -Rs <PACKAGE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the package to remove",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing packages requires administrator privileges."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman.md",
+  "title": "tldr-pages: pacman",
+  "license": "CC-BY-4.0"
+ }
+}

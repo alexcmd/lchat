@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-file-creator",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get the creator application of a file",
+ "summary": "Use the GetFileInfo command with the -c flag to see which application created the file.",
+ "aliases": [
+  {
+   "text": "file creator app",
+   "lang": "en"
+  },
+  {
+   "text": "which app created file",
+   "lang": "en"
+  },
+  {
+   "text": "get file creator",
+   "lang": "en"
+  },
+  {
+   "text": "кто создал файл",
+   "lang": "ru"
+  },
+  {
+   "text": "программа создавшая файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run GetFileInfo with the -c flag and the file path to display the creator code (application) of the file.",
+   "cmd": "GetFileInfo -c <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to check.",
+     "example": "~/Documents/report.pdf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/getfileinfo.md",
+  "title": "tldr-pages: getfileinfo",
+  "license": "CC-BY-4.0"
+ }
+}

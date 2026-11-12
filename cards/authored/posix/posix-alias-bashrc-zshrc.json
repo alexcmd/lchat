@@ -1,0 +1,133 @@
+{
+ "schema_version": 2,
+ "id": "posix-alias-bashrc-zshrc",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Make a permanent alias in .bashrc or .zshrc",
+ "summary": "An alias is a short name for a longer command. Writing it into your shell's startup file (.zshrc for zsh, .bashrc for bash) makes it work every time you open a terminal.",
+ "aliases": [
+  {
+   "text": "permanent alias bashrc",
+   "lang": "en"
+  },
+  {
+   "text": "make alias permanent zsh",
+   "lang": "en"
+  },
+  {
+   "text": "alias ll ls -lah",
+   "lang": "en"
+  },
+  {
+   "text": "alias disappears after restart",
+   "lang": "en"
+  },
+  {
+   "text": "save alias after closing terminal",
+   "lang": "en"
+  },
+  {
+   "text": "zshrc alias",
+   "lang": "en"
+  },
+  {
+   "text": "bashrc alias ll",
+   "lang": "en"
+  },
+  {
+   "text": "постоянный алиас в bashrc",
+   "lang": "ru"
+  },
+  {
+   "text": "алиас в zshrc",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать алиас навсегда",
+   "lang": "ru"
+  },
+  {
+   "text": "алиас пропадает после перезагрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "как добавить алиас в терминал мак",
+   "lang": "ru"
+  },
+  {
+   "text": "короткая команда ll в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal is open",
+  "Know which shell you use: zsh is the default on macOS, bash is common on Linux"
+ ],
+ "steps": [
+  {
+   "explain": "Check which shell you use. If the output ends with zsh, use ~/.zshrc. If it ends with bash, use ~/.bashrc.",
+   "cmd": "echo \"$SHELL\"",
+   "expect": "/bin/zsh on a default macOS, or /bin/bash on many Linux systems.",
+   "risk": "low"
+  },
+  {
+   "explain": "Append the alias to the end of ~/.zshrc. The >> arrows add a line and keep the rest of the file.",
+   "cmd": "echo \"alias ll='ls -lah'\" >> ~/.zshrc",
+   "expect": "No output. The file is created if it does not exist yet.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "If you use bash, append the same line to ~/.bashrc instead.",
+     "cmd": "echo \"alias ll='ls -lah'\" >> ~/.bashrc"
+    }
+   ]
+  },
+  {
+   "explain": "Reload the file in the current terminal so the alias works right away. Opening a new terminal window also loads it.",
+   "cmd": "source ~/.zshrc",
+   "expect": "No output.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Reload the bash file if you added the alias to ~/.bashrc.",
+     "cmd": "source ~/.bashrc"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "type ll",
+   "expect": "bash: 'll is aliased to `ls -lah'' ; zsh: 'll is an alias for ls -lah'"
+  },
+  {
+   "cmd": "ll",
+   "expect": "A long list of the current folder, including hidden files whose names start with a dot."
+  }
+ ],
+ "risk": "low",
+ "rollback": [
+  {
+   "explain": "Open ~/.zshrc or ~/.bashrc in a text editor, delete the line that starts with alias ll=, save the file, then run source on that file again.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Use >> (two arrows), not > (one arrow). A single > replaces the whole file and deletes everything else in it.",
+  "Running the echo step twice adds the alias twice. This is harmless but messy; remove the extra line in the rollback step.",
+  "If ll already exists in the file, for example the default Ubuntu ~/.bashrc has alias ll='ls -alF', the line added at the end overrides it."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

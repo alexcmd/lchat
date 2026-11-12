@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-rsync-copy-dir-contents",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy directory contents without the directory itself",
+ "summary": "Copy the files inside a folder to another location, but do not create the source folder name in the destination. This is done by adding a trailing slash to the source path.",
+ "aliases": [
+  {
+   "text": "rsync copy contents only",
+   "lang": "en"
+  },
+  {
+   "text": "rsync trailing slash",
+   "lang": "en"
+  },
+  {
+   "text": "copy files inside folder rsync",
+   "lang": "en"
+  },
+  {
+   "text": "rsync sync folder contents",
+   "lang": "en"
+  },
+  {
+   "text": "rsync перенести содержимое папки",
+   "lang": "ru"
+  },
+  {
+   "text": "rsync слэш в конце",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать файлы из папки rsync",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Recursively copy the contents of the source directory to the destination. The trailing slash on the source ensures only the contents are copied, not the directory itself.",
+   "cmd": "rsync --recursive <SOURCE>/ <DESTINATION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE",
+     "description": "Path to the source directory (note the trailing slash)",
+     "example": "~/Documents"
+    },
+    {
+     "name": "DESTINATION",
+     "description": "Path to the destination directory",
+     "example": "/Volumes/Backup"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rsync.md",
+  "title": "tldr-pages: rsync",
+  "license": "CC-BY-4.0"
+ }
+}

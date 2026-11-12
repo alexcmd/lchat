@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-eject-toggle-tray",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Open or close the CD/DVD tray",
+ "summary": "Toggle the state of a CD/DVD drive's tray. If it is closed, it opens; if it is open, it closes.",
+ "aliases": [
+  {
+   "text": "open cd tray",
+   "lang": "en"
+  },
+  {
+   "text": "close cd tray",
+   "lang": "en"
+  },
+  {
+   "text": "toggle tray",
+   "lang": "en"
+  },
+  {
+   "text": "eject tray",
+   "lang": "en"
+  },
+  {
+   "text": "открыть лоток диска",
+   "lang": "ru"
+  },
+  {
+   "text": "закрыть лоток диска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Toggle the tray state for the specified device. Use /dev/cdrom for the default CD drive.",
+   "cmd": "eject --traytoggle <DEVICE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_PATH",
+     "description": "The path to the CD/DVD drive.",
+     "example": "/dev/cdrom"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/eject.md",
+  "title": "tldr-pages: eject",
+  "license": "CC-BY-4.0"
+ }
+}

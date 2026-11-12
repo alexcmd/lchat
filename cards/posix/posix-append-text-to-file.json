@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-append-text-to-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Append a text message to a file",
+ "summary": "Add a line of text to the end of an existing file without overwriting its current content. This is useful for adding notes or configuration lines to text files.",
+ "aliases": [
+  {
+   "text": "append text to file",
+   "lang": "en"
+  },
+  {
+   "text": "add line to end of file",
+   "lang": "en"
+  },
+  {
+   "text": "echo append to file",
+   "lang": "en"
+  },
+  {
+   "text": "write to file without overwriting",
+   "lang": "en"
+  },
+  {
+   "text": "добавить текст в конец файла",
+   "lang": "ru"
+  },
+  {
+   "text": "дописать строку в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "echo в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "как добавить текст в файл не удаляя старый",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the echo command with the double greater-than operator (>>) to append the text to the specified file. If the file does not exist, it will be created.",
+   "cmd": "echo \"<TEXT>\" >> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TEXT",
+     "description": "The text message to append",
+     "example": "New line"
+    },
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to modify",
+     "example": "notes.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/echo.md",
+  "title": "tldr-pages: echo",
+  "license": "CC-BY-4.0"
+ }
+}

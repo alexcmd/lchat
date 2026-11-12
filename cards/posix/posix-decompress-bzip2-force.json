@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-decompress-bzip2-force",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Decompress .bz2 overwriting existing files",
+ "summary": "Force bzip2 to decompress a file even if the original file already exists. This overwrites the existing file.",
+ "aliases": [
+  {
+   "text": "force decompress bz2",
+   "lang": "en"
+  },
+  {
+   "text": "overwrite bz2 extract",
+   "lang": "en"
+  },
+  {
+   "text": "bzip2 force extract",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать bz2 перезаписав",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительно распаковать bzip2",
+   "lang": "ru"
+  },
+  {
+   "text": "перезаписать при распаковке bz2",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -f flag to force decompression, overwriting any existing file with the same name.",
+   "cmd": "bzip2 -f <FILE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .bz2 file to decompress",
+     "example": "document.txt.bz2"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo for overwriting. Restore from backup if available.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This will overwrite existing files with the same name without asking."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/bzip2.md",
+  "title": "tldr-pages: bzip2",
+  "license": "CC-BY-4.0"
+ }
+}

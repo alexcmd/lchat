@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-kernel-messages-paged",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View kernel messages page by page",
+ "summary": "Display kernel messages in a paginated view using 'less', allowing you to scroll through the output one screen at a time. This is helpful when the log is too long to read in one go.",
+ "aliases": [
+  {
+   "text": "view kernel messages page by page",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg less",
+   "lang": "en"
+  },
+  {
+   "text": "scroll kernel logs",
+   "lang": "en"
+  },
+  {
+   "text": "read dmesg slowly",
+   "lang": "en"
+  },
+  {
+   "text": "kernel messages pager",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg | less",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть сообщения ядра постранично",
+   "lang": "ru"
+  },
+  {
+   "text": "dmesg less",
+   "lang": "ru"
+  },
+  {
+   "text": "листать логи ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "читать dmesg постранично",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of dmesg to 'less' to view the messages interactively, one page at a time.",
+   "cmd": "dmesg | less",
+   "risk": "low",
+   "expect": "The terminal enters a pager mode showing the first page of kernel messages. Use arrow keys to scroll and 'q' to quit."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dmesg.md",
+  "title": "tldr-pages: dmesg",
+  "license": "CC-BY-4.0"
+ }
+}

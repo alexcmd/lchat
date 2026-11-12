@@ -1,0 +1,127 @@
+{
+ "schema_version": 2,
+ "id": "macos-find-installed-app",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find where an app is installed on the Mac",
+ "summary": "List the apps in the Applications folders and search for one by part of its name to see where it is installed. Nothing is opened or changed.",
+ "aliases": [
+  {
+   "text": "where is my app installed on mac",
+   "lang": "en"
+  },
+  {
+   "text": "find app location on mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac find installed application path",
+   "lang": "en"
+  },
+  {
+   "text": "where are installed programs on macos",
+   "lang": "en"
+  },
+  {
+   "text": "ls applications mac",
+   "lang": "en"
+  },
+  {
+   "text": "find app by name in terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "где находится установленное приложение на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "найти где установлена программа mac",
+   "lang": "ru"
+  },
+  {
+   "text": "где лежит приложение на macbook",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти приложение по части названия mac",
+   "lang": "ru"
+  },
+  {
+   "text": "где эпликейшнс на маке",
+   "lang": "ru"
+  }
+ ],
+ "prerequisites": [
+  "Know a part of the app name"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos",
+    "min_version": "13"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the apps in the main Applications folder. Each app appears as a name ending in .app. Look for the app name in this list; if it is not here, try the alternatives.",
+   "cmd": "ls /Applications",
+   "gui": "In Finder press Shift-Command-A to open the Applications folder, or choose Go > Applications from the menu bar.",
+   "risk": "low",
+   "expect": "A list of names ending in .app, for example Safari.app.",
+   "alternatives": [
+    {
+     "explain": "Show apps installed only for your own user account. The tilde (~) stands for your home folder.",
+     "cmd": "ls ~/Applications",
+     "risk": "low",
+     "expect": "A list of .app names, or 'No such file or directory' if this folder does not exist on your Mac."
+    },
+    {
+     "explain": "Show the built-in Apple apps, which are kept in the system Applications folder.",
+     "cmd": "ls /System/Applications",
+     "risk": "low",
+     "expect": "Built-in apps ending in .app, such as Calculator.app."
+    }
+   ]
+  },
+  {
+   "explain": "Show only the entries whose names contain the text you type. The -i option ignores upper and lower case. No output means no app with that name is in /Applications.",
+   "cmd": "ls /Applications | grep -i \"<APP_NAME_PART>\"",
+   "placeholders": [
+    {
+     "name": "APP_NAME_PART",
+     "description": "Part of the app name, any letter case",
+     "example": "safari",
+     "discover_cmd": "ls /Applications"
+    }
+   ],
+   "risk": "low",
+   "expect": "The matching app names, for example Safari.app. Nothing is printed if no app matches.",
+   "alternatives": [
+    {
+     "explain": "Search the whole Mac with Spotlight, not only the Applications folder, and print the full path of each match. Results can be empty if Spotlight indexing is turned off.",
+     "cmd": "mdfind -name \"<APP_NAME_PART>.app\"",
+     "placeholders": [
+      {
+       "name": "APP_NAME_PART",
+       "description": "Part of the app name, any letter case",
+       "example": "safari",
+       "discover_cmd": "ls /Applications"
+      }
+     ],
+     "risk": "low",
+     "expect": "Full paths such as /Applications/Safari.app. Paths outside /Applications show apps kept in other folders."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-open-app-by-name"
+ ],
+ "source": {
+  "url": "x-man-page://ls",
+  "title": "ls manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

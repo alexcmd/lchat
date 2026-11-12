@@ -1,0 +1,148 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-mark-hold-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Prevent a package from updating",
+ "summary": "Use apt-mark to hold a package at its current version. This stops the package manager from upgrading it, which is useful if a new version breaks your software.",
+ "aliases": [
+  {
+   "text": "stop package update",
+   "lang": "en"
+  },
+  {
+   "text": "hold package version",
+   "lang": "en"
+  },
+  {
+   "text": "prevent apt upgrade specific package",
+   "lang": "en"
+  },
+  {
+   "text": "lock package version",
+   "lang": "en"
+  },
+  {
+   "text": "apt-mark hold",
+   "lang": "en"
+  },
+  {
+   "text": "остановить обновление пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "зафиксировать версию пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-mark hold пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "не обновлять пакет apt",
+   "lang": "ru"
+  },
+  {
+   "text": "aptitude hold",
+   "lang": "en"
+  },
+  {
+   "text": "prevent package upgrade aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "freeze package version aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "зафиксировать пакет aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "не обновлять пакет aptitude",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the exact name of the package you want to hold."
+ ],
+ "steps": [
+  {
+   "explain": "Mark the package as 'held' so apt will not upgrade it.",
+   "cmd": "sudo apt-mark hold <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to hold.",
+     "example": "firefox",
+     "discover_cmd": "apt list --installed"
+    }
+   ],
+   "expect": "The command outputs '<PACKAGE> on hold.'",
+   "alternatives": [
+    {
+     "explain": "Puts an installed package on hold to prevent it from being automatically upgraded.",
+     "cmd": "sudo aptitude hold '?installed(<PACKAGE>)'",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "The name of the installed package to hold",
+       "example": "vim"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "apt-mark showhold",
+   "expect": "The package name appears in the list."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove the hold to allow the package to update again.",
+   "cmd": "sudo apt-mark unhold <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to unhold.",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Holding a package prevents security updates for that specific package. Only hold packages if you have a specific reason."
+ ],
+ "see_also": [
+  "linux-apt-upgrade-all-packages",
+  "linux-apt-list-installed-packages"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-mark.md",
+  "title": "tldr-pages: apt-mark",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "schema_version": 2,
+ "id": "macos-run-container-interactive",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run a container interactively",
+ "summary": "Starts a container from an image and opens an interactive shell inside it. The container is automatically removed when you exit.",
+ "aliases": [
+  {
+   "text": "run container mac",
+   "lang": "en"
+  },
+  {
+   "text": "container run interactive",
+   "lang": "en"
+  },
+  {
+   "text": "open shell in container",
+   "lang": "en"
+  },
+  {
+   "text": "запустить контейнер интерактивно",
+   "lang": "ru"
+  },
+  {
+   "text": "container run sh",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Runs a container from the specified image with an interactive terminal. The --rm flag ensures the container is deleted after it stops.",
+   "cmd": "container run --rm --interactive --tty <IMAGE> sh",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IMAGE",
+     "description": "The name of the container image to run (e.g., ubuntu, alpine)."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/container.md",
+  "title": "tldr-pages: container",
+  "license": "CC-BY-4.0"
+ }
+}

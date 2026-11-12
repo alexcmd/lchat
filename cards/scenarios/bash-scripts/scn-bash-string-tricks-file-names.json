@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-string-tricks-file-names",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Cut, replace and change parts of file names in a bash script",
+  "summary": "Shows the bash shortcuts for working with text: remove the extension, read the extension, replace spaces, change upper and lower case. The script only prints the results and renames nothing.",
+  "aliases": [
+    {
+      "text": "bash string manipulation",
+      "lang": "en"
+    },
+    {
+      "text": "remove extension from a variable bash",
+      "lang": "en"
+    },
+    {
+      "text": "replace spaces with underscore in bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash cut file extension",
+      "lang": "en"
+    },
+    {
+      "text": "bash rename files script string",
+      "lang": "en"
+    },
+    {
+      "text": "bash parameter expansion examples",
+      "lang": "en"
+    },
+    {
+      "text": "убрать расширение файла в переменной bash",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт заменяет пробелы на подчёркивания в именах файлов",
+      "lang": "ru"
+    },
+    {
+      "text": "bash строки подстановка ${var%.*}",
+      "lang": "ru"
+    },
+    {
+      "text": "как поменять расширение файла в bash",
+      "lang": "ru"
+    },
+    {
+      "text": "bash заменить все пробелы в строке",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "rename-tidy.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "rename-tidy.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "rename-tidy.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Run the script on three names: one with spaces and a capital extension, one plain file, and one with no extension.",
+      "risk": "low",
+      "cmd": "./<FILE> 'My Holiday Photo.JPG' notes.txt README; echo exit code $?",
+      "expect": "without extension: My Holiday Photo, no spaces: My_Holiday_Photo.JPG, extension upper: notes.TXT, .txt changed to .md: notes.md, extension: (none) for README, then exit code 0",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "rename-tidy.sh"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "${name%.*} works only on the text you give it. It does not check that the file exists on disk.",
+    "A name that starts with a dot, such as .bashrc, loses its name part with ${name%.*}. Check for that case if your names can start with a dot.",
+    "${var/a/b} replaces only the first match, while ${var//a/b} replaces every match. Use the double slash for spaces."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "rename-tidy.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# rename-tidy.sh - shows bash string tricks on file names. It only prints; nothing is renamed.\n# Usage: ./rename-tidy.sh FILE [FILE...]\n\nset -euo pipefail\n\nif (( $# == 0 )); then\n    echo \"usage: $0 FILE [FILE...]\" >&2\n    exit 2\nfi\n\nfor path in \"$@\"; do\n    name=${path##*/}              # remove the folder part: keep what follows the last /\n    stem=${name%.*}               # remove the shortest \".something\" at the end\n    ext=\"\"\n    if [[ $name == *.* ]]; then\n        ext=${name##*.}           # keep only what follows the last dot\n    fi\n    no_spaces=${name// /_}        # ${var//a/b}: replace EVERY space with _\n    new_name=${name/%.txt/.md}    # ${var/%a/b}: replace .txt only at the END of the name\n    shouting=$stem\n    if [[ -n $ext ]]; then\n        shouting=$stem.${ext^^}   # ${var^^}: upper case (bash 4 or newer)\n    fi\n\n    echo \"== $path\"\n    printf '  name without folder: %s\\n' \"$name\"\n    printf '  without extension:   %s\\n' \"$stem\"\n    printf '  extension:           %s\\n' \"${ext:-(none)}\"\n    printf '  no spaces:           %s\\n' \"$no_spaces\"\n    printf '  extension upper:     %s\\n' \"$shouting\"\n    printf '  .txt changed to .md: %s\\n' \"$new_name\"\ndone\n",
+    "usage": "./rename-tidy.sh FILE [FILE...]"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

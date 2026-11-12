@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "posix-count-file-words",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Count the number of words in a file",
+ "summary": "Use the wc command to count words in a text file. This helps estimate document length or check word counts for assignments.",
+ "aliases": [
+  {
+   "text": "count words in file",
+   "lang": "en"
+  },
+  {
+   "text": "how many words in file",
+   "lang": "en"
+  },
+  {
+   "text": "wc words",
+   "lang": "en"
+  },
+  {
+   "text": "word count file",
+   "lang": "en"
+  },
+  {
+   "text": "count words",
+   "lang": "en"
+  },
+  {
+   "text": "сколько слов в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать слова в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "wc -w",
+   "lang": "ru"
+  },
+  {
+   "text": "количество слов в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько слов",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать слова",
+   "lang": "ru"
+  },
+  {
+   "text": "wc w",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wc with the --words flag followed by the path to your file. This prints the number of whitespace-separated words.",
+   "cmd": "wc -w <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to count words in",
+     "example": "essay.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag -w instead of --words.",
+     "cmd": "wc -w <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the text file you want to count words in",
+       "example": "essay.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wc.md",
+  "title": "tldr-pages: wc",
+  "license": "CC-BY-4.0"
+ }
+}

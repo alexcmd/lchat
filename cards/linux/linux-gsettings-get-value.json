@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-gsettings-get-value",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Get the current value of a GNOME setting",
+ "summary": "Use gsettings to check the current value of a specific GNOME configuration key. If the key hasn't been changed from its default, it shows the default value.",
+ "aliases": [
+  {
+   "text": "check gnome setting value",
+   "lang": "en"
+  },
+  {
+   "text": "gsettings get",
+   "lang": "en"
+  },
+  {
+   "text": "how to see current gnome config",
+   "lang": "en"
+  },
+  {
+   "text": "проверить значение настройки gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "gsettings get значение",
+   "lang": "ru"
+  },
+  {
+   "text": "какое сейчас значение настройки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "cinnamon",
+   "mate"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the value of a specific key within a schema. Replace the placeholders with the actual schema ID (e.g., org.gnome.desktop.interface) and key name (e.g., gtk-theme).",
+   "cmd": "gsettings get <SCHEMA_ID> <KEY_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCHEMA_ID",
+     "description": "The schema ID, e.g., org.gnome.desktop.interface",
+     "example": "org.gnome.desktop.interface"
+    },
+    {
+     "name": "KEY_NAME",
+     "description": "The key name, e.g., gtk-theme",
+     "example": "gtk-theme"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gsettings.md",
+  "title": "tldr-pages: gsettings",
+  "license": "CC-BY-4.0"
+ }
+}

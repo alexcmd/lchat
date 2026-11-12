@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "linux-stop-system-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Stop a system service",
+ "summary": "Stop a running system service or unit. This is useful when you need to temporarily halt a background process like a web server or database.",
+ "aliases": [
+  {
+   "text": "stop service",
+   "lang": "en"
+  },
+  {
+   "text": "stop systemd unit",
+   "lang": "en"
+  },
+  {
+   "text": "stop background process",
+   "lang": "en"
+  },
+  {
+   "text": "остановить службу",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить сервис",
+   "lang": "ru"
+  },
+  {
+   "text": "stop nginx",
+   "lang": "en"
+  },
+  {
+   "text": "stop apache",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Stop the specified system unit. You need to know the exact name of the service (e.g., nginx.service).",
+   "cmd": "sudo systemctl stop <UNIT>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "UNIT",
+     "description": "The name of the systemd unit or service to stop.",
+     "example": "nginx.service",
+     "discover_cmd": "systemctl list-units --type=service"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Start the service again to restore its previous state. Note: The start command is not on this page, so consult the systemctl start documentation or use your desktop's service manager.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Stopping a critical system service may disrupt your desktop environment or network connectivity.",
+  "The service will not start automatically on reboot unless it is enabled."
+ ],
+ "see_also": [
+  "linux-check-service-status",
+  "linux-systemctl-manage-service",
+  "linux-filter-systemd-units-by-state"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-stop.md",
+  "title": "tldr-pages: systemctl-stop",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-timeshift-list-snapshots",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List available Timeshift snapshots",
+ "summary": "View a list of all system restore points (snapshots) created by Timeshift. This helps you see what backups are available before restoring or deleting them.",
+ "aliases": [
+  {
+   "text": "list timeshift snapshots",
+   "lang": "en"
+  },
+  {
+   "text": "show timeshift backups",
+   "lang": "en"
+  },
+  {
+   "text": "check timeshift history",
+   "lang": "en"
+  },
+  {
+   "text": "timeshift list",
+   "lang": "en"
+  },
+  {
+   "text": "какие есть снапшоты timeshift",
+   "lang": "ru"
+  },
+  {
+   "text": "список бэкапов timeshift",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть точки восстановления",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Timeshift is installed and configured"
+ ],
+ "steps": [
+  {
+   "explain": "List all existing snapshots created by Timeshift.",
+   "cmd": "sudo timeshift --list",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/timeshift.md",
+  "title": "tldr-pages: timeshift",
+  "license": "CC-BY-4.0"
+ }
+}

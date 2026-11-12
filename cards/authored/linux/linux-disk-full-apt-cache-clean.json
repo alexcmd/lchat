@@ -1,0 +1,118 @@
+{
+ "schema_version": 2,
+ "id": "linux-disk-full-apt-cache-clean",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Free space from the apt package cache",
+ "summary": "apt keeps copies of downloaded package files in a cache folder that can grow to gigabytes. You can check its size, clear it, and preview what autoremove would delete. apt downloads the files again if they are needed later.",
+ "aliases": [
+  {
+   "text": "disk full apt cache",
+   "lang": "en"
+  },
+  {
+   "text": "free disk space apt cache",
+   "lang": "en"
+  },
+  {
+   "text": "clean apt cache",
+   "lang": "en"
+  },
+  {
+   "text": "apt clean",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu disk full apt",
+   "lang": "en"
+  },
+  {
+   "text": "how much space apt cache takes",
+   "lang": "en"
+  },
+  {
+   "text": "delete downloaded deb packages",
+   "lang": "en"
+  },
+  {
+   "text": "место на диске apt кэш",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить кэш apt",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место ubuntu apt",
+   "lang": "ru"
+  },
+  {
+   "text": "диск заполнен apt кэш",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить скачанные deb пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "освободить место после apt",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Administrator password (sudo) for the cleaning steps"
+ ],
+ "steps": [
+  {
+   "explain": "Check how much disk space the apt download cache uses. This is read-only and changes nothing. A large size such as several gigabytes means cleaning will free that much. 'No such file or directory' means the folder does not exist, so there is nothing to clean.",
+   "cmd": "du -sh /var/cache/apt/archives",
+   "needs_root": false,
+   "risk": "low",
+   "expect": "One line with a size and the path, e.g. '8.0K    /var/cache/apt/archives' on a fresh system or '1.2G    /var/cache/apt/archives' when the cache is full."
+  },
+  {
+   "explain": "Delete all downloaded package files (.deb) from the apt cache. Installed programs are not affected. apt downloads a package again if you install it later.",
+   "cmd": "sudo apt clean",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Usually no output. A line 'WARNING: apt does not have a stable CLI interface' may appear first; it is harmless."
+  },
+  {
+   "explain": "Preview which packages apt would remove as unused. --dry-run only prints the plan; nothing is removed. A summary ending in '0 to remove' means there is nothing to clean up. This card does not remove packages; review the list before doing any real removal.",
+   "cmd": "sudo apt autoremove --dry-run",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Lines 'Reading package lists...' and a summary such as '0 upgraded, 0 newly installed, 0 to remove and 4 not upgraded.'"
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "du -sh /var/cache/apt/archives",
+   "expect": "A small size, e.g. '12K    /var/cache/apt/archives', after the cache was cleaned."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-apt-get-autoclean",
+  "linux-apt-get-autoremove"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/apt",
+  "title": "apt manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

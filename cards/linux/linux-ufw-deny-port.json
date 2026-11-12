@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-ufw-deny-port",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Block incoming traffic on a specific port",
+ "summary": "Configure UFW to deny incoming connections to a specific port. This prevents external access to services running on that port.",
+ "aliases": [
+  {
+   "text": "deny port ufw",
+   "lang": "en"
+  },
+  {
+   "text": "block port firewall",
+   "lang": "en"
+  },
+  {
+   "text": "ufw deny 80",
+   "lang": "en"
+  },
+  {
+   "text": "закрыть порт ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "заблокировать порт файрвол",
+   "lang": "ru"
+  },
+  {
+   "text": "запретить входящие соединения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Deny incoming traffic on a specific port.",
+   "cmd": "sudo ufw deny <PORT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "The port number to block (e.g., 80, 443).",
+     "example": "80"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the rule by its number. First, find the number using 'sudo ufw status numbered'.",
+   "cmd": "sudo ufw delete <RULE_NUMBER>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "RULE_NUMBER",
+     "description": "The index number of the rule to delete.",
+     "example": "1",
+     "discover_cmd": "sudo ufw status numbered"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Blocking a port may disrupt services that rely on it."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ufw.md",
+  "title": "tldr-pages: ufw",
+  "license": "CC-BY-4.0"
+ }
+}

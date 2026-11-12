@@ -1,0 +1,104 @@
+{
+ "schema_version": 2,
+ "id": "linux-delete-static-route",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete a static route",
+ "summary": "Remove a previously added static route from the routing table. This is useful for cleaning up old routes or fixing incorrect routing configurations.",
+ "aliases": [
+  {
+   "text": "delete route",
+   "lang": "en"
+  },
+  {
+   "text": "remove static route",
+   "lang": "en"
+  },
+  {
+   "text": "ip route delete",
+   "lang": "en"
+  },
+  {
+   "text": "remove route",
+   "lang": "en"
+  },
+  {
+   "text": "удалить маршрут",
+   "lang": "ru"
+  },
+  {
+   "text": "ip route delete",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать маршрут",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить статический маршрут",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete a static route for a specific destination IP or network from the routing table.",
+   "cmd": "sudo ip route delete <DESTINATION_IP> dev <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The destination IP address or network to remove",
+     "example": "10.0.0.0/24"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface associated with the route",
+     "example": "eth0"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-add the route if you need to restore it.",
+   "cmd": "sudo ip route add <DESTINATION_IP> via <GATEWAY_IP> dev <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DESTINATION_IP",
+     "description": "The destination IP address or network",
+     "example": "10.0.0.0/24"
+    },
+    {
+     "name": "GATEWAY_IP",
+     "description": "The gateway IP address",
+     "example": "192.168.1.1"
+    },
+    {
+     "name": "INTERFACE",
+     "description": "The network interface",
+     "example": "eth0"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Deleting a route may disconnect you from specific networks.",
+  "Ensure you know the gateway IP if you need to restore the route."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-route.md",
+  "title": "tldr-pages: ip-route",
+  "license": "CC-BY-4.0"
+ }
+}

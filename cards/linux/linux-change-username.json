@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "linux-change-username",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change a user's login name",
+ "summary": "Rename an existing user account.",
+ "aliases": [
+  {
+   "text": "change username linux",
+   "lang": "en"
+  },
+  {
+   "text": "rename user account",
+   "lang": "en"
+  },
+  {
+   "text": "usermod rename user",
+   "lang": "en"
+  },
+  {
+   "text": "сменить имя пользователя linux",
+   "lang": "ru"
+  },
+  {
+   "text": "переименовать юзера",
+   "lang": "ru"
+  },
+  {
+   "text": "usermod -l",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the login name of the user. Replace <NEW_NAME> with the desired new username and <OLD_NAME> with the current username.",
+   "cmd": "sudo usermod -l <NEW_NAME> <OLD_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "NEW_NAME",
+     "description": "The new username",
+     "example": "newjohn"
+    },
+    {
+     "name": "OLD_NAME",
+     "description": "The current username",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Change the username back to the original name.",
+   "cmd": "sudo usermod -l <OLD_NAME> <NEW_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "OLD_NAME",
+     "description": "The original username",
+     "example": "john"
+    },
+    {
+     "name": "NEW_NAME",
+     "description": "The current (new) username",
+     "example": "newjohn"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Do not rename the user while they are logged in. Log in as root or another user to perform this action.",
+  "Update sudoers, crontabs, and any configuration files that reference the old username."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Users_and_groups#Change_a_user's_login_name_or_home_directory",
+  "title": "Users and groups",
+  "revision_id": 872887,
+  "license": "GFDL-1.3-or-later"
+ }
+}

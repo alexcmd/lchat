@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-pipe-clipboard-to-command-wayland",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Pipe clipboard content to a command in Wayland",
+ "summary": "Use wl-paste with a pipe to send the current clipboard content as input to another command. This allows you to process copied text directly in the terminal.",
+ "aliases": [
+  {
+   "text": "pipe clipboard to command wayland",
+   "lang": "en"
+  },
+  {
+   "text": "wl-paste pipe",
+   "lang": "en"
+  },
+  {
+   "text": "process clipboard text linux",
+   "lang": "en"
+  },
+  {
+   "text": "передать буфер обмена в команду wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "wl-paste pipe",
+   "lang": "ru"
+  },
+  {
+   "text": "обработать текст из буфера обмена linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "wl-clipboard"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wl-paste and pipe its output to another command using the vertical bar.",
+   "cmd": "wl-paste | <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command you want to receive the clipboard content as input.",
+     "example": "grep pattern"
+    }
+   ],
+   "expect": "The specified command processes the clipboard text and outputs its result."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/wl-paste.md",
+  "title": "tldr-pages: wl-paste",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-paste-clipboard-wayland"
+ ]
+}

@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "linux-internet-sharing-static-ip",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set up static IP for internet sharing",
+ "summary": "Assign a static IP address to the network interface connected to the client devices. This is the first step in configuring a Linux machine to share its internet connection.",
+ "aliases": [
+  {
+   "text": "set static ip for sharing",
+   "lang": "en"
+  },
+  {
+   "text": "configure lan interface ip",
+   "lang": "en"
+  },
+  {
+   "text": "internet sharing setup ip",
+   "lang": "en"
+  },
+  {
+   "text": "настроить статический ip для раздачи",
+   "lang": "ru"
+  },
+  {
+   "text": "раздать интернет с линукса ip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Identify the interface connected to the client (e.g., eth1, enp2s0)",
+  "Identify the interface connected to the internet (e.g., eth0, wlan0)"
+ ],
+ "steps": [
+  {
+   "explain": "Bring up the interface connected to the client devices.",
+   "cmd": "sudo ip link set up dev <CLIENT_INTERFACE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "CLIENT_INTERFACE",
+     "description": "Name of the network interface connected to the client(s)",
+     "example": "eth1",
+     "discover_cmd": "ip link"
+    }
+   ]
+  },
+  {
+   "explain": "Assign a static IP address to the client interface. Use an address from a private range (like 192.168.x.x) that does not conflict with your internet interface's subnet.",
+   "cmd": "sudo ip addr add 192.168.123.100/24 dev <CLIENT_INTERFACE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "CLIENT_INTERFACE",
+     "description": "Name of the network interface connected to the client(s)",
+     "example": "eth1",
+     "discover_cmd": "ip link"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo this, reboot the machine or manually remove the IP address using 'ip addr del' and bring the interface down with 'ip link set down'.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Ensure the static IP subnet does not overlap with the subnet of your internet-facing interface.",
+  "These changes are temporary and will be lost after a reboot unless configured in a network manager."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Internet_sharing#Static_IP_address",
+  "title": "Internet sharing",
+  "revision_id": 882757,
+  "license": "GFDL-1.3-or-later"
+ }
+}

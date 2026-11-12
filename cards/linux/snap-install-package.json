@@ -1,0 +1,108 @@
+{
+ "schema_version": 2,
+ "id": "snap-install-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install a Snap package",
+ "summary": "Install a specific application using the snap command. This requires root privileges and downloads the package from the Snap Store.",
+ "aliases": [
+  {
+   "text": "install snap package",
+   "lang": "en"
+  },
+  {
+   "text": "snap install",
+   "lang": "en"
+  },
+  {
+   "text": "how to install snap",
+   "lang": "en"
+  },
+  {
+   "text": "установить snap пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "snap install команда",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить snap",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "snapd"
+  ]
+ },
+ "prerequisites": [
+  "snapd is installed and running",
+  "Internet connection"
+ ],
+ "steps": [
+  {
+   "explain": "Search for the snap name if you don't know it exactly.",
+   "cmd": "snap find <SEARCH_TERM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_TERM",
+     "description": "Keyword to search for in the Snap Store",
+     "example": "firefox"
+    }
+   ]
+  },
+  {
+   "explain": "Install the snap package. This requires root privileges.",
+   "cmd": "sudo snap install <SNAP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SNAP_NAME",
+     "description": "The exact name of the snap to install",
+     "example": "firefox"
+    }
+   ],
+   "expect": "Installation progress bar and success message."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "snap list",
+   "expect": "The installed snap appears in the list with its version and revision."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the installed snap.",
+   "cmd": "sudo snap remove <SNAP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SNAP_NAME",
+     "description": "The name of the snap to remove",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Snaps run in 'devel' mode if AppArmor is not enabled, meaning they have unrestricted system access.",
+  "Running untrusted code is never safe, even with sandboxing."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Snap#Installing",
+  "title": "Snap",
+  "revision_id": 861445,
+  "license": "GFDL-1.3-or-later"
+ }
+}

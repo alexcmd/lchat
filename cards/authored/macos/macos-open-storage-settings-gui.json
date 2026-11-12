@@ -1,0 +1,91 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-storage-settings-gui",
+ "platform": "macos",
+ "kind": "task",
+ "title": "See what is using disk space in macOS Storage settings",
+ "summary": "System Settings has a Storage page that shows how much space each category uses, such as apps, documents and system data. Use it to find out what is filling your Mac's disk.",
+ "aliases": [
+  {
+   "text": "mac storage what is using space",
+   "lang": "en"
+  },
+  {
+   "text": "macos storage settings",
+   "lang": "en"
+  },
+  {
+   "text": "see what takes up disk space mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac disk full what is taking space",
+   "lang": "en"
+  },
+  {
+   "text": "system settings storage mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac storage breakdown",
+   "lang": "en"
+  },
+  {
+   "text": "что занимает место на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "хранилище macos настройки",
+   "lang": "ru"
+  },
+  {
+   "text": "диск на маке заполнен что занимает место",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько места занято на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "настройки хранилища мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos",
+    "min_version": "13"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open System Settings from the Apple menu in the top-left corner of the screen.",
+   "gui": "Click the Apple menu, then click System Settings.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Open the System Settings app from Terminal instead of the Apple menu.",
+     "cmd": "open -a \"System Settings\"",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "In the sidebar, click General, then click Storage on the right.",
+   "gui": "System Settings > General > Storage",
+   "risk": "low"
+  },
+  {
+   "explain": "Wait a few seconds while macOS works out the size of each category. The colored bar at the top and the list below show how much space apps, documents, system data and other items use.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://open",
+  "title": "open manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

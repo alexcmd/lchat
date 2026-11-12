@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "linux-wayland-screenshot-jpeg-quality",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Save a screenshot as JPEG with custom quality",
+ "summary": "Capture the screen and save it as a JPEG file with a specific quality level. Useful for reducing file size.",
+ "aliases": [
+  {
+   "text": "grim jpeg screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "screenshot jpeg quality wayland",
+   "lang": "en"
+  },
+  {
+   "text": "grim -t jpeg",
+   "lang": "en"
+  },
+  {
+   "text": "save screenshot as jpg linux",
+   "lang": "en"
+  },
+  {
+   "text": "grim качество jpeg",
+   "lang": "ru"
+  },
+  {
+   "text": "скриншот jpeg wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить скриншот как jpg",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "grim"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use -t jpeg to set the format and -q to set the quality level (0-100, default 80).",
+   "cmd": "grim -t jpeg -q <QUALITY> <FILE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "QUALITY",
+     "description": "JPEG quality level from 0 to 100.",
+     "example": "90"
+    },
+    {
+     "name": "FILE_PATH",
+     "description": "The path where the screenshot will be saved.",
+     "example": "~/screenshot.jpg"
+    }
+   ],
+   "expect": "A JPEG screenshot is saved with the specified quality."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/grim.md",
+  "title": "tldr-pages: grim",
+  "license": "CC-BY-4.0"
+ }
+}

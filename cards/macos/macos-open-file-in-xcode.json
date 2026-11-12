@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-file-in-xcode",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open a file in Xcode editor",
+ "summary": "Use the `xed` command to open one or more files directly in the Xcode editor from the Terminal. This is useful if you have Xcode installed and want to edit code or text files without navigating through the Xcode interface.",
+ "aliases": [
+  {
+   "text": "open file in xcode",
+   "lang": "en"
+  },
+  {
+   "text": "edit file in xcode",
+   "lang": "en"
+  },
+  {
+   "text": "xed command",
+   "lang": "en"
+  },
+  {
+   "text": "open code in xcode",
+   "lang": "en"
+  },
+  {
+   "text": "открыть файл в xcode",
+   "lang": "ru"
+  },
+  {
+   "text": "редактировать файл в xcode",
+   "lang": "ru"
+  },
+  {
+   "text": "xed открыть файл",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть код в xcode",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `xed` command followed by the path to the file you want to edit. Xcode will launch and open the file.",
+   "cmd": "xed <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to open in Xcode.",
+     "example": "main.swift"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Open a file and jump directly to a specific line number.",
+     "cmd": "xed --line <LINE_NUMBER> <FILE>",
+     "placeholders": [
+      {
+       "name": "LINE_NUMBER",
+       "description": "The line number to jump to.",
+       "example": "75"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the file.",
+       "example": "main.swift"
+      }
+     ]
+    },
+    {
+     "explain": "Open a file, creating it if it does not exist.",
+     "cmd": "xed --create <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file to open or create.",
+       "example": "newfile.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/xed.md",
+  "title": "tldr-pages: xed",
+  "license": "CC-BY-4.0"
+ }
+}

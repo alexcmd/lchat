@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-show-hostname",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show current device hostname",
+ "summary": "Display the hostname currently set for the device managed by NetworkManager.",
+ "aliases": [
+  {
+   "text": "show hostname nmcli",
+   "lang": "en"
+  },
+  {
+   "text": "what is my hostname",
+   "lang": "en"
+  },
+  {
+   "text": "check device hostname",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli hostname",
+   "lang": "en"
+  },
+  {
+   "text": "показать имя хоста",
+   "lang": "ru"
+  },
+  {
+   "text": "какое имя компьютера",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli general hostname",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the hostname of the current device as configured in NetworkManager.",
+   "cmd": "nmcli general hostname",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-general.md",
+  "title": "tldr-pages: nmcli-general",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,135 @@
+{
+ "schema_version": 2,
+ "id": "error-no-space-left-on-device",
+ "platform": "linux",
+ "kind": "error",
+ "title": "No space left on device - find which disk or tmpfs is full",
+ "summary": "The message 'No space left on device' means a disk, partition or RAM-based temporary folder has no free room left. These commands show which disk is full and which folders take the most space.",
+ "aliases": [
+  {
+   "text": "no space left on device",
+   "lang": "en"
+  },
+  {
+   "text": "linux disk full",
+   "lang": "en"
+  },
+  {
+   "text": "why is my disk full linux",
+   "lang": "en"
+  },
+  {
+   "text": "check free disk space linux",
+   "lang": "en"
+  },
+  {
+   "text": "tmpfs is full",
+   "lang": "en"
+  },
+  {
+   "text": "cannot write file no space left",
+   "lang": "en"
+  },
+  {
+   "text": "check C drive space like windows",
+   "lang": "en"
+  },
+  {
+   "text": "нет свободного места на диске linux",
+   "lang": "ru"
+  },
+  {
+   "text": "диск заполнен linux",
+   "lang": "ru"
+  },
+  {
+   "text": "no space left on device ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "как проверить свободное место linux",
+   "lang": "ru"
+  },
+  {
+   "text": "почему диск полный",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "No space left on device"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window",
+  "The copy, download or build that failed had a folder it was writing to"
+ ],
+ "steps": [
+  {
+   "explain": "Show every mounted disk with its size, used space, free space and Use%. Find the row with Use% 100% and Avail 0: that disk is full. Rows for /tmp or /dev/shm are RAM disks and can fill up quickly.",
+   "cmd": "df -h",
+   "risk": "low",
+   "expect": "A table with Filesystem, Size, Used, Avail, Use%, Mounted on. The full disk shows Use% 100% and Avail 0.",
+   "alternatives": [
+    {
+     "explain": "Show only the disk that holds one folder, such as the folder where the copy, download or build failed.",
+     "cmd": "df -h <FOLDER>",
+     "placeholders": [
+      {
+       "name": "FOLDER",
+       "description": "Folder where the failed copy, download or build was writing",
+       "example": "/tmp",
+       "discover_cmd": "pwd"
+      }
+     ],
+     "risk": "low",
+     "expect": "One row for the disk that holds that folder."
+    },
+    {
+     "explain": "Check /tmp directly. On many systems /tmp is a small RAM disk (tmpfs) that fills up during builds and large downloads.",
+     "cmd": "df -h /tmp",
+     "risk": "low",
+     "expect": "If /tmp is its own RAM disk, a tmpfs row with Mounted on /tmp appears; Use% 100% and Avail 0 means /tmp is full. Otherwise /tmp shares the root disk row."
+    }
+   ]
+  },
+  {
+   "explain": "Check inode usage. A disk can also report 'No space left on device' when it has too many small files, even if df -h shows free bytes. Look at IUse%.",
+   "cmd": "df -i",
+   "risk": "low",
+   "expect": "A table with Inodes, IUsed, IFree, IUse%, Mounted on. IUse% 100% on the full disk means too many files, not too many bytes."
+  },
+  {
+   "explain": "List the folders inside the full disk that use the most space, largest first. -x keeps du on one disk so it does not walk into other disks.",
+   "cmd": "du -xh --max-depth=1 <FOLDER> | sort -rh | head -n 10",
+   "placeholders": [
+    {
+     "name": "FOLDER",
+     "description": "A folder on the full disk, usually its mount point from df -h",
+     "example": "/var",
+     "discover_cmd": "df -h"
+    }
+   ],
+   "risk": "low",
+   "expect": "Up to 10 lines: a size and a folder path, largest first. Permission denied messages for system folders can be ignored."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "df -h",
+   "expect": "After you free space, the full disk shows Avail above 0 and Use% below 100%."
+  }
+ ],
+ "risk": "low",
+ "warnings": [],
+ "source": {
+  "url": "https://manpages.debian.org/df",
+  "title": "df manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

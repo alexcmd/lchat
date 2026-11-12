@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-tuned",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable system performance tuning",
+ "summary": "Turn off the performance tuning service to revert to default system behavior. Use this if you want to stop using tuned profiles or if a profile is causing issues.",
+ "aliases": [
+  {
+   "text": "disable tuned",
+   "lang": "en"
+  },
+  {
+   "text": "turn off performance tuning",
+   "lang": "en"
+  },
+  {
+   "text": "stop tuned service",
+   "lang": "en"
+  },
+  {
+   "text": "linux disable tuned profiles",
+   "lang": "en"
+  },
+  {
+   "text": "отключить tuned",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить профили производительности",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить tuned",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "tuned"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable the performance tuning service and revert to default system settings.",
+   "cmd": "sudo tuned-adm off",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-enable tuning by applying a profile. You must know the name of the profile you want to restore.",
+   "cmd": "sudo tuned-adm profile <PROFILE_NAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PROFILE_NAME",
+     "description": "Name of the tuning profile to apply",
+     "example": "balanced",
+     "discover_cmd": "tuned-adm list"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Disabling tuning reverts to default system resource management, which may affect performance or power consumption."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/tuned-adm.md",
+  "title": "tldr-pages: tuned-adm",
+  "license": "CC-BY-4.0"
+ }
+}

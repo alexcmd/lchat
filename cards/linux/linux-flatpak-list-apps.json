@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "linux-flatpak-list-apps",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List installed Flatpak applications",
+ "summary": "Show a list of all Flatpak apps currently installed on your system, excluding runtimes.",
+ "aliases": [
+  {
+   "text": "list flatpak apps",
+   "lang": "en"
+  },
+  {
+   "text": "show installed flatpaks",
+   "lang": "en"
+  },
+  {
+   "text": "what flatpak apps do i have",
+   "lang": "en"
+  },
+  {
+   "text": "flatpak list",
+   "lang": "en"
+  },
+  {
+   "text": "список установленных flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "какие flatpak приложения установлены",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak list apps",
+   "lang": "ru"
+  },
+  {
+   "text": "показать установленные flatpak",
+   "lang": "ru"
+  },
+  {
+   "text": "flatpak список",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flatpak"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Lists all installed Flatpak applications, filtering out runtimes for a cleaner view.",
+   "cmd": "flatpak list --app",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "List all installed Flatpak applications and runtimes.",
+     "cmd": "flatpak list",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flatpak.md",
+  "title": "tldr-pages: flatpak",
+  "license": "CC-BY-4.0"
+ }
+}

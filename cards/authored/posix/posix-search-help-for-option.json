@@ -1,0 +1,134 @@
+{
+ "schema_version": 2,
+ "id": "posix-search-help-for-option",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Search a long help text for one option",
+ "summary": "Most commands print a long help text with all their options. Filter that text with grep to find the one option that does what you need, for example the option that sorts by size.",
+ "aliases": [
+  {
+   "text": "find option in help",
+   "lang": "en"
+  },
+  {
+   "text": "search help for option",
+   "lang": "en"
+  },
+  {
+   "text": "grep command help for flag",
+   "lang": "en"
+  },
+  {
+   "text": "which flag does sort by size",
+   "lang": "en"
+  },
+  {
+   "text": "how to find command option",
+   "lang": "en"
+  },
+  {
+   "text": "where is the option in man",
+   "lang": "en"
+  },
+  {
+   "text": "найти опцию в справке команды",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти нужный ключ в --help",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск по справке команды linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какой параметр сортирует по размеру",
+   "lang": "ru"
+  },
+  {
+   "text": "найти флаг в man",
+   "lang": "ru"
+  },
+  {
+   "text": "grep в хелпе команды",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the name of the command, for example ls or grep",
+  "Know a word that describes what you want, for example sort, size or recursive"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the command is installed and see where it is. If nothing is printed, the name is wrong or the command is not installed.",
+   "cmd": "command -v <TOOL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TOOL",
+     "description": "Name of the command whose options you want to read",
+     "example": "ls",
+     "discover_cmd": "ls /usr/bin"
+    }
+   ],
+   "expect": "A path such as /usr/bin/ls or /bin/ls."
+  },
+  {
+   "explain": "Print the built-in help of the command and keep only the lines that contain WORD. Option lines start with a dash, such as -S or --sort=WORD, and the text after them says what the option does. On macOS this uses the manual page instead, because macOS commands do not have a --help option.",
+   "cmd": "<TOOL> --help | grep -i <WORD>",
+   "variants": {
+    "macos": "man <TOOL> | col -b | grep -i <WORD>"
+   },
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TOOL",
+     "description": "Name of the command whose options you want to read",
+     "example": "ls",
+     "discover_cmd": "ls /usr/bin"
+    },
+    {
+     "name": "WORD",
+     "description": "Word that describes the option you want, not case sensitive",
+     "example": "sort"
+    }
+   ],
+   "expect": "Option lines such as '  -S   sort by file size, largest first'. If nothing is printed, no line has that word: try a shorter or different word.",
+   "alternatives": [
+    {
+     "explain": "Some commands print their help to the error output, so add 2>&1 to include that text in the search.",
+     "cmd": "<TOOL> --help 2>&1 | grep -i <WORD>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "TOOL",
+       "description": "Name of the command whose options you want to read",
+       "example": "ls"
+      },
+      {
+       "name": "WORD",
+       "description": "Word that describes the option you want, not case sensitive",
+       "example": "sort"
+      }
+     ],
+     "expect": "The same option lines as the main command."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/grep",
+  "title": "grep manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

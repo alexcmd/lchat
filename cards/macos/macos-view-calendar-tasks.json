@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-calendar-tasks",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View uncompleted calendar tasks in Terminal",
+ "summary": "Use icalBuddy to list your uncompleted tasks from the macOS Calendar app. You can also filter tasks due within a specific number of days.",
+ "aliases": [
+  {
+   "text": "view calendar tasks in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "list uncompleted tasks icalbuddy",
+   "lang": "en"
+  },
+  {
+   "text": "show my to-do list in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "icalbuddy uncompleted tasks",
+   "lang": "en"
+  },
+  {
+   "text": "check tasks due soon",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть задачи календаря в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "список задач в терминале mac",
+   "lang": "ru"
+  },
+  {
+   "text": "невыполненные задачи icalbuddy",
+   "lang": "ru"
+  },
+  {
+   "text": "какие у меня дела на сегодня",
+   "lang": "ru"
+  },
+  {
+   "text": "задачи на ближайшие дни",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "icalBuddy"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all uncompleted tasks from your calendar.",
+   "cmd": "icalBuddy uncompletedTasks",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show tasks due within a specific number of days from today.",
+     "cmd": "icalBuddy --includeOnlyEventsFromNowOn \"tasksDueBefore:today+<NUMBER_OF_DAYS>\"",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "NUMBER_OF_DAYS",
+       "description": "Number of days to look ahead for tasks",
+       "example": "7"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/icalbuddy.md",
+  "title": "tldr-pages: icalbuddy",
+  "license": "CC-BY-4.0"
+ }
+}

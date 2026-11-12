@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-virtual-memory-stats",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check virtual memory and CPU activity",
+ "summary": "Use vmstat to see a snapshot of system performance, including memory usage, paging, and CPU activity. It helps identify if the system is struggling with resources.",
+ "aliases": [
+  {
+   "text": "check vmstat",
+   "lang": "en"
+  },
+  {
+   "text": "virtual memory stats",
+   "lang": "en"
+  },
+  {
+   "text": "system performance snapshot",
+   "lang": "en"
+  },
+  {
+   "text": "cpu and memory activity",
+   "lang": "en"
+  },
+  {
+   "text": "проверить виртуальную память",
+   "lang": "ru"
+  },
+  {
+   "text": "статистика памяти linux",
+   "lang": "ru"
+  },
+  {
+   "text": "нагрузка на процессор и память",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run vmstat without arguments to display a one-time report of virtual memory statistics, including processes, memory, paging, block IO, traps, disks, and CPU activity.",
+   "cmd": "vmstat",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/vmstat.md",
+  "title": "tldr-pages: vmstat",
+  "license": "CC-BY-4.0"
+ }
+}

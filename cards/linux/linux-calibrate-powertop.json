@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "linux-calibrate-powertop",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Calibrate power usage measurements with powertop",
+ "summary": "Run powertop in calibration mode to measure your system's power consumption accurately. This is usually done once before using powertop for tuning or reporting.",
+ "aliases": [
+  {
+   "text": "calibrate powertop",
+   "lang": "en"
+  },
+  {
+   "text": "powertop calibration",
+   "lang": "en"
+  },
+  {
+   "text": "measure battery usage linux",
+   "lang": "en"
+  },
+  {
+   "text": "powertop --calibrate",
+   "lang": "en"
+  },
+  {
+   "text": "калибровка powertop",
+   "lang": "ru"
+  },
+  {
+   "text": "измерить энергопотребление linux",
+   "lang": "ru"
+  },
+  {
+   "text": "powertop калибровать",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "powertop installed",
+  "System is idle during calibration"
+ ],
+ "steps": [
+  {
+   "explain": "Run powertop with the --calibrate flag to start the calibration process. This requires root privileges.",
+   "cmd": "sudo powertop --calibrate",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/powertop.md",
+  "title": "tldr-pages: powertop",
+  "license": "CC-BY-4.0"
+ }
+}

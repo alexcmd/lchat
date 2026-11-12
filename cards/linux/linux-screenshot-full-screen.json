@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-screenshot-full-screen",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Take a full-screen screenshot and save it to a file",
+ "summary": "Use the `maim` command to capture the entire screen and save the image to a specific location on your computer.",
+ "aliases": [
+  {
+   "text": "take screenshot linux",
+   "lang": "en"
+  },
+  {
+   "text": "save screenshot to file",
+   "lang": "en"
+  },
+  {
+   "text": "maim screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "full screen capture linux",
+   "lang": "en"
+  },
+  {
+   "text": "сделать скриншот linux",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить скриншот в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "скриншот всего экрана",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "maim"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run maim with the desired output path to capture the entire screen.",
+   "cmd": "maim <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path where the screenshot will be saved, e.g., ~/screenshot.png",
+     "example": "~/screenshot.png"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/maim.md",
+  "title": "tldr-pages: maim",
+  "license": "CC-BY-4.0"
+ }
+}

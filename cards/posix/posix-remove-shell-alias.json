@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-remove-shell-alias",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Remove a shell alias",
+ "summary": "Delete an alias from your current shell session. The alias will no longer work until you redefine it or restart your shell if it was saved in a config file.",
+ "aliases": [
+  {
+   "text": "remove alias",
+   "lang": "en"
+  },
+  {
+   "text": "delete alias",
+   "lang": "en"
+  },
+  {
+   "text": "unalias command",
+   "lang": "en"
+  },
+  {
+   "text": "udalit alias",
+   "lang": "ru"
+  },
+  {
+   "text": "ubrat alias",
+   "lang": "ru"
+  },
+  {
+   "text": "unalias",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the unalias command followed by the alias name to remove it.",
+   "cmd": "unalias <WORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "WORD",
+     "description": "The name of the alias to remove",
+     "example": "la"
+    }
+   ],
+   "expect": "No output is displayed if the alias is removed successfully."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/alias.md",
+  "title": "tldr-pages: alias",
+  "license": "CC-BY-4.0"
+ }
+}

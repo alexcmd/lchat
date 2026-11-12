@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-launch-agents",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List all loaded launch agents and daemons",
+ "summary": "See which background services and scheduled tasks are currently active on your Mac. This shows their process IDs and last exit codes, helping you identify what is running in the background.",
+ "aliases": [
+  {
+   "text": "list launch agents",
+   "lang": "en"
+  },
+  {
+   "text": "see background services mac",
+   "lang": "en"
+  },
+  {
+   "text": "launchctl list",
+   "lang": "en"
+  },
+  {
+   "text": "what is running in background mac",
+   "lang": "en"
+  },
+  {
+   "text": "check launchd services",
+   "lang": "en"
+  },
+  {
+   "text": "список служб запуска",
+   "lang": "ru"
+  },
+  {
+   "text": "какие фоновые процессы на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "launchctl list",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть агенты запуска",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command to display a list of all currently loaded launch agents and daemons, including their PIDs and exit codes.",
+   "cmd": "launchctl list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/launchctl.md",
+  "title": "tldr-pages: launchctl",
+  "license": "CC-BY-4.0"
+ }
+}

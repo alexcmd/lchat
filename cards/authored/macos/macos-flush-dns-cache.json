@@ -1,0 +1,119 @@
+{
+ "schema_version": 2,
+ "id": "macos-flush-dns-cache",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Flush the DNS cache on macOS",
+ "summary": "When a website opens at an old or wrong address, the Mac may still be using a saved DNS lookup. Clearing the DNS cache and restarting the mDNSResponder service makes the Mac look up website addresses again.",
+ "aliases": [
+  {
+   "text": "flush dns cache mac",
+   "lang": "en"
+  },
+  {
+   "text": "clear dns cache macos",
+   "lang": "en"
+  },
+  {
+   "text": "website opens old address on mac",
+   "lang": "en"
+  },
+  {
+   "text": "dscacheutil flushcache",
+   "lang": "en"
+  },
+  {
+   "text": "restart mdnsresponder mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac dns reset terminal",
+   "lang": "en"
+  },
+  {
+   "text": "очистить кэш dns на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить днс кэш macos",
+   "lang": "ru"
+  },
+  {
+   "text": "сайт открывается по старому адресу мак",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапустить mdnsresponder",
+   "lang": "ru"
+  },
+  {
+   "text": "kak sbrosit dns kesh na make",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "dscacheutil",
+   "killall"
+  ]
+ },
+ "prerequisites": [
+  "An administrator account on the Mac and its password",
+  "The Terminal app is open"
+ ],
+ "steps": [
+  {
+   "explain": "Clear the saved DNS lookup cache. Terminal asks for your administrator password; the password does not show on screen while you type it.",
+   "cmd": "sudo dscacheutil -flushcache",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "No message appears when the cache is cleared. The command line returns with a new prompt."
+  },
+  {
+   "explain": "Tell the DNS service mDNSResponder to reload, so it drops the answers it saved. The service keeps running; only the signal is sent.",
+   "cmd": "sudo killall -HUP mDNSResponder",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "No message appears when the signal is sent. The command line returns with a new prompt.",
+   "alternatives": [
+    {
+     "explain": "Stop the mDNSResponder service completely (default TERM signal). The system starts it again automatically.",
+     "cmd": "sudo killall mDNSResponder",
+     "needs_root": true,
+     "risk": "medium",
+     "expect": "No message appears when the service is stopped."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "dscacheutil -q host -a name apple.com",
+   "expect": "Lines starting with 'name: apple.com' and 'ip_address:' show the address the Mac gets now."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Nothing to undo. The DNS cache fills again as you open websites. If a site still shows a wrong address, check the router or the site's own DNS settings.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Flushing the DNS cache only clears saved lookups. It does not change Wi-Fi, network or DNS settings.",
+  "The commands need administrator rights (sudo). Enter the password only into a Terminal window you trust.",
+  "Right after the flush, the next websites may open a little slower while the cache fills again.",
+  "If a site is still wrong after these steps, the cause may be on the site's side or in the router, not in the Mac."
+ ],
+ "source": {
+  "url": "x-man-page://dscacheutil",
+  "title": "dscacheutil manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "linux-concept-where-logs-live",
+ "platform": "linux",
+ "kind": "concept",
+ "title": "Find where Linux keeps its logs and read the current boot's errors",
+ "summary": "Linux records system messages in a journal that you read with journalctl, and some programs also write plain text files in /var/log. Errors from the current boot are the first place to look when something goes wrong.",
+ "aliases": [
+  {
+   "text": "where are linux logs",
+   "lang": "en"
+  },
+  {
+   "text": "linux error log",
+   "lang": "en"
+  },
+  {
+   "text": "journalctl how to use",
+   "lang": "en"
+  },
+  {
+   "text": "show linux errors of current boot",
+   "lang": "en"
+  },
+  {
+   "text": "where does linux keep system logs",
+   "lang": "en"
+  },
+  {
+   "text": "what is var log in linux",
+   "lang": "en"
+  },
+  {
+   "text": "journalctl errors",
+   "lang": "en"
+  },
+  {
+   "text": "где логи в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "журнал ошибок linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть логи linux",
+   "lang": "ru"
+  },
+  {
+   "text": "journalctl как пользоваться",
+   "lang": "ru"
+  },
+  {
+   "text": "где лежат логи линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "kak posmotret logi linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "prerequisites": [
+  "A terminal on the Linux computer"
+ ],
+ "steps": [
+  {
+   "explain": "Show the error messages (priority err and more serious) from the current boot only, printed straight to the terminal. Each line shows the time, the program that wrote it, and the message. The newest lines are at the bottom.",
+   "cmd": "journalctl -b -p err --no-pager",
+   "risk": "low",
+   "needs_root": false,
+   "expect": "Lines like 'Oct 24 10:02:11 hostname program[123]: message'. If there were no errors, the output ends with '-- No entries --'."
+  },
+  {
+   "explain": "List the plain text log files and folders in /var/log. Many programs write their own logs here; on a full desktop you will often see syslog and auth.log, while journalctl holds the rest.",
+   "cmd": "ls /var/log",
+   "risk": "low",
+   "needs_root": false,
+   "expect": "A list of names such as apt, btmp, dpkg.log, lastlog, wtmp. Some files can only be read with administrator rights."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Without administrator rights you may see only your own messages. Some files in /var/log can be read only by administrators.",
+  "Inside a Docker container there is usually no systemd journal, so journalctl shows nothing useful there."
+ ],
+ "see_also": [],
+ "source": {
+  "url": "https://manpages.debian.org/journalctl",
+  "title": "journalctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

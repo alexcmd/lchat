@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create an empty file or update its timestamp",
+ "summary": "Use the touch command to create a new empty file. If the file already exists, touch updates its last modified time to the current moment without changing its content.",
+ "aliases": [
+  {
+   "text": "create empty file",
+   "lang": "en"
+  },
+  {
+   "text": "touch file",
+   "lang": "en"
+  },
+  {
+   "text": "make new file",
+   "lang": "en"
+  },
+  {
+   "text": "create file in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "создать пустой файл",
+   "lang": "ru"
+  },
+  {
+   "text": "touch файл",
+   "lang": "ru"
+  },
+  {
+   "text": "создать файл в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "создать новый файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run touch with the path to the file you want to create. If the file does not exist, it will be created as an empty file. If it exists, its timestamp is updated.",
+   "cmd": "touch <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file to create or update",
+     "example": "notes.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/touch.md",
+  "title": "tldr-pages: touch",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-partition-filesystems",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List supported filesystems for disk partitioning",
+ "summary": "Show the list of filesystem types that `diskutil` can use when creating partitions. This helps you choose the correct format (like APFS, HFS+, or FAT32) before reformatting a drive.",
+ "aliases": [
+  {
+   "text": "list supported filesystems for partitioning",
+   "lang": "en"
+  },
+  {
+   "text": "what filesystems can i use for partitions",
+   "lang": "en"
+  },
+  {
+   "text": "diskutil listFilesystems",
+   "lang": "en"
+  },
+  {
+   "text": "supported partition formats mac",
+   "lang": "en"
+  },
+  {
+   "text": "какие файловые системы поддерживаются для разделов",
+   "lang": "ru"
+  },
+  {
+   "text": "список файловых систем для разметки диска",
+   "lang": "ru"
+  },
+  {
+   "text": "diskutil listFilesystems",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to display all filesystem types supported by the partitioning tool.",
+   "cmd": "diskutil listFilesystems",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/diskutil-partitiondisk.md",
+  "title": "tldr-pages: diskutil-partitiondisk",
+  "license": "CC-BY-4.0"
+ }
+}

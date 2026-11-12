@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-default-web-browser",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check the default web browser",
+ "summary": "Find out which web browser is currently set as the system default for opening links.",
+ "aliases": [
+  {
+   "text": "check default browser",
+   "lang": "en"
+  },
+  {
+   "text": "what is my default browser",
+   "lang": "en"
+  },
+  {
+   "text": "show default web browser",
+   "lang": "en"
+  },
+  {
+   "text": "default browser linux",
+   "lang": "en"
+  },
+  {
+   "text": "kakoy default browser",
+   "lang": "ru"
+  },
+  {
+   "text": "kakoy u menya default browser",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit default browser",
+   "lang": "ru"
+  },
+  {
+   "text": "kakoy brauzer po defaultu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the XDG settings to see which .desktop file is registered as the default web browser.",
+   "cmd": "xdg-settings get default-web-browser",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xdg-settings.md",
+  "title": "tldr-pages: xdg-settings",
+  "license": "CC-BY-4.0"
+ }
+}

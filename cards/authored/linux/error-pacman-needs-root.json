@@ -1,0 +1,149 @@
+{
+ "schema_version": 2,
+ "id": "error-pacman-needs-root",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix pacman error: you cannot perform this operation unless you are root",
+ "summary": "pacman installs and updates system software, so only the administrator (root) may run it. Put sudo in front of the command; sudo asks for your own password, not root's.",
+ "aliases": [
+  {
+   "text": "pacman you cannot perform this operation unless you are root",
+   "lang": "en"
+  },
+  {
+   "text": "arch linux pacman error root",
+   "lang": "en"
+  },
+  {
+   "text": "pacman install permission denied arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman not root error",
+   "lang": "en"
+  },
+  {
+   "text": "arch cannot install package not root",
+   "lang": "en"
+  },
+  {
+   "text": "pacman install without sudo",
+   "lang": "en"
+  },
+  {
+   "text": "pacman error need root arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "pacman нельзя выполнить операцию без root",
+   "lang": "ru"
+  },
+  {
+   "text": "arch linux pacman ошибка root",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman не могу установить пакет нет прав",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman установка пакета без sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить пакет arch от root",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman ошибка нужен root",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "error: you cannot perform this operation unless you are root"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Your account is allowed to use sudo (an administrator account)",
+  "Internet connection for downloading packages"
+ ],
+ "steps": [
+  {
+   "explain": "Check which account you are logged in as. pacman refuses to run as a normal user, so the error appears. The output shows your own user name, not root.",
+   "cmd": "whoami",
+   "risk": "low",
+   "expect": "Your own user name, for example alex. It is not root."
+  },
+  {
+   "explain": "Run the same pacman command with sudo in front. sudo runs it as root after asking for your password. Replace <PACKAGE> with the name of the package you want to install.",
+   "cmd": "sudo pacman -S <PACKAGE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to install from the Arch repositories",
+     "example": "nano",
+     "discover_cmd": "pacman -Slq"
+    }
+   ],
+   "expect": "sudo asks for your password, then pacman lists the packages it will install and asks 'Proceed with installation? [Y/n]'. Type y and press Enter.",
+   "alternatives": [
+    {
+     "explain": "Upgrade the whole system instead of installing one package. Use it when the goal is to update packages. It is also run with sudo.",
+     "cmd": "sudo pacman -Syu",
+     "risk": "medium",
+     "needs_root": true,
+     "expect": "pacman refreshes the package list, then shows the packages to upgrade and asks for confirmation. Type y and press Enter."
+    }
+   ]
+  },
+  {
+   "explain": "Check that the package is now installed. pacman -Q prints the installed package name and version. Replace <PACKAGE> with the same name as in the previous step.",
+   "cmd": "pacman -Q <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Same package name as in the install step",
+     "example": "nano"
+    }
+   ],
+   "expect": "The package name followed by its version, for example 'nano 9.2-1'. If you see 'package ... was not found', the install did not finish."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package again if you installed it by mistake. This removes only that package, not the upgrade.",
+   "cmd": "sudo pacman -R <PACKAGE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Same package name as in the install step",
+     "example": "nano"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Install and upgrade commands change system files. Type your password only when sudo asks for it, and read the package list before you answer y.",
+  "sudo pacman -Syu upgrades every installed package. Do not interrupt it; a half-finished upgrade can break the system.",
+  "If sudo says 'is not in the sudoers file', your account has no administrator rights. Ask the owner of the computer to add it, or use an administrator account.",
+  "pacman -S installs from the package list stored on this computer. If that list is old, run sudo pacman -Syu first to avoid a partial upgrade."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/pacman",
+  "title": "pacman manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

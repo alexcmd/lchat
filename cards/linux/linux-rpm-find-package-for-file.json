@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-rpm-find-package-for-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find which RPM package owns a file",
+ "summary": "Identify which installed package provides a specific file on your system.",
+ "aliases": [
+  {
+   "text": "which package owns this file",
+   "lang": "en"
+  },
+  {
+   "text": "rpm query file owner",
+   "lang": "en"
+  },
+  {
+   "text": "find package for file",
+   "lang": "en"
+  },
+  {
+   "text": "какой пакет владеет файлом",
+   "lang": "ru"
+  },
+  {
+   "text": "найти пакет для файла rpm",
+   "lang": "ru"
+  },
+  {
+   "text": "rpm владелец файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "opensuse"
+   },
+   {
+    "family": "other"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the RPM database to find the package that owns the specified file.",
+   "cmd": "rpm -qf <FILE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_PATH",
+     "description": "Absolute path to the file, e.g. /etc/postfix/main.cf",
+     "example": "/etc/postfix/main.cf"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/rpm.md",
+  "title": "tldr-pages: rpm",
+  "license": "CC-BY-4.0"
+ }
+}

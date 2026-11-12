@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-finder-sidebar-favorites",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List Finder sidebar favorites",
+ "summary": "Show all items currently pinned to the Finder sidebar using the command line.",
+ "aliases": [
+  {
+   "text": "list finder sidebar favorites",
+   "lang": "en"
+  },
+  {
+   "text": "show sidebar items",
+   "lang": "en"
+  },
+  {
+   "text": "mysides list",
+   "lang": "en"
+  },
+  {
+   "text": "какие папки в сайдбаре",
+   "lang": "ru"
+  },
+  {
+   "text": "список избранного finder",
+   "lang": "ru"
+  },
+  {
+   "text": "mysides список",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "mysides is installed (e.g. via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Run mysides to print the current list of Finder sidebar favorites.",
+   "cmd": "mysides list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mysides.md",
+  "title": "tldr-pages: mysides",
+  "license": "CC-BY-4.0"
+ }
+}

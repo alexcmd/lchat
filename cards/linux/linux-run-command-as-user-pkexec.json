@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "linux-run-command-as-user-pkexec",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Run a command as another user using pkexec",
+ "summary": "Use pkexec with the --user option to run a command as a specific user other than root. This is useful for running tasks as a different account.",
+ "aliases": [
+  {
+   "text": "run command as other user",
+   "lang": "en"
+  },
+  {
+   "text": "pkexec user",
+   "lang": "en"
+  },
+  {
+   "text": "run as different user",
+   "lang": "en"
+  },
+  {
+   "text": "execute as user",
+   "lang": "en"
+  },
+  {
+   "text": "запустить команду от другого пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "pkexec пользователь",
+   "lang": "ru"
+  },
+  {
+   "text": "выполнить от имени пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "запуск от имени другого юзера",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the specified command as the given user. You may be prompted for authentication.",
+   "cmd": "pkexec --user <USERNAME> <COMMAND>",
+   "risk": "medium",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username to run the command as",
+     "example": "john"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command to execute",
+     "example": "ls"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo for a command run as another user. Manually revert any changes if necessary.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Ensure you have permission to run commands as the specified user."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pkexec.md",
+  "title": "tldr-pages: pkexec",
+  "license": "CC-BY-4.0"
+ }
+}

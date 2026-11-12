@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "linux-iw-connect-open-wifi",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Connect to an open Wi-Fi network",
+ "summary": "Connects to a Wi-Fi network that does not require a password (open network). Requires knowing the network name (SSID).",
+ "aliases": [
+  {
+   "text": "connect to open wifi",
+   "lang": "en"
+  },
+  {
+   "text": "join open wifi network",
+   "lang": "en"
+  },
+  {
+   "text": "iw connect",
+   "lang": "en"
+  },
+  {
+   "text": "connect wifi no password",
+   "lang": "en"
+  },
+  {
+   "text": "подключиться к открытому wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "подключить wifi без пароля",
+   "lang": "ru"
+  },
+  {
+   "text": "iw connect ssid",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Connects to the specified open wireless network.",
+   "cmd": "sudo iw dev <INTERFACE> connect <SSID>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of your wireless interface, e.g., wlan0",
+     "example": "wlan0",
+     "discover_cmd": "iw dev"
+    },
+    {
+     "name": "SSID",
+     "description": "The name of the open Wi-Fi network",
+     "example": "FreeWiFi",
+     "discover_cmd": "iw dev <INTERFACE> scan"
+    }
+   ],
+   "expect": "The command completes without error, and the interface connects."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Disconnects from the current wireless network.",
+   "cmd": "sudo iw dev <INTERFACE> disconnect",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of your wireless interface, e.g., wlan0",
+     "example": "wlan0",
+     "discover_cmd": "iw dev"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This command requires root privileges.",
+  "Only works for open networks; for secured networks, use NetworkManager or iwctl."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/iw.md",
+  "title": "tldr-pages: iw",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-iw-scan-wifi-networks",
+  "nmcli-connect-wifi-network"
+ ]
+}

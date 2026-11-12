@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-mirrors-set-country",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set Pacman mirrors by country",
+ "summary": "Generate a new mirror list using only mirrors from specific countries. This can help improve download speeds by using geographically closer servers.",
+ "aliases": [
+  {
+   "text": "set pacman mirrors by country",
+   "lang": "en"
+  },
+  {
+   "text": "pacman mirrors country",
+   "lang": "en"
+  },
+  {
+   "text": "select mirror country",
+   "lang": "en"
+  },
+  {
+   "text": "выбрать зеркала по стране",
+   "lang": "ru"
+  },
+  {
+   "text": "зеркала pacman по стране",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman-mirrors country",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "pacman-mirrors"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Generate a new mirror list using only mirrors from the specified countries. This requires administrator rights.",
+   "cmd": "sudo pacman-mirrors --country <COUNTRIES>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "COUNTRIES",
+     "description": "Comma-separated list of country names (e.g., United_States,France,Germany).",
+     "example": "United_States,France"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If the selected country mirrors are problematic, you can regenerate the mirror list using the default fasttrack option.",
+   "cmd": "sudo pacman-mirrors --fasttrack",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "After running this command, you must synchronize your database and update your system using 'sudo pacman -Syyu'."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman-mirrors.md",
+  "title": "tldr-pages: pacman-mirrors",
+  "license": "CC-BY-4.0"
+ }
+}

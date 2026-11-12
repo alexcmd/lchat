@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "ext4-enable-fast-commit",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable fast_commit feature on ext4",
+ "summary": "Enable the fast_commit journaling feature to improve ext4 performance. Can be enabled on existing filesystems.",
+ "aliases": [
+  {
+   "text": "enable fast commit ext4",
+   "lang": "en"
+  },
+  {
+   "text": "ext4 fast commit",
+   "lang": "en"
+  },
+  {
+   "text": "tune2fs fast_commit",
+   "lang": "en"
+  },
+  {
+   "text": "включить fast commit ext4",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Identify the device path of the ext4 filesystem"
+ ],
+ "steps": [
+  {
+   "explain": "Enable the fast_commit feature on the specified partition.",
+   "cmd": "sudo tune2fs -O fast_commit <DEVICE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The block device path (e.g., /dev/sda1)",
+     "discover_cmd": "lsblk"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "verify": [
+  {
+   "cmd": "sudo tune2fs -l <DEVICE> | grep features",
+   "expect": "Output includes 'fast_commit'."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Disable the fast_commit feature.",
+   "cmd": "sudo tune2fs -O '^fast_commit' <DEVICE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The block device path"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Enabling this feature can cause system corruption in case of a power cut.",
+  "Ensure you have backups before enabling experimental filesystem features."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Ext4#Enabling_fast_commit",
+  "title": "Ext4",
+  "revision_id": 876860,
+  "license": "GFDL-1.3-or-later"
+ }
+}

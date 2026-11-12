@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-curl-follow-redirects",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Follow redirects and show headers with curl",
+ "summary": "Automatically follow HTTP redirects (like 301 or 302) and display the response headers along with the content. This helps debug where a link actually leads.",
+ "aliases": [
+  {
+   "text": "curl follow redirects",
+   "lang": "en"
+  },
+  {
+   "text": "show curl headers",
+   "lang": "en"
+  },
+  {
+   "text": "curl -L -D",
+   "lang": "en"
+  },
+  {
+   "text": "curl показать заголовки",
+   "lang": "ru"
+  },
+  {
+   "text": "curl следовать редиректам",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть куда ведет ссылка curl",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use -L to follow redirects and -D - to dump the headers to stdout before the body.",
+   "cmd": "curl -L -D - <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "URL",
+     "description": "The URL to request",
+     "example": "https://example.com"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/curl.md",
+  "title": "tldr-pages: curl",
+  "license": "CC-BY-4.0"
+ }
+}

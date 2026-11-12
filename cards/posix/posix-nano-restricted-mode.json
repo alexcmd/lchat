@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-nano-restricted-mode",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Open a file in nano in restricted mode",
+ "summary": "Restricted mode prevents nano from reading or writing to any files other than the ones specified on the command line, adding a layer of safety.",
+ "aliases": [
+  {
+   "text": "nano restricted mode",
+   "lang": "en"
+  },
+  {
+   "text": "nano safe mode",
+   "lang": "en"
+  },
+  {
+   "text": "nano restrict file access",
+   "lang": "en"
+  },
+  {
+   "text": "ограниченный режим nano",
+   "lang": "ru"
+  },
+  {
+   "text": "nano безопасный режим",
+   "lang": "ru"
+  },
+  {
+   "text": "запретить доступ к файлам в nano",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the file in restricted mode.",
+   "cmd": "nano -R <FILE>",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to edit.",
+     "example": "readonly.txt"
+    }
+   ],
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nano.md",
+  "title": "tldr-pages: nano",
+  "license": "CC-BY-4.0"
+ }
+}

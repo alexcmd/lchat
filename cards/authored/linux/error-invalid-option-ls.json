@@ -1,0 +1,124 @@
+{
+ "schema_version": 2,
+ "id": "error-invalid-option-ls",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'unrecognized option' or 'invalid option' error by checking the command's help",
+ "summary": "The command stops with this error because it does not know the flag you typed, for example --bogus or -z. Its built-in help lists every flag it accepts; use the one you need, spelled exactly as shown.",
+ "error_patterns": [
+  "unrecognized option",
+  "invalid option --"
+ ],
+ "aliases": [
+  {
+   "text": "unrecognized option error",
+   "lang": "en"
+  },
+  {
+   "text": "invalid option -- what does it mean",
+   "lang": "en"
+  },
+  {
+   "text": "terminal says invalid option",
+   "lang": "en"
+  },
+  {
+   "text": "command doesn't accept this flag",
+   "lang": "en"
+  },
+  {
+   "text": "how to find the right option for a command",
+   "lang": "en"
+  },
+  {
+   "text": "what flags does ls have",
+   "lang": "en"
+  },
+  {
+   "text": "unknown flag linux command",
+   "lang": "en"
+  },
+  {
+   "text": "неизвестный параметр команды",
+   "lang": "ru"
+  },
+  {
+   "text": "invalid option что значит",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка unrecognized option",
+   "lang": "ru"
+  },
+  {
+   "text": "команда не понимает ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать какие ключи есть у команды",
+   "lang": "ru"
+  },
+  {
+   "text": "терминал пишет invalid option",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Read the message. The text before the colon is the command, and the text in quotes is the flag it does not know. The line 'Try ... --help' names the command that shows the valid flags.",
+   "risk": "low"
+  },
+  {
+   "explain": "Show the list of flags the command accepts, with a short description of each one.",
+   "cmd": "ls --help",
+   "risk": "low",
+   "expect": "A line starting with 'Usage: ls [OPTION]... [FILE]...', then one line per flag, such as '-a, --all'."
+  },
+  {
+   "explain": "Find the flag that does what you want. Replace <WORD> with a word that describes the goal, for example 'all' to find the flag for hidden entries.",
+   "cmd": "ls --help | grep -i <WORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "WORD",
+     "description": "A word that describes what you want, such as all, sort or long",
+     "example": "all"
+    }
+   ],
+   "expect": "Lines with the flag and its description, such as '-a, --all' followed by 'do not ignore entries starting with .'. Line wrapping differs between distributions."
+  },
+  {
+   "explain": "Run the command with the flag exactly as the help shows it. The -a flag also lists entries whose names start with a dot, such as .bashrc.",
+   "cmd": "ls -a",
+   "risk": "low",
+   "expect": "The usual list of files, plus entries that start with a dot, such as '.' and '..'.",
+   "alternatives": [
+    {
+     "explain": "The same flag written in long form. Long names are easier to read and remember.",
+     "cmd": "ls --all",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls --help | head -n 1",
+   "expect": "Usage: ls [OPTION]... [FILE]..."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/ls",
+  "title": "ls manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

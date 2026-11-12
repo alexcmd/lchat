@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-directories-by-name",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find directories by name",
+ "summary": "Search for folders (directories) that match a name pattern, ignoring case sensitivity.",
+ "aliases": [
+  {
+   "text": "find directories by name",
+   "lang": "en"
+  },
+  {
+   "text": "search for folders",
+   "lang": "en"
+  },
+  {
+   "text": "find folder named lib",
+   "lang": "en"
+  },
+  {
+   "text": "как найти папку по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "найти директорию",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск папок",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for directories (-type d) matching the pattern (-iname ignores case).",
+   "cmd": "find <DIRECTORY> -type d -iname '<PATTERN>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The folder to search in",
+     "example": "."
+    },
+    {
+     "name": "PATTERN",
+     "description": "The directory name pattern, e.g. '*lib*'",
+     "example": "*lib*"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/find.md",
+  "title": "tldr-pages: find",
+  "license": "CC-BY-4.0"
+ }
+}

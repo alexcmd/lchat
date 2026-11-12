@@ -1,0 +1,110 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-install-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install or update a package",
+ "summary": "Install a new software package or update an existing one to the latest version. Requires administrator privileges.",
+ "aliases": [
+  {
+   "text": "install package",
+   "lang": "en"
+  },
+  {
+   "text": "apt install",
+   "lang": "en"
+  },
+  {
+   "text": "add software",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "установить программу",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-get install",
+   "lang": "en"
+  },
+  {
+   "text": "install software",
+   "lang": "en"
+  },
+  {
+   "text": "add program",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Installs the specified package or updates it if already installed.",
+   "cmd": "sudo apt install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to install.",
+     "example": "vim"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Install the specified package. Replace <PACKAGE> with the name of the software you want.",
+     "cmd": "sudo apt-get install <PACKAGE>",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "Name of the package to install",
+       "example": "firefox"
+      }
+     ],
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To remove the package you just installed, use the remove command.",
+   "cmd": "sudo apt remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to remove.",
+     "example": "vim"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This command requires administrator privileges (sudo).",
+  "Installing packages can change system configuration."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt.md",
+  "title": "tldr-pages: apt",
+  "license": "CC-BY-4.0"
+ }
+}

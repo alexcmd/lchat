@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# lchat installer: scripts -> ~/.local/bin, page + webcrawler -> ~/.local/share/lchat,
-# Python deps (pip --user), optional llama.cpp Vulkan build, then the models.
+# lchat installer: scripts -> ~/.local/bin, page + webcrawler + help cards -> ~/.local/share/lchat,
+# Python deps (pip --user), optional llama.cpp Vulkan build, then the models, then the help-card index.
+# Re-run it after `git pull` to update: changed cards are re-indexed, removed cards are dropped.
 #
 #   ./install.sh                 install + download models
 #   ./install.sh --link          symlink scripts to this checkout instead of copying (for development)
@@ -27,12 +28,22 @@ say() { printf '\033[1m==> %s\033[0m\n' "$*"; }
 
 say "scripts -> $BIN"
 mkdir -p "$BIN" "$SHARE/webcrawler"
-for f in lchat-web lchat lchat-run lchat-models; do
+for f in lchat-web lchat lchat-run lchat-models lchat-cards; do
   chmod +x "$REPO/bin/$f"
   if [ "$LINK" = 1 ]; then ln -sfn "$REPO/bin/$f" "$BIN/$f"; else install -m 755 "$REPO/bin/$f" "$BIN/$f"; fi
 done
 install -m 644 "$REPO/web/index.html" "$SHARE/index.html"
 install -m 644 "$REPO/vendor/webcrawler/webcrawler.py" "$SHARE/webcrawler/webcrawler.py"
+
+say "help cards -> $SHARE/cards"
+if [ "$LINK" = 1 ]; then
+  rm -rf "$SHARE/cards" && ln -sfn "$REPO/cards" "$SHARE/cards"
+else   # replace the whole folder so cards deleted upstream disappear too
+  rm -rf "$SHARE/cards.new" "$SHARE/cards" && mkdir -p "$SHARE/cards.new"
+  (cd "$REPO/cards" && tar -cf - .) | (cd "$SHARE/cards.new" && tar -xf -)
+  mv "$SHARE/cards.new" "$SHARE/cards"
+fi
+echo "$(find "$SHARE/cards" -name '*.json' ! -name card.schema.json | wc -l) cards"
 
 say "python packages"
 PKGS=()
@@ -78,5 +89,10 @@ done
 case ":$PATH:" in *":$BIN:"*) ;; *) echo "note: add $BIN to PATH" ;; esac
 
 if [ "$MODELS" = 1 ]; then say "models"; "$BIN/lchat-models" download; fi
+
+# first install: builds ~/.local/state/lchat/cards.db; update: re-embeds only new/changed cards.
+# Vectors need the embedding server (lchat-run starts it); if it is down, lchat-web embeds the cards when it starts.
+say "help-card index"
+LCHAT_CARDS="$SHARE/cards" python3 "$BIN/lchat-cards" sync || echo "WARNING: lchat-cards sync failed - run: lchat-cards sync" >&2
 
 say "done - start everything with: lchat-run   (stop: lchat-run stop)"

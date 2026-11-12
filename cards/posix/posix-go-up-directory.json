@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-go-up-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Go up to the parent directory",
+ "summary": "Move one level up in the folder hierarchy from your current location.",
+ "aliases": [
+  {
+   "text": "go up directory",
+   "lang": "en"
+  },
+  {
+   "text": "cd up",
+   "lang": "en"
+  },
+  {
+   "text": "parent directory",
+   "lang": "en"
+  },
+  {
+   "text": "cd ..",
+   "lang": "en"
+  },
+  {
+   "text": "back to parent folder",
+   "lang": "en"
+  },
+  {
+   "text": "перейти наверх",
+   "lang": "ru"
+  },
+  {
+   "text": "родительская директория",
+   "lang": "ru"
+  },
+  {
+   "text": "cd ..",
+   "lang": "ru"
+  },
+  {
+   "text": "выйти в папку выше",
+   "lang": "ru"
+  },
+  {
+   "text": "наверх в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the current directory to the parent of the current directory.",
+   "cmd": "cd ..",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cd.md",
+  "title": "tldr-pages: cd",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-filevault-status",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check if FileVault encryption is enabled",
+ "summary": "Check whether your Mac's disk is encrypted with FileVault. This tells you if your data is protected when the computer is locked or stolen.",
+ "aliases": [
+  {
+   "text": "check filevault status",
+   "lang": "en"
+  },
+  {
+   "text": "is my mac encrypted",
+   "lang": "en"
+  },
+  {
+   "text": "filevault on or off",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус filevault",
+   "lang": "ru"
+  },
+  {
+   "text": "включено ли шифрование диска",
+   "lang": "ru"
+  },
+  {
+   "text": "fdesetup status",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the status command to see if FileVault is active.",
+   "cmd": "fdesetup status",
+   "risk": "low",
+   "expect": "Output stating 'FileVault is On.' or 'FileVault is Off.'"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/fdesetup.md",
+  "title": "tldr-pages: fdesetup",
+  "license": "CC-BY-4.0"
+ }
+}

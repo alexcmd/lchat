@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "linux-mount-device-udiskie",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount a USB drive or device using udiskie",
+ "summary": "Use udiskie-mount to manually mount a specific storage device, such as a USB stick or external hard drive, if it hasn't mounted automatically. You can also mount all connected devices at once.",
+ "aliases": [
+  {
+   "text": "mount usb drive udiskie",
+   "lang": "en"
+  },
+  {
+   "text": "manually mount device linux",
+   "lang": "en"
+  },
+  {
+   "text": "udiskie mount command",
+   "lang": "en"
+  },
+  {
+   "text": "mount external hard drive",
+   "lang": "en"
+  },
+  {
+   "text": "подключить флешку udiskie",
+   "lang": "ru"
+  },
+  {
+   "text": "смонтировать устройство linux",
+   "lang": "ru"
+  },
+  {
+   "text": "удиск маунт",
+   "lang": "ru"
+  },
+  {
+   "text": "не монтируется флешка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "udiskie"
+  ]
+ },
+ "prerequisites": [
+  "udiskie is installed",
+  "The device is connected to the computer"
+ ],
+ "steps": [
+  {
+   "explain": "Mount a specific device by providing its path (e.g., /dev/sdb1). You can find the device path using `lsblk` or `udisksctl status`.",
+   "cmd": "udiskie-mount <DEVICE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The path to the block device you want to mount, e.g., /dev/sdb1",
+     "example": "/dev/sdb1",
+     "discover_cmd": "lsblk"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Mount all currently connected and handleable devices at once.",
+     "cmd": "udiskie-mount --all",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/udiskie-mount.md",
+  "title": "tldr-pages: udiskie-mount",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-block-devices",
+  "linux-mount-device-to-directory",
+  "fs-unmount"
+ ]
+}

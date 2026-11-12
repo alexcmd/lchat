@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "linux-dpkg-deb-list-contents",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List files inside a .deb package",
+ "summary": "See which files are contained in a Debian package file (.deb) without extracting or installing it.",
+ "aliases": [
+  {
+   "text": "list files in deb",
+   "lang": "en"
+  },
+  {
+   "text": "contents of deb package",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg-deb contents",
+   "lang": "en"
+  },
+  {
+   "text": "what files in deb",
+   "lang": "en"
+  },
+  {
+   "text": "список файлов в deb",
+   "lang": "ru"
+  },
+  {
+   "text": "что внутри deb пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg-deb -c",
+   "lang": "ru"
+  },
+  {
+   "text": "dpkg contents",
+   "lang": "en"
+  },
+  {
+   "text": "содержимое deb файла",
+   "lang": "ru"
+  },
+  {
+   "text": "что внутри deb",
+   "lang": "ru"
+  },
+  {
+   "text": "list deb contents",
+   "lang": "en"
+  },
+  {
+   "text": "what is inside deb file",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg содержимое",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List the contents (files and directories) of the .deb package.",
+   "cmd": "dpkg-deb --contents <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .deb file",
+     "example": "./package.deb"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "List the files contained in the specified .deb package file.",
+     "cmd": "dpkg --contents <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the .deb package file",
+       "example": "./package.deb"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dpkg-deb.md",
+  "title": "tldr-pages: dpkg-deb",
+  "license": "CC-BY-4.0"
+ }
+}

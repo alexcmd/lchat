@@ -1,0 +1,91 @@
+{
+ "schema_version": 2,
+ "id": "posix-scp-use-specific-port",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy files using a custom SSH port",
+ "summary": "If your remote server uses a non-standard SSH port (not 22), use the -P flag with scp to specify the correct port number for the connection.",
+ "aliases": [
+  {
+   "text": "scp custom port",
+   "lang": "en"
+  },
+  {
+   "text": "scp non standard port",
+   "lang": "en"
+  },
+  {
+   "text": "copy file ssh port",
+   "lang": "en"
+  },
+  {
+   "text": "scp -P port",
+   "lang": "en"
+  },
+  {
+   "text": "scp different port",
+   "lang": "en"
+  },
+  {
+   "text": "scp на нестандартный порт",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать файл через порт",
+   "lang": "ru"
+  },
+  {
+   "text": "scp указать порт",
+   "lang": "ru"
+  },
+  {
+   "text": "scp -P",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the custom SSH port number"
+ ],
+ "steps": [
+  {
+   "explain": "Use the -P flag to specify the port number when connecting to the remote host.",
+   "cmd": "scp -P <PORT> <LOCAL_FILE> <REMOTE_HOST>:<REMOTE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "The SSH port number on the remote host",
+     "example": "2222"
+    },
+    {
+     "name": "LOCAL_FILE",
+     "description": "Path to the file on your computer",
+     "example": "data.csv"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "Hostname or IP of the remote computer",
+     "example": "server.example.com"
+    },
+    {
+     "name": "REMOTE_FILE",
+     "description": "Destination path on the remote computer",
+     "example": "uploads/data.csv"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/scp.md",
+  "title": "tldr-pages: scp",
+  "license": "CC-BY-4.0"
+ }
+}

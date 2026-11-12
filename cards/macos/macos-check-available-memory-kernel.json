@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-available-memory-kernel",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check available physical memory via kernel logs",
+ "summary": "Filter kernel messages to find information about the physical memory available on the system. This can help verify how much RAM the kernel has detected.",
+ "aliases": [
+  {
+   "text": "check available memory kernel",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg memory",
+   "lang": "en"
+  },
+  {
+   "text": "how much ram detected mac",
+   "lang": "en"
+  },
+  {
+   "text": "kernel memory info",
+   "lang": "en"
+  },
+  {
+   "text": "physical memory macos",
+   "lang": "en"
+  },
+  {
+   "text": "dmesg grep memory",
+   "lang": "en"
+  },
+  {
+   "text": "проверить память через ядро",
+   "lang": "ru"
+  },
+  {
+   "text": "dmesg память",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько оперативной памяти видит система",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о памяти в логах",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run dmesg and filter the output for lines containing 'memory' (case-insensitive) to see memory-related kernel messages.",
+   "cmd": "dmesg | grep -i memory",
+   "risk": "low",
+   "expect": "Lines from the kernel log mentioning memory size or availability are displayed."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dmesg.md",
+  "title": "tldr-pages: dmesg",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-disks-volumes",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List all disks, partitions, and mounted volumes",
+ "summary": "Show a list of all storage devices connected to your Mac, including internal drives, external USB drives, and mounted volumes.",
+ "aliases": [
+  {
+   "text": "list disks mac",
+   "lang": "en"
+  },
+  {
+   "text": "show all drives",
+   "lang": "en"
+  },
+  {
+   "text": "diskutil list",
+   "lang": "en"
+  },
+  {
+   "text": "check connected drives",
+   "lang": "en"
+  },
+  {
+   "text": "spiski diskov mac",
+   "lang": "ru"
+  },
+  {
+   "text": "kakie diski podklyucheny",
+   "lang": "ru"
+  },
+  {
+   "text": "diskutil list",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to display all available disks, partitions, and mounted volumes.",
+   "cmd": "diskutil list",
+   "risk": "low",
+   "expect": "A list of disk identifiers (e.g., /dev/disk0) and their partitions/volumes."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/diskutil.md",
+  "title": "tldr-pages: diskutil",
+  "license": "CC-BY-4.0"
+ }
+}

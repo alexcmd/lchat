@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-mount-disk-image",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Mount a disk image file",
+ "summary": "Open a disk image file (like .dmg or .iso) so its contents appear as a mounted volume on your Mac.",
+ "aliases": [
+  {
+   "text": "mount dmg",
+   "lang": "en"
+  },
+  {
+   "text": "open disk image",
+   "lang": "en"
+  },
+  {
+   "text": "mount iso",
+   "lang": "en"
+  },
+  {
+   "text": "attach image",
+   "lang": "en"
+  },
+  {
+   "text": "как открыть образ диска",
+   "lang": "ru"
+  },
+  {
+   "text": "монтировать dmg",
+   "lang": "ru"
+  },
+  {
+   "text": "подключить образ",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Mounts the specified disk image file, making its contents accessible in Finder.",
+   "cmd": "hdiutil attach <IMAGE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IMAGE_FILE",
+     "description": "Path to the disk image file (e.g., ~/Downloads/app.dmg)",
+     "example": "~/Downloads/app.dmg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/hdiutil.md",
+  "title": "tldr-pages: hdiutil",
+  "license": "CC-BY-4.0"
+ }
+}

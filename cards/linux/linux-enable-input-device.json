@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-enable-input-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable an input device",
+ "summary": "Re-enable a previously disabled input device. This restores functionality to keyboards, mice, or touchpads that were turned off.",
+ "aliases": [
+  {
+   "text": "enable touchpad",
+   "lang": "en"
+  },
+  {
+   "text": "turn on keyboard",
+   "lang": "en"
+  },
+  {
+   "text": "enable mouse",
+   "lang": "en"
+  },
+  {
+   "text": "xinput enable",
+   "lang": "en"
+  },
+  {
+   "text": "включить тачпад",
+   "lang": "ru"
+  },
+  {
+   "text": "включить клавиатуру",
+   "lang": "ru"
+  },
+  {
+   "text": "включить мышь",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xinput"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Enable the device using its ID. You can find the ID using 'xinput list'.",
+   "cmd": "xinput enable <DEVICE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the input device to enable.",
+     "example": "12",
+     "discover_cmd": "xinput list"
+    }
+   ],
+   "expect": "The device starts responding to input again."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xinput.md",
+  "title": "tldr-pages: xinput",
+  "license": "CC-BY-4.0"
+ }
+}

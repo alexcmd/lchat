@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "ssd-enable-continuous-trim-fstab",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable continuous TRIM via fstab",
+ "summary": "Add the discard option to /etc/fstab to enable continuous TRIM for a specific filesystem. Note that this may cause freezes on older SATA drives.",
+ "aliases": [
+  {
+   "text": "continuous trim fstab",
+   "lang": "en"
+  },
+  {
+   "text": "discard option fstab",
+   "lang": "en"
+  },
+  {
+   "text": "ssd discard mount",
+   "lang": "en"
+  },
+  {
+   "text": "непрерывный trim fstab",
+   "lang": "ru"
+  },
+  {
+   "text": "опция discard в fstab",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Edit /etc/fstab and add 'discard' to the mount options for the SSD partition. For example, change 'defaults' to 'defaults,discard'. Do not use this on XFS root partitions; use kernel parameters instead.",
+   "risk": "medium"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove the 'discard' option from /etc/fstab and remount the filesystem or reboot.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Continuous TRIM can cause system freezes on SATA drives older than SATA 3.1.",
+  "Data loss can occur if the SSD does not properly support TRIM."
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Solid_state_drive#Continuous_TRIM",
+  "title": "Solid state drive",
+  "revision_id": 887580,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,156 @@
+{
+ "schema_version": 2,
+ "id": "macos-spotify-control",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Control Spotify playback from the terminal",
+ "summary": "Use the `spotify` command-line tool to play songs or playlists, pause, skip tracks, adjust volume, and check what is currently playing.",
+ "aliases": [
+  {
+   "text": "control spotify from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "play song in spotify via command line",
+   "lang": "en"
+  },
+  {
+   "text": "spotify cli",
+   "lang": "en"
+  },
+  {
+   "text": "pause spotify terminal",
+   "lang": "en"
+  },
+  {
+   "text": "spotify next track command",
+   "lang": "en"
+  },
+  {
+   "text": "spotify volume terminal",
+   "lang": "en"
+  },
+  {
+   "text": "spotify status command",
+   "lang": "en"
+  },
+  {
+   "text": "spotify play playlist terminal",
+   "lang": "en"
+  },
+  {
+   "text": "spotify command line mac",
+   "lang": "en"
+  },
+  {
+   "text": "spotify terminal",
+   "lang": "en"
+  },
+  {
+   "text": "spotify cli",
+   "lang": "ru"
+  },
+  {
+   "text": "spotify терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "управление spotify из терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "включить песню spotify через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "пауза spotify терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "следующий трек spotify терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "громкость spotify терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "статус spotify терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "включить плейлист spotify терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "spotify командная строка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for a song by name and start playing it.",
+   "cmd": "spotify play <SONG_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SONG_NAME",
+     "description": "The name of the song you want to play",
+     "example": "Bohemian Rhapsody"
+    }
+   ]
+  },
+  {
+   "explain": "Search for a playlist by name and start playing it.",
+   "cmd": "spotify play list <PLAYLIST_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PLAYLIST_NAME",
+     "description": "The name of the playlist you want to play",
+     "example": "My Favorites"
+    }
+   ]
+  },
+  {
+   "explain": "Pause the current playback or resume if already paused.",
+   "cmd": "spotify pause",
+   "risk": "low"
+  },
+  {
+   "explain": "Skip to the next song in the current playlist or queue.",
+   "cmd": "spotify next",
+   "risk": "low"
+  },
+  {
+   "explain": "Adjust the volume up, down, or to a specific value.",
+   "cmd": "spotify vol <VOLUME_ACTION>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VOLUME_ACTION",
+     "description": "Volume adjustment: 'up', 'down', or a numeric value",
+     "example": "up"
+    }
+   ]
+  },
+  {
+   "explain": "Display the current playback status and details of the playing song.",
+   "cmd": "spotify status",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/spotify.md",
+  "title": "tldr-pages: spotify",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,102 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-diff-two-sorted-lists",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compare two lists or two command outputs and see what differs",
+ "summary": "Show the differences between two files, or between the output of two commands, without making temporary copies. Lines starting with < are only in the first input, lines starting with > only in the second.",
+ "aliases": [
+  {
+   "text": "diff two files linux",
+   "lang": "en"
+  },
+  {
+   "text": "compare two command outputs",
+   "lang": "en"
+  },
+  {
+   "text": "show differences between two lists",
+   "lang": "en"
+  },
+  {
+   "text": "diff sorted lists process substitution",
+   "lang": "en"
+  },
+  {
+   "text": "what is different between two files",
+   "lang": "en"
+  },
+  {
+   "text": "compare output of two commands",
+   "lang": "en"
+  },
+  {
+   "text": "сравнить два файла в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "найти различия между двумя списками",
+   "lang": "ru"
+  },
+  {
+   "text": "сравнить вывод двух команд linux",
+   "lang": "ru"
+  },
+  {
+   "text": "разница между файлами diff",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "<( ) runs a command and gives diff a file-like name with its output, so no temporary file is needed. sort puts both lists in the same order first, so only real differences show. diff exits with status 1 when they differ, which is not an error.",
+   "cmd": "diff <(sort <FILE_A>) <(sort <FILE_B>)",
+   "risk": "low",
+   "expect": "Lines starting with < exist only in FILE_A and lines starting with > only in FILE_B. No output means the two lists are the same.",
+   "placeholders": [
+    {
+     "name": "FILE_A",
+     "description": "First list",
+     "example": "list-old.txt"
+    },
+    {
+     "name": "FILE_B",
+     "description": "Second list",
+     "example": "list-new.txt"
+    }
+   ]
+  },
+  {
+   "explain": "Compare what two commands print, for example the file names in two folders.",
+   "cmd": "diff <(ls <DIR_A>) <(ls <DIR_B>)",
+   "risk": "low",
+   "expect": "The same < and > markers, here showing names that exist in only one folder.",
+   "placeholders": [
+    {
+     "name": "DIR_A",
+     "description": "First folder",
+     "example": "dir-a"
+    },
+    {
+     "name": "DIR_B",
+     "description": "Second folder",
+     "example": "dir-b"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://www.gnu.org/software/bash/manual/html_node/Process-Substitution.html",
+  "title": "Bash Reference Manual: Process Substitution",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

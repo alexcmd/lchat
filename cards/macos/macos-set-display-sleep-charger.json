@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-display-sleep-charger",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set display sleep time when on charger",
+ "summary": "Configure how long the display stays on before sleeping when the Mac is connected to a power adapter.",
+ "aliases": [
+  {
+   "text": "change display sleep time charger",
+   "lang": "en"
+  },
+  {
+   "text": "pmset -c displaysleep",
+   "lang": "en"
+  },
+  {
+   "text": "set screen timeout mac plugged in",
+   "lang": "en"
+  },
+  {
+   "text": "never sleep display on charger",
+   "lang": "en"
+  },
+  {
+   "text": "изменить время сна экрана при зарядке",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset -c displaysleep",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить таймаут экрана mac",
+   "lang": "ru"
+  },
+  {
+   "text": "экран не засыпает при зарядке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo pmset with the -c flag to set the display sleep timer for when the Mac is on charger power. Replace <MINUTES> with the desired number of minutes (0 means never sleep).",
+   "cmd": "sudo pmset -c displaysleep <MINUTES>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "MINUTES",
+     "description": "Number of minutes before display sleeps. 0 means never.",
+     "example": "15"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore the default display sleep setting (10 minutes) for charger power.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Setting displaysleep to 0 prevents the display from turning off automatically, which may increase power consumption and screen burn-in risk."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pmset.md",
+  "title": "tldr-pages: pmset",
+  "license": "CC-BY-4.0"
+ }
+}

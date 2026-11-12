@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-powertop-custom-duration",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Run powertop for a specific duration",
+ "summary": "Generate a power usage report for a custom number of seconds instead of the default 20. Useful for quick checks or longer monitoring.",
+ "aliases": [
+  {
+   "text": "powertop time",
+   "lang": "en"
+  },
+  {
+   "text": "powertop duration",
+   "lang": "en"
+  },
+  {
+   "text": "powertop --time",
+   "lang": "en"
+  },
+  {
+   "text": "powertop 5 seconds",
+   "lang": "en"
+  },
+  {
+   "text": "powertop время",
+   "lang": "ru"
+  },
+  {
+   "text": "powertop длительность",
+   "lang": "ru"
+  },
+  {
+   "text": "powertop --time",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "powertop installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run powertop for <SECONDS> seconds. Replace <SECONDS> with the desired duration.",
+   "cmd": "sudo powertop --time=<SECONDS>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SECONDS",
+     "description": "Number of seconds to run powertop.",
+     "example": "5"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/powertop.md",
+  "title": "tldr-pages: powertop",
+  "license": "CC-BY-4.0"
+ }
+}

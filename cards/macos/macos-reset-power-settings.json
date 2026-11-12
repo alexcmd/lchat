@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "macos-reset-power-settings",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Restore power settings to defaults",
+ "summary": "Reset all power management settings to their system defaults if you have changed them and want to start over.",
+ "aliases": [
+  {
+   "text": "reset power settings mac",
+   "lang": "en"
+  },
+  {
+   "text": "pmset restore defaults",
+   "lang": "en"
+  },
+  {
+   "text": "undo pmset changes",
+   "lang": "en"
+  },
+  {
+   "text": "default energy saver settings",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить настройки питания mac",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset restore defaults",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть настройки энергосбережения",
+   "lang": "ru"
+  },
+  {
+   "text": "отменить изменения pmset",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo pmset -a to set all power management settings (display sleep, disk sleep, system sleep, wake on modem port) to their default values.",
+   "cmd": "sudo pmset -a displaysleep 10 disksleep 10 sleep 30 womp 1",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no single command to undo this reset. You must manually re-apply any custom settings you had before.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This command overwrites all current custom power settings with defaults. Make sure you know your previous settings if you want to restore them later."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pmset.md",
+  "title": "tldr-pages: pmset",
+  "license": "CC-BY-4.0"
+ }
+}

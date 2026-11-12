@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "linux-dconf-reset-directory",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reset all settings in a dconf directory",
+ "summary": "Reset all configuration keys within a specific dconf directory to their default values. This is useful when you want to revert a whole section of settings (like GNOME Shell extensions or specific app configs) without affecting others.",
+ "aliases": [
+  {
+   "text": "reset dconf directory",
+   "lang": "en"
+  },
+  {
+   "text": "reset all dconf settings in folder",
+   "lang": "en"
+  },
+  {
+   "text": "dconf reset recursive",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить настройки dconf в папке",
+   "lang": "ru"
+  },
+  {
+   "text": "dconf reset рекурсивно",
+   "lang": "ru"
+  },
+  {
+   "text": "вернуть настройки gnome по умолчанию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "cinnamon",
+   "mate",
+   "xfce"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -f flag to reset all keys under the specified directory path. Ensure the path ends with a slash.",
+   "cmd": "dconf reset -f <DIRECTORY_PATH>/",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DIRECTORY_PATH",
+     "description": "The dconf directory path to reset, e.g., /org/gnome/desktop/",
+     "example": "/org/gnome/desktop/",
+     "discover_cmd": "dconf list /"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This will permanently delete all custom settings in the specified directory and its subdirectories.",
+  "You cannot undo this action unless you have a backup of your dconf database."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no direct command to restore previous values. You must manually re-apply your settings or restore from a backup if you have one.",
+   "risk": "medium"
+  }
+ ],
+ "see_also": [
+  "linux-dconf-reset-key",
+  "linux-dconf-dump-directory",
+  "linux-dconf-list-directory"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dconf-reset.md",
+  "title": "tldr-pages: dconf-reset",
+  "license": "CC-BY-4.0"
+ }
+}

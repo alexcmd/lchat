@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "linux-remove-user-from-group",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a user from a group",
+ "summary": "Remove an existing user from a specific group.",
+ "aliases": [
+  {
+   "text": "remove user from group linux",
+   "lang": "en"
+  },
+  {
+   "text": "gpasswd remove user",
+   "lang": "en"
+  },
+  {
+   "text": "delete user from group",
+   "lang": "en"
+  },
+  {
+   "text": "убрать пользователя из группы",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить юзера из группы",
+   "lang": "ru"
+  },
+  {
+   "text": "gpasswd -d",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the user from the specified group.",
+   "cmd": "sudo gpasswd -d <USERNAME> <GROUP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The name of the user",
+     "example": "john"
+    },
+    {
+     "name": "GROUP_NAME",
+     "description": "The name of the group",
+     "example": "wheel",
+     "discover_cmd": "cat /etc/group"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Add the user back to the group.",
+   "cmd": "sudo gpasswd -a <USERNAME> <GROUP_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The name of the user",
+     "example": "john"
+    },
+    {
+     "name": "GROUP_NAME",
+     "description": "The name of the group",
+     "example": "wheel"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "The user must log out and log back in for the changes to take effect."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Users_and_groups#Group_management",
+  "title": "Users and groups",
+  "revision_id": 872887,
+  "license": "GFDL-1.3-or-later"
+ }
+}

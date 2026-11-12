@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "linux-networkctl-down-interface",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Bring network devices down",
+ "summary": "Deactivate one or more network interfaces, bringing them down to stop connectivity.",
+ "aliases": [
+  {
+   "text": "bring down network interface",
+   "lang": "en"
+  },
+  {
+   "text": "disable network device",
+   "lang": "en"
+  },
+  {
+   "text": "networkctl down",
+   "lang": "en"
+  },
+  {
+   "text": "deactivate network card",
+   "lang": "en"
+  },
+  {
+   "text": "выключить сетевой интерфейс",
+   "lang": "ru"
+  },
+  {
+   "text": "опустить сеть",
+   "lang": "ru"
+  },
+  {
+   "text": "networkctl down",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-networkd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo to bring the specified network interfaces down. Replace <INTERFACE> with the name of the interface.",
+   "cmd": "sudo networkctl down <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface to bring down.",
+     "example": "eth0",
+     "discover_cmd": "networkctl"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo this, bring the interface up again.",
+   "cmd": "sudo networkctl up <INTERFACE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface to bring up.",
+     "example": "eth0",
+     "discover_cmd": "networkctl"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Bringing an interface down will disconnect you from the network if it is your primary connection."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/networkctl.md",
+  "title": "tldr-pages: networkctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-toggle-interface-status",
+  "linux-disable-system-service"
+ ]
+}

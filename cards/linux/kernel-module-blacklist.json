@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "kernel-module-blacklist",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Blacklist a kernel module to prevent loading",
+ "summary": "Blacklisting prevents a kernel module from loading automatically at boot. This is useful if a driver causes conflicts or you do not need the hardware.",
+ "aliases": [
+  {
+   "text": "blacklist kernel module",
+   "lang": "en"
+  },
+  {
+   "text": "prevent module loading",
+   "lang": "en"
+  },
+  {
+   "text": "disable driver at boot",
+   "lang": "en"
+  },
+  {
+   "text": "stop module from loading",
+   "lang": "en"
+  },
+  {
+   "text": "заблокировать модуль ядра",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить загрузку драйвера",
+   "lang": "ru"
+  },
+  {
+   "text": "blacklist",
+   "lang": "ru"
+  },
+  {
+   "text": "запретить загрузку модуля",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create a file like /etc/modprobe.d/blacklist.conf and add the line: blacklist <MODULE_NAME>",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the file /etc/modprobe.d/blacklist.conf or remove the blacklist line.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Blacklisting only prevents automatic loading. The module can still be loaded manually or by dependencies.",
+  "If the module is in the initramfs, you may need to regenerate it."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Kernel_module#Blacklisting",
+  "title": "Kernel module",
+  "revision_id": 849494,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-login-items",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List apps that open automatically at login on macOS",
+ "summary": "Shows the names of the apps and items that start automatically when you log in to your Mac. The command only reads this list and changes nothing.",
+ "aliases": [
+  {
+   "text": "apps that start at login mac",
+   "lang": "en"
+  },
+  {
+   "text": "what opens when my mac starts",
+   "lang": "en"
+  },
+  {
+   "text": "mac startup items list",
+   "lang": "en"
+  },
+  {
+   "text": "login items macos",
+   "lang": "en"
+  },
+  {
+   "text": "task manager startup tab on mac",
+   "lang": "en"
+  },
+  {
+   "text": "autostart apps mac",
+   "lang": "en"
+  },
+  {
+   "text": "which programs launch at login on macos",
+   "lang": "en"
+  },
+  {
+   "text": "автозагрузка на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "какие программы запускаются при входе на mac",
+   "lang": "ru"
+  },
+  {
+   "text": "что открывается при включении мака",
+   "lang": "ru"
+  },
+  {
+   "text": "автозапуск приложений mac os",
+   "lang": "ru"
+  },
+  {
+   "text": "элементы входа macos",
+   "lang": "ru"
+  },
+  {
+   "text": "программы в автозагрузке мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos",
+    "min_version": "13"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Ask System Events, the macOS service that manages the user session, for the names of all login items. This only reads the list. If macOS asks whether Terminal may control System Events, allow it; this is the automation permission and it is needed only once.",
+   "cmd": "osascript -e 'tell application \"System Events\" to get the name of every login item'",
+   "risk": "low",
+   "expect": "A comma-separated list of app names, for example: Dropbox, Spotify, Rectangle. An empty result means no login items are set."
+  },
+  {
+   "explain": "To see the same list with the on/off switches and to change it, open System Settings in the graphical interface. Login items are shown there, not in Terminal.",
+   "risk": "low",
+   "gui": "Apple menu > System Settings > General > Login Items & Extensions. The list shows the apps that open when you log in."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-list-launch-agents"
+ ],
+ "source": {
+  "url": "x-man-page://osascript",
+  "title": "osascript manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

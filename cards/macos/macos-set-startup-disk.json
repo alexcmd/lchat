@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-startup-disk",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set the startup disk",
+ "summary": "Change the disk your Mac boots from. You must specify the path to the directory of the desired startup disk.",
+ "aliases": [
+  {
+   "text": "change startup disk mac",
+   "lang": "en"
+  },
+  {
+   "text": "set boot volume mac",
+   "lang": "en"
+  },
+  {
+   "text": "switch boot drive mac",
+   "lang": "en"
+  },
+  {
+   "text": "сменить загрузочный диск mac",
+   "lang": "ru"
+  },
+  {
+   "text": "выбрать диск для загрузки macos",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить стартовый диск",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set a new startup disk by specifying its path.",
+   "cmd": "sudo systemsetup -setstartupdisk <STARTUP_DISK_PATH>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "STARTUP_DISK_PATH",
+     "description": "The path to the directory of the startup disk, e.g., /Volumes/Macintosh HD",
+     "example": "/Volumes/Macintosh HD",
+     "discover_cmd": "sudo systemsetup -liststartupdisks"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Set the startup disk back to the original volume if the new one fails to boot.",
+   "cmd": "sudo systemsetup -setstartupdisk <ORIGINAL_DISK_PATH>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_DISK_PATH",
+     "description": "The path to the original startup disk directory"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Setting an invalid startup disk may prevent your Mac from booting. Ensure the path is correct.",
+  "This command requires administrator privileges."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/systemsetup.md",
+  "title": "tldr-pages: systemsetup",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-current-folder-finder",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open current folder in Finder",
+ "summary": "Display the folder you are currently in within the Finder window.",
+ "aliases": [
+  {
+   "text": "open current directory in finder",
+   "lang": "en"
+  },
+  {
+   "text": "show folder in finder mac",
+   "lang": "en"
+  },
+  {
+   "text": "open . in finder",
+   "lang": "en"
+  },
+  {
+   "text": "открыть текущую папку в finder",
+   "lang": "ru"
+  },
+  {
+   "text": "показать папку в finder",
+   "lang": "ru"
+  },
+  {
+   "text": "как открыть папку в finder",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run open with a dot to reveal the current working directory in Finder.",
+   "cmd": "open .",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/open.md",
+  "title": "tldr-pages: open",
+  "license": "CC-BY-4.0"
+ }
+}

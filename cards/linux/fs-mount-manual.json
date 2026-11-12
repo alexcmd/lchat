@@ -1,0 +1,100 @@
+{
+ "schema_version": 2,
+ "id": "fs-mount-manual",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Manually mount a file system to a directory",
+ "summary": "Attach a file system from a device (like a partition or USB drive) to a specific directory so you can access its files.",
+ "aliases": [
+  {
+   "text": "mount partition",
+   "lang": "en"
+  },
+  {
+   "text": "mount /dev/sda1",
+   "lang": "en"
+  },
+  {
+   "text": "access files on partition",
+   "lang": "en"
+  },
+  {
+   "text": "mount disk image",
+   "lang": "en"
+  },
+  {
+   "text": "смонтировать раздел",
+   "lang": "ru"
+  },
+  {
+   "text": "подключить диск",
+   "lang": "ru"
+  },
+  {
+   "text": "mount команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The target directory exists and is empty (or you accept hiding its current contents)."
+ ],
+ "steps": [
+  {
+   "explain": "Mount the file system from the device to the chosen directory.",
+   "cmd": "sudo mount <DEVICE> <MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The device path, e.g., /dev/sda1",
+     "example": "/dev/sda1",
+     "discover_cmd": "lsblk -f"
+    },
+    {
+     "name": "MOUNT_POINT",
+     "description": "The directory to mount to, e.g., /mnt",
+     "example": "/mnt"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "findmnt <DEVICE>",
+   "expect": "Output shows the device mounted at the specified directory."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Unmount the file system.",
+   "cmd": "sudo umount <MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "MOUNT_POINT",
+     "description": "The directory where the file system is mounted",
+     "example": "/mnt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Mounting over a non-empty directory hides its existing contents until unmounted."
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/File_systems#Mount_a_file_system",
+  "title": "File systems",
+  "revision_id": 884914,
+  "license": "GFDL-1.3-or-later"
+ }
+}

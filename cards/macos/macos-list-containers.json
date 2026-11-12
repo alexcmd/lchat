@@ -1,0 +1,50 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-containers",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List all containers",
+ "summary": "Shows a list of all containers on your system, including both running and stopped ones.",
+ "aliases": [
+  {
+   "text": "list containers",
+   "lang": "en"
+  },
+  {
+   "text": "show all containers",
+   "lang": "en"
+  },
+  {
+   "text": "container ls",
+   "lang": "en"
+  },
+  {
+   "text": "список контейнеров",
+   "lang": "ru"
+  },
+  {
+   "text": "container list",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Lists all containers, including those that are not currently running.",
+   "cmd": "container list --all",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/container.md",
+  "title": "tldr-pages: container",
+  "license": "CC-BY-4.0"
+ }
+}

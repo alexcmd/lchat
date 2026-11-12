@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-pause-process",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Pause a running process",
+ "summary": "Suspend a process temporarily so it stops using CPU resources until you resume it.",
+ "aliases": [
+  {
+   "text": "pause process",
+   "lang": "en"
+  },
+  {
+   "text": "suspend program",
+   "lang": "en"
+  },
+  {
+   "text": "stop process temporarily",
+   "lang": "en"
+  },
+  {
+   "text": "приостановить процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "заморозить программу",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить процесс временно",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send the SIGSTOP signal to the process ID. The process will pause and stop executing until it receives a continue signal.",
+   "cmd": "kill -STOP <PROCESS_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_ID",
+     "description": "The numeric ID of the process to pause",
+     "example": "12345"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/kill.md",
+  "title": "tldr-pages: kill",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-network-services",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List available network services",
+ "summary": "Show a list of all network interfaces and services configured on your Mac, such as Wi-Fi, Ethernet, and Bluetooth.",
+ "aliases": [
+  {
+   "text": "list network services mac",
+   "lang": "en"
+  },
+  {
+   "text": "show network interfaces mac",
+   "lang": "en"
+  },
+  {
+   "text": "what networks does my mac have",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup list services",
+   "lang": "en"
+  },
+  {
+   "text": "список сетевых сервисов mac",
+   "lang": "ru"
+  },
+  {
+   "text": "какие сети есть на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "показать сетевые интерфейсы mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to list all configured network services.",
+   "cmd": "networksetup -listallnetworkservices",
+   "risk": "low",
+   "expect": "A list of network services like Wi-Fi, Ethernet, Bluetooth, etc."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/networksetup.md",
+  "title": "tldr-pages: networksetup",
+  "license": "CC-BY-4.0"
+ }
+}

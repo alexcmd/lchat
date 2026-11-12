@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-uv-add-dependency",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Add a Python dependency with uv",
+ "summary": "Use `uv add` to install a package and add it to your project's dependencies in `pyproject.toml`. This ensures the package is available in your project environment.",
+ "aliases": [
+  {
+   "text": "uv add package",
+   "lang": "en"
+  },
+  {
+   "text": "install python package uv",
+   "lang": "en"
+  },
+  {
+   "text": "add dependency uv",
+   "lang": "en"
+  },
+  {
+   "text": "uv add",
+   "lang": "en"
+  },
+  {
+   "text": "добавить пакет uv",
+   "lang": "ru"
+  },
+  {
+   "text": "установить пакет python uv",
+   "lang": "ru"
+  },
+  {
+   "text": "uv добавить зависимость",
+   "lang": "ru"
+  },
+  {
+   "text": "uv add",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Replace <PACKAGE> with the name of the Python package you want to install and add to your project.",
+   "cmd": "uv add <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the Python package to add.",
+     "example": "requests"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uv.md",
+  "title": "tldr-pages: uv",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "schema_version": 2,
+ "id": "arch-install-check-boot-mode",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if Arch Linux booted in UEFI or BIOS mode",
+ "summary": "Determine whether the system booted in UEFI or BIOS mode by checking the firmware bitness. This is crucial for choosing the correct boot loader and partitioning scheme.",
+ "aliases": [
+  {
+   "text": "check uefi or bios arch",
+   "lang": "en"
+  },
+  {
+   "text": "arch install uefi mode check",
+   "lang": "en"
+  },
+  {
+   "text": "how to know if uefi or legacy",
+   "lang": "en"
+  },
+  {
+   "text": "проверить режим загрузки arch",
+   "lang": "ru"
+  },
+  {
+   "text": "uefi или bios arch linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Booted into Arch Linux live environment"
+ ],
+ "steps": [
+  {
+   "explain": "Read the UEFI firmware bitness file. If it exists and returns 64 or 32, you are in UEFI mode. If it returns 'No such file or directory', you are likely in BIOS/CSM mode.",
+   "cmd": "sudo cat /sys/firmware/efi/fw_platform_size",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Output '64' (UEFI 64-bit), '32' (UEFI 32-bit), or an error indicating the file does not exist (BIOS mode)."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Installation_guide#Verify_the_boot_mode",
+  "title": "Installation guide",
+  "revision_id": 886382,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "linux-pamac-search-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search for a package using pamac",
+ "summary": "Use pamac to find software in the package database. This helps you locate the exact name of a package before installing it.",
+ "aliases": [
+  {
+   "text": "search package pamac",
+   "lang": "en"
+  },
+  {
+   "text": "find app pamac",
+   "lang": "en"
+  },
+  {
+   "text": "pamac search",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет pamac",
+   "lang": "ru"
+  },
+  {
+   "text": "pamac поиск пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти программу через pamac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pamac"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search the package database for packages matching the given name.",
+   "cmd": "pamac search <PACKAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name or part of the name of the package to search for.",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pamac.md",
+  "title": "tldr-pages: pamac",
+  "license": "CC-BY-4.0"
+ }
+}

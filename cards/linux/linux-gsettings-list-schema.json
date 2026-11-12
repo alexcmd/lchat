@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-gsettings-list-schema",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List keys and values for a specific GNOME schema",
+ "summary": "Use gsettings to display all keys and their current values (or defaults) for a specific schema. This helps you see what settings are available in a particular area.",
+ "aliases": [
+  {
+   "text": "list gnome schema keys",
+   "lang": "en"
+  },
+  {
+   "text": "gsettings list-recursively schema",
+   "lang": "en"
+  },
+  {
+   "text": "show keys for gnome schema",
+   "lang": "en"
+  },
+  {
+   "text": "список ключей схемы gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "gsettings list-recursively схема",
+   "lang": "ru"
+  },
+  {
+   "text": "показать ключи схемы gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome",
+   "cinnamon",
+   "mate"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display all keys and values for a specific schema. Replace the placeholder with the actual schema ID.",
+   "cmd": "gsettings list-recursively <SCHEMA_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCHEMA_ID",
+     "description": "The schema ID, e.g., org.gnome.desktop.interface",
+     "example": "org.gnome.desktop.interface"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gsettings.md",
+  "title": "tldr-pages: gsettings",
+  "license": "CC-BY-4.0"
+ }
+}

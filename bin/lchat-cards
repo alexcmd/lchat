@@ -1,0 +1,283 @@
+#!/usr/bin/env python3
+"""lchat-cards: the Linux help-card knowledge base behind the `linux_help` tool.
+
+Usage: lchat-cards sync   [--cards DIR]    load the cards folder into the vector store (new/changed cards get re-embedded)
+       lchat-cards status                  cards, vectors, installed version
+       lchat-cards embed                   embed every card without a vector (needs the embedding server)
+       lchat-cards search QUERY [-k N] [--platform linux|macos|any]
+
+Cards come from the dataset alexcmd/lnxhelp-cards (Hugging Face, folder cards/), shipped in this repo as cards/
+(one JSON file per card) and installed to ~/.local/share/lchat/cards/. The store is ~/.local/state/lchat/cards.db: one row per card
+with its JSON, a content hash and an EmbeddingGemma vector. `sync` is incremental: a card whose hash is unchanged
+keeps its vector, a changed card loses it (and is embedded again), a card missing from the folder is deleted. So the
+first install bootstraps the store and an update to a new cards version only re-embeds what changed. lchat-web runs
+sync at start-up and its embedding worker fills the missing vectors in the background.
+"""
+import hashlib, json, os, re, sqlite3, sys, threading, urllib.request
+
+STATE_DIR = os.path.expanduser("~/.local/state/lchat")
+DB_PATH = os.path.join(STATE_DIR, "cards.db")
+_HERE = os.path.dirname(os.path.realpath(__file__))
+CARDS_CANDIDATES = [os.environ.get("LCHAT_CARDS", ""), os.path.join(_HERE, "..", "cards"),
+                    os.path.expanduser("~/.local/share/lchat/cards")]
+EMBED_URL = os.environ.get("LCHAT_EMBED", "http://127.0.0.1:9951")
+RERANK_URL = os.environ.get("LCHAT_RERANK", "http://127.0.0.1:9952")
+LOCK = threading.Lock()
+HOST_PLATFORMS = ("linux", "posix")   # the machine lchat runs on; macOS cards only when asked for
+
+
+def cards_dir():
+    for p in CARDS_CANDIDATES:
+        if p and os.path.isdir(p) and _files(p):
+            return os.path.realpath(p)
+    return None
+
+
+def _files(root):
+    """Card files under root, sorted: **/*.json, without files starting with _ and the schema."""
+    out = []
+    for d, _subs, names in os.walk(root):
+        out += [os.path.join(d, n) for n in names if n.endswith(".json") and not n.startswith("_")
+                and n != "card.schema.json"]
+    return sorted(out)
+
+
+def db():
+    os.makedirs(STATE_DIR, mode=0o700, exist_ok=True)
+    con = sqlite3.connect(DB_PATH, timeout=10, check_same_thread=False)
+    con.execute("PRAGMA journal_mode=WAL")
+    con.executescript("""
+    CREATE TABLE IF NOT EXISTS cards(id TEXT PRIMARY KEY, platform TEXT, kind TEXT, title TEXT, hash TEXT,
+        text TEXT, json TEXT, vec BLOB);
+    CREATE INDEX IF NOT EXISTS cards_pending ON cards(id) WHERE vec IS NULL;
+    CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT);
+    """)
+    return con
+
+
+def card_text(c):
+    """What gets embedded and reranked: title, summary, aliases (several languages), error patterns, commands."""
+    parts = [c["title"], c.get("summary", ""), "; ".join(a["text"] for a in c.get("aliases", [])),
+             "; ".join(c.get("error_patterns", [])),
+             "; ".join(s["cmd"] for s in c.get("steps", []) if s.get("cmd"))]
+    return "\n".join(p for p in parts if p)
+
+
+def _hash(c):
+    return hashlib.sha256(json.dumps(c, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
+
+
+def sync(path=None, quiet=False):
+    """Make the store match the cards folder. Returns {cards, added, changed, removed, version}.
+    The version is a hash over every card file (path + content), so any change to the folder triggers a sync."""
+    path = path or cards_dir()
+    if not path:
+        return {"error": "no cards folder (cards/ in the lchat checkout or ~/.local/share/lchat/cards); run install.sh"}
+    files = _files(path)
+    blobs = [open(f, "rb").read() for f in files]
+    h = hashlib.sha256()
+    for f, b in zip(files, blobs):
+        h.update(os.path.relpath(f, path).encode() + b"\0" + b + b"\0")
+    version = h.hexdigest()
+    with LOCK, db() as con:
+        if dict(con.execute("SELECT key, value FROM meta")).get("version") == version:
+            n = con.execute("SELECT COUNT(*) FROM cards").fetchone()[0]
+            return {"cards": n, "added": 0, "changed": 0, "removed": 0, "version": version[:12], "unchanged": True}
+        cards = {}
+        for f, b in zip(files, blobs):
+            try:
+                c = json.loads(b)
+                cid = c["id"]; c["platform"]; c["kind"]; c["title"]
+            except (ValueError, KeyError, TypeError) as e:
+                print(f"skip {f}: {type(e).__name__} {e}", file=sys.stderr)
+                continue
+            if cid in cards:
+                print(f"skip {f}: duplicate id {cid}", file=sys.stderr)
+                continue
+            cards[cid] = c
+        old = dict(con.execute("SELECT id, hash FROM cards"))
+        added = changed = 0
+        for cid, c in cards.items():
+            h = _hash(c)
+            if old.get(cid) == h:
+                continue
+            added += cid not in old
+            changed += cid in old
+            con.execute("INSERT OR REPLACE INTO cards(id,platform,kind,title,hash,text,json,vec) "
+                        "VALUES(?,?,?,?,?,?,?,NULL)",
+                        (cid, c["platform"], c["kind"], c["title"], h, card_text(c), json.dumps(c, ensure_ascii=False)))
+        gone = [cid for cid in old if cid not in cards]
+        con.executemany("DELETE FROM cards WHERE id=?", [(g,) for g in gone])
+        con.execute("INSERT OR REPLACE INTO meta VALUES('version', ?)", (version,))
+        con.execute("INSERT OR REPLACE INTO meta VALUES('source', ?)", (path,))
+    os.chmod(DB_PATH, 0o600)
+    r = {"cards": len(cards), "added": added, "changed": changed, "removed": len(gone), "version": version[:12]}
+    if not quiet:
+        print(f"cards: {r['cards']} in {path} (version {r['version']}): {added} new, {changed} changed, "
+              f"{len(gone)} removed -> {DB_PATH}")
+    return r
+
+
+def _post(url, payload, timeout=120):
+    req = urllib.request.Request(url, json.dumps(payload).encode(), {"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read())
+
+
+def embed(texts, url=None):
+    import numpy as np
+    d = _post((url or EMBED_URL).rstrip("/") + "/v1/embeddings", {"input": texts})
+    return [np.asarray(x["embedding"], dtype=np.float32) for x in sorted(d["data"], key=lambda x: x["index"])]
+
+
+def embed_pending(url=None, batch=16, limit=None):
+    """Embed cards without a vector. Returns how many were embedded; raises when the server is down."""
+    done = 0
+    while limit is None or done < limit:
+        with LOCK, db() as con:
+            rows = con.execute("SELECT id, title, text FROM cards WHERE vec IS NULL LIMIT ?", (batch,)).fetchall()
+        if not rows:
+            break
+        vecs = embed([f"title: {t} | text: {x}" for _, t, x in rows], url)   # EmbeddingGemma document prompt
+        with LOCK, db() as con:
+            con.executemany("UPDATE cards SET vec=? WHERE id=?", [(v.tobytes(), r[0]) for v, r in zip(vecs, rows)])
+        done += len(rows)
+    return done
+
+
+def status():
+    with LOCK, db() as con:
+        n, v = con.execute("SELECT COUNT(*), COUNT(vec) FROM cards").fetchone()
+        meta = dict(con.execute("SELECT key, value FROM meta"))
+    return {"cards": n, "vectors": v, "version": meta.get("version", "")[:12], "source": meta.get("source")}
+
+
+_CACHE = {"key": None}
+
+
+def _matrix(con):
+    """(ids, platforms, M) of all embedded cards, cached until the store changes."""
+    import numpy as np
+    key = con.execute("SELECT COUNT(vec), (SELECT value FROM meta WHERE key='version') FROM cards").fetchone()
+    if _CACHE["key"] != key:
+        rows = con.execute("SELECT id, platform, vec FROM cards WHERE vec IS NOT NULL").fetchall()
+        M = np.frombuffer(b"".join(r[2] for r in rows), dtype=np.float32).reshape(len(rows), -1) if rows else None
+        if M is not None:
+            M = M / (np.linalg.norm(M, axis=1, keepdims=True) + 1e-9)
+        _CACHE.update(key=key, ids=[r[0] for r in rows], plat=[r[1] for r in rows], M=M)
+    return _CACHE["ids"], _CACHE["plat"], _CACHE["M"]
+
+
+def search(query, k=3, platform=None, pool=24, embed_url=None, rerank_url=None):
+    """Top cards for a query: (cards, scores, how). Literal error-pattern hits first, then embeddings pick `pool`
+    candidates and the reranker orders them; keyword fallback when the embedding server is down."""
+    import numpy as np
+    plats = HOST_PLATFORMS if platform in (None, "", "linux") else (("macos", "posix") if platform == "macos" else None)
+    ok = (lambda p: True) if plats is None else (lambda p: p in plats)
+    with LOCK, db() as con:
+        rows = {cid: (p, t, x, j) for cid, p, t, x, j in
+                con.execute("SELECT id, platform, title, text, json FROM cards")}
+        if not rows:
+            return [], [], "empty"
+        ql = query.lower()
+        exact = [cid for cid, (p, _t, _x, j) in rows.items() if ok(p) and any(
+            len(e) >= 12 and e.lower() in ql for e in json.loads(j).get("error_patterns", []))]
+        how = "embeddings"
+        try:
+            qv = embed([f"task: search result | query: {query}"], embed_url)[0]
+            ids, plat, M = _matrix(con)
+            if M is None:
+                raise RuntimeError("no vectors yet")
+            sims = M @ (qv / (np.linalg.norm(qv) + 1e-9))
+            cand = [ids[i] for i in np.argsort(-sims) if ok(plat[i])][:pool]
+        except Exception:
+            how = "keywords (embedding server unreachable or cards not embedded yet)"
+            words = [w for w in re.findall(r"\w{3,}", ql)]
+            scored = sorted(((sum(x.lower().count(w) for w in words), cid) for cid, (p, _t, x, _j) in rows.items()
+                             if ok(p)), reverse=True)
+            cand = [cid for s, cid in scored[:pool] if s > 0]
+    cand = exact + [c for c in cand if c not in exact]
+    if not cand:
+        return [], [], how
+    scores = [None] * len(cand)
+    try:
+        d = _post((rerank_url or RERANK_URL).rstrip("/") + "/v1/rerank",
+                  {"query": query, "documents": [rows[c][2] for c in cand]}, timeout=60)
+        ranked = sorted(d["results"], key=lambda x: -x["relevance_score"])
+        order = [cand[x["index"]] for x in ranked]
+        sc = {cand[x["index"]]: x["relevance_score"] for x in ranked}
+        order = [c for c in exact if c in sc] + [c for c in order if c not in exact]
+        cand, scores = order, [sc[c] for c in order]
+        how += " + rerank"
+    except Exception:
+        pass
+    return [json.loads(rows[c][3]) for c in cand[:k]], scores[:k], how
+
+
+def render(c, score=None):
+    """A card as compact text for the model: what it is for, the steps with commands, warnings, source."""
+    out = [f"## {c['title']}  [{c['platform']}, {c['kind']}, risk {c['risk']}, id {c['id']}"
+           + (f", score {score:.2f}" if score is not None else "") + "]", c.get("summary", "")]
+    fam = [d["family"] for d in c.get("applies_to", {}).get("distros", []) if d.get("family") != "any"]
+    if fam:
+        out.append("Applies to: " + ", ".join(fam))
+    for i, s in enumerate(c.get("steps", []), 1):
+        line = f"{i}. {s.get('explain', '')}"
+        if s.get("cmd"):
+            line += f"\n   $ {s['cmd']}" + ("   (needs root)" if s.get("needs_root") else "")
+        if s.get("expect"):
+            line += f"\n   expect: {s['expect']}"
+        for v in s.get("variants", []) or []:
+            if isinstance(v, dict) and v.get("cmd"):
+                line += f"\n   on {v.get('family', v.get('distro', '?'))}: $ {v['cmd']}"
+        for alt in (s.get("alternatives") or [])[:2]:
+            if alt.get("cmd"):
+                line += f"\n   or: $ {alt['cmd']}  ({alt.get('explain', '')[:160]})"
+        out.append(line)
+    for key, label in (("warnings", "Warning"), ("verify", "Verify"), ("rollback", "Undo")):
+        v = c.get(key)
+        if isinstance(v, list):
+            out += [f"{label}: {x if isinstance(x, str) else x.get('cmd') or x.get('explain') or x}" for x in v[:3]]
+        elif isinstance(v, dict):
+            out.append(f"{label}: {v.get('cmd') or v.get('explain') or ''}")
+        elif v:
+            out.append(f"{label}: {v}")
+    src = c.get("source") or {}
+    if src.get("url"):
+        out.append(f"Source: {src.get('title', '')} {src['url']} ({src.get('license', '')})")
+    return "\n".join(x for x in out if x)
+
+
+def main(argv):
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("cmd", choices=["sync", "status", "embed", "search"])
+    ap.add_argument("query", nargs="*")
+    ap.add_argument("--cards", help="cards folder (default: cards/ of the checkout, or ~/.local/share/lchat/cards)")
+    ap.add_argument("-k", type=int, default=3)
+    ap.add_argument("--platform", default=None, help="linux (default: linux + posix), macos, or any")
+    a = ap.parse_args(argv)
+    if a.cmd == "sync":
+        r = sync(a.cards)
+        if "error" in r:
+            sys.exit(r["error"])
+        try:
+            n = embed_pending()
+            if n:
+                print(f"embedded {n} cards")
+        except Exception as e:
+            print(f"note: embedding server {EMBED_URL} not reachable ({type(e).__name__}); "
+                  "lchat-web embeds the cards when it runs", file=sys.stderr)
+        print(json.dumps(status()))
+    elif a.cmd == "status":
+        print(json.dumps(status()))
+    elif a.cmd == "embed":
+        print(f"embedded {embed_pending()} cards")
+    else:
+        hits, scores, how = search(" ".join(a.query), a.k, a.platform)
+        print(f"{len(hits)} cards via {how}\n")
+        print("\n\n".join(render(c, s) for c, s in zip(hits, scores)))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

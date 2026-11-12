@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-optimize-mac-system",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check and maintain system with mole",
+ "summary": "Use mole optimize to check your Mac's system health and perform maintenance tasks to keep it running smoothly.",
+ "aliases": [
+  {
+   "text": "mole optimize",
+   "lang": "en"
+  },
+  {
+   "text": "optimize mac mole",
+   "lang": "en"
+  },
+  {
+   "text": "system maintenance mole",
+   "lang": "en"
+  },
+  {
+   "text": "check system mole",
+   "lang": "en"
+  },
+  {
+   "text": "оптимизировать мак mole",
+   "lang": "ru"
+  },
+  {
+   "text": "mole optimize",
+   "lang": "ru"
+  },
+  {
+   "text": "обслуживание системы mole",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mole"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mole optimize to check and maintain your Mac's system health.",
+   "cmd": "mole optimize",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mole.md",
+  "title": "tldr-pages: mole",
+  "license": "CC-BY-4.0"
+ }
+}

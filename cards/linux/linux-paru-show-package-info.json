@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-paru-show-package-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show information about a package with paru",
+ "summary": "Display detailed information about a package, such as its description, version, dependencies, and maintainer, without installing it.",
+ "aliases": [
+  {
+   "text": "show package info paru",
+   "lang": "en"
+  },
+  {
+   "text": "paru package details",
+   "lang": "en"
+  },
+  {
+   "text": "check package info arch",
+   "lang": "en"
+  },
+  {
+   "text": "paru -Si",
+   "lang": "en"
+  },
+  {
+   "text": "информация о пакете paru",
+   "lang": "ru"
+  },
+  {
+   "text": "paru показать пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "описание пакета arch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "paru"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the package database for information about the specified package.",
+   "cmd": "paru -Si <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to query.",
+     "example": "spotify"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/paru.md",
+  "title": "tldr-pages: paru",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "posix-run-low-priority",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Run a program with lowered priority",
+ "summary": "Use the `nice` command to run a program with a lower scheduling priority. This allows other applications to use more CPU resources, preventing the background task from slowing down your system.",
+ "aliases": [
+  {
+   "text": "run program with low priority",
+   "lang": "en"
+  },
+  {
+   "text": "nice command",
+   "lang": "en"
+  },
+  {
+   "text": "lower cpu priority",
+   "lang": "en"
+  },
+  {
+   "text": "run background task nice",
+   "lang": "en"
+  },
+  {
+   "text": "запустить программу с низким приоритетом",
+   "lang": "ru"
+  },
+  {
+   "text": "команда nice",
+   "lang": "ru"
+  },
+  {
+   "text": "понизить приоритет процесса",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить в фоне с низким приоритетом",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command with a specific niceness value. Higher values mean lower priority (10 is a common choice for background tasks).",
+   "cmd": "nice -<NICENESS_VALUE> <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NICENESS_VALUE",
+     "description": "The niceness value (0-19 for lowering priority). 10 is a common default.",
+     "example": "10"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command you want to run.",
+     "example": "find / -name \"*.txt\""
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Explicitly specify the adjustment using the -n flag.",
+     "cmd": "nice -n <NICENESS_VALUE> <COMMAND>",
+     "placeholders": [
+      {
+       "name": "NICENESS_VALUE",
+       "description": "The niceness value.",
+       "example": "10"
+      },
+      {
+       "name": "COMMAND",
+       "description": "The command to run.",
+       "example": "find / -name \"*.txt\""
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nice.md",
+  "title": "tldr-pages: nice",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "sudo-edit-config-visudo",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Edit sudo configuration safely",
+ "summary": "Use visudo to edit the sudoers file. This prevents syntax errors that could lock you out of sudo access.",
+ "aliases": [
+  {
+   "text": "edit sudoers",
+   "lang": "en"
+  },
+  {
+   "text": "change sudo config",
+   "lang": "en"
+  },
+  {
+   "text": "visudo",
+   "lang": "en"
+  },
+  {
+   "text": "редактировать sudoers",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "visudo команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the main sudoers file with visudo. It checks for syntax errors before saving.",
+   "cmd": "sudo visudo",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "If you made a mistake and cannot save, exit without saving (usually Ctrl+C or :q! in vi). If you saved a bad config, you may need to boot into recovery mode to fix it.",
+   "risk": "high"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Never edit /etc/sudoers with a standard text editor like nano or vim directly without visudo. A syntax error will break sudo for all users.",
+  "If you are using a drop-in file in /etc/sudoers.d/, use 'sudo visudo -f /etc/sudoers.d/filename'."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Sudo#Using_visudo",
+  "title": "Sudo",
+  "revision_id": 876067,
+  "license": "GFDL-1.3-or-later"
+ }
+}

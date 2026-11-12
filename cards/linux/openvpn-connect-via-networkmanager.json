@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "openvpn-connect-via-networkmanager",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Connect to OpenVPN via NetworkManager",
+ "summary": "Import an OpenVPN configuration file (.ovpn) into NetworkManager and connect to the VPN. This is the easiest way to use a third-party VPN service on a desktop.",
+ "aliases": [
+  {
+   "text": "connect openvpn networkmanager",
+   "lang": "en"
+  },
+  {
+   "text": "import ovpn file",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli openvpn connect",
+   "lang": "en"
+  },
+  {
+   "text": "подключить openvpn через networkmanager",
+   "lang": "ru"
+  },
+  {
+   "text": "импортировать ovpn",
+   "lang": "ru"
+  },
+  {
+   "text": "vpn networkmanager arch",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager",
+   "networkmanager-openvpn"
+  ]
+ },
+ "prerequisites": [
+  "You have an .ovpn configuration file from your VPN provider.",
+  "NetworkManager is running."
+ ],
+ "steps": [
+  {
+   "explain": "Import the .ovpn configuration file into NetworkManager. Replace <CONFIG_FILE> with the path to your .ovpn file.",
+   "cmd": "nmcli connection import type openvpn file <CONFIG_FILE>",
+   "placeholders": [
+    {
+     "name": "CONFIG_FILE",
+     "description": "Path to the .ovpn configuration file",
+     "example": "~/Downloads/vpn-config.ovpn"
+    }
+   ],
+   "risk": "low"
+  },
+  {
+   "explain": "Activate the newly imported VPN connection. Replace <CONNECTION_NAME> with the name shown in the previous step's output (usually the filename without extension).",
+   "cmd": "nmcli connection up <CONNECTION_NAME>",
+   "placeholders": [
+    {
+     "name": "CONNECTION_NAME",
+     "description": "Name of the imported VPN connection",
+     "example": "vpn-config"
+    }
+   ],
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/OpenVPN#CLI_configuration",
+  "title": "OpenVPN",
+  "revision_id": 886135,
+  "license": "GFDL-1.3-or-later"
+ }
+}

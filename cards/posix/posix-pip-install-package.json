@@ -1,0 +1,100 @@
+{
+ "schema_version": 2,
+ "id": "posix-pip-install-package",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Install a Python package with pip",
+ "summary": "Use pip to install Python libraries and tools. You can install them for your user only or system-wide.",
+ "aliases": [
+  {
+   "text": "install python package",
+   "lang": "en"
+  },
+  {
+   "text": "pip install",
+   "lang": "en"
+  },
+  {
+   "text": "add python library",
+   "lang": "en"
+  },
+  {
+   "text": "установить python пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "pip install библиотека",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить модуль python",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Python and pip are installed"
+ ],
+ "steps": [
+  {
+   "explain": "Install the specified package. By default, pip installs to the system-wide location, which may require administrator rights. To install only for your current user, use the --user flag.",
+   "cmd": "pip install <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package to install",
+     "example": "requests"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Install the package to the user's directory instead of the system-wide default location. This avoids permission errors and does not require sudo.",
+     "cmd": "pip install --user <PACKAGE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "Name of the Python package to install",
+       "example": "requests"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Uninstall the package if you no longer need it.",
+   "cmd": "pip uninstall <PACKAGE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package to uninstall",
+     "example": "requests"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing system-wide may require sudo. Using --user is safer for beginners.",
+  "On some modern Linux distributions, system-wide pip installation is blocked by default (externally-managed-environment)."
+ ],
+ "see_also": [
+  "error-pip-externally-managed",
+  "macos-error-externally-managed-python"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pip.md",
+  "title": "tldr-pages: pip",
+  "license": "CC-BY-4.0"
+ }
+}

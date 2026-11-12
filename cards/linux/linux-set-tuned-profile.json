@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-tuned-profile",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set a system performance tuning profile",
+ "summary": "Apply a specific performance tuning profile to your Linux system. This changes how the system manages CPU, disk, and other resources to optimize for different use cases.",
+ "aliases": [
+  {
+   "text": "set tuned profile",
+   "lang": "en"
+  },
+  {
+   "text": "change performance profile",
+   "lang": "en"
+  },
+  {
+   "text": "apply tuned profile",
+   "lang": "en"
+  },
+  {
+   "text": "linux set performance tuning",
+   "lang": "en"
+  },
+  {
+   "text": "установить профиль tuned",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить профиль производительности",
+   "lang": "ru"
+  },
+  {
+   "text": "применить профиль tuned",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "tuned"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Apply the specified performance tuning profile. Common profiles include 'balanced', 'powersave', and 'throughput-performance'.",
+   "cmd": "sudo tuned-adm profile <PROFILE_NAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PROFILE_NAME",
+     "description": "Name of the tuning profile to apply",
+     "example": "balanced",
+     "discover_cmd": "tuned-adm list"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Disable tuning to revert to default system behavior.",
+   "cmd": "sudo tuned-adm off",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Changing the tuning profile affects system resource management and may impact performance or power consumption."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/tuned-adm.md",
+  "title": "tldr-pages: tuned-adm",
+  "license": "CC-BY-4.0"
+ }
+}

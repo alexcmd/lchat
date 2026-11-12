@@ -1,0 +1,139 @@
+{
+ "schema_version": 2,
+ "id": "linux-disk-full-check-space-and-inodes",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check which disk is full, including inode use",
+ "summary": "Show how much space is free on each disk and how many file slots (inodes) are free. This tells you whether a disk is full by size or by number of files. All commands in this card only read information and change nothing.",
+ "aliases": [
+  {
+   "text": "disk full linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux no space left on device",
+   "lang": "en"
+  },
+  {
+   "text": "check disk space linux",
+   "lang": "en"
+  },
+  {
+   "text": "which disk is full linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux out of inodes",
+   "lang": "en"
+  },
+  {
+   "text": "df command free space",
+   "lang": "en"
+  },
+  {
+   "text": "linux disk full but few files",
+   "lang": "en"
+  },
+  {
+   "text": "диск переполнен linux как проверить",
+   "lang": "ru"
+  },
+  {
+   "text": "нет места на диске linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть свободное место на диске linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какой диск заполнен linux",
+   "lang": "ru"
+  },
+  {
+   "text": "закончились inode linux проверить",
+   "lang": "ru"
+  },
+  {
+   "text": "no space left on device linux проверить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window"
+ ],
+ "steps": [
+  {
+   "explain": "Show the size, used space and free space of every mounted disk or partition. Sizes use human units such as G and M. Read-only.",
+   "cmd": "df -h",
+   "risk": "low",
+   "expect": "A table with Filesystem, Size, Used, Avail, Use% and Mounted on. Look for a row with Use% at 90% or more, for example 100% on /.",
+   "alternatives": [
+    {
+     "explain": "Hide temporary and virtual filesystems so only real disks are listed. Read-only.",
+     "cmd": "df -h -x tmpfs -x devtmpfs",
+     "risk": "low",
+     "expect": "The same table without tmpfs and devtmpfs rows."
+    }
+   ]
+  },
+  {
+   "explain": "Show how many inodes (file slots) are used and free on every filesystem. A disk can be full because it holds too many files even when it still has free bytes. Read-only.",
+   "cmd": "df -hi",
+   "risk": "low",
+   "expect": "A table with Inodes, IUsed, IFree, IUse% and Mounted on. If IUse% is 100% while Use% in the previous step is low, the disk is full by file count.",
+   "alternatives": [
+    {
+     "explain": "Show the same inode table with exact numbers instead of human units. Read-only.",
+     "cmd": "df -i",
+     "risk": "low",
+     "expect": "Exact counts in the IUsed and IFree columns."
+    }
+   ]
+  },
+  {
+   "explain": "List disks and partitions with their filesystem type and mount point. Use it to match a Mounted on name from df, such as /home, with a device name, such as /dev/sda2. Read-only.",
+   "cmd": "lsblk -f",
+   "risk": "low",
+   "expect": "A tree of disks and partitions with FSTYPE and MOUNTPOINTS columns. The partition mounted on / is the root disk."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "df -h /",
+   "expect": "One data row ending with / in the Mounted on column, with a Use% value."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Rows named tmpfs or devtmpfs are memory-based virtual filesystems. A 100% value on them is normal and does not mean your disk is full."
+ ],
+ "see_also": [
+  "linux-show-disk-topology",
+  "linux-show-disk-size-bytes"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/df",
+  "title": "df manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

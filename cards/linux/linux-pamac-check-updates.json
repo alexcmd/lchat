@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-pamac-check-updates",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check for package updates using pamac",
+ "summary": "Use pamac to see if any installed packages have new versions available. This helps you keep your system up to date.",
+ "aliases": [
+  {
+   "text": "check updates pamac",
+   "lang": "en"
+  },
+  {
+   "text": "pamac checkupdates",
+   "lang": "en"
+  },
+  {
+   "text": "are there updates pamac",
+   "lang": "en"
+  },
+  {
+   "text": "проверить обновления pamac",
+   "lang": "ru"
+  },
+  {
+   "text": "pamac проверка обновлений",
+   "lang": "ru"
+  },
+  {
+   "text": "есть ли обновления pamac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pamac"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check for available package updates.",
+   "cmd": "pamac checkupdates",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pamac.md",
+  "title": "tldr-pages: pamac",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "linux-mount-device-to-directory",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount a storage device to a specific directory",
+ "summary": "Make the contents of a hard drive, USB stick, or partition accessible in a chosen folder.",
+ "aliases": [
+  {
+   "text": "mount usb drive",
+   "lang": "en"
+  },
+  {
+   "text": "mount hard drive",
+   "lang": "en"
+  },
+  {
+   "text": "access external drive",
+   "lang": "en"
+  },
+  {
+   "text": "mount partition to folder",
+   "lang": "en"
+  },
+  {
+   "text": "connect disk to directory",
+   "lang": "en"
+  },
+  {
+   "text": "mount device",
+   "lang": "en"
+  },
+  {
+   "text": "podklyuchit disk",
+   "lang": "ru"
+  },
+  {
+   "text": "montirovat usb",
+   "lang": "ru"
+  },
+  {
+   "text": "otkryt vneshniy disk",
+   "lang": "ru"
+  },
+  {
+   "text": "montirovat razdel",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Mount the specified device file to the target directory. The directory must already exist.",
+   "cmd": "sudo mount <DEVICE_FILE> <TARGET_DIRECTORY>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "DEVICE_FILE",
+     "description": "Path to the device file (e.g., /dev/sdb1)",
+     "example": "/dev/sdb1",
+     "discover_cmd": "lsblk"
+    },
+    {
+     "name": "TARGET_DIRECTORY",
+     "description": "Path to the existing directory where the device will be mounted",
+     "example": "/mnt/usb"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure the target directory is empty or you intend to hide its current contents.",
+  "You need administrator privileges to mount devices."
+ ],
+ "rollback": [
+  {
+   "explain": "Unmount the device to safely disconnect it.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/mount.md",
+  "title": "tldr-pages: mount",
+  "license": "CC-BY-4.0"
+ }
+}

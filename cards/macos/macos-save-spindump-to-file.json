@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "macos-save-spindump-to-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Save spindump output to a file",
+ "summary": "Instead of printing to the terminal, save the spindump report to a text file. This is useful for sharing the report with support or analyzing it later.",
+ "aliases": [
+  {
+   "text": "save spindump to file",
+   "lang": "en"
+  },
+  {
+   "text": "export spindump report",
+   "lang": "en"
+  },
+  {
+   "text": "spindump output file",
+   "lang": "en"
+  },
+  {
+   "text": "сохранить спиндамп в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "экспорт отчета спиндамп",
+   "lang": "ru"
+  },
+  {
+   "text": "спиндамп в текстовый файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run spindump for a specific process and use the -o flag to write the output to a file path you choose.",
+   "cmd": "sudo spindump <PROCESS_NAME_OR_PID> -o <OUTPUT_FILE_PATH>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_NAME_OR_PID",
+     "description": "The name of the application or its Process ID (PID).",
+     "example": "Safari"
+    },
+    {
+     "name": "OUTPUT_FILE_PATH",
+     "description": "The full path where you want to save the report.",
+     "example": "~/Desktop/report.txt"
+    }
+   ],
+   "expect": "The command completes without printing the report to the screen. The file is created at the specified path."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/spindump.md",
+  "title": "tldr-pages: spindump",
+  "license": "CC-BY-4.0"
+ }
+}

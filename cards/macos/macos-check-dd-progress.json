@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-dd-progress",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check progress of a running dd command",
+ "summary": "If you started a `dd` command without `status=progress`, you can check its progress by sending a signal to the process from another terminal window.",
+ "aliases": [
+  {
+   "text": "check dd progress",
+   "lang": "en"
+  },
+  {
+   "text": "show dd status",
+   "lang": "en"
+  },
+  {
+   "text": "dd progress signal",
+   "lang": "en"
+  },
+  {
+   "text": "проверить прогресс dd",
+   "lang": "ru"
+  },
+  {
+   "text": "статус dd команды",
+   "lang": "ru"
+  },
+  {
+   "text": "kill -30 dd",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A `dd` command is currently running in another terminal window"
+ ],
+ "steps": [
+  {
+   "explain": "Send a SIGINFO signal to the running `dd` process to display its current progress in the original terminal window.",
+   "cmd": "kill -30 $(pgrep ^dd)",
+   "risk": "low",
+   "expect": "The original terminal window running `dd` will print a line showing the number of bytes transferred and the transfer rate."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dd.md",
+  "title": "tldr-pages: dd",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "posix-ping-no-dns",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Ping a host without DNS lookup",
+ "summary": "Ping an IP address without trying to resolve it to a hostname. This can be faster and avoids issues if DNS is broken.",
+ "aliases": [
+  {
+   "text": "ping no dns",
+   "lang": "en"
+  },
+  {
+   "text": "ping numeric only",
+   "lang": "en"
+  },
+  {
+   "text": "ping -n",
+   "lang": "en"
+  },
+  {
+   "text": "пинг без днс",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг без имен",
+   "lang": "ru"
+  },
+  {
+   "text": "ping ip address only",
+   "lang": "en"
+  },
+  {
+   "text": "ping no symbolic names",
+   "lang": "en"
+  },
+  {
+   "text": "пинг по ip",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг без резолва",
+   "lang": "ru"
+  },
+  {
+   "text": "ping without dns",
+   "lang": "en"
+  },
+  {
+   "text": "ping -n mac",
+   "lang": "en"
+  },
+  {
+   "text": "пинг -n",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send packets to the host but do not attempt to look up symbolic names for the addresses.",
+   "cmd": "ping -n <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The IP address or domain name of the host to ping.",
+     "example": "8.8.8.8"
+    }
+   ],
+   "expect": "Output shows IP addresses instead of hostnames."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ping.md",
+  "title": "tldr-pages: ping",
+  "license": "CC-BY-4.0"
+ }
+}

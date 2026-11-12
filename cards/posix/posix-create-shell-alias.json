@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "posix-create-shell-alias",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Create a shell alias for a command",
+ "summary": "Create a shortcut name for a long or complex command. The alias works immediately in the current terminal window but disappears when you close it unless you add it to your shell configuration file.",
+ "aliases": [
+  {
+   "text": "create alias",
+   "lang": "en"
+  },
+  {
+   "text": "make shortcut command",
+   "lang": "en"
+  },
+  {
+   "text": "alias command",
+   "lang": "en"
+  },
+  {
+   "text": "kak sdelat alias",
+   "lang": "ru"
+  },
+  {
+   "text": "sozdat alias",
+   "lang": "ru"
+  },
+  {
+   "text": "sokraschenie komandy",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Define a new alias by assigning a command string to a word. Replace <WORD> with your shortcut name and <COMMAND> with the command you want to run.",
+   "cmd": "alias <WORD>=\"<COMMAND>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "WORD",
+     "description": "The name of the alias (e.g., 'la', 'll')",
+     "example": "la"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command string the alias will execute",
+     "example": "ls --all"
+    }
+   ],
+   "expect": "No output is displayed if the alias is created successfully."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/alias.md",
+  "title": "tldr-pages: alias",
+  "license": "CC-BY-4.0"
+ }
+}

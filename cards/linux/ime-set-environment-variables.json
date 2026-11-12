@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "ime-set-environment-variables",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Configure environment variables for an Input Method Framework",
+ "summary": "Set the necessary environment variables so your desktop environment correctly uses the installed Input Method Framework (like IBus or Fcitx5) for handling input.",
+ "aliases": [
+  {
+   "text": "set gtk_im_module",
+   "lang": "en"
+  },
+  {
+   "text": "configure ibus environment variables",
+   "lang": "en"
+  },
+  {
+   "text": "fcitx5 not working environment",
+   "lang": "en"
+  },
+  {
+   "text": "настроить переменные окружения для имэ",
+   "lang": "ru"
+  },
+  {
+   "text": "почему не работает ввод на китайском",
+   "lang": "ru"
+  },
+  {
+   "text": "gtk_im_module ibus",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "An Input Method Framework (like IBus or Fcitx5) is installed."
+ ],
+ "steps": [
+  {
+   "explain": "Add the following lines to your environment configuration file (e.g., ~/.bashrc or /etc/environment):\nGTK_IM_MODULE=ibus\nQT_IM_MODULE=ibus\nXMODIFIERS=@im=ibus",
+   "risk": "medium"
+  },
+  {
+   "explain": "Add the following lines to your environment configuration file:\nGTK_IM_MODULE=fcitx\nQT_IM_MODULE=fcitx\nXMODIFIERS=@im=fcitx",
+   "risk": "medium"
+  },
+  {
+   "explain": "Add the following lines to your environment configuration file:\nGTK_IM_MODULE=uim\nQT_IM_MODULE=uim\nXMODIFIERS=@im=uim",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the added lines from your environment configuration file.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Incorrectly setting these variables can prevent input methods from working or cause unexpected behavior in applications."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Input_method#Configuration",
+  "title": "Input method",
+  "revision_id": 887716,
+  "license": "GFDL-1.3-or-later"
+ }
+}

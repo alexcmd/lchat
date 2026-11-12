@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-sleep-blockers",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find out what is stopping the Mac from going to sleep",
+ "summary": "When the Mac stays awake, an app or background process may be holding a power assertion that blocks sleep. This command lists those apps and processes.",
+ "aliases": [
+  {
+   "text": "what keeps my mac awake",
+   "lang": "en"
+  },
+  {
+   "text": "mac won't go to sleep",
+   "lang": "en"
+  },
+  {
+   "text": "which app prevents mac sleep",
+   "lang": "en"
+  },
+  {
+   "text": "pmset assertions",
+   "lang": "en"
+  },
+  {
+   "text": "mac sleep blocked by app",
+   "lang": "en"
+  },
+  {
+   "text": "show power assertions mac",
+   "lang": "en"
+  },
+  {
+   "text": "почему mac не засыпает",
+   "lang": "ru"
+  },
+  {
+   "text": "что мешает маку уходить в сон",
+   "lang": "ru"
+  },
+  {
+   "text": "какое приложение не дает mac уснуть",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset assertions",
+   "lang": "ru"
+  },
+  {
+   "text": "мак не спит какой процесс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the power assertions held by apps and processes. An assertion is a request to keep the Mac awake; each process that holds one is listed with its name.",
+   "cmd": "pmset -g assertions",
+   "risk": "low",
+   "expect": "Lines such as PreventUserIdleSystemSleep 1 mean sleep is blocked; the process name next to it shows which app holds it. Value 0 means nothing blocks that sleep."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://pmset",
+  "title": "pmset manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

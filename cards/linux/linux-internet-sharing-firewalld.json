@@ -1,0 +1,117 @@
+{
+ "schema_version": 2,
+ "id": "linux-internet-sharing-firewalld",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable internet sharing with firewalld",
+ "summary": "Configure firewalld to allow traffic forwarding between the internal (client) and external (internet) zones, enabling internet sharing.",
+ "aliases": [
+  {
+   "text": "firewalld internet sharing",
+   "lang": "en"
+  },
+  {
+   "text": "firewalld nat zones",
+   "lang": "en"
+  },
+  {
+   "text": "раздать интернет firewalld",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить firewalld для раздачи",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "firewalld"
+  ]
+ },
+ "prerequisites": [
+  "IP forwarding is enabled",
+  "Static IP is set on the client interface"
+ ],
+ "steps": [
+  {
+   "explain": "Assign the internet interface to the 'external' zone permanently.",
+   "cmd": "sudo firewall-cmd --zone=external --change-interface=<INTERNET_INTERFACE> --permanent",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "INTERNET_INTERFACE",
+     "description": "Name of the interface connected to the internet",
+     "example": "eth0",
+     "discover_cmd": "ip link"
+    }
+   ]
+  },
+  {
+   "explain": "Assign the client interface to the 'internal' zone permanently.",
+   "cmd": "sudo firewall-cmd --zone=internal --change-interface=<CLIENT_INTERFACE> --permanent",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "CLIENT_INTERFACE",
+     "description": "Name of the interface connected to the client(s)",
+     "example": "eth1",
+     "discover_cmd": "ip link"
+    }
+   ]
+  },
+  {
+   "explain": "Create a new policy named 'int2ext' to manage traffic between zones.",
+   "cmd": "sudo firewall-cmd --permanent --new-policy int2ext",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Set the ingress zone of the policy to 'internal'.",
+   "cmd": "sudo firewall-cmd --permanent --policy int2ext --add-ingress-zone internal",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Set the egress zone of the policy to 'external'.",
+   "cmd": "sudo firewall-cmd --permanent --policy int2ext --add-egress-zone external",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Set the target of the policy to ACCEPT to allow traffic flow.",
+   "cmd": "sudo firewall-cmd --permanent --policy int2ext --set-target ACCEPT",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Reload firewalld to apply the changes.",
+   "cmd": "sudo firewall-cmd --reload",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo this, delete the policy using 'firewall-cmd --permanent --delete-policy int2ext', reset interface zones to their previous values, and reload firewalld.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Changing zones affects firewall rules applied to those interfaces.",
+  "Ensure firewalld is running and enabled before applying these changes."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Internet_sharing#With_firewalld",
+  "title": "Internet sharing",
+  "revision_id": 882757,
+  "license": "GFDL-1.3-or-later"
+ }
+}

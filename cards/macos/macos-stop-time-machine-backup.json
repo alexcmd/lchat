@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-stop-time-machine-backup",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Stop a running Time Machine backup",
+ "summary": "Cancel a Time Machine backup that is currently in progress using the command line.",
+ "aliases": [
+  {
+   "text": "stop time machine backup",
+   "lang": "en"
+  },
+  {
+   "text": "cancel backup",
+   "lang": "en"
+  },
+  {
+   "text": "abort time machine",
+   "lang": "en"
+  },
+  {
+   "text": "остановить резервное копирование",
+   "lang": "ru"
+  },
+  {
+   "text": "отменить бэкап",
+   "lang": "ru"
+  },
+  {
+   "text": "прервать бэкап",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command to stop any currently running Time Machine backup. You need administrator privileges.",
+   "cmd": "sudo tmutil stopbackup",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To restart the backup, run the start command.",
+   "cmd": "sudo tmutil startbackup",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Stopping a backup mid-process may leave the backup incomplete. You can restart it later."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tmutil.md",
+  "title": "tldr-pages: tmutil",
+  "license": "CC-BY-4.0"
+ }
+}

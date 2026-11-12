@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-nano-soft-wrap",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Open a file in nano with soft wrapping enabled",
+ "summary": "Soft wrapping makes long lines of text wrap visually within the terminal window, making it easier to read files without horizontal scrolling.",
+ "aliases": [
+  {
+   "text": "nano soft wrap",
+   "lang": "en"
+  },
+  {
+   "text": "wrap long lines in nano",
+   "lang": "en"
+  },
+  {
+   "text": "nano word wrap",
+   "lang": "en"
+  },
+  {
+   "text": "перенос строк в nano",
+   "lang": "ru"
+  },
+  {
+   "text": "nano перенос текста",
+   "lang": "ru"
+  },
+  {
+   "text": "включить перенос в nano",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the file with the soft wrap option enabled.",
+   "cmd": "nano -S <FILE>",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to edit.",
+     "example": "long_text.txt"
+    }
+   ],
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nano.md",
+  "title": "tldr-pages: nano",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-system-health-mole",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Monitor system health with mole",
+ "summary": "Use mole status to monitor your Mac's system health and view current status information.",
+ "aliases": [
+  {
+   "text": "mole status",
+   "lang": "en"
+  },
+  {
+   "text": "system health mole",
+   "lang": "en"
+  },
+  {
+   "text": "monitor mac mole",
+   "lang": "en"
+  },
+  {
+   "text": "check status mole",
+   "lang": "en"
+  },
+  {
+   "text": "состояние системы mole",
+   "lang": "ru"
+  },
+  {
+   "text": "mole status",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг мак mole",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mole"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run mole status to monitor and view your Mac's system health information.",
+   "cmd": "mole status",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mole.md",
+  "title": "tldr-pages: mole",
+  "license": "CC-BY-4.0"
+ }
+}

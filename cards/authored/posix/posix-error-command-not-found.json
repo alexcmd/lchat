@@ -1,0 +1,148 @@
+{
+ "schema_version": 2,
+ "id": "posix-error-command-not-found",
+ "platform": "posix",
+ "kind": "error",
+ "title": "Fix the 'command not found' error in the terminal",
+ "summary": "The terminal says 'command not found' when it cannot find a program with the name you typed. The usual causes are a typo, a program that is not installed, or a folder that is missing from the search path. These steps check each cause and show how to find the package that provides the program.",
+ "error_patterns": [
+  "command not found"
+ ],
+ "aliases": [
+  {
+   "text": "command not found",
+   "lang": "en"
+  },
+  {
+   "text": "terminal says command not found",
+   "lang": "en"
+  },
+  {
+   "text": "bash command not found how to fix",
+   "lang": "en"
+  },
+  {
+   "text": "zsh command not found mac",
+   "lang": "en"
+  },
+  {
+   "text": "why does terminal say command not found",
+   "lang": "en"
+  },
+  {
+   "text": "command not found which package to install",
+   "lang": "en"
+  },
+  {
+   "text": "команда не найдена в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "command not found что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "терминал пишет command not found",
+   "lang": "ru"
+  },
+  {
+   "text": "zsh command not found на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "команда не найдена какой пакет установить",
+   "lang": "ru"
+  },
+  {
+   "text": "komanda ne najdena terminal",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open",
+  "You have the exact message, for example: bash: nosuchtool: command not found",
+  "For the package search step: apt-file on Debian, Ubuntu and Mint, or pkgfile on Arch, is installed and its database is updated (see the linked cards)"
+ ],
+ "steps": [
+  {
+   "explain": "Read the program name in the message. In 'bash: nosuchtool: command not found' the name is nosuchtool; zsh, the default shell on macOS, says 'zsh: command not found: nosuchtool'. Look for a typo such as gti instead of git and retype the command.",
+   "risk": "low"
+  },
+  {
+   "explain": "Ask the shell where it finds a program with that name. A path such as /usr/bin/git means the program is installed. No output means the shell cannot find it.",
+   "cmd": "command -v <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The program name from the error message",
+     "example": "git"
+    }
+   ],
+   "expect": "A path such as /usr/bin/git, or no output at all when the program is not installed.",
+   "alternatives": [
+    {
+     "explain": "The same check, but it also tells you whether the name is an alias, a shell function or a built-in command.",
+     "cmd": "type <COMMAND>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The program name from the error message",
+       "example": "git"
+      }
+     ],
+     "expect": "'git is /usr/bin/git' when the program is installed, or a 'not found' message when it is not."
+    }
+   ]
+  },
+  {
+   "explain": "Show the folders the shell searches for programs, separated by colons. A program installed in a folder that is not in this list cannot be started by its name. Usual folders are /usr/bin and /bin.",
+   "cmd": "echo \"$PATH\"",
+   "risk": "low",
+   "expect": "A colon-separated list such as /usr/local/bin:/usr/bin:/bin."
+  },
+  {
+   "explain": "Find the package that contains the program. On Linux, the search tool for your system looks up the file name; on macOS, brew search looks up Homebrew package names. Install the package you find with your package manager; if the search tool itself is missing, install it first (see the linked cards).",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The program name from the error message",
+     "example": "tree"
+    }
+   ],
+   "variants": {
+    "arch": "pkgfile --binaries <COMMAND>",
+    "debian": "apt-file -x search '/bin/<COMMAND>$'",
+    "ubuntu": "apt-file -x search '/bin/<COMMAND>$'",
+    "mint": "apt-file -x search '/bin/<COMMAND>$'",
+    "fedora": "dnf provides '*/bin/<COMMAND>'",
+    "opensuse": "zypper search --provides --match-exact /usr/bin/<COMMAND>",
+    "macos": "brew search <COMMAND>"
+   },
+   "expect": "A line that names a package next to the file path, for example tree: /usr/bin/tree on Ubuntu. Nothing printed means no package provides that name."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-apt-file-find-file-in-package",
+  "linux-dnf-find-command-package",
+  "arch-pkgfile-find-package-for-file",
+  "linux-zypper-search-package",
+  "posix-brew-search-package"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

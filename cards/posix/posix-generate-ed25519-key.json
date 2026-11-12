@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-generate-ed25519-key",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Generate a modern ed25519 SSH key",
+ "summary": "Create a secure, modern ed25519 SSH key with a specific filename and increased security rounds. This is recommended for new keys.",
+ "aliases": [
+  {
+   "text": "generate ed25519 key",
+   "lang": "en"
+  },
+  {
+   "text": "create ed25519 ssh key",
+   "lang": "en"
+  },
+  {
+   "text": "modern ssh key",
+   "lang": "en"
+  },
+  {
+   "text": "ed25519 keygen",
+   "lang": "en"
+  },
+  {
+   "text": "ssh key ed25519",
+   "lang": "en"
+  },
+  {
+   "text": "создать ed25519 ключ",
+   "lang": "ru"
+  },
+  {
+   "text": "генерация ed25519 ключа",
+   "lang": "ru"
+  },
+  {
+   "text": "современный ssh ключ",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Generate an ed25519 key with 32 rounds of key derivation, saving it to a specific file.",
+   "cmd": "ssh-keygen -f <KEY_FILE> -t ed25519 -a 32",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_FILE",
+     "description": "The path and filename where the private key will be saved.",
+     "example": "~/.ssh/id_ed25519"
+    }
+   ],
+   "expect": "The tool prompts for a passphrase and confirms the key was saved to the specified file."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh-keygen.md",
+  "title": "tldr-pages: ssh-keygen",
+  "license": "CC-BY-4.0"
+ }
+}

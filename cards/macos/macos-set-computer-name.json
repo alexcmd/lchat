@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-computer-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set computer name",
+ "summary": "Change the friendly name of your Mac as it appears on the network.",
+ "aliases": [
+  {
+   "text": "change computer name",
+   "lang": "en"
+  },
+  {
+   "text": "rename mac computer",
+   "lang": "en"
+  },
+  {
+   "text": "scutil set computername",
+   "lang": "en"
+  },
+  {
+   "text": "как переименовать компьютер",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить имя мака в сети",
+   "lang": "ru"
+  },
+  {
+   "text": "set computer name macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use scutil with sudo to set a new ComputerName. This name is used for network sharing.",
+   "cmd": "sudo scutil --set ComputerName <COMPUTER_NAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "COMPUTER_NAME",
+     "description": "The new friendly name for your Mac",
+     "example": "MyMacBook"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Set the ComputerName back to its original value.",
+   "cmd": "sudo scutil --set ComputerName <OLD_COMPUTER_NAME>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "OLD_COMPUTER_NAME",
+     "description": "The previous name of the computer"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing the computer name may affect how other devices see your Mac on the network."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/scutil.md",
+  "title": "tldr-pages: scutil",
+  "license": "CC-BY-4.0"
+ }
+}

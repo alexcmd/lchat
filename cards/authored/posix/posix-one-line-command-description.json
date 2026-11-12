@@ -1,0 +1,171 @@
+{
+ "schema_version": 2,
+ "id": "posix-one-line-command-description",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Get a one-line description of a command",
+ "summary": "whatis prints the short description that a command's manual page gives, so you can see what a command is for without opening the full manual. It works on Linux and macOS.",
+ "aliases": [
+  {
+   "text": "what does this command do",
+   "lang": "en"
+  },
+  {
+   "text": "one line description of a command",
+   "lang": "en"
+  },
+  {
+   "text": "short description of a linux command",
+   "lang": "en"
+  },
+  {
+   "text": "what is this command for",
+   "lang": "en"
+  },
+  {
+   "text": "whatis linux",
+   "lang": "en"
+  },
+  {
+   "text": "man page summary of a command",
+   "lang": "en"
+  },
+  {
+   "text": "что делает команда в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "короткое описание команды",
+   "lang": "ru"
+  },
+  {
+   "text": "для чего нужна команда терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "chto delaet komanda linux",
+   "lang": "ru"
+  },
+  {
+   "text": "описание команды одной строкой",
+   "lang": "ru"
+  },
+  {
+   "text": "what does ls do",
+   "lang": "en"
+  },
+  {
+   "text": "command help summary",
+   "lang": "en"
+  },
+  {
+   "text": "что такое ls",
+   "lang": "ru"
+  },
+  {
+   "text": "whatis command",
+   "lang": "en"
+  },
+  {
+   "text": "short description of command",
+   "lang": "en"
+  },
+  {
+   "text": "what is grep",
+   "lang": "en"
+  },
+  {
+   "text": "что делает команда",
+   "lang": "ru"
+  },
+  {
+   "text": "whatis",
+   "lang": "ru"
+  },
+  {
+   "text": "краткое описание команды",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "whatis"
+  ]
+ },
+ "prerequisites": [
+  "The whatis tool is installed (it is standard on Linux desktops and macOS)"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the whatis tool is available. It should print a path such as /usr/bin/whatis. If nothing is printed, install the man-db package with your system's package manager.",
+   "cmd": "command -v whatis",
+   "risk": "low",
+   "expect": "A path ending in whatis, for example /usr/bin/whatis."
+  },
+  {
+   "explain": "Show the one-line description of a command. Replace <COMMAND> with the command name you want to learn about. The output is the command name, its manual section in brackets or parentheses, and a short description.",
+   "cmd": "whatis <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The name of the command to look up, without options or arguments",
+     "example": "ls",
+     "discover_cmd": "ls /usr/bin | head -n 30"
+    }
+   ],
+   "expect": "For example on Linux: ls (1) - list directory contents. The layout differs between systems. Unknown name: <COMMAND>: nothing appropriate.",
+   "alternatives": [
+    {
+     "explain": "Look up several commands at once by listing their names after whatis. Each name gets its own line. Shell words such as cd may not be listed, because they are built into the shell and not separate programs.",
+     "cmd": "whatis <COMMAND1> <COMMAND2>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COMMAND1",
+       "description": "First command name",
+       "example": "ls"
+      },
+      {
+       "name": "COMMAND2",
+       "description": "Second command name",
+       "example": "cat"
+      }
+     ],
+     "expect": "One line per name that has a description."
+    },
+    {
+     "explain": "Use man with the -f option. It runs the same lookup as whatis and is useful if whatis is not on the system but man is.",
+     "cmd": "man -f <COMMAND>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The name of the command to look up",
+       "example": "ls"
+      }
+     ],
+     "expect": "The same one-line description as whatis prints."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "whatis ls",
+   "expect": "A line with the name ls and the words list directory contents (on Linux: ls (1) - list directory contents)."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/whatis",
+  "title": "whatis manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

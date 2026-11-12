@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-count-lines-words-chars",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Count lines, words, and characters in a file",
+ "summary": "Use the `wc` command without flags to count lines, words, and characters (bytes) in a file all at once.",
+ "aliases": [
+  {
+   "text": "count lines words characters",
+   "lang": "en"
+  },
+  {
+   "text": "wc file",
+   "lang": "en"
+  },
+  {
+   "text": "count all stats file",
+   "lang": "en"
+  },
+  {
+   "text": "wc command",
+   "lang": "en"
+  },
+  {
+   "text": "сколько строк слов символов",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать всё в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "wc без флага",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `wc` command followed by the path to your file. By default, it counts lines, words, and bytes.",
+   "cmd": "wc <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to analyze.",
+     "example": "~/Documents/report.txt"
+    }
+   ],
+   "expect": "The terminal will output three numbers: lines, words, and bytes, followed by the filename."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/wc.md",
+  "title": "tldr-pages: wc",
+  "license": "CC-BY-4.0"
+ }
+}

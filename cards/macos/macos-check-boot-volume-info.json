@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-boot-volume-info",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check current boot volume information",
+ "summary": "View details about the volume currently selected for booting by the system firmware. This helps you verify which disk or partition your Mac is configured to start from.",
+ "aliases": [
+  {
+   "text": "check boot volume",
+   "lang": "en"
+  },
+  {
+   "text": "what is my boot disk",
+   "lang": "en"
+  },
+  {
+   "text": "bless info",
+   "lang": "en"
+  },
+  {
+   "text": "startup disk details",
+   "lang": "en"
+  },
+  {
+   "text": "проверить загрузочный диск",
+   "lang": "ru"
+  },
+  {
+   "text": "какой диск загружается",
+   "lang": "ru"
+  },
+  {
+   "text": "bless info plist",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the bless command with info flags to retrieve the current boot configuration from the firmware in Property List format.",
+   "cmd": "bless --info --plist",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/bless.md",
+  "title": "tldr-pages: bless",
+  "license": "CC-BY-4.0"
+ }
+}

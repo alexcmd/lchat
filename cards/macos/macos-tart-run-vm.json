@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "macos-tart-run-vm",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run a Tart virtual machine",
+ "summary": "Starts a previously created or cloned virtual machine. You can optionally mount a local directory into the VM.",
+ "aliases": [
+  {
+   "text": "run tart vm",
+   "lang": "en"
+  },
+  {
+   "text": "start virtual machine tart",
+   "lang": "en"
+  },
+  {
+   "text": "tart run",
+   "lang": "en"
+  },
+  {
+   "text": "запустить виртуалку tart",
+   "lang": "ru"
+  },
+  {
+   "text": "запуск вмс tart",
+   "lang": "ru"
+  },
+  {
+   "text": "tart run vm",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Runs the specified virtual machine.",
+   "cmd": "tart run <VM_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VM_NAME",
+     "description": "Name of the virtual machine to run",
+     "example": "my-vm",
+     "discover_cmd": "tart list"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Runs the VM and mounts a local directory to a path inside the VM.",
+     "cmd": "tart run --dir <LOCAL_DIR>:/<VM_DIR> <VM_NAME>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "LOCAL_DIR",
+       "description": "Path to the local directory to mount",
+       "example": "/Users/me/projects"
+      },
+      {
+       "name": "VM_DIR",
+       "description": "Path inside the VM where the directory is mounted",
+       "example": "/mnt/shared"
+      },
+      {
+       "name": "VM_NAME",
+       "description": "Name of the virtual machine to run",
+       "example": "my-vm",
+       "discover_cmd": "tart list"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tart.md",
+  "title": "tldr-pages: tart",
+  "license": "CC-BY-4.0"
+ }
+}

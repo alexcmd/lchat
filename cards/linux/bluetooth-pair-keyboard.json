@@ -1,0 +1,140 @@
+{
+ "schema_version": 2,
+ "id": "bluetooth-pair-keyboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Pair a Bluetooth keyboard with bluetoothctl",
+ "summary": "Use the bluetoothctl tool to find, pair, and connect a Bluetooth keyboard. This is a one-time setup process that allows the keyboard to work with your computer.",
+ "aliases": [
+  {
+   "text": "pair bluetooth keyboard",
+   "lang": "en"
+  },
+  {
+   "text": "connect bt keyboard",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth keyboard not working",
+   "lang": "en"
+  },
+  {
+   "text": "how to pair keyboard linux",
+   "lang": "en"
+  },
+  {
+   "text": "подключить bluetooth клавиатуру",
+   "lang": "ru"
+  },
+  {
+   "text": "спарить клавиатуру bluetooth",
+   "lang": "ru"
+  },
+  {
+   "text": "не работает bluetooth клавиатура",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "bluez-utils"
+  ]
+ },
+ "prerequisites": [
+  "A wired keyboard or SSH access to the computer",
+  "Bluetooth controller recognized by the system"
+ ],
+ "steps": [
+  {
+   "explain": "Start the Bluetooth control utility as root.",
+   "cmd": "sudo bluetoothctl",
+   "needs_root": true,
+   "risk": "low"
+  },
+  {
+   "explain": "Power on the Bluetooth controller.",
+   "cmd": "power on",
+   "risk": "low"
+  },
+  {
+   "explain": "Set the agent to handle keyboard pairing specifically.",
+   "cmd": "agent KeyboardOnly",
+   "risk": "low"
+  },
+  {
+   "explain": "Make the current agent the default one.",
+   "cmd": "default-agent",
+   "risk": "low"
+  },
+  {
+   "explain": "Enable pairing mode on the local controller.",
+   "cmd": "pairable on",
+   "risk": "low"
+  },
+  {
+   "explain": "Put your physical keyboard into discoverable/pairing mode (check its manual, often a button or key combo).",
+   "risk": "low"
+  },
+  {
+   "explain": "Start scanning for nearby Bluetooth devices.",
+   "cmd": "scan on",
+   "risk": "low"
+  },
+  {
+   "explain": "Wait for the keyboard's MAC address to appear in the output, then pair with it.",
+   "cmd": "pair <KEYBOARD_MAC>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYBOARD_MAC",
+     "description": "The Bluetooth MAC address of the keyboard found during scan",
+     "example": "01:02:03:04:05:06"
+    }
+   ]
+  },
+  {
+   "explain": "Mark the keyboard as trusted so it can connect automatically.",
+   "cmd": "trust <KEYBOARD_MAC>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYBOARD_MAC",
+     "description": "The Bluetooth MAC address of the keyboard",
+     "example": "01:02:03:04:05:06"
+    }
+   ]
+  },
+  {
+   "explain": "Connect to the paired keyboard.",
+   "cmd": "connect <KEYBOARD_MAC>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYBOARD_MAC",
+     "description": "The Bluetooth MAC address of the keyboard",
+     "example": "01:02:03:04:05:06"
+    }
+   ]
+  },
+  {
+   "explain": "Exit the bluetoothctl utility.",
+   "cmd": "quit",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Bluetooth_keyboard#Pairing_process",
+  "title": "Bluetooth keyboard",
+  "revision_id": 815659,
+  "license": "GFDL-1.3-or-later"
+ },
+ "see_also": [
+  "bluetooth-pair-device"
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-inxi-gpu-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show graphics card details",
+ "summary": "Use inxi with the graphics flag to see information about your GPU, including model and driver status.",
+ "aliases": [
+  {
+   "text": "check gpu info",
+   "lang": "en"
+  },
+  {
+   "text": "inxi graphics",
+   "lang": "en"
+  },
+  {
+   "text": "video card details",
+   "lang": "en"
+  },
+  {
+   "text": "какая видеокарта",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о видеокарте",
+   "lang": "ru"
+  },
+  {
+   "text": "inxi gpu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "inxi is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run inxi with the --graphics flag to print a summary of graphics information.",
+   "cmd": "inxi --graphics",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/inxi.md",
+  "title": "tldr-pages: inxi",
+  "license": "CC-BY-4.0"
+ }
+}

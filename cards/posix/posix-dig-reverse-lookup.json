@@ -1,0 +1,139 @@
+{
+ "schema_version": 2,
+ "id": "posix-dig-reverse-lookup",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Perform a reverse DNS lookup",
+ "summary": "Find the domain name associated with an IP address using a reverse DNS lookup (PTR record).",
+ "aliases": [
+  {
+   "text": "reverse dns lookup",
+   "lang": "en"
+  },
+  {
+   "text": "dig -x",
+   "lang": "en"
+  },
+  {
+   "text": "find domain from ip",
+   "lang": "en"
+  },
+  {
+   "text": "ptr record lookup",
+   "lang": "en"
+  },
+  {
+   "text": "обратный dns запрос",
+   "lang": "ru"
+  },
+  {
+   "text": "dig -x ip",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать домен по ip",
+   "lang": "ru"
+  },
+  {
+   "text": "найти домен по ip",
+   "lang": "ru"
+  },
+  {
+   "text": "resolvectl query ip",
+   "lang": "en"
+  },
+  {
+   "text": "какой домен у ip адреса",
+   "lang": "ru"
+  },
+  {
+   "text": "find domain for ip",
+   "lang": "en"
+  },
+  {
+   "text": "host reverse lookup",
+   "lang": "en"
+  },
+  {
+   "text": "ip to domain command",
+   "lang": "en"
+  },
+  {
+   "text": "host reverse ip",
+   "lang": "ru"
+  },
+  {
+   "text": "nslookup ip address",
+   "lang": "en"
+  },
+  {
+   "text": "obratnyi dns zapros",
+   "lang": "ru"
+  },
+  {
+   "text": "uznat imya po ip",
+   "lang": "ru"
+  },
+  {
+   "text": "nslookup ip",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Perform a reverse DNS lookup on the specified IP address to find its associated hostname.",
+   "cmd": "dig -x <IP_ADDRESS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IP_ADDRESS",
+     "description": "The IP address to look up",
+     "example": "8.8.8.8"
+    }
+   ],
+   "expect": "The PTR record showing the domain name for the IP.",
+   "alternatives": [
+    {
+     "explain": "Query the default DNS server to find the hostname associated with the given IP address.",
+     "cmd": "host <IP_ADDRESS>",
+     "placeholders": [
+      {
+       "name": "IP_ADDRESS",
+       "description": "The IP address to look up",
+       "example": "8.8.8.8"
+      }
+     ],
+     "risk": "low"
+    },
+    {
+     "explain": "Query the DNS resolver to retrieve the domain name for the specified IP address.",
+     "cmd": "resolvectl query <IP_ADDRESS>",
+     "placeholders": [
+      {
+       "name": "IP_ADDRESS",
+       "description": "The IPv4 or IPv6 address to look up.",
+       "example": "8.8.8.8"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/dig.md",
+  "title": "tldr-pages: dig",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-nslookup-domain-ip"
+ ]
+}

@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "posix-ping-custom-interval",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Ping a host with a custom interval",
+ "summary": "Change the time between sending network packets. The default is 1 second, but you can make it faster or slower.",
+ "aliases": [
+  {
+   "text": "ping interval",
+   "lang": "en"
+  },
+  {
+   "text": "ping faster",
+   "lang": "en"
+  },
+  {
+   "text": "ping slower",
+   "lang": "en"
+  },
+  {
+   "text": "ping -i",
+   "lang": "en"
+  },
+  {
+   "text": "интервал пинга",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг чаще",
+   "lang": "ru"
+  },
+  {
+   "text": "change ping frequency",
+   "lang": "en"
+  },
+  {
+   "text": "ping every 5 seconds",
+   "lang": "en"
+  },
+  {
+   "text": "изменить частоту пинга",
+   "lang": "ru"
+  },
+  {
+   "text": "ping interval seconds",
+   "lang": "en"
+  },
+  {
+   "text": "ping -i mac",
+   "lang": "en"
+  },
+  {
+   "text": "пинг с интервалом",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг каждые 5 секунд",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг -i",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send packets to the host with a specific delay in seconds between each request.",
+   "cmd": "ping -i <SECONDS> <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SECONDS",
+     "description": "Time in seconds between requests.",
+     "example": "0.5"
+    },
+    {
+     "name": "HOST",
+     "description": "The IP address or domain name of the host to ping.",
+     "example": "google.com"
+    }
+   ],
+   "expect": "Packets sent at the specified interval."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ping.md",
+  "title": "tldr-pages: ping",
+  "license": "CC-BY-4.0"
+ }
+}

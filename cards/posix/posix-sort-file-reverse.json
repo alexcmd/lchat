@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-sort-file-reverse",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sort lines of a text file in reverse order",
+ "summary": "Sort the lines of a text file in descending (reverse) alphabetical order. The original file remains unchanged.",
+ "aliases": [
+  {
+   "text": "sort reverse",
+   "lang": "en"
+  },
+  {
+   "text": "sort descending",
+   "lang": "en"
+  },
+  {
+   "text": "reverse sort file",
+   "lang": "en"
+  },
+  {
+   "text": "sort z a",
+   "lang": "en"
+  },
+  {
+   "text": "sortieren absteigend",
+   "lang": "de"
+  },
+  {
+   "text": "ordenar inverso",
+   "lang": "es"
+  },
+  {
+   "text": "sortir inverse",
+   "lang": "fr"
+  },
+  {
+   "text": "sort reverse order",
+   "lang": "en"
+  },
+  {
+   "text": "sort descending order",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --reverse flag to sort lines in descending order.",
+   "cmd": "sort --reverse <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to sort.",
+     "example": "names.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sort.md",
+  "title": "tldr-pages: sort",
+  "license": "CC-BY-4.0"
+ }
+}

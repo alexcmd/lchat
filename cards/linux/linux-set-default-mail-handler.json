@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-default-mail-handler",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set the default mail handler",
+ "summary": "Choose which email application opens when you click a mailto: link in a browser or document.",
+ "aliases": [
+  {
+   "text": "set default mail client",
+   "lang": "en"
+  },
+  {
+   "text": "change default email app",
+   "lang": "en"
+  },
+  {
+   "text": "set mailto handler",
+   "lang": "en"
+  },
+  {
+   "text": "default email client linux",
+   "lang": "en"
+  },
+  {
+   "text": "sdelat default email client",
+   "lang": "ru"
+  },
+  {
+   "text": "izmenit default email",
+   "lang": "ru"
+  },
+  {
+   "text": "kak sdelat default email",
+   "lang": "ru"
+  },
+  {
+   "text": "postavit email client",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the application that handles mailto: links. Replace the placeholder with the .desktop file of your preferred email client.",
+   "cmd": "xdg-settings set default-url-scheme-handler mailto <DESKTOP_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DESKTOP_FILE",
+     "description": "The .desktop file name of the email client (e.g., evolution.desktop, thunderbird.desktop).",
+     "example": "evolution.desktop",
+     "discover_cmd": "ls /usr/share/applications/*.desktop"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xdg-settings.md",
+  "title": "tldr-pages: xdg-settings",
+  "license": "CC-BY-4.0"
+ }
+}

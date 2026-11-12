@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "tablet-list-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List connected graphics tablet devices",
+ "summary": "Use xsetwacom to list all detected tablet components like stylus, eraser, and pad. This is needed to find device names for configuration.",
+ "aliases": [
+  {
+   "text": "list tablet devices",
+   "lang": "en"
+  },
+  {
+   "text": "xsetwacom list",
+   "lang": "en"
+  },
+  {
+   "text": "find tablet name",
+   "lang": "en"
+  },
+  {
+   "text": "список устройств планшета",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать имя планшета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xf86-input-wacom"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run xsetwacom to list devices. Note the names (e.g., 'Wacom Intuos S Pen stylus') for use in other commands.",
+   "cmd": "xsetwacom list devices",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Graphics_tablet#Configuration",
+  "title": "Graphics tablet",
+  "revision_id": 888191,
+  "license": "GFDL-1.3-or-later"
+ }
+}

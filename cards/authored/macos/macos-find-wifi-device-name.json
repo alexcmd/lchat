@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "macos-find-wifi-device-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find the Wi-Fi device name (such as en0) on this Mac",
+ "summary": "List the network hardware ports of this Mac to see which device name, such as en0 or en1, belongs to Wi-Fi. Other network commands often need this name.",
+ "aliases": [
+  {
+   "text": "wifi device name mac",
+   "lang": "en"
+  },
+  {
+   "text": "en0 wifi mac",
+   "lang": "en"
+  },
+  {
+   "text": "which interface is wifi on mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac wifi interface name",
+   "lang": "en"
+  },
+  {
+   "text": "networksetup listallhardwareports",
+   "lang": "en"
+  },
+  {
+   "text": "what is en0 on mac",
+   "lang": "en"
+  },
+  {
+   "text": "имя wifi адаптера на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать en0 на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "какой интерфейс wifi на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "название устройства wifi мак",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти en0 вайфай мак",
+   "lang": "ru"
+  },
+  {
+   "text": "вайфай интерфейс mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List every network hardware port on this Mac with its device name. Find the block whose Hardware Port is Wi-Fi; the Device line under it (for example en0) is the Wi-Fi device name. This command only reads settings.",
+   "cmd": "networksetup -listallhardwareports",
+   "risk": "low",
+   "needs_root": false,
+   "expect": "Blocks such as 'Hardware Port: Wi-Fi' followed by 'Device: en0' and an 'Ethernet Address' line. Older macOS may call the port AirPort.",
+   "alternatives": [
+    {
+     "explain": "Show the network services in the order they are used, each with its Hardware Port and Device. The Wi-Fi entry gives the same device name.",
+     "cmd": "networksetup -listnetworkserviceorder",
+     "risk": "low",
+     "needs_root": false,
+     "expect": "An entry such as '(1) Wi-Fi' with a line '(Hardware Port: Wi-Fi, Device: en0)' under it."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-get-current-wifi-name",
+  "macos-list-network-services"
+ ],
+ "source": {
+  "url": "x-man-page://networksetup",
+  "title": "networksetup manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

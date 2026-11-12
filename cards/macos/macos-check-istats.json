@@ -1,0 +1,95 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-istats",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check Mac hardware stats with istats",
+ "summary": "Use the `istats` command to view real-time hardware statistics like CPU temperature, fan speeds, and battery status. This tool is useful for monitoring system health and detecting overheating.",
+ "aliases": [
+  {
+   "text": "check mac temperature",
+   "lang": "en"
+  },
+  {
+   "text": "istats mac",
+   "lang": "en"
+  },
+  {
+   "text": "monitor cpu temp mac",
+   "lang": "en"
+  },
+  {
+   "text": "check fan speed mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac hardware stats",
+   "lang": "en"
+  },
+  {
+   "text": "проверить температуру маки",
+   "lang": "ru"
+  },
+  {
+   "text": "истатс мак",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг температуры cpu",
+   "lang": "ru"
+  },
+  {
+   "text": "скорость вентиляторов мак",
+   "lang": "ru"
+  },
+  {
+   "text": "статистика оборудования мак",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "istats"
+  ]
+ },
+ "prerequisites": [
+  "istats must be installed (e.g., via Homebrew)"
+ ],
+ "steps": [
+  {
+   "explain": "Run `istats` to display all available hardware statistics, including CPU, fans, and battery.",
+   "cmd": "istats",
+   "risk": "low",
+   "expect": "A list of hardware stats including temperatures and fan speeds."
+  },
+  {
+   "explain": "Run `istats cpu` to view only CPU-related statistics.",
+   "cmd": "istats cpu",
+   "risk": "low",
+   "expect": "CPU temperature and usage statistics."
+  },
+  {
+   "explain": "Run `istats fan` to view only fan speed statistics.",
+   "cmd": "istats fan",
+   "risk": "low",
+   "expect": "Current fan speeds in RPM."
+  },
+  {
+   "explain": "Run `istats scan` to scan and print all detected temperature sensors.",
+   "cmd": "istats scan",
+   "risk": "low",
+   "expect": "A list of temperature sensors and their current readings."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/istats.md",
+  "title": "tldr-pages: istats",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-first-bytes-of-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "View the first bytes of a file",
+ "summary": "Use the `head` command with the `-c` flag to display a specific number of bytes from the start of a file, which is useful for binary files or checking file headers.",
+ "aliases": [
+  {
+   "text": "head bytes mac",
+   "lang": "en"
+  },
+  {
+   "text": "view first bytes of file",
+   "lang": "en"
+  },
+  {
+   "text": "head -c command",
+   "lang": "en"
+  },
+  {
+   "text": "check file header bytes",
+   "lang": "en"
+  },
+  {
+   "text": "head -c macos",
+   "lang": "ru"
+  },
+  {
+   "text": "первые байты файла",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть начало бинарного файла",
+   "lang": "ru"
+  },
+  {
+   "text": "head по байтам",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the `-c` (or `--bytes`) flag followed by the number of bytes to display, then the file path.",
+   "cmd": "head -c <NUMBER> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NUMBER",
+     "description": "The number of bytes to display.",
+     "example": "100"
+    },
+    {
+     "name": "FILE",
+     "description": "The path to the file.",
+     "example": "~/Downloads/image.png"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "You can also use the long form `--bytes` instead of `-c`.",
+     "cmd": "head --bytes <NUMBER> <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "NUMBER",
+       "description": "The number of bytes to display.",
+       "example": "100"
+      },
+      {
+       "name": "FILE",
+       "description": "The path to the file.",
+       "example": "~/Downloads/image.png"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/head.md",
+  "title": "tldr-pages: head",
+  "license": "CC-BY-4.0"
+ }
+}

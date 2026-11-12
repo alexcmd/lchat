@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-view-shortcut-editor",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open a macOS Shortcut in the Editor",
+ "summary": "Open a specific Shortcut in the Shortcuts app editor. This allows you to view or modify the automation's steps.",
+ "aliases": [
+  {
+   "text": "open shortcut in editor",
+   "lang": "en"
+  },
+  {
+   "text": "view shortcut mac",
+   "lang": "en"
+  },
+  {
+   "text": "edit shortcut from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "открыть шорткат в редакторе",
+   "lang": "ru"
+  },
+  {
+   "text": "редактировать шорткат",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть шорткат",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the specified Shortcut in the Shortcuts editor. Replace <SHORTCUT_NAME> with the exact name of your Shortcut.",
+   "cmd": "shortcuts view \"<SHORTCUT_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SHORTCUT_NAME",
+     "description": "The exact name of the Shortcut you want to view",
+     "example": "Count holidays",
+     "discover_cmd": "shortcuts list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/shortcuts.md",
+  "title": "tldr-pages: shortcuts",
+  "license": "CC-BY-4.0"
+ }
+}

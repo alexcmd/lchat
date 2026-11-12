@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "posix-git-commit-changes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Commit staged changes to Git history",
+ "summary": "Save your staged changes to the local version history with a descriptive message.",
+ "aliases": [
+  {
+   "text": "git commit",
+   "lang": "en"
+  },
+  {
+   "text": "save changes to git",
+   "lang": "en"
+  },
+  {
+   "text": "make a git commit",
+   "lang": "en"
+  },
+  {
+   "text": "сделать коммит в git",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить изменения в git",
+   "lang": "ru"
+  },
+  {
+   "text": "git commit message",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Replace <MESSAGE> with a short description of what you changed. This saves the current state of your project.",
+   "cmd": "git commit --message <MESSAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MESSAGE",
+     "description": "A short text describing the changes made in this commit"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Short form for adding a commit message.",
+     "cmd": "git commit -m <MESSAGE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "MESSAGE",
+       "description": "A short text describing the changes made in this commit"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/git.md",
+  "title": "tldr-pages: git",
+  "license": "CC-BY-4.0"
+ }
+}

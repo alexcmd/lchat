@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-listening-processes",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show processes listening on a protocol",
+ "summary": "Identify which programs are listening for network connections on a specific protocol (like TCP or UDP). This helps you find out what applications are using network ports.",
+ "aliases": [
+  {
+   "text": "show listening processes mac",
+   "lang": "en"
+  },
+  {
+   "text": "netstat listening ports",
+   "lang": "en"
+  },
+  {
+   "text": "what is using port mac",
+   "lang": "en"
+  },
+  {
+   "text": "показать слушающие процессы mac",
+   "lang": "ru"
+  },
+  {
+   "text": "netstat какие порты заняты",
+   "lang": "ru"
+  },
+  {
+   "text": "кто использует порт на маке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the PID and program name for processes listening on a specific protocol. Replace <PROTOCOL> with the protocol you want to check, such as 'tcp' or 'udp'.",
+   "cmd": "netstat -p <PROTOCOL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROTOCOL",
+     "description": "The network protocol to check, e.g., tcp or udp",
+     "example": "tcp"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/netstat.md",
+  "title": "tldr-pages: netstat",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-find-process-using-port",
+  "macos-list-network-interfaces"
+ ]
+}

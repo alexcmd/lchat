@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-load-module",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Load PulseAudio module at runtime",
+ "summary": "Load a specific PulseAudio module without restarting the daemon. This is useful for testing features like echo cancellation or equalizers.",
+ "aliases": [
+  {
+   "text": "load pulseaudio module",
+   "lang": "en"
+  },
+  {
+   "text": "pactl load-module",
+   "lang": "en"
+  },
+  {
+   "text": "enable pulseaudio feature",
+   "lang": "en"
+  },
+  {
+   "text": "загрузить модуль pulseaudio",
+   "lang": "ru"
+  },
+  {
+   "text": "включить модуль pulseaudio",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Load a module by name. Replace <MODULE_NAME> with the module name (e.g., module-equalizer-sink).",
+   "cmd": "pactl load-module <MODULE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MODULE_NAME",
+     "description": "The name of the module to load, e.g., 'module-equalizer-sink'.",
+     "example": "module-equalizer-sink"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio#Integrated_module",
+  "title": "PulseAudio",
+  "revision_id": 861028,
+  "license": "GFDL-1.3-or-later"
+ }
+}

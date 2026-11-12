@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-pass-text-to-program",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Pass text to another program via stdin",
+ "summary": "Send a string of text directly into another command as input. This is commonly used to pipe data into filters, formatters, or other utilities.",
+ "aliases": [
+  {
+   "text": "pipe echo to command",
+   "lang": "en"
+  },
+  {
+   "text": "pass text to stdin",
+   "lang": "en"
+  },
+  {
+   "text": "echo pipe to program",
+   "lang": "en"
+  },
+  {
+   "text": "send text to another command",
+   "lang": "en"
+  },
+  {
+   "text": "передать текст в другую команду",
+   "lang": "ru"
+  },
+  {
+   "text": "pipe echo",
+   "lang": "ru"
+  },
+  {
+   "text": "echo через pipe",
+   "lang": "ru"
+  },
+  {
+   "text": "как передать текст в stdin",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the pipe operator (|) to send the output of echo directly into the standard input of another program.",
+   "cmd": "echo \"<TEXT>\" | <PROGRAM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TEXT",
+     "description": "The text to pass as input",
+     "example": "Hello World"
+    },
+    {
+     "name": "PROGRAM",
+     "description": "The command that will receive the text",
+     "example": "grep"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/echo.md",
+  "title": "tldr-pages: echo",
+  "license": "CC-BY-4.0"
+ }
+}

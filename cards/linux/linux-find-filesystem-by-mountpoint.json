@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-find-filesystem-by-mountpoint",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find device mounted at a specific path",
+ "summary": "Identify which physical device or partition is mounted at a specific directory, such as the root directory (/) or /home. Helps you understand which disk backs a specific folder.",
+ "aliases": [
+  {
+   "text": "what device is mounted at /",
+   "lang": "en"
+  },
+  {
+   "text": "find device for mount point",
+   "lang": "en"
+  },
+  {
+   "text": "check what is mounted on /home",
+   "lang": "en"
+  },
+  {
+   "text": "findmnt mountpoint",
+   "lang": "en"
+  },
+  {
+   "text": "какой диск смонтирован в /",
+   "lang": "ru"
+  },
+  {
+   "text": "найти устройство по точке монтирования",
+   "lang": "ru"
+  },
+  {
+   "text": "findmnt /",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for the specific mount point path to see which device is mounted there.",
+   "cmd": "findmnt <MOUNTPOINT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MOUNTPOINT",
+     "description": "The directory path, e.g., / or /home",
+     "example": "/"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/findmnt.md",
+  "title": "tldr-pages: findmnt",
+  "license": "CC-BY-4.0"
+ }
+}

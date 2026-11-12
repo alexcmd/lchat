@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "macos-keep-awake",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Keep Mac awake to prevent sleep",
+ "summary": "Use the caffeinate command to stop your Mac from going to sleep. You can keep it awake indefinitely, for a set time, or while a specific task runs.",
+ "aliases": [
+  {
+   "text": "keep mac awake",
+   "lang": "en"
+  },
+  {
+   "text": "prevent mac from sleeping",
+   "lang": "en"
+  },
+  {
+   "text": "mac sleep timer",
+   "lang": "en"
+  },
+  {
+   "text": "caffeinate",
+   "lang": "en"
+  },
+  {
+   "text": "stop mac sleeping",
+   "lang": "en"
+  },
+  {
+   "text": "как не дать маку уснуть",
+   "lang": "ru"
+  },
+  {
+   "text": "caffeinate mac",
+   "lang": "ru"
+  },
+  {
+   "text": "не засыпать на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "таймер сна mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run caffeinate with the -d flag to prevent the display from sleeping. The Mac will stay awake until you stop the command.",
+   "cmd": "caffeinate -d",
+   "risk": "low",
+   "expect": "The command runs in the foreground. Your Mac will not go to sleep.",
+   "alternatives": [
+    {
+     "explain": "Prevent sleep for a specific duration in seconds (e.g., 3600 for 1 hour) using the -u and -t flags.",
+     "cmd": "caffeinate -u -t 3600",
+     "risk": "low"
+    },
+    {
+     "explain": "Prevent idle sleep while a specific command (like 'make') is running using the -i flag.",
+     "cmd": "caffeinate -i <COMMAND>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The command to run while keeping the Mac awake.",
+       "example": "make"
+      }
+     ]
+    },
+    {
+     "explain": "Prevent sleep until a specific process ID finishes using the -w flag.",
+     "cmd": "caffeinate -w <PROCESS_ID>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROCESS_ID",
+       "description": "The PID of the process to wait for.",
+       "example": "1234"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/caffeinate.md",
+  "title": "tldr-pages: caffeinate",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "linux-xrandr-arrange-monitors",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Arrange monitors side by side",
+ "summary": "Position one monitor to the right of another. Useful for setting up a dual-monitor workspace where windows can move between screens.",
+ "aliases": [
+  {
+   "text": "arrange monitors linux",
+   "lang": "en"
+  },
+  {
+   "text": "dual monitor setup linux",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr right of",
+   "lang": "en"
+  },
+  {
+   "text": "position second monitor",
+   "lang": "en"
+  },
+  {
+   "text": "multi monitor layout linux",
+   "lang": "en"
+  },
+  {
+   "text": "raspolozit monitory ryadom",
+   "lang": "ru"
+  },
+  {
+   "text": "dva monitory linux",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr right-of",
+   "lang": "ru"
+  },
+  {
+   "text": "kak postavit monitory ryadom",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xrandr"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the resolution for a secondary monitor and place it to the right of a primary monitor. Replace <OUTPUT_SECONDARY> and <OUTPUT_PRIMARY> with your actual output names.",
+   "cmd": "xrandr --output <OUTPUT_SECONDARY> --mode <RESOLUTION> --right-of <OUTPUT_PRIMARY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_SECONDARY",
+     "description": "Name of the monitor to position (e.g., HDMI2)",
+     "discover_cmd": "xrandr --query"
+    },
+    {
+     "name": "RESOLUTION",
+     "description": "Resolution for the secondary monitor (e.g., 1280x1024)",
+     "discover_cmd": "xrandr --query"
+    },
+    {
+     "name": "OUTPUT_PRIMARY",
+     "description": "Name of the monitor to position relative to (e.g., DP1)",
+     "discover_cmd": "xrandr --query"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xrandr.md",
+  "title": "tldr-pages: xrandr",
+  "license": "CC-BY-4.0"
+ }
+}

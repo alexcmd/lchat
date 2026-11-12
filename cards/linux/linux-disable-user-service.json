@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-user-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable a user service from starting on login",
+ "summary": "Prevent a background service specific to your user account from automatically starting when you log in. This does not affect other users or the system-wide services.",
+ "aliases": [
+  {
+   "text": "disable user service on login",
+   "lang": "en"
+  },
+  {
+   "text": "stop user service from starting",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl disable --user",
+   "lang": "en"
+  },
+  {
+   "text": "turn off user startup service",
+   "lang": "en"
+  },
+  {
+   "text": "отключить пользовательскую службу",
+   "lang": "ru"
+  },
+  {
+   "text": "запретить запуск службы пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl disable --user",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить автозапуск сервиса пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the name of the user service you want to disable."
+ ],
+ "steps": [
+  {
+   "explain": "Disable the specified user service so it does not start automatically when you log in.",
+   "cmd": "systemctl disable <SERVICE_NAME> --user",
+   "needs_root": false,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd user service unit to disable.",
+     "example": "pipewire",
+     "discover_cmd": "systemctl --user list-unit-files --type=service"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-check-user-service-status",
+  "linux-stop-user-service",
+  "linux-systemctl-enable-disable-service"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-disable.md",
+  "title": "tldr-pages: systemctl-disable",
+  "license": "CC-BY-4.0"
+ }
+}

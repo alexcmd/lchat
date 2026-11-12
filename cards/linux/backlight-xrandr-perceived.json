@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "backlight-xrandr-perceived",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Adjust perceived brightness with xrandr",
+ "summary": "Use xrandr to adjust the gamma/brightness of the display output. This does not change backlight power but modifies the image, useful for desktops or OLEDs.",
+ "aliases": [
+  {
+   "text": "xrandr brightness",
+   "lang": "en"
+  },
+  {
+   "text": "software brightness",
+   "lang": "en"
+  },
+  {
+   "text": "oled brightness linux",
+   "lang": "en"
+  },
+  {
+   "text": "desktop brightness control",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr --brightness",
+   "lang": "en"
+  },
+  {
+   "text": "программная яркость",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr яркость",
+   "lang": "ru"
+  },
+  {
+   "text": "oled яркость",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "any"
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "Find the name of your connected display output.",
+   "cmd": "xrandr | grep -w connected | cut -f '1' -d ' '",
+   "risk": "low",
+   "expect": "Output name like 'eDP-1', 'HDMI-1', etc."
+  },
+  {
+   "explain": "Set perceived brightness. Values >1 brighten (sacrificing color), values <1 darken.",
+   "cmd": "xrandr --output <OUTPUT_NAME> --brightness <VALUE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_NAME",
+     "description": "The display output name found in the previous step",
+     "example": "eDP-1",
+     "discover_cmd": "xrandr | grep -w connected"
+    },
+    {
+     "name": "VALUE",
+     "description": "Brightness multiplier (e.g., 0.5 for dim, 1.0 for normal, 2.0 for bright)",
+     "example": "0.5"
+    }
+   ],
+   "expect": "The screen image brightness changes."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Backlight#Xorg:_adjust_perceived_brightness_with_xrandr",
+  "title": "Backlight",
+  "revision_id": 885962,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,151 @@
+{
+ "schema_version": 2,
+ "id": "macos-kill-process-by-pid",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Stop a process by its PID, first gently and then forcibly",
+ "summary": "Find the process ID (PID) of a program that is stuck, ask it to quit with TERM, and use KILL only if it is still running after a few seconds. Use this from Terminal when a program will not close normally.",
+ "aliases": [
+  {
+   "text": "kill process by pid mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac app frozen how to stop it in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "force quit app from terminal macos",
+   "lang": "en"
+  },
+  {
+   "text": "kill -9 on mac",
+   "lang": "en"
+  },
+  {
+   "text": "stop process terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "kil process mac pid",
+   "lang": "en"
+  },
+  {
+   "text": "как убить процесс по pid на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "завершить зависшую программу в терминале mac",
+   "lang": "ru"
+  },
+  {
+   "text": "киллнуть процесс мак",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительно закрыть программу терминал macbook",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить процесс по номеру pid macos",
+   "lang": "ru"
+  },
+  {
+   "text": "килл процесс макбук",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List running processes with their ID numbers (PID) and program names. Note the PID of the program you want to stop.",
+   "cmd": "ps -ax -o pid,comm",
+   "risk": "low",
+   "expect": "A header line 'PID COMM', then one line per process with its number in the first column and the program name or path in the second."
+  },
+  {
+   "explain": "Ask the program to quit by sending the TERM signal. A well-behaved program saves what it can and closes itself.",
+   "cmd": "kill -s TERM <PID>",
+   "risk": "medium",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "PID",
+     "description": "Process ID number of the program to stop, from the list in the first step.",
+     "example": "412",
+     "discover_cmd": "ps -ax -o pid,comm"
+    }
+   ],
+   "expect": "Usually no output. The program may take a few seconds to close."
+  },
+  {
+   "explain": "Wait a few seconds, then check whether that PID is still running. This command only reads the process list.",
+   "cmd": "ps -p <PID> -o pid,comm",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PID",
+     "description": "The same process ID number used in the previous step.",
+     "example": "412"
+    }
+   ],
+   "expect": "Only the header line 'PID COMM' means the process has quit, so stop here. A line with the same PID number means it is still running; go to the next step."
+  },
+  {
+   "explain": "Only if the process is still running after the check: force it to stop with the KILL signal. The program cannot refuse this, but it gets no chance to save its work.",
+   "cmd": "kill -s KILL <PID>",
+   "risk": "medium",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "PID",
+     "description": "The same process ID number used before. Check it is still the program you want before sending the signal.",
+     "example": "412",
+     "discover_cmd": "ps -ax -o pid,comm"
+    }
+   ],
+   "expect": "Usually no output. Run the check from the previous step again; the header line alone means it stopped.",
+   "gui": "Activity Monitor (Applications > Utilities, macOS 13 or later): select the program, click the stop button (X) in the toolbar, then click Force Quit.",
+   "alternatives": [
+    {
+     "explain": "Same as the KILL command above, written with the signal number 9.",
+     "cmd": "kill -9 <PID>",
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PID",
+       "description": "The same process ID number used before.",
+       "example": "412"
+      }
+     ],
+     "expect": "Usually no output."
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "A process that was stopped cannot be restored. Open the program again from the Applications folder or the Dock and reopen your files. Work that was not saved before the stop is lost.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Stopping a program can lose unsaved work in it. Save first if you can, and try the TERM step before KILL.",
+  "PIDs are reused after a process ends. Check the program name in the ps list right before you send a signal.",
+  "Do not stop system processes such as launchd or WindowServer unless you know what they do; the Mac may freeze or restart.",
+  "Processes that belong to other users or to the system need administrator rights, and the kill command will refuse to stop them without it."
+ ],
+ "source": {
+  "url": "x-man-page://kill",
+  "title": "kill manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

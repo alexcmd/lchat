@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "macos-remove-image-color-profile",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Remove color profile from image",
+ "summary": "Strip the embedded ColorSync ICC profile from an image file using `sips`. This can reduce file size or fix color display issues.",
+ "aliases": [
+  {
+   "text": "remove icc profile",
+   "lang": "en"
+  },
+  {
+   "text": "strip color profile",
+   "lang": "en"
+  },
+  {
+   "text": "delete color management",
+   "lang": "en"
+  },
+  {
+   "text": "убрать цветовой профиль",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить icc профиль",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `sips` with `--deleteProperty profile` and `--deleteColorManagementProperties` on the target image. This modifies the file in place.",
+   "cmd": "sips --deleteProperty profile --deleteColorManagementProperties <IMAGE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IMAGE_FILE",
+     "description": "Path to the image file",
+     "example": "photo.jpg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sips.md",
+  "title": "tldr-pages: sips",
+  "license": "CC-BY-4.0"
+ }
+}

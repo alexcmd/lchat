@@ -1,0 +1,111 @@
+{
+ "schema_version": 2,
+ "id": "linux-add-apt-repository",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Add a new APT repository",
+ "summary": "Add a new software repository to your system's package manager so you can install packages from it.",
+ "aliases": [
+  {
+   "text": "add apt repository",
+   "lang": "en"
+  },
+  {
+   "text": "add ppa",
+   "lang": "en"
+  },
+  {
+   "text": "add software source",
+   "lang": "en"
+  },
+  {
+   "text": "add repository to apt",
+   "lang": "en"
+  },
+  {
+   "text": "добавить репозиторий apt",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить ppa",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить источник программ",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the repository specification (e.g., 'ppa:owner/name' or a full deb URL)"
+ ],
+ "steps": [
+  {
+   "explain": "Add the specified repository to the list of sources apt uses to find packages.",
+   "cmd": "sudo add-apt-repository <REPOSITORY_SPEC>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "REPOSITORY_SPEC",
+     "description": "The repository to add, e.g. 'ppa:graphics-drivers/ppa' or 'deb http://archive.ubuntu.com/ubuntu focal main'",
+     "example": "ppa:graphics-drivers/ppa"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Add the repository and immediately update the package list so new packages are available.",
+     "cmd": "sudo add-apt-repository --update <REPOSITORY_SPEC>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "REPOSITORY_SPEC",
+       "description": "The repository to add",
+       "example": "ppa:graphics-drivers/ppa"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the repository you just added.",
+   "cmd": "sudo add-apt-repository --remove <REPOSITORY_SPEC>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "REPOSITORY_SPEC",
+     "description": "The repository to remove",
+     "example": "ppa:graphics-drivers/ppa"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Only add repositories from trusted sources. Untrusted repositories can compromise your system security."
+ ],
+ "see_also": [
+  "linux-apt-update-package-list"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/add-apt-repository.md",
+  "title": "tldr-pages: add-apt-repository",
+  "license": "CC-BY-4.0"
+ }
+}

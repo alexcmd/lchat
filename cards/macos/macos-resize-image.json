@@ -1,0 +1,114 @@
+{
+ "schema_version": 2,
+ "id": "macos-resize-image",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Resize an image file",
+ "summary": "Use the built-in `sips` command to change the dimensions of an image. You can set exact width and height, or limit the maximum size while keeping the aspect ratio.",
+ "aliases": [
+  {
+   "text": "resize image",
+   "lang": "en"
+  },
+  {
+   "text": "change image size",
+   "lang": "en"
+  },
+  {
+   "text": "make image smaller",
+   "lang": "en"
+  },
+  {
+   "text": "scale photo",
+   "lang": "en"
+  },
+  {
+   "text": "изменить размер картинки",
+   "lang": "ru"
+  },
+  {
+   "text": "уменьшить фото",
+   "lang": "ru"
+  },
+  {
+   "text": "масштабировать изображение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `sips` with the `--resampleHeightWidth` flag followed by the desired height, width, and the image file path. This sets the exact dimensions, potentially altering the aspect ratio.",
+   "cmd": "sips --resampleHeightWidth <HEIGHT> <WIDTH> <IMAGE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HEIGHT",
+     "description": "Desired height in pixels",
+     "example": "1920"
+    },
+    {
+     "name": "WIDTH",
+     "description": "Desired width in pixels",
+     "example": "300"
+    },
+    {
+     "name": "IMAGE_FILE",
+     "description": "Path to the image file",
+     "example": "photo.jpg"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use `--resampleHeightWidthMax` to ensure neither dimension exceeds the specified values, preserving the aspect ratio.",
+     "cmd": "sips --resampleHeightWidthMax <MAX_HEIGHT> <MAX_WIDTH> <IMAGE_FILE>",
+     "placeholders": [
+      {
+       "name": "MAX_HEIGHT",
+       "description": "Maximum height in pixels",
+       "example": "1920"
+      },
+      {
+       "name": "MAX_WIDTH",
+       "description": "Maximum width in pixels",
+       "example": "300"
+      },
+      {
+       "name": "IMAGE_FILE",
+       "description": "Path to the image file",
+       "example": "photo.jpg"
+      }
+     ]
+    },
+    {
+     "explain": "Use `--resampleWidth` to resize all images in a directory to a specific width, automatically adjusting the height to maintain aspect ratio.",
+     "cmd": "sips --resampleWidth <WIDTH> <DIRECTORY>",
+     "placeholders": [
+      {
+       "name": "WIDTH",
+       "description": "Target width in pixels",
+       "example": "960"
+      },
+      {
+       "name": "DIRECTORY",
+       "description": "Path to the directory containing images",
+       "example": "~/Pictures"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/sips.md",
+  "title": "tldr-pages: sips",
+  "license": "CC-BY-4.0"
+ }
+}

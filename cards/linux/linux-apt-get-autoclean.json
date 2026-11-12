@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-get-autoclean",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clean up old package files",
+ "summary": "Remove downloaded package files (.deb) that are no longer available in the repositories. This frees up disk space.",
+ "aliases": [
+  {
+   "text": "clean apt cache",
+   "lang": "en"
+  },
+  {
+   "text": "remove old debs",
+   "lang": "en"
+  },
+  {
+   "text": "apt-get autoclean",
+   "lang": "en"
+  },
+  {
+   "text": "free disk space",
+   "lang": "en"
+  },
+  {
+   "text": "очистить кэш apt",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить старые пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-get autoclean",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove package files from interrupted downloads that can no longer be downloaded.",
+   "cmd": "sudo apt-get autoclean",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-get.md",
+  "title": "tldr-pages: apt-get",
+  "license": "CC-BY-4.0"
+ }
+}

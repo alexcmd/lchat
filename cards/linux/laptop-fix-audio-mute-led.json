@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "laptop-fix-audio-mute-led",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix audio mute LED on Intel HD Audio laptops",
+ "summary": "On some laptops with Intel HD Audio, the mute LED does not work by default. You can fix this by specifying the correct codec model for the snd_hda_intel kernel module.",
+ "aliases": [
+  {
+   "text": "mute led not working",
+   "lang": "en"
+  },
+  {
+   "text": "audio mute light laptop",
+   "lang": "en"
+  },
+  {
+   "text": "fix mute led intel",
+   "lang": "en"
+  },
+  {
+   "text": "sound mute led",
+   "lang": "en"
+  },
+  {
+   "text": "светодиод mute не горит",
+   "lang": "ru"
+  },
+  {
+   "text": "лампочка mute не работает",
+   "lang": "ru"
+  },
+  {
+   "text": "индикатор звука ноутбука",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "snd_hda_intel"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check if your laptop uses Intel HD Audio. If this command produces output, proceed.",
+   "cmd": "lsmod | grep snd_hda_intel",
+   "risk": "low"
+  },
+  {
+   "explain": "Find your audio codec model name.",
+   "cmd": "grep Codec /proc/asound/card*/codec*",
+   "risk": "low"
+  },
+  {
+   "explain": "Look up your codec model in the kernel documentation list of available model names. If not found, try similar models.",
+   "risk": "low"
+  },
+  {
+   "explain": "Create the file /etc/modprobe.d/mute-led.conf with the following content to specify the model for the snd_hda_intel module. Replace <MODEL_NAME> with the model you found.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Reboot the system to apply the change.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the configuration file /etc/modprobe.d/mute-led.conf.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Reboot to revert changes.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "If you need to test many models, you can reload the module without rebooting by stopping all graphical sessions first."
+ ],
+ "see_also": [
+  "alsa-unmute-channels"
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Laptop#Audio_mute_LED",
+  "title": "Laptop",
+  "revision_id": 881219,
+  "license": "GFDL-1.3-or-later"
+ }
+}

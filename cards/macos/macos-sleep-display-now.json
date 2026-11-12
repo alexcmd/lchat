@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "macos-sleep-display-now",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Put display to sleep immediately",
+ "summary": "Force the Mac's display to turn off right away, without waiting for the sleep timer.",
+ "aliases": [
+  {
+   "text": "turn off mac display now",
+   "lang": "en"
+  },
+  {
+   "text": "pmset displaysleepnow",
+   "lang": "en"
+  },
+  {
+   "text": "sleep screen mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "turn off monitor mac command",
+   "lang": "en"
+  },
+  {
+   "text": "выключить экран mac сейчас",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset displaysleepnow",
+   "lang": "ru"
+  },
+  {
+   "text": "уснуть экран macos",
+   "lang": "ru"
+  },
+  {
+   "text": "быстро выключить дисплей",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run pmset displaysleepnow to immediately put the display to sleep.",
+   "cmd": "pmset displaysleepnow",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pmset.md",
+  "title": "tldr-pages: pmset",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "posix-count-file-lines",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Count the number of lines in a file",
+ "summary": "Use the wc command to quickly see how many lines are in a text file. This is useful for checking the size of logs, scripts, or documents.",
+ "aliases": [
+  {
+   "text": "count lines in file",
+   "lang": "en"
+  },
+  {
+   "text": "how many lines in file",
+   "lang": "en"
+  },
+  {
+   "text": "wc lines",
+   "lang": "en"
+  },
+  {
+   "text": "check file line count",
+   "lang": "en"
+  },
+  {
+   "text": "count lines",
+   "lang": "en"
+  },
+  {
+   "text": "сколько строк в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать строки в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "wc -l",
+   "lang": "ru"
+  },
+  {
+   "text": "количество строк в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько строк",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wc with the --lines flag followed by the path to your file. This prints the number of newline characters found in the file.",
+   "cmd": "wc -l <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to count lines in",
+     "example": "notes.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag -l instead of --lines.",
+     "cmd": "wc -l <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the text file you want to count lines in",
+       "example": "notes.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wc.md",
+  "title": "tldr-pages: wc",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-list-package-by-name",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List packages by name pattern",
+ "summary": "Find installed or available packages whose names match a specific pattern, including wildcards. Useful when you know the exact name or part of the name.",
+ "aliases": [
+  {
+   "text": "list packages by name",
+   "lang": "en"
+  },
+  {
+   "text": "apt list package",
+   "lang": "en"
+  },
+  {
+   "text": "find package by name",
+   "lang": "en"
+  },
+  {
+   "text": "список пакетов по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "apt list",
+   "lang": "ru"
+  },
+  {
+   "text": "найти пакет по имени",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Lists packages whose names match the given pattern. Supports wildcards like *.",
+   "cmd": "apt list <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The package name or pattern (e.g., 'lib*') to search for.",
+     "example": "libssl*"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt.md",
+  "title": "tldr-pages: apt",
+  "license": "CC-BY-4.0"
+ }
+}

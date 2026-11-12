@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-networkctl-show-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show overall network status",
+ "summary": "Display a summary of the network configuration and the status of all network links managed by systemd-networkd.",
+ "aliases": [
+  {
+   "text": "network status",
+   "lang": "en"
+  },
+  {
+   "text": "check networkctl status",
+   "lang": "en"
+  },
+  {
+   "text": "systemd network status",
+   "lang": "en"
+  },
+  {
+   "text": "networkctl status",
+   "lang": "en"
+  },
+  {
+   "text": "статус сети",
+   "lang": "ru"
+  },
+  {
+   "text": "состояние сети linux",
+   "lang": "ru"
+  },
+  {
+   "text": "networkctl статус",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-networkd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the status command to see an overall view of the network configuration and link states.",
+   "cmd": "networkctl status",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/networkctl.md",
+  "title": "tldr-pages: networkctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-check-network-connection-status",
+  "posix-show-interface-details"
+ ]
+}

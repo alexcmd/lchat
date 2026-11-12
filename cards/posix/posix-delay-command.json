@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "posix-delay-command",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delay execution of a command by a specific number of seconds",
+ "summary": "Use the sleep command to pause the terminal for a set amount of time before running the next command. This is useful for waiting for a service to start or a file to appear before proceeding.",
+ "aliases": [
+  {
+   "text": "wait 10 seconds before command",
+   "lang": "en"
+  },
+  {
+   "text": "delay command execution",
+   "lang": "en"
+  },
+  {
+   "text": "sleep 5 seconds",
+   "lang": "en"
+  },
+  {
+   "text": "pause terminal for time",
+   "lang": "en"
+  },
+  {
+   "text": "run command after delay",
+   "lang": "en"
+  },
+  {
+   "text": "подождать 10 секунд перед командой",
+   "lang": "ru"
+  },
+  {
+   "text": "задержка выполнения команды",
+   "lang": "ru"
+  },
+  {
+   "text": "спать 5 секунд",
+   "lang": "ru"
+  },
+  {
+   "text": "пауза терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "выполнить команду через задержку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the sleep command with the number of seconds you want to wait, followed by the command you want to execute.",
+   "cmd": "sleep <SECONDS> && <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SECONDS",
+     "description": "Number of seconds to wait",
+     "example": "20"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command to run after the delay",
+     "example": "ls"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sleep.md",
+  "title": "tldr-pages: sleep",
+  "license": "CC-BY-4.0"
+ }
+}

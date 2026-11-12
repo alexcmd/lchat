@@ -1,0 +1,124 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-prefix-date-from-mtime",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Add each file's date as a prefix to its name",
+ "summary": "Puts the date a file was last changed in front of its name, for example 2024-03-05_photo.jpg. Files whose name already starts with a date are left alone. You see the planned names first, then apply them.",
+ "aliases": [
+  {
+   "text": "add date to file names from modification time",
+   "lang": "en"
+  },
+  {
+   "text": "prefix files with date linux",
+   "lang": "en"
+  },
+  {
+   "text": "rename files with date prefix",
+   "lang": "en"
+  },
+  {
+   "text": "put file date in front of name",
+   "lang": "en"
+  },
+  {
+   "text": "bulk rename photos by date",
+   "lang": "en"
+  },
+  {
+   "text": "add date to start of filename bash",
+   "lang": "en"
+  },
+  {
+   "text": "добавить дату в начало имени файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "переименовать все фото по дате съёмки",
+   "lang": "ru"
+  },
+  {
+   "text": "переименовать файлы по дате изменения linux",
+   "lang": "ru"
+  },
+  {
+   "text": "дата в имени файла из времени изменения",
+   "lang": "ru"
+  },
+  {
+   "text": "массово добавить дату к названиям файлов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bash"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview only: print the planned move for each plain file. The date comes from the file's modification time (date -r reads it), in your local time zone. Files that already start with a date are skipped.",
+   "risk": "low",
+   "cmd": "(cd <DIR> && for f in *; do [ -f \"$f\" ] || continue; case \"$f\" in ????-??-??_*) continue ;; esac; printf 'mv -- %q %q\\n' \"$f\" \"$(date -r \"$f\" +%F)_$f\"; done)",
+   "expect": "Lines such as: mv -- photo\\ one.jpg 2024-03-05_photo\\ one.jpg",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder that holds the files",
+     "example": "photos",
+     "discover_cmd": "ls"
+    }
+   ]
+  },
+  {
+   "explain": "Apply the new names. mv -n never overwrites an existing file, so a name clash leaves the file unchanged.",
+   "risk": "medium",
+   "cmd": "(cd <DIR> && for f in *; do [ -f \"$f\" ] || continue; case \"$f\" in ????-??-??_*) continue ;; esac; mv -n -- \"$f\" \"$(date -r \"$f\" +%F)_$f\"; done)",
+   "expect": "No output. The files now start with their date.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Same folder as in the preview step",
+     "example": "photos"
+    }
+   ]
+  },
+  {
+   "explain": "Check the names.",
+   "risk": "low",
+   "cmd": "ls -1 <DIR>",
+   "expect": "Each name starts with YYYY-MM-DD_ followed by the old name.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder with the renamed files",
+     "example": "photos"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://www.gnu.org/software/coreutils/manual/html_node/mv-invocation.html",
+  "title": "mv invocation",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "rollback": [
+  {
+   "explain": "Remove the date prefix again. The preview output lists every old and new name, so reverse each pair with mv.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "The date is the modification time, not the date a photo was taken, even though the aliases mention shooting date. Copying or editing a file changes it.",
+  "Run the apply step only once per file; files that already start with a date are skipped by the check.",
+  "Names are in your local time zone, so files changed near midnight can get the next day's date."
+ ]
+}

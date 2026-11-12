@@ -1,0 +1,100 @@
+{
+ "schema_version": 2,
+ "id": "macos-convert-text-file-format",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Convert a text file to another format (RTF, HTML, TXT)",
+ "summary": "Use the built-in `textutil` command to convert text files between formats like RTF, HTML, and plain text. This is useful for cleaning up documents or preparing them for web use.",
+ "aliases": [
+  {
+   "text": "convert rtf to txt",
+   "lang": "en"
+  },
+  {
+   "text": "convert rtf to html",
+   "lang": "en"
+  },
+  {
+   "text": "textutil convert",
+   "lang": "en"
+  },
+  {
+   "text": "change file format text",
+   "lang": "en"
+  },
+  {
+   "text": "конвертировать rtf в txt",
+   "lang": "ru"
+  },
+  {
+   "text": "конвертировать rtf в html",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить формат текстового файла",
+   "lang": "ru"
+  },
+  {
+   "text": "textutil конвертация",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Convert the specified file to the desired format. The output file will have the same name but a new extension (e.g., .txt, .html, .rtf).",
+   "cmd": "textutil -convert <FORMAT> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FORMAT",
+     "description": "The target format: txt, html, rtf, doc, docx, or wordml",
+     "example": "txt"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the source file",
+     "example": "document.rtf"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Convert rich text (RTF) to plain text (TXT).",
+     "cmd": "textutil <FILE> -convert txt",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the source RTF file",
+       "example": "document.rtf"
+      }
+     ]
+    },
+    {
+     "explain": "Convert a plain text file to RTF with specific font settings.",
+     "cmd": "textutil -convert rtf -font Times -fontsize 10 <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the source TXT file",
+       "example": "notes.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/textutil.md",
+  "title": "tldr-pages: textutil",
+  "license": "CC-BY-4.0"
+ }
+}

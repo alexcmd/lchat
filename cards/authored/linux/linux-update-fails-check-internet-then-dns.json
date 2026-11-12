@@ -1,0 +1,124 @@
+{
+ "schema_version": 2,
+ "id": "linux-update-fails-check-internet-then-dns",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Figure out if a system update fails because of internet or DNS",
+ "summary": "When a software update fails, test three things in order: can the computer reach an IP address, can it turn a server name into an address, and can it open the software repository. The first check that fails shows where the problem is.",
+ "aliases": [
+  {
+   "text": "system update fails no internet",
+   "lang": "en"
+  },
+  {
+   "text": "apt update could not resolve host",
+   "lang": "en"
+  },
+  {
+   "text": "is it dns or internet update error",
+   "lang": "en"
+  },
+  {
+   "text": "package update fails temporary failure resolving",
+   "lang": "en"
+  },
+  {
+   "text": "check internet before updating linux",
+   "lang": "en"
+  },
+  {
+   "text": "test network and dns for software update",
+   "lang": "en"
+  },
+  {
+   "text": "обновление не работает нет интернета или dns",
+   "lang": "ru"
+  },
+  {
+   "text": "apt update не может найти сервер",
+   "lang": "ru"
+  },
+  {
+   "text": "не обновляется linux проверить интернет",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить сеть и dns перед обновлением",
+   "lang": "ru"
+  },
+  {
+   "text": "обновление системы ошибка сеть или днс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ping",
+   "curl"
+  ]
+ },
+ "prerequisites": [
+  "Terminal open",
+  "The ping and curl programs installed (usually already present)"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the computer can reach the internet by IP address. This skips DNS. If all 3 packets are lost, the problem is the connection itself (cable, Wi-Fi, router), not DNS or the repository.",
+   "cmd": "ping -c 3 1.1.1.1",
+   "risk": "low",
+   "expect": "3 packets transmitted, 3 received, 0% packet loss. Some networks block ping, so check with a browser if all packets are lost.",
+   "needs_root": false
+  },
+  {
+   "explain": "Ask the system to turn the repository's server name into an IP address. If step 1 worked but this fails, the problem is DNS. Continue with the DNS cards in see_also.",
+   "cmd": "getent hosts <REPO_HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REPO_HOST",
+     "description": "Server name of your software repository, without https://. Pick the one from your sources list",
+     "example": "archive.ubuntu.com",
+     "discover_cmd": "grep -rhoE \"https?://[^/ ]+\" /etc/apt/sources.list /etc/apt/sources.list.d /etc/yum.repos.d /etc/pacman.d/mirrorlist 2>/dev/null | sed -E 's#https?://##' | sort -u"
+    }
+   ],
+   "expect": "One or more lines with an IP address and the server name. No output and exit code 2 means the name did not resolve, which points to DNS."
+  },
+  {
+   "explain": "Ask the repository server for its headers only, without downloading any package. Any HTTP status line means the server answered. If steps 1 and 2 worked but this gets no answer, the repository or the path to it is down or blocked.",
+   "cmd": "curl -sI https://<REPO_HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REPO_HOST",
+     "description": "Same server name as in step 2, without https://",
+     "example": "archive.ubuntu.com",
+     "discover_cmd": "grep -rhoE \"https?://[^/ ]+\" /etc/apt/sources.list /etc/apt/sources.list.d /etc/yum.repos.d /etc/pacman.d/mirrorlist 2>/dev/null | sed -E 's#https?://##' | sort -u"
+    }
+   ],
+   "expect": "A first line such as HTTP/2 200 or HTTP/1.1 301. No output means the connection failed."
+  },
+  {
+   "explain": "If all three checks passed, the network, DNS and repository are reachable. The update error is then in the package manager or the repository configuration. Read the last error lines of the update command and search for them.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "dns-resolve-domain-nss",
+  "posix-host-lookup-domain",
+  "posix-host-query-specific-dns-server",
+  "nmcli-show-networking-status",
+  "linux-list-ip-addresses"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/ping",
+  "title": "ping manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

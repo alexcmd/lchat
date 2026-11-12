@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-pci-driver-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show kernel drivers for PCI devices",
+ "summary": "Use lspci with the -k flag to see which kernel drivers and modules are currently handling each PCI device. This helps identify if a device is working correctly or needs a specific driver.",
+ "aliases": [
+  {
+   "text": "check pci drivers",
+   "lang": "en"
+  },
+  {
+   "text": "show kernel modules for devices",
+   "lang": "en"
+  },
+  {
+   "text": "lspci -k",
+   "lang": "en"
+  },
+  {
+   "text": "which driver is used",
+   "lang": "en"
+  },
+  {
+   "text": "check network driver",
+   "lang": "en"
+  },
+  {
+   "text": "драйверы pci устройств",
+   "lang": "ru"
+  },
+  {
+   "text": "какой драйвер используется",
+   "lang": "ru"
+  },
+  {
+   "text": "lspci -k",
+   "lang": "ru"
+  },
+  {
+   "text": "драйвер видеокарты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lspci with the -k flag to list each PCI device along with the kernel driver currently bound to it.",
+   "cmd": "lspci -k",
+   "risk": "low",
+   "expect": "A list of devices, each followed by lines showing 'Kernel driver in use:' and 'Kernel modules:'"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lspci.md",
+  "title": "tldr-pages: lspci",
+  "license": "CC-BY-4.0"
+ }
+}

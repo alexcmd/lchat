@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-decompress-file-bzip2",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Decompress a .bz2 file",
+ "summary": "Use bzip2 to extract a .bz2 compressed file back to its original form. The .bz2 file is removed after extraction.",
+ "aliases": [
+  {
+   "text": "unzip bz2 file",
+   "lang": "en"
+  },
+  {
+   "text": "decompress bzip2",
+   "lang": "en"
+  },
+  {
+   "text": "extract bz2 archive",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать bz2",
+   "lang": "ru"
+  },
+  {
+   "text": "разархивировать bzip2",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть файл bz2",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -d flag to decompress the file. The original .bz2 file is deleted.",
+   "cmd": "bzip2 -d <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .bz2 file to decompress",
+     "example": "document.txt.bz2"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Decompress to stdout instead of creating a file, useful for piping.",
+     "cmd": "bzip2 -dc <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the .bz2 file",
+       "example": "document.txt.bz2"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/bzip2.md",
+  "title": "tldr-pages: bzip2",
+  "license": "CC-BY-4.0"
+ }
+}

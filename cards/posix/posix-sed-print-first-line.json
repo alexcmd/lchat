@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "posix-sed-print-first-line",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print only the first line of command output",
+ "summary": "Use sed to extract and display just the first line from the output of a command. This is helpful when you only need the header or the first result.",
+ "aliases": [
+  {
+   "text": "sed print first line",
+   "lang": "en"
+  },
+  {
+   "text": "get first line of output",
+   "lang": "en"
+  },
+  {
+   "text": "sed head equivalent",
+   "lang": "en"
+  },
+  {
+   "text": "show only first line",
+   "lang": "en"
+  },
+  {
+   "text": "sed первая строка",
+   "lang": "ru"
+  },
+  {
+   "text": "вывести первую строку",
+   "lang": "ru"
+  },
+  {
+   "text": "sed head",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of a command to sed with the '-n' flag and the '1p' command to print only the first line.",
+   "cmd": "<COMMAND> | sed -n '1p'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command whose output you want to filter",
+     "example": "ls -l"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/sed.md",
+  "title": "tldr-pages: sed",
+  "license": "CC-BY-4.0"
+ }
+}

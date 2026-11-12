@@ -1,0 +1,102 @@
+{
+ "schema_version": 2,
+ "id": "posix-count-file-chars",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Count the number of characters in a file",
+ "summary": "Use the wc command to count characters in a text file, correctly handling multi-byte characters like emojis or accented letters.",
+ "aliases": [
+  {
+   "text": "count characters in file",
+   "lang": "en"
+  },
+  {
+   "text": "how many chars in file",
+   "lang": "en"
+  },
+  {
+   "text": "wc chars",
+   "lang": "en"
+  },
+  {
+   "text": "character count file",
+   "lang": "en"
+  },
+  {
+   "text": "count characters",
+   "lang": "en"
+  },
+  {
+   "text": "сколько символов в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать символы в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "wc -m",
+   "lang": "ru"
+  },
+  {
+   "text": "количество символов в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько символов",
+   "lang": "ru"
+  },
+  {
+   "text": "подсчитать символы",
+   "lang": "ru"
+  },
+  {
+   "text": "how many characters in file",
+   "lang": "en"
+  },
+  {
+   "text": "wc m",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wc with the --chars flag followed by the path to your file. This counts characters, treating multi-byte sequences as single characters.",
+   "cmd": "wc -m <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to count characters in",
+     "example": "text.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag -m instead of --chars.",
+     "cmd": "wc -m <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the text file you want to count characters in",
+       "example": "text.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wc.md",
+  "title": "tldr-pages: wc",
+  "license": "CC-BY-4.0"
+ }
+}

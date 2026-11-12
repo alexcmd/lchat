@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmtui-connect-network",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Connect to a specific network with nmtui",
+ "summary": "Connect to a known network by specifying its name, UUID, device, or SSID directly in the command.",
+ "aliases": [
+  {
+   "text": "connect to wifi nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "nmtui connect ssid",
+   "lang": "en"
+  },
+  {
+   "text": "connect network by name nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "nmtui connect name",
+   "lang": "en"
+  },
+  {
+   "text": "подключить сеть nmtui",
+   "lang": "ru"
+  },
+  {
+   "text": "nmtui подключение по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "подключиться к wifi nmtui",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Connect to a network by providing its identifier (name, UUID, device, or SSID).",
+   "cmd": "nmtui connect <NETWORK_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "NETWORK_ID",
+     "description": "The name, UUID, device name, or SSID of the network to connect to.",
+     "example": "MyWiFi"
+    }
+   ],
+   "expect": "The system attempts to connect to the specified network."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmtui.md",
+  "title": "tldr-pages: nmtui",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-nmtui-list-connections",
+  "nmcli-connect-wifi-network"
+ ]
+}

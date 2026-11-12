@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "laptop-fix-elantech-touchpad-not-detected",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix Elantech touchpad not detected due to vcc error",
+ "summary": "If your Elantech touchpad is not detected and you see a 'supply vcc not found' error in the journal, forcing the psmouse module to use the primary bus often fixes it.",
+ "aliases": [
+  {
+   "text": "elantech touchpad not working",
+   "lang": "en"
+  },
+  {
+   "text": "touchpad not detected elantech",
+   "lang": "en"
+  },
+  {
+   "text": "elan_i2c vcc not found",
+   "lang": "en"
+  },
+  {
+   "text": "touchpad not showing up",
+   "lang": "en"
+  },
+  {
+   "text": "тачпад elantech не работает",
+   "lang": "ru"
+  },
+  {
+   "text": "тачпад не определяется",
+   "lang": "ru"
+  },
+  {
+   "text": "elan_i2c ошибка",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "supply vcc not found, using dummy regulator"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create the file /etc/modprobe.d/psmouse.conf with the following content to force the psmouse module to use the primary bus.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Reload the psmouse module or reboot to apply the change.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the configuration file /etc/modprobe.d/psmouse.conf.",
+   "risk": "medium",
+   "needs_root": true
+  },
+  {
+   "explain": "Reload the psmouse module or reboot to revert changes.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "If the touchpad is detected but still does not work, you may need to blacklist the elan_i2c kernel module instead."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Laptop#Elantech",
+  "title": "Laptop",
+  "revision_id": 881219,
+  "license": "GFDL-1.3-or-later"
+ }
+}

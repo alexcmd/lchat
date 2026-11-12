@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmtui-set-hostname",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set the system hostname with nmtui",
+ "summary": "Change the computer's hostname using the NetworkManager text interface.",
+ "aliases": [
+  {
+   "text": "change hostname nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "set hostname nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "rename computer nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "nmtui hostname",
+   "lang": "en"
+  },
+  {
+   "text": "изменить имя хоста nmtui",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить имя компьютера nmtui",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the hostname setting dialog to change the system's name.",
+   "cmd": "sudo nmtui hostname",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "A dialog box appears where you can type a new hostname."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Run the command again and enter the previous hostname to revert the change.",
+   "cmd": "sudo nmtui hostname",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Changing the hostname may affect network services or local DNS resolution."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmtui.md",
+  "title": "tldr-pages: nmtui",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-set-hostname",
+  "linux-nmcli-set-hostname"
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "linux-enable-dpms",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable DPMS power saving",
+ "summary": "Turn on DPMS (Display Power Management Signaling) features. This allows the monitor to enter power-saving modes when idle.",
+ "aliases": [
+  {
+   "text": "enable dpms",
+   "lang": "en"
+  },
+  {
+   "text": "turn on monitor power saving",
+   "lang": "en"
+  },
+  {
+   "text": "allow monitor sleep",
+   "lang": "en"
+  },
+  {
+   "text": "xset dpms on",
+   "lang": "en"
+  },
+  {
+   "text": "включить dpms",
+   "lang": "ru"
+  },
+  {
+   "text": "включить энергосбережение монитора",
+   "lang": "ru"
+  },
+  {
+   "text": "монитор засыпает",
+   "lang": "ru"
+  },
+  {
+   "text": "xset +dpms",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xset"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Enable DPMS features to allow the monitor to enter power-saving states.",
+   "cmd": "xset +dpms",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xset.md",
+  "title": "tldr-pages: xset",
+  "license": "CC-BY-4.0"
+ }
+}

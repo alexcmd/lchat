@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-screenshot-flameshot-clipboard",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy screenshot to clipboard with Flameshot",
+ "summary": "Take an interactive screenshot and copy the result directly to your clipboard instead of saving it to a file. Useful for pasting into chat apps or documents.",
+ "aliases": [
+  {
+   "text": "flameshot clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "screenshot to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "copy screenshot linux",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот в буфер обмена",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать скриншот",
+   "lang": "ru"
+  },
+  {
+   "text": "флеймшот в буфер",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flameshot"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Launch interactive mode and copy the selected area to the clipboard.",
+   "cmd": "flameshot gui --clipboard",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flameshot.md",
+  "title": "tldr-pages: flameshot",
+  "license": "CC-BY-4.0"
+ }
+}

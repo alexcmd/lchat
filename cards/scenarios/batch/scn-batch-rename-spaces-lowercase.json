@@ -1,0 +1,127 @@
+{
+ "schema_version": 2,
+ "id": "scn-batch-rename-spaces-lowercase",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Rename many files: replace spaces with underscores and use lowercase",
+ "summary": "Renames every plain file in a folder so that spaces become underscores and letters become small. First you see the planned new names, then you apply them. A file whose new name is already taken is skipped, never overwritten.",
+ "aliases": [
+  {
+   "text": "rename many files replace spaces with underscores",
+   "lang": "en"
+  },
+  {
+   "text": "bulk rename files to lowercase linux",
+   "lang": "en"
+  },
+  {
+   "text": "remove spaces from file names",
+   "lang": "en"
+  },
+  {
+   "text": "rename all files in a folder lowercase",
+   "lang": "en"
+  },
+  {
+   "text": "batch rename files with spaces in names",
+   "lang": "en"
+  },
+  {
+   "text": "how to rename lots of files at once",
+   "lang": "en"
+  },
+  {
+   "text": "переименовать все файлы заменить пробелы на подчёркивания",
+   "lang": "ru"
+  },
+  {
+   "text": "переименовать файлы в нижний регистр linux",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать пробелы из имён файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "массовое переименование файлов в папке",
+   "lang": "ru"
+  },
+  {
+   "text": "переименовать все файлы в папке в строчные буквы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "bash"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Preview only: print the mv command for each plain file whose name would change. Nothing is renamed yet. Two spaces become two underscores, so 'Other  Doc.pdf' becomes 'other__doc.pdf'. Change the plan if a name looks wrong.",
+   "risk": "low",
+   "cmd": "(cd <DIR> && for f in *; do [ -f \"$f\" ] || continue; n=\"${f// /_}\"; n=\"${n,,}\"; [ \"$f\" != \"$n\" ] && printf 'mv -- %q %q\\n' \"$f\" \"$n\"; done)",
+   "expect": "Lines such as: mv -- My\\ File.TXT my_file.txt  (the backslashes show the space in the old name).",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder that holds the files",
+     "example": "photos/trip",
+     "discover_cmd": "ls"
+    }
+   ]
+  },
+  {
+   "explain": "Apply the renames. A file is renamed only if its new name is free; otherwise the line 'skipped, name taken' is printed. Folders are not touched.",
+   "risk": "medium",
+   "cmd": "(cd <DIR> && for f in *; do [ -f \"$f\" ] || continue; n=\"${f// /_}\"; n=\"${n,,}\"; [ \"$f\" = \"$n\" ] && continue; if [ -e \"$n\" ]; then echo \"skipped, name taken: $f\"; else mv -n -- \"$f\" \"$n\"; fi; done)",
+   "expect": "Usually no output. Only the skipped lines appear, for names that were already taken.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Same folder as in the preview step",
+     "example": "photos/trip"
+    }
+   ]
+  },
+  {
+   "explain": "Check the new names in the folder.",
+   "risk": "low",
+   "cmd": "ls -1 <DIR>",
+   "expect": "One name per line, all in lowercase, with underscores instead of spaces.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder with the renamed files",
+     "example": "photos/trip"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "source": {
+  "url": "https://www.gnu.org/software/bash/manual/bash.html",
+  "title": "Bash Reference Manual",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12",
+ "prerequisites": [
+  "A copy of the folder, or a backup, if the names matter to other programs"
+ ],
+ "rollback": [
+  {
+   "explain": "Rename the files back. The preview lines show each old and new name, so reverse each pair with mv. Keep the preview output if you want an undo list.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "The shell cannot undo a rename. Run the preview step first and read every line.",
+  "Programs, scripts and links that use the old names will stop finding the files.",
+  "Only plain files are renamed. Folders keep their names."
+ ]
+}

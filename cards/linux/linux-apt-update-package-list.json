@@ -1,0 +1,112 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-update-package-list",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update the list of available packages",
+ "summary": "Refresh the local database of available software so you can install new programs or see updates. This is usually the first step before installing or upgrading anything.",
+ "aliases": [
+  {
+   "text": "update package list",
+   "lang": "en"
+  },
+  {
+   "text": "refresh apt cache",
+   "lang": "en"
+  },
+  {
+   "text": "apt update",
+   "lang": "en"
+  },
+  {
+   "text": "обновить список пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить кэш apt",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-get update",
+   "lang": "en"
+  },
+  {
+   "text": "check for new packages",
+   "lang": "en"
+  },
+  {
+   "text": "проверить новые пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "aptitude update",
+   "lang": "en"
+  },
+  {
+   "text": "refresh package list aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "update aptitude cache",
+   "lang": "en"
+  },
+  {
+   "text": "обновить список пакетов aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "синхронизировать пакеты aptitude",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Downloads the latest metadata about available packages from the configured repositories.",
+   "cmd": "sudo apt update",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Download the latest package lists from the configured repositories.",
+     "cmd": "sudo apt-get update",
+     "needs_root": true,
+     "risk": "medium"
+    },
+    {
+     "explain": "Synchronizes the list of packages and versions available from the repositories.",
+     "cmd": "sudo aptitude update",
+     "needs_root": true,
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo for updating the package list, but it is safe and does not change installed software.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This command requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt.md",
+  "title": "tldr-pages: apt",
+  "license": "CC-BY-4.0"
+ }
+}

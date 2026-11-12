@@ -1,0 +1,173 @@
+{
+ "schema_version": 2,
+ "id": "linux-disk-ncdu-interactive-explorer",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Explore disk usage interactively with ncdu",
+ "summary": "ncdu shows a text screen that lists folders from the biggest to the smallest, so you can see what fills your disk and move through them with the arrow keys. This card uses its read-only mode, which blocks deleting anything.",
+ "aliases": [
+  {
+   "text": "what takes up disk space linux",
+   "lang": "en"
+  },
+  {
+   "text": "find big folders linux",
+   "lang": "en"
+  },
+  {
+   "text": "ncdu tutorial",
+   "lang": "en"
+  },
+  {
+   "text": "linux disk usage analyzer like windirstat",
+   "lang": "en"
+  },
+  {
+   "text": "treesize for linux",
+   "lang": "en"
+  },
+  {
+   "text": "show folder sizes in terminal linux",
+   "lang": "en"
+  },
+  {
+   "text": "что занимает место на диске linux",
+   "lang": "ru"
+  },
+  {
+   "text": "найти большие папки linux",
+   "lang": "ru"
+  },
+  {
+   "text": "ncdu как пользоваться",
+   "lang": "ru"
+  },
+  {
+   "text": "аналог windirstat для linux",
+   "lang": "ru"
+  },
+  {
+   "text": "аналог treesize linux",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть размер папок linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window open",
+  "Your sudo password, only if ncdu is not installed yet (you need an account with administrator rights)"
+ ],
+ "steps": [
+  {
+   "explain": "Check how full each disk is. Look at the Use% and Avail columns of the line for / to see whether the main disk is short on space. This only reads information.",
+   "cmd": "df -h",
+   "risk": "low",
+   "expect": "A table with Filesystem, Size, Used, Avail, Use% and Mounted on columns. The line ending in / is the main disk."
+  },
+  {
+   "explain": "Check whether ncdu is already installed. If you see 'command not found', install it in the next step. If it prints a version, skip the next step.",
+   "cmd": "ncdu --version",
+   "risk": "low",
+   "expect": "The word ncdu and a version number. A 'not found' message means ncdu is not installed yet."
+  },
+  {
+   "explain": "Install ncdu from the package manager. This needs administrator rights, so you will be asked for your sudo password.",
+   "cmd": "sudo apt install ncdu",
+   "variants": {
+    "fedora": "sudo dnf install ncdu",
+    "arch": "sudo pacman -S ncdu"
+   },
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The install finishes with a line like 'Setting up ncdu' and no error. On Arch, answer Y if asked to proceed."
+  },
+  {
+   "explain": "Scan your home folder and open the ncdu screen. -x stays on this disk and -r turns on read-only mode, so nothing can be deleted. Wait until the Scanning message disappears.",
+   "cmd": "ncdu -x -r ~",
+   "risk": "low",
+   "expect": "The header says read-only ([read-only] or [readonly] depending on version). Folders are listed by size, biggest first, each with a size such as 4.8 MiB and a bar.",
+   "alternatives": [
+    {
+     "explain": "Scan the whole system, including folders that only the administrator can read. Read-only mode still prevents deleting. The scan can take several minutes.",
+     "cmd": "sudo ncdu -x -r /",
+     "needs_root": true,
+     "risk": "low"
+    },
+    {
+     "explain": "Scan another folder. Replace <FOLDER> with its path, for example a mount point from the df -h output.",
+     "cmd": "ncdu -x -r <FOLDER>",
+     "placeholders": [
+      {
+       "name": "FOLDER",
+       "description": "Folder to scan, for example /home or a mount point from df -h",
+       "example": "/home",
+       "discover_cmd": "df -h"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Move around the screen. The up and down arrows (or k and j) select a folder. Enter or the right arrow opens it, and the left arrow (or h) goes back to the parent folder. Press ? to see the full key list.",
+   "risk": "low",
+   "expect": "Use the arrow keys. Rows are sorted by size, biggest first."
+  },
+  {
+   "explain": "Press q to quit ncdu. In read-only mode the d key (delete) is turned off, so pressing it removes nothing.",
+   "risk": "low",
+   "expect": "The screen closes and you get the shell prompt back."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ncdu --version",
+   "expect": "Prints the word ncdu and a version number."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove ncdu if you installed it only for this card. Other programs are not affected.",
+   "cmd": "sudo apt remove ncdu",
+   "variants": {
+    "fedora": "sudo dnf remove ncdu",
+    "arch": "sudo pacman -R ncdu"
+   },
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Without -r, ncdu can delete files: the d key removes the selected item permanently. This card always uses -r, which turns deleting off.",
+  "Scanning / or a large disk can take several minutes. The screen says Scanning until it finishes.",
+  "sudo runs ncdu with full administrator rights. Use it only with the commands on this card, and keep -r in them."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/ncdu",
+  "title": "ncdu manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-running-apps",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List all running applications with details",
+ "summary": "Use the `lsappinfo` command to see a detailed list of all applications currently running on your Mac. This is useful for debugging or seeing exactly what is active in the background.",
+ "aliases": [
+  {
+   "text": "list running apps mac",
+   "lang": "en"
+  },
+  {
+   "text": "lsappinfo list",
+   "lang": "en"
+  },
+  {
+   "text": "see all open applications terminal",
+   "lang": "en"
+  },
+  {
+   "text": "check running processes mac",
+   "lang": "en"
+  },
+  {
+   "text": "lsappinfo",
+   "lang": "en"
+  },
+  {
+   "text": "список запущенных приложений mac",
+   "lang": "ru"
+  },
+  {
+   "text": "lsappinfo list",
+   "lang": "ru"
+  },
+  {
+   "text": "какие приложения открыты mac",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть активные программы терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `lsappinfo list` command to display a comprehensive list of all running applications and their current state.",
+   "cmd": "lsappinfo list",
+   "risk": "low",
+   "expect": "A long list of application names and their internal identifiers will appear in the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/lsappinfo.md",
+  "title": "tldr-pages: lsappinfo",
+  "license": "CC-BY-4.0"
+ }
+}

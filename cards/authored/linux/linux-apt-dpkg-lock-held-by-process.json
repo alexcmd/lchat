@@ -1,0 +1,130 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-dpkg-lock-held-by-process",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Could not get lock /var/lib/dpkg/lock-frontend' by finding the process that holds it",
+ "summary": "apt or dpkg reports that another program is using the package lock. Find out which program holds the lock and whether it is still working, then wait for it instead of deleting the lock file.",
+ "aliases": [
+  {
+   "text": "could not get lock var lib dpkg lock-frontend",
+   "lang": "en"
+  },
+  {
+   "text": "apt could not get lock ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg frontend lock held by process",
+   "lang": "en"
+  },
+  {
+   "text": "unable to acquire the dpkg frontend lock",
+   "lang": "en"
+  },
+  {
+   "text": "apt is locked by another process",
+   "lang": "en"
+  },
+  {
+   "text": "which process is using apt lock",
+   "lang": "en"
+  },
+  {
+   "text": "не могу получить блокировку apt",
+   "lang": "ru"
+  },
+  {
+   "text": "could not get lock ошибка apt ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "кто держит блокировку dpkg",
+   "lang": "ru"
+  },
+  {
+   "text": "apt заблокирован другим процессом",
+   "lang": "ru"
+  },
+  {
+   "text": "блокировка lock-frontend что делать",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Could not get lock",
+  "Unable to acquire the dpkg frontend lock",
+  "It is held by process"
+ ],
+ "prerequisites": [
+  "A terminal on Ubuntu, Debian or Linux Mint",
+  "An account with sudo rights"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Ask the system which process has the lock file open. This only lists processes and changes nothing. Look for the header USER PID ACCESS COMMAND and the program name in the row below it.",
+   "cmd": "sudo fuser -v /var/lib/dpkg/lock-frontend",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "A header USER PID ACCESS COMMAND and a row starting with root, F...., then the program name (for example python3, apt-get or dpkg). Empty output and exit status 1 mean the lock is already free."
+  },
+  {
+   "explain": "Get the full command line of that process, using the PID number from the previous step. The PID is only the number, for example 3131.",
+   "cmd": "ps -o pid,comm,args -p <PID>",
+   "needs_root": false,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PID",
+     "description": "Process ID that holds the lock, shown in the PID column of the previous step",
+     "example": "3131",
+     "discover_cmd": "sudo fuser /var/lib/dpkg/lock-frontend"
+    }
+   ],
+   "expect": "A header PID COMMAND COMMAND and one row with the same PID and the program's full command line."
+  },
+  {
+   "explain": "On Ubuntu and Mint the automatic update service often holds the lock for a few minutes. Check whether it is running. Do not stop or kill it.",
+   "cmd": "systemctl status unattended-upgrades",
+   "needs_root": false,
+   "risk": "low",
+   "expect": "Active: active (running) means it is busy and you should wait. Active: inactive (dead) means it is not the one holding the lock."
+  },
+  {
+   "explain": "Decide what to do. If the holder is a short apt, dpkg or update job, wait a few minutes and check again. If it has held the lock for a long time, or it is not a package tool you recognize, ask someone with Linux experience. Do not delete the lock file or kill apt or dpkg mid-task.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "verify": [
+  {
+   "cmd": "sudo fuser -v /var/lib/dpkg/lock-frontend",
+   "expect": "Nothing is printed and the exit status is 1, so the lock is free. Then run your apt or apt-get command again."
+  }
+ ],
+ "warnings": [
+  "Do not delete /var/lib/dpkg/lock-frontend. Deleting the lock file while a package job runs can corrupt the package database.",
+  "Do not kill apt, apt-get or dpkg while they are installing or upgrading packages."
+ ],
+ "see_also": [
+  "linux-apt-list-installed-packages"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/fuser",
+  "title": "fuser manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

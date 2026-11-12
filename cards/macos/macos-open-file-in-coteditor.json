@@ -1,0 +1,106 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-file-in-coteditor",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open files in CotEditor from the terminal",
+ "summary": "Use the `cot` command to launch CotEditor and open specific files. You can also open a new blank document or wait for the editor to close before continuing.",
+ "aliases": [
+  {
+   "text": "open file in coteditor",
+   "lang": "en"
+  },
+  {
+   "text": "cot command mac",
+   "lang": "en"
+  },
+  {
+   "text": "open text file in cot",
+   "lang": "en"
+  },
+  {
+   "text": "launch coteditor terminal",
+   "lang": "en"
+  },
+  {
+   "text": "открыть файл в coteditor",
+   "lang": "ru"
+  },
+  {
+   "text": "команда cot mac",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить coteditor из терминала",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Launch CotEditor and open the specified file(s).",
+   "cmd": "cot <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file(s) you want to open",
+     "example": "~/Documents/notes.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Open a new blank document in CotEditor.",
+     "cmd": "cot --new",
+     "risk": "low"
+    },
+    {
+     "explain": "Open a file and keep the terminal blocked until CotEditor is closed.",
+     "cmd": "cot --wait <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file to open and wait for",
+       "example": "~/Documents/notes.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Open a file with the cursor positioned at a specific line and column.",
+     "cmd": "cot --line <LINE> --column <COLUMN> <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "LINE",
+       "description": "Line number to jump to",
+       "example": "1"
+      },
+      {
+       "name": "COLUMN",
+       "description": "Column number to jump to",
+       "example": "80"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the file to open",
+       "example": "~/Documents/notes.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/cot.md",
+  "title": "tldr-pages: cot",
+  "license": "CC-BY-4.0"
+ }
+}

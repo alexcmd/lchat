@@ -1,0 +1,150 @@
+{
+ "schema_version": 2,
+ "id": "script-add-directory-to-path",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Add a personal bin folder to PATH",
+ "summary": "PATH is the list of folders the shell searches when you type a program name. This adds your ~/bin folder to that list in your shell settings, so scripts you put there can be run by name from any folder.",
+ "aliases": [
+  {
+   "text": "add folder to PATH",
+   "lang": "en"
+  },
+  {
+   "text": "personal bin folder",
+   "lang": "en"
+  },
+  {
+   "text": "run my scripts from any folder",
+   "lang": "en"
+  },
+  {
+   "text": "how to export PATH",
+   "lang": "en"
+  },
+  {
+   "text": "add to path bashrc zshrc",
+   "lang": "en"
+  },
+  {
+   "text": "environment variables path like windows",
+   "lang": "en"
+  },
+  {
+   "text": "make my script a command",
+   "lang": "en"
+  },
+  {
+   "text": "добавить папку в PATH",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить bin в path",
+   "lang": "ru"
+  },
+  {
+   "text": "запускать свои скрипты из любой папки",
+   "lang": "ru"
+  },
+  {
+   "text": "как прописать путь к bin в PATH",
+   "lang": "ru"
+  },
+  {
+   "text": "export PATH zshrc bashrc",
+   "lang": "ru"
+  },
+  {
+   "text": "переменная PATH как добавить папку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Open a terminal window (Terminal on macOS, any terminal app on Linux)",
+  "Know which shell you use: zsh is the default on macOS; bash is common on Linux"
+ ],
+ "steps": [
+  {
+   "explain": "Find out which shell you use. The output ends with zsh (default on macOS) or bash (common on Linux). This decides which settings file to edit in step 3.",
+   "cmd": "echo $SHELL",
+   "risk": "low",
+   "expect": "/bin/zsh or /bin/bash (or a similar path ending in the shell name)"
+  },
+  {
+   "explain": "Create a bin folder in your home directory. If the folder already exists, nothing changes.",
+   "cmd": "mkdir -p \"$HOME/bin\"",
+   "risk": "low",
+   "expect": "No output. The command finished without errors."
+  },
+  {
+   "explain": "Add a line that puts ~/bin at the front of PATH to the settings file for your shell (step 1). The single quotes keep $HOME and $PATH unexpanded, so they are read every time a shell starts. This example uses ~/.zshrc for zsh.",
+   "cmd": "echo 'export PATH=\"$HOME/bin:$PATH\"' >> \"$HOME/.zshrc\"",
+   "risk": "low",
+   "expect": "No output. The line is added to the end of ~/.zshrc.",
+   "alternatives": [
+    {
+     "explain": "For bash on Linux, write the same line to ~/.bashrc instead, and use the matching source command in step 4.",
+     "cmd": "echo 'export PATH=\"$HOME/bin:$PATH\"' >> \"$HOME/.bashrc\"",
+     "risk": "low",
+     "expect": "No output."
+    },
+    {
+     "explain": "For bash on macOS, Terminal starts bash as a login shell, which reads ~/.bash_profile. Write the line there and use the matching source command in step 4.",
+     "cmd": "echo 'export PATH=\"$HOME/bin:$PATH\"' >> \"$HOME/.bash_profile\"",
+     "risk": "low",
+     "expect": "No output."
+    }
+   ]
+  },
+  {
+   "explain": "Reload the settings file in the current terminal so the change applies now, without closing the window. Use the file you chose in step 3.",
+   "cmd": "source \"$HOME/.zshrc\"",
+   "risk": "low",
+   "expect": "No output.",
+   "alternatives": [
+    {
+     "explain": "Reload ~/.bashrc if you chose it in step 3 (bash on Linux).",
+     "cmd": "source \"$HOME/.bashrc\"",
+     "risk": "low",
+     "expect": "No output."
+    },
+    {
+     "explain": "Reload ~/.bash_profile if you chose it in step 3 (bash on macOS).",
+     "cmd": "source \"$HOME/.bash_profile\"",
+     "risk": "low",
+     "expect": "No output."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "echo \"$PATH\" | tr ':' '\\n' | grep -x \"$HOME/bin\"",
+   "expect": "One line with the full path to your bin folder, for example /home/you/bin or /Users/you/bin. No output means the folder is not on PATH yet."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Open the settings file you edited (~/.zshrc, ~/.bashrc or ~/.bash_profile) in a text editor and delete the line that starts with export PATH=\"$HOME/bin. Then open a new terminal window.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Run step 3 only once. Each run adds another copy of the line; this is harmless but untidy.",
+  "A program in ~/bin with the same name as a system program runs instead of the system one, because folders at the front of PATH are searched first.",
+  "Use the file that matches your shell: the zsh line in ~/.zshrc is not read by bash, and the bash line is not read by zsh."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

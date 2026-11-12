@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "posix-copy-follow-symlinks",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy file following symbolic links",
+ "summary": "Copy a file or directory, resolving symbolic links to their actual targets instead of copying the link itself.",
+ "aliases": [
+  {
+   "text": "copy symlink",
+   "lang": "en"
+  },
+  {
+   "text": "cp dereference",
+   "lang": "en"
+  },
+  {
+   "text": "copy actual file not link",
+   "lang": "en"
+  },
+  {
+   "text": "cp -L",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat simvolicheskuyu ssylku",
+   "lang": "ru"
+  },
+  {
+   "text": "cp s razresheniem ssylok",
+   "lang": "ru"
+  },
+  {
+   "text": "kopirovat fail a ne ssylku",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy the source, following any symbolic links to their targets.",
+   "cmd": "cp -L <LINK> <TARGET_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "LINK",
+     "description": "Path to the symbolic link or file to copy",
+     "example": "my_link"
+    },
+    {
+     "name": "TARGET_DIRECTORY",
+     "description": "Path to the destination directory",
+     "example": "backup/"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag to dereference.",
+     "cmd": "cp -L <LINK> <TARGET_DIRECTORY>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "LINK",
+       "description": "Path to the symbolic link or file to copy",
+       "example": "my_link"
+      },
+      {
+       "name": "TARGET_DIRECTORY",
+       "description": "Path to the destination directory",
+       "example": "backup/"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cp.md",
+  "title": "tldr-pages: cp",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-spotlight-index-status",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check Spotlight indexing status",
+ "summary": "See if Spotlight is currently indexing your startup disk or other volumes. This helps you understand why search results might be incomplete or slow.",
+ "aliases": [
+  {
+   "text": "check spotlight status",
+   "lang": "en"
+  },
+  {
+   "text": "is spotlight indexing",
+   "lang": "en"
+  },
+  {
+   "text": "spotlight indexing status",
+   "lang": "en"
+  },
+  {
+   "text": "mdutil status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить индексацию spotlight",
+   "lang": "ru"
+  },
+  {
+   "text": "spotlight индексирует",
+   "lang": "ru"
+  },
+  {
+   "text": "состояние индексации",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check the indexing status of the startup volume (usually /).",
+   "cmd": "mdutil -s /",
+   "risk": "low",
+   "expect": "Output indicating whether indexing is enabled, disabled, or in progress."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mdutil.md",
+  "title": "tldr-pages: mdutil",
+  "license": "CC-BY-4.0"
+ }
+}

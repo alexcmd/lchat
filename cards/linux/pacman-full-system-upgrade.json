@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "pacman-full-system-upgrade",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Perform a full system upgrade",
+ "summary": "Update the package database and upgrade all installed packages to their latest versions. This is the standard way to keep an Arch-based system up to date.",
+ "aliases": [
+  {
+   "text": "update arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "pacman -Syu",
+   "lang": "en"
+  },
+  {
+   "text": "full system upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "update packages",
+   "lang": "en"
+  },
+  {
+   "text": "обновить систему",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman -Syu",
+   "lang": "ru"
+  },
+  {
+   "text": "полное обновление",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Synchronize the package database and upgrade all installed packages. Do not use 'pacman -Sy' alone, as partial upgrades are unsupported.",
+   "cmd": "sudo pacman -Syu",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure you have a backup or live USB available in case the update fails.",
+  "Read Arch Linux news before upgrading if you are unsure about recent changes."
+ ],
+ "rollback": [
+  {
+   "explain": "If the update fails or breaks the system, you may need to boot from a live USB and downgrade packages or restore a backup. There is no simple command to undo a partial or failed upgrade.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/System_maintenance#Upgrading_the_system",
+  "title": "System maintenance",
+  "revision_id": 885170,
+  "license": "GFDL-1.3-or-later"
+ }
+}

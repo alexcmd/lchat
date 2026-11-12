@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "posix-ping-audio-alert",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Ping a host with audio alert",
+ "summary": "Make your terminal ring the bell when a packet is received. Useful if you are waiting for a server to come back online.",
+ "aliases": [
+  {
+   "text": "ping sound",
+   "lang": "en"
+  },
+  {
+   "text": "ping bell",
+   "lang": "en"
+  },
+  {
+   "text": "ping audio",
+   "lang": "en"
+  },
+  {
+   "text": "ping -a",
+   "lang": "en"
+  },
+  {
+   "text": "пинг со звуком",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг с сигналом",
+   "lang": "ru"
+  },
+  {
+   "text": "ping with sound",
+   "lang": "en"
+  },
+  {
+   "text": "ping beep on reply",
+   "lang": "en"
+  },
+  {
+   "text": "ping audio alert",
+   "lang": "en"
+  },
+  {
+   "text": "ping -a mac",
+   "lang": "en"
+  },
+  {
+   "text": "пинг -a",
+   "lang": "ru"
+  },
+  {
+   "text": "пинг со звуковым оповещением",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send packets to the host and ring the terminal bell when a reply is received.",
+   "cmd": "ping -a <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The IP address or domain name of the host to ping.",
+     "example": "google.com"
+    }
+   ],
+   "expect": "Terminal bell rings on each successful reply."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ping.md",
+  "title": "tldr-pages: ping",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "schema_version": 2,
+ "id": "posix-file-change-permissions-recursive",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change permissions recursively for a directory",
+ "summary": "Apply permission changes to all files and subdirectories inside a folder. Useful for fixing permissions on a downloaded project.",
+ "aliases": [
+  {
+   "text": "chmod recursive",
+   "lang": "en"
+  },
+  {
+   "text": "chmod -R",
+   "lang": "en"
+  },
+  {
+   "text": "change permissions folder",
+   "lang": "en"
+  },
+  {
+   "text": "chmod all files in folder",
+   "lang": "en"
+  },
+  {
+   "text": "recursive chmod",
+   "lang": "en"
+  },
+  {
+   "text": "изменить права рекурсивно",
+   "lang": "ru"
+  },
+  {
+   "text": "chmod -R",
+   "lang": "ru"
+  },
+  {
+   "text": "права на папку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Recursively add read permission for all users, and execute permission for directories and files that already have it. This is safer than blindly adding execute to everything.",
+   "cmd": "chmod -R a+rX <DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "Path to the directory"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Changing permissions recursively can affect many files. Ensure you are targeting the correct directory."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no automatic undo for chmod. You must manually reset permissions to their previous state if needed.",
+   "risk": "medium"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chmod.md",
+  "title": "tldr-pages: chmod",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "posix-copy-directory-archive",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy directory preserving attributes",
+ "summary": "Copy a directory recursively while preserving permissions, timestamps, and symlinks. Shows progress as it copies.",
+ "aliases": [
+  {
+   "text": "copy directory preserve permissions",
+   "lang": "en"
+  },
+  {
+   "text": "cp -a",
+   "lang": "en"
+  },
+  {
+   "text": "cp archive",
+   "lang": "en"
+  },
+  {
+   "text": "copy with permissions",
+   "lang": "en"
+  },
+  {
+   "text": "skopirovat s pravami",
+   "lang": "ru"
+  },
+  {
+   "text": "cp s sohraneniem prav",
+   "lang": "ru"
+  },
+  {
+   "text": "kopirovat katalog s atributami",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy the directory recursively in verbose mode, preserving permissions, timestamps, and symlinks.",
+   "cmd": "cp --verbose --recursive --archive <SOURCE_DIRECTORY> <TARGET_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE_DIRECTORY",
+     "description": "Path to the directory you want to copy",
+     "example": "my_project"
+    },
+    {
+     "name": "TARGET_DIRECTORY",
+     "description": "Path to the destination directory",
+     "example": "backups/my_project"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the combined short flags for verbose, recursive, and archive.",
+     "cmd": "cp -vra <SOURCE_DIRECTORY> <TARGET_DIRECTORY>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SOURCE_DIRECTORY",
+       "description": "Path to the directory you want to copy",
+       "example": "my_project"
+      },
+      {
+       "name": "TARGET_DIRECTORY",
+       "description": "Path to the destination directory",
+       "example": "backups/my_project"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/cp.md",
+  "title": "tldr-pages: cp",
+  "license": "CC-BY-4.0"
+ }
+}

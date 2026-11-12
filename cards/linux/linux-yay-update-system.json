@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "linux-yay-update-system",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update all packages from repos and AUR",
+ "summary": "Synchronize and update all installed packages from both the official repositories and the Arch User Repository (AUR).",
+ "aliases": [
+  {
+   "text": "update system yay",
+   "lang": "en"
+  },
+  {
+   "text": "yay update",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade aur packages",
+   "lang": "en"
+  },
+  {
+   "text": "yay -Syu",
+   "lang": "en"
+  },
+  {
+   "text": "обновить систему yay",
+   "lang": "ru"
+  },
+  {
+   "text": "yay обновление",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить aur",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "yay"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Runs the default update operation, checking for updates in official repos and AUR, and prompting for confirmation.",
+   "cmd": "yay",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Downgrading packages is complex and not directly supported by a single yay command. It is recommended to use a snapshot tool like Timeshift before updating.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Always review the list of packages to be updated before confirming. Partial upgrades can break the system."
+ ],
+ "see_also": [
+  "linux-pacman-update-system"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/yay.md",
+  "title": "tldr-pages: yay",
+  "license": "CC-BY-4.0"
+ }
+}

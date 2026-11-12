@@ -1,0 +1,143 @@
+{
+ "schema_version": 2,
+ "id": "file-change-permissions-text",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change file permissions using text method",
+ "summary": "Use chmod with letters (u, g, o, a) and symbols (r, w, x) to grant or remove specific permissions for the owner, group, or others.",
+ "aliases": [
+  {
+   "text": "chmod text method",
+   "lang": "en"
+  },
+  {
+   "text": "give write permission to group",
+   "lang": "en"
+  },
+  {
+   "text": "remove execute permission",
+   "lang": "en"
+  },
+  {
+   "text": "chmod u g o",
+   "lang": "en"
+  },
+  {
+   "text": "изменить права доступа текстом",
+   "lang": "ru"
+  },
+  {
+   "text": "chmod g+w",
+   "lang": "ru"
+  },
+  {
+   "text": "дать права на запись группе",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set permissions for a specific user class. Replace <WHO> with u (user), g (group), o (others), or a (all). Replace <PERMS> with combinations of r, w, x, or leave empty to remove all.",
+   "cmd": "chmod <WHO>=<PERMS> <FILENAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "WHO",
+     "description": "Who to change: u (owner), g (group), o (others), a (all).",
+     "example": "g"
+    },
+    {
+     "name": "PERMS",
+     "description": "Permissions to set: r (read), w (write), x (execute). Empty string removes all.",
+     "example": "rw"
+    },
+    {
+     "name": "FILENAME",
+     "description": "Path to the file or directory.",
+     "example": "myfile.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Add a permission without removing others.",
+     "cmd": "chmod <WHO>+<PERM> <FILENAME>",
+     "placeholders": [
+      {
+       "name": "WHO",
+       "description": "Who to change: u, g, o, a.",
+       "example": "g"
+      },
+      {
+       "name": "PERM",
+       "description": "Single permission to add: r, w, or x.",
+       "example": "w"
+      },
+      {
+       "name": "FILENAME",
+       "description": "Path to the file.",
+       "example": "myfile.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Remove a permission without affecting others.",
+     "cmd": "chmod <WHO>-<PERM> <FILENAME>",
+     "placeholders": [
+      {
+       "name": "WHO",
+       "description": "Who to change: u, g, o, a.",
+       "example": "a"
+      },
+      {
+       "name": "PERM",
+       "description": "Single permission to remove: r, w, or x.",
+       "example": "w"
+      },
+      {
+       "name": "FILENAME",
+       "description": "Path to the file.",
+       "example": "myfile.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore original permissions if known, or use numeric method if you know the original octal value.",
+   "cmd": "chmod <ORIGINAL_OCTAL> <FILENAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_OCTAL",
+     "description": "The original 3-digit octal permission value (e.g., 644).",
+     "example": "644"
+    },
+    {
+     "name": "FILENAME",
+     "description": "Path to the file.",
+     "example": "myfile.txt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing permissions incorrectly can lock you out of files or expose sensitive data.",
+  "Always verify the current permissions with 'ls -l' before changing them."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/File_permissions_and_attributes#Changing_permissions",
+  "title": "File permissions and attributes",
+  "revision_id": 885848,
+  "license": "GFDL-1.3-or-later"
+ }
+}

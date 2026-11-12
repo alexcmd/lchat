@@ -1,0 +1,178 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-getopts-options-help",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Parse -n and -c options in a bash script and show a help text",
+  "summary": "Lets your script accept short options such as -n NAME or -v, check their values, and print a usage message with -h or when the input is wrong.",
+  "aliases": [
+    {
+      "text": "bash script with options",
+      "lang": "en"
+    },
+    {
+      "text": "getopts example bash",
+      "lang": "en"
+    },
+    {
+      "text": "argument parsing in a bash script",
+      "lang": "en"
+    },
+    {
+      "text": "help option for bash script",
+      "lang": "en"
+    },
+    {
+      "text": "usage message bash script",
+      "lang": "en"
+    },
+    {
+      "text": "bash script flags -v and -h",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт с аргументами -n и -c",
+      "lang": "ru"
+    },
+    {
+      "text": "как разобрать аргументы командной строки в bash",
+      "lang": "ru"
+    },
+    {
+      "text": "добавить справку -h в bash скрипт",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт который принимает ключи и показывает помощь",
+      "lang": "ru"
+    },
+    {
+      "text": "bash getopts пример с проверкой значения",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "greet.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "greet.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "greet.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Run the script with two options: a name, a count and verbose output. Verbose text goes to STDERR, the greetings to STDOUT.",
+      "risk": "low",
+      "cmd": "./<FILE> -n Ann -c 2 -v",
+      "expect": "verbose: name=Ann count=2 leftover_args=0, then Hello, Ann! (1/2) and Hello, Ann! (2/2)",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "greet.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Give an invalid count. The script prints an error and exits with code 2.",
+      "risk": "low",
+      "cmd": "./<FILE> -c 0; echo exit code $?",
+      "expect": "error: COUNT must be a whole number of 1 or more, got '0', then exit code 2",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "greet.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Ask for help. The usage text lists every option.",
+      "risk": "low",
+      "cmd": "./<FILE> -h",
+      "expect": "Usage: ./greet.sh [-n NAME] [-c COUNT] [-v] [-h] and one line per option",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "greet.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Give an option that does not exist. The script prints the error and the usage text.",
+      "risk": "low",
+      "cmd": "./<FILE> -x; echo exit code $?",
+      "expect": "error: unknown option -x, then the usage text and exit code 2",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "greet.sh"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "getopts stops at the first argument that does not start with a dash, so put the options before the other arguments.",
+    "getopts only understands short options such as -n. For long options such as --name, use a while loop with a case statement.",
+    "Quote values that contain spaces, for example: ./greet.sh -n \"Mary Ann\"."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "greet.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# greet.sh - parse options with getopts and print a usage (help) text.\n# Usage: ./greet.sh [-n NAME] [-c COUNT] [-v] [-h]\n\nset -euo pipefail\n\nNAME=\"world\"\nCOUNT=1\nVERBOSE=0\n\n# usage prints the help text. $0 is the name the script was started with.\nusage() {\n    cat <<USAGE\nUsage: $0 [-n NAME] [-c COUNT] [-v] [-h]\n  -n NAME   the name to greet (default: world)\n  -c COUNT  how many greetings to print (whole number, 1 or more; default: 1)\n  -v        verbose: print extra information to STDERR\n  -h        show this help and exit\nUSAGE\n}\n\n# getopts reads the options one at a time. In \"n:c:vh\" the letters n and c are\n# followed by a colon, so they need a value; v and h are plain switches.\n# The leading colon turns on silent error handling, so we print our own messages.\nwhile getopts \":n:c:vh\" opt; do\n    case $opt in\n        n) NAME=$OPTARG ;;\n        c) COUNT=$OPTARG ;;\n        v) VERBOSE=1 ;;\n        h) usage; exit 0 ;;\n        :) echo \"error: option -$OPTARG needs a value\" >&2; usage >&2; exit 2 ;;\n        \\?) echo \"error: unknown option -$OPTARG\" >&2; usage >&2; exit 2 ;;\n    esac\ndone\n# Remove the options that were parsed. What is left is in \"$@\".\nshift $((OPTIND - 1))\n\n# The count must be a whole number of at least 1.\nif ! [[ $COUNT =~ ^[0-9]+$ ]] || (( COUNT < 1 )); then\n    echo \"error: COUNT must be a whole number of 1 or more, got '$COUNT'\" >&2\n    exit 2\nfi\n\nif (( VERBOSE )); then\n    echo \"verbose: name=$NAME count=$COUNT leftover_args=$#\" >&2\nfi\n\nfor ((i = 1; i <= COUNT; i++)); do\n    echo \"Hello, $NAME! ($i/$COUNT)\"\ndone\n",
+    "usage": "./greet.sh [-n NAME] [-c COUNT] [-v] [-h]"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

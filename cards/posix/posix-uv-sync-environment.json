@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-uv-sync-environment",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Sync Python environment with uv",
+ "summary": "Use `uv sync` to update your project's environment to match the dependencies listed in `pyproject.toml`. This installs missing packages and removes unused ones.",
+ "aliases": [
+  {
+   "text": "uv sync",
+   "lang": "en"
+  },
+  {
+   "text": "sync python environment uv",
+   "lang": "en"
+  },
+  {
+   "text": "update uv environment",
+   "lang": "en"
+  },
+  {
+   "text": "uv install dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "uv синхронизировать окружение",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить окружение uv",
+   "lang": "ru"
+  },
+  {
+   "text": "uv установить зависимости",
+   "lang": "ru"
+  },
+  {
+   "text": "uv sync",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command in your project directory to ensure your environment matches the project configuration.",
+   "cmd": "uv sync",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uv.md",
+  "title": "tldr-pages: uv",
+  "license": "CC-BY-4.0"
+ }
+}

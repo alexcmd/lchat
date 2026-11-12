@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "macos-force-restart-mac",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Force restart the Mac without graceful shutdown",
+ "summary": "Restart the Mac immediately without waiting for applications to close or save data. Use this only if the system is frozen or unresponsive.",
+ "aliases": [
+  {
+   "text": "force reboot mac",
+   "lang": "en"
+  },
+  {
+   "text": "hard restart mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac frozen restart",
+   "lang": "en"
+  },
+  {
+   "text": "reboot mac quickly",
+   "lang": "en"
+  },
+  {
+   "text": "принудительная перезагрузка мака",
+   "lang": "ru"
+  },
+  {
+   "text": "жесткая перезагрузка мака",
+   "lang": "ru"
+  },
+  {
+   "text": "мак завис перезагрузить",
+   "lang": "ru"
+  },
+  {
+   "text": "ребут без сохранения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the reboot command with the quiet flag to skip the graceful shutdown process.",
+   "cmd": "sudo reboot -q",
+   "needs_root": true,
+   "risk": "high",
+   "expect": "The Mac will restart immediately, potentially losing unsaved data."
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "There is no command to cancel a forced reboot once initiated. You must wait for the system to restart.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "This command does not save open documents or close applications gracefully.",
+  "Use only if the Mac is unresponsive, as it may cause data loss.",
+  "This command requires your administrator password."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/reboot.md",
+  "title": "tldr-pages: reboot",
+  "license": "CC-BY-4.0"
+ }
+}

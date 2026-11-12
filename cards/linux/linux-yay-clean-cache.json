@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "linux-yay-clean-cache",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Clean pacman and yay caches",
+ "summary": "Remove old package versions and cached files from pacman and yay to free up disk space.",
+ "aliases": [
+  {
+   "text": "clean cache yay",
+   "lang": "en"
+  },
+  {
+   "text": "yay -Scc",
+   "lang": "en"
+  },
+  {
+   "text": "clear yay cache",
+   "lang": "en"
+  },
+  {
+   "text": "yay clean",
+   "lang": "en"
+  },
+  {
+   "text": "очистить кэш yay",
+   "lang": "ru"
+  },
+  {
+   "text": "yay очистка кэша",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "yay"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Removes all cached packages from pacman and yay.",
+   "cmd": "yay -Scc",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-pacman-clean-cache"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/yay.md",
+  "title": "tldr-pages: yay",
+  "license": "CC-BY-4.0"
+ }
+}

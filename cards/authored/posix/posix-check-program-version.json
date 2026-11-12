@@ -1,0 +1,123 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-program-version",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check the version of an installed program",
+ "summary": "Print the version of a program installed on your computer, such as git, so you can compare it with the version a guide asks for. These commands only read information and change nothing.",
+ "aliases": [
+  {
+   "text": "check program version",
+   "lang": "en"
+  },
+  {
+   "text": "what version of git do I have",
+   "lang": "en"
+  },
+  {
+   "text": "see installed software version in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "which version is installed",
+   "lang": "en"
+  },
+  {
+   "text": "how to check app version in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "--version command",
+   "lang": "en"
+  },
+  {
+   "text": "как проверить версию программы в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "какая версия установлена",
+   "lang": "ru"
+  },
+  {
+   "text": "версия git в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать версию программы",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить версию установленной программы",
+   "lang": "ru"
+  },
+  {
+   "text": "команда version проверить версию",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the program name as you type it in the terminal, for example git"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the program is installed and see where it is. Nothing printed means the program is not installed or not in your PATH.",
+   "cmd": "command -v <PROGRAM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM",
+     "description": "Program name as you type it in the terminal, without the path.",
+     "example": "git",
+     "discover_cmd": "ls /usr/bin"
+    }
+   ],
+   "expect": "A path such as /usr/bin/git. If nothing is printed, the program is not installed."
+  },
+  {
+   "explain": "Print the installed version. Look for the version number in the first line of the output.",
+   "cmd": "<PROGRAM> --version",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM",
+     "description": "Same program name you checked in the previous step.",
+     "example": "git",
+     "discover_cmd": "ls /usr/bin"
+    }
+   ],
+   "expect": "One line with the program name and a version number, for example 'git version 2.43.0'.",
+   "alternatives": [
+    {
+     "explain": "If --version prints an error, show the first lines of the help text. Many programs print their version or usage there.",
+     "cmd": "<PROGRAM> --help | head -n 5",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "PROGRAM",
+       "description": "Same program name you checked in the previous step.",
+       "example": "git",
+       "discover_cmd": "ls /usr/bin"
+      }
+     ],
+     "expect": "The first lines of the help text, usually starting with a usage line. Look for a version number."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Compare the version with the guide only for the same program. Two different programs can share a name, so check the path shown by the first command."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

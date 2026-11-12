@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-search-systemd-units-by-name",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search systemd units by name pattern",
+ "summary": "Find systemd units whose names match a specific pattern. This is useful for locating services or components related to a specific application or subsystem.",
+ "aliases": [
+  {
+   "text": "find systemd unit by name",
+   "lang": "en"
+  },
+  {
+   "text": "search systemctl units",
+   "lang": "en"
+  },
+  {
+   "text": "list systemd units matching pattern",
+   "lang": "en"
+  },
+  {
+   "text": "найти юнит systemd по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск служб systemctl",
+   "lang": "ru"
+  },
+  {
+   "text": "список юнитов по шаблону",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Provide a glob pattern (e.g., 'systemd*') as an argument to filter units by name.",
+   "cmd": "systemctl list-units '<PATTERN>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATTERN",
+     "description": "A glob pattern to match unit names, e.g., 'nginx*' or 'systemd*'.",
+     "example": "systemd*"
+    }
+   ],
+   "expect": "A list of units whose names match the pattern."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-units.md",
+  "title": "tldr-pages: systemctl-list-units",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-all-systemd-units"
+ ]
+}

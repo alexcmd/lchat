@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "macos-install-pkg-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install a .pkg file from Terminal",
+ "summary": "Use the installer command to install a downloaded .pkg file. This is useful when the graphical installer fails or when you need to install to a specific volume.",
+ "aliases": [
+  {
+   "text": "install pkg file",
+   "lang": "en"
+  },
+  {
+   "text": "install package mac",
+   "lang": "en"
+  },
+  {
+   "text": "terminal install pkg",
+   "lang": "en"
+  },
+  {
+   "text": "run installer command",
+   "lang": "en"
+  },
+  {
+   "text": "установить pkg файл",
+   "lang": "ru"
+  },
+  {
+   "text": "установка пакета через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить pkg",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the installer command with sudo to install the package to the root volume. Replace <PKG_FILE> with the path to your .pkg file.",
+   "cmd": "sudo installer -verbose -package <PKG_FILE> -target /",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PKG_FILE",
+     "description": "Path to the .pkg file you want to install",
+     "example": "~/Downloads/MyApp.pkg"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Uninstalling a .pkg file via command line is complex and often requires the original package's uninstall script or manual removal of files. There is no simple undo command for this.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Installing packages can modify system files. Ensure you trust the source of the .pkg file.",
+  "You will be prompted for your administrator password."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/installer.md",
+  "title": "tldr-pages: installer",
+  "license": "CC-BY-4.0"
+ }
+}

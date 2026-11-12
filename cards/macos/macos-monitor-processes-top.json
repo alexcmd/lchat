@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "macos-monitor-processes-top",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Monitor running processes and system activity",
+ "summary": "Use the `top` command to see a live list of running processes, their CPU and memory usage, and other system stats. It updates in real-time until you quit it.",
+ "aliases": [
+  {
+   "text": "monitor processes",
+   "lang": "en"
+  },
+  {
+   "text": "check cpu usage",
+   "lang": "en"
+  },
+  {
+   "text": "task manager mac",
+   "lang": "en"
+  },
+  {
+   "text": "see running apps terminal",
+   "lang": "en"
+  },
+  {
+   "text": "top command mac",
+   "lang": "en"
+  },
+  {
+   "text": "monitorir protsessy",
+   "lang": "ru"
+  },
+  {
+   "text": "proverit zagruzku cpu",
+   "lang": "ru"
+  },
+  {
+   "text": "dispecher zadach mac",
+   "lang": "ru"
+  },
+  {
+   "text": "kak posmotret protsessy",
+   "lang": "ru"
+  },
+  {
+   "text": "top komanda",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `top` command to start the interactive process monitor. It shows a dynamic list of processes sorted by CPU usage by default.",
+   "cmd": "top",
+   "risk": "low",
+   "expect": "A full-screen display of system stats and a list of processes appears. Press 'q' to quit."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/top.md",
+  "title": "tldr-pages: top",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-list-running-processes",
+  "macos-sort-processes-by-cpu",
+  "macos-sort-processes-by-memory"
+ ]
+}

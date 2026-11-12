@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-traceroute-mtu",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Determine the MTU to a destination",
+ "summary": "Find the Maximum Transmission Unit (MTU) size that can pass through the network to a specific host. This helps diagnose issues where large packets are being dropped.",
+ "aliases": [
+  {
+   "text": "find mtu size",
+   "lang": "en"
+  },
+  {
+   "text": "check max packet size",
+   "lang": "en"
+  },
+  {
+   "text": "mtu discovery",
+   "lang": "en"
+  },
+  {
+   "text": "traceroute mtu",
+   "lang": "en"
+  },
+  {
+   "text": "размер mtu до хоста",
+   "lang": "ru"
+  },
+  {
+   "text": "максимальный размер пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "определить mtu",
+   "lang": "ru"
+  },
+  {
+   "text": "traceroute mtu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Internet connection",
+  "Target hostname or IP address"
+ ],
+ "steps": [
+  {
+   "explain": "Use the --mtu flag to discover the largest packet size that can reach the destination without fragmentation.",
+   "cmd": "traceroute --mtu <HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The domain name or IP address of the destination",
+     "example": "example.com"
+    }
+   ],
+   "expect": "Output indicating the MTU size for the path."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/traceroute.md",
+  "title": "tldr-pages: traceroute",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,147 @@
+{
+ "schema_version": 2,
+ "id": "macos-ssh-config-usekeychain",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Make SSH use the macOS keychain automatically in ~/.ssh/config",
+ "summary": "Tells SSH to store key passphrases in the macOS keychain and to add your keys to the SSH agent automatically. After this you type a key passphrase once instead of every time.",
+ "aliases": [
+  {
+   "text": "ssh keychain mac",
+   "lang": "en"
+  },
+  {
+   "text": "ssh passphrase keychain",
+   "lang": "en"
+  },
+  {
+   "text": "ssh don't ask passphrase every time mac",
+   "lang": "en"
+  },
+  {
+   "text": "macos ssh save passphrase keychain",
+   "lang": "en"
+  },
+  {
+   "text": "ssh config usekeychain",
+   "lang": "en"
+  },
+  {
+   "text": "ssh add keys to agent automatically mac",
+   "lang": "en"
+  },
+  {
+   "text": "ssh key passphrase remember mac",
+   "lang": "en"
+  },
+  {
+   "text": "ssh связка ключей mac",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh запоминать пароль ключа mac",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh не спрашивать пароль ключа каждый раз",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh config keychain mac",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить пасфразу ssh в связке ключей",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh конфиг usekeychain",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "ssh"
+  ]
+ },
+ "prerequisites": [
+  "You already have an SSH key pair, for example from posix-generate-ssh-key",
+  "You know the path of your private key file (the one without .pub at the end)"
+ ],
+ "steps": [
+  {
+   "explain": "Make sure the ~/.ssh folder exists. Does nothing if it is already there.",
+   "cmd": "mkdir -p ~/.ssh",
+   "risk": "low",
+   "expect": "No output."
+  },
+  {
+   "explain": "Look at your current SSH settings. Nothing is changed by this command. If it says 'No such file or directory', the file does not exist yet and the next step creates it.",
+   "cmd": "cat ~/.ssh/config",
+   "risk": "low",
+   "expect": "Lines such as 'Host github.com' with indented settings below them, or 'No such file or directory'."
+  },
+  {
+   "explain": "Add a block at the end of ~/.ssh/config that asks SSH to use the keychain for passphrases and to add keys to the agent. The leading empty line keeps it separate from earlier text.",
+   "cmd": "printf '\\nHost *\\n  UseKeychain yes\\n  AddKeysToAgent yes\\n' >> ~/.ssh/config",
+   "risk": "low",
+   "expect": "No output. Run the next verify command to check the lines were added."
+  },
+  {
+   "explain": "Load one key into the agent and store its passphrase in the keychain. You are asked for the passphrase once. Run this once for each key.",
+   "cmd": "ssh-add --apple-use-keychain <KEY_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_FILE",
+     "description": "Path to your PRIVATE key file, without the .pub ending.",
+     "example": "~/.ssh/id_ed25519",
+     "discover_cmd": "ls ~/.ssh"
+    }
+   ],
+   "expect": "'Identity added: ...' followed by the key path. If the key has no passphrase, it is added without a question.",
+   "alternatives": [
+    {
+     "explain": "If the passphrase is already stored in the keychain, load the stored keys into the agent now instead.",
+     "cmd": "ssh-add --apple-load-keychain",
+     "risk": "low",
+     "expect": "No output when it works."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ssh -G example.com | grep -i -E 'usekeychain|addkeystoagent'",
+   "expect": "Two lines: 'usekeychain yes' and 'addkeystoagent yes'. The host name does not matter, ssh -G does not connect."
+  },
+  {
+   "cmd": "ssh-add -l",
+   "expect": "A line with the key's fingerprint and path, or 'The agent has no identities.' if no key is loaded yet."
+  }
+ ],
+ "risk": "low",
+ "rollback": [
+  {
+   "explain": "Delete the lines 'Host *', 'UseKeychain yes' and 'AddKeysToAgent yes' that were added at the end of ~/.ssh/config, or restore a backup of that file. Keys already stored in the keychain stay there until you remove them in Keychain Access.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Do not put the passphrase into the keychain on a shared Mac unless you trust everyone who can log in to it."
+ ],
+ "see_also": [
+  "posix-generate-ssh-key"
+ ],
+ "source": {
+  "url": "x-man-page://ssh_config",
+  "title": "ssh_config manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

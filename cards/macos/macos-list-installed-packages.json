@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-installed-packages",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List all installed installer packages",
+ "summary": "Show a list of all software packages installed via the macOS Installer. This helps you see what is on your system beyond just the Applications folder.",
+ "aliases": [
+  {
+   "text": "list installed packages",
+   "lang": "en"
+  },
+  {
+   "text": "show all pkgutil packages",
+   "lang": "en"
+  },
+  {
+   "text": "what packages are installed",
+   "lang": "en"
+  },
+  {
+   "text": "pkgutil list",
+   "lang": "en"
+  },
+  {
+   "text": "список установленных пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "какие пакеты установлены",
+   "lang": "ru"
+  },
+  {
+   "text": "pkgutil pkgs",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run pkgutil with the --pkgs flag to list the identifiers of all installed packages.",
+   "cmd": "pkgutil --pkgs",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pkgutil.md",
+  "title": "tldr-pages: pkgutil",
+  "license": "CC-BY-4.0"
+ }
+}

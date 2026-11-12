@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-column-align-csv",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show a CSV file or a messy table as aligned columns",
+ "summary": "Turn comma-separated text into neatly lined-up columns so it is easy to read in the terminal. The file itself is not changed; only the screen view is aligned.",
+ "aliases": [
+  {
+   "text": "format csv as table in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "align columns linux command",
+   "lang": "en"
+  },
+  {
+   "text": "pretty print csv command line",
+   "lang": "en"
+  },
+  {
+   "text": "column -t example",
+   "lang": "en"
+  },
+  {
+   "text": "make text table line up",
+   "lang": "en"
+  },
+  {
+   "text": "show csv as table linux",
+   "lang": "en"
+  },
+  {
+   "text": "вывести csv в виде таблицы в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "выровнять колонки в тексте linux",
+   "lang": "ru"
+  },
+  {
+   "text": "красиво показать csv в консоли",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать таблицу из текста в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "column -s, says the input is separated by commas. -t builds a table in which every column is as wide as its longest value. The file stays unchanged.",
+   "cmd": "column -s, -t <CSV_FILE>",
+   "risk": "low",
+   "expect": "The same rows with every column padded so that the values line up.",
+   "placeholders": [
+    {
+     "name": "CSV_FILE",
+     "description": "The comma-separated file",
+     "example": "sales.csv"
+    }
+   ]
+  },
+  {
+   "explain": "Preview only the first 5 rows of a big file. head cuts the file and the pipe passes those rows to column.",
+   "cmd": "head -n 5 <CSV_FILE> | column -s, -t",
+   "risk": "low",
+   "expect": "The first rows of the file, aligned in columns.",
+   "placeholders": [
+    {
+     "name": "CSV_FILE",
+     "description": "The comma-separated file",
+     "example": "sales.csv"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/column.1.html",
+  "title": "column(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

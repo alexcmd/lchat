@@ -1,0 +1,172 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-compare-directory-trees",
+  "platform": "linux",
+  "kind": "task",
+  "title": "List the differences between two folder trees",
+  "summary": "Compare two folders file by file. Get a list of files that exist on only one side, files that exist on both but differ, and a preview of what a sync would change, without changing anything.",
+  "aliases": [
+    {
+      "text": "compare two folders linux",
+      "lang": "en"
+    },
+    {
+      "text": "difference between two directories",
+      "lang": "en"
+    },
+    {
+      "text": "diff -r folder compare",
+      "lang": "en"
+    },
+    {
+      "text": "which files differ between folders",
+      "lang": "en"
+    },
+    {
+      "text": "list files only in one folder",
+      "lang": "en"
+    },
+    {
+      "text": "compare backup with original folder",
+      "lang": "en"
+    },
+    {
+      "text": "directory diff command linux",
+      "lang": "en"
+    },
+    {
+      "text": "find missing files between two folders",
+      "lang": "en"
+    },
+    {
+      "text": "сравнить две папки linux",
+      "lang": "ru"
+    },
+    {
+      "text": "разница между двумя каталогами",
+      "lang": "ru"
+    },
+    {
+      "text": "какие файлы отличаются в папках",
+      "lang": "ru"
+    },
+    {
+      "text": "найти файлы которых нет во второй папке",
+      "lang": "ru"
+    },
+    {
+      "text": "сравнить папку с бэкапом",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "diff",
+      "rsync"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Compare the two folder trees. -r looks inside every subfolder, -q prints only the names of the differences. No output means the trees are identical.",
+      "risk": "low",
+      "cmd": "diff -rq <DIR_A> <DIR_B>",
+      "expect": "Lines 'Only in <DIR_A>/sub: name' and 'Files a and b differ'. No output means identical.",
+      "placeholders": [
+        {
+          "name": "DIR_A",
+          "description": "First folder",
+          "example": "/home/deck/project"
+        },
+        {
+          "name": "DIR_B",
+          "description": "Second folder, for example a backup copy",
+          "example": "/mnt/backup/project"
+        }
+      ]
+    },
+    {
+      "explain": "Show only the files that exist on one side. The side named in the line is the one that has the file.",
+      "risk": "low",
+      "cmd": "diff -rq <DIR_A> <DIR_B> | grep '^Only in'",
+      "expect": "Lines beginning with 'Only in'.",
+      "placeholders": [
+        {
+          "name": "DIR_A",
+          "description": "First folder",
+          "example": "/home/deck/project"
+        },
+        {
+          "name": "DIR_B",
+          "description": "Second folder, for example a backup copy",
+          "example": "/mnt/backup/project"
+        }
+      ]
+    },
+    {
+      "explain": "Show only the files that exist on both sides but have different content.",
+      "risk": "low",
+      "cmd": "diff -rq <DIR_A> <DIR_B> | grep '^Files'",
+      "expect": "Lines beginning with 'Files' and ending in 'differ'.",
+      "placeholders": [
+        {
+          "name": "DIR_A",
+          "description": "First folder",
+          "example": "/home/deck/project"
+        },
+        {
+          "name": "DIR_B",
+          "description": "Second folder, for example a backup copy",
+          "example": "/mnt/backup/project"
+        }
+      ]
+    },
+    {
+      "explain": "Look at one differing file line by line. Lines starting with - are only in the first file, and lines starting with + are only in the second.",
+      "risk": "low",
+      "cmd": "diff -u <FILE_A> <FILE_B> | head -n 40",
+      "expect": "Lines with @@ headers and - or + lines.",
+      "placeholders": [
+        {
+          "name": "FILE_A",
+          "description": "File in the first folder",
+          "example": "/home/deck/project/config.ini"
+        },
+        {
+          "name": "FILE_B",
+          "description": "Same file in the second folder",
+          "example": "/mnt/backup/project/config.ini"
+        }
+      ]
+    },
+    {
+      "explain": "Preview what a sync from the first folder to the second would change, without changing anything. -i lists every change: >f is a file to copy, and *deleting is a file that the second folder has and the first does not.",
+      "risk": "low",
+      "cmd": "rsync -ani --delete <DIR_A>/ <DIR_B>/",
+      "expect": "An itemized list of the planned changes. Nothing is copied or deleted.",
+      "placeholders": [
+        {
+          "name": "DIR_A",
+          "description": "First folder",
+          "example": "/home/deck/project"
+        },
+        {
+          "name": "DIR_B",
+          "description": "Second folder, for example a backup copy",
+          "example": "/mnt/backup/project"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "source": {
+    "url": "https://man7.org/linux/man-pages/man1/diff.1.html",
+    "title": "diff(1) - Linux manual page",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12"
+}

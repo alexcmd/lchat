@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "macos-write-app-defaults",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Change application configuration settings",
+ "summary": "Modify a specific setting for an application by writing a new value to its configuration.",
+ "aliases": [
+  {
+   "text": "change app settings terminal",
+   "lang": "en"
+  },
+  {
+   "text": "write defaults",
+   "lang": "en"
+  },
+  {
+   "text": "modify application preferences",
+   "lang": "en"
+  },
+  {
+   "text": "defaults write",
+   "lang": "en"
+  },
+  {
+   "text": "изменить настройки приложения",
+   "lang": "ru"
+  },
+  {
+   "text": "записать defaults",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить приложение через терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Write a new value for a specific setting of an application. You must specify the data type (e.g., -string, -int, -bool, -float).",
+   "cmd": "defaults write \"<APPLICATION>\" \"<OPTION>\" <TYPE> <VALUE>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "APPLICATION",
+     "description": "The bundle identifier or name of the app",
+     "example": "com.apple.Safari"
+    },
+    {
+     "name": "OPTION",
+     "description": "The setting key to change",
+     "example": "ShowStatusBar"
+    },
+    {
+     "name": "TYPE",
+     "description": "The data type flag: -string, -int, -float, -bool, etc.",
+     "example": "-bool"
+    },
+    {
+     "name": "VALUE",
+     "description": "The new value for the setting",
+     "example": "true"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Changing settings via Terminal can affect app behavior. Ensure you know the correct key and value.",
+  "Some apps need to be restarted for changes to take effect."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no command on this page to delete a single specific option. To revert, you must manually re-enter the original value or delete all defaults for the application.",
+   "risk": "low"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/defaults.md",
+  "title": "tldr-pages: defaults",
+  "license": "CC-BY-4.0"
+ }
+}

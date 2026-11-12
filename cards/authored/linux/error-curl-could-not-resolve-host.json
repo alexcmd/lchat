@@ -1,0 +1,116 @@
+{
+ "schema_version": 2,
+ "id": "error-curl-could-not-resolve-host",
+ "platform": "linux",
+ "kind": "error",
+ "title": "curl: (6) Could not resolve host - the name cannot be looked up",
+ "summary": "curl could not find an address for the site name you typed. Usually the name is misspelled, or the computer has no working Internet or DNS connection.",
+ "error_patterns": [
+  "curl: (6) Could not resolve host"
+ ],
+ "aliases": [
+  {
+   "text": "curl could not resolve host",
+   "lang": "en"
+  },
+  {
+   "text": "curl error 6",
+   "lang": "en"
+  },
+  {
+   "text": "curl could not resolve host linux",
+   "lang": "en"
+  },
+  {
+   "text": "download fails could not resolve host",
+   "lang": "en"
+  },
+  {
+   "text": "curl cannot find host name",
+   "lang": "en"
+  },
+  {
+   "text": "curl name not found error",
+   "lang": "en"
+  },
+  {
+   "text": "curl не может разрешить имя хоста",
+   "lang": "ru"
+  },
+  {
+   "text": "curl ошибка 6",
+   "lang": "ru"
+  },
+  {
+   "text": "курл не находит сайт",
+   "lang": "ru"
+  },
+  {
+   "text": "не удается разрешить имя хоста",
+   "lang": "ru"
+  },
+  {
+   "text": "curl не видит адрес сайта",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "curl"
+  ]
+ },
+ "prerequisites": [
+  "The curl command is installed",
+  "You know which site address you wanted to open"
+ ],
+ "steps": [
+  {
+   "explain": "Read the name after 'Could not resolve host:' in the error. It must be the site name you meant, spelled exactly, with no spaces or typos.",
+   "risk": "low"
+  },
+  {
+   "explain": "Ask the system to look up the name. If it prints an IP address, the name exists and the problem is elsewhere. If it prints nothing, the name cannot be found.",
+   "cmd": "getent hosts <HOST>",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The site name from the error, without https://",
+     "example": "example.com"
+    }
+   ],
+   "expect": "An IP address and the name on one line. With an unknown name there is no output and the command exits with code 2.",
+   "risk": "low"
+  },
+  {
+   "explain": "Show the DNS servers this computer asks for names. A missing or broken DNS server also causes this error.",
+   "cmd": "cat /etc/resolv.conf",
+   "expect": "One or more lines starting with 'nameserver' followed by an address, such as 192.168.1.1 or 127.0.0.53. No nameserver lines means no DNS server is set.",
+   "risk": "low"
+  },
+  {
+   "explain": "Try the request again with the checked name. -I asks for headers only, -sS hides the progress bar but still shows errors.",
+   "cmd": "curl -sS -I https://<HOST>",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The corrected site name, without https:// and without spaces",
+     "example": "example.com"
+    }
+   ],
+   "expect": "Header lines such as 'HTTP/2 200' when the site is reachable. The same 'Could not resolve host' line means the name or the connection is still wrong.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/curl",
+  "title": "curl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

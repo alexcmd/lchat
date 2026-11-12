@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "cron-edit-other-user-crontab",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Edit another user's crontab",
+ "summary": "Use sudo to edit the crontab of a different user on the system.",
+ "aliases": [
+  {
+   "text": "edit root crontab",
+   "lang": "en"
+  },
+  {
+   "text": "edit other user cron",
+   "lang": "en"
+  },
+  {
+   "text": "sudo crontab -e",
+   "lang": "en"
+  },
+  {
+   "text": "system wide cron",
+   "lang": "en"
+  },
+  {
+   "text": "редактировать crontab другого пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "cron root",
+   "lang": "ru"
+  },
+  {
+   "text": "изменить cron пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "cron"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Edit the crontab for a specific user. Replace <USERNAME> with the target user's name.",
+   "cmd": "sudo crontab -u <USERNAME> -e",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username whose crontab you want to edit.",
+     "example": "john",
+     "discover_cmd": "whoami"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no automatic rollback. You must manually revert changes in the editor.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Editing another user's crontab requires root privileges. Be careful not to break system tasks if editing root's crontab."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Cron#Basic_commands",
+  "title": "Cron",
+  "revision_id": 886598,
+  "license": "GFDL-1.3-or-later"
+ }
+}

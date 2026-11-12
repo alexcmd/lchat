@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-only-matched-text",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print only the matched text",
+ "summary": "Output only the part of the line that matches the pattern, instead of the whole line. Useful for extracting specific data.",
+ "aliases": [
+  {
+   "text": "print only match",
+   "lang": "en"
+  },
+  {
+   "text": "grep only matching",
+   "lang": "en"
+  },
+  {
+   "text": "extract text grep",
+   "lang": "en"
+  },
+  {
+   "text": "show matched part only",
+   "lang": "en"
+  },
+  {
+   "text": "только совпадение греп",
+   "lang": "ru"
+  },
+  {
+   "text": "вывести только найденное",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь текст грепом",
+   "lang": "ru"
+  },
+  {
+   "text": "показать только совпадение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print only the matched text.",
+   "cmd": "grep --only-matching \"<SEARCH_PATTERN>\" <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_PATTERN",
+     "description": "The text or regular expression to search for",
+     "example": "[0-9]+"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the file to search",
+     "example": "data.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/grep.md",
+  "title": "tldr-pages: grep",
+  "license": "CC-BY-4.0"
+ }
+}

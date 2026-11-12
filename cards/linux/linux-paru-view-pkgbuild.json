@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-paru-view-pkgbuild",
+ "platform": "linux",
+ "kind": "task",
+ "title": "View the PKGBUILD file of a package with paru",
+ "summary": "Display the PKGBUILD script for a package directly in the terminal. This allows you to inspect the build instructions before installing.",
+ "aliases": [
+  {
+   "text": "view pkgbuild paru",
+   "lang": "en"
+  },
+  {
+   "text": "show pkgbuild arch",
+   "lang": "en"
+  },
+  {
+   "text": "paru -Gp",
+   "lang": "en"
+  },
+  {
+   "text": "inspect build script paru",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть pkgbuild paru",
+   "lang": "ru"
+  },
+  {
+   "text": "paru показать pkgbuild",
+   "lang": "ru"
+  },
+  {
+   "text": "скрипт сборки пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "paru"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Download and display the PKGBUILD file for the specified package in the terminal.",
+   "cmd": "paru -Gp <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package whose PKGBUILD you want to view.",
+     "example": "spotify"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/paru.md",
+  "title": "tldr-pages: paru",
+  "license": "CC-BY-4.0"
+ }
+}

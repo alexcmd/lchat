@@ -1,0 +1,99 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-user-details",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show details of a specific user",
+ "summary": "Display all properties and settings for a specific user account managed by the login manager.",
+ "aliases": [
+  {
+   "text": "show user details",
+   "lang": "en"
+  },
+  {
+   "text": "check user properties",
+   "lang": "en"
+  },
+  {
+   "text": "loginctl show user",
+   "lang": "en"
+  },
+  {
+   "text": "inspect user account",
+   "lang": "en"
+  },
+  {
+   "text": "user info",
+   "lang": "en"
+  },
+  {
+   "text": "show user info",
+   "lang": "en"
+  },
+  {
+   "text": "check user settings",
+   "lang": "en"
+  },
+  {
+   "text": "show user details",
+   "lang": "ru"
+  },
+  {
+   "text": "check user properties",
+   "lang": "ru"
+  },
+  {
+   "text": "loginctl show user",
+   "lang": "ru"
+  },
+  {
+   "text": "inspect user account",
+   "lang": "ru"
+  },
+  {
+   "text": "user info",
+   "lang": "ru"
+  },
+  {
+   "text": "show user info",
+   "lang": "ru"
+  },
+  {
+   "text": "check user settings",
+   "lang": "ru"
+  },
+  {
+   "text": "show user details",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use loginctl show-user with the username to display all properties for that user.",
+   "cmd": "loginctl show-user <USERNAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The username to inspect"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/loginctl.md",
+  "title": "tldr-pages: loginctl",
+  "license": "CC-BY-4.0"
+ }
+}

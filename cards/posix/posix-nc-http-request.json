@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-nc-http-request",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Send a raw HTTP GET request using netcat",
+ "summary": "Use netcat to send a simple HTTP GET request to a web server. This is useful for testing server responses or debugging HTTP headers without a browser.",
+ "aliases": [
+  {
+   "text": "http get with nc",
+   "lang": "en"
+  },
+  {
+   "text": "netcat http request",
+   "lang": "en"
+  },
+  {
+   "text": "raw http request nc",
+   "lang": "en"
+  },
+  {
+   "text": "отправить http запрос через nc",
+   "lang": "ru"
+  },
+  {
+   "text": "netcat http get",
+   "lang": "ru"
+  },
+  {
+   "text": "сырой http запрос nc",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Construct an HTTP GET request string using echo and pipe it to netcat, which connects to the host on port 80.",
+   "cmd": "echo -e \"GET / HTTP/1.1\\nHost: <HOST>\\n\\n\" | nc <HOST> 80",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOST",
+     "description": "The domain name or IP address of the web server",
+     "example": "example.com"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nc.md",
+  "title": "tldr-pages: nc",
+  "license": "CC-BY-4.0"
+ }
+}

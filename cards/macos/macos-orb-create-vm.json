@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "macos-orb-create-vm",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Create a Linux virtual machine with OrbStack",
+ "summary": "Use the `orb` command to create and start a new Linux virtual machine. You can choose a specific distribution like Ubuntu or Fedora.",
+ "aliases": [
+  {
+   "text": "create linux vm mac",
+   "lang": "en"
+  },
+  {
+   "text": "orb create vm",
+   "lang": "en"
+  },
+  {
+   "text": "start linux machine mac",
+   "lang": "en"
+  },
+  {
+   "text": "orbstack create vm",
+   "lang": "en"
+  },
+  {
+   "text": "создать линукс машину на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "orb создать вм",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить ubuntu на маке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "orb"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create a new virtual machine with a default Linux distribution. Replace <VM_NAME> with a name for your new machine.",
+   "cmd": "orb create <VM_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VM_NAME",
+     "description": "The name you want to give to the new virtual machine.",
+     "example": "my-ubuntu"
+    }
+   ]
+  },
+  {
+   "explain": "Alternatively, create a VM with a specific Linux distribution. Replace <DISTRO> with ubuntu, fedora, arch, or debian.",
+   "cmd": "orb create <VM_NAME> <DISTRO>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VM_NAME",
+     "description": "The name for the new virtual machine.",
+     "example": "my-fedora"
+    },
+    {
+     "name": "DISTRO",
+     "description": "The Linux distribution to install. Options: ubuntu, fedora, arch, debian.",
+     "example": "ubuntu"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/orb.md",
+  "title": "tldr-pages: orb",
+  "license": "CC-BY-4.0"
+ }
+}

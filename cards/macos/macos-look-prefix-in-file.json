@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "macos-look-prefix-in-file",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Find lines starting with a prefix in a sorted file",
+ "summary": "Use the `look` command to quickly find lines in a sorted text file that start with a specific word or prefix. It is faster than `grep` for sorted files.",
+ "aliases": [
+  {
+   "text": "find lines starting with word in file",
+   "lang": "en"
+  },
+  {
+   "text": "look command macos",
+   "lang": "en"
+  },
+  {
+   "text": "search prefix in sorted file",
+   "lang": "en"
+  },
+  {
+   "text": "как найти строки с префиксом в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "команда look macos",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск начала строки в файле",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `look` followed by the prefix you want to find and the path to the sorted file. The file must be sorted for this to work correctly.",
+   "cmd": "look <PREFIX> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PREFIX",
+     "description": "The beginning of the line you are searching for",
+     "example": "apple"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the sorted text file",
+     "example": "/usr/share/dict/words"
+    }
+   ],
+   "expect": "Lines from the file that start with the specified prefix are displayed."
+  },
+  {
+   "explain": "If you are searching for words in the system dictionary, you can omit the file path. `look` defaults to `/usr/share/dict/words` and assumes case-insensitive alphanumeric search.",
+   "cmd": "look <PREFIX>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PREFIX",
+     "description": "The beginning of the word you are looking for",
+     "example": "mac"
+    }
+   ],
+   "expect": "Dictionary words starting with the prefix are displayed.",
+   "alternatives": [
+    {
+     "explain": "Search case-insensitively and ignore non-alphanumeric characters in a specific file.",
+     "cmd": "look --ignore-case --alphanum <PREFIX> <FILE>",
+     "placeholders": [
+      {
+       "name": "PREFIX",
+       "description": "The beginning of the line you are searching for"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the sorted text file"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/look.md",
+  "title": "tldr-pages: look",
+  "license": "CC-BY-4.0"
+ }
+}

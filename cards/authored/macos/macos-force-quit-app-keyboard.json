@@ -1,0 +1,100 @@
+{
+ "schema_version": 2,
+ "id": "macos-force-quit-app-keyboard",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Force quit a frozen app with Command+Option+Escape",
+ "summary": "When a Mac app stops responding, open the Force Quit Applications window with Command+Option+Escape and close that app from the list. Unsaved changes in that app are lost.",
+ "aliases": [
+  {
+   "text": "force quit mac app",
+   "lang": "en"
+  },
+  {
+   "text": "mac app not responding",
+   "lang": "en"
+  },
+  {
+   "text": "command option escape mac",
+   "lang": "en"
+  },
+  {
+   "text": "cmd option esc mac",
+   "lang": "en"
+  },
+  {
+   "text": "how to close frozen app on mac",
+   "lang": "en"
+  },
+  {
+   "text": "ctrl alt delete on mac",
+   "lang": "en"
+  },
+  {
+   "text": "принудительно закрыть приложение mac",
+   "lang": "ru"
+  },
+  {
+   "text": "mac приложение зависло как закрыть",
+   "lang": "ru"
+  },
+  {
+   "text": "cmd option esc на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "принудительный выход из программы macos",
+   "lang": "ru"
+  },
+  {
+   "text": "ctrl alt delete на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как закрыть зависшую программу на маке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The app has stopped responding: it ignores clicks or shows a spinning beach ball for a long time"
+ ],
+ "steps": [
+  {
+   "explain": "Open the Force Quit Applications window. It works from any app and lists every open app.",
+   "gui": "Press Command+Option+Escape together. Or choose Apple menu > Force Quit. Or hold Option, right-click the frozen app's icon in the Dock and choose Force Quit.",
+   "risk": "low",
+   "expect": "A window titled Force Quit Applications opens. The frozen app is marked as Not Responding."
+  },
+  {
+   "explain": "Close the frozen app. Force quitting stops it immediately without saving.",
+   "gui": "Click the app's name in the list, click Force Quit, then click Force Quit again if a confirmation appears.",
+   "risk": "medium",
+   "expect": "The app disappears from the list. Other apps keep running."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Start the app again from the Dock or the Applications folder. Changes that were not saved before the force quit cannot be recovered, but some apps offer to restore documents when they open.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Force quitting an app loses its unsaved changes. Save first if the app still responds to Command+S.",
+  "Wait a minute or two before force quitting: a busy app can recover on its own.",
+  "Do not force quit Finder to fix a freeze; Finder restarts by itself, but open Finder windows close."
+ ],
+ "source": {
+  "url": "https://support.apple.com/guide/mac-help/welcome/mac",
+  "title": "Apple Mac Help guide; shortcut not run on a macOS VM, see verification notes",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

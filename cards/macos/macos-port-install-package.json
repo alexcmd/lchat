@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "macos-port-install-package",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Install a package using MacPorts",
+ "summary": "Download and install a specific software package from the MacPorts repository.",
+ "aliases": [
+  {
+   "text": "install macports package",
+   "lang": "en"
+  },
+  {
+   "text": "port install",
+   "lang": "en"
+  },
+  {
+   "text": "add software with port",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакет macports",
+   "lang": "ru"
+  },
+  {
+   "text": "port install пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "ustanovit paket macports",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "MacPorts"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the specified package. This requires administrator privileges.",
+   "cmd": "sudo port install <PACKAGE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The exact name of the package to install.",
+     "example": "python3"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Uninstall the package if you no longer need it.",
+   "cmd": "sudo port uninstall <PACKAGE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to remove.",
+     "example": "python3"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Installing packages modifies your system files. Ensure you trust the source."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/port.md",
+  "title": "tldr-pages: port",
+  "license": "CC-BY-4.0"
+ }
+}

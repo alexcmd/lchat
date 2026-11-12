@@ -1,0 +1,52 @@
+{
+ "schema_version": 2,
+ "id": "amdgpu-check-driver-loaded",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if the amdgpu kernel driver is loaded",
+ "summary": "Verify that the correct open-source kernel driver is active for your AMD graphics card.",
+ "aliases": [
+  {
+   "text": "check amd gpu driver",
+   "lang": "en"
+  },
+  {
+   "text": "is amdgpu loaded",
+   "lang": "en"
+  },
+  {
+   "text": "lspci check gpu driver",
+   "lang": "en"
+  },
+  {
+   "text": "проверить драйвер amd",
+   "lang": "ru"
+  },
+  {
+   "text": "какой драйвер видеокарты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List PCI devices and their kernel drivers to see if 'amdgpu' is in use.",
+   "cmd": "lspci -k -d ::03xx",
+   "risk": "low",
+   "expect": "Output shows 'Kernel driver in use: amdgpu' for the VGA compatible controller."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/AMDGPU#Enable_Southern_Islands_(SI)_and_Sea_Islands_(CIK)_support",
+  "title": "AMDGPU",
+  "revision_id": 888488,
+  "license": "GFDL-1.3-or-later"
+ }
+}

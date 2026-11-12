@@ -1,0 +1,126 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-file-group-only",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change only the group of a file",
+ "summary": "Use chown with a leading colon to change only the group ownership of a file, leaving the user owner unchanged. This often does not require sudo if you belong to the target group.",
+ "aliases": [
+  {
+   "text": "change file group",
+   "lang": "en"
+  },
+  {
+   "text": "chown group only",
+   "lang": "en"
+  },
+  {
+   "text": "change group ownership",
+   "lang": "en"
+  },
+  {
+   "text": "изменить группу файла",
+   "lang": "ru"
+  },
+  {
+   "text": "chown только группа",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить группу",
+   "lang": "ru"
+  },
+  {
+   "text": "assign group to file",
+   "lang": "en"
+  },
+  {
+   "text": "назначить группу файлу",
+   "lang": "ru"
+  },
+  {
+   "text": "chgrp file",
+   "lang": "en"
+  },
+  {
+   "text": "chgrp",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use chown with a colon before the group name to change only the group. This works without sudo if you are a member of the target group.",
+   "cmd": "chown :<GROUP> <FILE_OR_DIRECTORY>",
+   "needs_root": false,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "GROUP",
+     "description": "The new group name",
+     "example": "developers"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the file or directory",
+     "example": "/home/john/file.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Run chgrp with the new group name and the path to the file or directory.",
+     "cmd": "chgrp <GROUP> <FILE_OR_DIRECTORY>",
+     "placeholders": [
+      {
+       "name": "GROUP",
+       "description": "The name of the group to assign",
+       "example": "users"
+      },
+      {
+       "name": "FILE_OR_DIRECTORY",
+       "description": "Path to the target file or directory",
+       "example": "document.txt"
+      }
+     ],
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "see_also": [
+  "posix-change-file-owner-group",
+  "file-change-ownership"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/chown.md",
+  "title": "tldr-pages: chown",
+  "license": "CC-BY-4.0"
+ },
+ "warnings": [
+  "Changing group ownership can affect who can read or write the file. Ensure you know the original group if you need to revert."
+ ],
+ "rollback": [
+  {
+   "explain": "Change the group back to its original value.",
+   "cmd": "chgrp <ORIGINAL_GROUP> <FILE_OR_DIRECTORY>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "ORIGINAL_GROUP",
+     "description": "The original group name"
+    },
+    {
+     "name": "FILE_OR_DIRECTORY",
+     "description": "Path to the target file or directory"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,56 @@
+{
+ "schema_version": 2,
+ "id": "font-enable-subpixel-rgb-user",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable sub-pixel RGB rendering for current user",
+ "summary": "Enable sub-pixel RGB rendering for your user account by creating a symbolic link in your local fontconfig directory.",
+ "aliases": [
+  {
+   "text": "enable subpixel user",
+   "lang": "en"
+  },
+  {
+   "text": "subpixel rgb user config",
+   "lang": "en"
+  },
+  {
+   "text": "fontconfig user subpixel",
+   "lang": "en"
+  },
+  {
+   "text": "включить субпиксельный рендеринг для пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить шрифты для пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create the user fontconfig directory if it does not exist.",
+   "cmd": "mkdir $XDG_CONFIG_HOME/fontconfig/conf.d",
+   "risk": "low"
+  },
+  {
+   "explain": "Create a symbolic link to the sub-pixel RGB preset in the user fontconfig directory.",
+   "cmd": "ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf $XDG_CONFIG_HOME/fontconfig/conf.d/",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Font_configuration#Presets",
+  "title": "Font configuration",
+  "revision_id": 876996,
+  "license": "GFDL-1.3-or-later"
+ }
+}

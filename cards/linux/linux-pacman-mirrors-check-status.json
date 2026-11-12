@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-mirrors-check-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check status of current Pacman mirrors",
+ "summary": "View the current status of the mirror servers used by your package manager. This helps you see if your mirrors are working correctly or if they need updating.",
+ "aliases": [
+  {
+   "text": "check pacman mirrors status",
+   "lang": "en"
+  },
+  {
+   "text": "pacman mirrors status",
+   "lang": "en"
+  },
+  {
+   "text": "check mirror status",
+   "lang": "en"
+  },
+  {
+   "text": "проверить статус зеркал pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "статус зеркал pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman-mirrors status",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "pacman-mirrors"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the status command to see the current state of your configured mirrors.",
+   "cmd": "pacman-mirrors --status",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman-mirrors.md",
+  "title": "tldr-pages: pacman-mirrors",
+  "license": "CC-BY-4.0"
+ }
+}

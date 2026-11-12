@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-enable-time-machine",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Enable automatic Time Machine backups",
+ "summary": "Turn on automatic backups for your Mac using the command line. This ensures your files are regularly saved to your backup destination.",
+ "aliases": [
+  {
+   "text": "enable time machine",
+   "lang": "en"
+  },
+  {
+   "text": "turn on time machine",
+   "lang": "en"
+  },
+  {
+   "text": "start automatic backups",
+   "lang": "en"
+  },
+  {
+   "text": "включить time machine",
+   "lang": "ru"
+  },
+  {
+   "text": "включить резервное копирование",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить бэкапы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this command to enable automatic Time Machine backups. You need administrator privileges.",
+   "cmd": "sudo tmutil enable",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo this change and disable automatic backups, run this command.",
+   "cmd": "sudo tmutil disable",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This changes system backup settings. Ensure you have a valid backup destination configured before enabling."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tmutil.md",
+  "title": "tldr-pages: tmutil",
+  "license": "CC-BY-4.0"
+ }
+}

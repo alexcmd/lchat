@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "macos-extract-pkg-contents",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Extract contents of a .pkg file",
+ "summary": "Unpack the contents of an installer package into a folder without installing it. This lets you inspect or copy files from the package directly.",
+ "aliases": [
+  {
+   "text": "extract pkg file",
+   "lang": "en"
+  },
+  {
+   "text": "unpack installer package",
+   "lang": "en"
+  },
+  {
+   "text": "pkgutil expand",
+   "lang": "en"
+  },
+  {
+   "text": "unzip pkg file",
+   "lang": "en"
+  },
+  {
+   "text": "распаковать pkg",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь содержимое пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "распаковать установщик",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use pkgutil to expand the full contents of a .pkg file into a specified directory.",
+   "cmd": "pkgutil --expand-full <PKG_FILE> <OUTPUT_DIR>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PKG_FILE",
+     "description": "Path to the .pkg file to extract",
+     "example": "~/Downloads/App.pkg"
+    },
+    {
+     "name": "OUTPUT_DIR",
+     "description": "Path to the directory where contents will be extracted",
+     "example": "~/Desktop/ExtractedPkg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pkgutil.md",
+  "title": "tldr-pages: pkgutil",
+  "license": "CC-BY-4.0"
+ }
+}

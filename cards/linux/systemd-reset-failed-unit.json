@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "systemd-reset-failed-unit",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reset the failed status of a systemd unit",
+ "summary": "Clear the 'failed' flag from a service that has already been fixed or stopped. This removes it from the list of failed units.",
+ "aliases": [
+  {
+   "text": "reset failed service",
+   "lang": "en"
+  },
+  {
+   "text": "clear failed status",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl reset-failed",
+   "lang": "en"
+  },
+  {
+   "text": "remove failed flag",
+   "lang": "en"
+  },
+  {
+   "text": "сбросить статус ошибки",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить failed",
+   "lang": "ru"
+  },
+  {
+   "text": "системctl reset-failed",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reset the failed state of a specific unit. Note that this may unload the unit, so you might lose access to its logs via systemctl status.",
+   "cmd": "sudo systemctl reset-failed <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the failed systemd unit.",
+     "example": "my-service"
+    }
+   ],
+   "risk": "medium",
+   "expect": "No error output. The unit should no longer appear in 'systemctl --failed'."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If you need to see the logs again, you may need to restart the service or check the journal directly.",
+   "cmd": "sudo systemctl restart <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd unit.",
+     "example": "my-service"
+    }
+   ],
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Resetting a failed unit may unload it, making 'systemctl status' no longer report its previous failure or logs. Use 'journalctl' if you need to investigate the cause."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd#Troubleshooting",
+  "title": "Systemd",
+  "revision_id": 887711,
+  "license": "GFDL-1.3-or-later"
+ }
+}

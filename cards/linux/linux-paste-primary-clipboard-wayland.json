@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-paste-primary-clipboard-wayland",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Paste primary selection (highlighted text) in Wayland",
+ "summary": "Use wl-paste --primary to output the text you have currently highlighted (selected) with your mouse. This is distinct from the standard clipboard copy/paste.",
+ "aliases": [
+  {
+   "text": "paste primary selection wayland",
+   "lang": "en"
+  },
+  {
+   "text": "paste highlighted text linux",
+   "lang": "en"
+  },
+  {
+   "text": "wl-paste primary",
+   "lang": "en"
+  },
+  {
+   "text": "вставить выделенный текст wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "wl-paste primary",
+   "lang": "ru"
+  },
+  {
+   "text": "вставить выделенное мышкой linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "wl-clipboard"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wl-paste with the --primary flag to print the current primary selection (highlighted text) to the terminal.",
+   "cmd": "wl-paste --primary",
+   "risk": "low",
+   "expect": "The text you have currently highlighted with your mouse appears in the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/wl-paste.md",
+  "title": "tldr-pages: wl-paste",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-paste-clipboard-wayland"
+ ]
+}

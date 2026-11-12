@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-proxy-env-vars",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set HTTP/HTTPS proxy via environment variables",
+ "summary": "Configure the current shell session to use a proxy server by setting standard environment variables. This affects command-line tools like curl, wget, and pacman.",
+ "aliases": [
+  {
+   "text": "set http proxy linux",
+   "lang": "en"
+  },
+  {
+   "text": "export http_proxy",
+   "lang": "en"
+  },
+  {
+   "text": "linux proxy environment variables",
+   "lang": "en"
+  },
+  {
+   "text": "configure proxy for terminal",
+   "lang": "en"
+  },
+  {
+   "text": "настроить прокси в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "экспорт http_proxy",
+   "lang": "ru"
+  },
+  {
+   "text": "прокси для pacman",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know your proxy server address and port."
+ ],
+ "steps": [
+  {
+   "explain": "Set the HTTP proxy variable. Replace <PROXY_URL> with your proxy address (e.g., http://10.203.0.1:5187/).",
+   "cmd": "export http_proxy=<PROXY_URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROXY_URL",
+     "description": "The full URL of the proxy server, including protocol and port.",
+     "example": "http://10.203.0.1:5187/"
+    }
+   ]
+  },
+  {
+   "explain": "Set the HTTPS proxy variable to the same value as HTTP.",
+   "cmd": "export https_proxy=$http_proxy",
+   "risk": "low"
+  },
+  {
+   "explain": "Set the FTP proxy variable to the same value as HTTP.",
+   "cmd": "export ftp_proxy=$http_proxy",
+   "risk": "low"
+  },
+  {
+   "explain": "Set the no_proxy variable to exclude local addresses from using the proxy.",
+   "cmd": "export no_proxy=\"localhost,127.0.0.1,localaddress,.localdomain.com\"",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Proxy_server#Environment_variables",
+  "title": "Proxy server",
+  "revision_id": 873827,
+  "license": "GFDL-1.3-or-later"
+ }
+}

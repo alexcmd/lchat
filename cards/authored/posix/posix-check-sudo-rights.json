@@ -1,0 +1,94 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-sudo-rights",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check whether my account is allowed to use sudo",
+ "summary": "Ask sudo which administrator commands your user may run. It asks for your own password and only prints the list, so nothing on the system is changed.",
+ "aliases": [
+  {
+   "text": "am I allowed to use sudo",
+   "lang": "en"
+  },
+  {
+   "text": "check sudo access",
+   "lang": "en"
+  },
+  {
+   "text": "do I have sudo rights",
+   "lang": "en"
+  },
+  {
+   "text": "what can I run with sudo",
+   "lang": "en"
+  },
+  {
+   "text": "sudo permissions check",
+   "lang": "en"
+  },
+  {
+   "text": "am I admin linux",
+   "lang": "en"
+  },
+  {
+   "text": "can my user use sudo",
+   "lang": "en"
+  },
+  {
+   "text": "есть ли у меня доступ к sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить права sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "могу ли я использовать sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "что я могу делать через sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "судо права проверить",
+   "lang": "ru"
+  },
+  {
+   "text": "я администратор linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the groups your user belongs to. Admin rights usually come from a group: sudo on Debian, Ubuntu and Mint, wheel on Fedora and openSUSE, admin on macOS. Being in the group is not proof, so check with the next step.",
+   "cmd": "groups",
+   "risk": "low",
+   "expect": "One line of group names, for example: t sudo. Note whether sudo, wheel or admin is in the list."
+  },
+  {
+   "explain": "Ask sudo which commands your user may run with administrator rights. It asks for your own password (typing stays hidden) and only prints the list. If you see 'command not found', sudo is not installed here.",
+   "cmd": "sudo -l",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Allowed: 'User <name> may run the following commands on <host>:' then lines like '(ALL : ALL) ALL'. Not allowed: 'Sorry, user <name> may not run sudo on <host>.'"
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "On Arch Linux the wheel group is off by default, so a wheel member can still see 'may not run sudo'. Trust the sudo -l output, not the group name."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/sudo",
+  "title": "sudo manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-online-cpus",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show only online CPUs in a table",
+ "summary": "Display a table of only the CPU cores that are currently active and online.",
+ "aliases": [
+  {
+   "text": "online cpus",
+   "lang": "en"
+  },
+  {
+   "text": "active cpu cores",
+   "lang": "en"
+  },
+  {
+   "text": "lscpu online",
+   "lang": "en"
+  },
+  {
+   "text": "активные ядра процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "онлайн cpu",
+   "lang": "ru"
+  },
+  {
+   "text": "lscpu online",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Combine the extended and online flags to show a table of only the CPUs that are currently online.",
+   "cmd": "lscpu --extended --online",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lscpu.md",
+  "title": "tldr-pages: lscpu",
+  "license": "CC-BY-4.0"
+ }
+}

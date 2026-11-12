@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-background-jobs",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List background jobs in the current shell session",
+ "summary": "Show a list of all jobs running in the background of your current terminal session. This helps you see which commands are paused or running without blocking your prompt.",
+ "aliases": [
+  {
+   "text": "list background jobs",
+   "lang": "en"
+  },
+  {
+   "text": "show running jobs",
+   "lang": "en"
+  },
+  {
+   "text": "check background processes",
+   "lang": "en"
+  },
+  {
+   "text": "jobs command",
+   "lang": "en"
+  },
+  {
+   "text": "kakie zadaniya v fone",
+   "lang": "ru"
+  },
+  {
+   "text": "spisok fonovyh zadanij",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat zadaniya",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the jobs command to display the status of all jobs in the current shell.",
+   "cmd": "jobs",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show the status and process IDs (PIDs) of all jobs.",
+     "cmd": "jobs -l",
+     "risk": "low"
+    },
+    {
+     "explain": "Show only the process IDs of all jobs.",
+     "cmd": "jobs -p",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/jobs.md",
+  "title": "tldr-pages: jobs",
+  "license": "CC-BY-4.0"
+ }
+}

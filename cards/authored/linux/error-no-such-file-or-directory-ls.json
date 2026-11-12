@@ -1,0 +1,148 @@
+{
+ "schema_version": 2,
+ "id": "error-no-such-file-or-directory-ls",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Find the right path when Linux says 'No such file or directory'",
+ "summary": "The error means the path you typed does not exist from the folder you are in. The name may be misspelled, the capital letters may differ, or the file may be in another folder. Check where you are, look at the folder, then search for the name to get the exact path.",
+ "aliases": [
+  {
+   "text": "no such file or directory linux",
+   "lang": "en"
+  },
+  {
+   "text": "ls cannot access no such file or directory",
+   "lang": "en"
+  },
+  {
+   "text": "sed can't read no such file",
+   "lang": "en"
+  },
+  {
+   "text": "terminal can't find my file linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux file not found in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "why does linux say my file does not exist",
+   "lang": "en"
+  },
+  {
+   "text": "нет такого файла или каталога",
+   "lang": "ru"
+  },
+  {
+   "text": "linux no such file or directory ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "терминал не находит файл linux",
+   "lang": "ru"
+  },
+  {
+   "text": "ls не видит папку linux",
+   "lang": "ru"
+  },
+  {
+   "text": "почему linux пишет файл не найден",
+   "lang": "ru"
+  },
+  {
+   "text": "опечатка в пути к файлу терминал linux",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "No such file or directory",
+  "ls: cannot access",
+  "sed: can't read"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open on the Linux computer"
+ ],
+ "steps": [
+  {
+   "explain": "Check which folder the terminal is in. A path that does not start with / is looked up from this folder, so the same name can work in one folder and fail in another.",
+   "cmd": "pwd",
+   "risk": "low",
+   "expect": "One line with the full path of the current folder, starting with /, for example /home/yourname."
+  },
+  {
+   "explain": "List everything in the current folder, including hidden files. Compare the spelling and capital letters of the name you typed with the names shown. Press Tab after the first letters of a name to let the terminal complete it.",
+   "cmd": "ls -la",
+   "risk": "low",
+   "expect": "One line per entry. A line starting with d is a folder, a line starting with - is a file, and a line with -> is a link. Using a link whose target is missing as a path gives the same error."
+  },
+  {
+   "explain": "Search your home folder for names that contain part of the name you need, ignoring capital letters. Use a short part of the name. Error messages about folders you cannot read are hidden by 2>/dev/null.",
+   "cmd": "find ~ -iname \"*<NAME>*\" 2>/dev/null",
+   "placeholders": [
+    {
+     "name": "NAME",
+     "description": "Part of the file or folder name you are looking for",
+     "example": "report"
+    }
+   ],
+   "risk": "low",
+   "expect": "Full paths of matches, one per line, such as /home/yourname/Documents/Report.txt. No output means no name with that part exists in your home folder.",
+   "alternatives": [
+    {
+     "explain": "Search only the current folder and the folders inside it. This is faster when you know the file is nearby.",
+     "cmd": "find . -iname \"*<NAME>*\" 2>/dev/null",
+     "placeholders": [
+      {
+       "name": "NAME",
+       "description": "Part of the file or folder name you are looking for",
+       "example": "report"
+      }
+     ],
+     "risk": "low",
+     "expect": "Paths starting with ./, one per match."
+    },
+    {
+     "explain": "Search the whole system. This takes longer and prints many matches from system folders such as /proc and /sys, so look for paths under /home or /root.",
+     "cmd": "find / -iname \"*<NAME>*\" 2>/dev/null",
+     "placeholders": [
+      {
+       "name": "NAME",
+       "description": "Part of the file or folder name you are looking for",
+       "example": "report"
+      }
+     ],
+     "risk": "low",
+     "expect": "Full paths starting with /. Many lines from /proc and /sys are normal. Your own file is under /home or /root."
+    }
+   ]
+  },
+  {
+   "explain": "Check the exact path you found. Put the path in quotes if it contains spaces. A path that starts with ~ means your home folder. Once the path is listed, run the command that failed again with this exact path.",
+   "cmd": "ls -la \"<PATH>\"",
+   "placeholders": [
+    {
+     "name": "PATH",
+     "description": "Full path from the search in the previous step, or a path relative to the current folder",
+     "example": "/home/yourname/Documents/Report.txt",
+     "discover_cmd": "ls -la"
+    }
+   ],
+   "risk": "low",
+   "expect": "The file or folder is listed with its name and size. If the error appears again, the path still does not match, so repeat the search with a shorter part of the name."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/ls",
+  "title": "ls manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

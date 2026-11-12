@@ -1,0 +1,56 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-filevault-users",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List users with FileVault access",
+ "summary": "See which user accounts on your Mac are allowed to unlock the encrypted disk. This helps you manage who can access your data.",
+ "aliases": [
+  {
+   "text": "list filevault users",
+   "lang": "en"
+  },
+  {
+   "text": "who can unlock my mac",
+   "lang": "en"
+  },
+  {
+   "text": "filevault enabled users",
+   "lang": "en"
+  },
+  {
+   "text": "список пользователей filevault",
+   "lang": "ru"
+  },
+  {
+   "text": "кто имеет доступ к шифрованию",
+   "lang": "ru"
+  },
+  {
+   "text": "fdesetup list",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List the users who have been added to FileVault. Requires administrator privileges.",
+   "cmd": "sudo fdesetup list",
+   "risk": "low",
+   "needs_root": true,
+   "expect": "A list of usernames separated by commas."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/fdesetup.md",
+  "title": "tldr-pages: fdesetup",
+  "license": "CC-BY-4.0"
+ }
+}

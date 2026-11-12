@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-iw-show-wifi-link-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show current Wi-Fi connection details",
+ "summary": "Displays information about the current Wi-Fi connection, such as the connected SSID, signal strength, and link speed.",
+ "aliases": [
+  {
+   "text": "show wifi connection info",
+   "lang": "en"
+  },
+  {
+   "text": "check wifi link status",
+   "lang": "en"
+  },
+  {
+   "text": "iw link",
+   "lang": "en"
+  },
+  {
+   "text": "wifi signal strength",
+   "lang": "en"
+  },
+  {
+   "text": "current wifi details",
+   "lang": "en"
+  },
+  {
+   "text": "показать инфо о wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "статус wifi соединения",
+   "lang": "ru"
+  },
+  {
+   "text": "уровень сигнала wifi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Shows details about the current link on the specified interface.",
+   "cmd": "iw dev <INTERFACE> link",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of your wireless interface, e.g., wlan0",
+     "example": "wlan0",
+     "discover_cmd": "iw dev"
+    }
+   ],
+   "expect": "Details like SSID, signal level, and connection status."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/iw.md",
+  "title": "tldr-pages: iw",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-iw-list-wifi-interfaces"
+ ]
+}

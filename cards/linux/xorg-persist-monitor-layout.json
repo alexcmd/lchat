@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "xorg-persist-monitor-layout",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Persist monitor layout with xorg.conf",
+ "summary": "Configure monitor positions and resolutions permanently by creating an Xorg configuration file. This applies the layout at every boot.",
+ "aliases": [
+  {
+   "text": "save xrandr settings linux",
+   "lang": "en"
+  },
+  {
+   "text": "xorg.conf monitor layout",
+   "lang": "en"
+  },
+  {
+   "text": "permanent dual monitor setup",
+   "lang": "en"
+  },
+  {
+   "text": "сохранить настройку мониторов",
+   "lang": "ru"
+  },
+  {
+   "text": "xorg.conf расположение мониторов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "prerequisites": [
+  "You know the monitor identifiers (e.g., VGA1, HDMI1) from 'xrandr -q'."
+ ],
+ "steps": [
+  {
+   "explain": "Create a configuration file for monitor layout. This example places HDMI1 to the left of VGA1. You must restart X (log out and back in, or reboot) for changes to take effect.",
+   "risk": "medium",
+   "gui": "Create a file named /etc/X11/xorg.conf.d/10-monitor.conf with the following content:\n\nSection \"Monitor\"\n    Identifier  \"VGA1\"\n    Option      \"Primary\" \"true\"\nEndSection\n\nSection \"Monitor\"\n    Identifier  \"HDMI1\"\n    Option      \"LeftOf\" \"VGA1\"\nEndSection"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the file /etc/X11/xorg.conf.d/10-monitor.conf using a file manager or terminal.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Incorrect configuration can prevent X from starting. Keep a backup of your current config."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Multihead#Configuration_using_xorg.conf",
+  "title": "Multihead",
+  "revision_id": 888512,
+  "license": "GFDL-1.3-or-later"
+ }
+}

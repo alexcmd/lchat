@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-remove-known-host-key",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Remove a host key from known_hosts",
+ "summary": "Delete the stored SSH key for a specific host from your known_hosts file. Use this if a server's key has changed and you are getting a warning.",
+ "aliases": [
+  {
+   "text": "remove known host key",
+   "lang": "en"
+  },
+  {
+   "text": "delete ssh host key",
+   "lang": "en"
+  },
+  {
+   "text": "ssh known hosts remove",
+   "lang": "en"
+  },
+  {
+   "text": "fix ssh host key changed",
+   "lang": "en"
+  },
+  {
+   "text": "ssh-keygen -R",
+   "lang": "en"
+  },
+  {
+   "text": "удалить ключ хоста",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить ssh ключ сервера",
+   "lang": "ru"
+  },
+  {
+   "text": "known hosts remove",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh ключ изменился",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the stored key for a specific remote host from the known_hosts file.",
+   "cmd": "ssh-keygen -R <REMOTE_HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REMOTE_HOST",
+     "description": "The hostname or IP address of the server whose key you want to remove.",
+     "example": "example.com"
+    }
+   ],
+   "expect": "The tool confirms that the entry for the host has been removed from known_hosts."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh-keygen.md",
+  "title": "tldr-pages: ssh-keygen",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-process-by-args",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find process by command arguments",
+ "summary": "Use pgrep with the -f flag to find processes based on their full command line arguments, not just the executable name. This helps distinguish between multiple instances of the same program running with different options.",
+ "aliases": [
+  {
+   "text": "find process by arguments",
+   "lang": "en"
+  },
+  {
+   "text": "pgrep full command line",
+   "lang": "en"
+  },
+  {
+   "text": "find process by parameter",
+   "lang": "en"
+  },
+  {
+   "text": "pgrep -f",
+   "lang": "en"
+  },
+  {
+   "text": "найти процесс по аргументам",
+   "lang": "ru"
+  },
+  {
+   "text": "pgrep по параметрам",
+   "lang": "ru"
+  },
+  {
+   "text": "найти процесс по командной строке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -f flag to match against the full argument list of the process, rather than just the process name. This is useful when you need to find a specific instance of a program started with certain parameters.",
+   "cmd": "pgrep -f \"<PROCESS_NAME> <PARAMETER>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_NAME",
+     "description": "The name of the executable",
+     "example": "python"
+    },
+    {
+     "name": "PARAMETER",
+     "description": "A specific argument or flag used when starting the process",
+     "example": "script.py"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show the PID along with the full command line arguments for each match.",
+     "cmd": "pgrep -fl \"<PROCESS_NAME>\"",
+     "placeholders": [
+      {
+       "name": "PROCESS_NAME",
+       "description": "The name of the executable or part of the command line",
+       "example": "python"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pgrep.md",
+  "title": "tldr-pages: pgrep",
+  "license": "CC-BY-4.0"
+ }
+}

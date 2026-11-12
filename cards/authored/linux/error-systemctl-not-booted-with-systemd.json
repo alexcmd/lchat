@@ -1,0 +1,124 @@
+{
+ "schema_version": 2,
+ "id": "error-systemctl-not-booted-with-systemd",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'System has not been booted with systemd' - systemctl does not work in a container",
+ "summary": "systemctl works only when systemd runs as the first process (PID 1). Docker containers, chroots and similar environments usually do not run systemd, so the command stops with this error. Check what runs here, then manage the service on the real computer or with the service command.",
+ "error_patterns": [
+  "System has not been booted with systemd as init system (PID 1). Can't operate.",
+  "Failed to connect to bus: Host is down"
+ ],
+ "aliases": [
+  {
+   "text": "systemctl not working in docker",
+   "lang": "en"
+  },
+  {
+   "text": "System has not been booted with systemd as init system",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl can't operate PID 1",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl failed to connect to bus host is down",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl in chroot not working",
+   "lang": "en"
+  },
+  {
+   "text": "systemd not running in container",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl не работает в docker",
+   "lang": "ru"
+  },
+  {
+   "text": "система не загружена с systemd",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl ошибка PID 1",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl не работает в контейнере",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl не работает в chroot",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The terminal window where the systemctl command failed",
+  "The name of the service you want to check, for example ssh"
+ ],
+ "steps": [
+  {
+   "explain": "Show the name of the first process (PID 1). systemctl needs systemd to be PID 1. On a normal Linux computer the answer is systemd. Any other name, such as bash or sleep, means systemd is not running here.",
+   "cmd": "cat /proc/1/comm",
+   "risk": "low",
+   "expect": "systemd on a normal computer. In a container or chroot you see another name, for example bash or sleep, and systemctl cannot work."
+  },
+  {
+   "explain": "Check for the marker file that Docker creates inside its containers. If the line ends with /.dockerenv, you are inside a Docker container.",
+   "cmd": "ls -la /.dockerenv",
+   "risk": "low",
+   "expect": "A line ending with /.dockerenv means a Docker container. 'No such file or directory' means it is not Docker, but systemctl still fails if PID 1 is not systemd."
+  },
+  {
+   "explain": "List the services this system manages with old-style init scripts. Use this list to see what the service command can control here.",
+   "cmd": "service --status-all",
+   "risk": "low",
+   "expect": "Lines like ' [ + ]  name' (running) and ' [ - ]  name' (stopped), e.g. ' [ - ]  procps' on Ubuntu. On Fedora the command is missing: 'service: command not found'."
+  },
+  {
+   "explain": "Leave the container or chroot (type exit) and run the systemctl command on the real computer, where systemd is running. Replace SERVICE with the service name, for example ssh.",
+   "cmd": "systemctl status <SERVICE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SERVICE",
+     "description": "Name of the service to check, e.g. ssh or cron",
+     "example": "ssh",
+     "discover_cmd": "systemctl list-units --type=service --state=running --no-pager"
+    }
+   ],
+   "expect": "On the real computer: service name and Active line, e.g. active (running). Inside a container: 'System has not been booted with systemd as init system (PID 1)...'",
+   "alternatives": [
+    {
+     "explain": "Inside a container that has old-style init scripts (Ubuntu and Debian images; Fedora and Arch have no service command), check a service with service instead of systemctl. Replace SERVICE with the service name.",
+     "cmd": "service <SERVICE> status",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SERVICE",
+       "description": "Name of the service from the list in the earlier step",
+       "example": "ssh"
+      }
+     ],
+     "expect": "The service state, or 'ssh: unrecognized service' when that service has no init script in this container."
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/systemctl",
+  "title": "systemctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

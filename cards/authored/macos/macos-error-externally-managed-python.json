@@ -1,0 +1,144 @@
+{
+ "schema_version": 2,
+ "id": "macos-error-externally-managed-python",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'error: externally-managed-environment' when running pip install",
+ "summary": "Homebrew Python on macOS refuses pip installs into the system-wide Python. Install the package into its own virtual environment, or with pipx for command-line apps, instead.",
+ "aliases": [
+  {
+   "text": "pip install error externally managed environment",
+   "lang": "en"
+  },
+  {
+   "text": "externally-managed-environment mac",
+   "lang": "en"
+  },
+  {
+   "text": "pip externally managed python homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "can't pip install on mac",
+   "lang": "en"
+  },
+  {
+   "text": "pip install python package mac venv",
+   "lang": "en"
+  },
+  {
+   "text": "pipx install python app mac",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка externally-managed-environment pip",
+   "lang": "ru"
+  },
+  {
+   "text": "pip install ошибка externally managed mac",
+   "lang": "ru"
+  },
+  {
+   "text": "pip не ставит пакет на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "установить python пакет в виртуальное окружение mac",
+   "lang": "ru"
+  },
+  {
+   "text": "пип ошибка externally managed homebrew",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "error: externally-managed-environment",
+  "This environment is externally managed"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "python3"
+  ]
+ },
+ "prerequisites": [
+  "Terminal app open",
+  "Python 3 installed, for example from Homebrew"
+ ],
+ "steps": [
+  {
+   "explain": "Check which Python runs in Terminal. A path under /opt/homebrew or /usr/local means Homebrew Python, which blocks pip installs into the system-wide Python.",
+   "cmd": "command -v python3",
+   "expect": "A path such as /opt/homebrew/bin/python3 (Apple Silicon) or /usr/local/bin/python3 (Intel).",
+   "risk": "low"
+  },
+  {
+   "explain": "Create a virtual environment: a private folder with its own Python and pip, so the package stays out of the system Python. Skip this step if you use the pipx alternative in step 3.",
+   "cmd": "python3 -m venv <VENV_DIR>",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "Folder for the new environment, in your home folder",
+     "example": "~/venvs/myproject",
+     "discover_cmd": "ls -d ~/venvs/* 2>/dev/null"
+    }
+   ],
+   "expect": "The command finishes with no output, and the folder <VENV_DIR> now exists.",
+   "risk": "low"
+  },
+  {
+   "explain": "Install the package with the environment's own pip. Using the full path to the environment's Python means you do not have to activate it first.",
+   "cmd": "<VENV_DIR>/bin/python -m pip install <PACKAGE>",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "The environment folder created in the previous step",
+     "example": "~/venvs/myproject"
+    },
+    {
+     "name": "PACKAGE",
+     "description": "Name of the Python package to install",
+     "example": "requests"
+    }
+   ],
+   "expect": "The last line starts with 'Successfully installed' and names the package.",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "For a command-line app (for example httpie), pipx installs it in its own hidden environment and puts the command on your PATH. Needs pipx first (brew install pipx). Does not need the virtual environment from step 2.",
+     "cmd": "pipx install <PACKAGE>",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "Name of the command-line app to install",
+       "example": "httpie"
+      }
+     ],
+     "expect": "A line 'installed package <PACKAGE>' and 'done!' appear.",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "<VENV_DIR>/bin/python -m pip show <PACKAGE>",
+   "expect": "Lines starting with 'Name:' and 'Version:' for the package."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Do not add --break-system-packages to pip, even if the error message suggests it. It overrides the protection and can break Python tools installed with Homebrew.",
+  "Do not use sudo pip install: it writes into the system Python and bypasses this protection."
+ ],
+ "source": {
+  "url": "x-man-page://python3",
+  "title": "python3 manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

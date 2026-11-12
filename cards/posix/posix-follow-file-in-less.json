@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "posix-follow-file-in-less",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Follow live updates to a file in less",
+ "summary": "Watch a log file update in real-time while viewing it with `less`, similar to `tail -f`.",
+ "aliases": [
+  {
+   "text": "follow log file less",
+   "lang": "en"
+  },
+  {
+   "text": "tail -f equivalent in less",
+   "lang": "en"
+  },
+  {
+   "text": "watch file changes in less",
+   "lang": "en"
+  },
+  {
+   "text": "live view log terminal",
+   "lang": "en"
+  },
+  {
+   "text": "следить за логом в less",
+   "lang": "ru"
+  },
+  {
+   "text": "обновление файла в реальном времени less",
+   "lang": "ru"
+  },
+  {
+   "text": "tail f в less",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "While viewing a file in `less`, press `F` to start following the file. New lines will appear at the bottom as they are written.",
+   "cmd": "F",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/less.md",
+  "title": "tldr-pages: less",
+  "license": "CC-BY-4.0"
+ }
+}

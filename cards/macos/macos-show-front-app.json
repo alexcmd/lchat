@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-front-app",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Show the currently active (front) application",
+ "summary": "Identify which application is currently in focus or 'front' on your Mac using the terminal. This helps you verify which window is currently receiving keyboard input.",
+ "aliases": [
+  {
+   "text": "show front app mac",
+   "lang": "en"
+  },
+  {
+   "text": "lsappinfo front",
+   "lang": "en"
+  },
+  {
+   "text": "which app is active mac",
+   "lang": "en"
+  },
+  {
+   "text": "current focused window terminal",
+   "lang": "en"
+  },
+  {
+   "text": "lsappinfo front",
+   "lang": "ru"
+  },
+  {
+   "text": "какое приложение активно mac",
+   "lang": "ru"
+  },
+  {
+   "text": "показать текущее окно терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `lsappinfo front` to output the name and identifier of the application that is currently in the foreground.",
+   "cmd": "lsappinfo front",
+   "risk": "low",
+   "expect": "The name of the currently active application will be printed to the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/lsappinfo.md",
+  "title": "tldr-pages: lsappinfo",
+  "license": "CC-BY-4.0"
+ }
+}

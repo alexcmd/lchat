@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "macos-scan-wifi-networks",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Scan for available Wi-Fi networks",
+ "summary": "List all Wi-Fi networks currently visible to your Mac. This helps you see which networks are in range and their signal strength.",
+ "aliases": [
+  {
+   "text": "scan wifi networks",
+   "lang": "en"
+  },
+  {
+   "text": "list available wifi",
+   "lang": "en"
+  },
+  {
+   "text": "see nearby wifi",
+   "lang": "en"
+  },
+  {
+   "text": "airport scan",
+   "lang": "en"
+  },
+  {
+   "text": "какие wifi сети доступны",
+   "lang": "ru"
+  },
+  {
+   "text": "просмотреть wifi сети",
+   "lang": "ru"
+  },
+  {
+   "text": "список wifi сетей",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the airport utility to scan for nearby wireless networks.",
+   "cmd": "airport --scan",
+   "risk": "low",
+   "expect": "A list of Wi-Fi networks with their SSID, BSSID, RSSI (signal strength), and channel."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/airport.md",
+  "title": "tldr-pages: airport",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-get-current-wifi-name",
+  "macos-connect-to-wifi-network"
+ ]
+}

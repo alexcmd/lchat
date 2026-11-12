@@ -1,0 +1,176 @@
+{
+ "schema_version": 2,
+ "id": "error-address-already-in-use",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Find the program using a busy port and free it or pick another port",
+ "summary": "The error means another program already listens on the port your program wants. Find that program with ss, then stop it or start your program on a different free port.",
+ "aliases": [
+  {
+   "text": "OSError: [Errno 98] Address already in use",
+   "lang": "en"
+  },
+  {
+   "text": "address already in use python",
+   "lang": "en"
+  },
+  {
+   "text": "port already in use linux",
+   "lang": "en"
+  },
+  {
+   "text": "how to free a busy port",
+   "lang": "en"
+  },
+  {
+   "text": "what program is using this port",
+   "lang": "en"
+  },
+  {
+   "text": "kill process on port 8000",
+   "lang": "en"
+  },
+  {
+   "text": "errno 98 port busy",
+   "lang": "en"
+  },
+  {
+   "text": "порт уже занят",
+   "lang": "ru"
+  },
+  {
+   "text": "Address already in use что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка Errno 98 порт занят",
+   "lang": "ru"
+  },
+  {
+   "text": "как освободить порт linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какая программа занимает порт",
+   "lang": "ru"
+  },
+  {
+   "text": "порт 8000 занят python",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "OSError: [Errno 98] Address already in use",
+  "[Errno 98] Address already in use"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ss"
+  ]
+ },
+ "prerequisites": [
+  "The port number from the error text, for example 8000",
+  "A terminal on the Linux computer"
+ ],
+ "steps": [
+  {
+   "explain": "Show which program listens on the port. In the output, the name in quotes after users:(( is the program and pid= is its process ID. No LISTEN line means no program holds the port, so the error comes from something else.",
+   "cmd": "ss -ltnp \"sport = :<PORT>\"",
+   "risk": "low",
+   "expect": "A LISTEN line such as: LISTEN 0 5 0.0.0.0:8000 0.0.0.0:* users:((\"python3\",pid=350,fd=3))",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "The port number your program could not use, from the error line or your command",
+     "example": "8000",
+     "discover_cmd": "ss -ltn"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "If no program name appears, the program belongs to another user or to the system. Run the same check with administrator rights.",
+     "cmd": "sudo ss -ltnp \"sport = :<PORT>\"",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "PORT",
+       "description": "The port number your program could not use",
+       "example": "8000",
+       "discover_cmd": "ss -ltn"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Stop the program that holds the port so it releases the port. Stop only a program you recognise and started yourself, never a system service. Use the pid= number from the previous output.",
+   "cmd": "kill <PID>",
+   "risk": "medium",
+   "needs_root": false,
+   "expect": "Usually no output. The program stops, and it may print a message in its own terminal window.",
+   "placeholders": [
+    {
+     "name": "PID",
+     "description": "Process ID number from the pid= part of the previous output",
+     "example": "350",
+     "discover_cmd": "ss -ltnp"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Keep the other program running and start your own program on a different free port instead. This example uses Python's built-in web server.",
+     "cmd": "python3 -m http.server <NEW_PORT>",
+     "placeholders": [
+      {
+       "name": "NEW_PORT",
+       "description": "A port number that no LISTEN line uses yet",
+       "example": "8001",
+       "discover_cmd": "ss -ltn"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Check that the port is free now. If you used another port, the old port should be free too.",
+   "cmd": "ss -ltn \"sport = :<PORT>\"",
+   "risk": "low",
+   "expect": "Only the header line State Recv-Q Send-Q Local Address:Port appears, with no LISTEN line.",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "The port number from the error line",
+     "example": "8000",
+     "discover_cmd": "ss -ltn"
+    }
+   ]
+  },
+  {
+   "explain": "Start your program again. It should now start without the Errno 98 error.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If you stopped the wrong program, start it again the same way you started it before. Nothing else was changed.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Stopping a program ends it at once; unsaved work in that program is lost.",
+  "Use the pid= number from the same ss output. A wrong number can stop an unrelated program.",
+  "Without administrator rights, ss shows program names only for your own programs."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/ss",
+  "title": "ss manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

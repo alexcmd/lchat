@@ -1,0 +1,158 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-safe-script-template",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Write a safe bash script template that cleans up after itself",
+  "summary": "A reusable starting point for bash scripts. It stops at the first error, checks its arguments, uses a temporary file that is deleted automatically, and prints clear messages.",
+  "aliases": [
+    {
+      "text": "bash script template",
+      "lang": "en"
+    },
+    {
+      "text": "safe bash script skeleton",
+      "lang": "en"
+    },
+    {
+      "text": "how to start a bash script the right way",
+      "lang": "en"
+    },
+    {
+      "text": "bash script that deletes temp files on exit",
+      "lang": "en"
+    },
+    {
+      "text": "set -euo pipefail example",
+      "lang": "en"
+    },
+    {
+      "text": "trap cleanup EXIT bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash mktemp example",
+      "lang": "en"
+    },
+    {
+      "text": "шаблон безопасного bash скрипта",
+      "lang": "ru"
+    },
+    {
+      "text": "как правильно начать писать bash скрипт",
+      "lang": "ru"
+    },
+    {
+      "text": "скрипт который удаляет временный файл даже при ошибке",
+      "lang": "ru"
+    },
+    {
+      "text": "bash скрипт проверяет аргументы и пишет понятные ошибки",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "safe-template.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "safe-template.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "safe-template.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Create a sample file with repeated lines to test with.",
+      "risk": "low",
+      "cmd": "printf 'apple\\nbanana\\napple\\ncherry\\n' > sample.txt",
+      "expect": "No output. The file sample.txt now exists."
+    },
+    {
+      "explain": "Run the script on the sample file. It counts the different lines.",
+      "risk": "low",
+      "cmd": "./<FILE> sample.txt",
+      "expect": "different lines in sample.txt: 3",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "safe-template.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Run it with a file that does not exist. It prints an error and stops with exit code 1.",
+      "risk": "low",
+      "cmd": "./<FILE> missing.txt; echo exit code $?",
+      "expect": "error: file not found: missing.txt, then exit code 1",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "safe-template.sh"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "Errors inside if or while conditions, or in commands followed by || or &&, do not stop a script that uses set -e. Check those results yourself.",
+    "Create temporary files with mktemp, never with a fixed name such as /tmp/out.txt, which another user or program could use at the same time.",
+    "The EXIT trap also runs after an error has stopped the script, so the temporary file is still removed."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "safe-template.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# safe-template.sh - a starting template for safe bash scripts.\n# Usage: ./safe-template.sh INPUT_FILE\n# Prints how many different lines the input file has. It uses a temporary\n# file, which is removed automatically when the script ends, even on errors.\n\nset -euo pipefail   # stop on errors, on unset variables and on failed pipe parts\n\nTMP_FILE=\"\"\n\n# cleanup runs on EXIT, so it runs whether the script succeeds or fails.\ncleanup() {\n    if [[ -n \"$TMP_FILE\" && -e \"$TMP_FILE\" ]]; then\n        rm -f -- \"$TMP_FILE\"\n    fi\n}\ntrap cleanup EXIT\n\n# die prints an error message to STDERR and stops the script with exit code 1.\ndie() {\n    echo \"error: $*\" >&2\n    exit 1\n}\n\n# Check the arguments: exactly one, and it must be a file.\nif [[ $# -ne 1 ]]; then\n    echo \"usage: $0 INPUT_FILE\" >&2\n    exit 2\nfi\nINPUT_FILE=$1\n[[ -f \"$INPUT_FILE\" ]] || die \"file not found: $INPUT_FILE\"\n\n# mktemp creates a new, unique temporary file that only we can read.\nTMP_FILE=$(mktemp)\nsort -u -- \"$INPUT_FILE\" > \"$TMP_FILE\"\nUNIQUE=$(wc -l < \"$TMP_FILE\" | tr -d ' ')\necho \"different lines in $INPUT_FILE: $UNIQUE\"\n",
+    "usage": "./safe-template.sh INPUT_FILE"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "linux-remove-apt-repository",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove an APT repository",
+ "summary": "Remove a previously added software repository from your system's package manager.",
+ "aliases": [
+  {
+   "text": "remove apt repository",
+   "lang": "en"
+  },
+  {
+   "text": "remove ppa",
+   "lang": "en"
+  },
+  {
+   "text": "delete software source",
+   "lang": "en"
+  },
+  {
+   "text": "remove repository from apt",
+   "lang": "en"
+  },
+  {
+   "text": "удалить репозиторий apt",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить ppa",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать источник программ",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Know the repository specification you want to remove"
+ ],
+ "steps": [
+  {
+   "explain": "Remove the specified repository from the list of sources apt uses.",
+   "cmd": "sudo add-apt-repository --remove <REPOSITORY_SPEC>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "REPOSITORY_SPEC",
+     "description": "The repository to remove, e.g. 'ppa:owner/name'",
+     "example": "ppa:graphics-drivers/ppa"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-add the repository if you removed it by mistake.",
+   "cmd": "sudo add-apt-repository <REPOSITORY_SPEC>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "REPOSITORY_SPEC",
+     "description": "The repository to re-add",
+     "example": "ppa:graphics-drivers/ppa"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Removing a repository may make packages installed from it unavailable for updates."
+ ],
+ "see_also": [
+  "linux-add-apt-repository"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/add-apt-repository.md",
+  "title": "tldr-pages: add-apt-repository",
+  "license": "CC-BY-4.0"
+ }
+}

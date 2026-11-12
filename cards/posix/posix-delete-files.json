@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "posix-delete-files",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delete specific files",
+ "summary": "Permanently removes one or more files from the system. This action cannot be undone easily, so double-check the file paths before running the command.",
+ "aliases": [
+  {
+   "text": "delete file",
+   "lang": "en"
+  },
+  {
+   "text": "remove file",
+   "lang": "en"
+  },
+  {
+   "text": "rm file",
+   "lang": "en"
+  },
+  {
+   "text": "delete specific files",
+   "lang": "en"
+  },
+  {
+   "text": "удалить файл",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить файлы",
+   "lang": "ru"
+  },
+  {
+   "text": "rm файл",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить файл в терминале",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Removes the specified files. If a file does not exist, the command will report an error unless you use the force flag.",
+   "cmd": "rm <FILE_PATHS>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "FILE_PATHS",
+     "description": "One or more paths to the files you want to delete.",
+     "example": "file1.txt file2.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Deleted files are not moved to the Trash/Recycle Bin and cannot be easily recovered.",
+  "Ensure you have selected the correct files before running the command."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no built-in command to undo file deletion. You must restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rm.md",
+  "title": "tldr-pages: rm",
+  "license": "CC-BY-4.0"
+ }
+}

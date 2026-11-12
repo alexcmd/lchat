@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-systemd-units-no-pager",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List systemd units without pager",
+ "summary": "Print the list of systemd units directly to the terminal without using a pager. This is useful for copying output or when the list is short.",
+ "aliases": [
+  {
+   "text": "systemctl list units no pager",
+   "lang": "en"
+  },
+  {
+   "text": "print systemd units to stdout",
+   "lang": "en"
+  },
+  {
+   "text": "disable pager for systemctl",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl без пейджера",
+   "lang": "ru"
+  },
+  {
+   "text": "вывести список юнитов в консоль",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить pager systemctl",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add the --no-pager flag to prevent systemctl from opening a pager for the output.",
+   "cmd": "systemctl list-units --no-pager",
+   "risk": "low",
+   "expect": "The list of units is printed directly to the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-list-units.md",
+  "title": "tldr-pages: systemctl-list-units",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-list-all-systemd-units"
+ ]
+}

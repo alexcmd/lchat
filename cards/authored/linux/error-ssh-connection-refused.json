@@ -1,0 +1,197 @@
+{
+ "schema_version": 2,
+ "id": "error-ssh-connection-refused",
+ "platform": "linux",
+ "kind": "error",
+ "title": "ssh: connect to host port 22: Connection refused",
+ "summary": "This message means the other computer answered no SSH connection on port 22. Usually the SSH server is not installed, not running, or blocked by a firewall. Check the SSH service on that computer and start it if it is off.",
+ "aliases": [
+  {
+   "text": "ssh connection refused",
+   "lang": "en"
+  },
+  {
+   "text": "ssh connect to host port 22 connection refused",
+   "lang": "en"
+  },
+  {
+   "text": "ssh port 22 connection refused",
+   "lang": "en"
+  },
+  {
+   "text": "why does ssh say connection refused",
+   "lang": "en"
+  },
+  {
+   "text": "ssh cannot connect to host linux",
+   "lang": "en"
+  },
+  {
+   "text": "ssh server not running",
+   "lang": "en"
+  },
+  {
+   "text": "ssh соединение отклонено",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh отказ в соединении порт 22",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh connection refused что делать",
+   "lang": "ru"
+  },
+  {
+   "text": "почему ssh пишет connection refused",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh не подключается к серверу",
+   "lang": "ru"
+  },
+  {
+   "text": "ssh сервер не запущен",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "port 22: Connection refused",
+  "ssh: connect to host"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The user name and address of the computer you want to connect to",
+  "Administrator (sudo) rights on the computer that should run the SSH server"
+ ],
+ "steps": [
+  {
+   "explain": "On your own computer, run ssh with -v to see where the connection stops. The debug lines above the error show the address and port that were used.",
+   "cmd": "ssh -v <USER>@<HOST>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USER",
+     "description": "User name on the remote computer",
+     "example": "alex"
+    },
+    {
+     "name": "HOST",
+     "description": "Address or name of the remote computer",
+     "example": "192.168.1.20"
+    }
+   ],
+   "expect": "Debug lines show 'Connecting to ... port 22' and then 'connect to address ... port 22: Connection refused'. Nothing answers on port 22 there."
+  },
+  {
+   "explain": "On the remote computer, list the TCP ports that programs are listening on. SSH listens on port 22 when its server is running.",
+   "cmd": "ss -ltn",
+   "risk": "low",
+   "expect": "A LISTEN line ending in ':22' means the SSH server runs. No such line means nothing listens on port 22."
+  },
+  {
+   "explain": "On the remote computer, check the SSH service. On Debian, Ubuntu and Mint it is named ssh; on Fedora, Arch and openSUSE it is named sshd.",
+   "cmd": "systemctl status ssh",
+   "variants": {
+    "fedora": "systemctl status sshd",
+    "arch": "systemctl status sshd",
+    "opensuse": "systemctl status sshd"
+   },
+   "risk": "low",
+   "expect": "'Active: active (running)' means the server runs. 'could not be found' means it is not installed. 'inactive (dead)' means it is stopped."
+  },
+  {
+   "explain": "Install the SSH server only if the previous step said it is not installed. This changes system software, so do it only on a computer you administer.",
+   "cmd": "sudo apt-get install -y openssh-server",
+   "needs_root": true,
+   "variants": {
+    "fedora": "sudo dnf install -y openssh-server",
+    "arch": "sudo pacman -S --needed openssh",
+    "opensuse": "sudo zypper install -y openssh"
+   },
+   "risk": "medium",
+   "expect": "The install finishes without errors. Then repeat the service status check."
+  },
+  {
+   "explain": "Start the SSH service now. Starting it lets other computers reach this one on port 22, so do it only on a computer you control.",
+   "cmd": "sudo systemctl start ssh",
+   "needs_root": true,
+   "variants": {
+    "fedora": "sudo systemctl start sshd",
+    "arch": "sudo systemctl start sshd",
+    "opensuse": "sudo systemctl start sshd"
+   },
+   "risk": "medium",
+   "expect": "No output means the service started. Confirm with the verify command below.",
+   "alternatives": [
+    {
+     "explain": "Start the SSH service now and also at every boot.",
+     "cmd": "sudo systemctl enable --now ssh",
+     "needs_root": true,
+     "variants": {
+      "fedora": "sudo systemctl enable --now sshd",
+      "arch": "sudo systemctl enable --now sshd",
+      "opensuse": "sudo systemctl enable --now sshd"
+     },
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ss -ltn",
+   "expect": "A LISTEN line ends with ':22', for example 0.0.0.0:22 or [::]:22."
+  },
+  {
+   "cmd": "ssh -v <USER>@<HOST>",
+   "expect": "The 'Connection refused' line is gone. ssh now reaches the login step, for example a password prompt or 'Host key verification failed' for a new host."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Stop the SSH service again.",
+   "cmd": "sudo systemctl stop ssh",
+   "needs_root": true,
+   "variants": {
+    "fedora": "sudo systemctl stop sshd",
+    "arch": "sudo systemctl stop sshd",
+    "opensuse": "sudo systemctl stop sshd"
+   },
+   "risk": "medium"
+  },
+  {
+   "explain": "Remove the SSH server package if you installed it only for this check.",
+   "cmd": "sudo apt-get remove -y openssh-server",
+   "needs_root": true,
+   "variants": {
+    "fedora": "sudo dnf remove -y openssh-server",
+    "arch": "sudo pacman -R openssh",
+    "opensuse": "sudo zypper remove openssh"
+   },
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "An SSH server reachable from the network lets others try to log in. Use strong passwords or keys, and keep the system updated.",
+  "Even when the SSH server runs, a firewall can still block port 22. Check the firewall on the remote computer.",
+  "Connecting to the wrong address can give a different error, such as 'Connection timed out' or 'No route to host'."
+ ],
+ "see_also": [
+  "linux-check-unit-active-state",
+  "linux-firewall-open-service"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/ssh",
+  "title": "ssh manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

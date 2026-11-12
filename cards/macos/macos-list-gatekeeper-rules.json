@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-gatekeeper-rules",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List Gatekeeper security rules",
+ "summary": "Shows a list of all custom security rules currently applied by Gatekeeper on your system. This helps you see which specific applications or paths have been explicitly allowed or denied.",
+ "aliases": [
+  {
+   "text": "list gatekeeper rules",
+   "lang": "en"
+  },
+  {
+   "text": "show spctl rules",
+   "lang": "en"
+  },
+  {
+   "text": "check gatekeeper exceptions",
+   "lang": "en"
+  },
+  {
+   "text": "spctl list",
+   "lang": "en"
+  },
+  {
+   "text": "список правил гейткипера",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть исключения безопасности",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Lists all active security assessment policy rules.",
+   "cmd": "spctl --list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/spctl.md",
+  "title": "tldr-pages: spctl",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "linux-networkctl-reload-config",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reload network configuration files",
+ "summary": "Reload the systemd-networkd configuration files (.netdev and .network) without restarting the service.",
+ "aliases": [
+  {
+   "text": "reload network config",
+   "lang": "en"
+  },
+  {
+   "text": "networkctl reload",
+   "lang": "en"
+  },
+  {
+   "text": "apply network changes",
+   "lang": "en"
+  },
+  {
+   "text": "перезагрузить конфиг сети",
+   "lang": "ru"
+  },
+  {
+   "text": "networkctl reload",
+   "lang": "ru"
+  },
+  {
+   "text": "применить настройки сети",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd-networkd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo to reload the network configuration files. This is necessary after editing .netdev or .network files.",
+   "cmd": "sudo networkctl reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo, restore the previous configuration files and reload again.",
+   "cmd": "sudo networkctl reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Ensure configuration files are valid before reloading to avoid network issues."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/networkctl.md",
+  "title": "tldr-pages: networkctl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-reload-service-config",
+  "systemd-daemon-reload"
+ ]
+}

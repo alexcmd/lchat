@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-get-app-info",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Get detailed information for a specific application",
+ "summary": "Retrieve specific status and metadata information for a single application using its bundle identifier. This is helpful for checking if a specific app is running or getting its current state.",
+ "aliases": [
+  {
+   "text": "get app info mac",
+   "lang": "en"
+  },
+  {
+   "text": "lsappinfo info",
+   "lang": "en"
+  },
+  {
+   "text": "check specific app status mac",
+   "lang": "en"
+  },
+  {
+   "text": "lsappinfo info com.apple.calculator",
+   "lang": "en"
+  },
+  {
+   "text": "lsappinfo info",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о приложении mac",
+   "lang": "ru"
+  },
+  {
+   "text": "статус конкретного приложения терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `lsappinfo info` followed by the application's bundle identifier to see its details. Replace <BUNDLE_ID> with the actual identifier (e.g., com.apple.calculator).",
+   "cmd": "lsappinfo info <BUNDLE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "BUNDLE_ID",
+     "description": "The bundle identifier of the application, e.g., com.apple.calculator",
+     "example": "com.apple.calculator"
+    }
+   ],
+   "expect": "Detailed information about the specified application will be displayed."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/lsappinfo.md",
+  "title": "tldr-pages: lsappinfo",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "power-check-aspm-support",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if PCI Express ASPM is enabled",
+ "summary": "Active State Power Management (ASPM) saves power on PCI Express devices. This command checks if your hardware supports and has enabled it.",
+ "aliases": [
+  {
+   "text": "check aspm status",
+   "lang": "en"
+  },
+  {
+   "text": "is aspm enabled",
+   "lang": "en"
+  },
+  {
+   "text": "pci power management check",
+   "lang": "en"
+  },
+  {
+   "text": "проверить aspm",
+   "lang": "ru"
+  },
+  {
+   "text": "включен ли aspm",
+   "lang": "ru"
+  },
+  {
+   "text": "проверка энергосбережения pci",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List PCI devices and filter for ASPM status. Requires root to see all details.",
+   "cmd": "sudo lspci -vv | grep 'ASPM.*abled;'",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Lines showing 'ASPM L0s L1 Enabled' or 'Disabled' for various devices."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Power_management#Active_State_Power_Management",
+  "title": "Power management",
+  "revision_id": 887506,
+  "license": "GFDL-1.3-or-later"
+ }
+}

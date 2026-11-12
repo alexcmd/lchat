@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-upgrade-all-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Upgrade all installed packages",
+ "summary": "Update all currently installed software to their latest available versions. Run 'apt update' first to ensure you have the latest package list.",
+ "aliases": [
+  {
+   "text": "upgrade all packages",
+   "lang": "en"
+  },
+  {
+   "text": "update system",
+   "lang": "en"
+  },
+  {
+   "text": "apt upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "обновить все пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить систему",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-get upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "update software",
+   "lang": "en"
+  },
+  {
+   "text": "aptitude upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "update all packages aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade system aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "обновить все пакеты aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "апгрейд системы aptitude",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Upgrades all installed packages to their latest versions.",
+   "cmd": "sudo apt upgrade",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Upgrade all installed packages to their newest available versions.",
+     "cmd": "sudo apt-get upgrade",
+     "needs_root": true,
+     "risk": "medium"
+    },
+    {
+     "explain": "Upgrades installed packages to the newest available versions.",
+     "cmd": "sudo aptitude upgrade",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Downgrading packages is complex and not directly supported by apt. Ensure you have backups before upgrading.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This command requires administrator privileges (sudo).",
+  "Upgrading all packages can sometimes cause compatibility issues. Review changes before confirming."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt.md",
+  "title": "tldr-pages: apt",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-screenshot-flameshot-full",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Take a full-screen screenshot with Flameshot",
+ "summary": "Capture the entire screen instantly using the Flameshot utility. The image is typically saved to your Pictures folder or shown in a preview window depending on settings.",
+ "aliases": [
+  {
+   "text": "flameshot full screen",
+   "lang": "en"
+  },
+  {
+   "text": "take screenshot linux flameshot",
+   "lang": "en"
+  },
+  {
+   "text": "capture whole screen",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот всего экрана",
+   "lang": "ru"
+  },
+  {
+   "text": "флеймшот полный экран",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать скриншот",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flameshot"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the full screenshot command to capture the entire desktop.",
+   "cmd": "flameshot full",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flameshot.md",
+  "title": "tldr-pages: flameshot",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-search-defaults",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Search for settings across all apps",
+ "summary": "Find where a specific setting or keyword is stored across all application configurations on your Mac.",
+ "aliases": [
+  {
+   "text": "search defaults",
+   "lang": "en"
+  },
+  {
+   "text": "find setting in defaults",
+   "lang": "en"
+  },
+  {
+   "text": "where is this setting stored",
+   "lang": "en"
+  },
+  {
+   "text": "defaults find",
+   "lang": "en"
+  },
+  {
+   "text": "найти настройку в defaults",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск по настройкам",
+   "lang": "ru"
+  },
+  {
+   "text": "где хранится настройка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for a keyword in all domain names, keys, and values stored in the defaults system.",
+   "cmd": "defaults find \"<KEYWORD>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYWORD",
+     "description": "The word or phrase to search for in settings",
+     "example": "animation"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/defaults.md",
+  "title": "tldr-pages: defaults",
+  "license": "CC-BY-4.0"
+ }
+}

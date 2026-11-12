@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-delete-characters-from-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delete specific characters from a file",
+ "summary": "Use `tr` with the delete flag to remove all occurrences of specified characters from a file's content. The result is printed to the terminal.",
+ "aliases": [
+  {
+   "text": "delete characters from file",
+   "lang": "en"
+  },
+  {
+   "text": "remove letters from text",
+   "lang": "en"
+  },
+  {
+   "text": "tr delete characters",
+   "lang": "en"
+  },
+  {
+   "text": "strip characters from file",
+   "lang": "en"
+  },
+  {
+   "text": "удалить символы из файла",
+   "lang": "ru"
+  },
+  {
+   "text": "tr удалить символы",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать буквы из текста",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the `--delete` flag to remove all instances of the specified characters from the file content.",
+   "cmd": "tr < <FILE> --delete '<INPUT_CHARACTERS>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file",
+     "example": "data.txt"
+    },
+    {
+     "name": "INPUT_CHARACTERS",
+     "description": "Characters to delete",
+     "example": "abc"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tr.md",
+  "title": "tldr-pages: tr",
+  "license": "CC-BY-4.0"
+ }
+}

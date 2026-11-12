@@ -1,0 +1,58 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-attached-gpus",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List attached GPUs",
+ "summary": "This command shows a list of all Graphics Processing Units (GPUs) currently connected to your Mac. It is useful for identifying which GPU you want to manage or eject.",
+ "aliases": [
+  {
+   "text": "list gpus mac",
+   "lang": "en"
+  },
+  {
+   "text": "show attached graphics cards",
+   "lang": "en"
+  },
+  {
+   "text": "check gpu id",
+   "lang": "en"
+  },
+  {
+   "text": "safeejectgpu gpus",
+   "lang": "en"
+  },
+  {
+   "text": "список видеокарт mac",
+   "lang": "ru"
+  },
+  {
+   "text": "какие гпу подключены",
+   "lang": "ru"
+  },
+  {
+   "text": "id видеокарты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to list all GPUs attached to the system.",
+   "cmd": "SafeEjectGPU gpus",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/safeejectgpu.md",
+  "title": "tldr-pages: safeejectgpu",
+  "license": "CC-BY-4.0"
+ }
+}

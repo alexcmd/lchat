@@ -1,0 +1,114 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-process-using-port",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find which process is using a network port",
+ "summary": "Use lsof to identify which process is listening on or connected to a specific local network port. This is helpful when a port is already in use and you need to know what is blocking it.",
+ "aliases": [
+  {
+   "text": "find process using port",
+   "lang": "en"
+  },
+  {
+   "text": "who is using port 8080",
+   "lang": "en"
+  },
+  {
+   "text": "lsof port",
+   "lang": "en"
+  },
+  {
+   "text": "check port usage",
+   "lang": "en"
+  },
+  {
+   "text": "what is using port",
+   "lang": "en"
+  },
+  {
+   "text": "какой процесс использует порт",
+   "lang": "ru"
+  },
+  {
+   "text": "кто занимает порт",
+   "lang": "ru"
+  },
+  {
+   "text": "lsof порт",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить занятость порта",
+   "lang": "ru"
+  },
+  {
+   "text": "что использует порт",
+   "lang": "ru"
+  },
+  {
+   "text": "port in use linux",
+   "lang": "en"
+  },
+  {
+   "text": "порт занят linux",
+   "lang": "ru"
+  },
+  {
+   "text": "who is using port 80",
+   "lang": "en"
+  },
+  {
+   "text": "fuser port",
+   "lang": "en"
+  },
+  {
+   "text": "fuser порт",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lsof with the -i flag and the port number to find the process associated with that local internet port.",
+   "cmd": "lsof -i :<PORT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "The local port number to check",
+     "example": "8080"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Run fuser with the port number and '/tcp' to see the Process IDs (PIDs) using that TCP port.",
+     "cmd": "fuser <PORT>/tcp",
+     "placeholders": [
+      {
+       "name": "PORT",
+       "description": "The TCP port number to check",
+       "example": "80"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/lsof.md",
+  "title": "tldr-pages: lsof",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-investigate-sockets"
+ ]
+}

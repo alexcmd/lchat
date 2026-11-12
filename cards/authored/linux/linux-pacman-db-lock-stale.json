@@ -1,0 +1,125 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-db-lock-stale",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Error: unable to lock database (db.lck exists)",
+ "summary": "pacman creates a lock file while it works so that two package operations never change the database at the same time. If pacman was interrupted, the lock file stays behind and every later command fails with this error. Check that no pacman is running, then remove the leftover file.",
+ "aliases": [
+  {
+   "text": "pacman unable to lock database",
+   "lang": "en"
+  },
+  {
+   "text": "failed to init transaction unable to lock database arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman db.lck exists",
+   "lang": "en"
+  },
+  {
+   "text": "how to delete db.lck arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "pacman lock file exists how to remove",
+   "lang": "en"
+  },
+  {
+   "text": "arch linux pacman lock error",
+   "lang": "en"
+  },
+  {
+   "text": "pacman не может заблокировать базу данных",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman ошибка db.lck",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить db.lck pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman блокировка базы данных arch",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "failed to init transaction (unable to lock database)",
+  "failed to synchronize all databases (unable to lock database)",
+  "could not lock database: File exists"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "pacman"
+  ]
+ },
+ "prerequisites": [
+  "Arch Linux or a distribution based on it (Manjaro, EndeavourOS) that uses pacman",
+  "Know that no software installation or update was running when the error appeared"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether a pacman process is still running. If nothing is printed (exit status 1 means no match), the lock is stale. If a process number is printed, wait for that operation to finish and do not delete the lock.",
+   "cmd": "pgrep -x pacman",
+   "risk": "low",
+   "expect": "Nothing is printed. The command returns exit status 1, which means no pacman process is running."
+  },
+  {
+   "explain": "Confirm that the lock file exists. A 0-byte file named db.lck is the pacman lock. Step 1 decides whether it is safe to remove it.",
+   "cmd": "ls -l /var/lib/pacman/db.lck",
+   "risk": "low",
+   "expect": "-rw-r--r-- 1 root root 0 ... /var/lib/pacman/db.lck. If you see 'No such file or directory', the lock is already gone and the error has another cause."
+  },
+  {
+   "explain": "Delete the stale lock file. Run this only when step 1 printed nothing. Then run the pacman command that failed again.",
+   "cmd": "sudo rm /var/lib/pacman/db.lck",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "No output. The command finishes silently.",
+   "alternatives": [
+    {
+     "explain": "Use this if sudo is not installed. A fresh Arch Linux install has no sudo, so use su to become root. It asks for the root password.",
+     "cmd": "su -c 'rm /var/lib/pacman/db.lck'",
+     "needs_root": true,
+     "risk": "medium",
+     "expect": "No output after you enter the root password."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls /var/lib/pacman/db.lck",
+   "expect": "ls: cannot access '/var/lib/pacman/db.lck': No such file or directory"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Nothing to undo. pacman creates the lock file again the next time it runs, so no command is needed to restore it.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Never delete the lock while pacman, an AUR helper (yay, paru) or a graphical package tool (Pamac) is running. Two package operations at once can corrupt the package database.",
+  "If the lock was left behind by an interrupted upgrade, the system can be in a partly updated state. Run a full upgrade again with sudo pacman -Syu after removing the lock."
+ ],
+ "see_also": [
+  "linux-pacman-update-system"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/pacman",
+  "title": "pacman manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

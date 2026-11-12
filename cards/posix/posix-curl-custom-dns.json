@@ -1,0 +1,76 @@
+{
+ "schema_version": 2,
+ "id": "posix-curl-custom-dns",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Resolve hostname to custom IP with curl",
+ "summary": "Force curl to resolve a specific hostname to a custom IP address. This is useful for testing local servers or bypassing DNS issues without editing system files.",
+ "aliases": [
+  {
+   "text": "curl custom dns",
+   "lang": "en"
+  },
+  {
+   "text": "curl resolve ip",
+   "lang": "en"
+  },
+  {
+   "text": "curl --resolve",
+   "lang": "en"
+  },
+  {
+   "text": "curl указать ip адрес",
+   "lang": "ru"
+  },
+  {
+   "text": "curl разрешить хост в ip",
+   "lang": "ru"
+  },
+  {
+   "text": "тест локального сервера curl",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use --resolve to map the hostname to the IP address and port, and -v for verbose output to see the connection details.",
+   "cmd": "curl -v --resolve <HOSTNAME>:<PORT>:<IP> <URL>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "HOSTNAME",
+     "description": "The hostname to resolve",
+     "example": "example.com"
+    },
+    {
+     "name": "PORT",
+     "description": "The port number",
+     "example": "80"
+    },
+    {
+     "name": "IP",
+     "description": "The IP address to resolve to",
+     "example": "127.0.0.1"
+    },
+    {
+     "name": "URL",
+     "description": "The URL to request",
+     "example": "http://example.com"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/curl.md",
+  "title": "tldr-pages: curl",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-niceness",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check current niceness value",
+ "summary": "Run `nice` without arguments to see the current scheduling priority (niceness) of your shell session.",
+ "aliases": [
+  {
+   "text": "check nice value",
+   "lang": "en"
+  },
+  {
+   "text": "current niceness",
+   "lang": "en"
+  },
+  {
+   "text": "what is my nice value",
+   "lang": "en"
+  },
+  {
+   "text": "проверить значение nice",
+   "lang": "ru"
+  },
+  {
+   "text": "текущий приоритет процесса",
+   "lang": "ru"
+  },
+  {
+   "text": "какой у меня nice",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print the current niceness value of the shell.",
+   "cmd": "nice",
+   "risk": "low",
+   "expect": "A number between -20 and 19."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/nice.md",
+  "title": "tldr-pages: nice",
+  "license": "CC-BY-4.0"
+ }
+}

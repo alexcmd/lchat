@@ -1,0 +1,115 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-promiscuous-mode",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable or disable promiscuous mode on a network interface",
+ "summary": "Turn promiscuous mode on or off. In promiscuous mode, the interface captures all traffic on the network segment, not just traffic addressed to it.",
+ "aliases": [
+  {
+   "text": "enable promiscuous mode",
+   "lang": "en"
+  },
+  {
+   "text": "disable promiscuous mode",
+   "lang": "en"
+  },
+  {
+   "text": "ip link promisc",
+   "lang": "en"
+  },
+  {
+   "text": "monitor mode",
+   "lang": "en"
+  },
+  {
+   "text": "capture all traffic",
+   "lang": "en"
+  },
+  {
+   "text": "enable promiscuous mode",
+   "lang": "ru"
+  },
+  {
+   "text": "disable promiscuous mode",
+   "lang": "ru"
+  },
+  {
+   "text": "ip link promisc",
+   "lang": "ru"
+  },
+  {
+   "text": "monitor mode",
+   "lang": "ru"
+  },
+  {
+   "text": "capture all traffic",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `sudo ip link set` with the `promisc` option to turn promiscuous mode on or off.",
+   "cmd": "sudo ip link set <INTERFACE> promisc <STATE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "The name of the network interface.",
+     "example": "eth0",
+     "discover_cmd": "ip link"
+    },
+    {
+     "name": "STATE",
+     "description": "The state: 'on' to enable, 'off' to disable.",
+     "example": "on"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short form `sudo ip l s`.",
+     "cmd": "sudo ip l s <INTERFACE> promisc <STATE>",
+     "risk": "medium",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The name of the network interface.",
+       "example": "eth0",
+       "discover_cmd": "ip link"
+      },
+      {
+       "name": "STATE",
+       "description": "The state: 'on' to enable, 'off' to disable.",
+       "example": "on"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To disable promiscuous mode, set it to 'off'.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Promiscuous mode can increase CPU load and may have security implications.",
+  "Requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip-link.md",
+  "title": "tldr-pages: ip-link",
+  "license": "CC-BY-4.0"
+ }
+}

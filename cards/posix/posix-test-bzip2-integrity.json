@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-test-bzip2-integrity",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Test integrity of a .bz2 file",
+ "summary": "Check if a .bz2 compressed file is corrupted or valid without extracting it.",
+ "aliases": [
+  {
+   "text": "check bz2 integrity",
+   "lang": "en"
+  },
+  {
+   "text": "test bzip2 file",
+   "lang": "en"
+  },
+  {
+   "text": "verify bz2 archive",
+   "lang": "en"
+  },
+  {
+   "text": "проверить целостность bz2",
+   "lang": "ru"
+  },
+  {
+   "text": "тест bzip2",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить архив bz2",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -t flag to test the archive. It reports errors if the file is corrupted.",
+   "cmd": "bzip2 -t <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the .bz2 file to test",
+     "example": "document.txt.bz2"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/bzip2.md",
+  "title": "tldr-pages: bzip2",
+  "license": "CC-BY-4.0"
+ }
+}

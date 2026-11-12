@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-brew-check-updates",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check for outdated Homebrew packages",
+ "summary": "Show which installed formulae and casks have newer versions available. This helps you decide what to update.",
+ "aliases": [
+  {
+   "text": "check brew updates",
+   "lang": "en"
+  },
+  {
+   "text": "brew outdated",
+   "lang": "en"
+  },
+  {
+   "text": "what needs updating in homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "list outdated brew packages",
+   "lang": "en"
+  },
+  {
+   "text": "проверить обновления brew",
+   "lang": "ru"
+  },
+  {
+   "text": "brew outdated список",
+   "lang": "ru"
+  },
+  {
+   "text": "какие пакеты устарели в homebrew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List formulae and casks that have a more recent version available.",
+   "cmd": "brew outdated",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/brew.md",
+  "title": "tldr-pages: brew",
+  "license": "CC-BY-4.0"
+ }
+}

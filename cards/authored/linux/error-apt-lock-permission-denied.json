@@ -1,0 +1,153 @@
+{
+ "schema_version": 2,
+ "id": "error-apt-lock-permission-denied",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'Could not open lock file' when apt runs without sudo",
+ "summary": "apt installs software for the whole system, so only the administrator (root) may change its database. Running apt as a normal user gives 'Could not open lock file' with 'Permission denied'. Run the same command with sudo.",
+ "error_patterns": [
+  "Could not open lock file",
+  "Unable to acquire the dpkg frontend lock",
+  "(13: Permission denied)"
+ ],
+ "aliases": [
+  {
+   "text": "apt permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "could not open lock file",
+   "lang": "en"
+  },
+  {
+   "text": "apt install permission denied ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "unable to acquire the dpkg frontend lock",
+   "lang": "en"
+  },
+  {
+   "text": "apt-get lock file error",
+   "lang": "en"
+  },
+  {
+   "text": "why apt install says permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка apt permission denied",
+   "lang": "ru"
+  },
+  {
+   "text": "apt не открывает файл блокировки",
+   "lang": "ru"
+  },
+  {
+   "text": "apt отказано в доступе при установке",
+   "lang": "ru"
+  },
+  {
+   "text": "не могу установить пакет apt нет прав",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "prerequisites": [
+  "An account that is allowed to use sudo (you know its password)."
+ ],
+ "steps": [
+  {
+   "explain": "Check which user the terminal runs as. The error appears when apt runs as a normal user, because only root may write to the apt lock file. The output should be your login name, not root.",
+   "cmd": "whoami",
+   "risk": "low",
+   "expect": "Prints your login name, for example alex. If it prints root, the error has another cause; compare the full message."
+  },
+  {
+   "explain": "Check that your account may use sudo. sudo asks for your password and changes nothing else.",
+   "cmd": "sudo -v",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "Asks for your password and returns to the prompt. If it says 'may not run sudo', this account cannot install software; ask the computer's administrator."
+  },
+  {
+   "explain": "Run the same install command with sudo. sudo asks for your password once (nothing is shown while you type), then apt runs as administrator. Answer y when apt asks 'Do you want to continue?'.",
+   "cmd": "sudo apt install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the program or library to install.",
+     "example": "tree"
+    }
+   ],
+   "expect": "apt reads the package lists, shows the packages to install, and ends with 'Setting up <PACKAGE>'. The 'Permission denied' lines do not appear.",
+   "alternatives": [
+    {
+     "explain": "The same install done with apt-get, the older apt tool. Use it if apt keeps printing its unstable-interface warning or your guide uses apt-get.",
+     "cmd": "sudo apt-get install <PACKAGE>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "Name of the program or library to install.",
+       "example": "tree"
+      }
+     ],
+     "expect": "Lists the packages and installs them, or prints 'is already the newest version' if it is already installed."
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "dpkg -s <PACKAGE>",
+   "expect": "Shows 'Status: install ok installed' for the package."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove the package again if you installed the wrong one. Your other programs are kept.",
+   "cmd": "sudo apt remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to remove.",
+     "example": "tree"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Installing with sudo runs the package's install scripts as administrator. Install only software you know and trust.",
+  "Do not delete /var/lib/dpkg/lock-frontend or other lock files to get around this error. They protect the package database from damage.",
+  "If the message says 'held by process' instead, another package manager (for example the Software Updater) is still running. Wait for it to finish, then try again."
+ ],
+ "see_also": [
+  "linux-apt-install-package",
+  "linux-apt-remove-package"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/apt",
+  "title": "apt manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "linux-copy-text-to-clipboard-wayland",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Copy text to the Wayland clipboard",
+ "summary": "Use wl-copy to put text into the clipboard on Wayland desktops. You can copy a specific string or pipe the output of a command directly to the clipboard.",
+ "aliases": [
+  {
+   "text": "copy text to clipboard wayland",
+   "lang": "en"
+  },
+  {
+   "text": "wl-copy text",
+   "lang": "en"
+  },
+  {
+   "text": "copy command output to clipboard",
+   "lang": "en"
+  },
+  {
+   "text": "copy to clipboard linux wayland",
+   "lang": "en"
+  },
+  {
+   "text": "скопировать текст в буфер обмена wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "wl-copy текст",
+   "lang": "ru"
+  },
+  {
+   "text": "скопировать вывод команды в буфер",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать в буфер обмена линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "wl-clipboard"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Copy a specific text string to the clipboard.",
+   "cmd": "wl-copy \"<TEXT>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "TEXT",
+     "description": "The text you want to copy"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Pipe the output of a command (like ls) directly to the clipboard.",
+     "cmd": "<COMMAND> | wl-copy",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The command whose output you want to copy",
+       "example": "ls"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/wl-copy.md",
+  "title": "tldr-pages: wl-copy",
+  "license": "CC-BY-4.0"
+ }
+}

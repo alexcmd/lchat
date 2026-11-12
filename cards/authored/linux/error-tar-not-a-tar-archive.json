@@ -1,0 +1,158 @@
+{
+ "schema_version": 2,
+ "id": "error-tar-not-a-tar-archive",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Check why tar says a file is not a tar archive",
+ "summary": "tar refuses to unpack a file that is not a real archive, for example a web page or text saved under a .tar.gz name, or a broken download. Check the file's real size and content before trying again.",
+ "error_patterns": [
+  "tar: This does not look like a tar archive",
+  "gzip: stdin: not in gzip format"
+ ],
+ "aliases": [
+  {
+   "text": "tar: this does not look like a tar archive",
+   "lang": "en"
+  },
+  {
+   "text": "gzip: stdin: not in gzip format",
+   "lang": "en"
+  },
+  {
+   "text": "tar can't unpack file linux",
+   "lang": "en"
+  },
+  {
+   "text": "tar error file is not an archive",
+   "lang": "en"
+  },
+  {
+   "text": "why can't tar extract my tar.gz",
+   "lang": "en"
+  },
+  {
+   "text": "tar не распаковывает архив",
+   "lang": "ru"
+  },
+  {
+   "text": "tar this does not look like a tar archive ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "ошибка tar не архив",
+   "lang": "ru"
+  },
+  {
+   "text": "тар не открывает tar.gz",
+   "lang": "ru"
+  },
+  {
+   "text": "как проверить что файл архив tar",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "The name of the file tar could not unpack",
+  "A terminal open in the folder that contains the file"
+ ],
+ "steps": [
+  {
+   "explain": "List the files here and look at the size of the file that tar could not unpack. A real archive is usually larger than a few bytes; a size of a few bytes or a few KB of web-page text means the download went wrong.",
+   "cmd": "ls -l <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The archive file that tar could not unpack",
+     "example": "archive.tar.gz",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "A line like -rw-r--r-- 1 user user 3 ... archive.tar.gz. A size of only a few bytes means the file is almost empty."
+  },
+  {
+   "explain": "Show the first lines of the file as text. If you see a web page (<!DOCTYPE html>), a 'Not Found' message or other plain sentences, the download saved a page instead of the archive.",
+   "cmd": "head -n 5 <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The archive file that tar could not unpack",
+     "example": "archive.tar.gz",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "Readable text such as <!DOCTYPE html> or a 'Not Found' message means a web page was saved. A real .tar.gz shows unreadable symbols."
+  },
+  {
+   "explain": "Read the first bytes of the file. A real gzip archive starts with the bytes 1f 8b. Plain text starts with readable character codes, so the file is not a gzip archive.",
+   "cmd": "od -A x -t x1z -N 16 <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The archive file that tar could not unpack",
+     "example": "archive.tar.gz",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "For a text file: 68 69 0a (the letters hi and a line break). For a real gzip archive the first byte pair is 1f 8b.",
+   "alternatives": [
+    {
+     "explain": "Ask the file command for the real type in one word. It needs the 'file' package, which is not always installed. Expect text/plain for text, application/gzip for a real gzip archive.",
+     "cmd": "file --mime-type -b <FILE>",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Try to list the contents of the archive without unpacking anything. If it prints file names, the archive is real and can be unpacked. If it fails with 'gzip: stdin: not in gzip format' or 'This does not look like a tar archive', the file is not a real archive: download it again from its source.",
+   "cmd": "tar -tzf <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The archive file that tar could not unpack",
+     "example": "archive.tar.gz",
+     "discover_cmd": "ls"
+    }
+   ],
+   "expect": "A real archive prints its file names, for example d/ and d/a.txt. A broken file prints 'gzip: stdin: not in gzip format' and exits with status 2.",
+   "alternatives": [
+    {
+     "explain": "Use this for an uncompressed .tar file (no .gz ending).",
+     "cmd": "tar -tf <FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "The archive file that tar could not unpack",
+       "example": "archive.tar",
+       "discover_cmd": "ls"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "tar -tzf <FILE>",
+   "expect": "File names are printed for a real archive. The error 'gzip: stdin: not in gzip format' means the file is not gzip data."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/tar",
+  "title": "tar manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

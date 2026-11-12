@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmcli-show-logging",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show NetworkManager logging level",
+ "summary": "Display the current logging level and domains configured for NetworkManager.",
+ "aliases": [
+  {
+   "text": "nmcli logging level",
+   "lang": "en"
+  },
+  {
+   "text": "networkmanager log level",
+   "lang": "en"
+  },
+  {
+   "text": "check nm logging",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli general logging",
+   "lang": "en"
+  },
+  {
+   "text": "уровень логирования networkmanager",
+   "lang": "ru"
+  },
+  {
+   "text": "логи nmcli",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the current logging level and domains for NetworkManager.",
+   "cmd": "nmcli general logging",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-general.md",
+  "title": "tldr-pages: nmcli-general",
+  "license": "CC-BY-4.0"
+ }
+}

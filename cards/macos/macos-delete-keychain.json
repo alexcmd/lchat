@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "macos-delete-keychain",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Delete a specific keychain",
+ "summary": "Remove a specific keychain file from your Mac. Be careful, as this permanently deletes all credentials stored in that keychain.",
+ "aliases": [
+  {
+   "text": "delete keychain",
+   "lang": "en"
+  },
+  {
+   "text": "remove keychain",
+   "lang": "en"
+  },
+  {
+   "text": "delete keychain file",
+   "lang": "en"
+  },
+  {
+   "text": "security delete-keychain",
+   "lang": "en"
+  },
+  {
+   "text": "удалить связку ключей",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить keychain",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать связку ключей",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete the keychain file at the specified path.",
+   "cmd": "security delete-keychain <KEYCHAIN_PATH>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "KEYCHAIN_PATH",
+     "description": "The full path to the keychain file you want to delete.",
+     "example": "~/Library/Keychains/my.keychain"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no command to restore a deleted keychain. You must have a backup of the keychain file to restore it.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "Deleting a keychain permanently removes all passwords and certificates stored within it. Ensure you have a backup if needed."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/security.md",
+  "title": "tldr-pages: security",
+  "license": "CC-BY-4.0"
+ }
+}

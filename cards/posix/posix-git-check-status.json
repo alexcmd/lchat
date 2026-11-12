@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "posix-git-check-status",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check Git repository status",
+ "summary": "See which files have been modified, staged, or are untracked in your current Git repository.",
+ "aliases": [
+  {
+   "text": "git status",
+   "lang": "en"
+  },
+  {
+   "text": "check git changes",
+   "lang": "en"
+  },
+  {
+   "text": "what changed in git",
+   "lang": "en"
+  },
+  {
+   "text": "статус git",
+   "lang": "ru"
+  },
+  {
+   "text": "что изменилось в git",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить git",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run this inside a Git repository to see a summary of changes since the last commit.",
+   "cmd": "git status",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/git.md",
+  "title": "tldr-pages: git",
+  "license": "CC-BY-4.0"
+ }
+}

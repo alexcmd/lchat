@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "posix-list-running-processes",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List all running processes",
+ "summary": "Show a snapshot of all processes currently running on your computer. This helps you see what is active and find specific programs.",
+ "aliases": [
+  {
+   "text": "list running processes",
+   "lang": "en"
+  },
+  {
+   "text": "show all processes",
+   "lang": "en"
+  },
+  {
+   "text": "ps aux",
+   "lang": "en"
+  },
+  {
+   "text": "what is running",
+   "lang": "en"
+  },
+  {
+   "text": "check active programs",
+   "lang": "en"
+  },
+  {
+   "text": "list processes",
+   "lang": "ru"
+  },
+  {
+   "text": "show running apps",
+   "lang": "ru"
+  },
+  {
+   "text": "what is running on my mac",
+   "lang": "en"
+  },
+  {
+   "text": "ps aux mac",
+   "lang": "ru"
+  },
+  {
+   "text": "see all processes",
+   "lang": "en"
+  },
+  {
+   "text": "show processes",
+   "lang": "en"
+  },
+  {
+   "text": "список процессов",
+   "lang": "ru"
+  },
+  {
+   "text": "какие процессы запущены",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть процессы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the ps command with aux flags to list all processes for all users in a detailed format.",
+   "cmd": "ps aux",
+   "risk": "low",
+   "expect": "A long list of processes with columns for user, PID, CPU, memory, and command."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ps.md",
+  "title": "tldr-pages: ps",
+  "license": "CC-BY-4.0"
+ }
+}

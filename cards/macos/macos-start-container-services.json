@@ -1,0 +1,50 @@
+{
+ "schema_version": 2,
+ "id": "macos-start-container-services",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Start container services on macOS",
+ "summary": "Starts the background services required to run Linux containers on your Mac. You must do this before running any container commands.",
+ "aliases": [
+  {
+   "text": "start container services mac",
+   "lang": "en"
+  },
+  {
+   "text": "container system start",
+   "lang": "en"
+  },
+  {
+   "text": "enable containers on mac",
+   "lang": "en"
+  },
+  {
+   "text": "запустить контейнеры на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "container system start mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Starts the container system services. This is required before you can run, build, or manage containers.",
+   "cmd": "container system start",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/container.md",
+  "title": "tldr-pages: container",
+  "license": "CC-BY-4.0"
+ }
+}

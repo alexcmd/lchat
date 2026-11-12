@@ -1,0 +1,149 @@
+{
+ "schema_version": 2,
+ "id": "macos-login-shell-setting",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check which shell your Mac user account starts with",
+ "summary": "Find out which shell program is set as the default login shell for your macOS user account, for example /bin/zsh. These checks only read the setting and change nothing.",
+ "aliases": [
+  {
+   "text": "mac default shell",
+   "lang": "en"
+  },
+  {
+   "text": "which shell does my mac account use",
+   "lang": "en"
+  },
+  {
+   "text": "check login shell macos",
+   "lang": "en"
+  },
+  {
+   "text": "what is my login shell on mac",
+   "lang": "en"
+  },
+  {
+   "text": "dscl UserShell",
+   "lang": "en"
+  },
+  {
+   "text": "zsh or bash default on mac how to check",
+   "lang": "en"
+  },
+  {
+   "text": "какой shell по умолчанию на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть login shell на macos",
+   "lang": "ru"
+  },
+  {
+   "text": "какой шелл стоит на маке zsh или bash",
+   "lang": "ru"
+  },
+  {
+   "text": "какой shell у моей учетной записи на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "шелл по умолчанию macos как узнать",
+   "lang": "ru"
+  },
+  {
+   "text": "what is my default shell on mac",
+   "lang": "en"
+  },
+  {
+   "text": "zsh or bash which one does my mac use",
+   "lang": "en"
+  },
+  {
+   "text": "какую оболочку использует терминал на macos",
+   "lang": "ru"
+  },
+  {
+   "text": "which shell does terminal use on mac",
+   "lang": "en"
+  },
+  {
+   "text": "echo $SHELL on macos",
+   "lang": "en"
+  },
+  {
+   "text": "mac default shell path",
+   "lang": "en"
+  },
+  {
+   "text": "where is my shell profile on mac",
+   "lang": "en"
+  },
+  {
+   "text": "проверить login shell на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "какой у меня шелл zsh или bash на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "где профиль zsh на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое echo $SHELL",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A Mac with a Terminal window open"
+ ],
+ "steps": [
+  {
+   "explain": "Print your short user name, the name used in /Users/. Read-only.",
+   "cmd": "whoami",
+   "risk": "low",
+   "expect": "One word with no spaces, for example alice. You need it in the next step.",
+   "alternatives": [
+    {
+     "explain": "Print the path of the default login shell saved for your account. Read-only. Look at the last part of the path: /bin/zsh means your Mac uses zsh. This is the account setting, so a window may run a different shell if it was changed there.",
+     "cmd": "echo $SHELL",
+     "expect": "A path such as /bin/zsh, which is the default on current macOS. An older setup may print /bin/bash.",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Read the UserShell setting of your account from the local directory database. Replace <USERNAME> with the name from the previous step. dscl only prints the record and changes nothing.",
+   "cmd": "dscl . -read /Users/<USERNAME> UserShell",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "Your short macOS user name, from the previous step",
+     "example": "alice",
+     "discover_cmd": "whoami"
+    }
+   ],
+   "expect": "A line such as 'UserShell: /bin/zsh'. Current macOS defaults to /bin/zsh; /bin/bash is also possible."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://dscl",
+  "title": "dscl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24",
+ "see_also": [
+  "posix-check-current-shell",
+  "posix-detect-shell-and-rc-file"
+ ]
+}

@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "amdgpu-fix-freezes-idle",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix AMDGPU system freezes or reboots when idle",
+ "summary": "Resolve random crashes or reboots during idle or sleep by disabling GFXOFF via kernel parameters.",
+ "error_patterns": [
+  "system freezes or reboots when idle"
+ ],
+ "aliases": [
+  {
+   "text": "amd gpu freeze idle",
+   "lang": "en"
+  },
+  {
+   "text": "random crash amd gpu",
+   "lang": "en"
+  },
+  {
+   "text": "system reboot amd gpu",
+   "lang": "en"
+  },
+  {
+   "text": "зависает система amd",
+   "lang": "ru"
+  },
+  {
+   "text": "краш драйвера amd",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add the kernel parameter amdgpu.ppfeaturemask=0xffff7fff to disable GFXOFF.",
+   "cmd": "",
+   "gui": "Edit your bootloader configuration (e.g., GRUB) to add 'amdgpu.ppfeaturemask=0xffff7fff' to the kernel command line.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the system.",
+   "cmd": "sudo reboot",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the kernel parameter from the bootloader configuration.",
+   "cmd": "",
+   "gui": "Edit your bootloader configuration to remove 'amdgpu.ppfeaturemask=0xffff7fff'.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This disables a power-saving feature (GFXOFF), which may increase idle power consumption."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/AMDGPU#System_freezes_or_reboots_when_idle",
+  "title": "AMDGPU",
+  "revision_id": 888488,
+  "license": "GFDL-1.3-or-later"
+ }
+}

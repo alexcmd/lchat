@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-startup-disks",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List valid startup disks",
+ "summary": "Show a list of all valid startup disks available on your Mac. This helps you identify which disk to select if you need to change the boot volume.",
+ "aliases": [
+  {
+   "text": "list startup disks mac",
+   "lang": "en"
+  },
+  {
+   "text": "show boot volumes mac",
+   "lang": "en"
+  },
+  {
+   "text": "check startup disk options",
+   "lang": "en"
+  },
+  {
+   "text": "список загрузочных дисков mac",
+   "lang": "ru"
+  },
+  {
+   "text": "какие диски можно загрузить mac",
+   "lang": "ru"
+  },
+  {
+   "text": "просмотр стартовых дисков",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all valid startup disks recognized by the system.",
+   "cmd": "sudo systemsetup -liststartupdisks",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/systemsetup.md",
+  "title": "tldr-pages: systemsetup",
+  "license": "CC-BY-4.0"
+ }
+}

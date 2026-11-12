@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-reboot-system",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reboot the Linux system",
+ "summary": "Use this command to restart your computer. It closes all applications and services before restarting.",
+ "aliases": [
+  {
+   "text": "reboot linux",
+   "lang": "en"
+  },
+  {
+   "text": "restart computer",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl reboot",
+   "lang": "en"
+  },
+  {
+   "text": "how to reboot",
+   "lang": "en"
+  },
+  {
+   "text": "перезагрузить компьютер",
+   "lang": "ru"
+  },
+  {
+   "text": "ребут линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "как перезагрузить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "This command initiates a standard system reboot.",
+   "cmd": "systemctl reboot",
+   "risk": "medium",
+   "needs_root": false
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no command to cancel a reboot once initiated. Save your work before running this.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "All unsaved work will be lost.",
+  "Applications will close immediately."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-reboot.md",
+  "title": "tldr-pages: systemctl-reboot",
+  "license": "CC-BY-4.0"
+ }
+}

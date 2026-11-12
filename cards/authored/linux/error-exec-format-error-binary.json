@@ -1,0 +1,152 @@
+{
+ "schema_version": 2,
+ "id": "error-exec-format-error-binary",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'cannot execute binary file: Exec format error' for a downloaded program",
+ "summary": "Linux refuses to run the file because it is not a program for this CPU, or the download is damaged or is not a program at all. Check your CPU type and the type of the file, then download the build that matches your CPU.",
+ "aliases": [
+  {
+   "text": "cannot execute binary file",
+   "lang": "en"
+  },
+  {
+   "text": "Exec format error linux",
+   "lang": "en"
+  },
+  {
+   "text": "cannot execute binary file exec format error",
+   "lang": "en"
+  },
+  {
+   "text": "downloaded program won't run linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux program doesn't open wrong architecture",
+   "lang": "en"
+  },
+  {
+   "text": "which build to download arm or x86 linux",
+   "lang": "en"
+  },
+  {
+   "text": "bash cannot execute binary file",
+   "lang": "en"
+  },
+  {
+   "text": "linux binary not running wrong cpu",
+   "lang": "en"
+  },
+  {
+   "text": "cannot execute binary file что значит",
+   "lang": "ru"
+  },
+  {
+   "text": "Exec format error линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "скачал программу linux не запускается",
+   "lang": "ru"
+  },
+  {
+   "text": "не запускается программа exec format error",
+   "lang": "ru"
+  },
+  {
+   "text": "какую версию скачать для arm или x86 linux",
+   "lang": "ru"
+  },
+  {
+   "text": "бинарник не запускается архитектура процессора линукс",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "cannot execute binary file",
+  "Exec format error"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You have a Linux terminal open",
+  "You know the folder where the downloaded file is saved"
+ ],
+ "steps": [
+  {
+   "explain": "Find out which CPU type this computer has. Programs are built for one CPU type, and a program for another type cannot start. x86_64 means a 64-bit Intel or AMD processor. aarch64 means a 64-bit ARM processor.",
+   "cmd": "uname -m",
+   "risk": "low",
+   "expect": "One word: x86_64 (Intel or AMD) or aarch64 (ARM)."
+  },
+  {
+   "explain": "Show the type of the downloaded file. The output names the CPU type the program was built for, or says that the file is not a program. Replace <FILE> with the path of the downloaded file.",
+   "cmd": "file <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path of the downloaded file that will not run.",
+     "example": "~/Downloads/app-linux",
+     "discover_cmd": "ls -l ~/Downloads"
+    }
+   ],
+   "expect": "A program shows x86-64 (Intel/AMD) or ARM aarch64. HTML document or ASCII text means a web page was saved. can't read elf program headers means an incomplete download."
+  },
+  {
+   "explain": "Compare the two results. If the file says x86-64 and the CPU is x86_64, or the file says ARM aarch64 and the CPU is aarch64, the CPU type is right and the problem is something else. If they differ, the file is for another CPU type and you must download a different build.",
+   "risk": "low",
+   "expect": "The CPU names in both outputs match, or they differ and you know which build to get."
+  },
+  {
+   "explain": "Only when the CPU type matches: make the file executable, so it can be started with ./ followed by its name. This changes only the permissions of your own file.",
+   "cmd": "chmod +x <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path of the downloaded program, with the correct CPU type.",
+     "example": "~/Downloads/app-linux",
+     "discover_cmd": "ls -l ~/Downloads"
+    }
+   ],
+   "expect": "No output. The command finishes without an error."
+  },
+  {
+   "explain": "Download the build whose name matches your CPU: x86_64 or amd64 for Intel and AMD PCs, aarch64 or arm64 for ARM computers. Programs for Windows (.exe) and macOS cannot run on Linux at all, so look for a Linux build.",
+   "risk": "low",
+   "expect": "The download page offers a Linux build for your CPU type."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "uname -m",
+   "expect": "x86_64 or aarch64, the same CPU type that the file type names (x86-64 or ARM aarch64)."
+  },
+  {
+   "cmd": "file <FILE>",
+   "expect": "The CPU name in the output matches the uname -m result: x86-64 with x86_64, or ARM aarch64 with aarch64."
+  }
+ ],
+ "warnings": [
+  "If 'file' is not found, install it: sudo apt install file (Ubuntu, Mint, Debian), sudo dnf install file (Fedora), sudo zypper install file (openSUSE), sudo pacman -S file (Arch).",
+  "A program for another CPU type can also show 'required file not found' instead of 'Exec format error'. The file command shows the real CPU type in both cases.",
+  "Run only programs from sources you trust, because chmod +x makes any file runnable."
+ ],
+ "see_also": [
+  "script-error-permission-denied"
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/file",
+  "title": "file manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

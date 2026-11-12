@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-open-app-by-name",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Open an application by name",
+ "summary": "Launch a specific macOS application from the Terminal using its name.",
+ "aliases": [
+  {
+   "text": "open safari from terminal",
+   "lang": "en"
+  },
+  {
+   "text": "launch app by name mac",
+   "lang": "en"
+  },
+  {
+   "text": "run application in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "открыть приложение по имени",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить сафари из терминала",
+   "lang": "ru"
+  },
+  {
+   "text": "как открыть программу через терминал",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -a flag followed by the application name in quotes.",
+   "cmd": "open -a \"<APP_NAME>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_NAME",
+     "description": "Name of the application to open",
+     "example": "Safari"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/open.md",
+  "title": "tldr-pages: open",
+  "license": "CC-BY-4.0"
+ }
+}

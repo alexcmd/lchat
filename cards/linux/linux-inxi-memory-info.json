@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "linux-inxi-memory-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show RAM hardware details",
+ "summary": "Use inxi with the memory flag to see information about your system RAM, such as total size and speed.",
+ "aliases": [
+  {
+   "text": "check ram info",
+   "lang": "en"
+  },
+  {
+   "text": "inxi memory",
+   "lang": "en"
+  },
+  {
+   "text": "how much ram do i have",
+   "lang": "en"
+  },
+  {
+   "text": "какая оперативная память",
+   "lang": "ru"
+  },
+  {
+   "text": "информация о памяти",
+   "lang": "ru"
+  },
+  {
+   "text": "inxi ram",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "inxi is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run inxi with the --memory flag to print a summary of system RAM.",
+   "cmd": "inxi --memory",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/inxi.md",
+  "title": "tldr-pages: inxi",
+  "license": "CC-BY-4.0"
+ }
+}

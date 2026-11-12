@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-orb-exec-vm",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Run a command in an OrbStack VM",
+ "summary": "Execute a single command inside a running OrbStack virtual machine without opening an interactive session. Useful for quick checks or scripts.",
+ "aliases": [
+  {
+   "text": "run command in orb vm",
+   "lang": "en"
+  },
+  {
+   "text": "orb exec",
+   "lang": "en"
+  },
+  {
+   "text": "execute command in vm mac",
+   "lang": "en"
+  },
+  {
+   "text": "выполнить команду в вм orb",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить команду в orbstack",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "orb"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run a specific command inside a virtual machine. Replace <VM_NAME> with the VM name and <COMMAND> with the command to run.",
+   "cmd": "orb exec <VM_NAME> <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VM_NAME",
+     "description": "The name of the virtual machine.",
+     "example": "my-ubuntu"
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command to execute inside the VM.",
+     "example": "ls -la"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/orb.md",
+  "title": "tldr-pages: orb",
+  "license": "CC-BY-4.0"
+ }
+}

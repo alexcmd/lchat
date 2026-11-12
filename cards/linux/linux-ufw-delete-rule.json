@@ -1,0 +1,81 @@
+{
+ "schema_version": 2,
+ "id": "linux-ufw-delete-rule",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete a UFW firewall rule",
+ "summary": "Remove a specific rule from the UFW firewall configuration. You need the rule's number, which can be found by listing the status.",
+ "aliases": [
+  {
+   "text": "delete ufw rule",
+   "lang": "en"
+  },
+  {
+   "text": "remove firewall rule",
+   "lang": "en"
+  },
+  {
+   "text": "ufw delete",
+   "lang": "en"
+  },
+  {
+   "text": "удалить правило ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать правило файрвола",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить правило брандмауэра",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete a rule by its number. The number is obtained from 'sudo ufw status numbered'.",
+   "cmd": "sudo ufw delete <RULE_NUMBER>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "RULE_NUMBER",
+     "description": "The index number of the rule to delete.",
+     "example": "1",
+     "discover_cmd": "sudo ufw status numbered"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-add the rule manually using 'sudo ufw allow' or 'sudo ufw deny' with the original parameters.",
+   "cmd": "sudo ufw allow <PORT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PORT",
+     "description": "The port number that was previously allowed.",
+     "example": "80"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Deleting a rule may open or close access to services unexpectedly."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ufw.md",
+  "title": "tldr-pages: ufw",
+  "license": "CC-BY-4.0"
+ }
+}

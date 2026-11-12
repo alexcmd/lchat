@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-outdated-app-store-apps",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List outdated Mac App Store apps",
+ "summary": "Show a list of installed applications that have pending updates available in the Mac App Store.",
+ "aliases": [
+  {
+   "text": "list outdated apps",
+   "lang": "en"
+  },
+  {
+   "text": "check app store updates",
+   "lang": "en"
+  },
+  {
+   "text": "mas outdated",
+   "lang": "en"
+  },
+  {
+   "text": "apps needing update",
+   "lang": "en"
+  },
+  {
+   "text": "список устаревших приложений",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить обновления app store",
+   "lang": "ru"
+  },
+  {
+   "text": "mas outdated",
+   "lang": "ru"
+  },
+  {
+   "text": "приложения требующие обновления",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ],
+  "requires": [
+   "mas"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List all installed apps that have pending updates.",
+   "cmd": "mas outdated",
+   "risk": "low",
+   "expect": "A list of apps with available updates."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/mas.md",
+  "title": "tldr-pages: mas",
+  "license": "CC-BY-4.0"
+ }
+}

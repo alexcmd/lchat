@@ -1,0 +1,136 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-mounted-filesystems",
+ "platform": "linux",
+ "kind": "task",
+ "title": "See what is mounted and the filesystem type",
+ "summary": "Shows every disk, partition or folder that is attached to the Linux file system, with the filesystem type (ext4, btrfs, vfat, ntfs and so on) and the mount options such as read-only.",
+ "aliases": [
+  {
+   "text": "list mounted drives",
+   "lang": "en"
+  },
+  {
+   "text": "show mounted filesystems linux",
+   "lang": "en"
+  },
+  {
+   "text": "what is mounted on linux",
+   "lang": "en"
+  },
+  {
+   "text": "findmnt",
+   "lang": "en"
+  },
+  {
+   "text": "linux mount points list",
+   "lang": "en"
+  },
+  {
+   "text": "which filesystem type is my disk linux",
+   "lang": "en"
+  },
+  {
+   "text": "какие диски смонтированы в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть точки монтирования linux",
+   "lang": "ru"
+  },
+  {
+   "text": "тип файловой системы диска линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "смонтированные разделы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "какая файловая система на диске linux",
+   "lang": "ru"
+  },
+  {
+   "text": "check what is mounted",
+   "lang": "en"
+  },
+  {
+   "text": "список смонтированных разделов",
+   "lang": "ru"
+  },
+  {
+   "text": "show mounted file systems",
+   "lang": "en"
+  },
+  {
+   "text": "findmnt показать",
+   "lang": "ru"
+  },
+  {
+   "text": "какие диски подключены",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "findmnt"
+  ]
+ },
+ "prerequisites": [
+  "Open a terminal window"
+ ],
+ "steps": [
+  {
+   "explain": "List every mounted filesystem as a table: TARGET is the folder where it appears, SOURCE is the disk or partition it comes from, FSTYPE is its type, OPTIONS are its settings. This command only reads information and changes nothing.",
+   "cmd": "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS",
+   "risk": "low",
+   "expect": "Header row, then one line per mount. The '/' line shows its type (ext4 or btrfs; overlay in a container). OPTIONS: rw or ro (read only), noexec (no programs can run).",
+   "alternatives": [
+    {
+     "explain": "Show the same mounts as a tree, with mounts inside other mounts indented under their parent.",
+     "cmd": "findmnt",
+     "risk": "low",
+     "expect": "A tree with '/' at the top and the other mount points nested below it, with the filesystem type in the FSTYPE column."
+    },
+    {
+     "explain": "Show only real disks and partitions, hiding virtual system filesystems such as proc, sysfs and tmpfs.",
+     "cmd": "findmnt --real -o TARGET,SOURCE,FSTYPE,OPTIONS",
+     "risk": "low",
+     "expect": "Only physical or network-backed mounts, for example /, /home, /boot/efi on a real PC. Lines for proc, sysfs and tmpfs are missing."
+    }
+   ]
+  },
+  {
+   "explain": "Check which filesystem holds one specific folder, for example to find out whether it is read-only or mounted with noexec. Replace <PATH> with the folder you want to check.",
+   "cmd": "findmnt -T <PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PATH",
+     "description": "Folder you want to check",
+     "example": "/home",
+     "discover_cmd": "findmnt -rn -o TARGET"
+    }
+   ],
+   "expect": "One row for the mount that contains that folder, with its SOURCE, FSTYPE and OPTIONS. A folder that is not a separate mount shows the mount of its parent, for example '/'."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "findmnt -o TARGET,FSTYPE",
+   "expect": "A line starting with '/' followed by the filesystem type of the system disk."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/findmnt",
+  "title": "findmnt manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

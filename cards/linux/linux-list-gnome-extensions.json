@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-gnome-extensions",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List installed GNOME extensions",
+ "summary": "Show a list of all GNOME Shell extensions currently installed on your system. This helps you identify which extensions are present before enabling, disabling, or removing them.",
+ "aliases": [
+  {
+   "text": "list gnome extensions",
+   "lang": "en"
+  },
+  {
+   "text": "show installed gnome extensions",
+   "lang": "en"
+  },
+  {
+   "text": "what gnome extensions do i have",
+   "lang": "en"
+  },
+  {
+   "text": "gnome extensions list",
+   "lang": "en"
+  },
+  {
+   "text": "перечислить расширения gnome",
+   "lang": "ru"
+  },
+  {
+   "text": "какие расширения gnome установлены",
+   "lang": "ru"
+  },
+  {
+   "text": "список расширений gnome",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the list command to see all installed extension IDs.",
+   "cmd": "gnome-extensions list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/gnome-extensions.md",
+  "title": "tldr-pages: gnome-extensions",
+  "license": "CC-BY-4.0"
+ }
+}

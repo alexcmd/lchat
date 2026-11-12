@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-routing-table",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Display the routing table",
+ "summary": "View the system's routing table to see how network traffic is directed to different destinations.",
+ "aliases": [
+  {
+   "text": "show routing table",
+   "lang": "en"
+  },
+  {
+   "text": "check routes",
+   "lang": "en"
+  },
+  {
+   "text": "ip route",
+   "lang": "en"
+  },
+  {
+   "text": "network routing info",
+   "lang": "en"
+  },
+  {
+   "text": "таблица маршрутизации",
+   "lang": "ru"
+  },
+  {
+   "text": "показать маршруты",
+   "lang": "ru"
+  },
+  {
+   "text": "ip route show",
+   "lang": "ru"
+  },
+  {
+   "text": "netstat routes",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть маршруты сети",
+   "lang": "ru"
+  },
+  {
+   "text": "check network routes",
+   "lang": "en"
+  },
+  {
+   "text": "netstat маршруты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the `ip route` command to display the current routing table.",
+   "cmd": "ip route",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Use the short form `ip r` for the same output.",
+     "cmd": "ip r",
+     "risk": "low"
+    },
+    {
+     "explain": "Display the routing table using numeric IP addresses instead of hostnames for faster output.",
+     "cmd": "netstat --route --numeric",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ip.md",
+  "title": "tldr-pages: ip",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-show-routing-table"
+ ]
+}

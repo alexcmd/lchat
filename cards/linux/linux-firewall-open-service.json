@@ -1,0 +1,110 @@
+{
+ "schema_version": 2,
+ "id": "linux-firewall-open-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Permanently open a service in firewall",
+ "summary": "Allow traffic for a specific service (like HTTPS or SSH) in a firewall zone permanently.",
+ "aliases": [
+  {
+   "text": "open port in firewall",
+   "lang": "en"
+  },
+  {
+   "text": "allow https in firewall",
+   "lang": "en"
+  },
+  {
+   "text": "firewall-cmd add service",
+   "lang": "en"
+  },
+  {
+   "text": "open firewall port",
+   "lang": "en"
+  },
+  {
+   "text": "разрешить порт в firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть порт firewall",
+   "lang": "ru"
+  },
+  {
+   "text": "firewall-cmd --add-service",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "firewalld"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Add a service to the permanent configuration of a specific zone. This does not take effect until you reload firewalld.",
+   "cmd": "sudo firewall-cmd --permanent --zone <ZONE> --add-service <SERVICE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ZONE",
+     "description": "The firewall zone to modify (e.g., public, home)",
+     "example": "public"
+    },
+    {
+     "name": "SERVICE",
+     "description": "The service name to allow (e.g., https, ssh, http)",
+     "example": "https"
+    }
+   ]
+  },
+  {
+   "explain": "Reload firewalld to apply the permanent changes immediately.",
+   "cmd": "sudo firewall-cmd --reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the service from the permanent configuration.",
+   "cmd": "sudo firewall-cmd --permanent --zone <ZONE> --remove-service <SERVICE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ZONE",
+     "description": "The firewall zone modified",
+     "example": "public"
+    },
+    {
+     "name": "SERVICE",
+     "description": "The service name removed",
+     "example": "https"
+    }
+   ]
+  },
+  {
+   "explain": "Reload firewalld to apply the rollback.",
+   "cmd": "sudo firewall-cmd --reload",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Opening ports exposes your system to network traffic. Only open services you explicitly need.",
+  "Ensure you know the correct zone for your network interface before modifying it."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/firewall-cmd.md",
+  "title": "tldr-pages: firewall-cmd",
+  "license": "CC-BY-4.0"
+ }
+}

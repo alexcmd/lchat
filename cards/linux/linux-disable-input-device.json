@@ -1,0 +1,122 @@
+{
+ "schema_version": 2,
+ "id": "linux-disable-input-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Disable an input device",
+ "summary": "Temporarily disable a specific input device, such as a broken keyboard or an unwanted touchpad. The device remains connected but stops sending events.",
+ "aliases": [
+  {
+   "text": "disable touchpad",
+   "lang": "en"
+  },
+  {
+   "text": "turn off keyboard",
+   "lang": "en"
+  },
+  {
+   "text": "disable mouse",
+   "lang": "en"
+  },
+  {
+   "text": "xinput disable",
+   "lang": "en"
+  },
+  {
+   "text": "отключить тачпад",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить клавиатуру",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить мышь",
+   "lang": "ru"
+  },
+  {
+   "text": "turn off mouse",
+   "lang": "en"
+  },
+  {
+   "text": "turn off trackpoint",
+   "lang": "en"
+  },
+  {
+   "text": "выключить трекпоинт",
+   "lang": "ru"
+  },
+  {
+   "text": "xinput disable device",
+   "lang": "en"
+  },
+  {
+   "text": "otklyuchit touchpad",
+   "lang": "ru"
+  },
+  {
+   "text": "vypolnit mysh",
+   "lang": "ru"
+  },
+  {
+   "text": "libinput disable",
+   "lang": "ru"
+  },
+  {
+   "text": "disable touchpad xorg",
+   "lang": "en"
+  },
+  {
+   "text": "xinput отключить устройство",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xinput"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable the device using its ID. You can find the ID using 'xinput list'.",
+   "cmd": "xinput disable <DEVICE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the input device to disable.",
+     "example": "12",
+     "discover_cmd": "xinput list"
+    }
+   ],
+   "expect": "The device stops responding to input."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Re-enable the device using its ID.",
+   "cmd": "xinput enable <DEVICE_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_ID",
+     "description": "The numeric ID of the input device to enable.",
+     "example": "12",
+     "discover_cmd": "xinput list"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xinput.md",
+  "title": "tldr-pages: xinput",
+  "license": "CC-BY-4.0"
+ }
+}

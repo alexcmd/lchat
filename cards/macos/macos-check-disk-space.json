@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-disk-space",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check disk space usage",
+ "summary": "See how much space is used and available on your Mac's drives. This helps you understand if you need to free up space.",
+ "aliases": [
+  {
+   "text": "check disk space",
+   "lang": "en"
+  },
+  {
+   "text": "how much space left on mac",
+   "lang": "en"
+  },
+  {
+   "text": "df command",
+   "lang": "en"
+  },
+  {
+   "text": "disk usage mac",
+   "lang": "en"
+  },
+  {
+   "text": "проверить свободное место на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько места осталось на диске",
+   "lang": "ru"
+  },
+  {
+   "text": "df macos",
+   "lang": "ru"
+  },
+  {
+   "text": "занято место на диске",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display disk usage in human-readable units (GB, MB) and show a grand total.",
+   "cmd": "df -h -c",
+   "risk": "low",
+   "expect": "A table showing filesystems, sizes, used space, available space, and percentage used, with a total line."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/df.md",
+  "title": "tldr-pages: df",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-cpu-table",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show CPU information in a table",
+ "summary": "Display CPU details in a compact table format, which is easier to read than the default list.",
+ "aliases": [
+  {
+   "text": "cpu table",
+   "lang": "en"
+  },
+  {
+   "text": "lscpu extended",
+   "lang": "en"
+  },
+  {
+   "text": "cpu list table",
+   "lang": "en"
+  },
+  {
+   "text": "таблица процессоров",
+   "lang": "ru"
+  },
+  {
+   "text": "lscpu таблица",
+   "lang": "ru"
+  },
+  {
+   "text": "список ядер cpu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the extended flag to display CPU information in a tabular format.",
+   "cmd": "lscpu --extended",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lscpu.md",
+  "title": "tldr-pages: lscpu",
+  "license": "CC-BY-4.0"
+ }
+}

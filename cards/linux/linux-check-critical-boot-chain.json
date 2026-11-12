@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-critical-boot-chain",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show the critical chain of bootup units",
+ "summary": "Display a tree structure of the services that are on the critical path for booting. This shows which services are blocking others from starting.",
+ "aliases": [
+  {
+   "text": "critical chain boot",
+   "lang": "en"
+  },
+  {
+   "text": "systemd critical chain",
+   "lang": "en"
+  },
+  {
+   "text": "boot dependency tree",
+   "lang": "en"
+  },
+  {
+   "text": "critical path boot",
+   "lang": "en"
+  },
+  {
+   "text": "критическая цепочка загрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "systemd critical-chain",
+   "lang": "ru"
+  },
+  {
+   "text": "дерево зависимостей загрузки",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Print a tree of the time-critical chain of bootup units.",
+   "cmd": "systemd-analyze critical-chain",
+   "risk": "low",
+   "expect": "A tree view showing the sequence of services that determine boot time."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemd-analyze.md",
+  "title": "tldr-pages: systemd-analyze",
+  "license": "CC-BY-4.0"
+ }
+}

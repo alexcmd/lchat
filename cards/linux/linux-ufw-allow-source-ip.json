@@ -1,0 +1,146 @@
+{
+ "schema_version": 2,
+ "id": "linux-ufw-allow-source-ip",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Allow traffic from a specific IP address or subnet with UFW",
+ "summary": "Configure the UFW firewall to accept connections only from a specific source IP address or a range of addresses (subnet). This is useful for restricting access to trusted networks or devices.",
+ "aliases": [
+  {
+   "text": "allow ip address ufw",
+   "lang": "en"
+  },
+  {
+   "text": "ufw allow from ip",
+   "lang": "en"
+  },
+  {
+   "text": "restrict firewall to subnet",
+   "lang": "en"
+  },
+  {
+   "text": "allow specific ip in ufw",
+   "lang": "en"
+  },
+  {
+   "text": "разрешить доступ по ip ufw",
+   "lang": "ru"
+  },
+  {
+   "text": "ufw разрешить подсеть",
+   "lang": "ru"
+  },
+  {
+   "text": "ограничить доступ по ip linux",
+   "lang": "ru"
+  },
+  {
+   "text": "allow subnet ufw",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "ufw"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Allow all incoming traffic from a specific source IP address. Replace <SOURCE_ADDRESS> with the IP address you want to trust.",
+   "cmd": "sudo ufw allow from <SOURCE_ADDRESS>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SOURCE_ADDRESS",
+     "description": "The IP address to allow traffic from",
+     "example": "192.168.1.50"
+    }
+   ]
+  },
+  {
+   "explain": "Alternatively, allow traffic from an entire subnet using CIDR notation. This example allows all devices in the 192.168.13.0/24 network.",
+   "cmd": "sudo ufw allow from 192.168.13.0/24",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Allow traffic from a specific source IP to a specific destination IP on a specific port and protocol.",
+     "cmd": "sudo ufw allow from <SOURCE_IP> to <DEST_IP> port <PORT> proto <PROTOCOL>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "SOURCE_IP",
+       "description": "The source IP address",
+       "example": "192.168.1.12"
+      },
+      {
+       "name": "DEST_IP",
+       "description": "The destination IP address",
+       "example": "192.168.1.100"
+      },
+      {
+       "name": "PORT",
+       "description": "The port number",
+       "example": "443"
+      },
+      {
+       "name": "PROTOCOL",
+       "description": "The protocol (tcp, udp, etc.)",
+       "example": "tcp"
+      }
+     ]
+    },
+    {
+     "explain": "Allow traffic on a specific interface to a specific destination IP for a specific protocol.",
+     "cmd": "sudo ufw allow in on <INTERFACE> to <DEST_IP> proto <PROTOCOL>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "INTERFACE",
+       "description": "The network interface name",
+       "example": "eth0"
+      },
+      {
+       "name": "DEST_IP",
+       "description": "The destination IP address",
+       "example": "192.168.1.100"
+      },
+      {
+       "name": "PROTOCOL",
+       "description": "The protocol (e.g., gre, tcp)",
+       "example": "gre"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To remove the rule, use the delete command with the same parameters.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Be careful when allowing entire subnets; ensure you trust all devices in that range.",
+  "Incorrect IP addresses may block legitimate traffic or allow unauthorized access."
+ ],
+ "see_also": [
+  "linux-ufw-allow-port",
+  "linux-check-ufw-status"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ufw-allow.md",
+  "title": "tldr-pages: ufw-allow",
+  "license": "CC-BY-4.0"
+ }
+}

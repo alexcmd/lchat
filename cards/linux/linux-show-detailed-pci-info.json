@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-detailed-pci-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show detailed information about PCI devices",
+ "summary": "Use lspci with the -v flag to get verbose details about your hardware, such as memory addresses, IRQ lines, and capabilities.",
+ "aliases": [
+  {
+   "text": "detailed pci info",
+   "lang": "en"
+  },
+  {
+   "text": "verbose lspci",
+   "lang": "en"
+  },
+  {
+   "text": "lspci -v",
+   "lang": "en"
+  },
+  {
+   "text": "hardware details",
+   "lang": "en"
+  },
+  {
+   "text": "pci device capabilities",
+   "lang": "en"
+  },
+  {
+   "text": "подробная информация о pci",
+   "lang": "ru"
+  },
+  {
+   "text": "детали оборудования",
+   "lang": "ru"
+  },
+  {
+   "text": "lspci -v",
+   "lang": "ru"
+  },
+  {
+   "text": "характеристики видеокарты",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run lspci with the -v flag to display verbose information for all devices.",
+   "cmd": "lspci -v",
+   "risk": "low",
+   "expect": "A long list of devices with detailed technical specifications for each."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/lspci.md",
+  "title": "tldr-pages: lspci",
+  "license": "CC-BY-4.0"
+ }
+}

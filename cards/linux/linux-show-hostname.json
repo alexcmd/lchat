@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "linux-show-hostname",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show the computer's hostname",
+ "summary": "Display the current hostname of your Linux computer. This is the name your machine uses on the network.",
+ "aliases": [
+  {
+   "text": "show hostname",
+   "lang": "en"
+  },
+  {
+   "text": "what is my hostname",
+   "lang": "en"
+  },
+  {
+   "text": "check computer name",
+   "lang": "en"
+  },
+  {
+   "text": "hostnamectl status",
+   "lang": "en"
+  },
+  {
+   "text": "какой хостнейм",
+   "lang": "ru"
+  },
+  {
+   "text": "имя компьютера linux",
+   "lang": "ru"
+  },
+  {
+   "text": "посмотреть hostname",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run hostnamectl without arguments to display the current static, pretty, and transient hostnames.",
+   "cmd": "hostnamectl",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/hostnamectl.md",
+  "title": "tldr-pages: hostnamectl",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "linux-set-hostname"
+ ]
+}

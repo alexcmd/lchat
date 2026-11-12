@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-delete-user",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Delete a user account",
+ "summary": "Remove a user account and optionally delete their home directory and mail spool.",
+ "aliases": [
+  {
+   "text": "delete user linux",
+   "lang": "en"
+  },
+  {
+   "text": "remove user account",
+   "lang": "en"
+  },
+  {
+   "text": "userdel command",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пользователя linux",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить юзера",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить аккаунт пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete the user account. The -r flag removes the user's home directory and mail spool.",
+   "cmd": "sudo userdel -r <USERNAME>",
+   "needs_root": true,
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The name of the user to delete",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "Re-create the user account and home directory.",
+   "cmd": "sudo useradd -m <USERNAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The name of the user to recreate",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This action permanently deletes the user's home directory and files. Ensure you have backups if needed.",
+  "Do not delete the root user."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Users_and_groups#Other_examples_of_user_management",
+  "title": "Users and groups",
+  "revision_id": 872887,
+  "license": "GFDL-1.3-or-later"
+ }
+}

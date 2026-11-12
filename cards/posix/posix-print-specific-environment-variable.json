@@ -1,0 +1,118 @@
+{
+ "schema_version": 2,
+ "id": "posix-print-specific-environment-variable",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Print the value of a specific environment variable",
+ "summary": "Display the value of a single environment variable, such as HOME or PATH.",
+ "aliases": [
+  {
+   "text": "printenv HOME",
+   "lang": "en"
+  },
+  {
+   "text": "show value of variable",
+   "lang": "en"
+  },
+  {
+   "text": "check env variable",
+   "lang": "en"
+  },
+  {
+   "text": "printenv PATH",
+   "lang": "en"
+  },
+  {
+   "text": "what is my home variable",
+   "lang": "en"
+  },
+  {
+   "text": "значение переменной окружения",
+   "lang": "ru"
+  },
+  {
+   "text": "вывести переменную",
+   "lang": "ru"
+  },
+  {
+   "text": "какое значение у env",
+   "lang": "ru"
+  },
+  {
+   "text": "print environment variable",
+   "lang": "en"
+  },
+  {
+   "text": "show path variable",
+   "lang": "en"
+  },
+  {
+   "text": "echo $PATH",
+   "lang": "en"
+  },
+  {
+   "text": "показать переменную PATH",
+   "lang": "ru"
+  },
+  {
+   "text": "echo $HOME",
+   "lang": "en"
+  },
+  {
+   "text": "вывести переменную окружения",
+   "lang": "ru"
+  },
+  {
+   "text": "echo переменная",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть переменную окружения",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run printenv followed by the name of the variable you want to check.",
+   "cmd": "printenv <VARIABLE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VARIABLE_NAME",
+     "description": "The name of the environment variable to display (e.g., HOME, PATH, USER).",
+     "example": "HOME"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the echo command with a variable name prefixed by a dollar sign ($). The shell will replace the variable name with its value before printing.",
+     "cmd": "echo \"<VARIABLE_NAME>\"",
+     "placeholders": [
+      {
+       "name": "VARIABLE_NAME",
+       "description": "The environment variable to print, e.g. $PATH or $HOME",
+       "example": "$PATH"
+      }
+     ],
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/printenv.md",
+  "title": "tldr-pages: printenv",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "posix-print-environment-variables"
+ ]
+}

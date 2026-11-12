@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-current-date",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show the current date and time",
+ "summary": "Display the current date and time in a readable format. You can also show it in UTC or as a Unix timestamp.",
+ "aliases": [
+  {
+   "text": "show current date",
+   "lang": "en"
+  },
+  {
+   "text": "what is today's date",
+   "lang": "en"
+  },
+  {
+   "text": "display date and time",
+   "lang": "en"
+  },
+  {
+   "text": "get current timestamp",
+   "lang": "en"
+  },
+  {
+   "text": "какая сейчас дата",
+   "lang": "ru"
+  },
+  {
+   "text": "показать текущую дату",
+   "lang": "ru"
+  },
+  {
+   "text": "вывести дату и время",
+   "lang": "ru"
+  },
+  {
+   "text": "unix timestamp",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display the current date and time using the system's default locale format.",
+   "cmd": "date +%c",
+   "risk": "low",
+   "expect": "The current date and time, e.g., 'Mon Sep  4 10:30:00 2023'."
+  },
+  {
+   "explain": "Display the current date in UTC using the ISO 8601 format.",
+   "cmd": "date -u +%Y-%m-%dT%H:%M:%SZ",
+   "risk": "low",
+   "expect": "The current UTC time, e.g., '2023-09-04T08:30:00Z'.",
+   "alternatives": [
+    {
+     "explain": "Display the current date as a Unix timestamp (seconds since 1970).",
+     "cmd": "date +%s",
+     "risk": "low",
+     "expect": "A number like '1693816200'."
+    },
+    {
+     "explain": "Display the current ISO week number.",
+     "cmd": "date +%V",
+     "risk": "low",
+     "expect": "A two-digit week number, e.g., '36'."
+    }
+   ]
+  },
+  {
+   "explain": "Display the current date using the RFC-3339 format and specify its precision.",
+   "cmd": "date --rfc-3339 <PRECISION>",
+   "risk": "low",
+   "expect": "The date and time in RFC-3339 format with the chosen precision.",
+   "placeholders": [
+    {
+     "name": "PRECISION",
+     "description": "Precision level: date, seconds, or ns",
+     "example": "seconds"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/date.md",
+  "title": "tldr-pages: date",
+  "license": "CC-BY-4.0"
+ }
+}

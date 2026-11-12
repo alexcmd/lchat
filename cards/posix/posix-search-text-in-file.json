@@ -1,0 +1,108 @@
+{
+ "schema_version": 2,
+ "id": "posix-search-text-in-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Search for text or patterns inside a file",
+ "summary": "Use grep to find specific words, phrases, or regular expressions within a text file. It prints the lines that contain the match.",
+ "aliases": [
+  {
+   "text": "search text in file",
+   "lang": "en"
+  },
+  {
+   "text": "find string in file",
+   "lang": "en"
+  },
+  {
+   "text": "grep file",
+   "lang": "en"
+  },
+  {
+   "text": "search inside file",
+   "lang": "en"
+  },
+  {
+   "text": "как найти текст в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск строки в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "греп файл",
+   "lang": "ru"
+  },
+  {
+   "text": "найти текст в логе",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for a pattern (word, phrase, or regex) within one or more files.",
+   "cmd": "grep \"<SEARCH_PATTERN>\" <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_PATTERN",
+     "description": "The text or regular expression to search for",
+     "example": "error"
+    },
+    {
+     "name": "FILE",
+     "description": "Path to the file to search",
+     "example": "log.txt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Search for an exact string, treating special characters literally (disables regex).",
+     "cmd": "grep --fixed-strings \"<EXACT_STRING>\" <FILE>",
+     "placeholders": [
+      {
+       "name": "EXACT_STRING",
+       "description": "The exact text to find",
+       "example": "100%"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the file to search",
+       "example": "log.txt"
+      }
+     ]
+    },
+    {
+     "explain": "Search using extended regexes (supports ?, +, {}, (), |) and ignore case.",
+     "cmd": "grep --extended-regexp --ignore-case \"<SEARCH_PATTERN>\" <FILE>",
+     "placeholders": [
+      {
+       "name": "SEARCH_PATTERN",
+       "description": "The pattern to search for",
+       "example": "error|warning"
+      },
+      {
+       "name": "FILE",
+       "description": "Path to the file to search",
+       "example": "log.txt"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/grep.md",
+  "title": "tldr-pages: grep",
+  "license": "CC-BY-4.0"
+ }
+}

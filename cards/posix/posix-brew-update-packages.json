@@ -1,0 +1,84 @@
+{
+ "schema_version": 2,
+ "id": "posix-brew-update-packages",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Update Homebrew packages to the latest versions",
+ "summary": "Upgrade installed formulae and casks to their newest versions. You can update a specific package or all of them at once.",
+ "aliases": [
+  {
+   "text": "update brew packages",
+   "lang": "en"
+  },
+  {
+   "text": "brew upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "update homebrew software",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade all brew packages",
+   "lang": "en"
+  },
+  {
+   "text": "обновить пакеты brew",
+   "lang": "ru"
+  },
+  {
+   "text": "brew upgrade все пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "как обновить софт через homebrew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Upgrade a specific formula or cask. If no name is provided, all installed packages are upgraded.",
+   "cmd": "brew upgrade <PACKAGE_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "The name of the formula or cask to upgrade. Omit to upgrade all.",
+     "example": "wget"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Upgrade all installed formulae and casks.",
+     "cmd": "brew upgrade",
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Homebrew does not provide a simple undo command on this page. Downgrading requires manual intervention not covered here.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Upgrading packages can sometimes break dependencies or change behavior. It is good practice to update one package at a time if you are troubleshooting."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/brew.md",
+  "title": "tldr-pages: brew",
+  "license": "CC-BY-4.0"
+ }
+}

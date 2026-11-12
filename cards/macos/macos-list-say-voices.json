@@ -1,0 +1,51 @@
+{
+ "schema_version": 2,
+ "id": "macos-list-say-voices",
+ "platform": "macos",
+ "kind": "task",
+ "title": "List available text-to-speech voices",
+ "summary": "See which voices are installed on your Mac for the `say` command. Different voices speak different languages.",
+ "aliases": [
+  {
+   "text": "list say voices",
+   "lang": "en"
+  },
+  {
+   "text": "available voices mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac text to speech voices",
+   "lang": "en"
+  },
+  {
+   "text": "kakie golosa est v say",
+   "lang": "ru"
+  },
+  {
+   "text": "spisok golosov mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the say command with a question mark as the voice to list all available voices.",
+   "cmd": "say --voice \"?\"",
+   "risk": "low",
+   "expect": "A list of voice names and their languages."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/say.md",
+  "title": "tldr-pages: say",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,150 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-get-purge-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a package and its configuration",
+ "summary": "Uninstall a software package and delete its configuration files. Use this if you want a clean removal.",
+ "aliases": [
+  {
+   "text": "purge package",
+   "lang": "en"
+  },
+  {
+   "text": "remove config files",
+   "lang": "en"
+  },
+  {
+   "text": "apt-get purge",
+   "lang": "en"
+  },
+  {
+   "text": "clean uninstall",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет с конфигами",
+   "lang": "ru"
+  },
+  {
+   "text": "полное удаление пакета",
+   "lang": "ru"
+  },
+  {
+   "text": "remove package and config",
+   "lang": "en"
+  },
+  {
+   "text": "purge package dpkg",
+   "lang": "en"
+  },
+  {
+   "text": "dpkg purge",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет с настройками",
+   "lang": "ru"
+  },
+  {
+   "text": "purge package nala",
+   "lang": "en"
+  },
+  {
+   "text": "remove config files nala",
+   "lang": "en"
+  },
+  {
+   "text": "nala purge",
+   "lang": "en"
+  },
+  {
+   "text": "полностью удалить пакет nala",
+   "lang": "ru"
+  },
+  {
+   "text": "очистить конфиг nala",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified package and its configuration files. Replace <PACKAGE> with the name of the software.",
+   "cmd": "sudo apt-get purge <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to purge",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Remove the package and delete all its configuration files. You need administrator rights.",
+     "cmd": "sudo dpkg --purge <PACKAGE>",
+     "needs_root": true,
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "Name of the package to purge",
+       "example": "nginx"
+      }
+     ],
+     "risk": "medium"
+    },
+    {
+     "explain": "Remove the specified package and its configuration files.",
+     "cmd": "nala purge <PACKAGE>",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "Name of the package to purge",
+       "example": "apache2"
+      }
+     ],
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the package. Note that configuration files are not restored automatically.",
+   "cmd": "sudo apt-get install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to reinstall",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Requires administrator privileges (sudo).",
+  "Configuration files will be deleted and cannot be recovered easily."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-get.md",
+  "title": "tldr-pages: apt-get",
+  "license": "CC-BY-4.0"
+ }
+}

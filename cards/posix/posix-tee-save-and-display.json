@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "posix-tee-save-and-display",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Save command output to a file and display it",
+ "summary": "Use tee to save the output of a command to a file while still showing it on your screen. This is useful for keeping a record of what a command did without losing the visual feedback.",
+ "aliases": [
+  {
+   "text": "tee command",
+   "lang": "en"
+  },
+  {
+   "text": "save output to file and screen",
+   "lang": "en"
+  },
+  {
+   "text": "tee to file",
+   "lang": "en"
+  },
+  {
+   "text": "log command output",
+   "lang": "en"
+  },
+  {
+   "text": "tee append",
+   "lang": "en"
+  },
+  {
+   "text": "tee append to file",
+   "lang": "en"
+  },
+  {
+   "text": "tee append",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить вывод в файл и на экран",
+   "lang": "ru"
+  },
+  {
+   "text": "tee в файл",
+   "lang": "ru"
+  },
+  {
+   "text": "логировать вывод команды",
+   "lang": "ru"
+  },
+  {
+   "text": "tee добавить в файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pipe the output of a command to tee, specifying the file where you want to save the output. The output will appear on your screen and be written to the file.",
+   "cmd": "echo \"example\" | tee <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file where the output will be saved"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the --append flag to add the output to the end of an existing file instead of overwriting it.",
+     "cmd": "echo \"example\" | tee -a <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the file to append to"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tee.md",
+  "title": "tldr-pages: tee",
+  "license": "CC-BY-4.0"
+ }
+}

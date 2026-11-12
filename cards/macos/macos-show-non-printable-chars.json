@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "macos-show-non-printable-chars",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Display non-printable characters and whitespace in a file",
+ "summary": "Use `cat` with specific flags to reveal hidden characters like tabs and line endings. This helps debug formatting issues in text files.",
+ "aliases": [
+  {
+   "text": "show hidden characters cat",
+   "lang": "en"
+  },
+  {
+   "text": "display whitespace cat mac",
+   "lang": "en"
+  },
+  {
+   "text": "cat -v -t -e",
+   "lang": "en"
+  },
+  {
+   "text": "see tabs and newlines terminal",
+   "lang": "en"
+  },
+  {
+   "text": "показать невидимые символы в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "отобразить табуляцию и переносы строк",
+   "lang": "ru"
+  },
+  {
+   "text": "cat скрытые символы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the `-v`, `-t`, and `-e` flags together to display non-printable characters, tabs (as `^I`), and line endings (as `$`).",
+   "cmd": "cat -v -t -e <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The path to the file you want to inspect.",
+     "example": "config.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/cat.md",
+  "title": "tldr-pages: cat",
+  "license": "CC-BY-4.0"
+ }
+}

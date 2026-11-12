@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "macos-eject-all-gpus",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Eject all GPUs",
+ "summary": "Safely ejects all GPUs currently attached to the Mac. This is a high-impact action that should be used with caution.",
+ "aliases": [
+  {
+   "text": "eject all gpus",
+   "lang": "en"
+  },
+  {
+   "text": "remove all graphics cards",
+   "lang": "en"
+  },
+  {
+   "text": "safeejectgpu eject all",
+   "lang": "en"
+  },
+  {
+   "text": "отключить все видеокарты",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь все гпу",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Eject all GPUs attached to the system.",
+   "cmd": "SafeEjectGPU Eject",
+   "risk": "high"
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "Restart the Mac to re-initialize all GPUs. There is no direct command to re-insert them.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This will disconnect all graphics processing units.",
+  "If you eject the primary GPU, your display may go black or the system may become unusable until restart."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/safeejectgpu.md",
+  "title": "tldr-pages: safeejectgpu",
+  "license": "CC-BY-4.0"
+ }
+}

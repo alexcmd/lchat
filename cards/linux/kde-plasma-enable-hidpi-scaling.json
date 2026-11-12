@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "kde-plasma-enable-hidpi-scaling",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable HiDPI scaling in KDE Plasma",
+ "summary": "Adjust the global scale factor in KDE Plasma to improve readability on HiDPI displays. This affects fonts, icons, and widgets.",
+ "aliases": [
+  {
+   "text": "kde hidpi scaling",
+   "lang": "en"
+  },
+  {
+   "text": "kde plasma display scale",
+   "lang": "en"
+  },
+  {
+   "text": "make kde bigger",
+   "lang": "en"
+  },
+  {
+   "text": "kde hidpi",
+   "lang": "ru"
+  },
+  {
+   "text": "масштаб kde plasma",
+   "lang": "ru"
+  },
+  {
+   "text": "увеличить шрифт kde",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "kde"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open System Settings and go to Display Configuration.",
+   "gui": "System Settings > Display and Monitor > Display Configuration",
+   "risk": "low"
+  },
+  {
+   "explain": "Find the 'Global Scale' slider and drag it to the desired size.",
+   "gui": "Drag 'Global Scale' slider",
+   "risk": "low"
+  },
+  {
+   "explain": "Log out and log back in, or reboot the computer.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/HiDPI#KDE_Plasma",
+  "title": "HiDPI",
+  "revision_id": 886689,
+  "license": "GFDL-1.3-or-later"
+ }
+}

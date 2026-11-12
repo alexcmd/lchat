@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "linux-systemctl-view-edit-unit-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "View or edit a unit file",
+ "summary": "Display the contents of a systemd unit file or open it in an editor for modification. Use 'cat' to view and 'edit' to modify.",
+ "aliases": [
+  {
+   "text": "view service file",
+   "lang": "en"
+  },
+  {
+   "text": "edit service file",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl cat",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl edit",
+   "lang": "en"
+  },
+  {
+   "text": "show unit file contents",
+   "lang": "en"
+  },
+  {
+   "text": "modify unit file",
+   "lang": "en"
+  },
+  {
+   "text": "prosmotret fayl sluzhby",
+   "lang": "ru"
+  },
+  {
+   "text": "redaktirovat fayl sluzhby",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl cat",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl edit",
+   "lang": "ru"
+  },
+  {
+   "text": "pokazat soderzhimoe unit fayla",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use systemctl with the cat or edit action and the name of the unit.",
+   "cmd": "sudo systemctl <ACTION> <UNIT>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ACTION",
+     "description": "The action to perform: cat (to view) or edit (to modify).",
+     "example": "cat"
+    },
+    {
+     "name": "UNIT",
+     "description": "The name of the service unit.",
+     "example": "nginx.service"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If you edited the file, revert your changes in the editor or restore from backup. Then run daemon-reload.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Editing unit files incorrectly can prevent services from starting. Always back up files before editing."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl.md",
+  "title": "tldr-pages: systemctl",
+  "license": "CC-BY-4.0"
+ }
+}

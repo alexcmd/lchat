@@ -1,0 +1,59 @@
+{
+ "schema_version": 2,
+ "id": "linux-monitor-memory-over-time",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Monitor memory usage continuously",
+ "summary": "Use `free` with the seconds flag to update the memory display automatically every few seconds. This helps you watch how memory usage changes while running applications.",
+ "aliases": [
+  {
+   "text": "monitor memory usage",
+   "lang": "en"
+  },
+  {
+   "text": "watch ram usage",
+   "lang": "en"
+  },
+  {
+   "text": "live memory usage",
+   "lang": "en"
+  },
+  {
+   "text": "refresh free command",
+   "lang": "en"
+  },
+  {
+   "text": "monitoring оперативной памяти",
+   "lang": "ru"
+  },
+  {
+   "text": "следить за памятью",
+   "lang": "ru"
+  },
+  {
+   "text": "обновлять информацию о памяти",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `free` with the `-s` (seconds) flag followed by a number to refresh the output every N seconds. Press Ctrl+C to stop.",
+   "cmd": "free -s 2",
+   "risk": "low",
+   "expect": "The memory usage table updates every 2 seconds until you stop it."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/free.md",
+  "title": "tldr-pages: free",
+  "license": "CC-BY-4.0"
+ }
+}

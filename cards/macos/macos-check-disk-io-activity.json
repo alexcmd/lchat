@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-disk-io-activity",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check disk and CPU activity on Mac",
+ "summary": "Use the iostat command in Terminal to see how much your disk and CPU are working. It shows transfer speeds, CPU usage percentages, and system load averages.",
+ "aliases": [
+  {
+   "text": "check disk activity mac",
+   "lang": "en"
+  },
+  {
+   "text": "cpu usage terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "iostat mac",
+   "lang": "en"
+  },
+  {
+   "text": "disk speed mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "system load mac",
+   "lang": "en"
+  },
+  {
+   "text": "проверить нагрузку на диск mac",
+   "lang": "ru"
+  },
+  {
+   "text": "iostat macos",
+   "lang": "ru"
+  },
+  {
+   "text": "мониторинг диска терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "нагрузка процессора mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run iostat to get a snapshot of device statistics (transfer rates), CPU statistics (user, system, idle percentages), and system load averages.",
+   "cmd": "iostat",
+   "risk": "low",
+   "expect": "A table showing disk transfer rates (KB/t, tps, MB/s), CPU percentages (%us, %sy, %id), and load averages (1, 5, 15 min)."
+  },
+  {
+   "explain": "If you want to monitor changes over time, run iostat with an interval (in seconds) to see incremental reports.",
+   "cmd": "iostat 2",
+   "risk": "low",
+   "expect": "A continuous stream of statistics updating every 2 seconds. Press Ctrl+C to stop.",
+   "alternatives": [
+    {
+     "explain": "Monitor a specific disk (e.g., disk0) every second.",
+     "cmd": "iostat -w 1 <DISK>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "DISK",
+       "description": "The disk identifier, e.g., disk0 or disk1",
+       "example": "disk0"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/iostat.md",
+  "title": "tldr-pages: iostat",
+  "license": "CC-BY-4.0"
+ }
+}

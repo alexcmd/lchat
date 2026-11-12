@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-process-priority",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change the priority of a running process",
+ "summary": "Adjust how much CPU time a specific running process gets. Lower niceness values give the process more CPU time, while higher values give it less.",
+ "aliases": [
+  {
+   "text": "change process priority",
+   "lang": "en"
+  },
+  {
+   "text": "renice process",
+   "lang": "en"
+  },
+  {
+   "text": "give more cpu to process",
+   "lang": "en"
+  },
+  {
+   "text": "lower process priority",
+   "lang": "en"
+  },
+  {
+   "text": "изменить приоритет процесса",
+   "lang": "ru"
+  },
+  {
+   "text": "renice процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "дать больше cpu процессу",
+   "lang": "ru"
+  },
+  {
+   "text": "понизить приоритет процесса",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run renice with the -n flag to set the new niceness value and -p to specify the process ID. A value of -20 is highest priority, 19 is lowest.",
+   "cmd": "renice -n <NICENESS_VALUE> -p <PROCESS_ID>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "NICENESS_VALUE",
+     "description": "The new priority level, from -20 (highest) to 19 (lowest).",
+     "example": "10"
+    },
+    {
+     "name": "PROCESS_ID",
+     "description": "The ID of the process to modify.",
+     "example": "1234",
+     "discover_cmd": "ps aux"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert the change, run renice again with the original niceness value (usually 0 for normal priority).",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Changing priority to a very low value (negative) can make the system unresponsive if the process consumes all CPU.",
+  "You may need root privileges to change the priority of processes owned by other users."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/renice.md",
+  "title": "tldr-pages: renice",
+  "license": "CC-BY-4.0"
+ }
+}

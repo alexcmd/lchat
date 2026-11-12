@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "snap-classic-confinement-link",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable classic confinement for Snaps",
+ "summary": "Create a symbolic link to allow installation of snaps that require classic confinement (like Julia or Pycharm).",
+ "aliases": [
+  {
+   "text": "snap classic confinement",
+   "lang": "en"
+  },
+  {
+   "text": "ln -s /snap",
+   "lang": "en"
+  },
+  {
+   "text": "snap classic install",
+   "lang": "en"
+  },
+  {
+   "text": "snap classic confinement ошибка",
+   "lang": "ru"
+  },
+  {
+   "text": "создать симлинк snap",
+   "lang": "ru"
+  },
+  {
+   "text": "snap classic не устанавливается",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "snapd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create a symbolic link from /var/lib/snapd/snap to /snap.",
+   "cmd": "sudo ln -s /var/lib/snapd/snap /snap",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "No output, command completes successfully."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the symbolic link.",
+   "cmd": "",
+   "risk": "medium",
+   "gui": "Open a terminal and run: sudo rm /snap"
+  }
+ ],
+ "warnings": [
+  "Classic confinement requires the /snap directory, which is not FHS-compliant."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Snap#Classic_snaps",
+  "title": "Snap",
+  "revision_id": 861445,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "posix-kill-process",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Terminate a running process",
+ "summary": "Send a termination signal to a specific process by its ID. This asks the program to close gracefully.",
+ "aliases": [
+  {
+   "text": "kill process",
+   "lang": "en"
+  },
+  {
+   "text": "stop program",
+   "lang": "en"
+  },
+  {
+   "text": "terminate app",
+   "lang": "en"
+  },
+  {
+   "text": "kill pid",
+   "lang": "en"
+  },
+  {
+   "text": "убить процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "закрыть программу",
+   "lang": "ru"
+  },
+  {
+   "text": "остановить процесс",
+   "lang": "ru"
+  },
+  {
+   "text": "килл пид",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Send the default SIGTERM signal to the process ID. The program receives this signal and can perform cleanup before exiting.",
+   "cmd": "kill <PROCESS_ID>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROCESS_ID",
+     "description": "The numeric ID of the process to terminate",
+     "example": "12345"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/kill.md",
+  "title": "tldr-pages: kill",
+  "license": "CC-BY-4.0"
+ }
+}

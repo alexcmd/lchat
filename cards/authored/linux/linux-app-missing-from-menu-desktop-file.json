@@ -1,0 +1,167 @@
+{
+ "schema_version": 2,
+ "id": "linux-app-missing-from-menu-desktop-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find a program's launcher file and refresh the app menu on Linux",
+ "summary": "An installed program may be missing from the application menu because its launcher file (a .desktop file) is missing, hidden, or the menu cache is out of date. This shows how to find that file and rebuild the menu cache.",
+ "aliases": [
+  {
+   "text": "app missing from app menu linux",
+   "lang": "en"
+  },
+  {
+   "text": "installed program not showing in menu",
+   "lang": "en"
+  },
+  {
+   "text": "linux app not in launcher",
+   "lang": "en"
+  },
+  {
+   "text": "where is the desktop file linux",
+   "lang": "en"
+  },
+  {
+   "text": "refresh application menu linux",
+   "lang": "en"
+  },
+  {
+   "text": "update-desktop-database",
+   "lang": "en"
+  },
+  {
+   "text": "программа не появилась в меню приложений",
+   "lang": "ru"
+  },
+  {
+   "text": "пропала программа из меню linux",
+   "lang": "ru"
+  },
+  {
+   "text": "нет ярлыка программы в меню",
+   "lang": "ru"
+  },
+  {
+   "text": "где лежит desktop файл linux",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить меню приложений linux",
+   "lang": "ru"
+  },
+  {
+   "text": "установил программу но её нет в меню",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window",
+  "The program name, for example firefox"
+ ],
+ "steps": [
+  {
+   "explain": "List the launcher files in the system folder and in your personal folder. Desktop launchers end in .desktop. If one of the two folders does not exist, ls prints an error for it, and the other folder is still listed.",
+   "cmd": "ls /usr/share/applications ~/.local/share/applications",
+   "risk": "low",
+   "expect": "Two sections. /usr/share/applications lists launchers from installed programs (for example firefox.desktop). ~/.local/share/applications lists your own launchers, if any."
+  },
+  {
+   "explain": "Search both folders for the program name. Lines that print a file path show which .desktop file belongs to the program. Nothing printed means no launcher file mentions that name.",
+   "cmd": "grep -ril \"<PROGRAM>\" /usr/share/applications ~/.local/share/applications",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PROGRAM",
+     "description": "Program name as it appears in the menu or in its .desktop file",
+     "example": "firefox",
+     "discover_cmd": "ls /usr/share/applications ~/.local/share/applications"
+    }
+   ],
+   "expect": "One or more paths ending in .desktop, for example /usr/share/applications/firefox.desktop. Error lines about a missing folder can be ignored."
+  },
+  {
+   "explain": "Show the key lines of the launcher file. Name and Exec tell you what the entry starts. If NoDisplay=true or Hidden=true is printed, the menu is told not to show this entry.",
+   "cmd": "grep -E \"^(Name|Exec|NoDisplay|Hidden)=\" <DESKTOP_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DESKTOP_FILE",
+     "description": "Full path to the .desktop file found in the previous step",
+     "example": "~/.local/share/applications/demo-tool.desktop",
+     "discover_cmd": "ls /usr/share/applications ~/.local/share/applications"
+    }
+   ],
+   "expect": "Lines such as Name=Demo Tool and Exec=demo-tool %U. A line NoDisplay=true means the entry is hidden from the menu on purpose."
+  },
+  {
+   "explain": "Check whether the tool that rebuilds the menu cache is installed. Nothing printed means it is missing, so install it in the next step.",
+   "cmd": "command -v update-desktop-database",
+   "risk": "low",
+   "expect": "A path such as /usr/bin/update-desktop-database. No output means the tool is not installed."
+  },
+  {
+   "explain": "Install the desktop-file-utils package, which provides update-desktop-database. Skip this step if the previous step printed a path. This needs your administrator password and changes system packages.",
+   "cmd": "sudo apt-get install desktop-file-utils",
+   "variants": {
+    "arch": "sudo pacman -S --needed desktop-file-utils",
+    "fedora": "sudo dnf install desktop-file-utils"
+   },
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The package is installed with no error. Running the command again says it is already installed or up to date."
+  },
+  {
+   "explain": "Rebuild the menu cache for your personal launchers folder. Programs installed by the package manager are already in /usr/share/applications and are refreshed by it. This step helps when you add or edit a .desktop file in your own folder.",
+   "cmd": "update-desktop-database ~/.local/share/applications",
+   "risk": "low",
+   "expect": "Usually no output when it works. A mimeinfo.cache file appears in the folder."
+  },
+  {
+   "explain": "If the program still does not appear, log out and log back in. Desktop menus reload the launcher list when a session starts.",
+   "risk": "low",
+   "gui": "Open the Activities or application grid, then search for the program name."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls ~/.local/share/applications",
+   "expect": "Your .desktop file is listed, together with mimeinfo.cache. Open the application menu and search for the program name."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Nothing needs to be undone for the menu cache. To remove the installed tool, use your package manager's remove command. Do not remove it if other desktop tools depend on it.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Installing desktop-file-utils needs your administrator password and changes system packages.",
+  "Do not edit files in /usr/share/applications. Put your own launchers in ~/.local/share/applications."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/update-desktop-database",
+  "title": "update-desktop-database manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

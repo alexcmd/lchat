@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "linux-pacman-mirrors-update-fasttrack",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Update Pacman mirrors with fasttrack",
+ "summary": "Generate a new mirror list using the default settings and the 'fasttrack' option, which selects the fastest mirrors. This requires root privileges and should be followed by a system update.",
+ "aliases": [
+  {
+   "text": "update pacman mirrors",
+   "lang": "en"
+  },
+  {
+   "text": "refresh pacman mirrors",
+   "lang": "en"
+  },
+  {
+   "text": "pacman mirrors fasttrack",
+   "lang": "en"
+  },
+  {
+   "text": "обновить зеркала pacman",
+   "lang": "ru"
+  },
+  {
+   "text": "обновить список зеркал",
+   "lang": "ru"
+  },
+  {
+   "text": "pacman-mirrors fasttrack",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "pacman-mirrors"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Generate a new mirror list using the fasttrack option to select the fastest mirrors. This requires administrator rights.",
+   "cmd": "sudo pacman-mirrors --fasttrack",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If the new mirrors cause issues, you can restore the previous mirror list from a backup if you have one, or manually edit /etc/pacman.d/mirrorlist. The page does not provide a direct undo command for this specific action.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "After running this command, you must synchronize your database and update your system using 'sudo pacman -Syyu'."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/pacman-mirrors.md",
+  "title": "tldr-pages: pacman-mirrors",
+  "license": "CC-BY-4.0"
+ }
+}

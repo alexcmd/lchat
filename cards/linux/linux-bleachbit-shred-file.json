@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-bleachbit-shred-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Securely shred a file with BleachBit",
+ "summary": "Use BleachBit to securely shred a file so it cannot be recovered. This is useful for deleting sensitive data.",
+ "aliases": [
+  {
+   "text": "shred file bleachbit",
+   "lang": "en"
+  },
+  {
+   "text": "secure delete file bleachbit",
+   "lang": "en"
+  },
+  {
+   "text": "bleachbit shred command",
+   "lang": "en"
+  },
+  {
+   "text": "надёжно удалить файл bleachbit",
+   "lang": "ru"
+  },
+  {
+   "text": "shred файла bleachbit",
+   "lang": "ru"
+  },
+  {
+   "text": "безвозвратно удалить файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Shred a specific file so it cannot be recovered.",
+   "cmd": "bleachbit --shred <FILE>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to securely delete",
+     "example": "/home/user/secret.txt"
+    }
+   ],
+   "expect": "The file is overwritten and deleted."
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Shredding is irreversible. The file cannot be recovered after this operation."
+ ],
+ "rollback": [
+  {
+   "explain": "Shredded files cannot be recovered. Ensure you have a backup if needed.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/bleachbit.md",
+  "title": "tldr-pages: bleachbit",
+  "license": "CC-BY-4.0"
+ }
+}

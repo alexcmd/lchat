@@ -1,0 +1,116 @@
+{
+ "schema_version": 2,
+ "id": "cups-remove-printer",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a printer queue",
+ "summary": "Cleanly remove a printer from CUPS. This disables the queue and then deletes it.",
+ "aliases": [
+  {
+   "text": "remove printer linux",
+   "lang": "en"
+  },
+  {
+   "text": "delete printer queue",
+   "lang": "en"
+  },
+  {
+   "text": "lpadmin -x",
+   "lang": "en"
+  },
+  {
+   "text": "удалить принтер",
+   "lang": "ru"
+  },
+  {
+   "text": "убрать принтер из списка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "cups"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Reject new jobs for the printer.",
+   "cmd": "sudo cupsreject <PRINTER_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PRINTER_NAME",
+     "description": "The name of the printer queue to remove.",
+     "example": "OfficePrinter"
+    }
+   ]
+  },
+  {
+   "explain": "Disable the printer.",
+   "cmd": "sudo cupsdisable <PRINTER_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PRINTER_NAME",
+     "description": "The name of the printer queue to remove.",
+     "example": "OfficePrinter"
+    }
+   ]
+  },
+  {
+   "explain": "Remove the printer queue entirely.",
+   "cmd": "sudo lpadmin -x <PRINTER_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PRINTER_NAME",
+     "description": "The name of the printer queue to remove.",
+     "example": "OfficePrinter"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Re-add the printer using lpadmin with the original settings.",
+   "cmd": "sudo lpadmin -p <PRINTER_NAME> -E -v <DEVICE_URI> -m <MODEL>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PRINTER_NAME",
+     "description": "The name of the printer queue.",
+     "example": "OfficePrinter"
+    },
+    {
+     "name": "DEVICE_URI",
+     "description": "The device URI of the printer.",
+     "example": "ipp://192.168.1.50/ipp/print"
+    },
+    {
+     "name": "MODEL",
+     "description": "The model or driver used.",
+     "example": "everywhere"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This action is irreversible unless you know the original configuration."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/CUPS#cups*",
+  "title": "CUPS",
+  "revision_id": 888479,
+  "license": "GFDL-1.3-or-later"
+ }
+}

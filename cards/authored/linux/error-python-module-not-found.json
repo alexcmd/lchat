@@ -1,0 +1,209 @@
+{
+ "schema_version": 2,
+ "id": "error-python-module-not-found",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix Python 'ModuleNotFoundError: No module named' by installing the missing package",
+ "summary": "A Python script stops with ModuleNotFoundError when it imports a package that is not installed for the Python that runs it. These steps install the package in a separate virtual environment and run the script with that environment.",
+ "error_patterns": [
+  "ModuleNotFoundError: No module named",
+  "No module named '"
+ ],
+ "aliases": [
+  {
+   "text": "ModuleNotFoundError no module named",
+   "lang": "en"
+  },
+  {
+   "text": "no module named requests python",
+   "lang": "en"
+  },
+  {
+   "text": "python script module not found",
+   "lang": "en"
+  },
+  {
+   "text": "python import error no module",
+   "lang": "en"
+  },
+  {
+   "text": "python3 module not found ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "missing python package for my script",
+   "lang": "en"
+  },
+  {
+   "text": "how to install python module for script linux",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка ModuleNotFoundError no module named",
+   "lang": "ru"
+  },
+  {
+   "text": "нет модуля requests python",
+   "lang": "ru"
+  },
+  {
+   "text": "python не видит модуль",
+   "lang": "ru"
+  },
+  {
+   "text": "питон модуль не найден скрипт",
+   "lang": "ru"
+  },
+  {
+   "text": "No module named что делать python",
+   "lang": "ru"
+  },
+  {
+   "text": "скрипт python ошибка модуль не найден",
+   "lang": "ru"
+  },
+  {
+   "text": "как установить модуль python для скрипта linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window open in the folder that contains the script",
+  "An internet connection, to download the package",
+  "Your administrator password, for the step that installs python3-venv"
+ ],
+ "steps": [
+  {
+   "explain": "Run the script again to see the full error. The last line names the missing module, for example requests. This step only runs your script and does not install anything.",
+   "cmd": "python3 <SCRIPT>",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "The Python file that stops with the error",
+     "example": "main.py",
+     "discover_cmd": "ls *.py"
+    }
+   ],
+   "risk": "low",
+   "expect": "The last line reads ModuleNotFoundError: No module named 'requests'. The module name depends on your script."
+  },
+  {
+   "explain": "Install the venv module, which creates separate Python environments. Debian, Ubuntu and Mint ship it as a separate package. Fedora, Arch and openSUSE include it with python3, so this command only confirms that python3 is installed.",
+   "cmd": "sudo apt-get install -y python3-venv",
+   "variants": {
+    "fedora": "sudo dnf install -y python3",
+    "arch": "sudo pacman -S --needed --noconfirm python",
+    "opensuse": "sudo zypper --non-interactive install python3"
+   },
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "The package is installed. If it is already installed, the output says so and the command still ends without error."
+  },
+  {
+   "explain": "Create a virtual environment: a private folder with its own Python and pip. Packages installed in it do not change the system Python. Choose a new folder name; the folder must not exist yet.",
+   "cmd": "python3 -m venv <VENV_DIR>",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "New folder for the environment. It must not exist yet.",
+     "example": "~/venv-myscript"
+    }
+   ],
+   "risk": "low",
+   "expect": "No output. The folder appears and contains bin and lib. If you see 'ensurepip is not available', run the previous step, then this step again."
+  },
+  {
+   "explain": "Install the missing package into the environment. Use the package name, which is often the same as the module name in the error. Some names differ: the PyYAML package provides the yaml module.",
+   "cmd": "<VENV_DIR>/bin/pip install <PACKAGE>",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "The environment folder created in the previous step",
+     "example": "~/venv-myscript"
+    },
+    {
+     "name": "PACKAGE",
+     "description": "Package name to install from the Python package index, usually the missing module name",
+     "example": "requests"
+    }
+   ],
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "The same install through the environment's Python. Use this if the pip command is not found.",
+     "cmd": "<VENV_DIR>/bin/python -m pip install <PACKAGE>",
+     "placeholders": [
+      {
+       "name": "VENV_DIR",
+       "description": "The environment folder created in the previous step",
+       "example": "~/venv-myscript"
+      },
+      {
+       "name": "PACKAGE",
+       "description": "Package name to install from the Python package index, usually the missing module name",
+       "example": "requests"
+      }
+     ],
+     "risk": "low",
+     "expect": "Lines that end with 'Successfully installed' and the package name."
+    }
+   ],
+   "expect": "A line that starts with 'Successfully installed' and includes the package name."
+  },
+  {
+   "explain": "Run the script with the Python from the environment. That Python has the package, so the script can import it. Use this command every time you run the script, not plain python3.",
+   "cmd": "<VENV_DIR>/bin/python <SCRIPT>",
+   "placeholders": [
+    {
+     "name": "VENV_DIR",
+     "description": "The environment folder created earlier",
+     "example": "~/venv-myscript"
+    },
+    {
+     "name": "SCRIPT",
+     "description": "The Python file that stopped with the error",
+     "example": "main.py",
+     "discover_cmd": "ls *.py"
+    }
+   ],
+   "risk": "low",
+   "expect": "The script output appears and the ModuleNotFoundError line is gone."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "~/venv-myscript/bin/python -c \"import requests\"",
+   "expect": "No output and no error when requests is installed. For another package, replace requests with its module name."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Delete the environment folder created by this recipe. Your script and the system Python are not changed.",
+   "cmd": "rm -r ~/venv-myscript",
+   "risk": "low"
+  },
+  {
+   "explain": "The python3-venv package can stay installed. It is harmless, so there is no need to remove it.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Installing python3-venv needs your administrator password and changes system packages.",
+  "Do not run sudo pip install for this. It changes the system Python that other programs use.",
+  "Run the script with the environment's Python, not with plain python3. Plain python3 does not see the package in the environment."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/python3",
+  "title": "python3 manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

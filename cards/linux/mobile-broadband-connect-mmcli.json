@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "mobile-broadband-connect-mmcli",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Connect to mobile network using mmcli",
+ "summary": "Use the mmcli command-line tool to connect your modem to the mobile network. You need to know your ISP's APN (Access Point Name).",
+ "aliases": [
+  {
+   "text": "connect 4g modem mmcli",
+   "lang": "en"
+  },
+  {
+   "text": "mobile broadband apn connect",
+   "lang": "en"
+  },
+  {
+   "text": "mmcli simple connect",
+   "lang": "en"
+  },
+  {
+   "text": "подключить модем через mmcli",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить apn модема",
+   "lang": "ru"
+  },
+  {
+   "text": "подключить мобильный интернет командой",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "ModemManager"
+  ]
+ },
+ "prerequisites": [
+  "ModemManager is installed and running.",
+  "You know your ISP's APN (e.g., 'internet', 'm2m.com', etc.)."
+ ],
+ "steps": [
+  {
+   "explain": "List available modems to find the modem index (e.g., /org/freedesktop/ModemManager1/Modem/0).",
+   "cmd": "mmcli -L",
+   "risk": "low"
+  },
+  {
+   "explain": "Connect to the network using the modem index and your APN. Replace <MODEM_INDEX> with the number found in the previous step (e.g., 0) and <APN> with your ISP's APN.",
+   "cmd": "mmcli -m <MODEM_INDEX> --simple-connect=\"apn=<APN>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MODEM_INDEX",
+     "description": "The index of the modem, e.g., 0",
+     "example": "0",
+     "discover_cmd": "mmcli -L"
+    },
+    {
+     "name": "APN",
+     "description": "Access Point Name provided by your ISP",
+     "example": "internet"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "mmcli -m <MODEM_INDEX>",
+   "expect": "State: connected"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Mobile_broadband_modem#ModemManager",
+  "title": "Mobile broadband modem",
+  "revision_id": 887674,
+  "license": "GFDL-1.3-or-later"
+ }
+}

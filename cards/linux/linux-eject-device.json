@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "linux-eject-device",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Eject a CD, DVD, or USB drive",
+ "summary": "Safely eject removable media like CDs, DVDs, or USB sticks. You can eject the default device or specify a particular drive path.",
+ "aliases": [
+  {
+   "text": "eject cd",
+   "lang": "en"
+  },
+  {
+   "text": "eject usb",
+   "lang": "en"
+  },
+  {
+   "text": "eject dvd",
+   "lang": "en"
+  },
+  {
+   "text": "safely remove drive",
+   "lang": "en"
+  },
+  {
+   "text": "eject floppy",
+   "lang": "en"
+  },
+  {
+   "text": "вынуть диск",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь флешку",
+   "lang": "ru"
+  },
+  {
+   "text": "eject command",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Eject the default removable device (usually the first CD/DVD drive found).",
+   "cmd": "eject",
+   "risk": "low"
+  },
+  {
+   "explain": "Alternatively, eject a specific device by its path (e.g., /dev/cdrom).",
+   "cmd": "eject <DEVICE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DEVICE_PATH",
+     "description": "The path to the device you want to eject, such as /dev/cdrom or /dev/sdb1.",
+     "example": "/dev/cdrom"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Explicitly eject a CD/DVD drive.",
+     "cmd": "eject --cdrom <DEVICE_PATH>",
+     "placeholders": [
+      {
+       "name": "DEVICE_PATH",
+       "description": "The path to the CD/DVD drive.",
+       "example": "/dev/cdrom"
+      }
+     ]
+    },
+    {
+     "explain": "Explicitly eject a floppy drive.",
+     "cmd": "eject --floppy <DEVICE_PATH>",
+     "placeholders": [
+      {
+       "name": "DEVICE_PATH",
+       "description": "The path to the floppy drive.",
+       "example": "/mnt/floppy"
+      }
+     ]
+    },
+    {
+     "explain": "Explicitly eject a tape drive.",
+     "cmd": "eject --tape <DEVICE_PATH>",
+     "placeholders": [
+      {
+       "name": "DEVICE_PATH",
+       "description": "The path to the tape drive.",
+       "example": "/mnt/tape"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/eject.md",
+  "title": "tldr-pages: eject",
+  "license": "CC-BY-4.0"
+ }
+}

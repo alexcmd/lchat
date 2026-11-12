@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-help-builtin-commands",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Get help for Bash builtin commands",
+ "summary": "Use the `help` command to see documentation for built-in Bash commands like `cd`, `for`, or `while`. This is useful when you need a quick reminder of syntax without opening a manual.",
+ "aliases": [
+  {
+   "text": "bash help builtin",
+   "lang": "en"
+  },
+  {
+   "text": "how to use help command",
+   "lang": "en"
+  },
+  {
+   "text": "help cd bash",
+   "lang": "en"
+  },
+  {
+   "text": "help for loop",
+   "lang": "en"
+  },
+  {
+   "text": "help while loop",
+   "lang": "en"
+  },
+  {
+   "text": "справка bash встроенные команды",
+   "lang": "ru"
+  },
+  {
+   "text": "как пользоваться help",
+   "lang": "ru"
+  },
+  {
+   "text": "помощь по cd bash",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `help` to list all available built-in commands.",
+   "cmd": "help",
+   "risk": "low"
+  },
+  {
+   "explain": "Run `help <command>` to get specific instructions for a built-in command like `cd`, `for`, or `while`.",
+   "cmd": "help <COMMAND>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The name of the Bash built-in command you want help with.",
+     "example": "cd",
+     "discover_cmd": "help"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/help.md",
+  "title": "tldr-pages: help",
+  "license": "CC-BY-4.0"
+ }
+}

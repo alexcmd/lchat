@@ -1,0 +1,88 @@
+{
+ "schema_version": 2,
+ "id": "systemd-user-error-stop-job-running",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'A stop job is running for User Manager' during shutdown",
+ "summary": "Address a slow shutdown caused by a user service not stopping in time. You can identify the problematic service or reduce the global timeout.",
+ "aliases": [
+  {
+   "text": "stop job is running for user manager",
+   "lang": "en"
+  },
+  {
+   "text": "slow shutdown systemd user",
+   "lang": "en"
+  },
+  {
+   "text": "systemd user timeout stop",
+   "lang": "en"
+  },
+  {
+   "text": "висит при выключении user manager",
+   "lang": "ru"
+  },
+  {
+   "text": "stop job running uid 1000",
+   "lang": "ru"
+  },
+  {
+   "text": "долгое выключение systemd",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "A stop job is running for User Manager for UID"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "To find which service is causing the delay, start a debug shell and check jobs during the hang.",
+   "cmd": "sudo systemctl start debug-shell",
+   "needs_root": true,
+   "risk": "low"
+  },
+  {
+   "explain": "Reboot or shut down. When the message appears, switch to the debug shell (Ctrl+Alt+F9) and run this command to see pending jobs.",
+   "cmd": "systemctl --user list-jobs",
+   "risk": "low"
+  },
+  {
+   "explain": "Open the editor for the service override. Add [Service] and TimeoutStopSec=1s to force it to stop quickly.",
+   "cmd": "systemctl --user edit --force <SERVICE_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "Name of the misbehaving user service",
+     "example": "myapp.service"
+    }
+   ]
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remove the override file for the service.",
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Setting TimeoutStopSec too low may cause data corruption if the application needs time to save state."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd/User#%22A_stop_job_is_running_for_User_Manager_for_UID_1000%22",
+  "title": "Systemd/User",
+  "revision_id": 885754,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,106 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-pci-hardware",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List graphics and network hardware",
+ "summary": "Show the graphics card and network adapters that Linux sees on the PCI bus. This only reads hardware information and changes nothing.",
+ "aliases": [
+  {
+   "text": "which graphics card do I have linux",
+   "lang": "en"
+  },
+  {
+   "text": "show video card model linux",
+   "lang": "en"
+  },
+  {
+   "text": "which network adapter linux",
+   "lang": "en"
+  },
+  {
+   "text": "what wi-fi chip is in my laptop linux",
+   "lang": "en"
+  },
+  {
+   "text": "lspci vga network",
+   "lang": "en"
+  },
+  {
+   "text": "device manager linux graphics card",
+   "lang": "en"
+  },
+  {
+   "text": "какая видеокарта стоит в компьютере linux",
+   "lang": "ru"
+  },
+  {
+   "text": "показать модель видеокарты линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "какой сетевой адаптер в линуксе",
+   "lang": "ru"
+  },
+  {
+   "text": "какой wifi адаптер в ноутбуке linux",
+   "lang": "ru"
+  },
+  {
+   "text": "список сетевых карт linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "lspci"
+  ]
+ },
+ "prerequisites": [
+  "The lspci command, which comes from the pciutils package (installed by default on most desktops)"
+ ],
+ "steps": [
+  {
+   "explain": "List PCI devices, keeping only graphics (VGA, 3D controller) and network (Ethernet, Network controller) lines. Wi-Fi adapters are usually 'Network controller'.",
+   "cmd": "lspci | grep -iE \"vga|3d|network|ethernet\"",
+   "risk": "low",
+   "alternatives": [
+    {
+     "explain": "Show every PCI device, not only graphics and network ones.",
+     "cmd": "lspci",
+     "risk": "low"
+    },
+    {
+     "explain": "Show the full list with the kernel driver in use under each device.",
+     "cmd": "lspci -k",
+     "risk": "low"
+    }
+   ],
+   "expect": "One line per device, for example '00:02.0 VGA compatible controller: ...' and '02:00.0 Network controller: ...'. Empty output means no matching PCI device was found."
+  },
+  {
+   "explain": "Check which kernel driver is attached to the graphics and network devices. A line 'Kernel driver in use: <DRIVER>' under a device means a driver is loaded for it. If that line is missing, the system has no driver bound to the device.",
+   "cmd": "lspci -k | grep -i -A3 -E \"vga|3d|network|ethernet\"",
+   "risk": "low",
+   "expect": "Device lines followed by 'Kernel driver in use: ...' and 'Kernel modules: ...' lines, for example 'Kernel driver in use: i915'."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "lspci -k | grep -i -A3 -E \"vga|3d|network|ethernet\"",
+   "expect": "Same device list as the previous step, with driver lines."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/lspci",
+  "title": "lspci manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

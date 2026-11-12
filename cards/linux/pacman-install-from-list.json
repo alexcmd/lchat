@@ -1,0 +1,80 @@
+{
+ "schema_version": 2,
+ "id": "pacman-install-from-list",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install packages from a saved list",
+ "summary": "Reinstall packages listed in a text file, skipping those that are already installed. This is useful for setting up a new system with the same software.",
+ "aliases": [
+  {
+   "text": "install packages from list arch",
+   "lang": "en"
+  },
+  {
+   "text": "restore package list arch",
+   "lang": "en"
+  },
+  {
+   "text": "pacman install from file",
+   "lang": "en"
+  },
+  {
+   "text": "setup new arch from list",
+   "lang": "en"
+  },
+  {
+   "text": "установить пакеты из списка arch",
+   "lang": "ru"
+  },
+  {
+   "text": "восстановить пакеты из файла",
+   "lang": "ru"
+  },
+  {
+   "text": "установка по списку pacman",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You have a file named pkglist.txt containing package names."
+ ],
+ "steps": [
+  {
+   "explain": "Install packages from pkglist.txt, but only if they are not already installed.",
+   "cmd": "sudo pacman -S --needed - < pkglist.txt",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove packages that were installed from the list if you made a mistake.",
+   "cmd": "sudo pacman -Rns <PACKAGE_NAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE_NAME",
+     "description": "Name of the package to remove"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure the list does not contain foreign packages (like AUR) unless you have configured pacman to handle them, otherwise the command may fail or skip them."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Install_packages_from_a_list",
+  "title": "Pacman/Tips and tricks",
+  "revision_id": 884369,
+  "license": "GFDL-1.3-or-later"
+ }
+}

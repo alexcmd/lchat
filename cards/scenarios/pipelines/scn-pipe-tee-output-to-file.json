@@ -1,0 +1,116 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-tee-output-to-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "See a command's output on screen and also save it to a file",
+ "summary": "Run a command, show its output on the screen as it happens, and write a copy into a file at the same time. Useful for keeping a log of a build or a long install that you still want to watch.",
+ "aliases": [
+  {
+   "text": "save output to file and show on screen",
+   "lang": "en"
+  },
+  {
+   "text": "tee command linux",
+   "lang": "en"
+  },
+  {
+   "text": "log command output to file and terminal",
+   "lang": "en"
+  },
+  {
+   "text": "keep a copy of terminal output",
+   "lang": "en"
+  },
+  {
+   "text": "write output to file and display",
+   "lang": "en"
+  },
+  {
+   "text": "record build log while watching",
+   "lang": "en"
+  },
+  {
+   "text": "сохранить вывод в файл и показать на экране",
+   "lang": "ru"
+  },
+  {
+   "text": "записать вывод команды в файл linux",
+   "lang": "ru"
+  },
+  {
+   "text": "tee в терминале как пользоваться",
+   "lang": "ru"
+  },
+  {
+   "text": "сохранить лог сборки в файл",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run COMMAND and join its errors to its normal output (2>&1). tee shows everything on screen and writes the same text to LOG_FILE. An existing LOG_FILE is replaced.",
+   "cmd": "<COMMAND> 2>&1 | tee <LOG_FILE>",
+   "risk": "low",
+   "expect": "The usual output of the command appears on screen, and LOG_FILE receives the same text.",
+   "placeholders": [
+    {
+     "name": "COMMAND",
+     "description": "The command to run",
+     "example": "ls -la"
+    },
+    {
+     "name": "LOG_FILE",
+     "description": "File to save the copy in",
+     "example": "run.log"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Add to the end of an existing LOG_FILE instead of replacing it. -a means append.",
+     "cmd": "<COMMAND> 2>&1 | tee -a <LOG_FILE>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "COMMAND",
+       "description": "The command to run",
+       "example": "ls -la"
+      },
+      {
+       "name": "LOG_FILE",
+       "description": "File to append to",
+       "example": "run.log"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Look at the end of the saved file to check that it holds the output.",
+   "cmd": "tail -n 5 <LOG_FILE>",
+   "risk": "low",
+   "expect": "The last lines of the same output you saw on screen.",
+   "placeholders": [
+    {
+     "name": "LOG_FILE",
+     "description": "The file you saved to",
+     "example": "run.log"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/tee.1.html",
+  "title": "tee(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

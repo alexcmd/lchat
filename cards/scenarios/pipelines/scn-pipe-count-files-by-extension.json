@@ -1,0 +1,97 @@
+{
+ "schema_version": 2,
+ "id": "scn-pipe-count-files-by-extension",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Count how many files of each type a folder contains",
+ "summary": "Walk through a folder, take the ending of each file name such as jpg or txt, count how many files have each ending, and list the most common types first. Useful to see what a messy download folder is full of.",
+ "aliases": [
+  {
+   "text": "count files by extension linux",
+   "lang": "en"
+  },
+  {
+   "text": "how many files of each type in folder",
+   "lang": "en"
+  },
+  {
+   "text": "count file types in directory command line",
+   "lang": "en"
+  },
+  {
+   "text": "list file extensions and count",
+   "lang": "en"
+  },
+  {
+   "text": "what kinds of files are in this folder",
+   "lang": "en"
+  },
+  {
+   "text": "uniq count file extensions",
+   "lang": "en"
+  },
+  {
+   "text": "посчитать файлы по расширению",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько файлов каждого типа в папке linux",
+   "lang": "ru"
+  },
+  {
+   "text": "статистика расширений файлов терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "какие типы файлов в папке и сколько",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "find lists every file under DIR. sed keeps only the text after the last dot and prints it; files without a dot print nothing. sort groups equal endings, uniq -c counts them and sort -nr lists the biggest count first. Upper and lower case count separately.",
+   "cmd": "find <DIR> -type f | sed -n 's/.*\\.\\([^./]*\\)$/\\1/p' | sort | uniq -c | sort -nr",
+   "risk": "low",
+   "expect": "Lines such as '  42 jpg': the number of files first, then the ending.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder to count",
+     "example": "src"
+    }
+   ]
+  },
+  {
+   "explain": "Count the files that have one given ending. The pattern is quoted so the shell does not expand it. wc -l counts the lines, one per file.",
+   "cmd": "find <DIR> -type f -name '*.<EXT>' | wc -l",
+   "risk": "low",
+   "expect": "A single number, the count of files with that ending.",
+   "placeholders": [
+    {
+     "name": "DIR",
+     "description": "Folder to count",
+     "example": "src"
+    },
+    {
+     "name": "EXT",
+     "description": "File ending without the dot",
+     "example": "txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://man7.org/linux/man-pages/man1/uniq.1.html",
+  "title": "uniq(1) - Linux manual page",
+  "license": "LicenseRef-lchat-authored"
+ },
+ "updated": "2026-11-12"
+}

@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-get-dist-upgrade",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Perform a full system upgrade",
+ "summary": "Upgrade installed packages, remove obsolete ones, and install new dependencies. This is more aggressive than a simple upgrade.",
+ "aliases": [
+  {
+   "text": "dist-upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "full system upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "apt-get dist-upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "upgrade with dependencies",
+   "lang": "en"
+  },
+  {
+   "text": "полное обновление системы",
+   "lang": "ru"
+  },
+  {
+   "text": "aptitude full-upgrade",
+   "lang": "en"
+  },
+  {
+   "text": "full system upgrade aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "dist upgrade aptitude",
+   "lang": "en"
+  },
+  {
+   "text": "полное обновление aptitude",
+   "lang": "ru"
+  },
+  {
+   "text": "обновление с удалением пакетов aptitude",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Upgrade installed packages, remove obsolete packages, and install additional packages to meet new dependencies.",
+   "cmd": "sudo apt-get dist-upgrade",
+   "needs_root": true,
+   "risk": "medium",
+   "alternatives": [
+    {
+     "explain": "Upgrades installed packages, removes obsolete packages, and installs additional packages to meet new dependencies.",
+     "cmd": "sudo aptitude full-upgrade",
+     "needs_root": true,
+     "risk": "medium"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Downgrading packages is complex and not directly supported by apt-get. It is recommended to test upgrades in a safe environment.",
+   "risk": "high"
+  }
+ ],
+ "warnings": [
+  "Requires administrator privileges (sudo).",
+  "This command may remove packages. Review the changes carefully."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-get.md",
+  "title": "tldr-pages: apt-get",
+  "license": "CC-BY-4.0"
+ }
+}

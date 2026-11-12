@@ -1,0 +1,93 @@
+{
+ "schema_version": 2,
+ "id": "linux-change-user-home-dir",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change a user's home directory",
+ "summary": "Move a user's home directory to a new location and update their account settings.",
+ "aliases": [
+  {
+   "text": "change home directory linux",
+   "lang": "en"
+  },
+  {
+   "text": "move user home dir",
+   "lang": "en"
+  },
+  {
+   "text": "usermod move home",
+   "lang": "en"
+  },
+  {
+   "text": "сменить домашнюю папку пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "переместить домашний каталог",
+   "lang": "ru"
+  },
+  {
+   "text": "usermod -d -m",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the user's home directory to the new path. The -m flag moves the contents of the old home directory to the new one.",
+   "cmd": "sudo usermod -d <NEW_HOME_PATH> -m <USERNAME>",
+   "needs_root": true,
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "NEW_HOME_PATH",
+     "description": "The new path for the user's home directory",
+     "example": "/home/newuser"
+    },
+    {
+     "name": "USERNAME",
+     "description": "The name of the user",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "rollback": [
+  {
+   "explain": "Move the home directory back to the original path.",
+   "cmd": "sudo usermod -d <OLD_HOME_PATH> -m <USERNAME>",
+   "needs_root": true,
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "OLD_HOME_PATH",
+     "description": "The original path of the user's home directory",
+     "example": "/home/john"
+    },
+    {
+     "name": "USERNAME",
+     "description": "The name of the user",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure the user is not logged in when performing this action.",
+  "Verify that the new home directory path does not already exist or is empty to avoid data loss.",
+  "Update any configuration files or scripts that reference the old home directory path."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Users_and_groups#Change_a_user's_login_name_or_home_directory",
+  "title": "Users and groups",
+  "revision_id": 872887,
+  "license": "GFDL-1.3-or-later"
+ }
+}

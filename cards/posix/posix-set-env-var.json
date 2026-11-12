@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-set-env-var",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Set an environment variable for the current session",
+ "summary": "Create or change an environment variable that is available to commands you run in the current terminal window. This setting disappears when you close the terminal.",
+ "aliases": [
+  {
+   "text": "set environment variable",
+   "lang": "en"
+  },
+  {
+   "text": "export variable",
+   "lang": "en"
+  },
+  {
+   "text": "how to set env var",
+   "lang": "en"
+  },
+  {
+   "text": "set variable in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "kak sdelat export",
+   "lang": "ru"
+  },
+  {
+   "text": "ustanovit peremennuyu okruzheniya",
+   "lang": "ru"
+  },
+  {
+   "text": "export v terminal",
+   "lang": "ru"
+  },
+  {
+   "text": "kak zadat peremennuyu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the export command with the variable name and value to make it available to child processes.",
+   "cmd": "export <VARIABLE>=<VALUE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "VARIABLE",
+     "description": "The name of the environment variable",
+     "example": "MY_VAR"
+    },
+    {
+     "name": "VALUE",
+     "description": "The value to assign to the variable",
+     "example": "hello"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/export.md",
+  "title": "tldr-pages: export",
+  "license": "CC-BY-4.0"
+ }
+}

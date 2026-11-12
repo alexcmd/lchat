@@ -1,0 +1,158 @@
+{
+ "schema_version": 2,
+ "id": "linux-slow-boot-systemd-analyze-blame",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Find which services slow down boot",
+ "summary": "Shows how long the last startup took and which services and units took the longest to start. Use it when your Linux computer takes too long to start and you want to find the cause.",
+ "aliases": [
+  {
+   "text": "why is linux boot so slow",
+   "lang": "en"
+  },
+  {
+   "text": "what slows down startup on linux",
+   "lang": "en"
+  },
+  {
+   "text": "systemd blame",
+   "lang": "en"
+  },
+  {
+   "text": "which service makes linux boot slow",
+   "lang": "en"
+  },
+  {
+   "text": "linux startup takes too long",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu boot slow what is delaying",
+   "lang": "en"
+  },
+  {
+   "text": "почему линукс долго загружается",
+   "lang": "ru"
+  },
+  {
+   "text": "что тормозит загрузку линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "какая служба замедляет загрузку",
+   "lang": "ru"
+  },
+  {
+   "text": "долго грузится линукс что тормозит",
+   "lang": "ru"
+  },
+  {
+   "text": "check boot delays/en",
+   "lang": "en"
+  },
+  {
+   "text": "what is slowing down boot/en",
+   "lang": "en"
+  },
+  {
+   "text": "what is slowing down boot",
+   "lang": "en"
+  },
+  {
+   "text": "systemd analyze blame",
+   "lang": "en"
+  },
+  {
+   "text": "slow services on boot",
+   "lang": "en"
+  },
+  {
+   "text": "check boot delays",
+   "lang": "en"
+  },
+  {
+   "text": "что тормозит загрузку",
+   "lang": "ru"
+  },
+  {
+   "text": "медленная загрузка сервисов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   },
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the total time of the last startup and how it is split between firmware, bootloader, kernel and system services (userspace). A big userspace number means the services are the place to look.",
+   "cmd": "systemd-analyze time",
+   "risk": "low",
+   "expect": "A line like 'Startup finished in 2.3s (kernel) + 9.8s (userspace) = 12.1s'."
+  },
+  {
+   "explain": "List the services and other units that took the longest to start, slowest first. The first lines are the usual suspects, but a slow service that runs in the background may not delay your desktop.",
+   "cmd": "systemd-analyze blame | head -n 15",
+   "risk": "low",
+   "expect": "Lines with a time first and a unit name last, for example '4.210s NetworkManager-wait-online.service'.",
+   "alternatives": [
+    {
+     "explain": "Show the full list instead of the first 15 lines. The list can be long.",
+     "cmd": "systemd-analyze blame",
+     "risk": "low"
+    }
+   ]
+  },
+  {
+   "explain": "Show the chain of units that had to finish before the slow ones could start. A '@' value is when a unit became active and a '+' value is how long it took.",
+   "cmd": "systemd-analyze critical-chain",
+   "risk": "low",
+   "expect": "A tree of unit names, each with '@' and '+' times. The slowest unit in the chain is the one that delays startup.",
+   "alternatives": [
+    {
+     "explain": "Show the chain for one unit, for example one from the blame list. Replace <UNIT> with its name.",
+     "cmd": "systemd-analyze critical-chain <UNIT>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "UNIT",
+       "description": "Name of a systemd unit, for example one from the blame list",
+       "example": "NetworkManager-wait-online.service",
+       "discover_cmd": "systemctl list-units --type=service --no-legend"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "These numbers describe only the last startup. Reboot and run the commands again to compare."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/systemd-analyze",
+  "title": "systemd-analyze manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

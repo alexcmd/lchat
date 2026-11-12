@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-mark-show-manual",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Show manually installed packages",
+ "summary": "List packages that were installed explicitly by the user, as opposed to those installed automatically as dependencies.",
+ "aliases": [
+  {
+   "text": "show manual packages",
+   "lang": "en"
+  },
+  {
+   "text": "list manually installed packages",
+   "lang": "en"
+  },
+  {
+   "text": "apt-mark showmanual",
+   "lang": "en"
+  },
+  {
+   "text": "what did I install",
+   "lang": "en"
+  },
+  {
+   "text": "показать вручную установленные пакеты",
+   "lang": "ru"
+  },
+  {
+   "text": "apt-mark showmanual",
+   "lang": "ru"
+  },
+  {
+   "text": "список моих пакетов",
+   "lang": "ru"
+  },
+  {
+   "text": "какие пакеты я установил сам",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "mint"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display a list of packages marked as manually installed.",
+   "cmd": "apt-mark showmanual",
+   "risk": "low",
+   "expect": "A long list of package names."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-apt-list-installed-packages"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-mark.md",
+  "title": "tldr-pages: apt-mark",
+  "license": "CC-BY-4.0"
+ }
+}

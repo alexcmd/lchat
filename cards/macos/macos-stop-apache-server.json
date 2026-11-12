@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "macos-stop-apache-server",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Stop the Apache web server",
+ "summary": "Stops the built-in Apache HTTP server on macOS.",
+ "aliases": [
+  {
+   "text": "stop apache server",
+   "lang": "en"
+  },
+  {
+   "text": "kill apache mac",
+   "lang": "en"
+  },
+  {
+   "text": "stop web server mac",
+   "lang": "en"
+  },
+  {
+   "text": "остановить apache сервер",
+   "lang": "ru"
+  },
+  {
+   "text": "выключить веб сервер на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "stop httpd",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Stops the Apache HTTP server launchd job.",
+   "cmd": "sudo apachectl stop",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Starts the Apache HTTP server again.",
+   "cmd": "sudo apachectl start",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "warnings": [
+  "Requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/apachectl.md",
+  "title": "tldr-pages: apachectl",
+  "license": "CC-BY-4.0"
+ }
+}

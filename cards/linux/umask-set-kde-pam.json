@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "umask-set-kde-pam",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set umask for KDE Plasma via PAM",
+ "summary": "Use the pam_umask module to set a consistent umask for both text console and graphical KDE sessions. This overrides /etc/login.defs and systemd settings.",
+ "aliases": [
+  {
+   "text": "pam umask",
+   "lang": "en"
+  },
+  {
+   "text": "pam_umask",
+   "lang": "en"
+  },
+  {
+   "text": "kde umask pam",
+   "lang": "en"
+  },
+  {
+   "text": "umask pam config",
+   "lang": "en"
+  },
+  {
+   "text": "pam umask настройка",
+   "lang": "ru"
+  },
+  {
+   "text": "umask через pam",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "kde"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open /etc/pam.d/system-login with a text editor. Add or modify the line: session optional pam_umask.so umask=022. Save the file.",
+   "risk": "medium"
+  },
+  {
+   "explain": "Log out and log back in for the changes to take effect.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove or comment out the pam_umask.so line in /etc/pam.d/system-login.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This affects all sessions using system-login.",
+  "Requires a logout/login to apply."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Umask#pam_umask",
+  "title": "Umask",
+  "revision_id": 880627,
+  "license": "GFDL-1.3-or-later"
+ }
+}

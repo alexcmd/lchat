@@ -1,0 +1,179 @@
+{
+  "schema_version": 2,
+  "id": "scn-admin-tar-dated-archive-exclude-verify",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Pack a folder into a dated tar.gz, leaving out junk, and verify it",
+  "summary": "A compressed archive keeps a copy of a folder in one file. Leave out cache and build folders with an exclude list, add today's date to the name, then check that the file is not damaged and still matches the folder.",
+  "aliases": [
+    {
+      "text": "tar gz dated backup",
+      "lang": "en"
+    },
+    {
+      "text": "tar exclude node_modules",
+      "lang": "en"
+    },
+    {
+      "text": "create tar archive with date",
+      "lang": "en"
+    },
+    {
+      "text": "verify tar archive linux",
+      "lang": "en"
+    },
+    {
+      "text": "compress folder tar.gz excluding files",
+      "lang": "en"
+    },
+    {
+      "text": "check tar archive integrity",
+      "lang": "en"
+    },
+    {
+      "text": "tar exclude-from example",
+      "lang": "en"
+    },
+    {
+      "text": "backup folder into one file",
+      "lang": "en"
+    },
+    {
+      "text": "архив tar.gz с датой",
+      "lang": "ru"
+    },
+    {
+      "text": "упаковать папку и исключить кэш",
+      "lang": "ru"
+    },
+    {
+      "text": "проверить архив tar",
+      "lang": "ru"
+    },
+    {
+      "text": "сжать папку без node_modules",
+      "lang": "ru"
+    },
+    {
+      "text": "как проверить что архив не испорчен",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "tar",
+      "gzip",
+      "sha256sum"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Write the exclude list: one pattern per line for files and folders that should not go into the archive.",
+      "risk": "low",
+      "cmd": "printf '%s\\n' '*.tmp' 'node_modules' '.cache' > <EXCLUDE_FILE>",
+      "expect": "No output. 'cat <EXCLUDE_FILE>' shows the three patterns.",
+      "placeholders": [
+        {
+          "name": "EXCLUDE_FILE",
+          "description": "Text file that lists what to leave out",
+          "example": "/home/deck/tar-excludes.txt"
+        }
+      ]
+    },
+    {
+      "explain": "Create the compressed archive. The date is added to the name by $(date +%F), which gives a name like myapp-2026-11-12.tar.gz. -C changes into the parent folder so the archive holds the folder name, not the full path.",
+      "risk": "low",
+      "cmd": "tar -czf <DEST_DIR>/myapp-$(date +%F).tar.gz --exclude-from=<EXCLUDE_FILE> -C \"$(dirname <PROJECT_DIR>)\" \"$(basename <PROJECT_DIR>)\"",
+      "expect": "No output. A new file named myapp-<today's date>.tar.gz appears in DEST_DIR.",
+      "placeholders": [
+        {
+          "name": "DEST_DIR",
+          "description": "Folder where the archive is saved; not inside the project",
+          "example": "/home/deck/backups"
+        },
+        {
+          "name": "EXCLUDE_FILE",
+          "description": "Text file that lists what to leave out",
+          "example": "/home/deck/tar-excludes.txt"
+        },
+        {
+          "name": "PROJECT_DIR",
+          "description": "Folder to pack",
+          "example": "/home/deck/Projects/myapp"
+        }
+      ]
+    },
+    {
+      "explain": "Test the compressed file. gzip -t reads the whole file and reports damage. It prints nothing when the file is good.",
+      "risk": "low",
+      "cmd": "gzip -t <ARCHIVE> && echo \"gzip OK\"",
+      "expect": "gzip OK",
+      "placeholders": [
+        {
+          "name": "ARCHIVE",
+          "description": "The archive file to test",
+          "example": "/home/deck/backups/myapp-2026-11-12.tar.gz"
+        }
+      ]
+    },
+    {
+      "explain": "Check that the excluded items are not inside the archive. The text 'no excluded items inside' means none were found.",
+      "risk": "low",
+      "cmd": "tar -tzf <ARCHIVE> | grep -E 'node_modules|\\.cache|\\.tmp$' || echo \"no excluded items inside\"",
+      "expect": "no excluded items inside",
+      "placeholders": [
+        {
+          "name": "ARCHIVE",
+          "description": "The archive file to check",
+          "example": "/home/deck/backups/myapp-2026-11-12.tar.gz"
+        }
+      ]
+    },
+    {
+      "explain": "Compare the archive with the folder on disk. Nothing is printed and the text 'matches the folder' appears when the folder has not changed since packing. Lines such as 'Size differs' name the files that changed.",
+      "risk": "low",
+      "cmd": "tar -dzf <ARCHIVE> -C \"$(dirname <PROJECT_DIR>)\" && echo \"matches the folder\"",
+      "expect": "matches the folder",
+      "placeholders": [
+        {
+          "name": "ARCHIVE",
+          "description": "The archive file to compare",
+          "example": "/home/deck/backups/myapp-2026-11-12.tar.gz"
+        },
+        {
+          "name": "PROJECT_DIR",
+          "description": "Folder that was packed",
+          "example": "/home/deck/Projects/myapp"
+        }
+      ]
+    },
+    {
+      "explain": "Write a checksum next to the archive and check it. Later, the same check tells you whether the archive has been changed or copied badly.",
+      "risk": "low",
+      "cmd": "sha256sum <ARCHIVE> > <ARCHIVE>.sha256 && sha256sum -c <ARCHIVE>.sha256",
+      "expect": "The archive name followed by ': OK'.",
+      "placeholders": [
+        {
+          "name": "ARCHIVE",
+          "description": "The archive file to checksum",
+          "example": "/home/deck/backups/myapp-2026-11-12.tar.gz"
+        }
+      ]
+    }
+  ],
+  "risk": "low",
+  "source": {
+    "url": "https://www.gnu.org/software/tar/manual/tar.html",
+    "title": "GNU tar Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "warnings": [
+    "Do not write the archive inside the folder being packed; tar may pack its own output file."
+  ]
+}

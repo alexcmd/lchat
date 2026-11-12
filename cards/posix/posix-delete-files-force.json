@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "posix-delete-files-force",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delete files ignoring missing ones",
+ "summary": "Removes specified files but suppresses errors if a file does not exist. Useful for cleaning up files that may or may not be present.",
+ "aliases": [
+  {
+   "text": "delete file force",
+   "lang": "en"
+  },
+  {
+   "text": "rm force",
+   "lang": "en"
+  },
+  {
+   "text": "remove file ignore missing",
+   "lang": "en"
+  },
+  {
+   "text": "delete files no error",
+   "lang": "en"
+  },
+  {
+   "text": "удалить файл без ошибки",
+   "lang": "ru"
+  },
+  {
+   "text": "rm force",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить файлы игнорируя отсутствующие",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Removes the specified files. If a file does not exist, the command continues without reporting an error.",
+   "cmd": "rm -f <FILE_PATHS>",
+   "risk": "high",
+   "placeholders": [
+    {
+     "name": "FILE_PATHS",
+     "description": "One or more paths to the files you want to delete.",
+     "example": "file1.txt file2.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Deleted files are not moved to the Trash/Recycle Bin and cannot be easily recovered.",
+  "The --force flag also suppresses prompts for write-protected files."
+ ],
+ "rollback": [
+  {
+   "explain": "There is no built-in command to undo file deletion. You must restore from a backup if available.",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/rm.md",
+  "title": "tldr-pages: rm",
+  "license": "CC-BY-4.0"
+ }
+}

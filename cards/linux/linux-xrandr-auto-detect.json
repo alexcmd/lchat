@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-xrandr-auto-detect",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Automatically detect and enable connected displays",
+ "summary": "Turn on all connected monitors and turn off disconnected ones using their default settings. Useful if a monitor is plugged in but not showing anything.",
+ "aliases": [
+  {
+   "text": "enable all monitors linux",
+   "lang": "en"
+  },
+  {
+   "text": "auto detect displays",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr auto",
+   "lang": "en"
+  },
+  {
+   "text": "monitor not detected fix",
+   "lang": "en"
+  },
+  {
+   "text": "turn on second monitor",
+   "lang": "en"
+  },
+  {
+   "text": "vklyuchit vse monitory",
+   "lang": "ru"
+  },
+  {
+   "text": "avtonastroika ekrana linux",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr --auto",
+   "lang": "ru"
+  },
+  {
+   "text": "monitor ne rabotaet linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xrandr"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Disable any outputs that are not physically connected and enable connected outputs with their default resolution and position.",
+   "cmd": "xrandr --auto",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xrandr.md",
+  "title": "tldr-pages: xrandr",
+  "license": "CC-BY-4.0"
+ }
+}

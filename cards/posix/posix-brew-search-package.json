@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "posix-brew-search-package",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Search for available Homebrew packages",
+ "summary": "Find formulae (command-line tools) and casks (apps) that match a search term. Use this to discover software before installing it.",
+ "aliases": [
+  {
+   "text": "search brew packages",
+   "lang": "en"
+  },
+  {
+   "text": "brew search",
+   "lang": "en"
+  },
+  {
+   "text": "find software in homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "look up package name brew",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет в brew",
+   "lang": "ru"
+  },
+  {
+   "text": "brew search программа",
+   "lang": "ru"
+  },
+  {
+   "text": "как найти софт в homebrew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for available formulae and casks matching the text.",
+   "cmd": "brew search <SEARCH_TERM>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SEARCH_TERM",
+     "description": "The keyword to search for",
+     "example": "python"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/brew.md",
+  "title": "tldr-pages: brew",
+  "license": "CC-BY-4.0"
+ }
+}

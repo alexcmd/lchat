@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "linux-change-xdg-user-directory",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Change XDG user directory location",
+ "summary": "Update the location of standard user folders like Desktop, Documents, or Downloads. This changes where applications look for these files.",
+ "aliases": [
+  {
+   "text": "change desktop folder location",
+   "lang": "en"
+  },
+  {
+   "text": "move documents folder",
+   "lang": "en"
+  },
+  {
+   "text": "xdg user dirs update",
+   "lang": "en"
+  },
+  {
+   "text": "change xdg directory",
+   "lang": "en"
+  },
+  {
+   "text": "изменить папку рабочего стола",
+   "lang": "ru"
+  },
+  {
+   "text": "переместить папку документы",
+   "lang": "ru"
+  },
+  {
+   "text": "xdg user dirs",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить путь к папкам пользователя",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the path for a specific XDG directory (e.g., DESKTOP, DOCUMENTS, DOWNLOAD).",
+   "cmd": "xdg-user-dirs-update --set <DIRECTORY_NAME> \"<NEW_PATH>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY_NAME",
+     "description": "The XDG directory key to change, e.g., DESKTOP, DOCUMENTS, DOWNLOAD, MUSIC, PICTURES, VIDEOS.",
+     "example": "DESKTOP"
+    },
+    {
+     "name": "NEW_PATH",
+     "description": "The absolute path to the new directory.",
+     "example": "/home/user/NewDesktop"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xdg-user-dirs-update.md",
+  "title": "tldr-pages: xdg-user-dirs-update",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "posix-delete-history-entry",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Delete a specific command from history",
+ "summary": "Remove a single command from your history list by its line number. This is useful if you accidentally typed a sensitive command or want to remove a specific mistake.",
+ "aliases": [
+  {
+   "text": "delete one command from history",
+   "lang": "en"
+  },
+  {
+   "text": "remove specific history entry",
+   "lang": "en"
+  },
+  {
+   "text": "delete history line",
+   "lang": "en"
+  },
+  {
+   "text": "kak udalit odnu komandu iz istorii",
+   "lang": "ru"
+  },
+  {
+   "text": "udalit stroku iz istorii",
+   "lang": "ru"
+  },
+  {
+   "text": "udalit komandu iz istorii",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Delete the history entry at the specified line number (offset).",
+   "cmd": "history -d <OFFSET>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OFFSET",
+     "description": "The line number of the command to delete, as shown in the history list.",
+     "example": "105",
+     "discover_cmd": "history"
+    }
+   ],
+   "expect": "The specified command is removed from the history list."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/history.md",
+  "title": "tldr-pages: history",
+  "license": "CC-BY-4.0"
+ }
+}

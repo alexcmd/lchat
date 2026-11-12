@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "linux-xrandr-set-brightness",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Adjust screen brightness via software",
+ "summary": "Change the brightness of a specific display output using software scaling. Note that this is not the same as hardware brightness keys and may not work on all monitors.",
+ "aliases": [
+  {
+   "text": "adjust brightness linux",
+   "lang": "en"
+  },
+  {
+   "text": "xrandr brightness",
+   "lang": "en"
+  },
+  {
+   "text": "software brightness linux",
+   "lang": "en"
+  },
+  {
+   "text": "dim screen linux",
+   "lang": "en"
+  },
+  {
+   "text": "yarkost ekrana linux",
+   "lang": "ru"
+  },
+  {
+   "text": "xrandr brightness",
+   "lang": "ru"
+  },
+  {
+   "text": "kak umenshit yarkost ekrana",
+   "lang": "ru"
+  },
+  {
+   "text": "programmnaya yarkost linux",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xrandr"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the brightness for a specific output. Replace <OUTPUT> with your monitor name and <BRIGHTNESS> with a value between 0.0 and 1.0 (e.g., 0.5 for 50%).",
+   "cmd": "xrandr --output <OUTPUT> --brightness <BRIGHTNESS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT",
+     "description": "Name of the display output (e.g., LVDS1)",
+     "discover_cmd": "xrandr --query"
+    },
+    {
+     "name": "BRIGHTNESS",
+     "description": "Brightness level from 0.0 to 1.0",
+     "example": "0.5"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xrandr.md",
+  "title": "tldr-pages: xrandr",
+  "license": "CC-BY-4.0"
+ }
+}

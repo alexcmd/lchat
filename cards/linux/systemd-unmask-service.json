@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "systemd-unmask-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unmask a systemd service",
+ "summary": "Allow a previously masked service to be started again.",
+ "aliases": [
+  {
+   "text": "unmask service",
+   "lang": "en"
+  },
+  {
+   "text": "allow service start",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl unmask",
+   "lang": "en"
+  },
+  {
+   "text": "unblock service",
+   "lang": "en"
+  },
+  {
+   "text": "размаскировать службу",
+   "lang": "ru"
+  },
+  {
+   "text": "разблокировать сервис",
+   "lang": "ru"
+  },
+  {
+   "text": "системctl unmask",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unmask the service so it can be started again.",
+   "cmd": "sudo systemctl unmask <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd unit.",
+     "example": "bluetooth"
+    }
+   ],
+   "risk": "medium",
+   "expect": "Output confirming the symlink was removed."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Mask the service again to prevent it from starting.",
+   "cmd": "sudo systemctl mask <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd unit.",
+     "example": "bluetooth"
+    }
+   ],
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Ensure you know why the service was masked before unmasking it."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd#Basic_systemctl_usage",
+  "title": "Systemd",
+  "revision_id": 887711,
+  "license": "GFDL-1.3-or-later"
+ }
+}

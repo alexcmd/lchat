@@ -1,0 +1,91 @@
+{
+ "schema_version": 2,
+ "id": "posix-scp-use-ssh-key",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy files using a specific SSH key",
+ "summary": "If you have multiple SSH keys or need to use a specific private key for authentication, use the -i flag with scp to point to the correct key file.",
+ "aliases": [
+  {
+   "text": "scp ssh key",
+   "lang": "en"
+  },
+  {
+   "text": "scp private key",
+   "lang": "en"
+  },
+  {
+   "text": "scp -i key",
+   "lang": "en"
+  },
+  {
+   "text": "copy file with ssh key",
+   "lang": "en"
+  },
+  {
+   "text": "scp specific identity file",
+   "lang": "en"
+  },
+  {
+   "text": "scp с ключом ssh",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать файл по ключу",
+   "lang": "ru"
+  },
+  {
+   "text": "scp -i",
+   "lang": "ru"
+  },
+  {
+   "text": "scp приватный ключ",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Path to your SSH private key file"
+ ],
+ "steps": [
+  {
+   "explain": "Use the -i flag to specify the path to the SSH private key for authentication.",
+   "cmd": "scp -i <PRIVATE_KEY> <LOCAL_FILE> <REMOTE_HOST>:<REMOTE_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PRIVATE_KEY",
+     "description": "Path to your SSH private key file",
+     "example": "~/.ssh/id_rsa"
+    },
+    {
+     "name": "LOCAL_FILE",
+     "description": "Path to the file on your computer",
+     "example": "config.txt"
+    },
+    {
+     "name": "REMOTE_HOST",
+     "description": "Hostname or IP of the remote computer",
+     "example": "server.example.com"
+    },
+    {
+     "name": "REMOTE_FILE",
+     "description": "Destination path on the remote computer",
+     "example": "configs/config.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/scp.md",
+  "title": "tldr-pages: scp",
+  "license": "CC-BY-4.0"
+ }
+}

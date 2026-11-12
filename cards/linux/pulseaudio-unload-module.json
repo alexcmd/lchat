@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "pulseaudio-unload-module",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unload PulseAudio module",
+ "summary": "Remove a loaded module from the PulseAudio daemon. This is useful for disabling features or fixing conflicts.",
+ "aliases": [
+  {
+   "text": "unload pulseaudio module",
+   "lang": "en"
+  },
+  {
+   "text": "remove module pulseaudio",
+   "lang": "en"
+  },
+  {
+   "text": "pactl unload-module",
+   "lang": "en"
+  },
+  {
+   "text": "disable pulseaudio feature",
+   "lang": "en"
+  },
+  {
+   "text": "выгрузить модуль pulseaudio",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить модуль pulseaudio",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Unload a module by name. Replace <MODULE_NAME> with the module name.",
+   "cmd": "pactl unload-module <MODULE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MODULE_NAME",
+     "description": "The name of the module to unload.",
+     "example": "module-role-cork"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/PulseAudio#Disable_muting_media_on_entering_voice_call_(module-role-cork)",
+  "title": "PulseAudio",
+  "revision_id": 861028,
+  "license": "GFDL-1.3-or-later"
+ }
+}

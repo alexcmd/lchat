@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "systemd-restart-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Restart a systemd service",
+ "summary": "Stop and start a service again. This is often needed after changing a configuration file for that service.",
+ "aliases": [
+  {
+   "text": "restart service",
+   "lang": "en"
+  },
+  {
+   "text": "reload service",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl restart",
+   "lang": "en"
+  },
+  {
+   "text": "apply config changes",
+   "lang": "en"
+  },
+  {
+   "text": "перезапустить службу",
+   "lang": "ru"
+  },
+  {
+   "text": "перезагрузить сервис",
+   "lang": "ru"
+  },
+  {
+   "text": "системctl перезапустить",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Restart the specified service. This will briefly interrupt any connections or processes using it.",
+   "cmd": "sudo systemctl restart <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd unit (e.g., sshd, nginx).",
+     "example": "sshd"
+    }
+   ],
+   "risk": "medium",
+   "expect": "No error output. The service should be running again."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If the restart caused issues, you can try stopping the service to see if that resolves the problem, or revert configuration changes.",
+   "cmd": "sudo systemctl stop <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd unit.",
+     "example": "sshd"
+    }
+   ],
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Restarting a service will disconnect any active sessions or connections relying on it (e.g., SSH sessions if you restart sshd)."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd#Basic_systemctl_usage",
+  "title": "Systemd",
+  "revision_id": 887711,
+  "license": "GFDL-1.3-or-later"
+ }
+}

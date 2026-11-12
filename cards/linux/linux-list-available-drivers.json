@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "linux-list-available-drivers",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List available drivers for current hardware",
+ "summary": "Check which proprietary or open-source drivers are available for your hardware, such as graphics cards or Wi-Fi adapters.",
+ "aliases": [
+  {
+   "text": "list drivers ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "check available drivers",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu drivers list",
+   "lang": "en"
+  },
+  {
+   "text": "какие драйверы доступны",
+   "lang": "ru"
+  },
+  {
+   "text": "список драйверов ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить драйверы ubuntu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the command to see a list of drivers that Ubuntu recommends for your detected hardware.",
+   "cmd": "sudo ubuntu-drivers list",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ubuntu-drivers.md",
+  "title": "tldr-pages: ubuntu-drivers",
+  "license": "CC-BY-4.0"
+ }
+}

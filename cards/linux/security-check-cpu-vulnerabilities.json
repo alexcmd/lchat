@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "security-check-cpu-vulnerabilities",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check for CPU hardware vulnerabilities",
+ "summary": "Check if your CPU is affected by known security vulnerabilities like Spectre or Meltdown. The output shows which mitigations are active.",
+ "aliases": [
+  {
+   "text": "check cpu vulnerabilities",
+   "lang": "en"
+  },
+  {
+   "text": "spectre meltdown check",
+   "lang": "en"
+  },
+  {
+   "text": "cpu security flaws",
+   "lang": "en"
+  },
+  {
+   "text": "проверить уязвимости процессора",
+   "lang": "ru"
+  },
+  {
+   "text": "cpu vulnerabilities arch",
+   "lang": "en"
+  },
+  {
+   "text": "is my cpu vulnerable",
+   "lang": "en"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Read the kernel's vulnerability status files for each CPU core.",
+   "cmd": "grep -r . /sys/devices/system/cpu/vulnerabilities/",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Security#Hardware_vulnerabilities",
+  "title": "Security",
+  "revision_id": 888599,
+  "license": "GFDL-1.3-or-later"
+ }
+}

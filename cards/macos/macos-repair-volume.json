@@ -1,0 +1,78 @@
+{
+ "schema_version": 2,
+ "id": "macos-repair-volume",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Repair filesystem data structures of a volume",
+ "summary": "Check and repair the filesystem data structures of a specific volume. This can help fix minor disk errors.",
+ "aliases": [
+  {
+   "text": "repair disk mac",
+   "lang": "en"
+  },
+  {
+   "text": "fix disk errors",
+   "lang": "en"
+  },
+  {
+   "text": "diskutil repair",
+   "lang": "en"
+  },
+  {
+   "text": "repair volume",
+   "lang": "en"
+  },
+  {
+   "text": "remont diska",
+   "lang": "ru"
+  },
+  {
+   "text": "ispravit oshibki diska",
+   "lang": "ru"
+  },
+  {
+   "text": "diskutil repair",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Repair the filesystem data structures of the specified volume. Replace <DISK> with the identifier of the volume you want to repair (e.g., /dev/disk2s1).",
+   "cmd": "diskutil repairVolume <DISK>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DISK",
+     "description": "The volume identifier to repair, e.g., /dev/disk2s1",
+     "example": "/dev/disk2s1",
+     "discover_cmd": "diskutil list"
+    }
+   ],
+   "expect": "Output indicating whether the volume was repaired successfully or if errors were found."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "There is no direct undo for a repair operation. If the repair fails or causes issues, you may need to restore from a backup or use Disk Utility's First Aid.",
+   "cmd": "",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Ensure you have a backup of important data before repairing disk structures.",
+  "Do not interrupt the repair process once it has started."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/diskutil.md",
+  "title": "tldr-pages: diskutil",
+  "license": "CC-BY-4.0"
+ }
+}

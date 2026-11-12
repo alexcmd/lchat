@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "libinput-list-devices",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List input devices managed by libinput",
+ "summary": "Use the libinput tools to see which input devices (mouse, keyboard, touchpad) are detected and what features they support. This helps identify device names or IDs for further configuration.",
+ "aliases": [
+  {
+   "text": "list libinput devices",
+   "lang": "en"
+  },
+  {
+   "text": "check input devices",
+   "lang": "en"
+  },
+  {
+   "text": "libinput list devices",
+   "lang": "en"
+  },
+  {
+   "text": "show touchpad id",
+   "lang": "en"
+  },
+  {
+   "text": "spisok ustroystv libinput",
+   "lang": "ru"
+  },
+  {
+   "text": "kakie ustroystva podklyucheny",
+   "lang": "ru"
+  },
+  {
+   "text": "libinput spiski",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "libinput-tools"
+  ]
+ },
+ "prerequisites": [
+  "libinput-tools package is installed"
+ ],
+ "steps": [
+  {
+   "explain": "Run the libinput list-devices command to display all detected input devices and their capabilities.",
+   "cmd": "libinput list-devices",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Libinput#Installation",
+  "title": "Libinput",
+  "revision_id": 883939,
+  "license": "GFDL-1.3-or-later"
+ }
+}

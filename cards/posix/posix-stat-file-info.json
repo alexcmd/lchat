@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-stat-file-info",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show detailed file information like size and dates",
+ "summary": "Use the stat command to see detailed metadata about a file, including its size, permissions, and various timestamps (access, modification, change).",
+ "aliases": [
+  {
+   "text": "show file details",
+   "lang": "en"
+  },
+  {
+   "text": "stat file",
+   "lang": "en"
+  },
+  {
+   "text": "file metadata",
+   "lang": "en"
+  },
+  {
+   "text": "check file size and dates",
+   "lang": "en"
+  },
+  {
+   "text": "показать информацию о файле",
+   "lang": "ru"
+  },
+  {
+   "text": "stat файл",
+   "lang": "ru"
+  },
+  {
+   "text": "размер файла и дата",
+   "lang": "ru"
+  },
+  {
+   "text": "детали файла",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run stat with the path to the file you want to inspect. It prints a detailed report including size, permissions, and timestamps.",
+   "cmd": "stat <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file you want to inspect",
+     "example": "document.txt"
+    }
+   ],
+   "expect": "A list of file properties such as Size, Access, Modify, Change, and Permissions."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/stat.md",
+  "title": "tldr-pages: stat",
+  "license": "CC-BY-4.0"
+ }
+}

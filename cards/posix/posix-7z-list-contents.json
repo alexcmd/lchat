@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "posix-7z-list-contents",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List contents of a 7z archive",
+ "summary": "Use the 7z command to view the files inside a .7z archive without extracting them.",
+ "aliases": [
+  {
+   "text": "list 7z contents",
+   "lang": "en"
+  },
+  {
+   "text": "view files in 7z archive",
+   "lang": "en"
+  },
+  {
+   "text": "7z list",
+   "lang": "en"
+  },
+  {
+   "text": "посмотреть содержимое 7z",
+   "lang": "ru"
+  },
+  {
+   "text": "список файлов в 7z",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "List the contents of the specified archive.",
+   "cmd": "7z l <ARCHIVE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "ARCHIVE_PATH",
+     "description": "Path to the archive file",
+     "example": "backup.7z"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/7z.md",
+  "title": "tldr-pages: 7z",
+  "license": "CC-BY-4.0"
+ }
+}

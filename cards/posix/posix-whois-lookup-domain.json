@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "posix-whois-lookup-domain",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Look up registration details for a domain name",
+ "summary": "Use the whois command to find out who owns a website domain, when it was registered, and when it expires. This is useful for checking if a site is legitimate or finding contact info for spam.",
+ "aliases": [
+  {
+   "text": "who is owner of domain",
+   "lang": "en"
+  },
+  {
+   "text": "check domain registration",
+   "lang": "en"
+  },
+  {
+   "text": "whois command",
+   "lang": "en"
+  },
+  {
+   "text": "find domain owner",
+   "lang": "en"
+  },
+  {
+   "text": "domain expiration date",
+   "lang": "en"
+  },
+  {
+   "text": "who owns this website",
+   "lang": "en"
+  },
+  {
+   "text": "проверить регистрацию домена",
+   "lang": "ru"
+  },
+  {
+   "text": "кто владелец домена",
+   "lang": "ru"
+  },
+  {
+   "text": "whois домена",
+   "lang": "ru"
+  },
+  {
+   "text": "узнать владельца сайта",
+   "lang": "ru"
+  },
+  {
+   "text": "дата окончания домена",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the whois command followed by the domain name you want to investigate. It queries the global registry database and prints registration details.",
+   "cmd": "whois <DOMAIN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to look up, e.g. example.com",
+     "example": "example.com"
+    }
+   ],
+   "expect": "A long text output showing registrar, creation date, expiration date, and nameservers."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/whois.md",
+  "title": "tldr-pages: whois",
+  "license": "CC-BY-4.0"
+ }
+}

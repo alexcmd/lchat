@@ -1,0 +1,73 @@
+{
+ "schema_version": 2,
+ "id": "linux-query-x-server-info",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Query X server information",
+ "summary": "Display detailed information about the X server settings, including screensaver, DPMS, and bell status. Useful for checking current configurations.",
+ "aliases": [
+  {
+   "text": "query x server info",
+   "lang": "en"
+  },
+  {
+   "text": "check xset settings",
+   "lang": "en"
+  },
+  {
+   "text": "show x server status",
+   "lang": "en"
+  },
+  {
+   "text": "xset q",
+   "lang": "en"
+  },
+  {
+   "text": "запросить информацию об x сервере",
+   "lang": "ru"
+  },
+  {
+   "text": "показать настройки xset",
+   "lang": "ru"
+  },
+  {
+   "text": "статус x сервера",
+   "lang": "ru"
+  },
+  {
+   "text": "xset -display q",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11",
+  "requires": [
+   "xset"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the X server for current settings and status information.",
+   "cmd": "xset -display <DISPLAY_NUMBER> q",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DISPLAY_NUMBER",
+     "description": "The display number of the X server to query (e.g., 0 for :0).",
+     "example": "0"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xset.md",
+  "title": "tldr-pages: xset",
+  "license": "CC-BY-4.0"
+ }
+}

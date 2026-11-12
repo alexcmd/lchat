@@ -1,0 +1,83 @@
+{
+ "schema_version": 2,
+ "id": "console-switch-layout-altgr",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Switch console keyboard layouts using AltGr",
+ "summary": "Enable switching between two keyboard layouts in the text console using the AltGr key. This simulates layout switching on the TTY.",
+ "aliases": [
+  {
+   "text": "switch keyboard layout console",
+   "lang": "en"
+  },
+  {
+   "text": "altgr layout switch",
+   "lang": "en"
+  },
+  {
+   "text": "two layouts tty",
+   "lang": "en"
+  },
+  {
+   "text": "переключение раскладок в консоли",
+   "lang": "ru"
+  },
+  {
+   "text": "altgr переключение",
+   "lang": "ru"
+  },
+  {
+   "text": "вторая раскладка клавиатуры",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "kbd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Load two keymaps simultaneously. The first is the main layout, the second is the alternate layout accessible via AltGr. Example: 'us' as main, 'mk' as alternate.",
+   "cmd": "sudo loadkeys <MAIN_KEYMAP> <ALT_KEYMAP>",
+   "needs_root": true,
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MAIN_KEYMAP",
+     "description": "Primary keyboard layout code",
+     "example": "us",
+     "discover_cmd": "localectl list-keymaps"
+    },
+    {
+     "name": "ALT_KEYMAP",
+     "description": "Secondary keyboard layout code",
+     "example": "mk",
+     "discover_cmd": "localectl list-keymaps"
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "localectl status",
+   "expect": "VC Keymap: <MAIN_KEYMAP>"
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Not all keymaps support this feature. If the second layout prints squares, it may be a font issue.",
+  "This is a temporary change. To make it persistent, edit /etc/vconsole.conf and set KEYMAP_TOGGLE."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration#Layout_switching",
+  "title": "Linux console/Keyboard configuration",
+  "revision_id": 888113,
+  "license": "GFDL-1.3-or-later"
+ }
+}

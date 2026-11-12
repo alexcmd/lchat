@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-stat-octal-permissions",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show only octal file permissions",
+ "summary": "Use stat with a custom format to display just the numeric (octal) permissions of a file, which is useful for quickly checking access rights.",
+ "aliases": [
+  {
+   "text": "octal permissions",
+   "lang": "en"
+  },
+  {
+   "text": "numeric file permissions",
+   "lang": "en"
+  },
+  {
+   "text": "check chmod value",
+   "lang": "en"
+  },
+  {
+   "text": "stat permissions",
+   "lang": "en"
+  },
+  {
+   "text": "восьмеричные права доступа",
+   "lang": "ru"
+  },
+  {
+   "text": "права доступа в цифрах",
+   "lang": "ru"
+  },
+  {
+   "text": "chmod значение",
+   "lang": "ru"
+  },
+  {
+   "text": "стат права",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --format option with the %a (octal permissions) and %n (filename) specifiers to print only the permission code.",
+   "cmd": "stat -c \"%a %n\" <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file",
+     "example": "script.sh"
+    }
+   ],
+   "expect": "Output showing the octal permission code (e.g., 644) followed by the filename."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/stat.md",
+  "title": "tldr-pages: stat",
+  "license": "CC-BY-4.0"
+ }
+}

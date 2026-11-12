@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "id": "linux-sound-restart-pipewire-user-services",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Restart the sound server when audio is stuck",
+ "summary": "If sound froze or stopped working, check the PipeWire and WirePlumber services that run for your user and restart them. This fixes the sound system without rebooting the computer.",
+ "aliases": [
+  {
+   "text": "linux sound stuck restart audio",
+   "lang": "en"
+  },
+  {
+   "text": "no sound linux restart pipewire",
+   "lang": "en"
+  },
+  {
+   "text": "audio frozen linux without reboot",
+   "lang": "en"
+  },
+  {
+   "text": "restart pipewire",
+   "lang": "en"
+  },
+  {
+   "text": "restart sound server linux",
+   "lang": "en"
+  },
+  {
+   "text": "pipewire restrat",
+   "lang": "en"
+  },
+  {
+   "text": "звук завис linux",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапустить звук linux без перезагрузки",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапустить pipewire",
+   "lang": "ru"
+  },
+  {
+   "text": "звук пропал linux",
+   "lang": "ru"
+  },
+  {
+   "text": "сбросить аудио линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd",
+   "pipewire",
+   "wireplumber"
+  ]
+ },
+ "prerequisites": [
+  "Log in to your own desktop account, not as root",
+  "On Fedora the pipewire-pulse service is installed by the pipewire-pulseaudio package"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the PipeWire and WirePlumber services are running for your user. Look for 'Active: active (running)' on each one; 'failed' or 'inactive (dead)' means the service stopped. Press q if the output waits for you.",
+   "cmd": "systemctl --user status pipewire wireplumber",
+   "risk": "low",
+   "expect": "Both units show 'Active: active (running)'. This command changes nothing."
+  },
+  {
+   "explain": "Restart PipeWire, its PulseAudio-compatible service and WirePlumber. Only your audio services restart; running programs stay open, but sound may stop for a few seconds.",
+   "cmd": "systemctl --user restart pipewire pipewire-pulse wireplumber",
+   "risk": "low",
+   "expect": "No output if it worked. Sound returns within a few seconds."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "systemctl --user status pipewire wireplumber",
+   "expect": "Both units show 'Active: active (running)' with a recent start time."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "pipewire-check-status",
+  "pipewire-fix-no-sound-after-suspend",
+  "linux-check-user-service-status",
+  "linux-restart-user-service"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/systemctl",
+  "title": "systemctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

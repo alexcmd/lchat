@@ -1,0 +1,164 @@
+{
+ "schema_version": 2,
+ "id": "fs-unmount",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Unmount a file system",
+ "summary": "Detach a file system from its mount point so it can be safely removed or formatted.",
+ "aliases": [
+  {
+   "text": "unmount partition",
+   "lang": "en"
+  },
+  {
+   "text": "umount command",
+   "lang": "en"
+  },
+  {
+   "text": "eject drive safely",
+   "lang": "en"
+  },
+  {
+   "text": "detach disk",
+   "lang": "en"
+  },
+  {
+   "text": "размонтировать раздел",
+   "lang": "ru"
+  },
+  {
+   "text": "umount команда",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить диск",
+   "lang": "ru"
+  },
+  {
+   "text": "unmount drive/en",
+   "lang": "en"
+  },
+  {
+   "text": "размонтировать/ru",
+   "lang": "ru"
+  },
+  {
+   "text": "unmount drive",
+   "lang": "en"
+  },
+  {
+   "text": "eject usb",
+   "lang": "en"
+  },
+  {
+   "text": "detach filesystem",
+   "lang": "en"
+  },
+  {
+   "text": "stop mount",
+   "lang": "en"
+  },
+  {
+   "text": "отмонтировать диск",
+   "lang": "ru"
+  },
+  {
+   "text": "извлечь флешку",
+   "lang": "ru"
+  },
+  {
+   "text": "отключить файловую систему",
+   "lang": "ru"
+  },
+  {
+   "text": "umount",
+   "lang": "ru"
+  },
+  {
+   "text": "размонтировать",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "No programs are currently using files on the mounted file system."
+ ],
+ "steps": [
+  {
+   "explain": "Unmount the file system using either the device path or the mount point.",
+   "cmd": "sudo umount <DEVICE_OR_MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DEVICE_OR_MOUNT_POINT",
+     "description": "The device path (e.g., /dev/sda1) or mount point (e.g., /mnt)",
+     "example": "/mnt",
+     "discover_cmd": "findmnt"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Unmount using the device path instead of the mount point.",
+     "cmd": "sudo umount <DEVICE>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "DEVICE",
+       "description": "The device path, e.g., /dev/sda1",
+       "example": "/dev/sda1",
+       "discover_cmd": "lsblk -f"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "findmnt <DEVICE_OR_MOUNT_POINT>",
+   "expect": "No output or an error indicating the device is not mounted."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Remount the file system.",
+   "cmd": "sudo mount <DEVICE> <MOUNT_POINT>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "DEVICE",
+     "description": "The device path",
+     "example": "/dev/sda1"
+    },
+    {
+     "name": "MOUNT_POINT",
+     "description": "The directory to mount to",
+     "example": "/mnt"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure no files on the mounted file system are open in other applications before unmounting."
+ ],
+ "risk": "high",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/File_systems#Unmount_a_file_system",
+  "title": "File systems",
+  "revision_id": 884914,
+  "license": "GFDL-1.3-or-later"
+ },
+ "see_also": [
+  "linux-list-mounted-filesystems",
+  "linux-list-block-devices"
+ ]
+}

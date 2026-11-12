@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "systemd-mask-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mask a systemd service to prevent it from starting",
+ "summary": "Prevent a service from starting, even if another service tries to start it. This is stronger than disabling.",
+ "aliases": [
+  {
+   "text": "mask service",
+   "lang": "en"
+  },
+  {
+   "text": "prevent service start",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl mask",
+   "lang": "en"
+  },
+  {
+   "text": "block service",
+   "lang": "en"
+  },
+  {
+   "text": "замаскировать службу",
+   "lang": "ru"
+  },
+  {
+   "text": "запретить запуск сервиса",
+   "lang": "ru"
+  },
+  {
+   "text": "системctl mask",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "systemd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Mask the service so it cannot be started manually or by dependencies.",
+   "cmd": "sudo systemctl mask <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd unit.",
+     "example": "bluetooth"
+    }
+   ],
+   "risk": "medium",
+   "expect": "Output confirming the symlink was created."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Unmask the service to allow it to be started again.",
+   "cmd": "sudo systemctl unmask <SERVICE_NAME>",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "SERVICE_NAME",
+     "description": "The name of the systemd unit.",
+     "example": "bluetooth"
+    }
+   ],
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Masking a critical service can break other services that depend on it. Use with caution."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Systemd#Basic_systemctl_usage",
+  "title": "Systemd",
+  "revision_id": 887711,
+  "license": "GFDL-1.3-or-later"
+ }
+}

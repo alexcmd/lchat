@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-find-files-by-extension",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find files by extension",
+ "summary": "Search for files with a specific extension (like .jpg or .txt) inside a folder and all its subfolders.",
+ "aliases": [
+  {
+   "text": "find files by extension",
+   "lang": "en"
+  },
+  {
+   "text": "search for jpg files",
+   "lang": "en"
+  },
+  {
+   "text": "locate all pdf files",
+   "lang": "en"
+  },
+  {
+   "text": "find all txt files",
+   "lang": "en"
+  },
+  {
+   "text": "как найти файлы по расширению",
+   "lang": "ru"
+  },
+  {
+   "text": "найти все jpg",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск файлов по типу",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for files matching the pattern in the specified directory.",
+   "cmd": "find <DIRECTORY> -name '<PATTERN>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The folder to search in",
+     "example": "."
+    },
+    {
+     "name": "PATTERN",
+     "description": "The filename pattern, e.g. '*.jpg'",
+     "example": "*.jpg"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/find.md",
+  "title": "tldr-pages: find",
+  "license": "CC-BY-4.0"
+ }
+}

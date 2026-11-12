@@ -1,0 +1,57 @@
+{
+ "schema_version": 2,
+ "id": "arch-check-updates-no-sync",
+ "platform": "linux",
+ "kind": "task",
+ "title": "List pending updates without syncing database",
+ "summary": "Check for updates using the currently cached package database. This is faster but might miss very recent updates if the database hasn't been refreshed recently.",
+ "aliases": [
+  {
+   "text": "check updates without sync",
+   "lang": "en"
+  },
+  {
+   "text": "arch checkupdates nosync",
+   "lang": "en"
+  },
+  {
+   "text": "list updates cached arch",
+   "lang": "en"
+  },
+  {
+   "text": "проверить обновления без синхронизации",
+   "lang": "ru"
+  },
+  {
+   "text": "arch обновления из кэша",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "checkupdates package installed"
+ ],
+ "steps": [
+  {
+   "explain": "Use the --nosync flag to list pending updates based on the existing local database, skipping the network sync step.",
+   "cmd": "checkupdates --nosync",
+   "risk": "low",
+   "expect": "A list of pending updates based on the last known database state."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/checkupdates.md",
+  "title": "tldr-pages: checkupdates",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "arch-check-pending-updates"
+ ]
+}

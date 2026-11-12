@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "macos-tart-pull-vm-image",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Pull a remote VM image with Tart",
+ "summary": "Downloads a virtual machine image from a remote registry to your local Mac.",
+ "aliases": [
+  {
+   "text": "pull tart vm image",
+   "lang": "en"
+  },
+  {
+   "text": "download vm tart",
+   "lang": "en"
+  },
+  {
+   "text": "tart pull",
+   "lang": "en"
+  },
+  {
+   "text": "скачать образ виртуалки tart",
+   "lang": "ru"
+  },
+  {
+   "text": "загрузить vm tart",
+   "lang": "ru"
+  },
+  {
+   "text": "tart pull image",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Pulls the specified remote VM image.",
+   "cmd": "tart pull <IMAGE_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "IMAGE_NAME",
+     "description": "Remote image name in format org/name:tag",
+     "example": "ghcr.io/cirruslabs/macos-ventura-base:latest"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tart.md",
+  "title": "tldr-pages: tart",
+  "license": "CC-BY-4.0"
+ }
+}

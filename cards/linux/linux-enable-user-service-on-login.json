@@ -1,0 +1,109 @@
+{
+ "schema_version": 2,
+ "id": "linux-enable-user-service-on-login",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Enable a user service to start automatically on login",
+ "summary": "Configure a systemd user unit to start automatically when the current user logs in. This is useful for user-specific background tasks or applications that should run in the user's session.",
+ "aliases": [
+  {
+   "text": "enable user service on login",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl enable user",
+   "lang": "en"
+  },
+  {
+   "text": "start user service at login",
+   "lang": "en"
+  },
+  {
+   "text": "user unit autostart",
+   "lang": "en"
+  },
+  {
+   "text": "включить пользовательскую службу при входе",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl enable --user",
+   "lang": "ru"
+  },
+  {
+   "text": "автозапуск сервиса пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "как включить сервис для пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "enable systemd user service/en",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl --user enable/en",
+   "lang": "en"
+  },
+  {
+   "text": "автозапуск systemd user/ru",
+   "lang": "ru"
+  },
+  {
+   "text": "enable systemd user service",
+   "lang": "en"
+  },
+  {
+   "text": "start service on login arch",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl --user enable",
+   "lang": "en"
+  },
+  {
+   "text": "автозапуск systemd user",
+   "lang": "ru"
+  },
+  {
+   "text": "включить сервис при входе",
+   "lang": "ru"
+  },
+  {
+   "text": "systemd user autostart",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Enable the specified systemd user unit to start automatically on login. Replace <UNIT> with the name of the user service.",
+   "cmd": "systemctl enable <UNIT> --user",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "UNIT",
+     "description": "The name of the systemd user unit to enable.",
+     "example": "my-app.service"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "linux-check-user-service-status",
+  "linux-start-user-service"
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl-enable.md",
+  "title": "tldr-pages: systemctl-enable",
+  "license": "CC-BY-4.0"
+ }
+}

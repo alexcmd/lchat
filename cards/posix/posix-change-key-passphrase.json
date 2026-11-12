@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-change-key-passphrase",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Change SSH key passphrase",
+ "summary": "Update the passphrase (password) protecting your private SSH key. You will need to enter the old passphrase first.",
+ "aliases": [
+  {
+   "text": "change ssh key passphrase",
+   "lang": "en"
+  },
+  {
+   "text": "change ssh key password",
+   "lang": "en"
+  },
+  {
+   "text": "ssh key password change",
+   "lang": "en"
+  },
+  {
+   "text": "ssh-keygen -p",
+   "lang": "en"
+  },
+  {
+   "text": "update ssh passphrase",
+   "lang": "en"
+  },
+  {
+   "text": "изменить пароль ssh ключа",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить passphrase ssh",
+   "lang": "ru"
+  },
+  {
+   "text": "смена пароля ssh ключа",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Change the passphrase of a specific private key file.",
+   "cmd": "ssh-keygen -f <KEY_FILE> -p",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEY_FILE",
+     "description": "The path to the private key file.",
+     "example": "~/.ssh/id_rsa"
+    }
+   ],
+   "expect": "The tool prompts for the old passphrase, then the new passphrase twice."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/ssh-keygen.md",
+  "title": "tldr-pages: ssh-keygen",
+  "license": "CC-BY-4.0"
+ }
+}

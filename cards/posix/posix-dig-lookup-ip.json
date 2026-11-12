@@ -1,0 +1,66 @@
+{
+ "schema_version": 2,
+ "id": "posix-dig-lookup-ip",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Look up the IP address of a domain",
+ "summary": "Use the `dig` command to find the IP addresses associated with a website or domain name. This is useful for checking where a domain points or troubleshooting connection issues.",
+ "aliases": [
+  {
+   "text": "dig lookup ip",
+   "lang": "en"
+  },
+  {
+   "text": "find ip address of domain",
+   "lang": "en"
+  },
+  {
+   "text": "check dns record",
+   "lang": "en"
+  },
+  {
+   "text": "dig command example",
+   "lang": "en"
+  },
+  {
+   "text": "как узнать ip домена",
+   "lang": "ru"
+  },
+  {
+   "text": "dig найти ip",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить dns запись",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Query the DNS for the A records (IPv4 addresses) of the specified domain. The `+short` flag makes the output concise, showing only the IP addresses.",
+   "cmd": "dig +short <DOMAIN>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DOMAIN",
+     "description": "The domain name to look up, e.g. example.com",
+     "example": "example.com"
+    }
+   ],
+   "expect": "A list of IP addresses associated with the domain."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/dig.md",
+  "title": "tldr-pages: dig",
+  "license": "CC-BY-4.0"
+ }
+}

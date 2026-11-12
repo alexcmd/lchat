@@ -1,0 +1,90 @@
+{
+ "schema_version": 2,
+ "id": "posix-count-longest-line",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Find the length of the longest line in a file",
+ "summary": "Use the wc command to find out how many characters are in the longest line of a file. This is helpful for checking if lines are too long for a specific format.",
+ "aliases": [
+  {
+   "text": "longest line in file",
+   "lang": "en"
+  },
+  {
+   "text": "max line length",
+   "lang": "en"
+  },
+  {
+   "text": "wc max line length",
+   "lang": "en"
+  },
+  {
+   "text": "how long is longest line",
+   "lang": "en"
+  },
+  {
+   "text": "find longest line",
+   "lang": "en"
+  },
+  {
+   "text": "самая длинная строка в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "максимальная длина строки",
+   "lang": "ru"
+  },
+  {
+   "text": "wc -L",
+   "lang": "ru"
+  },
+  {
+   "text": "длина самой длинной строки",
+   "lang": "ru"
+  },
+  {
+   "text": "найти самую длинную строку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run wc with the --max-line-length flag followed by the path to your file. This prints the number of characters in the longest line.",
+   "cmd": "wc -L <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file you want to analyze",
+     "example": "code.py"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short flag -L instead of --max-line-length.",
+     "cmd": "wc -L <FILE>",
+     "placeholders": [
+      {
+       "name": "FILE",
+       "description": "Path to the text file you want to analyze",
+       "example": "code.py"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/wc.md",
+  "title": "tldr-pages: wc",
+  "license": "CC-BY-4.0"
+ }
+}

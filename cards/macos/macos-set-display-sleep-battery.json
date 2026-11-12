@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "macos-set-display-sleep-battery",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Set display sleep time when on battery",
+ "summary": "Configure how long the display stays on before sleeping when the Mac is running on battery power.",
+ "aliases": [
+  {
+   "text": "change display sleep time battery",
+   "lang": "en"
+  },
+  {
+   "text": "pmset -b displaysleep",
+   "lang": "en"
+  },
+  {
+   "text": "set screen timeout mac battery",
+   "lang": "en"
+  },
+  {
+   "text": "display sleep on battery power",
+   "lang": "en"
+  },
+  {
+   "text": "изменить время сна экрана на батарее",
+   "lang": "ru"
+  },
+  {
+   "text": "pmset -b displaysleep",
+   "lang": "ru"
+  },
+  {
+   "text": "таймаут экрана mac на батарее",
+   "lang": "ru"
+  },
+  {
+   "text": "экран засыпает на батарее",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use sudo pmset with the -b flag to set the display sleep timer for when the Mac is on battery power. Replace <MINUTES> with the desired number of minutes.",
+   "cmd": "sudo pmset -b displaysleep <MINUTES>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "MINUTES",
+     "description": "Number of minutes before display sleeps.",
+     "example": "15"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Restore the default display sleep setting (10 minutes) for battery power.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Setting a very long display sleep time on battery will drain the battery faster."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/pmset.md",
+  "title": "tldr-pages: pmset",
+  "license": "CC-BY-4.0"
+ }
+}

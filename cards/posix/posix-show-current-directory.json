@@ -1,0 +1,63 @@
+{
+ "schema_version": 2,
+ "id": "posix-show-current-directory",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show the current working directory",
+ "summary": "Display the full path of the folder you are currently in within the terminal.",
+ "aliases": [
+  {
+   "text": "where am i",
+   "lang": "en"
+  },
+  {
+   "text": "show current directory",
+   "lang": "en"
+  },
+  {
+   "text": "pwd",
+   "lang": "en"
+  },
+  {
+   "text": "current path",
+   "lang": "en"
+  },
+  {
+   "text": "какая папка открыта",
+   "lang": "ru"
+  },
+  {
+   "text": "где я нахожусь",
+   "lang": "ru"
+  },
+  {
+   "text": "текущая директория",
+   "lang": "ru"
+  },
+  {
+   "text": "pwd команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the pwd command to print the absolute path of the current working directory.",
+   "cmd": "pwd",
+   "risk": "low",
+   "expect": "The full path to the current directory is printed to the terminal."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/pwd.md",
+  "title": "tldr-pages: pwd",
+  "license": "CC-BY-4.0"
+ }
+}

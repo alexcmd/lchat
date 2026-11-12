@@ -1,0 +1,106 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-system-timezone",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set the system timezone",
+ "summary": "Change the system's timezone to a specific region. You need to know the exact timezone name (e.g., 'Europe/Moscow' or 'America/New_York').",
+ "aliases": [
+  {
+   "text": "set timezone",
+   "lang": "en"
+  },
+  {
+   "text": "change timezone",
+   "lang": "en"
+  },
+  {
+   "text": "set system timezone",
+   "lang": "en"
+  },
+  {
+   "text": "change time zone linux",
+   "lang": "en"
+  },
+  {
+   "text": "изменить часовой пояс",
+   "lang": "ru"
+  },
+  {
+   "text": "установить часовой пояс",
+   "lang": "ru"
+  },
+  {
+   "text": "сменить часовой пояс",
+   "lang": "ru"
+  },
+  {
+   "text": "change time zone",
+   "lang": "en"
+  },
+  {
+   "text": "wrong time zone",
+   "lang": "en"
+  },
+  {
+   "text": "timedatectl set-timezone",
+   "lang": "en"
+  },
+  {
+   "text": "неправильный часовой пояс",
+   "lang": "ru"
+  },
+  {
+   "text": "установить время по москве",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the system timezone to the specified value. Replace <TIMEZONE> with a valid timezone name from the list.",
+   "cmd": "sudo timedatectl set-timezone <TIMEZONE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "TIMEZONE",
+     "description": "The name of the timezone to set (e.g., Europe/London, America/New_York).",
+     "example": "Europe/Moscow",
+     "discover_cmd": "timedatectl list-timezones"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To revert, set the timezone back to its previous value using the same command.",
+   "cmd": "sudo timedatectl set-timezone <PREVIOUS_TIMEZONE>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "PREVIOUS_TIMEZONE",
+     "description": "The timezone name that was set before the change.",
+     "example": "UTC"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Changing the timezone affects how dates and times are displayed and logged across the system.",
+  "Requires administrator privileges (sudo)."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/timedatectl.md",
+  "title": "tldr-pages: timedatectl",
+  "license": "CC-BY-4.0"
+ }
+}

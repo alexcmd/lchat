@@ -1,0 +1,122 @@
+{
+ "schema_version": 2,
+ "id": "linux-systemctl-manage-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Start, stop, restart, or check status of a service",
+ "summary": "Control the state of a specific systemd service. You can start, stop, restart, reload, or check the current status of any service unit.",
+ "aliases": [
+  {
+   "text": "start service",
+   "lang": "en"
+  },
+  {
+   "text": "stop service",
+   "lang": "en"
+  },
+  {
+   "text": "restart service",
+   "lang": "en"
+  },
+  {
+   "text": "check service status",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl start",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl stop",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl restart",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl status",
+   "lang": "en"
+  },
+  {
+   "text": "zapustit sluzhbu",
+   "lang": "ru"
+  },
+  {
+   "text": "ostanovit sluzhbu",
+   "lang": "ru"
+  },
+  {
+   "text": "perezapustit sluzhbu",
+   "lang": "ru"
+  },
+  {
+   "text": "status sluzhby",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl start",
+   "lang": "ru"
+  },
+  {
+   "text": "systemctl stop",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use systemctl with the desired action (start, stop, restart, reload, or status) and the name of the service unit.",
+   "cmd": "sudo systemctl <ACTION> <UNIT>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "ACTION",
+     "description": "The action to perform: start, stop, restart, reload, or status.",
+     "example": "restart"
+    },
+    {
+     "name": "UNIT",
+     "description": "The name of the service unit (e.g., nginx.service or sshd).",
+     "example": "nginx.service"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo a stop or restart, start the service again. To undo a start, stop it.",
+   "cmd": "sudo systemctl <OPPOSITE_ACTION> <UNIT>",
+   "risk": "medium",
+   "needs_root": true,
+   "placeholders": [
+    {
+     "name": "OPPOSITE_ACTION",
+     "description": "The opposite action: if you stopped it, use start; if you started it, use stop.",
+     "example": "start"
+    },
+    {
+     "name": "UNIT",
+     "description": "The name of the service unit.",
+     "example": "nginx.service"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Stopping a critical service (like ssh or display manager) may disconnect you or close your session."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/systemctl.md",
+  "title": "tldr-pages: systemctl",
+  "license": "CC-BY-4.0"
+ }
+}

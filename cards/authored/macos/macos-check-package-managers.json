@@ -1,0 +1,140 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-package-managers",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check whether Homebrew or MacPorts is installed on this Mac",
+ "summary": "Homebrew and MacPorts are tools that install extra programs from the Terminal. These commands only look for them and print where they are, so you can see which one this Mac has, if any. Nothing is installed or changed.",
+ "aliases": [
+  {
+   "text": "is homebrew installed on mac",
+   "lang": "en"
+  },
+  {
+   "text": "check if brew is installed on macos",
+   "lang": "en"
+  },
+  {
+   "text": "how do I know if homebrew is installed",
+   "lang": "en"
+  },
+  {
+   "text": "is macports installed on mac",
+   "lang": "en"
+  },
+  {
+   "text": "where is brew command on mac",
+   "lang": "en"
+  },
+  {
+   "text": "where is homebrew installed on macos",
+   "lang": "en"
+  },
+  {
+   "text": "which package manager is installed on mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac package manager check",
+   "lang": "en"
+  },
+  {
+   "text": "homebrew path on mac",
+   "lang": "en"
+  },
+  {
+   "text": "установлен ли homebrew на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить есть ли brew на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "где находится brew на macos",
+   "lang": "ru"
+  },
+  {
+   "text": "есть ли macports на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "какой менеджер пакетов установлен на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить установлен ли хомбрю",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать есть ли brew",
+   "lang": "ru"
+  },
+  {
+   "text": "где лежит brew на маке",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app is open"
+ ],
+ "steps": [
+  {
+   "explain": "Ask the shell where the Homebrew command brew is. Read-only: it only prints a path. A path such as /opt/homebrew/bin/brew (Apple Silicon) or /usr/local/bin/brew (Intel) means Homebrew is installed. No output means it is not installed or not on PATH.",
+   "cmd": "command -v brew",
+   "risk": "low",
+   "expect": "Either a path such as /opt/homebrew/bin/brew, or no output at all if Homebrew is not installed.",
+   "alternatives": [
+    {
+     "explain": "The same check with the which tool. It prints the path of the first brew it finds, or nothing if there is none.",
+     "cmd": "which brew",
+     "risk": "low",
+     "expect": "The same path as above, or no output."
+    }
+   ]
+  },
+  {
+   "explain": "Ask the shell where the MacPorts command port is. Read-only. A path such as /opt/local/bin/port means MacPorts is installed. MacPorts and Homebrew can both be installed, but most people use only one.",
+   "cmd": "command -v port",
+   "risk": "low",
+   "expect": "/opt/local/bin/port if MacPorts is installed; no output otherwise.",
+   "alternatives": [
+    {
+     "explain": "The same check with the which tool.",
+     "cmd": "which port",
+     "risk": "low",
+     "expect": "/opt/local/bin/port, or no output."
+    }
+   ]
+  },
+  {
+   "explain": "Look at the standard install folders. Read-only. /opt/homebrew is Homebrew on Apple Silicon, /usr/local/Homebrew is Homebrew on Intel, /opt/local is MacPorts. A listed folder means that manager is installed. 'No such file or directory' means the folder is missing.",
+   "cmd": "ls -d /opt/homebrew /usr/local/Homebrew /opt/local",
+   "risk": "low",
+   "expect": "Each existing folder is printed on its own line, for example /opt/homebrew. Missing folders print 'No such file or directory'."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "command -v brew || command -v port",
+   "expect": "Prints the path of the package manager you have. If it prints nothing, neither Homebrew nor MacPorts is installed."
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "macos-check-machine-architecture"
+ ],
+ "source": {
+  "url": "x-man-page://command",
+  "title": "command manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

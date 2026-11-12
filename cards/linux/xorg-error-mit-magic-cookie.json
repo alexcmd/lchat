@@ -1,0 +1,55 @@
+{
+ "schema_version": 2,
+ "id": "xorg-error-mit-magic-cookie",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix Invalid MIT-MAGIC-COOKIE-1 key error",
+ "summary": "Allow root or other users to access the X server when running GUI applications as root, resolving authorization errors.",
+ "aliases": [
+  {
+   "text": "invalid mit-magic-cookie-1 key",
+   "lang": "en"
+  },
+  {
+   "text": "xhost error root",
+   "lang": "en"
+  },
+  {
+   "text": "cannot connect to display as root",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка mit-magic-cookie",
+   "lang": "ru"
+  },
+  {
+   "text": "не могу запустить gui от root",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "Invalid MIT-MAGIC-COOKIE-1 key"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "Grant the root user access to the current X server session.",
+   "cmd": "xhost +si:localuser:root",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Xorg#Invalid_MIT-MAGIC-COOKIE-1_key_when_trying_to_run_a_program_as_root",
+  "title": "Xorg",
+  "revision_id": 884435,
+  "license": "GFDL-1.3-or-later"
+ }
+}

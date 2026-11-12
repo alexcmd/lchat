@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-check-specific-sensor",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check temperature of a specific sensor chip",
+ "summary": "If you know the name of a specific sensor chip (like coretemp-isa-0000), you can query just that chip to see its readings.",
+ "aliases": [
+  {
+   "text": "check specific sensor chip",
+   "lang": "en"
+  },
+  {
+   "text": "coretemp temperature",
+   "lang": "en"
+  },
+  {
+   "text": "query one sensor linux",
+   "lang": "en"
+  },
+  {
+   "text": "проверить конкретный сенсор",
+   "lang": "ru"
+  },
+  {
+   "text": "температура coretemp",
+   "lang": "ru"
+  },
+  {
+   "text": "показать один чип датчиков",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "First, run sensors without arguments to see the list of available chip names.",
+   "cmd": "sensors",
+   "risk": "low",
+   "expect": "A list of sensor chips, e.g., 'coretemp-isa-0000'."
+  },
+  {
+   "explain": "Run sensors with the specific chip name to see only its readings.",
+   "cmd": "sensors <CHIP_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "CHIP_NAME",
+     "description": "The name of the sensor chip, e.g., coretemp-isa-0000",
+     "discover_cmd": "sensors"
+    }
+   ],
+   "expect": "Temperature readings for only the specified chip."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/sensors.md",
+  "title": "tldr-pages: sensors",
+  "license": "CC-BY-4.0"
+ }
+}

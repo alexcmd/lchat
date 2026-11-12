@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-copy-file-timestamp",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy timestamp from one file to another",
+ "summary": "Use touch with the -r option to set a file's timestamp to match that of a reference file. This is helpful for synchronizing file dates without changing their content.",
+ "aliases": [
+  {
+   "text": "copy file timestamp",
+   "lang": "en"
+  },
+  {
+   "text": "match file dates",
+   "lang": "en"
+  },
+  {
+   "text": "touch reference file",
+   "lang": "en"
+  },
+  {
+   "text": "sync file times",
+   "lang": "en"
+  },
+  {
+   "text": "скопировать дату файла",
+   "lang": "ru"
+  },
+  {
+   "text": "сравнять даты файлов",
+   "lang": "ru"
+  },
+  {
+   "text": "touch эталонный файл",
+   "lang": "ru"
+  },
+  {
+   "text": "синхронизировать время файлов",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -r option to specify the reference file whose timestamp you want to copy. Add -c to avoid creating the target file if it doesn't exist.",
+   "cmd": "touch -c -r <REFERENCE_FILE> <FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REFERENCE_FILE",
+     "description": "The file whose timestamp to copy",
+     "example": "original.txt"
+    },
+    {
+     "name": "FILE",
+     "description": "The file to update",
+     "example": "copy.txt"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/touch.md",
+  "title": "tldr-pages: touch",
+  "license": "CC-BY-4.0"
+ }
+}

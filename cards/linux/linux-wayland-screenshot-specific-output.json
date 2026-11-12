@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "linux-wayland-screenshot-specific-output",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Screenshot a specific monitor on Wayland",
+ "summary": "Capture only one specific display output and save it to a chosen file. Useful when you have multiple monitors.",
+ "aliases": [
+  {
+   "text": "screenshot one monitor wayland",
+   "lang": "en"
+  },
+  {
+   "text": "grim specific output",
+   "lang": "en"
+  },
+  {
+   "text": "capture single display linux",
+   "lang": "en"
+  },
+  {
+   "text": "grim -o screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот одного монитора wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "grim захват монитора",
+   "lang": "ru"
+  },
+  {
+   "text": "сделать скриншот конкретного экрана",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "grim"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the -o flag to specify the output name (e.g., DP-1, HDMI-1) and provide the path for the saved image.",
+   "cmd": "grim -o <OUTPUT_NAME> <FILE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OUTPUT_NAME",
+     "description": "The name of the display output (e.g., DP-1, HDMI-1).",
+     "example": "DP-1"
+    },
+    {
+     "name": "FILE_PATH",
+     "description": "The path where the screenshot will be saved.",
+     "example": "~/screenshot.png"
+    }
+   ],
+   "expect": "A screenshot of the specified monitor is saved to the given file path."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/grim.md",
+  "title": "tldr-pages: grim",
+  "license": "CC-BY-4.0"
+ }
+}

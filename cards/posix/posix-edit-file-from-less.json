@@ -1,0 +1,50 @@
+{
+ "schema_version": 2,
+ "id": "posix-edit-file-from-less",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Open the current file in an editor from less",
+ "summary": "Switch from viewing a file in `less` to editing it in your default text editor.",
+ "aliases": [
+  {
+   "text": "edit file from less",
+   "lang": "en"
+  },
+  {
+   "text": "open less file in editor",
+   "lang": "en"
+  },
+  {
+   "text": "edit in less",
+   "lang": "en"
+  },
+  {
+   "text": "редактировать файл из less",
+   "lang": "ru"
+  },
+  {
+   "text": "открыть в редакторе из less",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "While viewing a file in `less`, press `v` to open it in the editor defined by the VISUAL or EDITOR environment variable.",
+   "cmd": "v",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/less.md",
+  "title": "tldr-pages: less",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,156 @@
+{
+  "schema_version": 2,
+  "id": "scn-bash-parallel-jobs-limit",
+  "platform": "linux",
+  "kind": "task",
+  "title": "Run several jobs at the same time with a maximum number of parallel jobs",
+  "summary": "Starts one background job per file, but never more than a set number at once. When a job finishes, the next one starts. This example compresses files with gzip.",
+  "aliases": [
+    {
+      "text": "run jobs in parallel bash",
+      "lang": "en"
+    },
+    {
+      "text": "bash limit parallel jobs",
+      "lang": "en"
+    },
+    {
+      "text": "wait -n bash example",
+      "lang": "en"
+    },
+    {
+      "text": "parallel gzip bash script",
+      "lang": "en"
+    },
+    {
+      "text": "bash run commands at the same time with a limit",
+      "lang": "en"
+    },
+    {
+      "text": "bash background jobs maximum number",
+      "lang": "en"
+    },
+    {
+      "text": "скрипт запускает задачи параллельно с ограничением",
+      "lang": "ru"
+    },
+    {
+      "text": "bash параллельное выполнение команд не больше N одновременно",
+      "lang": "ru"
+    },
+    {
+      "text": "как ускорить архивацию файлов в bash параллельно",
+      "lang": "ru"
+    },
+    {
+      "text": "wait -n пример",
+      "lang": "ru"
+    },
+    {
+      "text": "bash фоновые задания с лимитом",
+      "lang": "ru"
+    }
+  ],
+  "applies_to": {
+    "distros": [
+      {
+        "family": "any"
+      }
+    ],
+    "requires": [
+      "bash"
+    ]
+  },
+  "steps": [
+    {
+      "explain": "Save the script. Create the file with nano and paste the whole text, including the first line that starts with #!. Press Ctrl+O then Enter to save, and Ctrl+X to exit.",
+      "risk": "low",
+      "cmd": "nano <FILE>",
+      "expect": "An empty editor opens. After you save, the file exists in the current folder.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "parallel-gzip.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Check the script for syntax mistakes without running it.",
+      "risk": "low",
+      "cmd": "bash -n <FILE>",
+      "expect": "No output means the syntax is correct.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "parallel-gzip.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Make the script executable so you can start it by its name.",
+      "risk": "low",
+      "cmd": "chmod +x <FILE>",
+      "expect": "No output. ls -l then shows x in the permissions.",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "parallel-gzip.sh"
+        }
+      ]
+    },
+    {
+      "explain": "Create six files to compress.",
+      "risk": "low",
+      "cmd": "mkdir -p logs && for i in 1 2 3 4 5 6; do seq 1 20000 > \"logs/part $i.dat\"; done",
+      "expect": "No output. The folder logs holds six files named part 1.dat to part 6.dat."
+    },
+    {
+      "explain": "Compress them with at most two jobs running at the same time.",
+      "risk": "low",
+      "cmd": "./<FILE> <MAX_JOBS> logs",
+      "expect": "all jobs finished; failed: 0",
+      "placeholders": [
+        {
+          "name": "FILE",
+          "description": "The script file you saved",
+          "example": "parallel-gzip.sh"
+        },
+        {
+          "name": "MAX_JOBS",
+          "description": "How many jobs may run at the same time, a whole number of 1 or more",
+          "example": "2"
+        }
+      ]
+    },
+    {
+      "explain": "Check that six compressed files now exist next to the originals.",
+      "risk": "low",
+      "cmd": "ls logs/*.gz | wc -l",
+      "expect": "6"
+    }
+  ],
+  "risk": "low",
+  "warnings": [
+    "wait -n needs bash 4.3 or newer. macOS ships bash 3.2, which does not have it.",
+    "Parallel jobs share the processor and the disk. A limit that is too high can make the whole job slower, not faster.",
+    "The script does not overwrite existing .gz files. gzip reports an error for each file that already has a .gz, and the script counts it as failed. Delete the old .gz files first."
+  ],
+  "source": {
+    "url": "https://www.gnu.org/software/bash/manual/bash.html",
+    "title": "Bash Reference Manual",
+    "license": "LicenseRef-lchat-authored"
+  },
+  "updated": "2026-11-12",
+  "script": {
+    "filename": "parallel-gzip.sh",
+    "lang": "bash",
+    "content": "#!/usr/bin/env bash\n# parallel-gzip.sh - compress every file in a folder, running at most MAX_JOBS at once.\n# Usage: ./parallel-gzip.sh MAX_JOBS SOURCE_DIR\n# Makes NAME.gz next to each file and keeps the original (gzip -k).\n# Needs bash 4.3 or newer for \"wait -n\".\n\nset -euo pipefail\n\nif (( $# != 2 )) || ! [[ $1 =~ ^[1-9][0-9]*$ ]] || [[ ! -d $2 ]]; then\n    echo \"usage: $0 MAX_JOBS SOURCE_DIR\" >&2\n    exit 2\nfi\nMAX_JOBS=$1\nSRC=$2\n\nrunning=0   # how many background jobs are running now\nfailed=0    # how many of them exited with an error\n\n# wait_one waits until ANY one background job finishes (wait -n),\n# then updates the counters.\nwait_one() {\n    local status=0\n    wait -n || status=$?\n    if (( status != 0 )); then\n        failed=$((failed + 1))\n    fi\n    running=$((running - 1))\n}\n\nwhile IFS= read -r -d '' file; do\n    # Before starting a new job, wait while the limit is reached.\n    while (( running >= MAX_JOBS )); do\n        wait_one\n    done\n    gzip -k -- \"$file\" &\n    running=$((running + 1))\ndone < <(find \"$SRC\" -maxdepth 1 -type f ! -name '*.gz' -print0)\n\n# Wait for the jobs that are still running at the end.\nwhile (( running > 0 )); do\n    wait_one\ndone\n\necho \"all jobs finished; failed: $failed\"\n(( failed == 0 ))   # exit code 1 if any job failed\n",
+    "usage": "./parallel-gzip.sh MAX_JOBS SOURCE_DIR"
+  },
+  "prerequisites": [
+    "A Linux terminal with bash 4 or newer"
+  ]
+}

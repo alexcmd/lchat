@@ -1,0 +1,133 @@
+{
+ "schema_version": 2,
+ "id": "linux-app-wont-start-run-from-terminal",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Run a program from the terminal to read why it does not open",
+ "summary": "When a program does not open from the menu, start it from a terminal. The terminal shows the error message that the menu hides, and the last lines usually name the problem.",
+ "aliases": [
+  {
+   "text": "app won't open linux",
+   "lang": "en"
+  },
+  {
+   "text": "program does not start linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux application not opening terminal error",
+   "lang": "en"
+  },
+  {
+   "text": "run app from terminal to see error",
+   "lang": "en"
+  },
+  {
+   "text": "why doesn't my program open ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "linux app not launching error message",
+   "lang": "en"
+  },
+  {
+   "text": "программа не открывается linux",
+   "lang": "ru"
+  },
+  {
+   "text": "приложение не запускается linux терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "как посмотреть ошибку запуска программы linux",
+   "lang": "ru"
+  },
+  {
+   "text": "запустить программу из терминала чтобы увидеть ошибку",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "You know the program's name, or can find it in the applications menu."
+ ],
+ "steps": [
+  {
+   "explain": "Check whether the terminal can find the program by its command name. It prints the program's path, such as /usr/bin/<APP_NAME>. Nothing is changed.",
+   "cmd": "command -v <APP_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_NAME",
+     "description": "The command name you would type in a terminal to start the program.",
+     "example": "firefox",
+     "discover_cmd": "ls /usr/share/applications"
+    }
+   ],
+   "expect": "Prints a path such as /usr/bin/firefox. If it prints nothing, the terminal does not know this name: check the spelling, or use the alternative below to find the real command.",
+   "alternatives": [
+    {
+     "explain": "Read the menu launcher file. Its Exec= line is the exact command the menu runs when you click the program. The first word after Exec= is the command to use in the next step.",
+     "cmd": "grep '^Exec=' /usr/share/applications/<APP_NAME>.desktop",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "APP_NAME",
+       "description": "The launcher file name without .desktop, usually the program's name.",
+       "example": "firefox",
+       "discover_cmd": "ls /usr/share/applications"
+      }
+     ],
+     "expect": "A line such as Exec=firefox %u. If grep prints 'No such file or directory', the launcher has another name: pick it from the list of names printed by the discover command."
+    }
+   ]
+  },
+  {
+   "explain": "Start the program from the terminal. Its error messages are sent into the terminal and then shown here, with only the last 20 lines kept. If the program opens a window, the terminal stays busy until you close the program; then the lines appear. Press Ctrl+C to stop it.",
+   "cmd": "<APP_NAME> 2>&1 | tail -n 20",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "APP_NAME",
+     "description": "The command name from the first step, or the first word of the Exec= line.",
+     "example": "firefox",
+     "discover_cmd": "ls /usr/share/applications"
+    }
+   ],
+   "expect": "Either a window opens and nothing is printed, or the program exits and prints error lines. Copy the lines that mention the problem."
+  },
+  {
+   "explain": "Read the last printed line first; it usually gives the reason. 'command not found' or 'No such file' means the name is wrong (go back to step 1). 'cannot open display' means no graphical session. 'error while loading shared libraries' means a library is missing: reinstall the program.",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "see_also": [
+  "error-exec-format-error-binary",
+  "linux-desktop-environment-check"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

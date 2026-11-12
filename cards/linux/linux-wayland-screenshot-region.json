@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "linux-wayland-screenshot-region",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Screenshot a selected region on Wayland",
+ "summary": "Interactively select a part of the screen to capture. This requires the 'slurp' tool to be installed.",
+ "aliases": [
+  {
+   "text": "screenshot region wayland",
+   "lang": "en"
+  },
+  {
+   "text": "grim slurp screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "select area screenshot linux",
+   "lang": "en"
+  },
+  {
+   "text": "grim -g screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот области wayland",
+   "lang": "ru"
+  },
+  {
+   "text": "grim slurp скриншот",
+   "lang": "ru"
+  },
+  {
+   "text": "выделить область для скриншота",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "wayland",
+  "requires": [
+   "grim",
+   "slurp"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use slurp to interactively select a region on the screen, then pass that geometry to grim to capture it.",
+   "cmd": "grim -g \"$(slurp)\" <FILE_PATH>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE_PATH",
+     "description": "The path where the screenshot will be saved.",
+     "example": "~/selection.png"
+    }
+   ],
+   "expect": "Your cursor changes to a crosshair; after selecting an area, the screenshot is saved to the specified file."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/grim.md",
+  "title": "tldr-pages: grim",
+  "license": "CC-BY-4.0"
+ }
+}

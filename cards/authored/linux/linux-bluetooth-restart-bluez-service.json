@@ -1,0 +1,144 @@
+{
+ "schema_version": 2,
+ "id": "linux-bluetooth-restart-bluez-service",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Restart the Bluetooth service when the adapter stops responding",
+ "summary": "When Bluetooth stops working, check that its background service is stuck, then restart it and confirm the adapter is back. All connected Bluetooth devices disconnect during the restart.",
+ "aliases": [
+  {
+   "text": "bluetooth not responding linux",
+   "lang": "en"
+  },
+  {
+   "text": "restart bluetooth service linux",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth stopped working linux",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth adapter not working restart",
+   "lang": "en"
+  },
+  {
+   "text": "restart bluez",
+   "lang": "en"
+  },
+  {
+   "text": "bluetooth frozen linux fix",
+   "lang": "en"
+  },
+  {
+   "text": "systemctl restart bluetooth",
+   "lang": "en"
+  },
+  {
+   "text": "перезапустить bluetooth linux",
+   "lang": "ru"
+  },
+  {
+   "text": "bluetooth не отвечает линукс",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапуск службы bluetooth",
+   "lang": "ru"
+  },
+  {
+   "text": "bluetooth перестал работать linux",
+   "lang": "ru"
+  },
+  {
+   "text": "блютуз не работает перезапустить",
+   "lang": "ru"
+  },
+  {
+   "text": "перезапустить блютуз",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   },
+   {
+    "family": "debian"
+   },
+   {
+    "family": "mint"
+   },
+   {
+    "family": "fedora"
+   },
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "systemd",
+   "bluez"
+  ]
+ },
+ "prerequisites": [
+  "Know your administrator (sudo) password",
+  "Save any work that depends on a Bluetooth device, such as a file transfer in progress"
+ ],
+ "steps": [
+  {
+   "explain": "Check whether the Bluetooth service is running. This only reads the status and changes nothing. Press q to leave the output. Look at the 'Active:' line: 'active (running)' means the service is fine, so go to step 2; 'failed' or 'inactive (dead)' means it is stuck or stopped, so continue to step 3.",
+   "cmd": "systemctl status bluetooth",
+   "risk": "low",
+   "expect": "A line like 'Active: active (running)' when the service works, or 'Active: failed' or 'inactive (dead)' when it is stuck."
+  },
+  {
+   "explain": "Ask the Bluetooth adapter for its state. This is read-only. Look for 'Powered: yes' and a 'Controller' line. If you see 'No default controller available', the system does not see any adapter, and a restart will not help.",
+   "cmd": "bluetoothctl show",
+   "risk": "low",
+   "expect": "A 'Controller' line with the adapter address and 'Powered: no' or 'Powered: yes'. 'No default controller available' means no adapter was found."
+  },
+  {
+   "explain": "Restart the Bluetooth service. Every connected Bluetooth device (keyboard, mouse, headphones) disconnects, and the service starts again by itself. Run this only if step 1 showed a stuck or stopped service, or step 2 shows the adapter not answering.",
+   "cmd": "sudo systemctl restart bluetooth",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Usually no output when it works; the command asks for your password first. If it prints an error, the service did not restart: run step 1 again to read the status."
+  },
+  {
+   "explain": "Check the adapter again after the restart. Devices can take a few seconds to reconnect.",
+   "cmd": "bluetoothctl show",
+   "risk": "low",
+   "expect": "'Powered: yes' means the adapter is on again."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "systemctl is-active bluetooth",
+   "expect": "Prints 'active' when the Bluetooth service is running."
+  },
+  {
+   "cmd": "bluetoothctl show",
+   "expect": "'Powered: yes' in the output."
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "A restart changes no settings, so there is nothing to undo. If the service stays stopped after the restart, go back to step 1 and read the status line again.",
+   "risk": "low"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Restarting the Bluetooth service disconnects every connected Bluetooth device. Reconnect them after the restart.",
+  "Restart only when the service is stuck or the adapter does not answer. The status checks in steps 1 and 2 are safe to run at any time.",
+  "The restart needs your administrator (sudo) password."
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/systemctl",
+  "title": "systemctl manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

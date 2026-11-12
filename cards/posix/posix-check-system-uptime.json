@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-check-system-uptime",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Check how long the system has been running",
+ "summary": "Use the uptime command to see how long your computer has been on, how many users are logged in, and the current load. It helps you know if the system was recently restarted or if it has been running for a long time.",
+ "aliases": [
+  {
+   "text": "check uptime",
+   "lang": "en"
+  },
+  {
+   "text": "how long has my computer been on",
+   "lang": "en"
+  },
+  {
+   "text": "system uptime",
+   "lang": "en"
+  },
+  {
+   "text": "check system uptime",
+   "lang": "en"
+  },
+  {
+   "text": "uptime command",
+   "lang": "en"
+  },
+  {
+   "text": "сколько времени работает компьютер",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить аптайм",
+   "lang": "ru"
+  },
+  {
+   "text": "как давно включен компьютер",
+   "lang": "ru"
+  },
+  {
+   "text": "uptime linux",
+   "lang": "ru"
+  },
+  {
+   "text": "время работы системы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run the uptime command to display the current time, how long the system has been running, the number of logged-in users, and system load averages.",
+   "cmd": "uptime",
+   "risk": "low",
+   "expect": "Output showing current time, uptime duration, number of users, and load averages."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/uptime.md",
+  "title": "tldr-pages: uptime",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-check-system-uptime"
+ ]
+}

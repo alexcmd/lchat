@@ -1,0 +1,74 @@
+{
+ "schema_version": 2,
+ "id": "posix-exclude-matching-lines",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Show lines that do NOT match a pattern",
+ "summary": "Invert the match to show all lines that do not contain the specified pattern. Often used to filter out noise or specific errors.",
+ "aliases": [
+  {
+   "text": "grep invert",
+   "lang": "en"
+  },
+  {
+   "text": "exclude lines grep",
+   "lang": "en"
+  },
+  {
+   "text": "show non matching lines",
+   "lang": "en"
+  },
+  {
+   "text": "grep not",
+   "lang": "en"
+  },
+  {
+   "text": "инвертировать греп",
+   "lang": "ru"
+  },
+  {
+   "text": "исключить строки грепом",
+   "lang": "ru"
+  },
+  {
+   "text": "показать не совпадающие строки",
+   "lang": "ru"
+  },
+  {
+   "text": "греп без совпадений",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Read data from stdin and do not print lines that match a pattern.",
+   "cmd": "cat <FILE> | grep --invert-match \"<SEARCH_PATTERN>\"",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the file to read",
+     "example": "log.txt"
+    },
+    {
+     "name": "SEARCH_PATTERN",
+     "description": "The text or regular expression to exclude",
+     "example": "debug"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/grep.md",
+  "title": "tldr-pages: grep",
+  "license": "CC-BY-4.0"
+ }
+}

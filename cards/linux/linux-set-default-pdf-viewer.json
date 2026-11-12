@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-set-default-pdf-viewer",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set the default PDF viewer",
+ "summary": "Choose which application opens PDF files by default when you double-click them.",
+ "aliases": [
+  {
+   "text": "set default pdf viewer",
+   "lang": "en"
+  },
+  {
+   "text": "change default pdf app",
+   "lang": "en"
+  },
+  {
+   "text": "open pdf with default app",
+   "lang": "en"
+  },
+  {
+   "text": "default pdf reader linux",
+   "lang": "en"
+  },
+  {
+   "text": "sdelat default pdf viewer",
+   "lang": "ru"
+  },
+  {
+   "text": "izmenit default pdf",
+   "lang": "ru"
+  },
+  {
+   "text": "kak sdelat default pdf",
+   "lang": "ru"
+  },
+  {
+   "text": "postavit pdf viewer",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the default application for opening PDF documents. Replace the placeholder with the .desktop file of your preferred PDF viewer.",
+   "cmd": "xdg-settings set <DESKTOP_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DESKTOP_FILE",
+     "description": "The .desktop file name of the PDF viewer (e.g., evince.desktop, okular.desktop).",
+     "example": "evince.desktop",
+     "discover_cmd": "ls /usr/share/applications/*.desktop"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/xdg-settings.md",
+  "title": "tldr-pages: xdg-settings",
+  "license": "CC-BY-4.0"
+ }
+}

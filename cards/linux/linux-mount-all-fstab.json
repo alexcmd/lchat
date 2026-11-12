@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "linux-mount-all-fstab",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Mount all filesystems defined in /etc/fstab",
+ "summary": "Mount all storage devices and partitions that are configured to be mounted automatically in the system configuration file.",
+ "aliases": [
+  {
+   "text": "mount all fstab",
+   "lang": "en"
+  },
+  {
+   "text": "mount everything from fstab",
+   "lang": "en"
+  },
+  {
+   "text": "mount all defined drives",
+   "lang": "en"
+  },
+  {
+   "text": "mount -a",
+   "lang": "en"
+  },
+  {
+   "text": "montirovat vse iz fstab",
+   "lang": "ru"
+  },
+  {
+   "text": "montirovat vse diski",
+   "lang": "ru"
+  },
+  {
+   "text": "mount all",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the --all flag to mount every filesystem listed in /etc/fstab that is not currently mounted.",
+   "cmd": "sudo mount --all",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "This will attempt to mount all configured drives. If a drive is missing or faulty, it may cause delays or errors.",
+  "You need administrator privileges."
+ ],
+ "rollback": [
+  {
+   "explain": "Unmount all filesystems listed in /etc/fstab.",
+   "risk": "medium",
+   "needs_root": true
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/mount.md",
+  "title": "tldr-pages: mount",
+  "license": "CC-BY-4.0"
+ }
+}

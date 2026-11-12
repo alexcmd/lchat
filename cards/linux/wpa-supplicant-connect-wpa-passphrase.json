@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "id": "wpa-supplicant-connect-wpa-passphrase",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Connect to Wi-Fi using wpa_passphrase",
+ "summary": "Quickly connect to a known Wi-Fi network by generating a configuration with wpa_passphrase and starting wpa_supplicant.",
+ "aliases": [
+  {
+   "text": "connect wifi wpa_passphrase",
+   "lang": "en"
+  },
+  {
+   "text": "wpa_passphrase connect",
+   "lang": "en"
+  },
+  {
+   "text": "quick wifi connect arch",
+   "lang": "en"
+  },
+  {
+   "text": "подключиться к wifi через wpa_passphrase",
+   "lang": "ru"
+  },
+  {
+   "text": "wpa_passphrase подключение",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "wpa_supplicant"
+  ]
+ },
+ "prerequisites": [
+  "Know your Wi-Fi interface name",
+  "Know your Wi-Fi SSID and password"
+ ],
+ "steps": [
+  {
+   "explain": "Start wpa_supplicant in the background, generating the configuration on the fly using wpa_passphrase.",
+   "cmd": "sudo wpa_supplicant -B -i <INTERFACE> -c <(wpa_passphrase <SSID> <PASSWORD>)",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "INTERFACE",
+     "description": "Your wireless interface name",
+     "example": "wlan0",
+     "discover_cmd": "ip link"
+    },
+    {
+     "name": "SSID",
+     "description": "Your Wi-Fi network name",
+     "example": "MyHomeWiFi"
+    },
+    {
+     "name": "PASSWORD",
+     "description": "Your Wi-Fi password",
+     "example": "secret123"
+    }
+   ]
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "Stop the wpa_supplicant instance.",
+   "cmd": "sudo wpa_cli terminate",
+   "needs_root": true,
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "This method does not save the configuration permanently. You will need to repeat this command after every reboot or interface restart."
+ ],
+ "risk": "medium",
+ "see_also": [
+  "linux-list-network-interfaces",
+  "nmcli-connect-wifi-network"
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Wpa_supplicant#Connecting_with_wpa_passphrase",
+  "title": "Wpa supplicant",
+  "revision_id": 880725,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "schema_version": 2,
+ "id": "posix-brew-list-installed",
+ "platform": "posix",
+ "kind": "task",
+ "title": "List all installed Homebrew packages",
+ "summary": "Show a list of all formulae and casks currently installed via Homebrew. Useful for checking what software is managed by Homebrew.",
+ "aliases": [
+  {
+   "text": "list installed brew packages",
+   "lang": "en"
+  },
+  {
+   "text": "brew list",
+   "lang": "en"
+  },
+  {
+   "text": "what is installed with homebrew",
+   "lang": "en"
+  },
+  {
+   "text": "show brew packages",
+   "lang": "en"
+  },
+  {
+   "text": "список установленных пакетов brew",
+   "lang": "ru"
+  },
+  {
+   "text": "brew list что установлено",
+   "lang": "ru"
+  },
+  {
+   "text": "какие программы установлены через homebrew",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "Homebrew"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Display all installed formulae and casks.",
+   "cmd": "brew list",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/brew.md",
+  "title": "tldr-pages: brew",
+  "license": "CC-BY-4.0"
+ }
+}

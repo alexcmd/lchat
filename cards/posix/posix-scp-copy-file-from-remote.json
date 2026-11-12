@@ -1,0 +1,87 @@
+{
+ "schema_version": 2,
+ "id": "posix-scp-copy-file-from-remote",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Copy a file from a remote computer to your computer",
+ "summary": "Use scp to securely download a file from a remote computer to your local machine. This is useful for retrieving logs, backups, or documents from a server.",
+ "aliases": [
+  {
+   "text": "download file from server",
+   "lang": "en"
+  },
+  {
+   "text": "scp file from remote",
+   "lang": "en"
+  },
+  {
+   "text": "get file from remote host",
+   "lang": "en"
+  },
+  {
+   "text": "copy remote file to local",
+   "lang": "en"
+  },
+  {
+   "text": "secure copy from server",
+   "lang": "en"
+  },
+  {
+   "text": "скачать файл с сервера",
+   "lang": "ru"
+  },
+  {
+   "text": "scp файл с удаленного хоста",
+   "lang": "ru"
+  },
+  {
+   "text": "получить файл с сервера",
+   "lang": "ru"
+  },
+  {
+   "text": "копировать файл с сервера",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "SSH access to the remote host",
+  "Know the remote file path"
+ ],
+ "steps": [
+  {
+   "explain": "Copy the specified file from the remote host to a local directory.",
+   "cmd": "scp <REMOTE_HOST>:<REMOTE_FILE> <LOCAL_DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "REMOTE_HOST",
+     "description": "Hostname or IP of the remote computer",
+     "example": "user@192.168.1.10"
+    },
+    {
+     "name": "REMOTE_FILE",
+     "description": "Path to the file on the remote computer",
+     "example": "logs/error.log"
+    },
+    {
+     "name": "LOCAL_DIRECTORY",
+     "description": "Destination directory on your computer",
+     "example": "~/Downloads"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/scp.md",
+  "title": "tldr-pages: scp",
+  "license": "CC-BY-4.0"
+ }
+}

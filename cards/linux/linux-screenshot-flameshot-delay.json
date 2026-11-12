@@ -1,0 +1,64 @@
+{
+ "schema_version": 2,
+ "id": "linux-screenshot-flameshot-delay",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Take a delayed full-screen screenshot with Flameshot",
+ "summary": "Capture the entire screen after a specified delay. This is useful for capturing menus or tooltips that disappear when you click away.",
+ "aliases": [
+  {
+   "text": "flameshot delay screenshot",
+   "lang": "en"
+  },
+  {
+   "text": "screenshot with timer",
+   "lang": "en"
+  },
+  {
+   "text": "delayed capture linux",
+   "lang": "en"
+  },
+  {
+   "text": "скриншот с задержкой",
+   "lang": "ru"
+  },
+  {
+   "text": "таймер скриншота",
+   "lang": "ru"
+  },
+  {
+   "text": "флеймшот задержка",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "flameshot"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Take a full-screen screenshot after waiting for the specified number of milliseconds.",
+   "cmd": "flameshot full --delay <MILLISECONDS>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "MILLISECONDS",
+     "description": "Delay in milliseconds before taking the screenshot",
+     "example": "5000"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/flameshot.md",
+  "title": "tldr-pages: flameshot",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,82 @@
+{
+ "schema_version": 2,
+ "id": "linux-nmtui-edit-network",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Edit, add, or delete a network connection with nmtui",
+ "summary": "Modify the settings of an existing network connection, create a new one, or remove an old one using the text interface.",
+ "aliases": [
+  {
+   "text": "edit network connection nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "add wifi profile nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "delete network nmtui",
+   "lang": "en"
+  },
+  {
+   "text": "nmtui edit",
+   "lang": "en"
+  },
+  {
+   "text": "изменить настройки сети nmtui",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить сеть nmtui",
+   "lang": "ru"
+  },
+  {
+   "text": "добавить сеть nmtui",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Open the editor for a specific connection to change its settings, or leave the name blank to add a new one.",
+   "cmd": "nmtui edit <CONNECTION_NAME>",
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "CONNECTION_NAME",
+     "description": "The name or ID of the connection to edit. Leave empty or use a new name to add a connection.",
+     "example": "MyWiFi"
+    }
+   ],
+   "expect": "A form appears allowing you to edit connection details like SSID, password, or IP settings."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "To undo changes, you can delete the modified connection and recreate it, or restore from a backup if you have one. nmtui does not provide a direct 'undo' command.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "Deleting a connection removes its saved settings (like passwords). Make sure you know the password before deleting."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmtui.md",
+  "title": "tldr-pages: nmtui",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "nm-delete-connection",
+  "linux-nmtui-open"
+ ]
+}

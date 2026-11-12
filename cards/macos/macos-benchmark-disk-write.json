@@ -1,0 +1,72 @@
+{
+ "schema_version": 2,
+ "id": "macos-benchmark-disk-write",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Benchmark disk write performance",
+ "summary": "Test how fast your disk can write data by creating a large file filled with zeros. This helps measure storage speed.",
+ "aliases": [
+  {
+   "text": "benchmark disk speed mac",
+   "lang": "en"
+  },
+  {
+   "text": "test write speed mac",
+   "lang": "en"
+  },
+  {
+   "text": "dd benchmark disk",
+   "lang": "en"
+  },
+  {
+   "text": "проверить скорость диска",
+   "lang": "ru"
+  },
+  {
+   "text": "тест записи диска",
+   "lang": "ru"
+  },
+  {
+   "text": "dd тест скорости",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Write a large file of zeros to the disk to measure write speed. Replace <BLOCK_SIZE> (e.g., 1024), <COUNT> (e.g., 1000000), and <OUTPUT_FILE> (e.g., ~/testfile.bin). The total size is BLOCK_SIZE * COUNT.",
+   "cmd": "dd bs=<BLOCK_SIZE> count=<COUNT> if=/dev/zero of=<OUTPUT_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "BLOCK_SIZE",
+     "description": "Size of each block in bytes",
+     "example": "1024"
+    },
+    {
+     "name": "COUNT",
+     "description": "Number of blocks to write",
+     "example": "1000000"
+    },
+    {
+     "name": "OUTPUT_FILE",
+     "description": "Path to the temporary file to create",
+     "example": "~/testfile.bin"
+    }
+   ],
+   "expect": "The command will output statistics including the total time and transfer rate."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/dd.md",
+  "title": "tldr-pages: dd",
+  "license": "CC-BY-4.0"
+ }
+}

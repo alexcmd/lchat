@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "linux-apt-cache-check-package-status",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check if a package is installed and up to date",
+ "summary": "See whether a package is currently installed on your system and if updates are available.",
+ "aliases": [
+  {
+   "text": "is package installed",
+   "lang": "en"
+  },
+  {
+   "text": "check package version",
+   "lang": "en"
+  },
+  {
+   "text": "apt-cache policy",
+   "lang": "en"
+  },
+  {
+   "text": "package update status",
+   "lang": "en"
+  },
+  {
+   "text": "установлен ли пакет",
+   "lang": "ru"
+  },
+  {
+   "text": "статус пакета apt",
+   "lang": "ru"
+  },
+  {
+   "text": "проверить версию пакета",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "debian"
+   },
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Show the installation status and available versions for the package.",
+   "cmd": "apt-cache policy <PACKAGE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/apt-cache.md",
+  "title": "tldr-pages: apt-cache",
+  "license": "CC-BY-4.0"
+ }
+}

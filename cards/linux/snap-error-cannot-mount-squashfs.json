@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "snap-error-cannot-mount-squashfs",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix 'cannot mount squashfs' error in Snap",
+ "summary": "Resolve the error 'system does not fully support snapd: cannot mount squashfs image using \"squashfs\"' by ensuring the SquashFS kernel module is loaded.",
+ "aliases": [
+  {
+   "text": "cannot mount squashfs",
+   "lang": "en"
+  },
+  {
+   "text": "snapd squashfs error",
+   "lang": "en"
+  },
+  {
+   "text": "system does not fully support snapd",
+   "lang": "en"
+  },
+  {
+   "text": "ошибка squashfs snap",
+   "lang": "ru"
+  },
+  {
+   "text": "не монтируется squashfs",
+   "lang": "ru"
+  },
+  {
+   "text": "snap не работает squashfs",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "system does not fully support snapd: cannot mount squashfs image using \"squashfs\""
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ],
+  "requires": [
+   "snapd"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check if the squashfs kernel module is loaded by listing loaded modules.",
+   "cmd": "lsmod",
+   "risk": "low",
+   "expect": "Output showing 'squashfs' module is loaded."
+  },
+  {
+   "explain": "If the module is not loaded or if you recently installed snapd, reboot the system.",
+   "cmd": "sudo reboot",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "System reboots."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "No rollback needed for reboot.",
+   "cmd": "",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "If you have recently installed the snapd package, you may need to reboot Arch Linux before installing Snap packages."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Snap#Error:_cannot_mount_squashfs",
+  "title": "Snap",
+  "revision_id": 861445,
+  "license": "GFDL-1.3-or-later"
+ }
+}

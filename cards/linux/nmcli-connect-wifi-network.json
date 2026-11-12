@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "nmcli-connect-wifi-network",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Connect to a Wi-Fi network",
+ "summary": "Connect to a specific Wi-Fi network by its name (SSID). You will be prompted to enter the password.",
+ "aliases": [
+  {
+   "text": "connect to wifi",
+   "lang": "en"
+  },
+  {
+   "text": "join wifi network",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli connect wifi",
+   "lang": "en"
+  },
+  {
+   "text": "connect to wifi via terminal",
+   "lang": "en"
+  },
+  {
+   "text": "подключиться к wifi",
+   "lang": "ru"
+  },
+  {
+   "text": "подключить wifi в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli wifi connect",
+   "lang": "ru"
+  },
+  {
+   "text": "connect wifi terminal",
+   "lang": "en"
+  },
+  {
+   "text": "wifi через терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "wifi command line",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli wifi",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager"
+  ]
+ },
+ "prerequisites": [
+  "Know the SSID (name) of the Wi-Fi network",
+  "Know the password for the Wi-Fi network"
+ ],
+ "steps": [
+  {
+   "explain": "Connect to the specified Wi-Fi network. The --ask flag prompts you for the password.",
+   "cmd": "nmcli device wifi connect <SSID> --ask",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SSID",
+     "description": "The name of the Wi-Fi network you want to connect to",
+     "example": "MyHomeNetwork",
+     "discover_cmd": "nmcli device wifi"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "List available Wi-Fi networks to find the SSID (network name).",
+     "cmd": "nmcli device wifi list",
+     "risk": "low"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-device.md",
+  "title": "tldr-pages: nmcli-device",
+  "license": "CC-BY-4.0"
+ }
+}

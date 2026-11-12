@@ -1,0 +1,156 @@
+{
+ "schema_version": 2,
+ "id": "posix-sudo-least-privilege",
+ "platform": "posix",
+ "kind": "concept",
+ "title": "Know when to use sudo and why not to run whole scripts as root",
+ "summary": "sudo runs one command with administrator rights. You need it only to change system files, settings, software or services, not for your own files. Running a whole script as root is risky, because every line of it then has full power over the system.",
+ "aliases": [
+  {
+   "text": "when do I need sudo",
+   "lang": "en"
+  },
+  {
+   "text": "why do I need sudo in terminal",
+   "lang": "en"
+  },
+  {
+   "text": "should I run the script as root",
+   "lang": "en"
+  },
+  {
+   "text": "is it safe to run everything with sudo",
+   "lang": "en"
+  },
+  {
+   "text": "what does sudo mean in linux",
+   "lang": "en"
+  },
+  {
+   "text": "who owns this file linux",
+   "lang": "en"
+  },
+  {
+   "text": "sudo -v what does it do",
+   "lang": "en"
+  },
+  {
+   "text": "why not run everything as root all the time",
+   "lang": "en"
+  },
+  {
+   "text": "когда нужен sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "зачем нужен sudo в терминале",
+   "lang": "ru"
+  },
+  {
+   "text": "надо ли запускать скрипт от root",
+   "lang": "ru"
+  },
+  {
+   "text": "безопасно ли запускать всё через sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "что такое sudo в linux",
+   "lang": "ru"
+  },
+  {
+   "text": "кто владелец файла linux",
+   "lang": "ru"
+  },
+  {
+   "text": "зачем не работать под root постоянно",
+   "lang": "ru"
+  },
+  {
+   "text": "что делает sudo -v",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open",
+  "You know the password of your own account (sudo asks for it, not for the root password)"
+ ],
+ "steps": [
+  {
+   "explain": "Check that the sudo program is installed. This only looks up its file path and changes nothing. Minimal server and container images often do not have sudo.",
+   "cmd": "command -v sudo",
+   "risk": "low",
+   "expect": "A path such as /usr/bin/sudo or /usr/sbin/sudo. If nothing is printed, sudo is not installed on this system."
+  },
+  {
+   "explain": "Show the groups of your account. Members of sudo (Debian, Ubuntu, Linux Mint), wheel (Fedora, openSUSE, Arch) or admin (macOS) may use sudo. If none of these names is in the list, sudo will refuse your commands. This is read-only.",
+   "cmd": "id -Gn",
+   "risk": "low",
+   "expect": "Group names separated by spaces, for example: tester sudo. Look for sudo, wheel or admin in the list."
+  },
+  {
+   "explain": "Check who owns a file before you change it. The third column is the owner. If the owner is your own name, you can edit it without sudo. If the owner is root, changing it needs sudo. Installing software, editing files in /etc and managing services need sudo; files in your home folder usually do not.",
+   "cmd": "ls -l <FILE>",
+   "risk": "low",
+   "expect": "A line such as -rw-r--r-- 1 root root 173 ... /etc/hosts. Here the owner is root, so editing this file needs sudo.",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "The file you want to check or change.",
+     "example": "/etc/hosts",
+     "discover_cmd": "ls -la ~"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Show the owner of a folder itself instead of its contents. Use it before you create or delete files inside the folder.",
+     "cmd": "ls -ld <DIR>",
+     "risk": "low",
+     "expect": "A line starting with d, followed by the owner in the third column. For example: drwxr-xr-x 2 root root ... /etc",
+     "placeholders": [
+      {
+       "name": "DIR",
+       "description": "The folder you want to check.",
+       "example": "/etc",
+       "discover_cmd": "ls -la ~"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "explain": "Ask for your password once and refresh the sudo timestamp, so the next sudo commands do not ask again for a few minutes. It runs nothing as root by itself. Nothing appears on the screen while you type the password.",
+   "cmd": "sudo -v",
+   "needs_root": true,
+   "risk": "low",
+   "expect": "A password prompt (Fedora may print a short lecture first). After the right password it returns silently. Not allowed: Sorry, user NAME may not run sudo on HOST."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "sudo -n -v",
+   "expect": "No output and exit code 0 in the same terminal window within a few minutes of sudo -v, so sudo does not ask for the password again. Otherwise: sudo: a password is required."
+  }
+ ],
+ "risk": "low",
+ "warnings": [
+  "Do not run a whole downloaded script with sudo. Every line of it runs as root, so one wrong line can damage the system. Read the script first and use sudo only on the single command that needs it.",
+  "Type your password only into the sudo prompt of a command you have read and understood."
+ ],
+ "see_also": [
+  "posix-check-user-and-groups"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/sudo",
+  "title": "sudo manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "macos-check-directory-size",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Check the size of a directory",
+ "summary": "Use the `du` command to see how much disk space a specific folder is using. You can choose to see the total size only or a breakdown of subfolders.",
+ "aliases": [
+  {
+   "text": "check folder size mac",
+   "lang": "en"
+  },
+  {
+   "text": "how much space does this folder take",
+   "lang": "en"
+  },
+  {
+   "text": "du command mac",
+   "lang": "en"
+  },
+  {
+   "text": "directory size terminal mac",
+   "lang": "en"
+  },
+  {
+   "text": "размер папки терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "сколько занимает папка",
+   "lang": "ru"
+  },
+  {
+   "text": "du macos",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `du` with the `-sh` flags to show the total size of the directory in human-readable units (like MB or GB) without listing every subfolder.",
+   "cmd": "du -sh <DIRECTORY>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIRECTORY",
+     "description": "The path to the folder you want to measure.",
+     "example": "~/Downloads"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "To see the size of the directory and all its subdirectories, use `-h` instead of `-sh`.",
+     "cmd": "du -h <DIRECTORY>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "DIRECTORY",
+       "description": "The path to the folder you want to measure.",
+       "example": "~/Downloads"
+      }
+     ]
+    },
+    {
+     "explain": "To see the size of the directory and all files within it, use `-ah`.",
+     "cmd": "du -ah <DIRECTORY>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "DIRECTORY",
+       "description": "The path to the folder you want to measure.",
+       "example": "~/Downloads"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/du.md",
+  "title": "tldr-pages: du",
+  "license": "CC-BY-4.0"
+ },
+ "see_also": [
+  "macos-check-disk-space",
+  "posix-check-disk-space-for-path",
+  "posix-check-directory-size"
+ ]
+}

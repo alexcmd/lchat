@@ -1,0 +1,202 @@
+{
+ "schema_version": 2,
+ "id": "error-zsh-permission-denied-script",
+ "platform": "macos",
+ "kind": "error",
+ "title": "Fix 'zsh: permission denied' when running a script on macOS",
+ "summary": "The Terminal prints 'permission denied' when a script file has no execute permission, which is common for files downloaded from the Internet. These steps check the permission, make the script executable, and run it.",
+ "error_patterns": [
+  "zsh: permission denied:",
+  "zsh:1: permission denied:"
+ ],
+ "aliases": [
+  {
+   "text": "zsh permission denied script mac",
+   "lang": "en"
+  },
+  {
+   "text": "mac script permission denied",
+   "lang": "en"
+  },
+  {
+   "text": "permission denied ./script.sh",
+   "lang": "en"
+  },
+  {
+   "text": "can't run downloaded script mac",
+   "lang": "en"
+  },
+  {
+   "text": "how to make script executable mac",
+   "lang": "en"
+  },
+  {
+   "text": "script won't run mac terminal",
+   "lang": "en"
+  },
+  {
+   "text": "terminal says permission denied for sh file",
+   "lang": "en"
+  },
+  {
+   "text": "zsh permission denied скрипт мак",
+   "lang": "ru"
+  },
+  {
+   "text": "permission denied скрипт на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "терминал пишет permission denied",
+   "lang": "ru"
+  },
+  {
+   "text": "как сделать скрипт исполняемым на маке",
+   "lang": "ru"
+  },
+  {
+   "text": "скрипт не запускается мак терминал",
+   "lang": "ru"
+  },
+  {
+   "text": "skript ne zapuskaetsya mac",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "prerequisites": [
+  "Terminal app open",
+  "The script file is saved on your Mac, for example in Downloads"
+ ],
+ "steps": [
+  {
+   "explain": "Read the message. 'permission denied' on a script means the file has no execute permission, so zsh will not start it as a program. Run the next commands from the folder that holds the script, or use its full path.",
+   "risk": "low"
+  },
+  {
+   "explain": "Show the permissions of the script. The first column lists them. Look for x letters: they mean the file may be started.",
+   "cmd": "ls -l <SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "the file name of the script",
+     "example": "install.sh",
+     "discover_cmd": "ls ~/Downloads"
+    }
+   ],
+   "expect": "-rw-r--r-- has no x, so the script is not executable. -rwxr-xr-x has x, so the permission is already set and the error has another cause."
+  },
+  {
+   "explain": "Read the script before you run it, if it came from the Internet. A script can change or delete files on your Mac, so run only scripts you trust.",
+   "cmd": "cat <SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "the file name of the script",
+     "example": "install.sh",
+     "discover_cmd": "ls ~/Downloads"
+    }
+   ],
+   "expect": "The text of the script. It usually starts with a line such as #!/bin/zsh or #!/bin/bash and lists commands one per line."
+  },
+  {
+   "explain": "Add the execute permission to the script for all users. This changes only the permission of this file, not its content.",
+   "cmd": "chmod +x <SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "the file name of the script",
+     "example": "install.sh",
+     "discover_cmd": "ls ~/Downloads"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Add the execute permission for your own user only.",
+     "cmd": "chmod u+x <SCRIPT>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SCRIPT",
+       "description": "the file name of the script",
+       "example": "install.sh",
+       "discover_cmd": "ls ~/Downloads"
+      }
+     ],
+     "expect": "No output."
+    }
+   ],
+   "expect": "No output. Run ls -l on the script again to see the x letters in the permissions."
+  },
+  {
+   "explain": "Start the script from the current folder. ./ means 'this folder'.",
+   "cmd": "./<SCRIPT>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SCRIPT",
+     "description": "the file name of the script",
+     "example": "install.sh",
+     "discover_cmd": "ls ~/Downloads"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Run the script with bash without changing its permissions. Use this if the script is written for bash.",
+     "cmd": "bash <SCRIPT>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SCRIPT",
+       "description": "the file name of the script",
+       "example": "install.sh",
+       "discover_cmd": "ls ~/Downloads"
+      }
+     ],
+     "expect": "The script output appears, the same as with ./."
+    },
+    {
+     "explain": "Run the script with zsh without changing its permissions. Use this if the script is written for zsh.",
+     "cmd": "zsh <SCRIPT>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "SCRIPT",
+       "description": "the file name of the script",
+       "example": "install.sh",
+       "discover_cmd": "ls ~/Downloads"
+      }
+     ],
+     "expect": "The script output appears, the same as with ./."
+    }
+   ],
+   "expect": "The script's own output appears, then the prompt comes back. The 'permission denied' message no longer appears."
+  }
+ ],
+ "verify": [
+  {
+   "cmd": "ls -l <SCRIPT>",
+   "expect": "The permissions now include x, for example -rwxr-xr-x, and ./<SCRIPT> starts without the 'permission denied' message."
+  }
+ ],
+ "warnings": [
+  "Run only scripts you trust. Read the file with cat before you run it.",
+  "A script can change or delete files on your Mac. Do not run scripts that ask for your administrator password unless you know what they do."
+ ],
+ "risk": "low",
+ "source": {
+  "url": "x-man-page://chmod",
+  "title": "chmod manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

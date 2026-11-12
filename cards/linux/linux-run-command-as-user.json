@@ -1,0 +1,79 @@
+{
+ "schema_version": 2,
+ "id": "linux-run-command-as-user",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Run a single command as another user",
+ "summary": "Execute a specific command as another user (like root) without switching your entire shell session. You will need to enter that user's password.",
+ "aliases": [
+  {
+   "text": "run command as root",
+   "lang": "en"
+  },
+  {
+   "text": "execute as user",
+   "lang": "en"
+  },
+  {
+   "text": "su -c",
+   "lang": "en"
+  },
+  {
+   "text": "run one command as another user",
+   "lang": "en"
+  },
+  {
+   "text": "запустить команду от рута",
+   "lang": "ru"
+  },
+  {
+   "text": "выполнить команду от другого пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "су -к",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use `su - <username> -c \"<command>\"` to run a single command as the specified user. The command is passed as a string.",
+   "cmd": "su - <USERNAME> --command \"<COMMAND>\"",
+   "risk": "medium",
+   "needs_root": false,
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The user to run the command as (e.g., root)."
+    },
+    {
+     "name": "COMMAND",
+     "description": "The command you want to execute."
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "This action does not change your shell state, so no rollback is needed. If the command modified files, you would need to undo those changes manually.",
+   "risk": "low"
+  }
+ ],
+ "warnings": [
+  "You must know the password of the user you are running the command as.",
+  "Be careful when running commands as root, as they can affect the entire system."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/su.md",
+  "title": "tldr-pages: su",
+  "license": "CC-BY-4.0"
+ }
+}

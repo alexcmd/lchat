@@ -1,0 +1,60 @@
+{
+ "schema_version": 2,
+ "id": "xresources-set-dpi",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Set Xft DPI in Xresources",
+ "summary": "Manually set the font DPI in the Xresources file for applications that do not use a desktop environment's scaling settings.",
+ "aliases": [
+  {
+   "text": "xresources dpi",
+   "lang": "en"
+  },
+  {
+   "text": "set xft dpi",
+   "lang": "en"
+  },
+  {
+   "text": "x11 font dpi",
+   "lang": "en"
+  },
+  {
+   "text": "xresources hidpi",
+   "lang": "ru"
+  },
+  {
+   "text": "настроить dpi x11",
+   "lang": "ru"
+  },
+  {
+   "text": "шрифты x11 мелкие",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "display_server": "x11"
+ },
+ "steps": [
+  {
+   "explain": "Add 'Xft.dpi: 192' to ~/.Xresources",
+   "risk": "low"
+  },
+  {
+   "explain": "Merge the Xresources settings into the current X server session.",
+   "cmd": "xrdb -merge ~/.Xresources",
+   "risk": "low"
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/HiDPI#X_Resources",
+  "title": "HiDPI",
+  "revision_id": 886689,
+  "license": "GFDL-1.3-or-later"
+ }
+}

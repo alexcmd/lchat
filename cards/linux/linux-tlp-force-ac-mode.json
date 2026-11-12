@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "id": "linux-tlp-force-ac-mode",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Force TLP AC mode",
+ "summary": "Forces TLP to apply high-performance AC settings even if the laptop is running on battery. Useful for temporary performance boosts when not plugged in.",
+ "aliases": [
+  {
+   "text": "force tlp ac mode",
+   "lang": "en"
+  },
+  {
+   "text": "tlp ac",
+   "lang": "en"
+  },
+  {
+   "text": "apply ac settings tlp",
+   "lang": "en"
+  },
+  {
+   "text": "принудительно режим сети tlp",
+   "lang": "ru"
+  },
+  {
+   "text": "tlp ac",
+   "lang": "ru"
+  },
+  {
+   "text": "включить производительность tlp",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "tlp"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Apply TLP's AC-specific settings, ignoring the fact that the laptop might be on battery.",
+   "cmd": "sudo tlp ac",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Run 'sudo tlp bat' to switch back to battery settings, or 'sudo tlp start' to let TLP decide based on the actual power source.",
+   "cmd": "sudo tlp bat",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This may drain the battery faster than usual."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/tlp.md",
+  "title": "tldr-pages: tlp",
+  "license": "CC-BY-4.0"
+ }
+}

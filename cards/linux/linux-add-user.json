@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "linux-add-user",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Add a new user account",
+ "summary": "Create a new user account with a home directory and set their password.",
+ "aliases": [
+  {
+   "text": "add user linux",
+   "lang": "en"
+  },
+  {
+   "text": "create new user account",
+   "lang": "en"
+  },
+  {
+   "text": "useradd command",
+   "lang": "en"
+  },
+  {
+   "text": "добавить пользователя linux",
+   "lang": "ru"
+  },
+  {
+   "text": "создать нового пользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "как добавить юзера",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Create the user account, their home directory, and assign a login shell. Replace <USERNAME> with the desired name and <SHELL_PATH> with the path to the shell (e.g., /bin/bash).",
+   "cmd": "sudo useradd -m -G <ADDITIONAL_GROUPS> -s <SHELL_PATH> <USERNAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The name of the new user",
+     "example": "john"
+    },
+    {
+     "name": "SHELL_PATH",
+     "description": "Path to the login shell",
+     "example": "/bin/bash",
+     "discover_cmd": "cat /etc/shells"
+    },
+    {
+     "name": "ADDITIONAL_GROUPS",
+     "description": "Comma-separated list of supplementary groups",
+     "example": "wheel,audio"
+    }
+   ]
+  },
+  {
+   "explain": "Set the password for the new user.",
+   "cmd": "sudo passwd <USERNAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The name of the new user",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Delete the user and their home directory.",
+   "cmd": "sudo userdel -r <USERNAME>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "USERNAME",
+     "description": "The name of the user to delete",
+     "example": "john"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Ensure the shell specified in <SHELL_PATH> exists in /etc/shells, otherwise the user will not be able to log in."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Users_and_groups#User_management",
+  "title": "Users and groups",
+  "revision_id": 872887,
+  "license": "GFDL-1.3-or-later"
+ }
+}

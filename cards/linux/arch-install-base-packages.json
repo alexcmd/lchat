@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "arch-install-base-packages",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install base packages for Arch Linux",
+ "summary": "Install the essential base system packages, kernel, and firmware into the mounted root partition using pacstrap.",
+ "aliases": [
+  {
+   "text": "pacstrap arch install",
+   "lang": "en"
+  },
+  {
+   "text": "install base arch linux",
+   "lang": "en"
+  },
+  {
+   "text": "arch install essential packages",
+   "lang": "en"
+  },
+  {
+   "text": "установить базу arch",
+   "lang": "ru"
+  },
+  {
+   "text": "pacstrap команда",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "arch"
+   }
+  ]
+ },
+ "prerequisites": [
+  "File systems mounted",
+  "Internet connection"
+ ],
+ "steps": [
+  {
+   "explain": "Install the base system, kernel, and firmware. You can add other packages like nano or networkmanager here.",
+   "cmd": "sudo pacstrap -K /mnt base linux linux-firmware",
+   "needs_root": true,
+   "risk": "medium",
+   "expect": "Packages downloading and installing."
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Ensure your mirrorlist is configured correctly for faster downloads."
+ ],
+ "rollback": [
+  {
+   "explain": "Reformat the root partition and restart the installation process.",
+   "cmd": "",
+   "risk": "high"
+  }
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Installation_guide#Install_essential_packages",
+  "title": "Installation guide",
+  "revision_id": 886382,
+  "license": "GFDL-1.3-or-later"
+ }
+}

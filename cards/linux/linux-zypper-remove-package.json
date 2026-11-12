@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "linux-zypper-remove-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a package with zypper",
+ "summary": "Uninstall a specific software package from your system.",
+ "aliases": [
+  {
+   "text": "zypper remove",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall package suse",
+   "lang": "en"
+  },
+  {
+   "text": "delete software zypper",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет zypper",
+   "lang": "ru"
+  },
+  {
+   "text": "zypper rm",
+   "lang": "ru"
+  },
+  {
+   "text": "снести программу suse",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "opensuse"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified package. You can use the full command 'remove' or the short form 'rm'.",
+   "cmd": "sudo zypper remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package you want to remove.",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short form 'rm' instead of 'remove'.",
+     "cmd": "sudo zypper rm <PACKAGE>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PACKAGE",
+       "description": "The name of the package you want to remove.",
+       "example": "firefox"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the package if you removed it by mistake.",
+   "cmd": "sudo zypper install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "The name of the package to reinstall.",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "This command requires administrator privileges (sudo).",
+  "Removing a package may also remove dependencies that other software relies on."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/zypper.md",
+  "title": "tldr-pages: zypper",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,96 @@
+{
+ "schema_version": 2,
+ "id": "linux-desktop-environment-check",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Check which desktop environment is running",
+ "summary": "The desktop environment is the graphical interface you see on screen, such as GNOME, KDE Plasma or XFCE. Its name is stored in the shell variable XDG_CURRENT_DESKTOP, and printing that variable in a terminal shows which one your session uses.",
+ "aliases": [
+  {
+   "text": "which desktop environment am i using",
+   "lang": "en"
+  },
+  {
+   "text": "what desktop do i have on linux",
+   "lang": "en"
+  },
+  {
+   "text": "gnome or kde which one is mine",
+   "lang": "en"
+  },
+  {
+   "text": "check desktop environment linux",
+   "lang": "en"
+  },
+  {
+   "text": "what gui is running on linux",
+   "lang": "en"
+  },
+  {
+   "text": "linux desktop name echo xdg current desktop",
+   "lang": "en"
+  },
+  {
+   "text": "какое рабочее окружение у меня",
+   "lang": "ru"
+  },
+  {
+   "text": "какой рабочий стол в линуксе",
+   "lang": "ru"
+  },
+  {
+   "text": "какой рабочий стол установлен",
+   "lang": "ru"
+  },
+  {
+   "text": "gnome или kde что у меня стоит",
+   "lang": "ru"
+  },
+  {
+   "text": "kakoe rabochee okruzhenie u menya",
+   "lang": "ru"
+  },
+  {
+   "text": "как узнать какой у меня рабочий стол линукс",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "prerequisites": [
+  "A terminal window is open inside your graphical desktop (not over SSH and not in a text console)"
+ ],
+ "steps": [
+  {
+   "explain": "Prints the name of the desktop environment that your graphical session set when it started. The variable is filled in only inside a graphical session.",
+   "cmd": "echo \"$XDG_CURRENT_DESKTOP\"",
+   "gui": "Open the Settings app and look at its About page: it shows the GNOME Version on GNOME or the KDE Plasma Version on KDE Plasma.",
+   "risk": "low",
+   "expect": "One name such as GNOME, KDE, XFCE, X-Cinnamon, MATE or LXQt. Ubuntu's GNOME prints ubuntu:GNOME. An empty line means this terminal is not inside a graphical session.",
+   "alternatives": [
+    {
+     "explain": "Prints an older session variable that many systems set to the session name, such as gnome, plasma, xfce or cinnamon. Use it when the first command prints nothing.",
+     "cmd": "echo \"$DESKTOP_SESSION\"",
+     "risk": "low",
+     "expect": "A short lowercase session name such as gnome or plasma. An empty line means the variable is not set."
+    }
+   ]
+  }
+ ],
+ "see_also": [
+  "arch-concept-desktop-environment",
+  "display-manager-concept"
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://manpages.debian.org/bash",
+  "title": "bash manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ },
+ "updated": "2026-10-24"
+}

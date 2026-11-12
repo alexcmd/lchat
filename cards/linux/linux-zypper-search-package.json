@@ -1,0 +1,75 @@
+{
+ "schema_version": 2,
+ "id": "linux-zypper-search-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Search for a package with zypper",
+ "summary": "Find software packages by keyword in the available repositories.",
+ "aliases": [
+  {
+   "text": "zypper search",
+   "lang": "en"
+  },
+  {
+   "text": "find package suse",
+   "lang": "en"
+  },
+  {
+   "text": "search software zypper",
+   "lang": "en"
+  },
+  {
+   "text": "найти пакет zypper",
+   "lang": "ru"
+  },
+  {
+   "text": "zypper se",
+   "lang": "ru"
+  },
+  {
+   "text": "поиск программы suse",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "opensuse"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Search for packages matching the keyword. You can use the full command 'search' or the short form 'se'.",
+   "cmd": "zypper search <KEYWORD>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "KEYWORD",
+     "description": "The keyword to search for.",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Use the short form 'se' instead of 'search'.",
+     "cmd": "zypper se <KEYWORD>",
+     "risk": "low",
+     "placeholders": [
+      {
+       "name": "KEYWORD",
+       "description": "The keyword to search for.",
+       "example": "firefox"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/zypper.md",
+  "title": "tldr-pages: zypper",
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,105 @@
+{
+ "schema_version": 2,
+ "id": "linux-dnf-remove-package",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Remove a package using dnf",
+ "summary": "Uninstall software from your Fedora or RHEL system using the dnf package manager.",
+ "aliases": [
+  {
+   "text": "remove package dnf",
+   "lang": "en"
+  },
+  {
+   "text": "dnf remove",
+   "lang": "en"
+  },
+  {
+   "text": "uninstall software fedora",
+   "lang": "en"
+  },
+  {
+   "text": "dnf uninstall",
+   "lang": "en"
+  },
+  {
+   "text": "удалить пакет dnf",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf удаление",
+   "lang": "ru"
+  },
+  {
+   "text": "как удалить программу fedora",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Remove the specified package(s). You will be prompted to confirm the removal.",
+   "cmd": "sudo dnf remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to remove",
+     "example": "firefox"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Remove multiple packages at once.",
+     "cmd": "sudo dnf remove <PACKAGE1> <PACKAGE2>",
+     "needs_root": true,
+     "risk": "medium",
+     "placeholders": [
+      {
+       "name": "PACKAGE1",
+       "description": "First package name",
+       "example": "vim"
+      },
+      {
+       "name": "PACKAGE2",
+       "description": "Second package name",
+       "example": "git"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Reinstall the package if you removed it by mistake.",
+   "cmd": "sudo dnf install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to install",
+     "example": "firefox"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "Removing packages requires administrator rights.",
+  "Be careful not to remove critical system packages."
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/dnf.md",
+  "title": "tldr-pages: dnf",
+  "license": "CC-BY-4.0"
+ }
+}

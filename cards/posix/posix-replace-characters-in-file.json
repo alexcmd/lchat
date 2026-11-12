@@ -1,0 +1,98 @@
+{
+ "schema_version": 2,
+ "id": "posix-replace-characters-in-file",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Replace characters in a file using tr",
+ "summary": "Use the `tr` command to find and replace specific characters in a text file. It reads the file, swaps the characters, and prints the result to your screen.",
+ "aliases": [
+  {
+   "text": "replace characters in file",
+   "lang": "en"
+  },
+  {
+   "text": "swap letters in text",
+   "lang": "en"
+  },
+  {
+   "text": "tr command replace",
+   "lang": "en"
+  },
+  {
+   "text": "change characters in file",
+   "lang": "en"
+  },
+  {
+   "text": "заменить символы в файле",
+   "lang": "ru"
+  },
+  {
+   "text": "tr замена символов",
+   "lang": "ru"
+  },
+  {
+   "text": "как заменить буквы в файле",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Read the file and replace the first character with the second. The result is printed to the terminal; it does not modify the original file unless you redirect the output.",
+   "cmd": "tr < <FILE> <FIND_CHARACTER> <REPLACE_CHARACTER>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file",
+     "example": "notes.txt"
+    },
+    {
+     "name": "FIND_CHARACTER",
+     "description": "The character to find",
+     "example": "a"
+    },
+    {
+     "name": "REPLACE_CHARACTER",
+     "description": "The character to replace it with",
+     "example": "b"
+    }
+   ],
+   "alternatives": [
+    {
+     "explain": "Replace characters in the output of another command (like echo) instead of a file.",
+     "cmd": "echo <TEXT> | tr <FIND_CHARACTER> <REPLACE_CHARACTER>",
+     "placeholders": [
+      {
+       "name": "TEXT",
+       "description": "The text to process",
+       "example": "hello"
+      },
+      {
+       "name": "FIND_CHARACTER",
+       "description": "The character to find",
+       "example": "l"
+      },
+      {
+       "name": "REPLACE_CHARACTER",
+       "description": "The character to replace it with",
+       "example": "r"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tr.md",
+  "title": "tldr-pages: tr",
+  "license": "CC-BY-4.0"
+ }
+}

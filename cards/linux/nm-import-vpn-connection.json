@@ -1,0 +1,89 @@
+{
+ "schema_version": 2,
+ "id": "nm-import-vpn-connection",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Import a VPN connection from an OVPN file",
+ "summary": "Add a VPN connection profile to NetworkManager using an OpenVPN configuration file.",
+ "aliases": [
+  {
+   "text": "import vpn connection",
+   "lang": "en"
+  },
+  {
+   "text": "add openvpn profile",
+   "lang": "en"
+  },
+  {
+   "text": "import ovpn file",
+   "lang": "en"
+  },
+  {
+   "text": "nmcli connection import vpn",
+   "lang": "en"
+  },
+  {
+   "text": "add vpn from file",
+   "lang": "en"
+  },
+  {
+   "text": "import openvpn config",
+   "lang": "en"
+  },
+  {
+   "text": "import vpn connection",
+   "lang": "ru"
+  },
+  {
+   "text": "add openvpn profile",
+   "lang": "ru"
+  },
+  {
+   "text": "import ovpn file",
+   "lang": "ru"
+  },
+  {
+   "text": "nmcli connection import vpn",
+   "lang": "ru"
+  },
+  {
+   "text": "add vpn from file",
+   "lang": "ru"
+  },
+  {
+   "text": "import openvpn config",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "requires": [
+   "NetworkManager",
+   "NetworkManager-openvpn"
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Import an OpenVPN configuration file to create a new VPN connection profile.",
+   "cmd": "nmcli connection import type openvpn file <OVPN_FILE>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "OVPN_FILE",
+     "description": "The path to the OpenVPN configuration file (.ovpn).",
+     "example": "/home/user/vpn_config.ovpn"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/nmcli-connection.md",
+  "title": "tldr-pages: nmcli-connection",
+  "license": "CC-BY-4.0"
+ }
+}

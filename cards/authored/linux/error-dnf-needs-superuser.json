@@ -1,0 +1,115 @@
+{
+ "schema_version": 2,
+ "id": "error-dnf-needs-superuser",
+ "platform": "linux",
+ "kind": "error",
+ "title": "Fix dnf error: operation requires superuser privileges",
+ "summary": "dnf installs and removes software for the whole system, so it needs administrator rights. If you run it as a normal user, it stops with a 'requires superuser privileges' message. Put sudo in front of the command.",
+ "aliases": [
+  {
+   "text": "dnf requires superuser privileges",
+   "lang": "en"
+  },
+  {
+   "text": "dnf operation requires superuser privileges",
+   "lang": "en"
+  },
+  {
+   "text": "dnf install not working fedora",
+   "lang": "en"
+  },
+  {
+   "text": "dnf needs sudo",
+   "lang": "en"
+  },
+  {
+   "text": "dnf install without sudo error",
+   "lang": "en"
+  },
+  {
+   "text": "fedora dnf superuser error",
+   "lang": "en"
+  },
+  {
+   "text": "dnf требует права суперпользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf ошибка суперпользователя",
+   "lang": "ru"
+  },
+  {
+   "text": "днф установка не работает нет прав",
+   "lang": "ru"
+  },
+  {
+   "text": "dnf нужен sudo",
+   "lang": "ru"
+  },
+  {
+   "text": "fedora dnf install ошибка root",
+   "lang": "ru"
+  }
+ ],
+ "error_patterns": [
+  "The requested operation requires superuser privileges",
+  "requires superuser privileges"
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "fedora"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Check which user you are running commands as. If it prints your own user name and not 'root', dnf was started without administrator rights.",
+   "cmd": "whoami",
+   "risk": "low",
+   "expect": "Prints your user name, for example alex. It is not 'root', so the install needs sudo."
+  },
+  {
+   "explain": "Run the same install with sudo in front. sudo asks for your account password once; nothing appears while you type it, which is normal.",
+   "cmd": "sudo dnf install <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to install",
+     "example": "htop"
+    }
+   ],
+   "expect": "After the password, dnf lists the packages, asks for confirmation, and ends with 'Complete!'."
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "Remove the package again if it was the wrong one.",
+   "cmd": "sudo dnf remove <PACKAGE>",
+   "needs_root": true,
+   "risk": "medium",
+   "placeholders": [
+    {
+     "name": "PACKAGE",
+     "description": "Name of the package to remove",
+     "example": "htop"
+    }
+   ]
+  }
+ ],
+ "warnings": [
+  "sudo runs the install with full system rights. Install only packages you trust.",
+  "Verified on Fedora 42 (dnf5). Other Fedora or RHEL versions may print a different message."
+ ],
+ "see_also": [
+  "linux-dnf-install-package"
+ ],
+ "source": {
+  "url": "https://manpages.debian.org/dnf",
+  "title": "dnf manual; card written and verified in the lnxhelp sandbox",
+  "license": "CC-BY-4.0"
+ }
+}

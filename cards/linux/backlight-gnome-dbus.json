@@ -1,0 +1,68 @@
+{
+ "schema_version": 2,
+ "id": "backlight-gnome-dbus",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Adjust brightness via DBus in GNOME",
+ "summary": "Use gdbus to change screen brightness in GNOME, ensuring the UI slider updates correctly.",
+ "aliases": [
+  {
+   "text": "gnome brightness dbus",
+   "lang": "en"
+  },
+  {
+   "text": "script brightness gnome",
+   "lang": "en"
+  },
+  {
+   "text": "gdbus brightness",
+   "lang": "en"
+  },
+  {
+   "text": "яркость gnome скрипт",
+   "lang": "ru"
+  },
+  {
+   "text": "dbus яркость экрана",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ],
+  "desktop": [
+   "gnome"
+  ],
+  "display_server": "any"
+ },
+ "steps": [
+  {
+   "explain": "Set brightness to a specific value (e.g., 50) using DBus.",
+   "cmd": "gdbus call --session --dest org.gnome.SettingsDaemon.Power --object-path /org/gnome/SettingsDaemon/Power --method org.freedesktop.DBus.Properties.Set org.gnome.SettingsDaemon.Power.Screen Brightness \"<int32 50>\"",
+   "risk": "low",
+   "expect": "Brightness changes and the GNOME slider updates."
+  },
+  {
+   "explain": "Increase brightness by one step.",
+   "cmd": "gdbus call --session --dest org.gnome.SettingsDaemon.Power --object-path /org/gnome/SettingsDaemon/Power --method org.gnome.SettingsDaemon.Power.Screen.StepUp",
+   "risk": "low",
+   "expect": "Brightness increases slightly."
+  },
+  {
+   "explain": "Decrease brightness by one step.",
+   "cmd": "gdbus call --session --dest org.gnome.SettingsDaemon.Power --object-path /org/gnome/SettingsDaemon/Power --method org.gnome.SettingsDaemon.Power.Screen.StepDown",
+   "risk": "low",
+   "expect": "Brightness decreases slightly."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Backlight#Using_DBus_with_GNOME",
+  "title": "Backlight",
+  "revision_id": 885962,
+  "license": "GFDL-1.3-or-later"
+ }
+}

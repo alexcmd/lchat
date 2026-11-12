@@ -1,0 +1,67 @@
+{
+ "schema_version": 2,
+ "id": "macos-tart-clone-vm",
+ "platform": "macos",
+ "kind": "task",
+ "title": "Clone a Tart virtual machine",
+ "summary": "Creates a copy of an existing local or remote VM image under a new name. Useful for creating backups or test instances.",
+ "aliases": [
+  {
+   "text": "clone tart vm",
+   "lang": "en"
+  },
+  {
+   "text": "copy virtual machine tart",
+   "lang": "en"
+  },
+  {
+   "text": "tart clone",
+   "lang": "en"
+  },
+  {
+   "text": "клонировать виртуалку tart",
+   "lang": "ru"
+  },
+  {
+   "text": "копия вмс tart",
+   "lang": "ru"
+  },
+  {
+   "text": "создать копию vm tart",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "macos"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Clones the source VM to a new VM name.",
+   "cmd": "tart clone <SOURCE_VM> <NEW_VM_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "SOURCE_VM",
+     "description": "Name of the source VM to clone",
+     "example": "base-vm",
+     "discover_cmd": "tart list"
+    },
+    {
+     "name": "NEW_VM_NAME",
+     "description": "Name for the new cloned VM",
+     "example": "test-vm"
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/osx/tart.md",
+  "title": "tldr-pages: tart",
+  "license": "CC-BY-4.0"
+ }
+}

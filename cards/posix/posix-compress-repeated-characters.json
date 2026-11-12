@@ -1,0 +1,70 @@
+{
+ "schema_version": 2,
+ "id": "posix-compress-repeated-characters",
+ "platform": "posix",
+ "kind": "task",
+ "title": "Compress repeated characters in a file",
+ "summary": "Use `tr` with the squeeze flag to replace sequences of identical characters with a single instance. Useful for cleaning up extra spaces or newlines.",
+ "aliases": [
+  {
+   "text": "remove duplicate characters",
+   "lang": "en"
+  },
+  {
+   "text": "squeeze repeated characters",
+   "lang": "en"
+  },
+  {
+   "text": "tr squeeze repeats",
+   "lang": "en"
+  },
+  {
+   "text": "compress spaces in file",
+   "lang": "en"
+  },
+  {
+   "text": "убрать повторяющиеся символы",
+   "lang": "ru"
+  },
+  {
+   "text": "tr сжать повторы",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить лишние пробелы",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Use the `--squeeze-repeats` flag to collapse multiple identical characters into one.",
+   "cmd": "tr < <FILE> --squeeze-repeats '<INPUT_CHARACTERS>'",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "FILE",
+     "description": "Path to the text file",
+     "example": "log.txt"
+    },
+    {
+     "name": "INPUT_CHARACTERS",
+     "description": "Characters to squeeze",
+     "example": " "
+    }
+   ]
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tr.md",
+  "title": "tldr-pages: tr",
+  "license": "CC-BY-4.0"
+ }
+}

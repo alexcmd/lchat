@@ -1,0 +1,62 @@
+{
+ "schema_version": 2,
+ "id": "posix-view-directory-tree-exclude-dirs",
+ "platform": "posix",
+ "kind": "task",
+ "title": "View directory tree excluding specific folders",
+ "summary": "Display the directory structure while ignoring specific directories (like node_modules or .git) to reduce clutter.",
+ "aliases": [
+  {
+   "text": "tree exclude directory",
+   "lang": "en"
+  },
+  {
+   "text": "ignore folder in tree",
+   "lang": "en"
+  },
+  {
+   "text": "tree -I",
+   "lang": "en"
+  },
+  {
+   "text": "derevo bez node_modules",
+   "lang": "ru"
+  },
+  {
+   "text": "isklyuchit' katalog iz dereva",
+   "lang": "ru"
+  },
+  {
+   "text": "skryt' papku v dereve",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Run `tree` with `-I` followed by the name of the directory you want to ignore.",
+   "cmd": "tree -I <DIR_NAME>",
+   "risk": "low",
+   "placeholders": [
+    {
+     "name": "DIR_NAME",
+     "description": "The name of the directory to exclude from the output.",
+     "example": "node_modules"
+    }
+   ],
+   "expect": "A tree structure that does not show the specified directory or its contents."
+  }
+ ],
+ "risk": "low",
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/common/tree.md",
+  "title": "tldr-pages: tree",
+  "license": "CC-BY-4.0"
+ }
+}

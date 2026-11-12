@@ -1,0 +1,71 @@
+{
+ "schema_version": 2,
+ "id": "sudo-fix-permissions",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Fix sudoers file permissions",
+ "summary": "Restore correct ownership and permissions for /etc/sudoers if they were accidentally changed, which can cause sudo to fail.",
+ "aliases": [
+  {
+   "text": "sudoers permissions error",
+   "lang": "en"
+  },
+  {
+   "text": "sudo broken permissions",
+   "lang": "en"
+  },
+  {
+   "text": "fix sudoers chmod",
+   "lang": "en"
+  },
+  {
+   "text": "ошибки прав sudoers",
+   "lang": "ru"
+  },
+  {
+   "text": "sudo не работает права",
+   "lang": "ru"
+  },
+  {
+   "text": "исправить права sudoers",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Set the owner and group of /etc/sudoers to root.",
+   "cmd": "sudo chown -c root:root /etc/sudoers",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Set the permissions to 0440 (read-only for root and group).",
+   "cmd": "sudo chmod -c 0440 /etc/sudoers",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "rollback": [
+  {
+   "explain": "If sudo is completely broken, you may need to boot into a live USB or recovery mode to fix these permissions.",
+   "risk": "high"
+  }
+ ],
+ "risk": "high",
+ "warnings": [
+  "Incorrect permissions on /etc/sudoers will prevent sudo from working. Ensure you have root access via another method (su, live USB) before attempting this if sudo is already failing."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Sudo#Sudoers_default_file_permissions",
+  "title": "Sudo",
+  "revision_id": 876067,
+  "license": "GFDL-1.3-or-later"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "schema_version": 2,
+ "id": "linux-install-recommended-drivers",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Install recommended drivers for detected hardware",
+ "summary": "Automatically install the drivers that Ubuntu recommends for your hardware, such as NVIDIA graphics drivers.",
+ "aliases": [
+  {
+   "text": "install drivers ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "ubuntu drivers install",
+   "lang": "en"
+  },
+  {
+   "text": "install nvidia drivers ubuntu",
+   "lang": "en"
+  },
+  {
+   "text": "установить драйверы ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "установка драйверов ubuntu",
+   "lang": "ru"
+  },
+  {
+   "text": "поставить драйверы ubuntu",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "ubuntu"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Install the drivers that Ubuntu has identified as suitable for your hardware.",
+   "cmd": "sudo ubuntu-drivers install",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "warnings": [
+  "Installing proprietary drivers can sometimes cause system instability or black screens if incompatible.",
+  "Ensure you have a backup or know how to recover if the display fails after installation."
+ ],
+ "rollback": [
+  {
+   "explain": "The page does not provide a command to uninstall drivers. You may need to use 'apt remove' with the specific package name shown during installation, or boot into recovery mode to revert changes.",
+   "risk": "medium"
+  }
+ ],
+ "source": {
+  "url": "https://github.com/tldr-pages/tldr/blob/main/pages/linux/ubuntu-drivers.md",
+  "title": "tldr-pages: ubuntu-drivers",
+  "license": "CC-BY-4.0"
+ }
+}

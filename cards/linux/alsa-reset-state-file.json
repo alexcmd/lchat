@@ -1,0 +1,86 @@
+{
+ "schema_version": 2,
+ "id": "alsa-reset-state-file",
+ "platform": "linux",
+ "kind": "task",
+ "title": "Reset ALSA state to defaults",
+ "summary": "Delete the saved ALSA state file to reset mixer settings to factory defaults. This prevents the system from restoring broken settings on boot.",
+ "aliases": [
+  {
+   "text": "reset alsa settings",
+   "lang": "en"
+  },
+  {
+   "text": "delete asound.state",
+   "lang": "en"
+  },
+  {
+   "text": "alsa factory reset",
+   "lang": "en"
+  },
+  {
+   "text": "сброс настроек alsa",
+   "lang": "ru"
+  },
+  {
+   "text": "удалить файл состояния alsa",
+   "lang": "ru"
+  }
+ ],
+ "applies_to": {
+  "distros": [
+   {
+    "family": "any"
+   }
+  ]
+ },
+ "steps": [
+  {
+   "explain": "Prevent alsa-store.service from saving the current state on shutdown by creating the directory and empty configuration file.",
+   "cmd": "sudo mkdir -p /etc/alsa",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Create the empty configuration file that disables state saving.",
+   "cmd": "sudo touch /etc/alsa/state-daemon.conf",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Remove the current ALSA state file.",
+   "cmd": "sudo rm /var/lib/alsa/asound.state",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "Reboot the system to load default ALSA settings.",
+   "cmd": "sudo reboot",
+   "needs_root": true,
+   "risk": "medium"
+  },
+  {
+   "explain": "After reboot, re-enable state saving by deleting the configuration file created in step 2.",
+   "cmd": "sudo rm /etc/alsa/state-daemon.conf",
+   "needs_root": true,
+   "risk": "medium"
+  }
+ ],
+ "risk": "medium",
+ "rollback": [
+  {
+   "explain": "If you want to keep the old state, you cannot easily restore it after deletion. You must manually reconfigure your mixer settings using alsamixer.",
+   "risk": "medium"
+  }
+ ],
+ "warnings": [
+  "This will reset all volume and mute settings to defaults.",
+  "Ensure you have a way to adjust volume (like alsamixer) after rebooting."
+ ],
+ "source": {
+  "url": "https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture/Troubleshooting#Removing_old_ALSA_state_file_(asound.state)",
+  "title": "Advanced Linux Sound Architecture/Troubleshooting",
+  "revision_id": 862000,
+  "license": "GFDL-1.3-or-later"
+ }
+}
