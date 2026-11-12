@@ -33,6 +33,9 @@ ap.add_argument("--allow-remote-tools", action="store_true")
 ap.add_argument("--token", action="store_true",
                 help="require a per-launch token (in the URL fragment) for tools and history; off by default")
 ap.add_argument("--no-watch", action="store_true", help="do not run the system issue watcher (bin/lchat_watch.py)")
+ap.add_argument("--no-sched", action="store_true", help="do not run the task scheduler (bin/lchat_sched.py)")
+ap.add_argument("--sched", action="store_true",
+                help="run the task scheduler on a non-default port too (by default only port 8088 runs tasks)")
 a = ap.parse_args()
 
 _HERE = os.path.dirname(os.path.realpath(__file__))
@@ -901,7 +904,7 @@ def run_tool(name, args, sid, alive, chat=None):
     if not isinstance(args, dict):
         return {"text": "error: arguments must be a JSON object", "error": True}
     try:
-        extra = {"chat": chat} if name == "recall" else {}
+        extra = {"chat": chat} if name in ("recall", "schedule_task", "manage_task") else {}
         return IMPL[name](**args, sess=session(sid), alive=alive, **extra)
     except Cancelled:
         return {"text": "cancelled by the user", "error": True}
@@ -1027,6 +1030,13 @@ class H(http.server.BaseHTTPRequestHandler):
             if not self._authed():
                 return self._json(403, {"error": "forbidden"})
             self._json(*issues_get(path))
+        elif path in SCHED_GET:
+            if not self._authed():
+                return self._json(403, {"error": "forbidden"})
+            try:
+                self._json(*sched_get(path, urllib.parse.parse_qs(self.path.split("?", 1)[1] if "?" in self.path else "")))
+            except (ValueError, RuntimeError) as e:
+                self._json(400, {"error": str(e)})
         elif path == "/api/tools":
             self._json(200, {"enabled": TOOLS_ON, "cwd": DEFAULT_CWD, "system": SYSTEM_INFO,
                              "tools": tool_schemas() if TOOLS_ON else []})
@@ -1047,12 +1057,23 @@ class H(http.server.BaseHTTPRequestHandler):
                 return self._json(403, {"error": "forbidden"})
             try:
                 req = json.loads(body or b"{}")
+                if self.path.endswith("save") and _is_task_chat((req.get("chat") or {}).get("id")):
+                    return self._json(409, {"error": "task threads are written by the scheduler only"})
                 if self.path.endswith("save"):
                     self._json(200, history_save(req.get("chat") or {}, req.get("messages") or []))
                 else:
                     self._json(200, history_delete(str(req.get("id", ""))))
             except Exception as e:
                 self._json(400, {"error": f"{type(e).__name__}: {e}"})
+            return
+        if self.path in SCHED_POST:
+            body = self._body()
+            if not self._authed():
+                return self._json(403, {"error": "forbidden"})
+            try:
+                self._json(*sched_post(self.path, json.loads(body or b"{}")))
+            except (ValueError, RuntimeError, TypeError) as e:
+                self._json(400, {"error": str(e)})
             return
         if self.path in ISSUE_POST:
             body = self._body()
@@ -1074,6 +1095,14 @@ class H(http.server.BaseHTTPRequestHandler):
             except ValueError:
                 return self._json(400, {"text": "bad json", "error": True})
             self._json(200, run_tool(req.get("name"), req.get("args") or {}, req.get("session"), self._alive, req.get("chat")))
+        elif self.path == "/v1/chat/completions":
+            with CHAT_BUSY_LOCK:
+                CHAT_BUSY[0] += 1
+            try:
+                self._proxy("POST")
+            finally:
+                with CHAT_BUSY_LOCK:
+                    CHAT_BUSY[0] -= 1
         elif self.path in PROXY_PATHS:
             self._proxy("POST")
         else:
@@ -1127,6 +1156,265 @@ def issues_post(path, req):
     return 200, {"ok": True, "new": WATCHER.new_count()}
 # ===== end issues =====
 
+# ===== tasks (lchat_sched) =====
+# Scheduler: periodic and one-shot tasks, each with its own chat thread (chat id task-<n>-<hex>), run unattended by
+# a server-side agent loop in bin/lchat_sched.py. Task threads are written only by the server.
+SCHED = None
+CHAT_BUSY = [0]                      # in-flight interactive /v1/chat/completions requests (the user goes first)
+CHAT_BUSY_LOCK = threading.Lock()
+SCHED_GET = {"/api/tasks", "/api/tasks/runs"}
+SCHED_POST = {"/api/tasks/" + x for x in
+              ("preview", "create", "update", "delete", "pause", "resume", "run", "stop", "seen", "ask")}
+_SCHED_EX = ('Schedule examples: "every 30 min", "hourly", "daily 09:00", "weekdays 08:30", "weekly mon 10:00", '
+             '"in 20 min", "tomorrow 07:00", "once 2026-12-01 18:00", "cron: */15 * * * *", '
+             '"каждые 2 часа", "каждый день в 9:00", "по будням в 8:30", "через 20 минут".')
+_ACCESS_DESC = ('Access while it runs unattended: "web" (default: web_search, web_fetch, linux_help), '
+                '"read" (local only, no web: read_file, list_windows, screenshot, system_facts, linux_help), '
+                '"full" (all of them + bash, write_file, download, window_action, recall). Use "full" only when '
+                'the task must run commands, change files, or both read local data and use the web.')
+TOOLS.update({
+    "schedule_task": ("Create a scheduled task that runs later or periodically on its own, without the user watching, "
+                      "and reports into its own chat thread. Use it when the user asks to do something at a time, "
+                      "every N minutes/hours/days, or regularly. " + _SCHED_EX + " " + _ACCESS_DESC,
+                      P("", title={"type": "string", "description": "short name, e.g. 'Disk space check'"},
+                        prompt={"type": "string", "description": "what to do on each run, written as a full "
+                                "instruction to yourself, e.g. 'Check free space on / and /home; warn if below 10%'"},
+                        schedule={"type": "string", "description": "when to run; see the examples"},
+                        access={"type": "string", "enum": ["web", "read", "full"], "optional": True}),
+                      "always"),
+    "list_tasks": ("List the scheduled tasks: id, title, schedule, next run, last status, access.", P(""), False),
+    "manage_task": ("Change a scheduled task: action pause | resume | run_now | delete | update. Give the task id "
+                    "(e.g. 3 or '#3') or its exact title. For update pass any of schedule, prompt, title, access. "
+                    + _SCHED_EX,
+                    P("", task={"type": "string", "description": "task id or exact title"},
+                      action={"type": "string", "enum": ["pause", "resume", "run_now", "delete", "update"]},
+                      schedule={"type": "string", "optional": True}, prompt={"type": "string", "optional": True},
+                      title={"type": "string", "optional": True},
+                      access={"type": "string", "enum": ["web", "read", "full"], "optional": True}),
+                    "always"),
+})
+
+
+def _when(ts):
+    return time.strftime("%a %d %b %H:%M", time.localtime(ts)) if ts else "-"
+
+
+def _task_line(t):
+    nxt = _when(t["next_run"]) if t["enabled"] else "paused"
+    return (f"#{t['id']} {t['title']} | {t['human']} | next {nxt} | last {t['last_status'] or 'never run'} "
+            f"| access {t['access']}")
+
+
+def _sched_or_err():
+    if SCHED is None:
+        raise RuntimeError("the scheduler is not running in this lchat-web")
+    return SCHED
+
+
+def t_schedule_task(title, prompt, schedule, access="web", *, sess, alive, chat=None):
+    s = _sched_or_err()
+    try:
+        t = s.create(title, prompt, schedule, access=access or "web", source_chat=chat)
+    except ValueError as e:
+        return {"text": f"error: {e}", "error": True}
+    runs = "; ".join(_when(x) for x in t["next_runs"]) or "none"
+    from lchat_sched import LEVEL_TOOLS
+    return {"text": f"Created task #{t['id']} '{t['title']}': {t['human']}. Next runs: {runs}. "
+                    f"Access: {t['access']} ({', '.join(LEVEL_TOOLS[t['access']])}). Each run reports into the "
+                    f"task's own chat (Tasks in the sidebar). Tasks run only while lchat is running."}
+
+
+def t_list_tasks(*, sess, alive):
+    s = _sched_or_err()
+    ts = s.list()
+    return {"text": "\n".join(_task_line(t) for t in ts) if ts else "no scheduled tasks"}
+
+
+def t_manage_task(task, action, schedule=None, prompt=None, title=None, access=None, *, sess, alive, chat=None):
+    s = _sched_or_err()
+    try:
+        tid = s.resolve(task)
+        if action == "delete":
+            r = s.delete(tid)
+            if r.get("delete_chat"):
+                history_delete(r["chat_id"])
+            return {"text": f"deleted task #{tid} and its chat"}
+        if action == "update":
+            fields = {k: v for k, v in (("schedule", schedule), ("prompt", prompt), ("title", title),
+                                        ("access", access)) if v}
+            if not fields:
+                return {"text": "error: update needs at least one of schedule, prompt, title, access", "error": True}
+            s.update(tid, **fields)
+        elif action == "pause":
+            s.pause(tid)
+        elif action == "resume":
+            s.resume(tid)
+        elif action == "run_now":
+            s.run_now(tid)
+        else:
+            return {"text": f"error: unknown action {action!r}", "error": True}
+        return {"text": f"{action}: " + _task_line(s.get(tid))}
+    except (ValueError, RuntimeError) as e:
+        return {"text": f"error: {e}", "error": True}
+
+
+IMPL.update({"schedule_task": t_schedule_task, "list_tasks": t_list_tasks, "manage_task": t_manage_task})
+
+
+def _sched_llm(messages, tools, timeout=180, alive=lambda: True):
+    """One streamed chat completion, accumulated. The HTTP exchange runs in a helper thread so Stop and the deadline
+    are checked every 0.25 s even while llama is still busy with someone else's request (-np 1); on cancel the socket
+    is shut down, which makes llama abort the generation."""
+    import http.client, queue
+    payload = {"messages": messages, "stream": True, "max_tokens": 4096}
+    if tools:
+        payload["tools"] = tools
+    u = urllib.parse.urlsplit(a.llama)
+    conn = http.client.HTTPConnection(u.hostname, u.port or 80, timeout=timeout + 5)
+    lines = queue.Queue()
+    done = threading.Event()            # set when the caller gives up: pump must not start the request then
+
+    def pump():
+        try:
+            if done.is_set():
+                return
+            conn.request("POST", (u.path.rstrip("/") or "") + "/v1/chat/completions", json.dumps(payload).encode(),
+                         {"Content-Type": "application/json"})
+            r = conn.getresponse()
+            if r.status != 200:
+                lines.put(RuntimeError(f"llama HTTP {r.status}: {r.read(500).decode('utf-8', 'replace')}"))
+                return
+            for raw in r:
+                lines.put(raw)
+        except Exception as e:
+            lines.put(e)
+        finally:
+            lines.put(None)
+
+    threading.Thread(target=pump, daemon=True).start()
+    end = time.time() + timeout
+    out = {"content": "", "reasoning_content": "", "tool_calls": [], "finish_reason": None}
+    calls = {}
+    try:
+        while True:
+            if not alive():
+                raise Cancelled()
+            if time.time() > end:
+                raise TimeoutError(f"model reply took longer than {int(timeout)}s")
+            try:
+                raw = lines.get(timeout=0.25)
+            except queue.Empty:
+                continue
+            if raw is None:
+                break
+            if isinstance(raw, Exception):
+                raise raw
+            line = raw.decode("utf-8", "replace").strip()
+            if not line.startswith("data:"):
+                continue
+            data = line[5:].strip()
+            if data == "[DONE]":
+                break
+            ev = json.loads(data)
+            if ev.get("error"):
+                raise RuntimeError(str(ev["error"].get("message", ev["error"])))
+            for ch in ev.get("choices") or []:
+                d = ch.get("delta") or {}
+                out["content"] += d.get("content") or ""
+                out["reasoning_content"] += d.get("reasoning_content") or ""
+                for tc in d.get("tool_calls") or []:
+                    c = calls.setdefault(tc.get("index", 0), {"id": "", "type": "function",
+                                                              "function": {"name": "", "arguments": ""}})
+                    c["id"] = tc.get("id") or c["id"]
+                    f = tc.get("function") or {}
+                    c["function"]["name"] += f.get("name") or ""
+                    c["function"]["arguments"] += f.get("arguments") or ""
+                if ch.get("finish_reason"):
+                    out["finish_reason"] = ch["finish_reason"]
+    finally:
+        done.set()
+        try:
+            if conn.sock is not None:
+                conn.sock.shutdown(socket.SHUT_RDWR)
+        except OSError:
+            pass
+        conn.close()
+    out["tool_calls"] = [calls[i] for i in sorted(calls)]
+    for i, c in enumerate(out["tool_calls"]):
+        c["id"] = c["id"] or f"call_{secrets.token_hex(6)}"
+    return out
+
+
+def _sched_notify(title, body):
+    if a.port != 8088:          # test instances stay quiet
+        return
+    try:
+        subprocess.Popen(["notify-send", "-a", "lchat", "-i", "alarm-symbolic", title, body[:300]],
+                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    except OSError:
+        pass
+
+
+def sched_start():
+    global SCHED
+    import sys
+    sys.path.insert(0, _HERE)
+    try:
+        import lchat_sched
+        SCHED = lchat_sched.Scheduler(
+            os.path.join(STATE_DIR, "tasks.db"), llm=_sched_llm, run_tool=run_tool, tool_schemas=tool_schemas,
+            history_save=history_save, history_get=history_get,
+            system_prompt=lambda: lchat_sched.default_system_prompt(DEFAULT_CWD, SYSTEM_INFO),
+            busy=lambda: CHAT_BUSY[0], notify=_sched_notify, cwd=DEFAULT_CWD)
+        SCHED.start()
+        print("tasks: " + SCHED.status_line())
+    except Exception as e:
+        SCHED = None
+        print(f"tasks: scheduler disabled ({type(e).__name__}: {e})")
+
+
+def _is_task_chat(cid):
+    return str(cid or "").startswith("task-")
+
+
+def sched_get(path, qs):
+    if SCHED is None:
+        return 503, {"error": "scheduler not running"}
+    if path == "/api/tasks/runs":
+        return 200, {"runs": SCHED.runs(SCHED.resolve(qs.get("id", [""])[0]))}
+    return 200, {"engine": SCHED.engine_on, "status": SCHED.status_line(), "tasks": SCHED.list()}
+
+
+def sched_post(path, req):
+    if SCHED is None:
+        return 503, {"error": "scheduler not running"}
+    act = path.rsplit("/", 1)[1]
+    if act == "preview":
+        return 200, SCHED.preview(str(req.get("schedule", "")))
+    if act == "create":
+        return 200, SCHED.create(req.get("title", ""), req.get("prompt", ""), str(req.get("schedule", "")),
+                                 access=req.get("access") or "web")
+    tid = SCHED.resolve(req.get("id", ""))
+    if act == "update":
+        fields = {k: req[k] for k in ("title", "prompt", "schedule", "access") if req.get(k)}
+        SCHED.update(tid, **fields)
+    elif act == "delete":
+        r = SCHED.delete(tid, keep_chat=bool(req.get("keep_chat")))
+        if r.get("delete_chat"):
+            history_delete(r["chat_id"])
+        return 200, r
+    elif act == "run":
+        SCHED.run_now(tid)
+    elif act == "ask":
+        text = str(req.get("text", "")).strip()
+        if not text:
+            return 400, {"error": "text required"}
+        SCHED.ask(tid, text)
+    else:   # pause resume stop seen
+        getattr(SCHED, act)(tid)
+    return 200, SCHED.get(tid)
+# ===== end tasks =====
+
 class S(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
     allow_reuse_address = True
@@ -1155,6 +1443,12 @@ if __name__ == "__main__":
     def _term(*_):
         raise SystemExit(0)
     signal.signal(signal.SIGTERM, _term)
+    if a.no_sched or (a.port != 8088 and not a.sched):   # test instances never own or run real tasks
+        print("tasks: scheduler off" + ("" if a.no_sched else " (non-default port; pass --sched to run it)"))
+    elif not TOOLS_ON or (not LOOPBACK and not TOKEN):   # unattended tool runs follow the tools gate
+        print("tasks: scheduler off (tools are off on a non-loopback bind; see --allow-remote-tools, --token)")
+    else:
+        sched_start()
     print(f"history: {DB_PATH}  (embed {a.embed}, rerank {a.rerank})")
     print(f"lchat-web -> {a.llama}  (tools {'ON' if TOOLS_ON else 'OFF'}, cwd {DEFAULT_CWD})")
     print(f"open: {url}")
@@ -1165,3 +1459,5 @@ if __name__ == "__main__":
     finally:
         if WATCHER is not None:
             WATCHER.stop()
+        if SCHED is not None:
+            SCHED.close()

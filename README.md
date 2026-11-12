@@ -17,6 +17,7 @@ It was built on a Steam Deck (SteamOS, KDE, Vulkan) around **LFM3-VL-2B**.
   - `list_windows`, `window_action`, `screenshot`: KDE/KWin
   - `recall`: search past chats
   - `linux_help`: verified step-by-step help cards for Linux tasks, error messages, pipelines and bash scripts
+  - `schedule_task`, `list_tasks`, `manage_task`: scheduled tasks (see below)
 - **Memory**: chat history in SQLite, searched with EmbeddingGemma-2 embeddings and reranked by Qwen3-Reranker-0.6B.
 - **Help cards**: 1,685 cards in `cards/` (1,625 from the [`alexcmd/lnxhelp-cards`](https://huggingface.co/datasets/alexcmd/lnxhelp-cards) dataset, 60 complex-scenario cards), indexed with the same embedding and reranker models. See `cards/README.md`.
 
@@ -45,12 +46,32 @@ You can also run everything straight from the checkout: `./bin/lchat-run`.
 | `bin/lchat-cards` | `sync` / `status` / `embed` / `search QUERY`. Keeps the help-card store `~/.local/state/lchat/cards.db` in line with the cards folder: new and changed cards are (re-)embedded, deleted cards are dropped. `install.sh` runs `sync`, and `lchat-web` runs it at start-up and embeds missing vectors in the background, so the first install bootstraps the store and an update re-indexes only what changed. |
 | `bin/lchat-models` | `download` / `list` / `path ROLE`. Downloads the GGUFs into `~/.local/share/lchat/models`, or `$LCHAT_MODELS`. A file already in the Hugging Face cache is symlinked instead of downloaded, and an interrupted download resumes. |
 | `bin/lchat-web` | The server: serves the page, proxies the llama OpenAI API, and runs the tools. |
+| `bin/lchat_sched.py` | The task scheduler and its unattended agent loop (tests: `python3 -m unittest tests.test_sched`). |
 | `bin/lchat` | A minimal terminal chat client, with `/img` to attach an image. |
 | `web/index.html` | The chat page: the agent loop and context trimming. |
 | `vendor/webcrawler/` | The CloakBrowser crawler used by `web_search` and `web_fetch`. A copy at `~/.agents/skills/webcrawler` takes priority when present. |
 | `cards/` | The help cards and their schema (see `cards/README.md`). |
 | `tools/check_cards.py` | Card checker: schema, unique ids, `bash -n` of every command and script. |
 | `eval/` | Retrieval-quality tests for `recall`, and `chat_cards.py`, the end-to-end chat test of `linux_help` (see below). |
+
+## Scheduled tasks
+
+Ask in the chat ("check free disk space every morning at 9", "через 20 минут найди новости про SteamOS"), or use **Tasks → +** in the sidebar.
+- **One chat per task.** Every task has its own thread (`⏱ <title>` in History, opened from the Tasks list). Each run appends `⏱ Run #N` and the agent's report. A question typed in a task thread is queued as a follow-up run of that task.
+- **Runs on the server** (`bin/lchat_sched.py`, state in `~/.local/state/lchat/tasks.db`), so tasks fire with no browser open. They run only while `lchat-web` runs, one at a time, and your own chat turns go first.
+- **Schedules:** `every 15 min`, `hourly`, `daily 09:00`, `weekdays 08:30`, `weekly mon 10:00`, `in 20 min`, `at 14:30`, `tomorrow 07:00`, `once 2026-12-01 18:00`, `cron: */15 * * * *`, and the Russian forms `каждые 2 часа`, `каждый день в 9:00`, `по будням в 8:30`, `через 20 минут`, `завтра в 7:00`.
+- **Access level per task** (nobody approves tool calls during an unattended run):
+  - `web` (default): `web_search`, `web_fetch`, `linux_help`.
+  - `read`: local only, no web: `read_file`, `list_windows`, `screenshot`, `system_facts`, `linux_help`.
+  - `full`: everything in `web` and `read` plus `bash`, `write_file`, `download`, `window_action`, `recall`.
+  - A task touches either the web or your local data, never both, unless it has `full`.
+- **Always refused in a run:** sensitive files (checked on the resolved path), fetching localhost or private addresses, and the task tools themselves.
+- **Approval:** creating or changing a task from the chat always asks for approval, even with auto-approve on.
+- **Limits:** 8 steps and 10 minutes per run, with tool output clipped to 2000 chars.
+- **Missed runs:** a recurring task catches up once. A one-shot more than 10 minutes late is marked missed.
+- **Crashes:** a run cut short by a crash or restart is marked interrupted, and its task is paused.
+- **Notifications:** when a run ends you get a desktop notification (`notify-send`, default port only).
+- **Off switch:** `--no-sched`. Only the default port (8088) runs the scheduler unless you pass `--sched`, and only one `lchat-web` per state directory runs it (file lock).
 
 ## Models
 

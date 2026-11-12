@@ -163,6 +163,65 @@ footer>*{max-width:780px;margin-left:auto;margin-right:auto}
 /* tasks */
 #tasksNav[hidden]{display:none}
 #chatBar[hidden]{display:none}
+/* sidebar list */
+#tasksNav{border-top:1px solid var(--line);padding:6px 8px 8px;font-size:13px;max-height:38%;overflow-y:auto;flex:none}
+#tasksNav .tkh{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:6px 8px 4px;user-select:none}
+#tasksNav .tkh .n{margin-left:auto;text-transform:none;font-weight:500}
+#tasksNav .tkplus{width:22px;height:22px;font-size:15px;line-height:1}
+#tasksNav .tkmut{color:var(--mut);font-size:12px;padding:2px 8px 4px}
+#tasksNav .tkrow{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:8px;cursor:pointer}
+#tasksNav .tkrow:hover{background:var(--hover)}
+#tasksNav .tkrow.cur{background:color-mix(in srgb,var(--acc) 16%,transparent)}
+#tasksNav .tkdot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--mut)}
+#tasksNav .tkdot.run{background:var(--acc);animation:tkpulse 1.1s ease-in-out infinite}
+#tasksNav .tkdot.ok{background:var(--ok)}
+#tasksNav .tkdot.bad{background:var(--bad)}
+#tasksNav .tkdot.warn{background:var(--warn)}
+#tasksNav .tkdot.paused{background:var(--mut)}
+#tasksNav .tkdot.never{background:transparent;border:1.5px solid var(--mut)}
+@keyframes tkpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
+#tasksNav .tkt{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#tasksNav .tkw{color:var(--mut);font-size:11.5px;flex:none;white-space:nowrap}
+#tasksNav .tkub{background:var(--acc);color:#fff;border-radius:10px;font-size:11px;padding:0 6px;font-weight:700;flex:none}
+#tasksNav .tkub[hidden]{display:none}
+/* bar above a task thread */
+#chatBar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:6px 14px;border-bottom:1px solid var(--line);background:var(--side);font-size:12.5px;color:var(--mut)}
+#chatBar .cbi{flex:1 1 260px;min-width:0}
+#chatBar .cbb{display:flex;gap:6px;flex-wrap:wrap}
+#chatBar .btn{padding:2px 9px;font-size:12px}
+#chatBar .btn:disabled{opacity:.5;cursor:default}
+#chatBar .cbrun{color:var(--acc);font-weight:600}
+#chatBar .cbx{border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:11.5px;color:var(--mut);white-space:nowrap}
+#chatBar .cbx.read{color:var(--acc);border-color:var(--acc)}
+#chatBar .cbx.full{color:var(--warn);border-color:var(--warn)}
+#chatBar .cbn{flex-basis:100%;font-size:12px}
+#chatBar .cbn.bad{color:var(--bad)}
+/* New / Edit task dialog */
+#taskDlg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:21;align-items:center;justify-content:center;padding:16px}
+#taskDlg.open{display:flex}
+#taskDlg .dlg{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);width:min(520px,100%);max-height:90vh;overflow:auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px;font-size:13.5px}
+#taskDlg .tkhd{display:flex;align-items:center;gap:6px}
+#taskDlg .tkhd h2{flex:1;font-size:16px;margin:0}
+#taskDlg .tkf{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;border:0;min-width:0}
+#taskDlg .tkl,#taskDlg legend{color:var(--mut);font-size:12px;padding:0}
+#taskDlg input:not([type=radio]),#taskDlg textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;outline:0}
+#taskDlg input:not([type=radio]):focus,#taskDlg textarea:focus{border-color:var(--acc)}
+#taskDlg textarea{min-height:90px;resize:vertical}
+#taskDlg .tkchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+#taskDlg .tkch{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:2px 10px;font-size:12px;cursor:pointer;color:var(--mut)}
+#taskDlg .tkch:hover{color:var(--fg);border-color:var(--mut)}
+#taskDlg .tkprev{font-size:12px;min-height:16px;color:var(--mut)}
+#taskDlg .tkprev .tkok{color:var(--fg)}
+#taskDlg .tkprev.bad{color:var(--bad);white-space:pre-wrap}
+#taskDlg .tkmut{color:var(--mut);font-size:12px}
+#taskDlg .tkacc{border:1px solid var(--line);border-radius:10px;padding:8px 10px;gap:6px}
+#taskDlg .tkacc label{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+#taskDlg .tkacc small{color:var(--mut);font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11.5px}
+#taskDlg .tkwarn{color:var(--warn);font-size:12.5px;border:1px solid var(--warn);border-radius:8px;padding:6px 9px}
+#taskDlg .tkerr{color:var(--bad);font-size:12.5px;white-space:pre-wrap}
+#taskDlg .tkfoot{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#taskDlg .tkfoot .tkmut{margin-right:auto}
+#taskDlg .btn:disabled{opacity:.5;cursor:default}
 </style>
 </head>
 <body>
@@ -731,6 +790,248 @@ hello();refreshHistory();inp.focus();
 })();
 // ===== end issues =====
 // ===== tasks (scheduler) =====
+// Scheduled tasks: sidebar list (#tasksNav), bar above a task thread (#chatBar), New/Edit dialog (built here).
+// Task threads are written by the server; a message typed in one is sent to its task as a question.
+(()=>{
+  const nav=$('#tasksNav'),bar=$('#chatBar');
+  let TASKS=null,            // last good GET /api/tasks; null = unavailable (section hidden)
+      tBusy=false,tAgain=false,tTimer=0,
+      prevRun={},            // id -> {running,run_count,last_run} from the previous poll
+      barKey='',barNote='',barBad=false,noteTimer=0;
+  const E=s=>esc(s==null?'':s);
+  const curTask=()=>TASKS&&String(CHAT_ID).startsWith('task-')?(TASKS.tasks.find(t=>t.chat_id===CHAT_ID)||null):null;
+  const sameDay=(a,b)=>a.toDateString()===b.toDateString();
+  // epoch s -> "HH:MM", with a short weekday in front when it is not today
+  function tTime(s){
+    const d=new Date(s*1000),t=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    return sameDay(d,new Date())?t:d.toLocaleDateString([],{weekday:'short'})+' '+t;
+  }
+  // dot class: run | ok | bad | warn | paused | never
+  function tState(t){
+    if(t.running||t.queued)return 'run';
+    if(!t.enabled)return 'paused';
+    switch(t.last_status){
+      case 'ok':return 'ok';
+      case 'stopped':return 'warn';
+      case 'error':case 'denied':case 'missed':case 'interrupted':return 'bad';
+      default:return 'never';
+    }
+  }
+  function tRight(t){
+    if(t.running)return 'running…';
+    if(t.queued)return 'queued';
+    if(!t.enabled)return 'paused';
+    return t.next_run?tTime(t.next_run):'';
+  }
+  // ---- data ----
+  async function tAct(what,id,quiet){
+    let d;try{d=await api('/api/tasks/'+what,{id})}catch{d={error:'network error'}}
+    if(d&&d.error&&!quiet)alert(d.error);
+    tLoad();
+    return d;
+  }
+  async function tLoad(){
+    if(tBusy){tAgain=true;return}
+    tBusy=true;
+    let d=null;try{d=await api('/api/tasks')}catch{d=null}
+    tBusy=false;
+    applyTasks(d);
+    if(tAgain){tAgain=false;return tLoad()}
+    const fast=!!TASKS&&(TASKS.tasks.some(t=>t.running||t.queued)||!bar.hidden);
+    clearTimeout(tTimer);tTimer=setTimeout(tLoad,fast?5000:30000);
+  }
+  function applyTasks(d){
+    TASKS=d&&!d.error&&Array.isArray(d.tasks)?d:null;
+    let reopen=null;
+    if(TASKS){
+      for(const t of TASKS.tasks){
+        const p=prevRun[t.id];
+        if(p&&(p.running&&!t.running||p.run_count!==t.run_count||p.last_run!==t.last_run)){
+          const c=curTask();if(c&&c.id===t.id)reopen=c.chat_id;   // the open task just finished a run
+        }
+        prevRun[t.id]={running:!!t.running,run_count:t.run_count,last_run:t.last_run};
+      }
+    }
+    renderNav();renderBar();
+    if(reopen)setTimeout(()=>{if(CHAT_ID===reopen)window.lchat.openChat(reopen)},0);
+  }
+  // ---- sidebar ----
+  function renderNav(){
+    if(!TASKS){nav.hidden=true;nav.innerHTML='';return}
+    nav.hidden=false;nav.innerHTML='';
+    const list=TASKS.tasks;
+    const hd=document.createElement('div');hd.className='tkh';
+    hd.innerHTML='<span>Tasks</span><span class="n"></span><button class="ibtn tkplus" title="New task">+</button>';
+    hd.querySelector('.n').textContent=list.length?String(list.length):'';
+    hd.querySelector('.tkplus').onclick=()=>openDlg(null);
+    nav.appendChild(hd);
+    if(!TASKS.engine){const m=document.createElement('div');m.className='tkmut';m.textContent='scheduler off'+(TASKS.status?' · '+TASKS.status:'');nav.appendChild(m)}
+    if(!list.length&&TASKS.engine){const m=document.createElement('div');m.className='tkmut';m.textContent='no tasks yet';nav.appendChild(m)}
+    for(const t of list){
+      const r=document.createElement('div');
+      r.className='tkrow'+(t.chat_id&&t.chat_id===CHAT_ID?' cur':'');
+      r.title=(t.title||'')+(t.human?'\n'+t.human:'')+(t.chat_id?'':'\n(no thread yet)');
+      r.innerHTML='<span class="tkdot"></span><span class="tkt"></span><span class="tkw"></span><span class="tkub" hidden></span>';
+      r.querySelector('.tkdot').classList.add(tState(t));
+      r.querySelector('.tkt').textContent=t.title||'untitled';
+      r.querySelector('.tkw').textContent=tRight(t);
+      if(t.unread>0){const ub=r.querySelector('.tkub');ub.hidden=false;ub.textContent=t.unread}
+      r.onclick=()=>openTask(t);
+      nav.appendChild(r);
+    }
+  }
+  async function openTask(t){
+    app.classList.remove('sideopen');
+    if(!t.chat_id){openDlg(t);return}
+    await window.lchat.openChat(t.chat_id);
+    tAct('seen',t.id,true);
+  }
+  // ---- bar above a task thread ----
+  function tNote(msg,bad){
+    barNote=msg;barBad=!!bad;clearTimeout(noteTimer);
+    noteTimer=setTimeout(()=>{barNote='';renderBar()},4000);
+    renderBar();
+  }
+  function renderBar(){
+    const t=curTask();
+    if(!t){bar.hidden=true;barKey='';bar.innerHTML='';return}
+    const run=!!(t.running||t.queued);
+    let info=`⏱ ${E(t.human||t.spec)}`;
+    if(t.running)info+=' · <span class="cbrun">running…</span>';
+    else if(t.queued)info+=' · <span class="cbrun">queued</span>';
+    else if(!t.enabled)info+=' · paused';
+    else if(t.next_run)info+=' · next '+E(tTime(t.next_run));
+    info+=' · last '+E(t.last_status||'never')+' · access <span class="cbx '+E(t.access)+'">'+E(t.access||'web')+'</span>';
+    let btns=`<button class="btn" data-a="run"${run?' disabled':''}>Run now</button>`
+      +`<button class="btn" data-a="toggle">${t.enabled?'Pause':'Resume'}</button>`
+      +(t.running?'<button class="btn" data-a="stop">Stop</button>':'')
+      +'<button class="btn" data-a="edit">Edit</button><button class="btn" data-a="delete">Delete</button>';
+    const note=barNote?`<span class="cbn${barBad?' bad':''}">${E(barNote)}</span>`:'';
+    const key=info+'|'+btns+'|'+note;
+    bar.hidden=false;
+    if(key===barKey)return;   // unchanged: keep the DOM (and any hover/focus) as it is
+    barKey=key;
+    bar.innerHTML=`<span class="cbi">${info}</span><span class="cbb">${btns}</span>${note}`;
+  }
+  bar.onclick=e=>{const b=e.target.closest('[data-a]');if(b&&!b.disabled)barAct(b.dataset.a)};
+  async function barAct(a){
+    const t=curTask();if(!t)return;
+    if(a==='run')tAct('run',t.id);
+    else if(a==='toggle')tAct(t.enabled?'pause':'resume',t.id);
+    else if(a==='stop')tAct('stop',t.id);
+    else if(a==='edit')openDlg(t);
+    else if(a==='delete'){
+      if(!confirm(`Delete task "${t.title||''}"?`))return;
+      const d=await tAct('delete',t.id);
+      if(d&&!d.error)freshChat();
+    }
+  }
+  // ---- questions typed in a task thread go to the task ----
+  window.lchat.onSend=(text,chatId)=>{
+    if(!String(chatId).startsWith('task-'))return false;
+    const t=TASKS&&TASKS.tasks.find(x=>x.chat_id===chatId);
+    if(!t)return false;
+    api('/api/tasks/ask',{id:t.id,text}).then(d=>{
+      if(!d||d.error){
+        tNote(d&&d.error||'not sent',true);
+        if(CHAT_ID===chatId&&!inp.value){inp.value=text;inp.oninput()}   // give the text back
+      }else tNote('question queued');
+      tLoad();
+    }).catch(()=>{tNote('not sent (network error)',true);if(CHAT_ID===chatId&&!inp.value){inp.value=text;inp.oninput()}});
+    return true;
+  };
+  // ---- New / Edit dialog ----
+  const dlg=document.createElement('div');dlg.id='taskDlg';
+  dlg.innerHTML=`<div class="dlg" role="dialog" aria-modal="true" aria-labelledby="tkDlgT">
+    <div class="tkhd"><h2 id="tkDlgT">New task</h2><button class="ibtn" data-x title="Close">✕</button></div>
+    <label class="tkf"><span class="tkl">Title</span><input id="tkName" maxlength="120" autocomplete="off"></label>
+    <label class="tkf"><span class="tkl">Prompt</span><textarea id="tkPrompt"></textarea></label>
+    <div class="tkf"><span class="tkl">Schedule</span>
+      <input id="tkSched" placeholder="every 15 min, daily 09:00, weekdays 08:30" autocomplete="off">
+      <div class="tkchips">
+        <button class="tkch" type="button" data-s="every 15 min">every 15 min</button>
+        <button class="tkch" type="button" data-s="hourly">hourly</button>
+        <button class="tkch" type="button" data-s="daily 09:00">daily 09:00</button>
+        <button class="tkch" type="button" data-s="weekdays 08:30">weekdays 08:30</button>
+      </div>
+      <div id="tkPrev" class="tkprev"></div></div>
+    <fieldset class="tkf tkacc"><legend>Access</legend>
+      <label><input type="radio" name="tkAcc" value="web" checked> <b>web</b> <small>web_search, web_fetch, linux_help</small></label>
+      <label><input type="radio" name="tkAcc" value="read"> <b>read</b> <small>local only, no web: read_file, list_windows, screenshot, system_facts, linux_help</small></label>
+      <label><input type="radio" name="tkAcc" value="full"> <b>full</b> <small>web + read + bash, write_file, download, window_action, recall</small></label>
+      <div id="tkWarn" class="tkwarn" hidden>Full access runs commands unattended; content from web pages can steer them.</div>
+    </fieldset>
+    <div id="tkErr" class="tkerr" hidden></div>
+    <div class="tkfoot"><span class="tkmut">Tasks run only while lchat is running.</span>
+      <button class="btn" id="tkCancel" type="button">Cancel</button>
+      <button class="btn pri" id="tkSave" type="button">Save</button></div>
+  </div>`;
+  document.body.appendChild(dlg);
+  const q=s=>dlg.querySelector(s);
+  let tdEdit=null,pvTimer=0,pvSeq=0;
+  const accVal=()=>{const r=dlg.querySelector('input[name=tkAcc]:checked');return r?r.value:'web'};
+  function accChanged(){q('#tkWarn').hidden=accVal()!=='full'}
+  function schedPreview(){
+    clearTimeout(pvTimer);
+    const s=q('#tkSched').value.trim(),out=q('#tkPrev'),seq=++pvSeq;
+    out.className='tkprev';
+    if(!s){out.textContent='Enter a schedule.';return}
+    out.textContent='…';
+    pvTimer=setTimeout(async()=>{
+      let d;try{d=await api('/api/tasks/preview',{schedule:s})}catch{d={error:'preview failed (network error)'}}
+      if(seq!==pvSeq)return;   // a newer input is in flight
+      out.className='tkprev';out.textContent='';
+      if(d&&!d.error){
+        const h=document.createElement('div');h.className='tkok';h.textContent=d.human||d.spec||'';
+        const n=document.createElement('div');n.className='tkmut';
+        n.textContent='next: '+(d.next_runs||[]).slice(0,3).map(x=>tTime(x)).join(', ');
+        out.append(h,n);
+      }else{out.className='tkprev bad';out.textContent=(d&&d.error)||'invalid schedule'}
+    },300);
+  }
+  function openDlg(t){
+    tdEdit=t?t.id:null;
+    q('#tkDlgT').textContent=t?'Edit task':'New task';
+    q('#tkName').value=t?t.title||'':'';
+    q('#tkPrompt').value=t?t.prompt||'':'';
+    q('#tkSched').value=t?(t.human||''):'';
+    const acc=t?t.access||'web':'web';
+    dlg.querySelectorAll('input[name=tkAcc]').forEach(r=>{r.checked=r.value===acc});
+    accChanged();
+    q('#tkErr').hidden=true;
+    dlg.classList.add('open');
+    schedPreview();
+    setTimeout(()=>q('#tkName').focus(),0);
+  }
+  function closeDlg(){clearTimeout(pvTimer);pvSeq++;dlg.classList.remove('open')}
+  async function saveDlg(){
+    const title=q('#tkName').value.trim(),prompt=q('#tkPrompt').value.trim(),schedule=q('#tkSched').value.trim(),access=accVal();
+    const err=q('#tkErr');
+    if(!title||!prompt||!schedule){err.hidden=false;err.textContent='Title, prompt and schedule are required.';return}
+    const save=q('#tkSave');save.disabled=true;
+    let d;
+    try{d=await api(tdEdit?'/api/tasks/update':'/api/tasks/create',tdEdit?{id:tdEdit,title,prompt,schedule,access}:{title,prompt,schedule,access})}
+    catch{d={error:'network error'}}
+    save.disabled=false;
+    if(d&&d.error){err.hidden=false;err.textContent=d.error;return}
+    closeDlg();tLoad();
+  }
+  dlg.onclick=e=>{if(e.target===dlg)closeDlg()};
+  q('[data-x]').onclick=closeDlg;
+  q('#tkCancel').onclick=closeDlg;
+  q('#tkSave').onclick=saveDlg;
+  q('#tkSched').oninput=schedPreview;
+  dlg.querySelectorAll('.tkch').forEach(b=>b.onclick=()=>{q('#tkSched').value=b.dataset.s;schedPreview()});
+  dlg.querySelectorAll('input[name=tkAcc]').forEach(r=>r.onchange=accChanged);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&dlg.classList.contains('open'))closeDlg()});
+  // ---- argSummary for the scheduler tools ----
+  const _as=argSummary;
+  argSummary=(n,a)=>{a=a||{};return n==='schedule_task'?`${a.title||''} · ${a.schedule||''} · access ${a.access||'web'}`:n==='manage_task'?`${a.action||''} ${a.task||''}`:_as(n,a)};
+  // ---- refresh: setTimeout chain (5 s while busy or a bar is shown, else 30 s); refresh on chat change and actions ----
+  document.addEventListener('lchat:chatopen',()=>{renderNav();renderBar();tLoad()});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)tLoad()});
+  tLoad();
+})();
 // ===== end tasks =====
 </script>
 </body>
