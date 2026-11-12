@@ -428,6 +428,24 @@ _PKG_CMDS = {
     "snap": ("snap find <name>", "snap info <name>", "sudo snap install <name>", "sudo snap refresh",
              "sudo snap remove <name>", None, None, "snap list <name>"),
     "pipx": (None, None, "pipx install <tool>", "pipx upgrade-all", "pipx uninstall <tool>", None, None, "pipx list"),
+    "emerge": ("emerge --search <name>", "equery meta <pkg> (gentoolkit)", "sudo emerge --ask <category/pkg>",
+               "sudo emerge --sync && sudo emerge --ask --update --deep --newuse @world",
+               "sudo emerge --ask --depclean <category/pkg>", "equery belongs <path>", "equery files <pkg>",
+               "equery list <pkg>"),
+    "xbps-install": ("xbps-query -Rs <name>", "xbps-query -R <pkg>", "sudo xbps-install <pkg>", "sudo xbps-install -Su",
+                     "sudo xbps-remove -R <pkg>", "xbps-query -o <path>", "xbps-query -f <pkg>", "xbps-query <pkg>"),
+    "nix": ("nix search nixpkgs <name>", None, "nix profile install nixpkgs#<pkg>", "nix profile upgrade --all",
+            "nix profile remove <pkg>", None, None, "nix profile list"),
+    "port": ("port search <name>", "port info <pkg>", "sudo port install <pkg>",
+             "sudo port selfupdate && sudo port upgrade outdated", "sudo port uninstall <pkg>",
+             "port provides <path>", "port contents <pkg>", "port installed <pkg>"),
+    "uv": (None, None, "uv tool install <tool> (Python command-line tools)", "uv tool upgrade --all",
+           "uv tool uninstall <tool>", None, None, "uv tool list"),
+    "cargo": ("cargo search <name>", None, "cargo install <crate> (Rust tools, into ~/.cargo/bin)",
+              "cargo install <crate> again (or cargo install-update -a)", "cargo uninstall <crate>", None, None,
+              "cargo install --list"),
+    "npm": ("npm search <name>", "npm view <pkg>", "npm install -g <pkg> (JavaScript tools)", "npm update -g",
+            "npm uninstall -g <pkg>", None, None, "npm ls -g --depth=0"),
 }
 _PKG_LABELS = ("search", "info", "install", "update", "remove", "which package owns a file", "files of a package",
                "is it installed")
@@ -463,7 +481,9 @@ def pkg_guide():
         "Remove with the same manager that installed it (check: " + ", ".join(
             c for c in (_PKG_CMDS[pm][7] for pm in order) if c)[:200] + ").",
         "Desktop apps: prefer flatpak (Flathub) when it is installed; command-line tools: the native manager"
-        + ("; Python tools: pipx" if "pipx" in have else "") + ".",
+        + "".join(f"; {k}: {v}" for k, v in (("Python tools", " or ".join(m for m in ("pipx", "uv") if m in have)),
+                                                ("Rust tools", "cargo" if "cargo" in have else ""),
+                                                ("JavaScript tools", "npm -g" if "npm" in have else "")) if v) + ".",
     ]
     if ro:
         rules.append("SteamOS: the root filesystem is read-only and pacman installs are lost on the next OS update. "
