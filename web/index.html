@@ -139,6 +139,27 @@ footer>*{max-width:780px;margin-left:auto;margin-right:auto}
   .msg.user .body{max-width:92%}
 }
 /* issues */
+#issuesNav{border-top:1px solid var(--line);padding:6px 8px 8px;font-size:13px;max-height:38%;overflow-y:auto;flex:none}
+#issuesNav .ihd{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:6px 8px 4px;cursor:pointer;user-select:none}
+#issuesNav .ihd .n{margin-left:auto;text-transform:none;font-weight:500}
+#issuesNav.fold .irow,#issuesNav.fold .imore{display:none}
+#issuesNav .irow{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:8px;cursor:pointer}
+#issuesNav .irow:hover{background:var(--hover)}
+#issuesNav .irow.cur{background:color-mix(in srgb,var(--acc) 16%,transparent)}
+#issuesNav .dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--warn)}
+#issuesNav .dot.error{background:var(--bad)}
+#issuesNav .irow.seen .dot,#issuesNav .irow.background .dot{opacity:.45}
+#issuesNav .irow.new .it{font-weight:600}
+#issuesNav .it{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#issuesNav .ic{color:var(--mut);font-size:11.5px;flex:none}
+#issuesNav .ia{display:none;gap:2px;flex:none}
+#issuesNav .irow:hover .ia{display:flex}
+#issuesNav .irow:hover .ic{display:none}
+#issuesNav .ia button{border:0;background:none;color:var(--mut);cursor:pointer;padding:0 3px;font-size:13px;border-radius:5px}
+#issuesNav .ia button:hover{color:var(--fg);background:var(--line)}
+#issuesNav .imore{color:var(--mut);font-size:12px;padding:4px 8px;cursor:pointer}
+#issuesNav .imore:hover{color:var(--fg)}
+#issuesBadge{cursor:pointer}
 /* tasks */
 #tasksNav[hidden]{display:none}
 #chatBar[hidden]{display:none}
@@ -634,6 +655,58 @@ async function openChat(id){
 
 hello();refreshHistory();inp.focus();
 // ===== issues (lchat_watch) =====
+// System issues found by bin/lchat_watch.py (static rules, no LLM). Polls /api/issues; "Chat" opens the chat
+// linked to the issue group, or starts one with a server-built prompt and links it.
+(()=>{
+  const nav=$('#issuesNav'),badge=$('#issuesBadge');
+  let groups=[],showAll=false,fold=false;
+  try{fold=localStorage.getItem('lchat.issuesFold')==='1'}catch{}
+  const ago=t=>{const s=Date.now()/1000-t;return s<60?'now':s<3600?Math.floor(s/60)+'m':s<86400?Math.floor(s/3600)+'h':Math.floor(s/86400)+'d'};
+  const label=g=>g.title||(g.unit+': '+g.template);
+  async function act(g,what){try{await api('/api/issues/'+what,{fp:g.fp})}catch{}poll()}
+  async function chat(g){
+    if(window.lchat.isBusy())return;
+    let d;try{d=await api('/api/issues/chat',{fp:g.fp})}catch{return}
+    if(!d||d.error)return;
+    await window.lchat.startChat({chatId:d.chat_id,title:d.title||label(g),prompt:d.chat_id?'':d.prompt});
+    if(!d.chat_id)api('/api/issues/link',{fp:g.fp,chat_id:CHAT_ID}).catch(()=>{});
+    if(g.status==='new')act(g,'ack');
+  }
+  function render(){
+    const fresh=groups.filter(g=>g.status==='new').length;
+    badge.hidden=!fresh;badge.textContent=fresh;badge.title=fresh+' new system issue'+(fresh>1?'s':'');
+    nav.hidden=!groups.length;nav.classList.toggle('fold',fold);nav.innerHTML='';
+    if(!groups.length)return;
+    const hd=document.createElement('div');hd.className='ihd';hd.innerHTML='<span></span><span class="n"></span>';
+    hd.firstChild.textContent=(fold?'▸ ':'▾ ')+'System issues';hd.lastChild.textContent=fresh?fresh+' new':groups.length+'';
+    hd.onclick=()=>{fold=!fold;try{localStorage.setItem('lchat.issuesFold',fold?'1':'0')}catch{}render()};
+    nav.appendChild(hd);
+    const main=groups.filter(g=>g.status!=='background'),rest=groups.length-main.length;
+    const list=showAll?groups:main.slice(0,12);
+    for(const g of list){
+      const r=document.createElement('div');r.className='irow '+g.status+(g.chat_id&&g.chat_id===CHAT_ID?' cur':'');
+      r.title=`${g.unit} · ${g.severity} · ${g.kind} · ×${g.count}\n${g.template}`;
+      r.innerHTML='<span class="dot"></span><span class="it"></span><span class="ic"></span><span class="ia"><button title="Chat about it">💬</button><button title="Dismiss">✓</button><button title="Mute this issue">🔕</button></span>';
+      r.querySelector('.dot').classList.toggle('error',g.severity==='error');
+      r.querySelector('.it').textContent=label(g);
+      r.querySelector('.ic').textContent=(g.count>1?'×'+g.count+' · ':'')+ago(g.last_seen);
+      const [bc,ba,bm]=r.querySelectorAll('.ia button');
+      bc.onclick=e=>{e.stopPropagation();chat(g)};ba.onclick=e=>{e.stopPropagation();act(g,'ack')};bm.onclick=e=>{e.stopPropagation();act(g,'mute')};
+      r.onclick=()=>chat(g);nav.appendChild(r);
+    }
+    const hidden=groups.length-list.length;
+    if(hidden>0||showAll){const m=document.createElement('div');m.className='imore';
+      m.textContent=showAll?'show less':`show ${hidden} more`+(rest?` (${rest} background)`:'');
+      m.onclick=()=>{showAll=!showAll;render()};nav.appendChild(m)}
+  }
+  async function poll(){
+    try{const d=await api('/api/issues');if(d&&Array.isArray(d.groups)){groups=d.groups;render()}else{groups=[];render()}}catch{}
+  }
+  badge.onclick=()=>{fold=false;render();nav.scrollIntoView({block:'nearest'})};
+  document.addEventListener('lchat:chatopen',render);
+  poll();setInterval(()=>{if(!document.hidden)poll()},10000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll()});
+})();
 // ===== end issues =====
 // ===== tasks (scheduler) =====
 // ===== end tasks =====

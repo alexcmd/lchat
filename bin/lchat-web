@@ -32,6 +32,7 @@ ap.add_argument("--cwd", default=os.path.expanduser("~"))
 ap.add_argument("--allow-remote-tools", action="store_true")
 ap.add_argument("--token", action="store_true",
                 help="require a per-launch token (in the URL fragment) for tools and history; off by default")
+ap.add_argument("--no-watch", action="store_true", help="do not run the system issue watcher (bin/lchat_watch.py)")
 a = ap.parse_args()
 
 _HERE = os.path.dirname(os.path.realpath(__file__))
@@ -1021,6 +1022,10 @@ class H(http.server.BaseHTTPRequestHandler):
                 self._json(200, history_list() if path == "/api/history" else history_get(q.get("id", [""])[0]))
             except Exception as e:
                 self._json(404, {"error": str(e)})
+        elif path in ("/api/issues", "/api/issues/status"):
+            if not self._authed():
+                return self._json(403, {"error": "forbidden"})
+            self._json(*issues_get(path))
         elif path == "/api/tools":
             self._json(200, {"enabled": TOOLS_ON, "cwd": DEFAULT_CWD, "system": SYSTEM_INFO,
                              "tools": tool_schemas() if TOOLS_ON else []})
@@ -1048,6 +1053,15 @@ class H(http.server.BaseHTTPRequestHandler):
             except Exception as e:
                 self._json(400, {"error": f"{type(e).__name__}: {e}"})
             return
+        if self.path in ISSUE_POST:
+            body = self._body()
+            if not self._authed():
+                return self._json(403, {"error": "forbidden"})
+            try:
+                self._json(*issues_post(self.path, json.loads(body or b"{}")))
+            except Exception as e:
+                self._json(400, {"error": f"{type(e).__name__}: {e}"})
+            return
         if self.path == "/api/tool":
             body = self._body()
             if not self._authed():
@@ -1064,6 +1078,53 @@ class H(http.server.BaseHTTPRequestHandler):
         else:
             self._json(404, {"error": {"message": "not found"}})
 
+
+# ===== issues (lchat_watch) =====
+# System issue watcher: static detection of log errors, failed services and crashes (no LLM).
+WATCHER = None
+ISSUE_POST = {"/api/issues/ack", "/api/issues/mute", "/api/issues/unmute", "/api/issues/chat", "/api/issues/link"}
+
+
+def watcher_start():
+    global WATCHER
+    import sys
+    sys.path.insert(0, _HERE)
+    try:
+        import lchat_watch
+        # only the default instance sends desktop notifications; test instances on other ports stay quiet
+        # one DB per instance (like url / url-<port>), so a test instance never touches the real one
+        default_db = os.path.join(STATE_DIR, "issues.db" if a.port == 8088 else f"issues-{a.port}.db")
+        WATCHER = lchat_watch.Watcher(os.environ.get("LCHAT_ISSUES_DB") or default_db, notify=(a.port == 8088))
+        WATCHER.start()
+        print("issues: " + ", ".join(f"{s['name']}{'' if s['ok'] else ' (off)'}" for s in WATCHER.status()))
+    except Exception as e:
+        WATCHER = None
+        print(f"issues: watcher disabled ({type(e).__name__}: {e})")
+
+
+def issues_get(path):
+    if WATCHER is None:
+        return 503, {"error": "issue watcher not running"}
+    if path == "/api/issues/status":
+        return 200, {"sources": WATCHER.status()}
+    return 200, {"new": WATCHER.new_count(), "groups": WATCHER.list()}
+
+
+def issues_post(path, req):
+    if WATCHER is None:
+        return 503, {"error": "issue watcher not running"}
+    fp = str(req.get("fp", ""))
+    if not fp:
+        return 400, {"error": "fp required"}
+    act = path.rsplit("/", 1)[1]
+    if act == "chat":
+        return 200, WATCHER.chat_prompt(fp)
+    if act == "link":
+        WATCHER.set_chat(fp, str(req.get("chat_id", "")))
+    else:
+        getattr(WATCHER, act)(fp)
+    return 200, {"ok": True, "new": WATCHER.new_count()}
+# ===== end issues =====
 
 class S(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
@@ -1083,6 +1144,16 @@ if __name__ == "__main__":
     EMBED_WAKE.set()
     if CARDS is not None:
         threading.Thread(target=cards_worker, daemon=True).start()
+    if a.no_watch:
+        pass
+    elif not LOOPBACK and not TOKEN:   # journal contents must not be served to the network without a token
+        print("issues: watcher off (non-loopback bind without --token)")
+    else:
+        watcher_start()
+    # SIGTERM (lchat-run stop, systemd) -> normal exit, so the watcher can stop its journalctl/log children
+    def _term(*_):
+        raise SystemExit(0)
+    signal.signal(signal.SIGTERM, _term)
     print(f"history: {DB_PATH}  (embed {a.embed}, rerank {a.rerank})")
     print(f"lchat-web -> {a.llama}  (tools {'ON' if TOOLS_ON else 'OFF'}, cwd {DEFAULT_CWD})")
     print(f"open: {url}")
@@ -1090,3 +1161,6 @@ if __name__ == "__main__":
         S((a.host, a.port), H).serve_forever()
     except KeyboardInterrupt:
         pass
+    finally:
+        if WATCHER is not None:
+            WATCHER.stop()
