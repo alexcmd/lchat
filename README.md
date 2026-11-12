@@ -33,6 +33,10 @@ lchat-run                     # starts the 3 model servers + the web chat, print
 - `--link`: symlink the scripts to this checkout instead of copying them.
 - `--no-models`: skip the model download.
 - `--with-llama`: fetch prebuilt llama.cpp build `$LLAMA_TAG`, default `b12290`.
+- `--verbose`: print each step's output instead of a spinner.
+- `--plain`: no colours or animation. Also used automatically when output is not a terminal or `NO_COLOR` is set.
+
+The installer runs in 8 stages (system check, scripts, help cards, Python packages, llama.cpp, window capture helper, models, card index), with an overall progress bar. While a step runs, a spinner shows the elapsed time and the step's newest output line, such as `embedding 480/1685 (28%)`. Each step ends with ✓, ⚠, – or ✗; a failed step shows the last lines of its output. The run ends with a summary of warnings and next steps. Everything the steps print goes to `~/.local/state/lchat/install.log`.
 
 The installer also copies `cards/` to `~/.local/share/lchat/cards` and indexes it. To update, `git pull` and run `./install.sh --no-models` again: only new or changed cards are re-embedded, and removed cards are dropped. Then restart `lchat-web` (`lchat-run restart`).
 

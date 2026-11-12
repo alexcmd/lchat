@@ -130,9 +130,16 @@ def embed(texts, url=None):
     return [np.asarray(x["embedding"], dtype=np.float32) for x in sorted(d["data"], key=lambda x: x["index"])]
 
 
-def embed_pending(url=None, batch=16, limit=None):
-    """Embed cards without a vector. Returns how many were embedded; raises when the server is down."""
+def embed_pending(url=None, batch=16, limit=None, progress=None):
+    """Embed cards without a vector. Returns how many were embedded; raises when the server is down.
+    progress(done, total) is called after each batch."""
     done = 0
+    total = None
+    if progress:
+        with LOCK, db() as con:
+            total = con.execute("SELECT COUNT(*) FROM cards WHERE vec IS NULL").fetchone()[0]
+        if limit is not None:
+            total = min(total, limit)
     while limit is None or done < limit:
         with LOCK, db() as con:
             rows = con.execute("SELECT id, title, text FROM cards WHERE vec IS NULL LIMIT ?", (batch,)).fetchall()
@@ -142,6 +149,8 @@ def embed_pending(url=None, batch=16, limit=None):
         with LOCK, db() as con:
             con.executemany("UPDATE cards SET vec=? WHERE id=?", [(v.tobytes(), r[0]) for v, r in zip(vecs, rows)])
         done += len(rows)
+        if progress:
+            progress(done, total)
     return done
 
 
@@ -150,6 +159,15 @@ def status():
         n, v = con.execute("SELECT COUNT(*), COUNT(vec) FROM cards").fetchone()
         meta = dict(con.execute("SELECT key, value FROM meta"))
     return {"cards": n, "vectors": v, "version": meta.get("version", "")[:12], "source": meta.get("source")}
+
+
+def _progress(done, total):
+    msg = f"embedding {done}/{total} ({done * 100 // max(total, 1)}%)"
+    if sys.stderr.isatty():   # one line that updates in place; a log/pipe gets a line per batch
+        _progress.open = done < total
+        print("\r" + msg, end="" if _progress.open else "\n", file=sys.stderr, flush=True)
+    else:
+        print(msg, file=sys.stderr, flush=True)
 
 
 _CACHE = {"key": None}
@@ -262,17 +280,19 @@ def main(argv):
         if "error" in r:
             sys.exit(r["error"])
         try:
-            n = embed_pending()
+            n = embed_pending(progress=_progress)
             if n:
                 print(f"embedded {n} cards")
         except Exception as e:
+            if getattr(_progress, "open", False):   # finish the in-place progress line first
+                print(file=sys.stderr)
             print(f"note: embedding server {EMBED_URL} not reachable ({type(e).__name__}); "
                   "lchat-web embeds the cards when it runs", file=sys.stderr)
         print(json.dumps(status()))
     elif a.cmd == "status":
         print(json.dumps(status()))
     elif a.cmd == "embed":
-        print(f"embedded {embed_pending()} cards")
+        print(f"embedded {embed_pending(progress=_progress)} cards")
     else:
         hits, scores, how = search(" ".join(a.query), a.k, a.platform)
         print(f"{len(hits)} cards via {how}\n")
