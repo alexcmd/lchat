@@ -32,6 +32,10 @@ for f in lchat-web lchat lchat-run lchat-models lchat-cards; do
   chmod +x "$REPO/bin/$f"
   if [ "$LINK" = 1 ]; then ln -sfn "$REPO/bin/$f" "$BIN/$f"; else install -m 755 "$REPO/bin/$f" "$BIN/$f"; fi
 done
+# modules lchat-web imports from its own folder (scheduler, issue watcher)
+for f in lchat_sched.py lchat_watch.py; do
+  if [ "$LINK" = 1 ]; then ln -sfn "$REPO/bin/$f" "$BIN/$f"; else install -m 644 "$REPO/bin/$f" "$BIN/$f"; fi
+done
 install -m 644 "$REPO/web/index.html" "$SHARE/index.html"
 install -m 644 "$REPO/vendor/webcrawler/webcrawler.py" "$SHARE/webcrawler/webcrawler.py"
 
