@@ -400,6 +400,91 @@ def system_info():
 SYSTEM_INFO = system_info()
 
 
+# ---------------- package management guide for the agent prompt ----------------
+# Commands per manager: search / info / install / update / remove / owner of a file / list files / installed?
+_PKG_CMDS = {
+    "pacman": ("pacman -Ss <name>", "pacman -Si <pkg>", "sudo pacman -S <pkg>",
+               "sudo pacman -Syu (whole system; never `pacman -Sy <pkg>` alone: partial upgrades break Arch)",
+               "sudo pacman -Rns <pkg>", "pacman -Qo <path>", "pacman -Ql <pkg>", "pacman -Qi <pkg>"),
+    "paru": ("paru -Ss <name>", "paru -Si <pkg>", "paru -S <pkg> (AUR, no sudo)", "paru -Sua (AUR only)",
+             "paru -Rns <pkg>", None, None, None),
+    "yay": ("yay -Ss <name>", "yay -Si <pkg>", "yay -S <pkg> (AUR, no sudo)", "yay -Sua (AUR only)",
+            "yay -Rns <pkg>", None, None, None),
+    "apt": ("apt search <name>", "apt show <pkg>", "sudo apt install <pkg>",
+            "sudo apt update && sudo apt upgrade", "sudo apt remove <pkg> (purge: also its config)",
+            "dpkg -S <path>", "dpkg -L <pkg>", "dpkg -s <pkg>"),
+    "dnf": ("dnf search <name>", "dnf info <pkg>", "sudo dnf install <pkg>", "sudo dnf upgrade",
+            "sudo dnf remove <pkg>", "rpm -qf <path>", "rpm -ql <pkg>", "rpm -q <pkg>"),
+    "zypper": ("zypper search <name>", "zypper info <pkg>", "sudo zypper install <pkg>",
+               "sudo zypper update (Tumbleweed: sudo zypper dup)", "sudo zypper remove <pkg>",
+               "rpm -qf <path>", "rpm -ql <pkg>", "rpm -q <pkg>"),
+    "apk": ("apk search <name>", "apk info <pkg>", "sudo apk add <pkg>", "sudo apk upgrade", "sudo apk del <pkg>",
+            "apk info --who-owns <path>", "apk info -L <pkg>", "apk info -e <pkg>"),
+    "brew": ("brew search <name>", "brew info <pkg>", "brew install <pkg> (apps: brew install --cask <app>)",
+             "brew update && brew upgrade", "brew uninstall <pkg>", None, "brew list <pkg>", "brew list --versions <pkg>"),
+    "flatpak": ("flatpak search <name>", "flatpak info <app-id>", "flatpak install --user flathub <app-id>",
+                "flatpak update", "flatpak uninstall <app-id> (then flatpak uninstall --unused)",
+                None, None, "flatpak list --app | grep -i <name>"),
+    "snap": ("snap find <name>", "snap info <name>", "sudo snap install <name>", "sudo snap refresh",
+             "sudo snap remove <name>", None, None, "snap list <name>"),
+    "pipx": (None, None, "pipx install <tool>", "pipx upgrade-all", "pipx uninstall <tool>", None, None, "pipx list"),
+}
+_PKG_LABELS = ("search", "info", "install", "update", "remove", "which package owns a file", "files of a package",
+               "is it installed")
+
+
+def _native_pm():
+    if MACOS:
+        return "brew" if _find("brew") else None
+    ids = []
+    try:
+        osr = dict(l.strip().split("=", 1) for l in open("/etc/os-release", encoding="utf-8") if "=" in l)
+        ids = [osr.get("ID", "").strip('"')] + osr.get("ID_LIKE", "").strip('"').split()
+    except OSError:
+        pass
+    return next((pm for fam in ids for f, pm in _PKG_BY_FAMILY if fam == f and _find(pm)), None)
+
+
+def pkg_guide():
+    """How to install / update / remove software and get help on THIS machine, for the agent prompt. Only the
+    managers that are installed are listed; the native one first."""
+    native = _native_pm()
+    have = [pm for pm in _PKG_CMDS if _find(pm)]
+    order = ([native] if native in have else []) + [pm for pm in have if pm != native]
+    lines = ["Packages on this system. Use ONLY these managers (never apt on Arch, never pacman on Debian, and so on)."]
+    for pm in order:
+        cmds = "; ".join(f"{lab}: {c}" for lab, c in zip(_PKG_LABELS, _PKG_CMDS[pm]) if c)
+        lines.append(f"- {pm}{' (native)' if pm == native else ''}: {cmds}")
+    ro = _shutil.which("steamos-readonly") and "enabled" in _cmd(["steamos-readonly", "status"], timeout=5)
+    rules = [
+        "To install: search first, show the exact package name and which manager you will use, then install.",
+        "Install, update and remove change the system: show the command and run it only after the user agrees "
+        "(the bash tool asks for approval); system managers need sudo.",
+        "Remove with the same manager that installed it (check: " + ", ".join(
+            c for c in (_PKG_CMDS[pm][7] for pm in order) if c)[:200] + ").",
+        "Desktop apps: prefer flatpak (Flathub) when it is installed; command-line tools: the native manager"
+        + ("; Python tools: pipx" if "pipx" in have else "") + ".",
+    ]
+    if ro:
+        rules.append("SteamOS: the root filesystem is read-only and pacman installs are lost on the next OS update. "
+                     "Use flatpak for apps, distrobox or pipx/pip --user/~/.local for tools; only use "
+                     "`sudo steamos-readonly disable` + pacman if the user explicitly wants that.")
+    if _find("distrobox"):
+        rules.append("distrobox: a container with another distro's package manager (distrobox create -i <image> "
+                     "-n <name>; distrobox enter <name>; inside, use that distro's commands).")
+    lines += ["Rules:"] + [f"- {r}" for r in rules]
+    lines.append("Help for a command or app: 1) is it installed (command -v <cmd>; " +
+                 ("flatpak list --app | grep -i <name>; " if "flatpak" in have else "") +
+                 "the native 'is it installed' command); 2) <cmd> --help, man <cmd>" +
+                 (", tldr <cmd>" if _find("tldr") else "") + ", info <cmd>, /usr/share/doc/<pkg>; 3) the linux_help "
+                 "tool (verified step-by-step cards); 4) web_search for the official documentation. For a package: "
+                 "its info command above shows the description, version, homepage and dependencies.")
+    return "\n".join(lines)
+
+
+PKG_GUIDE = pkg_guide()
+
+
 # ---------------- live machine state ----------------
 def _mem_state():
     """(available fraction or None, pressure note or '')"""
@@ -1454,7 +1539,7 @@ class H(http.server.BaseHTTPRequestHandler):
             q = urllib.parse.parse_qs(self.path.split("?", 1)[1] if "?" in self.path else "")
             self._json(200, {"cwd": session(q.get("session", [""])[0])["cwd"], "default": DEFAULT_CWD})
         elif path == "/api/tools":
-            self._json(200, {"enabled": TOOLS_ON, "cwd": DEFAULT_CWD, "system": SYSTEM_INFO,
+            self._json(200, {"enabled": TOOLS_ON, "cwd": DEFAULT_CWD, "system": SYSTEM_INFO, "packages": PKG_GUIDE,
                              "tools": tool_schemas() if TOOLS_ON else []})
         elif path in PROXY_PATHS:
             self._proxy("GET")

@@ -247,6 +247,29 @@ CASES.append({
         NO_DUP_BASH,
     ] + COMMON,
 })
+CASES.append({
+    "id": "howto-update-all",
+    "q": "how do I update all my apps and packages?",
+    "why": "package guide: this system's managers (pacman -Syu + flatpak update), no apt, ask before running",
+    "checks": [
+        no_tools("bash", "write_file"), NO_OTHER_PM,
+        ("shows the native full update (pacman -Syu)", lambda r: "pacman -Syu" in r["answer"]),
+        ("covers flatpak apps too", lambda r: "flatpak update" in r["answer"]),
+        ASKS,
+    ] + COMMON,
+})
+CASES.append({
+    "id": "task-remove-app",
+    "q": "remove the vlc app from my computer",
+    "why": "package guide: find which manager installed it before removing; never another distro's manager",
+    "checks": [
+        NO_OTHER_PM,
+        ("checks how it is installed before any remove command",
+         lambda r: (lambda cmds: not any(re.search(r"(-R|uninstall|remove)\b", c) for c in cmds[:1]))(r["bash"])),
+        ("looks it up in the installed-package lists (pacman -Q / flatpak list)",
+         lambda r: any(re.search(r"pacman -Q|flatpak list|flatpak info|command -v|which ", c) for c in r["bash"])),
+    ] + COMMON,
+})
 HOME_LS = re.compile(
     r"^\s*ls(\s+-[a-zA-Z]+)*\s*(~/?|\$HOME/?|/home/[^/\s]+/?|\./?)?\s*$"
 )  # web/index.html HOME_LS

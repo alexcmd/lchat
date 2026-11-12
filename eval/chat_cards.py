@@ -168,7 +168,7 @@ def system_prompt(cwd, cards):
         t = re.sub(r" For any Linux command-line[^\n]*?instead of guessing\.", "", t)
     d = time.localtime()
     return (t.replace("${d.toDateString()}", time.strftime("%a %b %d %Y", d))
-             .replace("${d.toLocaleTimeString()}", time.strftime("%H:%M:%S", d)).replace("${CWD}", cwd).replace("${SYSINFO||'unknown (lchat-web did not report it)'}", SYSINFO))
+             .replace("${d.toLocaleTimeString()}", time.strftime("%H:%M:%S", d)).replace("${CWD}", cwd).replace("${SYSINFO||'unknown (lchat-web did not report it)'}", SYSINFO).replace("${PKGGUIDE?PKGGUIDE+'\\n':''}", (PKGGUIDE + "\n") if PKGGUIDE else ""))
 
 
 def norm_cmd(cmd):   # same normalisation as callKey/normCmd in web/index.html (loop guard)
@@ -191,6 +191,8 @@ def run(mode, tools):
     cards = mode == "cards"
     schemas = [t["schema"] for t in tools["tools"] if cards or t["name"] != "linux_help"]
     global SYSINFO
+    global PKGGUIDE
+    PKGGUIDE = tools.get("packages") or ""
     SYSINFO = tools.get("system") or "unknown"
     SYS = system_prompt(tools["cwd"], cards)
     assert cards or "linux_help" not in SYS

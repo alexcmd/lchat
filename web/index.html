@@ -126,7 +126,7 @@ footer>*{max-width:780px;margin-left:auto;margin-right:auto}
 #settings .full{width:100%;flex-direction:column;align-items:stretch}
 #settings textarea{width:100%;min-height:70px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px}
 #settings input[type=number]{width:76px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
-#settings .sys{width:100%;color:var(--mut);font-size:12px;background:var(--code);border-radius:8px;padding:8px 10px}
+#settings .sys{width:100%;color:var(--mut);font-size:12px;background:var(--code);border-radius:8px;padding:8px 10px;white-space:pre-wrap;max-height:240px;overflow:auto}
 #toolset{display:flex;gap:4px 12px;flex-wrap:wrap;width:100%;color:var(--mut)}
 #toolset label{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:12px}
 #scrim{display:none}
@@ -284,7 +284,7 @@ const log=$('#log'),inp=$('#in'),send=$('#send'),att=$('#att');
 const SID=Math.random().toString(36).slice(2);
 let curPhase=null;   // the running progress-list line of the current turn (see phase() in go)
 const BASE_TITLE=document.title;document.addEventListener('visibilitychange',()=>{if(!document.hidden&&document.title.startsWith('✓ '))document.title=BASE_TITLE});
-let msgs=[],imgs=[],ctrl=null,busy=false,TOOLS=[],CWD='',DEFAULT_DIR='',SYSINFO='',pendingAsks=[],VISION=true,NCTX=0,lastPrompt=0;
+let msgs=[],imgs=[],ctrl=null,busy=false,TOOLS=[],CWD='',DEFAULT_DIR='',PKGGUIDE='',SYSINFO='',pendingAsks=[],VISION=true,NCTX=0,lastPrompt=0;
 const S={get(k,d){try{return localStorage.getItem('lchat.'+k)??d}catch{return d}},set(k,v){try{localStorage.setItem('lchat.'+k,v)}catch{}}};
 
 // ---------- working directory (per chat; the server keeps it per session = chat id) ----------
@@ -329,7 +329,7 @@ fetch('/props').then(r=>r.json()).then(p=>{
   $('#model').textContent=name+(ctx?` · ctx ${ctx}`:'')+(p.modalities?.vision?' · vision':'');
 }).catch(()=>$('#model').textContent='llama unreachable');
 fetch('/api/tools').then(r=>r.json()).then(d=>{
-  TOOLS=d.tools||[];DEFAULT_DIR=d.cwd||'';if(!msgs.length)setCwd(DEFAULT_DIR);SYSINFO=d.system||'';$('#sysInfo').textContent='System: '+(SYSINFO||'not reported by lchat-web');
+  TOOLS=d.tools||[];DEFAULT_DIR=d.cwd||'';if(!msgs.length)setCwd(DEFAULT_DIR);SYSINFO=d.system||'';PKGGUIDE=d.packages||'';$('#sysInfo').textContent='System: '+(SYSINFO||'not reported by lchat-web')+(PKGGUIDE?'\n\n'+PKGGUIDE:'');
   const ts=$('#toolset');ts.innerHTML=TOOLS.length?'Tools:':'Tools disabled by server';
   for(const t of TOOLS){const l=document.createElement('label');l.innerHTML=`<input type="checkbox" ${toolOn(t.name)?'checked':''}> ${t.name}${t.approval?' ⚠':''}`;
     l.querySelector('input').onchange=e=>{S.set('tool.'+t.name,e.target.checked?'1':'0');pill()};ts.appendChild(l)}
@@ -340,7 +340,7 @@ function agentPrompt(){
   const d=new Date();
   return `You are lchat, a capable assistant running locally on the user's computer. Today is ${d.toDateString()}, local time ${d.toLocaleTimeString()}. Working directory: ${CWD}. bash runs there and remembers cd for the rest of this chat; read_file and write_file resolve relative paths from it. When the task is about a project or folder somewhere else, cd into it first (or use absolute paths); do not cd around without a reason.
 System: ${SYSINFO||'unknown (lchat-web did not report it)'}
-Write commands for THIS system: use its native package manager and the tools listed as installed, respect its notes (for example a read-only root filesystem), and when a help card shows per-distro variants pick the one for this system's family.
+${PKGGUIDE?PKGGUIDE+'\n':''}Write commands for THIS system: use its native package manager and the tools listed as installed, respect its notes (for example a read-only root filesystem), and when a help card shows per-distro variants pick the one for this system's family.
 You can call tools to act on the machine and the web: run bash commands, read and write files, search and fetch web pages, list/focus/minimize/close desktop windows, and take screenshots (which you can see). For questions about this machine's current state (slow, disk, memory, battery, network/IP/Wi-Fi/VPN, audio, GPU, Docker/Kubernetes, failed services, errors) call system_facts FIRST: it is read-only and needs no approval. You also remember past conversations with the user: use the recall tool when they refer to something from before. For any Linux command-line, scripting or system task and for any error message, call linux_help FIRST: it returns verified step-by-step cards with exact commands; build your commands and scripts from them (replace <PLACEHOLDERS> with real values) instead of guessing.
 Work step by step: call a tool, look at the result, then decide the next step. Do not list the home directory (ls ~) to orient yourself: the System line and the request already give the context; start with the command that tests the exact path, unit, file or error named in the request. Prefer one tool call at a time. For web research make ONE web_search call that lists several differently worded queries in its queries array. Image links from a search are only links: call download on an image before you describe it, and never describe an image you have not seen. Never guess facts you can check with a tool. If a tool fails, read the error and try a different approach. When the task is done, give a short, direct final answer without calling more tools.`;
 }
