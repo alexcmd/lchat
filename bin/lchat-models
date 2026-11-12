@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""lchat-models: download the GGUF models lchat uses (or reuse them from the Hugging Face cache).
+
+Usage: lchat-models [list|download|path ROLE] [--dir DIR] [--only ROLE,...] [--dry-run]
+
+Models go to $LCHAT_MODELS (default ~/.local/share/lchat/models). A file already in
+~/.cache/huggingface/hub (e.g. from `llama serve -hf`) is symlinked, not downloaded again.
+Downloads resume after an interruption (curl -C -).
+"""
+import argparse, glob, os, shutil, subprocess, sys
+
+MODELS = {  # role: (Hugging Face repo, file, approx size, what for)
+    "chat":   ("LiquidAI/LFM3-VL-2B-GGUF", "LFM3-VL-2B-QAD-Q4_0.gguf", "1.0 GB", "chat + tools (vision LLM)"),
+    "mmproj": ("LiquidAI/LFM3-VL-2B-GGUF", "mmproj-LFM3-VL-2B-Q8_0.gguf", "0.2 GB", "vision projector for chat"),
+    "embed":  ("unsloth/embeddinggemma-2-GGUF", "embeddinggemma-2-Q8_0.gguf", "0.3 GB", "history embeddings"),
+    "rerank": ("ggml-org/Qwen3-Reranker-0.6B-Q8_0-GGUF", "qwen3-reranker-0.6b-q8_0.gguf", "0.6 GB", "history reranker"),
+}
+
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument("cmd", nargs="?", default="download", choices=["list", "download", "path"])
+ap.add_argument("role", nargs="?")
+ap.add_argument("--dir", default=os.environ.get("LCHAT_MODELS", "~/.local/share/lchat/models"))
+ap.add_argument("--only", default="", help="comma-separated roles (default: all)")
+ap.add_argument("--dry-run", action="store_true")
+a = ap.parse_args()
+DIR = os.path.expanduser(a.dir)
+
+
+def local(role):
+    return os.path.join(DIR, MODELS[role][1])
+
+
+def hf_cached(repo, name):
+    hub = os.environ.get("HF_HUB_CACHE") or os.path.join(
+        os.environ.get("HF_HOME", os.path.expanduser("~/.cache/huggingface")), "hub")
+    for p in glob.glob(os.path.join(hub, "models--" + repo.replace("/", "--"), "snapshots", "*", name)):
+        if os.path.isfile(p) and os.path.getsize(p) > 0:
+            return p
+    return None
+
+
+if a.cmd == "path":
+    if a.role not in MODELS:
+        sys.exit(f"unknown role {a.role!r}; one of: {', '.join(MODELS)}")
+    p = local(a.role)
+    if not os.path.exists(p):
+        sys.exit(f"{p} missing - run: lchat-models download")
+    print(p)
+    sys.exit(0)
+
+roles = [r for r in (a.only.split(",") if a.only else MODELS) if r]
+for r in roles:
+    if r not in MODELS:
+        sys.exit(f"unknown role {r!r}; one of: {', '.join(MODELS)}")
+
+if a.cmd == "list":
+    for r in roles:
+        repo, name, size, what = MODELS[r]
+        state = "ok" if os.path.exists(local(r)) else ("in HF cache" if hf_cached(repo, name) else "missing")
+        print(f"{r:7} {size:>7}  {repo}/{name}  [{state}]  - {what}")
+    sys.exit(0)
+
+os.makedirs(DIR, exist_ok=True)
+failed = []
+for r in roles:
+    repo, name, size, _ = MODELS[r]
+    dst = local(r)
+    if os.path.exists(dst):
+        print(f"{r}: already there ({dst})")
+        continue
+    cached = hf_cached(repo, name)
+    if cached:
+        print(f"{r}: linking from the Hugging Face cache {cached}")
+        if not a.dry_run:
+            os.symlink(os.path.realpath(cached), dst)
+        continue
+    url = f"https://huggingface.co/{repo}/resolve/main/{name}?download=true"
+    print(f"{r}: downloading {repo}/{name} ({size}) ...", flush=True)
+    if a.dry_run:
+        continue
+    if not shutil.which("curl"):
+        sys.exit("curl is required for downloads")
+    part = dst + ".part"
+    rc = subprocess.call(["curl", "-fL", "--retry", "3", "-C", "-", "--progress-bar", "-o", part, url])
+    if rc == 0 and os.path.getsize(part) > 1_000_000:
+        os.replace(part, dst)
+    else:
+        failed.append(r)
+        print(f"{r}: download failed (curl exit {rc}); run again to resume", file=sys.stderr)
+sys.exit(1 if failed else 0)

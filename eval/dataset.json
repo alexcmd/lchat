@@ -1,0 +1,2106 @@
+{
+ "chats": [
+  {
+   "id": "c01",
+   "title": "How do I start llama-server with qwen 7B on a fixed port",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I want llama-server to serve my qwen2.5 7B gguf on a fixed port with 8192 context. Can you check what I have on disk first?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"ls -la ~/models/gguf; systemctl --user list-units 'llama*' --all\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "total 14872\ndrwxr-xr-x 2 deck deck     4096 Nov  2 18:10 .\ndrwxr-xr-x 9 deck deck     4096 Nov  9 21:44 ..\n-rw-r--r-- 1 deck deck  1117320736 Oct 14 09:02 gemma-2-2b-it-Q4_K_M.gguf\n-rw-r--r-- 1 deck deck  4683074048 Oct 19 22:31 llama-3.1-8b-instruct-Q4_K_M.gguf\n-rw-r--r-- 1 deck deck   873540256 Nov  4 19:05 phi-3.5-mini-Q8_0.gguf\n-rw-r--r-- 1 deck deck  2497281280 Nov  1 08:40 qwen2.5-3b-instruct-q5_k_m.gguf\n-rw-r--r-- 1 deck deck  4368438944 Oct 26 12:17 qwen2.5-7b-instruct-q4_k_m.gguf\n-rw-r--r-- 1 deck deck      2048 Oct 26 12:19 qwen2.5-7b-instruct-q4_k_m.gguf.sha256\n-rw-r--r-- 1 deck deck  1632810112 Oct 28 17:50 nomic-embed-text-v1.5.Q8_0.gguf\n-rw-r--r-- 1 deck deck      4096 Nov  5 10:12 README.txt\n-rw-r--r-- 1 deck deck       812 Nov  5 10:14 llama-qwen7b.env\ndrwxr-xr-x 2 deck deck     4096 Nov  6 08:01 lora\n-rw-r--r-- 1 deck deck    38211 Nov  6 08:03 lora/adapter_config.json\n-rw-r--r-- 1 deck deck  9124416 Nov  6 08:03 lora/adapter_model.safetensors\n\nUNIT                      LOAD   ACTIVE SUB     DESCRIPTION\nllama-embed.service       loaded active running llama.cpp embeddings\nllama-qwen7b.service      loaded active running llama.cpp qwen2.5-7b --port 9931 host 127.0.0.1\nllama-phi.service         loaded failed failed  llama.cpp phi-3.5 mini (OOM on load)\nllama-cpu.service         loaded inactive dead  llama.cpp scratch\n\n-- README.txt --\nModels for the Deck CPU path. Keep at most one 7B model loaded at a time.\nQuantisation: Q4_K_M for 7B and 8B, Q8_0 for embeddings.\nContext default 8192. Use -ngl 0; there is no working GPU offload here.\nLogs go to ~/.local/state/llama/ and are rotated by cron.\n\n-- llama-qwen7b.env --\nMODEL=/home/deck/models/gguf/qwen2.5-7b-instruct-q4_k_m.gguf\nCTX=8192\nTHREADS=5\nHOST=127.0.0.1\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The qwen2.5-7b-instruct-q4_k_m.gguf file is there, and a unit named llama-qwen7b.service already exists. To start it by hand: llama-server -m ~/models/gguf/qwen2.5-7b-instruct-q4_k_m.gguf -c 8192 --port 9931 -ngl 0 --host 127.0.0.1"
+    },
+    {
+     "role": "user",
+     "content": "ok, and -ngl 0 means CPU only, right?"
+    },
+    {
+     "role": "assistant",
+     "content": "Yes. The Deck has no working CUDA or Vulkan path for llama.cpp here, so -ngl 0 keeps every layer on the CPU."
+    }
+   ]
+  },
+  {
+   "id": "c02",
+   "title": "Second llama-server for embeddings only",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I need to start a second llama-server for embeddings only, model nomic-embed. Which port and flags? Check the config that already exists."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"ls -la ~/llama; cat ~/llama/embed.env; tail -n 5 ~/llama/server-embed.log\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "total 9120\n-rw-r--r-- 1 deck deck     1204 Nov  3 20:11 embed.env\n-rw-r--r-- 1 deck deck      611 Nov  3 20:12 embed.env.bak\n-rwxr-xr-x 1 deck deck      402 Nov  3 20:15 run-embed.sh\n-rw-r--r-- 1 deck deck   181224 Nov  7 11:40 server-embed.log\n-rw-r--r-- 1 deck deck  1632810112 Oct 28 17:50 nomic-embed-text-v1.5.Q8_0.gguf\n\n# llama embedding server, Deck CPU\nLLAMA_BIN=/opt/llama.cpp/build/bin/llama-server\nEMBED_MODEL=/home/deck/models/gguf/nomic-embed-text-v1.5.Q8_0.gguf\nEMBED_HOST=127.0.0.1\nEMBED_PORT=9952\nEMBED_CTX=2048\nEMBED_UBATCH=512\nEMBED_THREADS=2\n2026-11-07 11:31:12 slot 0: embd request ok, 384 tokens\n2026-11-07 11:33:40 warning: batch truncated to n_ubatch 512\n2026-11-07 11:41:02 slot 0: embd request ok, 176 tokens\n2026-11-07 11:42:19 slot 0: embd request ok, 402 tokens\n2026-11-07 11:44:55 cache: prompt cache disabled for embeddings\n2026-11-07 11:35:07 slot 0: embd request ok, 230 tokens\n2026-11-07 11:36:51 tokenizer: 2 chunks split at sentence boundary\n2026-11-07 11:37:20 slot 0: embd request ok, 498 tokens\nEMBED_EXTRA=--embedding --pooling mean\n\n# the chat model stays on 8080, do not share threads with it\n# nomic expects mean pooling; cls gave worse neighbours in my tests\n# keep ctx small, embeddings are made per chunk of about 500 tokens\n# run-embed.sh sources this file and then execs LLAMA_BIN\n# healthcheck: curl -s 127.0.0.1:9952/health\n# old value EMBED_PORT=9950 was taken by the Syncthing web UI\n\n2026-11-07 11:38:02 llama_new_context_with_model: n_ctx = 2048\n2026-11-07 11:38:03 main: server is listening on 127.0.0.1:9952\n2026-11-07 11:38:03 embedding dim = 768\n2026-11-07 11:39:44 slot 0: embd request ok, 512 tokens\n2026-11-07 11:40:10 health check ok\n"
+    },
+    {
+     "role": "assistant",
+     "content": "In the config EMBED_PORT=9952, the --embedding flag is required. Launch: source ~/llama/embed.env && $LLAMA_BIN -m $EMBED_MODEL --embedding --pooling mean --port $EMBED_PORT -c 2048 -ngl 0. The old value 9950 was taken by Syncthing, so don't go back to it."
+    },
+    {
+     "role": "user",
+     "content": "What batch size should I set? The model is small, but the texts are long."
+    },
+    {
+     "role": "assistant",
+     "content": "For long texts keep -ub 512 and -c 2048. A batch of 2048 on the Deck CPU gives no gain and just eats memory."
+    }
+   ]
+  },
+  {
+   "id": "c03",
+   "title": "llama-server threads and batch size on the Deck CPU",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Llama-server is slow on the Deck CPU. What thread count and batch size should I use? Check the last log."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"journalctl --user -u llama-cpu -n 200 --no-pager\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Nov 08 22:10:01 deck llama-server[3319]: main: build = 4102 (a1b2c3d)\nNov 08 22:10:01 deck llama-server[3319]: main: built with cc (GCC) 14.2.0 for x86_64-linux-gnu\nNov 08 22:10:01 deck llama-server[3319]: system_info: n_threads = 5 / 8 | AVX2 = 1 | F16C = 1 | FMA = 1\nNov 08 22:10:02 deck llama-server[3319]: llama_model_loader: loaded meta data with 25 key-value pairs and 291 tensors\nNov 08 22:10:02 deck llama-server[3319]: llama_model_loader: - kv   2: general.name str = Qwen2.5 7B Instruct\nNov 08 22:10:03 deck llama-server[3319]: llm_load_print_meta: n_ctx_train = 32768\nNov 08 22:10:03 deck llama-server[3319]: llm_load_print_meta: model size = 4.36 GiB (4.85 BPW)\nNov 08 22:10:04 deck llama-server[3319]: main: command: llama-server --threads 5 --batch-size 384 --port 9941 -m /home/deck/models/gguf/qwen2.5-7b-instruct-q4_k_m.gguf -c 4096 -ngl 0\nNov 08 22:10:05 deck llama-server[3319]: llama_new_context_with_model: n_ctx = 4096\nNov 08 22:10:05 deck llama-server[3319]: llama_new_context_with_model: n_batch = 384\nNov 08 22:10:06 deck llama-server[3319]: main: server is listening on 127.0.0.1:9941 - starting the main loop\nNov 08 22:10:31 deck llama-server[3319]: slot 0 | processing task 0\nNov 08 22:10:31 deck llama-server[3319]: slot 0 | prompt eval time = 8210.44 ms / 342 tokens ( 24.01 ms per token, 41.65 tokens per second)\nNov 08 22:10:52 deck llama-server[3319]: slot 0 | eval time = 20114.82 ms / 210 tokens ( 95.78 ms per token, 10.44 tokens per second)\nNov 08 22:11:20 deck llama-server[3319]: slot 0 | prompt eval time = 7998.13 ms / 338 tokens ( 23.66 ms per token, 42.25 tokens per second)\nNov 08 22:11:44 deck llama-server[3319]: slot 0 | eval time = 19860.02 ms / 205 tokens ( 96.88 ms per token, 10.32 tokens per second)\nNov 08 22:12:08 deck llama-server[3319]: slot 0 | release: stop, 205 tokens generated\nNov 08 22:14:55 deck llama-server[3319]: SIGTERM received, shutting down\nNov 08 22:14:55 deck llama-server[3319]: llama-server stopped\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The last launch used --threads 5 --batch-size 384 and prompt eval ran at about 42 tok/s with generation near 10 tok/s. Five threads leave one core free for the compositor, so keep that. Try 6 threads only after you disable the Steam overlay."
+    },
+    {
+     "role": "user",
+     "content": "Fine, I will keep port 9941 for now and leave the threads alone."
+    },
+    {
+     "role": "assistant",
+     "content": "Good. Generation is memory-bandwidth bound on this APU, so more threads will not help much anyway."
+    }
+   ]
+  },
+  {
+   "id": "c04",
+   "title": "llama-server returns 503 on long context",
+   "messages": [
+    {
+     "role": "user",
+     "content": "llama-server on 8080 returns 503 with long context. What's going on?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"tail -n 6 ~/llama/server-8080.log\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "slot 0 | update_slots: failed to find free space in the KV cache\nerror: KV_CACHE_FULL_4417: no free cells, n_ctx=4096 requested=4410\nHTTP 503 Service Unavailable  POST /v1/chat/completions\nslot 0 | release: stop, 0 tokens generated\nslot 1 | processing task 88\nslot 1 | prompt eval time = 611.02 ms / 96 tokens\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The error KV_CACHE_FULL_4417 means the cache is full: a request of 4410 tokens does not fit into n_ctx=4096. Increase -c to 8192 or reduce --parallel."
+    },
+    {
+     "role": "user",
+     "content": "Won't --parallel 1 break other requests?"
+    },
+    {
+     "role": "assistant",
+     "content": "They will queue up, but the 503 errors will go away. For a single user that's fine."
+    }
+   ]
+  },
+  {
+   "id": "c05",
+   "title": "grammar-constrained coding model on port 9943",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Set up llama-server for the coding model with a GBNF grammar so tool calls are always valid JSON. Which port?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/llama/coder.sh\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "#!/bin/sh\n# coding model with JSON tool grammar\nexec llama-server -m ~/models/gguf/deepseek-coder-6.7b.Q4_K_M.gguf --port 9943 --grammar-file ~/llama/json_tools.gbnf -c 4096 -ngl 0 --threads 4\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The script starts it with --port 9943 and --grammar-file ~/llama/json_tools.gbnf, so the output is forced into valid JSON for tool calls."
+    },
+    {
+     "role": "user",
+     "content": "Does the grammar slow generation a lot?"
+    },
+    {
+     "role": "assistant",
+     "content": "In my measurements it costs roughly 10-15% on the Deck CPU, which is acceptable for tool calls."
+    }
+   ]
+  },
+  {
+   "id": "c06",
+   "title": "APU temperature on Steam Deck under load",
+   "messages": [
+    {
+     "role": "user",
+     "content": "The Deck heats up to 100 degrees in heavy games. Check the sensors under load: what temperature does it reach?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"sensors | head -n 90\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "acpitz-acpi-0\nAdapter: ACPI interface\ntemp1:        +38.0 C  (crit = +95.0 C)\n\namdgpu-pci-0300\nAdapter: PCI adapter\nvddgfx:       1.04 V\nfan1:        2611 RPM  (min =    0 RPM, max = 5000 RPM)\nedge:         +82.0 C  (crit = +105.0 C, hyst = -273.1 C)\nfast-mtt:     +82.0 C  (crit = +105.0 C)\n\nBAT1-acpi-0\nAdapter: ACPI interface\nin0:          8.40 V\ncurr1:       -4.23 A\n\n\nBAT1 charge log, 5 min steps\n  00:00  SoC 74%  draw 14.9 W\n  00:05  SoC 74%  draw 15.1 W\n  00:10  SoC 73%  draw 14.7 W\nsensor sample count: 150 over 300 s, no gaps\ngpu power (average): 14.9 W, package limit 15 W\nmemory temp: +51.2 C (hbm sample, sensor 2)\nbattery temp: +31.0 C\nnvme temp was stable at +43 C, no throttling\nthe test used the same save slot each run, load screen excluded\nfan curve: 40C 0%, 55C 1800 rpm, 65C 2400 rpm, 75C 3000 rpm\nskin temp (estimated): 41.2 C at palm rest\nambient (sensor on dock): 23.5 C\ncooling check: vapour chamber contact ok, heatsink fins clean\nvrm temp: +58.0 C (sample)\nnote: fan ramps before the die reaches 90 C, so the peak came from a short burst\nnvme-pci-0100\nAdapter: PCI adapter\nComposite:    +43.9 C  (low  = -20.1 C, high = +84.8 C)\n\nk10temp-pci-00c3\nAdapter: PCI adapter\nTctl:         +91.2 C\nTccd1:        +89.5 C\n\nlog window 00:00-00:10 ('Cyberpunk-like' stress), samples every 2 s\nmax edge: +86.4 C at 00:04:12\nmax junction: +94.0C at 00:06:37\nmax fan1: 3140 RPM at 00:06:40\nmean vddgfx: 1.01 V\nthrottle events: 2 (thermal, Tctl > 95 C)\nnote: junction temperature is the hotspot on the GPU die\nsession end: fan back to 1800 rpm after 4 min idle\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Under load the junction is at +94.0C with crit at 105C, which is still within limits. Edge holds around 82 degrees, so the fan, which reached 3140 rpm, is what keeps the case cool. There were two throttling events on Tctl."
+    },
+    {
+     "role": "user",
+     "content": "And at what TDP does it heat up like that, anyway?"
+    },
+    {
+     "role": "assistant",
+     "content": "In this test the TDP was set to 15 W. That load is enough to push the junction to 94 degrees, so at 15 W the heat is expected."
+    }
+   ]
+  },
+  {
+   "id": "c07",
+   "title": "Steam Deck battery drains overnight in sleep",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Battery drops about 8% overnight in suspend. Can you check upower and see the cycle count and capacity?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"upower -i /org/freedesktop/UPower/devices/battery_BAT1\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "  native-path:          BAT1\n  vendor:               Valve\n  model:                Jupiter\n  serial:               0001\n  power supply:         yes\n  updated:              Mon 10 Nov 2026 07:02:11 AM CET (41 seconds ago)\n  has history:          yes\n  has statistics:       yes\n  battery\n    present:             yes\n    rechargeable:        yes\n    state:               discharging\n    warning-level:       none\n    energy:              42.8 Wh\n    energy-empty:        0 Wh\n    energy-full:         49.6 Wh\n    energy-full-design:  50.0 Wh\n    energy-rate:         0.9 W\n    voltage:             7.92 V\n    time to empty:       54.1 hours\n    percentage:          71%\n    capacity:            99.2%\n    technology:          lithium-ion\n    icon-name:          'battery-good-symbolic'\n    cycle-count: 412\n    history (time to empty):\n        1762732800  54.1  discharging\n        1762728000  58.4  discharging\n        1762724400  61.0  discharging\n    energy trend: -1.4 Wh per hour in suspend, 2.1 Wh per hour with Bluetooth on\n    history (charge):\n        1762732800  71.0  discharging\n        1762728000  74.6  discharging\n        1762724400  78.1  discharging\n        1762720800  80.0  discharging\n    history (rate):\n        1762732800  0.9   discharging\n        1762728000  0.7   discharging\n        1762724400  1.3   discharging\n    statistics (charging):\n        0.0  0.0\n        100.0  0.0\n    statistics (discharging):\n        0.0   91.7\n        10.0  93.2\n        20.0  95.4\n        30.0  96.6\n        40.0  97.1\n        50.0  98.5\n        60.0  99.1\n        70.0  99.5\n        80.0  99.8\n        90.0  99.9\n        100.0 100.0\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Cycle count is 412 and capacity is 99.2%, so the pack is healthy. The 8% overnight loss is from suspend, not battery wear. The discharge rate in the history is 0.7 to 1.3 W, which is high for suspend, so check what wakes the device."
+    },
+    {
+     "role": "user",
+     "content": "What wakes it? Show me the journal next time."
+    },
+    {
+     "role": "assistant",
+     "content": "I will check the wakeup sources next time. Bluetooth controller wakeups are the usual suspect on this hardware."
+    }
+   ]
+  },
+  {
+   "id": "c08",
+   "title": "Fixed GPU clock in the overnight test",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I want to check how the Deck behaves overnight at a fixed GPU clock. What should I set?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/deck/gpu-night.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "date: 2026-11-03\nmode: manual\nsclk: fixed 1450MHz\nfps avg: 43\nfps 1% low: 31\nfan: 2600 rpm\nbattery start: 88%\nbattery end: 81%\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The overnight test ran at a fixed 1450MHz: average fps 43, 1% low 31, fan 2600 rpm. The battery lost 7% overnight, a reasonable trade-off for quiet mode."
+    },
+    {
+     "role": "user",
+     "content": "Was it better without the limit?"
+    },
+    {
+     "role": "assistant",
+     "content": "Without the limit the fps is higher, but the battery drains faster. For quiet mode, keep it at 1450."
+    }
+   ]
+  },
+  {
+   "id": "c09",
+   "title": "TDP limit 11W test on Steam Deck",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I tested the Deck at an 11 W TDP limit. Pull the results and tell me the frame time."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/deck/tdp-tests.csv\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "run,profile,avg_fps,frame_ms,battery_drain_pct_per_h\n1,15W stock,38,26.3,14.2\n2,# profile: tdp_limit=11W governor=powersave,31,32.2,9.8\n3,9W,24,41.6,7.1\n4,unplugged 11W retest,30,33.5,9.6\n"
+    },
+    {
+     "role": "assistant",
+     "content": "At tdp_limit=11W the average was 31 fps and frame time 32 ms, with battery drain near 9.8% per hour. 15 W gave 38 fps. Under 10 W the drop is steep."
+    },
+    {
+     "role": "user",
+     "content": "Good enough for battery mode."
+    },
+    {
+     "role": "assistant",
+     "content": "Yes, 11 W is a fair default when unplugged."
+    }
+   ]
+  },
+  {
+   "id": "c10",
+   "title": "Fan is noisy, fan_curve_v3 curve",
+   "messages": [
+    {
+     "role": "user",
+     "content": "The Deck fan is noisy at 3000 rpm even when idle. What's wrong with the curve?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/deck/fan.conf; ls ~/.config/deck\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "[fan]\nprofile = custom\ncurve = 40:0, 55:1800, 65:2400, 75:3000\nhysteresis = 3\n# fan_curve_v3 was tuned on 2026-10-30\nls: cannot access '/home/deck/.config/deck': No such file or directory\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The fan_curve_v3 file is not applied: the plugin reads ~/.config/deck/fan.conf, but yours is in ~/deck. Move the file to ~/.config/deck/ and restart the plugin."
+    },
+    {
+     "role": "user",
+     "content": "Moved it, the noise is gone."
+    },
+    {
+     "role": "assistant",
+     "content": "Good. The curve only gives 3000 rpm from 75 degrees up, so the fan stays quiet at idle."
+    }
+   ]
+  },
+  {
+   "id": "c11",
+   "title": "Python dedupe of photos by hash fails on exFAT card",
+   "messages": [
+    {
+     "role": "user",
+     "content": "My dedupe script for the SD card errors out on one file. Can you run it in dry-run and show me the tail?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"python3 ~/scripts/dedupe.py /mnt/sdcard/DCIM --dry-run 2>&1 | tail -n 60\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "hashing 1801/4120 /mnt/sdcard/DCIM/2018/IMG_6230.JPG ok\nhashing 1802/4120 /mnt/sdcard/DCIM/2018/IMG_6231.JPG ok\nhashing 1803/4120 /mnt/sdcard/DCIM/2018/IMG_6232.JPG ok\nhashing 1804/4120 /mnt/sdcard/DCIM/2018/IMG_6233.MOV ok\nhashing 1805/4120 /mnt/sdcard/DCIM/2019/IMG_6501.JPG ok\nhashing 1806/4120 /mnt/sdcard/DCIM/2019/IMG_6502.JPG ok\nhashing 1807/4120 /mnt/sdcard/DCIM/2019/IMG_6503.JPG ok\nhashing 1834/4120 /mnt/sdcard/DCIM/2019/IMG_7714.JPG\nTraceback (most recent call last):\n  File \"/home/deck/scripts/dedupe.py\", line 88, in hash_file\nhashing 1839/4120 /mnt/sdcard/DCIM/2019/IMG_7719.JPG ok\nhashing 1840/4120 /mnt/sdcard/DCIM/2019/IMG_7720.JPG ok\nhashing 1841/4120 /mnt/sdcard/DCIM/2019/IMG_7721.MOV ok\nhashing 1844/4120 /mnt/sdcard/DCIM/2019/IMG_7724.JPG ok\nhashing 1845/4120 /mnt/sdcard/DCIM/2019/IMG_7725.JPG ok\nhashing 1846/4120 /mnt/sdcard/DCIM/2019/IMG_7726.JPG ok\nhashing 1847/4120 /mnt/sdcard/DCIM/2019/IMG_7727.JPG ok\nhashing 1848/4120 /mnt/sdcard/DCIM/2019/IMG_7728.JPG ok\nhashing 1849/4120 /mnt/sdcard/DCIM/2019/IMG_7729.JPG ok\nelapsed 00:07:42, cache entries 1849, memory 96 MB\nhashing 1842/4120 /mnt/sdcard/DCIM/2019/IMG_7722.JPG ok\ndmesg: exfat: FAT cache flush delayed on inode 88121\nhashing 1843/4120 /mnt/sdcard/DCIM/2019/IMG_7723.JPG ok\n    mm = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)\n  File \"/usr/lib/python3.13/mmap.py\", line 12, in __init__\nOSError: [Errno 22] Invalid argument: /mnt/sdcard/DCIM/2019/IMG_7714.JPG\nhashing 1835/4120 /mnt/sdcard/DCIM/2019/IMG_7715.JPG ok\nhashing 1836/4120 /mnt/sdcard/DCIM/2019/IMG_7716.JPG ok\nhashing 1837/4120 /mnt/sdcard/DCIM/2019/IMG_7717.JPG ok\nhashing 1838/4120 /mnt/sdcard/DCIM/2019/IMG_7718.JPG ok\nwarning: skipped 1 unreadable file(s)\ndry-run: 4120 files scanned, 286 duplicate groups, 0 deleted\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The failure is on IMG_7714.JPG in /mnt/sdcard/DCIM/2019. The exFAT driver rejects mmap for that file, so the script cannot hash it. Read the file in chunks instead of mmap."
+    },
+    {
+     "role": "user",
+     "content": "Ok, patch it. Use 1 MiB chunks."
+    },
+    {
+     "role": "assistant",
+     "content": "Replace the mmap call with a loop that reads f.read(1 << 20) and feeds hashlib.sha256().update(). That keeps memory flat and works on exFAT."
+    }
+   ]
+  },
+  {
+   "id": "c12",
+   "title": "Log rotation shell script and cron schedule",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Write me a logrotate-like bash script for ~/.local/state/myapp logs and schedule it in cron. Check what I already have first."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"crontab -l; ls -la ~/bin | head -n 20\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "# m h dom mon dow command\n52 4 * * * /home/deck/bin/rotate-logs.sh  # 04:52 daily\n0 */6 * * * /home/deck/bin/backup-notes.sh\ntotal 36\n-rwxr-xr-x 1 deck deck 1210 Oct 02 10:11 rotate-logs.sh\n-rwxr-xr-x 1 deck deck  702 Oct 02 10:11 backup-notes.sh\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Your crontab already runs rotate-logs.sh at 04:52 daily. The script gzips files over 20 MB and keeps 7 generations. I would extend it rather than add a second job."
+    },
+    {
+     "role": "user",
+     "content": "Fine, add a size check so small files are skipped."
+    },
+    {
+     "role": "assistant",
+     "content": "Added: the script now skips a file when its size is below 20 MB, so small logs are left alone."
+    }
+   ]
+  },
+  {
+   "id": "c13",
+   "title": "Bank statement CSV parser",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I can't read the bank statement CSV, it's gibberish. How do I open it?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"file ~/finance/statement_oct.csv; head -n 5 ~/finance/statement_oct.csv\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "/home/deck/finance/statement_oct.csv: Non-ISO extended-ASCII text, with CRLF line terminators\nDate;Description;Amount;Balance\n01.10.2026;SBP transfer;-1200,00;48310,55\n02.10.2026;Salary;+95000,00;143310,55\n03.10.2026;Grocery store Produkty;-2180,40;140930,15\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The file is cp1251, the separator is ';', lines end with CRLF. So read it with encoding='windows-1251' and delimiter=';', and parse amounts with commas using decimal=','."
+    },
+    {
+     "role": "user",
+     "content": "How do I make the parser detect the encoding on its own?"
+    },
+    {
+     "role": "assistant",
+     "content": "You can use chardet, but for a single bank it's simpler to specify the encoding and separator explicitly. That way the parser doesn't trip over empty lines."
+    }
+   ]
+  },
+  {
+   "id": "c14",
+   "title": "Renaming Cyrillic-named files with find",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I need to rename the Cyrillic-named photo files. How do I do it with find so spaces don't break things?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"ls ~/scripts | grep rename\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "rename_v1.sh\nrename_v2.sh\nrename_old.bak\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Use rename_v2.sh: it works through find -print0 and xargs -0, so spaces and Cyrillic don't break the loop. The old rename_v1.sh broke on spaces."
+    },
+    {
+     "role": "user",
+     "content": "Run a dry run."
+    },
+    {
+     "role": "assistant",
+     "content": "The dry run went through 312 files with no errors. You can run it without dry-run now."
+    }
+   ]
+  },
+  {
+   "id": "c15",
+   "title": "awk one-liner for disk usage by extension",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I want total size per file extension in my Downloads folder. Awk maybe?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"du -ab ~/Downloads | awk -f ~/bin/sum_by_ext.awk | sort -rn | head -n 5\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "1823746560 iso\n912340224 zip\n418903552 mkv\n77412864 pdf\n12003328 noext\n"
+    },
+    {
+     "role": "assistant",
+     "content": "I saved the awk program as sum_by_ext.awk in ~/bin. ISO files dominate with 1.8 GB. The script is ready to use as is."
+    },
+    {
+     "role": "user",
+     "content": "Can it handle files without an extension?"
+    },
+    {
+     "role": "assistant",
+     "content": "Yes, they are grouped under the key noext, as the last line of the output shows."
+    }
+   ]
+  },
+  {
+   "id": "c16",
+   "title": "WireGuard on MikroTik doesn't complete the handshake",
+   "messages": [
+    {
+     "role": "user",
+     "content": "The WireGuard tunnel with MikroTik won't come up and the handshake doesn't go through. Check the state and the config."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"sudo wg show; ip route show table all | head -n 30; cat /etc/wireguard/wg-home.conf\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "interface: wg-home\n  public key: 8fQk2nTz0vLr3aXw6mHc1pYd9sEu4BjK7oNgR5iVtW0=\n  private key: (hidden)\n  listening port: 51820\n\npeer: Zq3mW8dL1xRt6pKc0AeV9yHs2NuJ4bFo7iGlT5wD8E0=\n  endpoint: 192.168.0.1:51820\n  allowed ips: 10.66.4.0/24\n  latest handshake: (none)\n  transfer: 0 B received, 1.12 KiB sent\n  persistent keepalive: every 25 seconds\n\n10.66.4.0/24 dev wg-home proto kernel scope link src 10.66.4.2\n192.168.0.0/24 dev wlan0 proto kernel scope link src 192.168.0.44\ndefault dev wg0 scope link\nip rule show\n0:      from all lookup local\n100:    from 10.66.4.0/24 lookup wg-home\n32766:  from all lookup main\n\njournal: wg-home interface up, 0 handshakes since boot\nMikroTik peers: 3 configured, 1 disabled (sample)\nroute check: 10.66.4.0/24 reachable only from the router side\nnote: the tunnel worked on 2026-10-29 with the same keys\nnote: UDP 51820 rule was added on the router input chain, counters still at zero\nlast successful handshake: 2026-10-29 21:40 (sample)\nMTU check: 1420 fits, 1452 fragments on the mobile link\nping -c 3 10.66.4.1\n--- 10.66.4.1 ping statistics ---\n3 packets transmitted, 0 received, 100% packet loss\n\nlast checked: 2026-11-10 22:11\nrouter: RB4011 (sample), RouterOS 7.14 (sample)\n\n[Interface]\nAddress = 10.66.4.2/24\nPrivateKey = <redacted>\nDNS = 192.168.0.1\nMTU = 1420\n\n[Peer]\nPublicKey = Zq3mW8dL1xRt6pKc0AeV9yHs2NuJ4bFo7iGlT5wD8E0=\nEndpoint = 192.168.0.1:51820\nAllowedIPs = 10.66.4.0/24\nPersistentKeepalive = 25\n# MikroTik side: /interface wireguard peers, check the public key\n# the handshake needs UDP 51820 open on the router input chain\n"
+    },
+    {
+     "role": "assistant",
+     "content": "There is no handshake. AllowedIPs = 10.66.4.0/24 on the client matches the tunnel network, but the MikroTik has no return route and no rule for UDP 51820. Check the firewall on the router and the peer's public key."
+    },
+    {
+     "role": "user",
+     "content": "I added the rule, but the handshake is still empty."
+    },
+    {
+     "role": "assistant",
+     "content": "Then compare the public key Zq3m on the MikroTik with what wg show sees. If the keys match, look at the firewall rule counters."
+    }
+   ]
+  },
+  {
+   "id": "c17",
+   "title": "WireGuard peer drops every few minutes",
+   "messages": [
+    {
+     "role": "user",
+     "content": "My WireGuard peer drops every few minutes on mobile. Check the config and the journal, what keepalive should it be?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat /etc/wireguard/wg0.conf | sed 's/PrivateKey.*/PrivateKey = hidden/'; journalctl -u wg-quick@wg0 --no-pager -n 40\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "[Interface]\nAddress = 10.20.7.1/24\nListenPort = 51820\nPrivateKey = hidden\nPostUp = iptables -A FORWARD -i wg0 -j ACCEPT\nPostDown = iptables -D FORWARD -i wg0 -j ACCEPT\n\n[Peer]\n# phone-henry\nPublicKey = 4Vb0kR2mQe7YxN9sLp1TcW6hFa3dZuO8iJgS5rMq2Ds=\nAllowedIPs = 10.20.7.2/32\nPersistentKeepalive = 17\nNov 11 06:23:01 deck wg-quick[2211]: peer Hn8sE1wQ4kLv handshake completed\nNov 11 06:30:18 deck wg-quick[2211]: peer Hn8sE1wQ4kLv handshake completed\nNov 11 06:31:02 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s keepalive sent, no reply in 30 s\nNov 11 07:15:40 deck wg-quick[2211]: peer Hn8sE1wQ4kLv keepalive sent\nNov 11 07:21:02 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake completed\nNov 11 07:22:37 deck wg-quick[2211]: endpoint roamed to 203.0.113.91:51820\nNov 11 07:31:19 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake did not complete after 5 seconds, retrying\nNov 11 07:38:50 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake completed\nNov 11 07:52:04 deck wg-quick[2211]: peer Hn8sE1wQ4kLv handshake completed\nNov 11 06:44:57 deck wg-quick[2211]: interface wg0 MTU 1420 kept\nNov 11 07:02:10 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake completed\nNov 11 07:09:33 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake did not complete after 5 seconds, retrying\n\n[Peer]\n# laptop-work\nPublicKey = Hn8sE1wQ4kLv0ZrB7mYxC3tUaG6pJd9iOfK2oNe5VcA=\nAllowedIPs = 10.20.7.3/32\nPersistentKeepalive = 25\n\nJan 12 Nov wg-quick[2211]: [#] wg setconf wg0 /dev/fd/63\nNov 11 06:14:02 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake did not complete after 5 seconds, retrying\nNov 11 06:14:37 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake did not complete after 5 seconds, retrying\nNov 11 06:15:12 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake completed\nNov 11 06:21:40 deck wg-quick[2211]: peer 4Vb0kR2mQe7YxN9s handshake did not complete after 5 seconds, retrying\n"
+    },
+    {
+     "role": "assistant",
+     "content": "PersistentKeepalive = 17 on the phone peer is fine for a mobile NAT. The drops come from the router's UDP session timeout, which expires before the keepalive arrives. Raise the router UDP timeout above 60 seconds rather than changing the phone."
+    },
+    {
+     "role": "user",
+     "content": "Thanks, I will check the router settings."
+    },
+    {
+     "role": "assistant",
+     "content": "Keep the router UDP timeout above 60 s and the drops should stop."
+    }
+   ]
+  },
+  {
+   "id": "c18",
+   "title": "DNS leaks with systemd-resolved and DoT",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Is my DNS leaking? I use systemd-resolved with NextDNS. Check resolvectl."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"resolvectl status | head -n 40; dig +short whoami.akamai.net\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Global\n       Protocols: -LLMNR -mDNS +DNSOverTLS DNSSEC=no/unsupported\nresolv.conf mode: stub\n\nLink 2 (wlan0)\n    Current Scopes: DNS\n         Protocols: +DefaultRoute -LLMNR -mDNS +DNSOverTLS DNSSEC=no/unsupported\nCurrent DNS Server: 45.90.28.0#nextdns-7c1e9a.dns.nextdns.io\n       DNS Servers: 45.90.28.0#nextdns-7c1e9a.dns.nextdns.io 45.90.30.0#nextdns-7c1e9a.dns.nextdns.io\n\n203.0.113.77\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The link uses DoT to nextdns-7c1e9a.dns.nextdns.io, so name resolution is not leaking to the ISP. The whoami check returned the NextDNS exit address, which is what you expect. LLMNR is off."
+    },
+    {
+     "role": "user",
+     "content": "Great. Keep LLMNR off."
+    },
+    {
+     "role": "assistant",
+     "content": "It is already off in the global section, so nothing else to change."
+    }
+   ]
+  },
+  {
+   "id": "c19",
+   "title": "Local DNS for NAS and dnsmasq",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I want the NAS to be reachable by name on the home network. How do I set it up?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat /etc/dnsmasq.d/10-lan.conf\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "# local names\ndomain=lan\nlocal=/lan/\naddress=/router.lan/192.168.0.1\naddress=/nas.lan.arpa/192.168.10.40\naddress=/printer.lan/192.168.10.52\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The line address=/nas.lan.arpa/192.168.10.40 is already there, so the NAS resolves via nas.lan.arpa without extra setup. You only need to restart dnsmasq."
+    },
+    {
+     "role": "user",
+     "content": "Restarted it, it works."
+    },
+    {
+     "role": "assistant",
+     "content": "Great. Don't forget the route between the subnets on wlan0, otherwise the NAS will resolve but not respond."
+    }
+   ]
+  },
+  {
+   "id": "c20",
+   "title": "Tailscale exit node or OpenVPN? MTU 1280",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Tailscale exit node through the home router is slow. Should I switch to OpenVPN? Also check the MTU, I need to figure out where the bottleneck is."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"tailscale status | head -n 8; ip link show tailscale0 | head -n 2\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "100.101.2.7   deck              henry@       linux   active; exit node\n100.104.8.2   laptop            henry@       macOS   idle, tx 2301120 rx 884012\n100.109.3.5   nas               henry@       linux   offline, last seen 3d ago\n\n3: tailscale0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1280 qdisc fq_codel state UNKNOWN\n"
+    },
+    {
+     "role": "assistant",
+     "content": "You set MTU 1280 on tailscale0 yourself, and for a mobile link that's right. Keep the exit node, OpenVPN won't gain anything: same latency and same home uplink."
+    },
+    {
+     "role": "user",
+     "content": "Then why is it slow? The home internet seems fast."
+    },
+    {
+     "role": "assistant",
+     "content": "Through the exit node all traffic goes through home, and the uplink only gives about 40 Mbit up. The bottleneck is the uplink, not the VPN."
+    }
+   ]
+  },
+  {
+   "id": "c21",
+   "title": "Yet Another Zombie Survivors Proton setup",
+   "messages": [
+    {
+     "role": "user",
+     "content": "The zombie game in my non-Steam list won't start. Which Proton build and prefix is it using? Check the launcher."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/Games/yazs-launch.sh; ls -la ~/Games/compatdata | head -n 20\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "#!/bin/bash\n# Yet Another Zombie Survivors, non-Steam launcher\nexport APPID=2200000001\nexport STEAM_COMPAT_CLIENT_INSTALL_PATH=/home/deck/.local/share/Steam\nexport STEAM_COMPAT_DATA_PATH=/home/deck/Games/compatdata/2200000001\nexport DXVK_ASYNC=1\nexport PROTON_ENABLE_NVAPI=0\nexport PROTON_NO_ESYNC=0\nexport WINEDEBUG=-all\n# first run stutters without async shader compile\nexport PROTON=/home/deck/.steam/root/compatibilitytools.d/GE-Proton10-4/proton\nexport GAME_DIR=/home/deck/Games/yazs/YetAnotherZombieSurvivors\nexport WINEFSYNC=1\nexport PROTON_USE_WINED3D=0\nexport PROTON_LOG=0\n# save data lives in the prefix Documents folder, back it up before updates\n# controller template: default Steam Input layout\nexport SDL_GAMECONTROLLERCONFIG_FILE=/home/deck/Games/yazs/gamecontrollerdb.txt\n# Proton logs disabled to keep the SD card quiet\n# exit code 0 means the game closed normally, anything else is a crash\n# if the menu hangs, delete the shader cache folder under the prefix and restart\n# shader cache size last check: 212 MB\n# resolution fixed at 1280x800 for the handheld screen, windowed\nexport GAME_ARGS='-windowed -nosplash -fps 60'\n# do not start the launcher from the Steam overlay on first run, it can hang the prefix\n# last verified 2026-11-09 19:35, main menu reached in 14 s\nexport GAME_EXE=YetAnotherZombieSurvivors.exe\n\ncd \"$GAME_DIR\" || exit 1\nexec \"$PROTON\" run \"$GAME_DIR/$GAME_EXE\"\n\ntotal 24\ndrwxr-xr-x  3 deck deck 4096 Nov  9 19:40 .\ndrwxr-xr-x 11 deck deck 4096 Nov 10 08:02 ..\ndrwxr-xr-x  9 deck deck 4096 Nov  9 19:41 2200000001\ndrwxr-xr-x  8 deck deck 4096 Oct 30 21:12 0\ndrwxr-xr-x  8 deck deck 4096 Oct 21 10:05 3300\n"
+    },
+    {
+     "role": "assistant",
+     "content": "It uses GE-Proton10-4 with its own prefix under compatdata/2200000001. Async DXVK is on, which helps the first-run stutter. The launcher does not share the Gothic prefix."
+    },
+    {
+     "role": "user",
+     "content": "Is the prefix shared with the Gothic game?"
+    },
+    {
+     "role": "assistant",
+     "content": "No, each game has a dedicated prefix in this setup. The zombie game uses 2200000001, not the shared 0 prefix."
+    }
+   ]
+  },
+  {
+   "id": "c22",
+   "title": "Proton: game won't start, c0000135",
+   "messages": [
+    {
+     "role": "user",
+     "content": "The game won't start, the log shows error c0000135. What should I do?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"grep -i err ~/proton-run.log | tail -n 5\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "err:module:import_dll Library msvcr120.dll (which is needed by L\"C:\\\\game\\\\Game.exe\") not found\nerr:module:LdrInitializeThunk Importing dlls for L\"Game.exe\" failed, status c0000135\nwine: failed to load L\"Game.exe\", status c0000135\nerr:process:exec_process Failed to load module, status c0000135\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Error c0000135 is STATUS_DLL_NOT_FOUND: the prefix is missing msvcr120.dll. Install vcrun2013 via protontricks, and the launch should work."
+    },
+    {
+     "role": "user",
+     "content": "Installed it, and it launched."
+    },
+    {
+     "role": "assistant",
+     "content": "Great. Save this prefix so you don't have to install the runtime again."
+    }
+   ]
+  },
+  {
+   "id": "c23",
+   "title": "Gothic remake save file location in Proton",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Where does the Gothic remake keep the save slot files under Proton? I want to back them up."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"find ~/Games/compatdata/0 -name 'slot_*.sav' 2>/dev/null | sort\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "/home/deck/Games/compatdata/0/pfx/drive_c/users/steamuser/Documents/Gothic/saves/slot_01.sav\n/home/deck/Games/compatdata/0/pfx/drive_c/users/steamuser/Documents/Gothic/saves/slot_02.sav\n/home/deck/Games/compatdata/0/pfx/drive_c/users/steamuser/Documents/Gothic/saves/slot_03.sav\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The save slots are inside the prefix under Documents/Gothic/saves/, and the newest one is saves/slot_03.sav. Back up the whole saves folder, not single files."
+    },
+    {
+     "role": "user",
+     "content": "Ok thanks, I will copy it to the SD card."
+    },
+    {
+     "role": "assistant",
+     "content": "Good. Keep a copy outside the prefix as well, because Proton updates can reset it."
+    }
+   ]
+  },
+  {
+   "id": "c24",
+   "title": "Installing a game from a 7z archive, which exe",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I unpacked the game archive into Downloads. Which exe should I add to Steam?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"7z l ~/Downloads/gothic_remake.7z | grep -i exe\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "2026-10-30 12:01 ....A    14320640  bin64/Launcher_x64.exe\n2026-10-30 12:01 ....A     2250112  bin64/uninstall.exe\n2026-10-30 12:01 ....A    98112304  bin64/Game_x64.exe\n2026-10-30 12:01 ....A      612488  bin64/crashpad_handler.exe\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Add bin64/Launcher_x64.exe, it's the main launcher. Leave uninstall.exe alone, and Game_x64.exe is started from the launcher."
+    },
+    {
+     "role": "user",
+     "content": "Can I do it with install-nonsteam.sh?"
+    },
+    {
+     "role": "assistant",
+     "content": "Yes, pass --exe bin64/Launcher_x64.exe, and the script will unpack the archive and create the shortcut itself."
+    }
+   ]
+  },
+  {
+   "id": "c25",
+   "title": "winetricks components for a crashing game prefix",
+   "messages": [
+    {
+     "role": "user",
+     "content": "My game crashes on launch in Proton with a D3D error. Which winetricks components should I add?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/Games/prefix-notes.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "prefix: compatdata/3300\ninstalled: vcrun2019 d3dcompiler_47 dxvk\nlast crash: d3d11 device lost at 0x887A0005\ndriver: mesa 25.2 radv\nnote: async off test pending\n"
+    },
+    {
+     "role": "assistant",
+     "content": "You already installed vcrun2019 d3dcompiler_47 and DXVK in that prefix. If device lost remains, turn DXVK async off and check the Mesa driver version. The device lost error is usually a driver or shader problem, not a missing runtime."
+    },
+    {
+     "role": "user",
+     "content": "I turned async off and it did not help."
+    },
+    {
+     "role": "assistant",
+     "content": "Then check the VKD3D or DXVK logs, or try WineD3D for that title to see whether the crash is backend specific."
+    }
+   ]
+  },
+  {
+   "id": "c26",
+   "title": "Borscht recipe for six servings",
+   "messages": [
+    {
+     "role": "user",
+     "content": "How do I make borscht for 6 servings? Look for a recipe based on meat broth."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"ws 'borscht for 6 servings meat broth recipe' --top 4\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "1. Classic beef borscht — Home Kitchen\n   Pour cold water over 1.2 kg of beef, bring to a boil and skim off the foam. Simmer the broth on low heat until the meat is tender, then strain it and return it to the pot.\n   Ingredients: bone-in beef, 2 beets, 300 g cabbage, 4 potatoes, carrot, onion, 2 tbsp tomato paste, vinegar, garlic, herbs.\n\n2. Borscht on meat broth, step by step — Cooking Journal\n   The key point is to stew the beets separately with vinegar so they keep their color. The zazharka is added 10 minutes before the end.\n   Total time is about 2.5 hours, most of it spent on the broth.\n\n3. Hearty borscht for a big group — Everyday Recipes\n   Cook the beef 47 minutes after boiling, then add the potatoes and cabbage. Fry the beets and carrot with tomato separately and add them to the pot 15 minutes before it's done.\n   For 6 servings, take 1.2 kg of meat and 3 L of water, salt at the end.\n\n4. Lenten mushroom borscht — Home Deli\n   Meatless version: mushroom broth from dried porcini, zazharka in sunflower oil, sour cream when serving.\n   Yield about 2 liters, enough for 4 servings in normal portions.\n5. Borscht with smoked ribs — Tasty and Simple\n   Boil the ribs separately and make the broth from them with some meat added. Sour cream and garlic when serving.\n   Good for a big family, cooking takes about 3 hours.\n\n6. Diet borscht on chicken broth — Healthy Eating\n   Chicken instead of beef, sauté the vegetables in minimal oil. Cooking time 1 hour 20 minutes.\n   Yield about 3 liters, suitable for those watching calories.\n"
+    },
+    {
+     "role": "assistant",
+     "content": "According to the third recipe: cook the beef 47 minutes after boiling, then add the potatoes and cabbage. Fry the beets with tomato separately and add them 15 minutes before it's done. For 6 servings take 1.2 kg of meat and 3 L of water."
+    },
+    {
+     "role": "user",
+     "content": "Ok, how much sour cream per serving?"
+    },
+    {
+     "role": "assistant",
+     "content": "About 200 g of sour cream is enough for 6 servings if you serve a big spoonful each."
+    }
+   ]
+  },
+  {
+   "id": "c27",
+   "title": "Sourdough hydration and bulk fermentation timing",
+   "messages": [
+    {
+     "role": "user",
+     "content": "My sourdough is dense. How long should bulk fermentation run at 24C?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/bakes/log-2026-11.md\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "# bake log, November\n\n## Bake 9 (Nov 8)\n- flour: 500 g bread flour (T65)\n- water: 390 g (78%)\n- starter: 100 g, 4 days old, fed 1:1:1\n- salt: 10 g\n- bulk ferment 5h20m at 24C\n- fold every 30 min x4\n- shaping: batard, cold retard 12 h\n- result: open crumb, slight gum line on the bottom\n\n## Bake 10 (Nov 10)\n- flour: 500 g (T65)\n- water: 370 g (74%)\n- starter: 80 g, 9 days old\n- bulk ferment 4h10m at 25C\n- result: tight crumb, good oven spring\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Your bake 9 used bulk ferment 5h20m at 24C with four folds, which looks right. Dense loaves usually mean the starter was too young or the dough was under-proofed. Bake 10 with a mature starter gave a better crumb."
+    },
+    {
+     "role": "user",
+     "content": "Hmm, my starter was 4 days old when I made it."
+    },
+    {
+     "role": "assistant",
+     "content": "Feed it twice daily for a week before baking. A starter that is only four days old is not strong enough to lift a 78% hydration dough."
+    }
+   ]
+  },
+  {
+   "id": "c28",
+   "title": "Chicken marinade in kefir",
+   "messages": [
+    {
+     "role": "user",
+     "content": "How many hours should I marinate chicken in kefir to keep it tender?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/recipes/kefir-chicken.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Chicken in kefir\nKefir 500 ml, garlic 3 cloves, smoked paprika 1 tsp, salt 1 tsp, black pepper.\nSkinless thighs, 800 g.\nMarinate 14 hours in the fridge, bowl covered with a lid.\nFry in a pan 6 minutes per side over medium heat.\nDon't marinate longer than 16 hours: the meat gets mealy.\n"
+    },
+    {
+     "role": "assistant",
+     "content": "According to the recipe, the chicken marinates 14 hours in the fridge. Over 16 hours the meat gets mealy, so don't overdo it."
+    },
+    {
+     "role": "user",
+     "content": "Got it, I'll make it on Saturday."
+    },
+    {
+     "role": "assistant",
+     "content": "Good luck! If you like, I can suggest a side dish for this chicken."
+    }
+   ]
+  },
+  {
+   "id": "c29",
+   "title": "Vegan lentil curry with coconut milk",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Need a vegan lentil curry for four. Coconut milk and spices, please."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/recipes/lentil-curry.md\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "# Lentil curry (serves 4)\n- 250 g red lentils, rinsed\n- 400 ml coconut milk\n- cardamom pods x7, lightly crushed\n- 2 tsp cumin seeds\n- 1 tsp turmeric\n- 1 onion, 3 cloves garlic, 2 cm ginger\n- 1 tin chopped tomatoes\n- salt, lime juice\n\nBloom the spices in oil for 60 seconds, add onion until soft, then garlic and ginger.\nAdd lentils, tomatoes and 600 ml water. Simmer 18 minutes.\nStir in the coconut milk and cook 5 minutes more.\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Use 400 ml coconut milk and cardamom pods x7, bloomed in the oil first. Simmer the lentils for 18 minutes before adding the coconut milk."
+    },
+    {
+     "role": "user",
+     "content": "Can I skip the cardamom?"
+    },
+    {
+     "role": "assistant",
+     "content": "You can, but the flavour drops noticeably. Use half the cumin if you want a lighter curry instead."
+    }
+   ]
+  },
+  {
+   "id": "c30",
+   "title": "Cherry pie without eggs",
+   "messages": [
+    {
+     "role": "user",
+     "content": "I want a cherry pie without eggs. What oven settings and what cherry variety?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/recipes/cherry-pie.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Cherry pie without eggs\nOven: at 185 degrees, bottom and top heat, 45 minutes.\nCherry variety: Vladimirskaya (frozen, pitted).\nDough: kefir 250 ml, baking soda 1 tsp slaked with vinegar, flour 300 g, sugar 150 g, butter 80 g.\nFilling: cherries 500 g, starch 1 tbsp, sugar 50 g.\nGrease the pan with butter and sprinkle with semolina.\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Bake at 185 degrees for 45 minutes. The Vladimirskaya variety holds its shape well, so it's better to use exactly that one."
+    },
+    {
+     "role": "user",
+     "content": "Can I skip the thawing?"
+    },
+    {
+     "role": "assistant",
+     "content": "Better to thaw and dry them, otherwise the dough gets soggy under the cherries."
+    }
+   ]
+  },
+  {
+   "id": "c31",
+   "title": "Lisbon trip flights and hotel confirmation",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Pull up my Lisbon booking details: flight, hotel, and the reference."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/trips/lisbon/confirmation.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "TRIP CONFIRMATION (sample data for testing)\nTrip: Lisbon long weekend\nTraveller: H. Tester\n\nOUTBOUND\n  Airline: TAP Air Portugal\n  Flight: TP 1024\n  Date: 2026-12-03\n  Departs: Berlin BER 06:40\n  Arrives: Lisbon LIS 09:55\n  Seat: 14A (window)\n  Baggage: 1 cabin bag, 1 checked bag 23 kg\n\nRETURN\n  Airline: TAP Air Portugal\n  Flight: TP 1027\n  Date: 2026-12-06\n  Departs: Lisbon LIS 19:20\n  Arrives: Berlin BER 23:05\n  Flight status alerts: enabled, sent to the email on file\n  Seat 14A confirmed, seat 14B held for companion (not sold)\n  Hotel parking: not available, public garage on Rua da Mouraria\n  Tourist tax: 2 EUR per person per night, paid at check-in\n  Gate: boarding closes 30 minutes before departure\n  Airport lounge: not included, bring the card for priority\n  Hotel wifi: 20 Mbit/s, weak in the top floor rooms\n  Contact at hotel: reception, open 24 hours, sample number\n  Notes: buy the 24 h Viva Viagem card at the arrival hall\n  Taxi from the airport: fixed fare to Alfama, about 15 EUR\n  Breakfast room: ground floor, lift is slow, use the stairs\n  Airline check-in opens 24 hours before departure\n  Passport: must be valid 3 months after the return date\n  Travel insurance: policy on file, number in the travel folder\n\nACCOMMODATION\n  Hotel: Hotel Alfama Garden (sample)\n  Address: Rua de Sao Tome 18, Lisbon\n  Check-in: from 15:00\n  Check-out: until 11:00\n  Nights: 3\n  Breakfast: included, 07:00-10:30\n\nBOOKING\n  Payment: prepaid, card ending 4402\n  Cancellation: free until 2026-11-28\n  Booking ref / PNR: ZQ4K7P\n  Contact: support desk, 24h, sample number\n\nNOTES\n  Metro card: Viva Viagem, top up at the station kiosk.\n  Airport transfer: Aerobus line 1, about 25 minutes to the centre.\n  Keep this email offline; the reference is needed at the desk.\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The booking reference is ZQ4K7P for the TAP flight. The hotel check-in is from 15:00 at Hotel Alfama Garden, and your outbound flight lands at 09:55, so you will have to wait for the room."
+    },
+    {
+     "role": "user",
+     "content": "Thanks, what time is checkout?"
+    },
+    {
+     "role": "assistant",
+     "content": "Checkout is until 11:00 according to the confirmation."
+    }
+   ]
+  },
+  {
+   "id": "c32",
+   "title": "Train ticket Moscow — St Petersburg",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What's my seat on the train to St Petersburg? Check the ticket."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/trips/spb/ticket.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Train 752A Moscow - Saint Petersburg\nDate: 09.11.2026\nDeparture: 07:45, Leningradsky station\ncar 7, seat 14\nFull name: test passenger\nClass: no platzkart, seated/compartment: compartment\nStatus: paid\n"
+    },
+    {
+     "role": "assistant",
+     "content": "You have car 7, seat 14. Departure at 07:45 from Leningradsky station."
+    },
+    {
+     "role": "user",
+     "content": "Thanks, I'll grab a coffee for the road."
+    },
+    {
+     "role": "assistant",
+     "content": "Have a good trip!"
+    }
+   ]
+  },
+  {
+   "id": "c33",
+   "title": "Late arrival into Tbilisi, hotel pickup",
+   "messages": [
+    {
+     "role": "user",
+     "content": "My flight lands late in Tbilisi. Can you check the note I wrote about the hotel pickup?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/trips/tbilisi/notes.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Flight W6 2185 from Vienna\narrival 23:40 TBS\nhotel: Old Town guesthouse (sample)\npickup arranged for 00:30 at arrivals, sign with the guest name\ndriver phone (sample): +995 555 01 02 03\nnote: send the flight number to the driver if the flight is delayed\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Your flight lands at arrival 23:40 TBS and the driver is booked for 00:30 at arrivals. Send the flight number to the driver if the flight is late."
+    },
+    {
+     "role": "user",
+     "content": "Will the driver wait if the flight is late?"
+    },
+    {
+     "role": "assistant",
+     "content": "Most pickups track the flight number, so put it in your message to the driver and they should wait."
+    }
+   ]
+  },
+  {
+   "id": "c34",
+   "title": "Insurance and visa for the trip to Japan",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What travel insurance policy do I have for Japan, and do I need a visa?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"grep -i polis ~/trips/japan/docs.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Insurance (test data): policy ALX-550918, coverage 3 000 000 yen, valid 14 days\nPolicy issued 2026-10-12, issued online\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Policy ALX-550918 covers a trip of up to 14 days, and it has 3 000 000 yen in insurance coverage. The visa for this trip is not specified in the files, so check the rules on the consulate's website."
+    },
+    {
+     "role": "user",
+     "content": "Thanks."
+    },
+    {
+     "role": "assistant",
+     "content": "You're welcome. It's better to keep a copy of the policy both on your phone and on paper."
+    }
+   ]
+  },
+  {
+   "id": "c35",
+   "title": "Berlin weekend, ICE tickets",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Book info for the Berlin weekend train? Ticket price in EUR, please. Ich brauche die Daten."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/trips/berlin/ice.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "DB ICE 1538  Muenchen Hbf -> Berlin Hbf\nHin: Fr 14.11. 07:31 ab, an 13:04\nSparpreis 39 EUR, 2. Klasse, nicht erstattbar\nReservierung: Platz 58, Wagen 12\nRueckfahrt: nicht in dieser Datei\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The ticket was Sparpreis 39 EUR, 2nd class, non-refundable. Hin: Fr 14.11. 07:31 from Muenchen Hbf, arriving 13:04. Seat 58 in car 12."
+    },
+    {
+     "role": "user",
+     "content": "Gibt es die Rückfahrt auch?"
+    },
+    {
+     "role": "assistant",
+     "content": "Die Rückfahrt steht nicht in dieser Datei. Sie sollte am 16.11. sein, aber das muss man in der Buchungsbestätigung prüfen."
+    }
+   ]
+  },
+  {
+   "id": "c36",
+   "title": "Password policy and password manager",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is my password policy and how often do I have to change passwords? Check the document."
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/docs/password-policy.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "PASSWORD POLICY (version 3, test data)\n\n1. Length\n   Minimum 16 characters for any service that holds money or email.\n   For other sites, minimum 12 characters.\n\n2. Composition\n   Lowercase and uppercase letters, digits, symbols. Don't use dictionary phrases.\n\n3. Storage\n   All passwords are stored only in the password manager (KeePassXC, database on the SD card).\n   No paper notes. Don't save passwords in the browser without a master password.\n\n4. Rotation\n   Passwords for financial services change every 137 days, with a calendar reminder.\n   Other passwords change once a year or after any leak.\n   The manager password (master password) changes once a year.\n\n5. Two-factor authentication\n   Mandatory for the bank, email and cloud storage.\n   Recovery codes are kept in the manager, not in email.\n\n6. Incidents\n   If a leak is suspected: change the password within 24 hours,\n   check active sessions, and notify the service's support team.\n\n7. Backups\n   A copy of the manager database is made once a week to an external drive.\n   The key file is stored separately from the database and is not sent by email.\n\n8. Public services\n   For forums and gaming sites, a 12-character password generated by the manager is allowed.\n   Reusing a password between services is prohibited.\n\n\n      The manager password is written only on paper and kept in a safe.\n      A copy of the password file is checked for readability once a month.\n      Switching to a new manager is approved separately and recorded in the log.\n\n9. Review\n   Once a quarter the leak list for the email address is checked, and the result is recorded in the log.\n\nApproved: H. Tester, 2026-09-01\n"
+    },
+    {
+     "role": "assistant",
+     "content": "According to the policy, financial passwords change every 137 days, the rest once a year. All passwords must be stored only in the password manager, and the master password changes once a year."
+    },
+    {
+     "role": "user",
+     "content": "Ok, is 2FA mandatory?"
+    },
+    {
+     "role": "assistant",
+     "content": "For the bank, email and cloud storage, yes. Keep the recovery codes in the manager too, not in email."
+    }
+   ]
+  },
+  {
+   "id": "c37",
+   "title": "Dentist appointment moved to Thursday",
+   "messages": [
+    {
+     "role": "user",
+     "content": "When is my dentist appointment and which room is it in?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/calendar/dentist.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Ellis Dental (sample clinic)\nappointment moved to Thursday 09:30\nroom 4B, 2nd floor\nbring insurance card and the referral letter\ncheck-in by phone 10 minutes before\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Your appointment is in room 4B on the 2nd floor, and it was moved to Thursday 09:30. Bring the insurance card and the referral letter."
+    },
+    {
+     "role": "user",
+     "content": "Do I need to bring the card?"
+    },
+    {
+     "role": "assistant",
+     "content": "Yes, the insurance card is on the list, together with the referral letter."
+    }
+   ]
+  },
+  {
+   "id": "c38",
+   "title": "October electricity bill",
+   "messages": [
+    {
+     "role": "user",
+     "content": "The October electricity bill came with a recalculation. What's the account number on it?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/bills/power-oct.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Energy supplier (test data)\naccount number 774-0231-9\nperiod: 01.10 - 31.10.2026\nreadings: 10482 -> 10790\nconsumption: 308 kWh\ntariff: 6,12 RUB/kWh\nrecalculation: -212,40 RUB\namount due: 1 671,20 RUB\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The account number is 774-0231-9, consumption 308 kWh, recalculation minus 212,40 RUB. Amount due 1 671,20 RUB."
+    },
+    {
+     "role": "user",
+     "content": "Paid."
+    },
+    {
+     "role": "assistant",
+     "content": "Good, you can save the receipt in the bills folder."
+    }
+   ]
+  },
+  {
+   "id": "c39",
+   "title": "Car insurance renewal quote",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Car insurance renewal came in. What's the quote and the policy number?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"cat ~/bills/insurance-renewal.txt\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "Renewal notice (sample)\npolicy PX-22817\nvehicle: compact hatchback, 2019\nnew premium: 512 EUR per year\nstart: 2026-12-01\npayment: monthly by direct debit, 42.67 EUR\n"
+    },
+    {
+     "role": "assistant",
+     "content": "Policy PX-22817 renews at quote 512 EUR for the year, starting 2026-12-01. Monthly direct debit would be 42.67 EUR."
+    },
+    {
+     "role": "user",
+     "content": "How does that compare with last year?"
+    },
+    {
+     "role": "assistant",
+     "content": "The file does not include last year's premium, so I can't compare it from here."
+    }
+   ]
+  },
+  {
+   "id": "c40",
+   "title": "Documents for the tax return",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Where are the documents for last year's 3-NDFL tax return?"
+    },
+    {
+     "role": "assistant",
+     "content": "",
+     "tool_calls": [
+      {
+       "id": "t1",
+       "type": "function",
+       "function": {
+        "name": "bash",
+        "arguments": "{\"command\": \"ls ~/Documents | grep -i tax\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "t1",
+     "name": "bash",
+     "content": "2026_taxes_v1\n2026_taxes_v2\nold_2024_taxes\n"
+    },
+    {
+     "role": "assistant",
+     "content": "The current version is in the folder 2026_taxes_v2, v1 is the old one. You can leave the old folder old_2024_taxes alone."
+    },
+    {
+     "role": "user",
+     "content": "Thanks."
+    },
+    {
+     "role": "assistant",
+     "content": "You're welcome."
+    }
+   ]
+  }
+ ],
+ "queries": [
+  {
+   "q": "which port did I set for the qwen 7b llama-server?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c01",
+   "needle": "--port 9931"
+  },
+  {
+   "q": "what port is the embedding server on?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c02",
+   "needle": "EMBED_PORT=9952"
+  },
+  {
+   "q": "how many threads did I give llama-server on the handheld CPU",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c03",
+   "needle": "--threads 5 --batch-size 384"
+  },
+  {
+   "q": "KV_CACHE_FULL_4417 error on a long context",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c04",
+   "needle": "KV_CACHE_FULL_4417"
+  },
+  {
+   "q": "what port did the grammar-constrained coding model use?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c05",
+   "needle": "--port 9943"
+  },
+  {
+   "q": "how hot did the junction get under load?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c06",
+   "needle": "junction: +94.0C"
+  },
+  {
+   "q": "how many charge cycles has the battery done so far",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c07",
+   "needle": "cycle-count: 412"
+  },
+  {
+   "q": "what fixed GPU clock did I set in the overnight test?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c08",
+   "needle": "fixed 1450MHz"
+  },
+  {
+   "q": "what TDP limit did I test at 11 watts?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c09",
+   "needle": "tdp_limit=11W"
+  },
+  {
+   "q": "fan_curve_v3 config is not being applied",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c10",
+   "needle": "fan_curve_v3"
+  },
+  {
+   "q": "IMG_7714.JPG",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c11",
+   "needle": "IMG_7714.JPG"
+  },
+  {
+   "q": "when does the log rotation cron job run",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c12",
+   "needle": "04:52 daily"
+  },
+  {
+   "q": "what encoding should I use to read the bank statement?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c13",
+   "needle": "encoding='windows-1251'"
+  },
+  {
+   "q": "what is my script for renaming Cyrillic-named files called?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c14",
+   "needle": "rename_v2.sh"
+  },
+  {
+   "q": "awk script that sums sizes by file extension",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c15",
+   "needle": "sum_by_ext.awk"
+  },
+  {
+   "q": "which AllowedIPs are set in the WireGuard tunnel?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c16",
+   "needle": "AllowedIPs = 10.66.4.0/24"
+  },
+  {
+   "q": "what keepalive interval did I set on the WireGuard peer?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c17",
+   "needle": "PersistentKeepalive = 17"
+  },
+  {
+   "q": "which NextDNS profile is the systemd-resolved link using?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c18",
+   "needle": "nextdns-7c1e9a"
+  },
+  {
+   "q": "how did I set up a name for the NAS in local DNS?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c19",
+   "needle": "address=/nas.lan.arpa/192.168.10.40"
+  },
+  {
+   "q": "what MTU did I set on the Tailscale tunnel?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c20",
+   "needle": "MTU 1280"
+  },
+  {
+   "q": "which GE-Proton build is the zombie game running on?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c21",
+   "needle": "GE-Proton10-4"
+  },
+  {
+   "q": "c0000135 error when starting the game",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c22",
+   "needle": "c0000135"
+  },
+  {
+   "q": "where the save slot files of the Gothic remake end up",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c23",
+   "needle": "saves/slot_03.sav"
+  },
+  {
+   "q": "which exe to run after unpacking the game archive?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c24",
+   "needle": "bin64/Launcher_x64.exe"
+  },
+  {
+   "q": "which runtime packages I installed in the game prefix",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c25",
+   "needle": "vcrun2019 d3dcompiler_47"
+  },
+  {
+   "q": "how many minutes to cook borscht?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c26",
+   "needle": "47 minutes"
+  },
+  {
+   "q": "how long to bulk ferment my sourdough",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c27",
+   "needle": "bulk ferment 5h20m"
+  },
+  {
+   "q": "how many hours to marinate chicken in kefir?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c28",
+   "needle": "14 hours"
+  },
+  {
+   "q": "how many cardamom pods go in the lentil curry?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c29",
+   "needle": "cardamom pods x7"
+  },
+  {
+   "q": "at what temperature to bake the cherry pie?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c30",
+   "needle": "at 185 degrees"
+  },
+  {
+   "q": "what is the Lisbon booking reference?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c31",
+   "needle": "ZQ4K7P"
+  },
+  {
+   "q": "what seat is it on the train to Petersburg?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c32",
+   "needle": "car 7, seat 14"
+  },
+  {
+   "q": "my late-night arrival flight into Tbilisi",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c33",
+   "needle": "arrival 23:40 TBS"
+  },
+  {
+   "q": "ALX-550918 policy for the trip to Japan",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c34",
+   "needle": "ALX-550918"
+  },
+  {
+   "q": "what did the Berlin train ticket cost?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c35",
+   "needle": "Sparpreis 39 EUR"
+  },
+  {
+   "q": "how many days until I have to change my password under my policy?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c36",
+   "needle": "every 137 days"
+  },
+  {
+   "q": "when is my dentist appointment and which room",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c37",
+   "needle": "room 4B"
+  },
+  {
+   "q": "account number 774-0231-9",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c38",
+   "needle": "account number 774-0231-9"
+  },
+  {
+   "q": "policy PX-22817 renewal",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c39",
+   "needle": "policy PX-22817"
+  },
+  {
+   "q": "which folder holds the documents for the tax return?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c40",
+   "needle": "2026_taxes_v2"
+  },
+  {
+   "q": "how many threads did I give llama-server on the CPU?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c03",
+   "needle": "--threads 5 --batch-size 384"
+  },
+  {
+   "q": "what fixed GPU clock did I use in the overnight test?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c08",
+   "needle": "fixed 1450MHz"
+  },
+  {
+   "q": "which folder on the exFAT SD card held the file that broke hashing?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c11",
+   "needle": "/mnt/sdcard/DCIM/2019"
+  },
+  {
+   "q": "what time does log rotation start?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c12",
+   "needle": "04:52 daily"
+  },
+  {
+   "q": "how does the parser read bank statements, what separator?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c13",
+   "needle": "delimiter=';'"
+  },
+  {
+   "q": "which script did I use to rename Cyrillic files?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c14",
+   "needle": "rename_v2.sh"
+  },
+  {
+   "q": "what keepalive interval is set on the WireGuard peer?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c17",
+   "needle": "PersistentKeepalive = 17"
+  },
+  {
+   "q": "nextdns-7c1e9a",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c18",
+   "needle": "nextdns-7c1e9a"
+  },
+  {
+   "q": "what address does nas.lan.arpa have in local DNS?",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c19",
+   "needle": "nas.lan.arpa"
+  },
+  {
+   "q": "which GE-Proton version does the zombie game use?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c21",
+   "needle": "GE-Proton10-4"
+  },
+  {
+   "q": "which exe to launch after unpacking the game archive",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c24",
+   "needle": "bin64/Launcher_x64.exe"
+  },
+  {
+   "q": "d3dcompiler_47 crash",
+   "lang": "en",
+   "type": "keyword",
+   "chat": "c25",
+   "needle": "d3dcompiler_47"
+  },
+  {
+   "q": "how many hours does the sourdough ferment in bulk?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c27",
+   "needle": "bulk ferment 5h20m"
+  },
+  {
+   "q": "how many hours to marinate the chicken in kefir",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c28",
+   "needle": "14 hours"
+  },
+  {
+   "q": "which cherry variety to use in the pie?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c30",
+   "needle": "Vladimirskaya"
+  },
+  {
+   "q": "what is the booking number for the Lisbon trip?",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c31",
+   "needle": "ZQ4K7P"
+  },
+  {
+   "q": "what seat number on the train to St Petersburg",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c32",
+   "needle": "car 7, seat 14"
+  },
+  {
+   "q": "what time was the dentist appointment moved to?",
+   "lang": "en",
+   "type": "detail",
+   "chat": "c37",
+   "needle": "Thursday 09:30"
+  },
+  {
+   "q": "what the car insurance quote amount is",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c39",
+   "needle": "quote 512 EUR"
+  },
+  {
+   "q": "which folder holds my tax return documents",
+   "lang": "en",
+   "type": "paraphrase",
+   "chat": "c40",
+   "needle": "2026_taxes_v2"
+  }
+ ]
+}

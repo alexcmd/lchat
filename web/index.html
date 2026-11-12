@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>lchat</title>
+<style>
+:root{--bg:#f6f6f4;--panel:#fff;--fg:#1d1d1f;--mut:#80807a;--line:#e3e3de;--acc:#2f6fdb;--me:#e9eefb;--code:#f0f0ec;--ok:#2e8b57;--bad:#c44;--warn:#b7791f}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--panel:#1c1c1f;--fg:#e8e8ea;--mut:#8b8b92;--line:#2c2c31;--acc:#6a9cff;--me:#232a3b;--code:#26262a;--ok:#5cc08a;--bad:#e06060;--warn:#e0a84a}}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{display:flex;flex-direction:column;height:100%;max-width:900px;margin:0 auto}
+header{display:flex;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--mut)}
+header b{color:var(--fg);font-weight:600}
+header .sp{flex:1}
+button,select,input,textarea{font:inherit;color:inherit}
+.btn{background:none;border:1px solid var(--line);border-radius:8px;padding:4px 10px;cursor:pointer}
+.btn:hover{border-color:var(--mut)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+#log{flex:1;overflow-y:auto;padding:16px}
+.msg{margin:0 0 18px}
+.msg.user .body{background:var(--me);padding:10px 14px;border-radius:12px;margin-left:15%;white-space:pre-wrap;word-wrap:break-word}
+.msg.user img{max-width:220px;max-height:180px;border-radius:8px;display:block;margin-bottom:6px}
+.msg.asst .body{padding:2px;word-wrap:break-word}
+.msg.asst .body:empty{display:none}
+.body p{margin:0 0 .7em}.body p:last-child{margin-bottom:0}
+.body pre{background:var(--code);padding:10px 12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.body code{background:var(--code);padding:1px 4px;border-radius:4px;font-size:.92em;font-family:ui-monospace,Menlo,monospace}
+.body pre code{background:none;padding:0}
+.body ul,.body ol{margin:0 0 .7em;padding-left:1.4em}
+.body h3{font-size:1.05em;margin:.8em 0 .4em}
+details.think{color:var(--mut);font-size:13px;margin:4px 0 6px;border-left:2px solid var(--line);padding-left:10px}
+details.think summary{cursor:pointer;user-select:none}
+details.think div{white-space:pre-wrap}
+.tool{border:1px solid var(--line);background:var(--panel);border-radius:10px;margin:8px 0;font-size:13px;overflow:hidden}
+.tool .hd{display:flex;gap:8px;align-items:center;padding:6px 10px;cursor:pointer;user-select:none}
+.tool .nm{font-family:ui-monospace,Menlo,monospace;font-weight:600}
+.tool .sum{flex:1;color:var(--mut);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool .st{font-size:12px}
+.tool .st.run{color:var(--warn)}.tool .st.ok{color:var(--ok)}.tool .st.err{color:var(--bad)}
+.tool .bd{display:none;border-top:1px solid var(--line);padding:8px 10px}
+.tool.open .bd{display:block}
+.tool pre{margin:0 0 6px;background:var(--code);padding:8px;border-radius:6px;white-space:pre-wrap;word-break:break-word;max-height:360px;overflow:auto;font-size:12px}
+.tool img{max-width:100%;border-radius:6px;display:block}
+.tool.asking pre.args{max-height:none}
+.tool .ask{display:flex;gap:8px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--warn) 10%,transparent)}
+.meta{font-size:12px;color:var(--mut);margin-top:4px}
+.err{color:var(--bad)}
+#hist{display:none;padding:8px 16px;border-bottom:1px solid var(--line);font-size:13px;max-height:45vh;overflow-y:auto}
+#hist.open{display:block}
+#hist .row{display:flex;gap:8px;align-items:center;padding:5px 6px;border-radius:6px;cursor:pointer}
+#hist .row:hover{background:var(--code)}
+#hist .row.cur{font-weight:600}
+#hist .t{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hist .d{color:var(--mut);font-size:12px;white-space:nowrap}
+#hist .x{border:0;background:none;color:var(--mut);cursor:pointer;font-size:15px}
+#settings{display:none;padding:10px 16px;border-bottom:1px solid var(--line);gap:10px 16px;flex-wrap:wrap;font-size:13px}
+#settings.open{display:flex}
+#settings label{display:flex;gap:6px;align-items:center}
+#settings .full{width:100%;flex-direction:column;align-items:stretch}
+#settings textarea{width:100%;min-height:54px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+#settings input[type=number]{width:72px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:2px 6px}
+#toolset{display:flex;gap:4px 12px;flex-wrap:wrap;width:100%;color:var(--mut)}
+#toolset label{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+footer{padding:10px 16px 14px}
+#att{display:flex;gap:6px;margin-bottom:6px}
+#att .a{position:relative}#att img{height:54px;border-radius:6px;display:block}
+#att .a span{position:absolute;top:-6px;right:-6px;background:var(--fg);color:var(--bg);border-radius:50%;width:18px;height:18px;font-size:12px;text-align:center;line-height:18px;cursor:pointer}
+#box{display:flex;gap:8px;align-items:flex-end;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px}
+#box.drag{border-color:var(--acc)}
+#in{flex:1;border:0;outline:0;background:none;resize:none;max-height:40vh;min-height:24px;padding:4px 6px}
+#send{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:6px 14px;cursor:pointer}
+#send.stop{background:var(--bad)}
+#file{display:none}
+.pill{font-size:12px;border:1px solid var(--line);border-radius:20px;padding:1px 8px}
+.pill.on{border-color:var(--ok);color:var(--ok)}
+</style>
+</head>
+<body>
+<div id="app">
+  <header><b>lchat</b><span id="model">connecting…</span><span class="sp"></span>
+    <span class="pill" id="agentPill" title="Agent mode">agent off</span>
+    <button class="btn" id="histBtn">History</button><button class="btn" id="setBtn">Settings</button><button class="btn" id="newBtn">New chat</button></header>
+  <div id="hist"></div>
+  <div id="settings">
+    <label class="full">System prompt (added to the agent prompt)<textarea id="sys"></textarea></label>
+    <label><input type="checkbox" id="agent" checked> Agent (tools)</label>
+    <label><input type="checkbox" id="auto"> Auto-approve risky tools</label>
+    <label>Max steps <input type="number" id="steps" min="1" max="100"></label>
+    <label><input type="checkbox" id="think" checked> Thinking</label>
+    <label>Temp <input type="number" id="temp" step="0.05" min="0" max="2" placeholder="model"></label>
+    <label>Max tokens <input type="number" id="maxt" min="1" placeholder="∞"></label>
+    <div id="toolset"></div>
+  </div>
+  <div id="log"></div>
+  <footer>
+    <div id="att"></div>
+    <div id="box">
+      <button class="btn" id="clip" title="Attach image">＋</button>
+      <input type="file" id="file" accept="image/*" multiple>
+      <textarea id="in" rows="1" placeholder="Message (Enter to send, Shift+Enter newline, paste/drop images)"></textarea>
+      <button id="send">Send</button>
+    </div>
+  </footer>
+</div>
+<script>
+const TOKEN=decodeURIComponent(location.hash.slice(1)); // token is only in the URL printed by lchat-web, never served
+const $=s=>document.querySelector(s);
+const log=$('#log'),inp=$('#in'),send=$('#send'),att=$('#att');
+const SID=Math.random().toString(36).slice(2);
+let msgs=[],imgs=[],ctrl=null,busy=false,TOOLS=[],CWD='',pendingAsks=[],VISION=true,NCTX=0,lastPrompt=0;
+const S={get(k,d){try{return localStorage.getItem('lchat.'+k)??d}catch{return d}},set(k,v){try{localStorage.setItem('lchat.'+k,v)}catch{}}};
+
+// ---------- settings ----------
+$('#sys').value=S.get('sys','');$('#temp').value=S.get('temp','');$('#maxt').value=S.get('maxt','');$('#steps').value=S.get('steps','20');
+for(const id of['sys','temp','maxt','steps'])$('#'+id).oninput=e=>S.set(id,e.target.value);
+for(const [id,def] of [['think','1'],['agent','1'],['auto','0']]){$('#'+id).checked=S.get(id,def)==='1';$('#'+id).onchange=e=>{S.set(id,e.target.checked?'1':'0');pill()}}
+function pill(){const on=$('#agent').checked&&TOOLS.length;const p=$('#agentPill');p.textContent=on?(`agent · ${enabledTools().length} tools`+($('#auto').checked?' · auto':'')):'agent off';p.classList.toggle('on',!!on)}
+$('#agentPill').onclick=()=>{$('#agent').checked=!$('#agent').checked;$('#agent').onchange({target:$('#agent')})};
+$('#setBtn').onclick=()=>$('#settings').classList.toggle('open');
+$('#newBtn').onclick=()=>{stop();newChat();msgs=[];lastPrompt=0;busy=false;ctrl=null;send.textContent='Send';send.classList.remove('stop');log.innerHTML='';inp.focus()};
+const toolOn=n=>S.get('tool.'+n,'1')==='1';
+const enabledTools=()=>TOOLS.filter(t=>toolOn(t.name));
+
+fetch('/props').then(r=>r.json()).then(p=>{
+  const name=(p.model_alias||p.model_path||'').split('/').pop();
+  const ctx=p.default_generation_settings?.n_ctx;NCTX=ctx||0;VISION=!!p.modalities?.vision;
+  $('#model').textContent=name+(ctx?` · ctx ${ctx}`:'')+(p.modalities?.vision?' · vision':'');
+}).catch(()=>$('#model').textContent='llama unreachable');
+fetch('/api/tools').then(r=>r.json()).then(d=>{
+  TOOLS=d.tools||[];CWD=d.cwd||'';
+  const ts=$('#toolset');ts.innerHTML=TOOLS.length?'Tools:':'Tools disabled by server';
+  for(const t of TOOLS){const l=document.createElement('label');l.innerHTML=`<input type="checkbox" ${toolOn(t.name)?'checked':''}> ${t.name}${t.approval?' ⚠':''}`;
+    l.querySelector('input').onchange=e=>{S.set('tool.'+t.name,e.target.checked?'1':'0');pill()};ts.appendChild(l)}
+  pill();
+}).catch(()=>{});
+
+function agentPrompt(){
+  const d=new Date();
+  return `You are lchat, a capable assistant running locally on the user's Steam Deck (SteamOS, Arch-based Linux, KDE Plasma on Wayland). Today is ${d.toDateString()}, local time ${d.toLocaleTimeString()}. Shell working directory: ${CWD}.
+You can call tools to act on the machine and the web: run bash commands, read and write files, search and fetch web pages, list/focus/minimize/close desktop windows, and take screenshots (which you can see). You also remember past conversations with the user: use the recall tool when they refer to something from before.
+Work step by step: call a tool, look at the result, then decide the next step. Prefer one tool call at a time. For web research make ONE web_search call that lists several differently worded queries in its queries array. Image links from a search are only links: call download on an image before you describe it, and never describe an image you have not seen. Never guess facts you can check with a tool. If a tool fails, read the error and try a different approach. When the task is done, give a short, direct final answer without calling more tools.`;
+}
+
+// ---------- minimal safe markdown ----------
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function inline(s){return esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<i>$2</i>')}
+function md(src){
+  const parts=src.split(/```/);let out='';
+  parts.forEach((p,i)=>{
+    if(i%2){const nl=p.indexOf('\n');out+='<pre><code>'+esc(nl<0?p:p.slice(nl+1))+'</code></pre>';return}
+    for(const block of p.split(/\n{2,}/)){
+      const lines=block.split('\n').filter(l=>l.trim()!=='');if(!lines.length)continue;
+      if(lines.every(l=>/^\s*([-*]|\d+\.)\s+/.test(l))){
+        const tag=/^\s*\d+\./.test(lines[0])?'ol':'ul';
+        out+=`<${tag}>`+lines.map(l=>'<li>'+inline(l.replace(/^\s*([-*]|\d+\.)\s+/,''))+'</li>').join('')+`</${tag}>`;
+      }else if(/^#{1,4}\s/.test(lines[0])&&lines.length===1){out+='<h3>'+inline(lines[0].replace(/^#+\s/,''))+'</h3>'}
+      else out+='<p>'+lines.map(inline).join('<br>')+'</p>';
+    }
+  });
+  return out;
+}
+
+// ---------- input / attachments ----------
+function add(role,html){const d=document.createElement('div');d.className='msg '+role;d.innerHTML=html;log.appendChild(d);scroll(true);return d}
+let stuck=true;log.onscroll=()=>{stuck=log.scrollHeight-log.scrollTop-log.clientHeight<40};
+function scroll(force){if(force||stuck)log.scrollTop=log.scrollHeight}
+function renderAtt(){att.innerHTML='';imgs.forEach((u,i)=>{const a=document.createElement('div');a.className='a';a.innerHTML=`<img src="${u}"><span>×</span>`;a.querySelector('span').onclick=()=>{imgs.splice(i,1);renderAtt()};att.appendChild(a)})}
+function addFiles(files){for(const f of files){if(!f.type.startsWith('image/'))continue;const r=new FileReader();r.onload=()=>{imgs.push(r.result);renderAtt()};r.readAsDataURL(f)}}
+$('#clip').onclick=()=>$('#file').click();$('#file').onchange=e=>{addFiles(e.target.files);e.target.value=''};
+inp.addEventListener('paste',e=>{const f=[...e.clipboardData.files];if(f.length){e.preventDefault();addFiles(f)}});
+const box=$('#box');box.ondragover=e=>{e.preventDefault();box.classList.add('drag')};box.ondragleave=()=>box.classList.remove('drag');
+box.ondrop=e=>{e.preventDefault();box.classList.remove('drag');addFiles(e.dataTransfer.files)};
+inp.oninput=()=>{inp.style.height='auto';inp.style.height=inp.scrollHeight+'px'};
+inp.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();if(!busy)go()}};
+send.onclick=()=>busy?stop():go();
+function stop(){if(ctrl)ctrl.abort();for(const r of pendingAsks.splice(0))r(false)}
+
+// ---------- one streamed model call ----------
+async function streamStep(req,wrap){
+  const seg=document.createElement('div');
+  seg.innerHTML='<details class="think" hidden><summary>Thinking…</summary><div></div></details><div class="body"></div>';
+  wrap.insertBefore(seg,wrap.querySelector('.meta'));
+  const th=seg.querySelector('.think'),thd=th.querySelector('div'),body=seg.querySelector('.body');
+  const t0=performance.now();let out='',reason='',calls=[],usage=null,timings=null,finish=null;
+  const r=await fetch('/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(req),signal:ctrl.signal});
+  if(!r.ok)throw new Error((await r.text()).slice(0,500));
+  const rd=r.body.getReader(),dec=new TextDecoder();let buf='';
+  try{
+    for(;;){
+      const {value,done}=await rd.read();
+      buf+=done?dec.decode()+'\n':dec.decode(value,{stream:true});
+      let i;while((i=buf.indexOf('\n'))>=0){
+        const line=buf.slice(0,i).trim();buf=buf.slice(i+1);
+        if(!line.startsWith('data: ')||line==='data: [DONE]')continue;
+        const ev=JSON.parse(line.slice(6));
+        if(ev.error)throw new Error(ev.error.message||JSON.stringify(ev.error));
+        if(ev.usage)usage=ev.usage;if(ev.timings)timings=ev.timings;
+        const ch=ev.choices?.[0];if(!ch)continue;
+        if(ch.finish_reason)finish=ch.finish_reason;
+        const d=ch.delta||{};
+        const rc=d.reasoning_content||d.reasoning;
+        if(rc){reason+=rc;th.hidden=false;thd.textContent=reason;if(!out)th.open=true}
+        if(d.content){out+=d.content;if(th.open&&reason)th.open=false;body.innerHTML=md(out)}
+        for(const tc of d.tool_calls||[]){
+          const k=tc.index??(tc.id||!calls.length?calls.length:calls.length-1);calls[k]??={id:'',type:'function',function:{name:'',arguments:''}};
+          if(tc.id)calls[k].id=tc.id;if(tc.function?.name)calls[k].function.name+=tc.function.name;
+          if(tc.function?.arguments)calls[k].function.arguments+=tc.function.arguments;
+        }
+        scroll();
+      }
+      if(done)break;
+    }
+  }finally{
+    if(reason){th.open=false;th.querySelector('summary').textContent=`Thought (${((performance.now()-t0)/1000).toFixed(1)}s)`}
+  }
+  calls=calls.filter(Boolean);
+  calls.forEach((c,i)=>{if(!c.id)c.id='call_'+Date.now()+'_'+i});
+  return {out,reason,calls,usage,timings,finish};
+}
+
+// ---------- tool card + execution ----------
+function argSummary(name,args){
+  if(name==='bash')return args.command||'';
+  if(name==='screenshot')return args.target||'screen';
+  if(name==='window_action')return `${args.action} · ${args.window}`;
+  if(name==='web_search')return [].concat(args.queries||[],args.query||[]).join(' | ')+(args.images?' + images':'');
+  if(name==='download'||name==='web_fetch')return args.url||'';
+  return Object.values(args).map(v=>typeof v==='string'?v:JSON.stringify(v)).join(' · ');
+}
+async function runTool(call,wrap){
+  const name=call.function.name;let args={};
+  const card=document.createElement('div');card.className='tool';
+  card.innerHTML=`<div class="hd"><span class="nm"></span><span class="sum"></span><span class="st run">…</span></div><div class="bd"><pre class="args"></pre><div class="res"></div></div>`;
+  wrap.insertBefore(card,wrap.querySelector('.meta'));
+  card.querySelector('.hd').onclick=()=>card.classList.toggle('open');
+  const st=card.querySelector('.st'),res=card.querySelector('.res');
+  card.querySelector('.nm').textContent=name;
+  const done=(text,cls,lbl)=>{st.className='st '+cls;st.textContent=lbl;return text};
+  try{args=call.function.arguments?JSON.parse(call.function.arguments):{}}
+  catch(e){card.querySelector('.args').textContent=call.function.arguments;return {text:done(`error: arguments are not valid JSON (${e.message}). Call the tool again with a valid JSON object.`,'err','bad args')}}
+  card.querySelector('.sum').textContent=argSummary(name,args);
+  card.querySelector('.args').textContent=name==='bash'?args.command:JSON.stringify(args,null,2);
+  const meta=TOOLS.find(t=>t.name===name);
+  if(!meta||!toolOn(name))return {text:done(`error: tool "${name}" is not available.`,'err','unavailable')};
+  const SENSITIVE=/(^|\/)(\.ssh|\.gnupg|\.aws|\.kube|\.password-store|\.mozilla|\.config\/(google-chrome|chromium)|\.local\/share\/keyrings)(\/|$)|\.env$|\.pem$|\.key$|id_[a-z0-9]+$|token|secret|passw|auth\.json$|\/proc\/[^/]+\/environ/i;
+  const risky=(meta.approval&&!(name==='window_action'&&args.action!=='close'))||(name==='read_file'&&SENSITIVE.test(args.path||''));
+  if(ctrl.signal.aborted)throw new DOMException('aborted','AbortError');
+  if(risky&&!$('#auto').checked){
+    st.textContent='needs approval';card.classList.add('open','asking');
+    const ask=document.createElement('div');ask.className='ask';
+    ask.innerHTML='<span style="flex:1">Run this?</span><button class="btn pri">Run</button><button class="btn">Deny</button>';
+    card.appendChild(ask);scroll(true);
+    const ok=await new Promise(resolve=>{pendingAsks.push(resolve);
+      const [y,n]=ask.querySelectorAll('button');y.onclick=()=>resolve(true);n.onclick=()=>resolve(false)});
+    ask.remove();card.classList.remove('asking');
+    if(ctrl.signal.aborted)throw new DOMException('aborted','AbortError');
+    if(!ok)return {text:done('The user denied this tool call. Do not retry it; ask the user or take another approach.','err','denied'),denied:true};
+  }
+  st.textContent='running…';
+  const t0=performance.now();
+  let r;
+  try{
+    r=await (await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},body:JSON.stringify({name,args,session:SID,chat:CHAT_ID}),signal:ctrl.signal})).json();
+  }catch(e){if(e.name==='AbortError')throw e;r={text:'error: '+e.message,error:true}}
+  const secs=((performance.now()-t0)/1000).toFixed(1)+'s';
+  const pre=document.createElement('pre');pre.textContent=r.text;res.appendChild(pre);
+  if(r.image){const im=document.createElement('img');im.src=r.image;res.appendChild(im);card.classList.add('open')}
+  done('',r.error?'err':'ok',(r.error?'error · ':'✓ ')+secs);scroll();
+  return r;
+}
+
+// ---------- context budget ----------
+// Send the model only the newest image; shrink old tool outputs when the last
+// prompt used most of the context window. msgs itself is never modified.
+function fitContext(list,lastPrompt){
+  let lastImg=-1;
+  list.forEach((m,i)=>{if(Array.isArray(m.content)&&m.content.some(c=>c.type==='image_url'))lastImg=i});
+  const tight=NCTX&&lastPrompt>NCTX*0.6;
+  const keepTail=6; // most recent messages stay untouched
+  return list.map((m,i)=>{
+    let c=m.content;
+    if(Array.isArray(c)&&(i!==lastImg||!VISION)&&c.some(x=>x.type==='image_url'))
+      c=c.map(x=>x.type==='image_url'?{type:'text',text:'[older image removed to save context]'}:x);
+    if(tight&&m.role==='tool'&&i<list.length-keepTail&&typeof c==='string'&&c.length>800)
+      c=c.slice(0,500)+`\n…[${c.length-500} chars of old tool output removed to save context]`;
+    if(tight&&m.role==='assistant'&&m.reasoning_content&&i<list.length-keepTail){const {reasoning_content,...rest}=m;return {...rest,content:c}}
+    return c===m.content?m:{...m,content:c};
+  });
+}
+
+// ---------- agent loop ----------
+async function go(){
+  const text=inp.value.trim();if(!text&&!imgs.length)return;
+  let sendImgs=imgs;
+  if(imgs.length&&!VISION){sendImgs=[]}
+  const content=sendImgs.length?[...sendImgs.map(u=>({type:'image_url',image_url:{url:u}})),{type:'text',text}]:text;
+  const userEl=add('user','<div class="body">'+imgs.map(u=>`<img src="${u}">`).join('')+esc(text)+'</div>');
+  const H=msgs;               // this turn's history; New chat swaps msgs and orphans H
+  H.push({role:'user',content});inp.value='';inp.oninput();const sentImgs=imgs;imgs=[];renderAtt();
+  const wrap=add('asst','<div class="meta"></div>'),meta=wrap.querySelector('.meta');
+  const note=(t,cls='err')=>wrap.insertBefore(Object.assign(document.createElement('p'),{className:cls,textContent:t}),meta);
+  if(sentImgs.length&&!VISION)note('Image not sent: the loaded model has no vision support (start llama with --mmproj).');
+  busy=true;ctrl=new AbortController();send.textContent='Stop';send.classList.add('stop');
+  const agent=$('#agent').checked&&enabledTools().length;
+  const maxSteps=Math.max(1,+$('#steps').value||20);
+  let tin=0,tout=0,steps=0,tps=null;
+  const turnStart=H.length;
+  try{
+    for(;;){
+      steps++;
+      const sys=[agent?agentPrompt():'',$('#sys').value.trim()].filter(Boolean).join('\n\n');
+      const req={messages:(sys?[{role:'system',content:sys}]:[]).concat(fitContext(H,lastPrompt)),stream:true,stream_options:{include_usage:true},
+        chat_template_kwargs:{enable_thinking:$('#think').checked}};
+      if(agent)req.tools=enabledTools().map(t=>t.schema);
+      if($('#temp').value!=='')req.temperature=+$('#temp').value;
+      if($('#maxt').value!=='')req.max_tokens=+$('#maxt').value;
+      const s=await streamStep(req,wrap);
+      if(H!==msgs)return;     // New chat was pressed meanwhile
+      const u=s.usage||{};tin=u.prompt_tokens??((s.timings?.prompt_n??0)+(s.timings?.cache_n??0));lastPrompt=tin;tout+=u.completion_tokens??s.timings?.predicted_n??0;
+      if(s.timings?.predicted_per_second)tps=s.timings.predicted_per_second;
+      meta.textContent=`${tin} ctx · ${tout} out`+(tps?` · ${tps.toFixed(1)} tok/s`:'')+(agent?` · step ${steps}`:'');
+      const am={role:'assistant',content:s.out};
+      if(s.reason)am.reasoning_content=s.reason;
+      if(s.calls.length)am.tool_calls=s.calls;
+      if(!s.out&&!s.calls.length&&!s.reason){note('empty reply');break}
+      H.push(am);
+      if(s.finish==='length'){note('Reply cut off: it hit the max-tokens limit or the context is full.');break}
+      if(!s.calls.length||!agent)break;
+      for(const c of s.calls){
+        const r=await runTool(c,wrap);
+        if(H!==msgs)return;
+        const tc=r.image&&VISION?[{type:'text',text:r.text},{type:'image_url',image_url:{url:r.image}}]
+          :r.text+(r.image?'\n(image not shown: the loaded model has no vision support - start llama with the mmproj file)':'');
+        H.push({role:'tool',tool_call_id:c.id,name:c.function.name,content:tc});
+      }
+      if(steps>=maxSteps){note(`stopped after ${maxSteps} steps (raise "Max steps" in Settings)`);break}
+    }
+  }catch(e){
+    if(H!==msgs)return;
+    if(e.name==='AbortError'){meta.textContent+=(meta.textContent?' · ':'')+'stopped'}
+    else{let t=String(e.message||e);
+      if(/exceed|context|n_ctx/i.test(t)){lastPrompt=NCTX;t+=' — the conversation no longer fits the model context ('+NCTX+' tokens). Old tool output will be shortened on the next try; or start a New chat / restart llama with a larger -c.'}
+      note(t)}
+  }finally{
+    if(H===msgs){busy=false;ctrl=null;send.textContent='Send';send.classList.remove('stop');inp.focus()}
+  }
+  if(H!==msgs)return;
+  if(H.length===turnStart){  // nothing came back: undo the user message and give the text back
+    H.pop();userEl.remove();if(!inp.value){inp.value=text;inp.oninput()}imgs=sentImgs;renderAtt();
+    meta.textContent+=(meta.textContent?' · ':'')+'your message was restored to the input box';
+    return;
+  }
+  // keep history valid: every tool call of the last assistant message needs a tool result
+  for(let i=H.length-1;i>=turnStart;i--){
+    const m=H[i];if(m.role!=='assistant')continue;
+    if(m.tool_calls){const have=new Set(H.slice(i+1).map(x=>x.tool_call_id));
+      for(const c of m.tool_calls)if(!have.has(c.id))H.push({role:'tool',tool_call_id:c.id,name:c.function.name,content:'interrupted by the user'})}
+    break;
+  }
+  saveChat(H);
+}
+// ---------- history (saved by lchat-web in SQLite, embedded for the recall tool) ----------
+const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+let CHAT_ID=newId(),CHAT_TITLE='';
+function newChat(){CHAT_ID=newId();CHAT_TITLE='';$('#hist').classList.remove('open')}
+const api=(path,body)=>fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},body:body&&JSON.stringify(body)}).then(r=>r.json());
+function textOf(c){return typeof c==='string'?c:(c||[]).map(x=>x.type==='text'?x.text:'[image]').join(' ')}
+async function saveChat(H){
+  if(H!==msgs||!H.length)return;
+  if(!CHAT_TITLE){const u=H.find(m=>m.role==='user');CHAT_TITLE=(u?textOf(u.content):'chat').replace(/\s+/g,' ').slice(0,80)}
+  try{await api('/api/history/save',{chat:{id:CHAT_ID,title:CHAT_TITLE},messages:H})}catch(e){console.warn('history save failed',e)}
+}
+async function showHistory(){
+  const box=$('#hist');
+  if(box.classList.toggle('open')===false)return;
+  box.textContent='loading…';
+  let list=[];try{list=await api('/api/history')}catch{box.textContent='history unavailable';return}
+  if(!Array.isArray(list)){box.textContent='history unavailable (open lchat via the URL with the token)';return}
+  box.textContent=list.length?'':'No saved chats yet.';
+  for(const c of list){
+    const row=document.createElement('div');row.className='row'+(c.id===CHAT_ID?' cur':'');
+    row.innerHTML='<span class="t"></span><span class="d"></span><button class="x" title="Delete">×</button>';
+    row.querySelector('.t').textContent=c.title||'untitled';
+    row.querySelector('.d').textContent=new Date(c.updated*1000).toLocaleString([], {dateStyle:'short',timeStyle:'short'})+` · ${c.messages}`;
+    row.onclick=()=>openChat(c.id);
+    row.querySelector('.x').onclick=async e=>{e.stopPropagation();if(!confirm('Delete this chat?'))return;
+      await api('/api/history/delete',{id:c.id});row.remove();if(c.id===CHAT_ID)newChat()};
+    box.appendChild(row);
+  }
+}
+$('#histBtn').onclick=showHistory;
+async function openChat(id){
+  stop();const d=await api('/api/history/get?id='+encodeURIComponent(id));if(!d.messages)return;
+  busy=false;ctrl=null;send.textContent='Send';send.classList.remove('stop');
+  msgs=d.messages;CHAT_ID=d.id;CHAT_TITLE=d.title;lastPrompt=0;log.innerHTML='';$('#hist').classList.remove('open');
+  const results={};for(const m of msgs)if(m.role==='tool')results[m.tool_call_id]=textOf(m.content);
+  let wrap=null;
+  for(const m of msgs){
+    if(m.role==='user'){add('user','<div class="body">'+esc(textOf(m.content))+'</div>');wrap=null}
+    else if(m.role==='assistant'){
+      if(!wrap)wrap=add('asst','<div class="meta">from history</div>');
+      if(m.content){const b=document.createElement('div');b.className='body';b.innerHTML=md(textOf(m.content));wrap.insertBefore(b,wrap.querySelector('.meta'))}
+      for(const c of m.tool_calls||[]){
+        let args={};try{args=JSON.parse(c.function.arguments||'{}')}catch{}
+        const card=document.createElement('div');card.className='tool';
+        card.innerHTML='<div class="hd"><span class="nm"></span><span class="sum"></span><span class="st ok">saved</span></div><div class="bd"><pre class="args"></pre><pre class="res"></pre></div>';
+        card.querySelector('.nm').textContent=c.function.name;card.querySelector('.sum').textContent=argSummary(c.function.name,args);
+        card.querySelector('.args').textContent=c.function.name==='bash'?args.command:JSON.stringify(args,null,2);
+        card.querySelector('.res').textContent=results[c.id]??'(no result saved)';
+        card.querySelector('.hd').onclick=()=>card.classList.toggle('open');
+        wrap.insertBefore(card,wrap.querySelector('.meta'));
+      }
+    }
+  }
+  scroll(true);inp.focus();
+}
+
+inp.focus();
+</script>
+</body>
+</html>

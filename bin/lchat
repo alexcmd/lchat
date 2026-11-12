@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""Minimal streaming chat REPL for a llama.cpp server (OpenAI API).
+Usage: lchat [--url http://127.0.0.1:9931] [--system "..."] [--no-think]
+REPL commands: /img <path>  attach image to next message | /reset | /quit
+"""
+import argparse, base64, json, mimetypes, os, sys, urllib.request
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--url", default=os.environ.get("LCHAT_URL", "http://127.0.0.1:9931"))
+ap.add_argument("--system", default="")
+ap.add_argument("--no-think", action="store_true", help="disable reasoning")
+ap.add_argument("--temp", type=float, default=None)
+a = ap.parse_args()
+
+DIM, RST = "\033[2m", "\033[0m"
+msgs = [{"role": "system", "content": a.system}] if a.system else []
+pending_imgs = []
+
+def stream(messages):
+    body = {"messages": messages, "stream": True,
+            "stream_options": {"include_usage": True}}
+    if a.no_think:
+        body["chat_template_kwargs"] = {"enable_thinking": False}
+    if a.temp is not None:
+        body["temperature"] = a.temp
+    req = urllib.request.Request(a.url.rstrip("/") + "/v1/chat/completions",
+                                 json.dumps(body).encode(), {"Content-Type": "application/json"})
+    out, thinking, usage = [], False, None
+    with urllib.request.urlopen(req) as r:
+        for raw in r:
+            line = raw.decode().strip()
+            if not line.startswith("data: ") or line == "data: [DONE]":
+                continue
+            ev = json.loads(line[6:])
+            usage = ev.get("usage") or usage
+            for ch in ev.get("choices", []):
+                d = ch.get("delta", {})
+                rc = d.get("reasoning_content") or d.get("reasoning")
+                if rc:
+                    if not thinking:
+                        sys.stdout.write(DIM); thinking = True
+                    sys.stdout.write(rc)
+                if d.get("content"):
+                    if thinking:
+                        sys.stdout.write(RST + "\n"); thinking = False
+                    sys.stdout.write(d["content"]); out.append(d["content"])
+                sys.stdout.flush()
+    if thinking:
+        sys.stdout.write(RST)
+    if usage:
+        sys.stdout.write(f"\n{DIM}[{usage.get('prompt_tokens')} in / {usage.get('completion_tokens')} out]{RST}")
+    print()
+    return "".join(out)
+
+print(f"{DIM}lchat -> {a.url}  (/img <path>, /reset, /quit){RST}")
+while True:
+    try:
+        text = input("\n> ").strip()
+    except (EOFError, KeyboardInterrupt):
+        print(); break
+    if not text:
+        continue
+    if text in ("/quit", "/exit"):
+        break
+    if text == "/reset":
+        msgs = msgs[:1] if a.system else []; pending_imgs.clear(); print("reset"); continue
+    if text.startswith("/img "):
+        p = os.path.expanduser(text[5:].strip())
+        try:
+            mt = mimetypes.guess_type(p)[0] or "image/png"
+            pending_imgs.append(f"data:{mt};base64," + base64.b64encode(open(p, "rb").read()).decode())
+            print(f"attached {p}")
+        except OSError as e:
+            print(f"error: {e}")
+        continue
+    content = text
+    if pending_imgs:
+        content = [{"type": "image_url", "image_url": {"url": u}} for u in pending_imgs] + \
+                  [{"type": "text", "text": text}]
+        pending_imgs = []
+    msgs.append({"role": "user", "content": content})
+    try:
+        reply = stream(msgs)
+    except KeyboardInterrupt:
+        print(f"\n{DIM}[interrupted]{RST}"); msgs.pop(); continue
+    except Exception as e:
+        print(f"error: {e}"); msgs.pop(); continue
+    msgs.append({"role": "assistant", "content": reply})

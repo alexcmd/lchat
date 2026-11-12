@@ -1,0 +1,875 @@
+#!/usr/bin/env python3
+"""lchat-web: tiny agentic web chat for a llama.cpp server (run llama with --no-webui).
+
+Serves ~/.local/share/lchat/index.html, proxies the chat API to llama, and
+executes agent tools on this machine via POST /api/tool:
+  bash, read_file, write_file, web_search, web_fetch,
+  list_windows, window_action, screenshot
+
+Usage: lchat-web [--llama http://127.0.0.1:9941] [--port 8088] [--host 127.0.0.1]
+                 [--cwd DIR] [--allow-remote-tools]
+
+Security model
+- Tools need the per-launch token. It is NEVER served over HTTP: it is printed
+  at startup as part of the URL fragment (http://127.0.0.1:8088/#<token>) and
+  written to ~/.local/state/lchat/url (url-<port> for a non-default port, mode 600). Open that URL.
+- Every request must carry a Host header naming this server and, if present, a
+  same-origin Origin header (blocks DNS rebinding and cross-site requests).
+- Only an exact allowlist of llama endpoints is proxied.
+- Tools run only on a loopback bind unless --allow-remote-tools is given.
+"""
+import argparse, base64, http.server, io, json, os, re, secrets, select, signal, socket
+import socketserver, stat, subprocess, tempfile, threading, time, urllib.error, urllib.parse, urllib.request
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--llama", default=os.environ.get("LCHAT_URL", "http://127.0.0.1:9931"))
+ap.add_argument("--embed", default="http://127.0.0.1:9951", help="llama-server --embedding (EmbeddingGemma 2)")
+ap.add_argument("--rerank", default="http://127.0.0.1:9952", help="llama-server --reranking (Qwen3-Reranker)")
+ap.add_argument("--port", type=int, default=8088)
+ap.add_argument("--host", default="127.0.0.1")
+ap.add_argument("--cwd", default=os.path.expanduser("~"))
+ap.add_argument("--allow-remote-tools", action="store_true")
+a = ap.parse_args()
+
+_HERE = os.path.dirname(os.path.realpath(__file__))
+
+
+def _first(env, *paths):
+    """$env if set, else the first path that exists (else the last one, for the error message)."""
+    paths = [os.path.expanduser(p) for p in paths]
+    return os.environ.get(env) or next((p for p in paths if os.path.exists(p)), paths[-1])
+
+
+# works from a repo checkout (bin/ + web/ + vendor/) and from an install (~/.local/...)
+HTML = _first("LCHAT_HTML", os.path.join(_HERE, "..", "web", "index.html"), "~/.local/share/lchat/index.html")
+WEBCRAWLER = _first("LCHAT_WEBCRAWLER", "~/.agents/skills/webcrawler/webcrawler.py",
+                    os.path.join(_HERE, "..", "vendor", "webcrawler", "webcrawler.py"),
+                    "~/.local/share/lchat/webcrawler/webcrawler.py")
+STATE_DIR = os.path.expanduser("~/.local/state/lchat")
+TOKEN = secrets.token_urlsafe(24)
+LOOPBACK = a.host in ("127.0.0.1", "localhost", "::1")
+TOOLS_ON = a.allow_remote_tools or LOOPBACK
+MAX_OUT = 12000
+MAX_CAPTURE = 4 * 1024 * 1024        # bytes of command output kept on disk/read back
+MAX_READ = 2 * 1024 * 1024           # bytes read_file will scan
+DEFAULT_CWD = os.path.abspath(os.path.expanduser(a.cwd))
+PROXY_PATHS = {"/v1/chat/completions", "/v1/models", "/props", "/health"}
+SESSIONS = {}                        # session id -> {"cwd": str}
+SESSIONS_LOCK = threading.Lock()
+
+
+def clip(s, n=MAX_OUT):
+    if len(s) <= n:
+        return s
+    h = n * 2 // 3
+    return s[:h] + f"\n…[{len(s) - n} chars truncated]…\n" + s[-(n - h):]
+
+
+def P(desc, **props):
+    req = [k for k, v in props.items() if not v.pop("optional", False)]
+    return {"type": "object", "properties": props, "required": req}
+
+
+# name -> (description, parameters, needs_approval)
+TOOLS = {
+    "bash": ("Run a bash command on the user's Linux machine (SteamOS/Arch, KDE Plasma Wayland). "
+             "Working directory persists between calls. Use for files, processes, packages, system "
+             "info. To launch a GUI app, run it in the background ('app &'); it keeps running. "
+             "Returns stdout+stderr and exit code.",
+             P("", command={"type": "string", "description": "bash command"},
+               timeout={"type": "integer", "description": "seconds, default 60, max 600", "optional": True}),
+             True),
+    "read_file": ("Read a text file. Returns numbered lines.",
+                  P("", path={"type": "string"},
+                    offset={"type": "integer", "description": "first line (1-based)", "optional": True},
+                    limit={"type": "integer", "description": "max lines, default 400", "optional": True}),
+                  False),
+    "write_file": ("Create or overwrite a text file with the given content.",
+                   P("", path={"type": "string"}, content={"type": "string"}), True),
+    "web_search": ("Search the web (Google, English). Returns titles, full URLs and snippets. Call it ONCE "
+                   "with ALL your queries in the `queries` array: 2-5 differently worded queries (synonyms, "
+                   "sub-questions, different angles) run in parallel and are merged and de-duplicated. Do not "
+                   "call web_search again with the same or a similar query.",
+                   P("", queries={"type": "array", "items": {"type": "string"},
+                                  "description": "1-5 search queries, each worded differently"},
+                     num={"type": "integer", "description": "results per query, default 10, max 30", "optional": True},
+                     images={"type": "boolean", "description": "also return image links (Google Images). These "
+                             "are only links: to see an image you must call download with its URL", "optional": True}),
+                   False),
+    "download": ("Download a web resource by URL (image, PDF, text/JSON/CSV, any file). Images are shown "
+                 "to you so you can see them - always download an image before describing it; PDFs and text come back as text; other files are saved and "
+                 "their path returned. Files are kept in ~/Downloads/lchat/.",
+                 P("", url={"type": "string"},
+                   max_chars={"type": "integer", "description": "text returned, default 8000", "optional": True}),
+                 False),
+    "web_fetch": ("Fetch a web page with a stealth browser and return its title, final URL, visible text "
+                  "and the list of images on it (view one with the download tool).",
+                  P("", url={"type": "string"},
+                    max_chars={"type": "integer", "description": "default 8000", "optional": True}),
+                  False),
+    "list_windows": ("List open desktop windows with their titles, app, size and state.", P(""), False),
+    "window_action": ("Act on a desktop window: activate (focus), minimize, maximize, fullscreen or close.",
+                      P("", window={"type": "string", "description": "window title (substring) or id from list_windows"},
+                        action={"type": "string", "enum": ["activate", "minimize", "maximize", "fullscreen", "close"]}),
+                      True),
+    "recall": ("Search the user's past conversations with you (all saved chats, including tool results) by "
+               "meaning. Use it when the user refers to something discussed before, or to reuse earlier findings.",
+               P("", query={"type": "string", "description": "what to look for, in natural language"},
+                 k={"type": "integer", "description": "results, default 6, max 15", "optional": True}),
+               False),
+    "screenshot": ("Take a screenshot and look at it. target='screen' for the whole screen, 'active' for the "
+                   "focused window, or a window title substring / id from list_windows.",
+                   P("", target={"type": "string", "description": "screen | active | <window title or id>",
+                                 "optional": True}),
+                   False),
+}
+
+
+def tool_schemas():
+    return [{"name": n, "approval": ap_,
+             "schema": {"type": "function", "function": {"name": n, "description": d, "parameters": p}}}
+            for n, (d, p, ap_) in TOOLS.items()]
+
+
+class Cancelled(Exception):
+    pass
+
+
+def session(sid):
+    with SESSIONS_LOCK:
+        return SESSIONS.setdefault(str(sid or "default")[:64], {"cwd": DEFAULT_CWD})
+
+
+def _wait(p, timeout, alive):
+    """Wait for p; kill its whole process group on timeout or client disconnect."""
+    end = time.time() + timeout
+    while True:
+        try:
+            return p.wait(timeout=0.25)
+        except subprocess.TimeoutExpired:
+            pass
+        reason = "timeout" if time.time() > end else ("cancelled" if not alive() else None)
+        if reason:
+            try:
+                os.killpg(p.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            try:
+                p.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                pass
+            if reason == "cancelled":
+                raise Cancelled()
+            return None
+
+
+def _read_capture(f):
+    size = os.fstat(f.fileno()).st_size
+    f.seek(0)
+    if size <= MAX_CAPTURE:
+        data = f.read()
+    else:
+        half = MAX_CAPTURE // 2
+        data = f.read(half) + f"\n…[{size - MAX_CAPTURE} bytes skipped]…\n".encode()
+        f.seek(size - half)
+        data += f.read()
+    return data.decode("utf-8", "replace")
+
+
+# ---------------- tool implementations ----------------
+def t_bash(command, timeout=60, *, sess, alive):
+    timeout = max(1, min(int(timeout or 60), 600))
+    marker = "__LCHAT_CWD__" + secrets.token_hex(4)
+    cwd = sess["cwd"] if os.path.isdir(sess["cwd"]) else DEFAULT_CWD
+    # cwd is passed to Popen (never interpolated into the script). Output goes to a
+    # temp file, so background children holding stdout cannot block us.
+    script = f'{command}\n__rc=$?\nprintf "\\n{marker}%s" "$PWD"\nexit $__rc\n'
+    with tempfile.TemporaryFile() as out:
+        p = subprocess.Popen(["bash", "-c", script], cwd=cwd, stdout=out, stderr=subprocess.STDOUT,
+                             stdin=subprocess.DEVNULL, start_new_session=True)
+        rc = _wait(p, timeout, alive)
+        if rc is None:
+            rc = f"timeout after {timeout}s (process group killed)"
+        text = _read_capture(out)
+    if marker in text:
+        text, newcwd = text.rsplit(marker, 1)
+        if os.path.isdir(newcwd):
+            sess["cwd"] = newcwd
+    text = text.rstrip("\n")
+    return {"text": f"{clip(text) if text else '(no output)'}\n[exit {rc}] [cwd {sess['cwd']}]"}
+
+
+def _path(p, sess):
+    p = os.path.expanduser(p)
+    return p if os.path.isabs(p) else os.path.join(sess["cwd"], p)
+
+
+def t_read_file(path, offset=1, limit=400, *, sess, alive):
+    p = _path(path, sess)
+    st = os.stat(p)
+    if not stat.S_ISREG(st.st_mode):
+        raise ValueError(f"{p} is not a regular file")
+    offset, limit = max(1, int(offset or 1)), max(1, min(int(limit or 400), 2000))
+    sel, n, scanned = [], 0, 0
+    with open(p, "rb") as f:
+        for raw in f:
+            n += 1
+            scanned += len(raw)
+            if offset <= n < offset + limit:
+                sel.append(raw.decode("utf-8", "replace"))
+            if scanned > MAX_READ and n >= offset + limit:
+                break
+    if b"\0" in "".join(sel[:50]).encode():
+        return {"text": f"{p} looks binary ({st.st_size} bytes); use bash (file, xxd, strings) instead"}
+    body = "".join(f"{i:5}  {l}" for i, l in enumerate(sel, offset))
+    total = f"{n}" if scanned <= MAX_READ else f"{n}+ (stopped scanning at {MAX_READ // 1048576} MB)"
+    return {"text": clip(body) + f"\n[lines {offset}-{offset + len(sel) - 1} of {total}]"}
+
+
+def t_write_file(path, content, *, sess, alive):
+    p = _path(path, sess)
+    os.makedirs(os.path.dirname(p) or ".", exist_ok=True)
+    with open(p, "w") as f:
+        f.write(content)
+    return {"text": f"wrote {len(content)} chars to {p}"}
+
+
+def _crawler(args, timeout, alive):
+    with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
+        p = subprocess.Popen(["python3", WEBCRAWLER] + args, stdout=out, stderr=err,
+                             stdin=subprocess.DEVNULL, start_new_session=True,
+                             env={**os.environ, "CLOAKBROWSER_SUPPRESS_FONT_WARNING": "1",
+                                  "CLOAKBROWSER_AUTO_UPDATE": "false"})
+        rc = _wait(p, timeout, alive)
+        o, e = _read_capture(out), _read_capture(err)
+    if rc is None:
+        e += f"\ntimed out after {timeout}s"
+    return rc, o, e
+
+
+NOISE = re.compile(r"Update available|pip install --upgrade|font|^\s*$", re.I)
+
+
+def _crawl_error(what, rc, e):
+    lines = [l for l in e.strip().splitlines() if not NOISE.search(l)]
+    if rc is None:
+        return f"{what} timed out"
+    if lines:
+        return f"{what} failed (exit {rc}): " + " | ".join(lines[-3:])[-600:]
+    return f"{what} failed (exit {rc}, no error output)"
+
+
+def t_web_search(queries=None, num=10, query=None, images=False, *, sess, alive):
+    if isinstance(queries, str):
+        queries = [queries]
+    qs = [q.strip() for q in (queries or []) + ([query] if query else []) if isinstance(q, str) and q.strip()]
+    qs = list(dict.fromkeys(qs))[:5]
+    if not qs:
+        raise ValueError("give at least one query in `queries`")
+    num = max(1, min(int(num or 10), 30))
+    # One browser process per query, all at once (~20-30 s total instead of per query).
+    found, errors, pics = {}, {}, []
+
+    def one(q):
+        rc, o, e = _crawler(["search", "--num", str(num)] + (["--images"] if images else []) + ["--", q],
+                            150, alive)
+        try:
+            d = json.loads(o)
+            found[q] = d["results"]
+            pics.extend({**i, "query": q} for i in d.get("images") or [])
+        except (ValueError, KeyError):
+            errors[q] = _crawl_error("search", rc, e)
+
+    threads = [threading.Thread(target=one, args=(q,)) for q in qs]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    merged, by_url = [], {}
+    for q in qs:                       # keep query order, de-duplicate by URL
+        for x in found.get(q, []):
+            if x["url"] in by_url:
+                by_url[x["url"]]["queries"].append(q)
+            else:
+                by_url[x["url"]] = {**x, "queries": [q]}
+                merged.append(by_url[x["url"]])
+    if not merged:
+        return {"text": "search failed: " + "; ".join(errors.values() or ["no results"]), "error": True}
+    lines = []
+    for i, x in enumerate(merged, 1):
+        via = f"\n   [found by: {'; '.join(x['queries'])}]" if len(qs) > 1 else ""
+        lines.append(f"{i}. {x['title']}\n   {x['url']}\n   {x.get('snippet', '')}{via}")
+    head = f"{len(merged)} results for {len(qs)} quer{'y' if len(qs) == 1 else 'ies'}: " + " | ".join(qs)
+    errs = "".join(f"\n(query failed: {q}: {m})" for q, m in errors.items())
+    imgs = ""
+    if images:
+        seen = set()
+        uniq = [i for i in pics if not (i["url"] in seen or seen.add(i["url"]))]
+        imgs = "\n\nImages (view with the download tool):\n" + ("\n".join(
+            f"- {i['url']}  ({i['width']}x{i['height']})" for i in uniq[:num * 2]) or "none found")
+    return {"text": head + "\n\n" + "\n\n".join(lines) + imgs + errs}
+
+
+def t_web_fetch(url, max_chars=8000, *, sess, alive):
+    url = url.strip()
+    if not re.match(r"https?://", url):
+        url = "https://" + url
+    rc, o, e = _crawler(["fetch", "--meta", "--images", "--timeout", "40000", "--", url], 90, alive)
+    text = re.sub(r"\n{3,}", "\n\n", o).strip()
+    if not text:
+        if rc == 0:
+            return {"text": f"fetched {url} but the page has no visible text (JS-only app, login wall or "
+                            "bot block). Try a different URL for the same information.", "error": True}
+        return {"text": _crawl_error(f"fetch {url}", rc, e), "error": True}
+    return {"text": clip(text, max(500, min(int(max_chars or 8000), 30000)))}
+
+
+def _kwin():
+    import dbus
+    bus = dbus.SessionBus()
+    runner = dbus.Interface(bus.get_object("org.kde.KWin", "/WindowsRunner"), "org.kde.krunner1")
+    kwin = dbus.Interface(bus.get_object("org.kde.KWin", "/KWin"), "org.kde.KWin")
+    return runner, kwin
+
+
+def _windows():
+    runner, kwin = _kwin()
+    seen, out = set(), []
+    for m in runner.Match(""):
+        uid = str(m[0]).split("_", 1)[1]
+        if uid in seen:
+            continue
+        seen.add(uid)
+        try:
+            info = {str(k): v for k, v in kwin.getWindowInfo(uid).items()}
+        except Exception:
+            info = {}
+        out.append({"id": uid, "title": str(m[1]), "app": str(info.get("resourceClass", "")),
+                    "x": int(info.get("x", 0)), "y": int(info.get("y", 0)),
+                    "w": int(info.get("width", 0)), "h": int(info.get("height", 0)),
+                    "minimized": bool(info.get("minimized", False))})
+    return out
+
+
+def _find_window(q):
+    q = (q or "").strip()
+    ws = _windows()
+    q0 = q.strip("{}").lower()
+    for w in ws:
+        if w["id"].strip("{}").lower() == q0:
+            return w
+    if len(q) < 2:
+        raise ValueError("give a window title (at least 2 characters) or an id from list_windows")
+    exact = [w for w in ws if w["title"].lower() == q.lower() or w["app"].lower() == q.lower()]
+    hits = exact or [w for w in ws if q.lower() in w["title"].lower()]
+    if not hits:
+        raise ValueError(f"no window matching {q!r}; open windows: " + "; ".join(w["title"] for w in ws))
+    if len(hits) > 1:
+        raise ValueError(f"{len(hits)} windows match {q!r}, use an id: "
+                         + "; ".join(f"{w['title']} id={w['id']}" for w in hits))
+    return hits[0]
+
+
+def t_list_windows(*, sess, alive):
+    ws = _windows()
+    if not ws:
+        return {"text": "no windows"}
+    return {"text": "\n".join(f"- {w['title']}  [app {w['app']}, {w['w']}x{w['h']} at {w['x']},{w['y']}"
+                              f"{', minimized' if w['minimized'] else ''}] id={w['id']}" for w in ws)}
+
+
+ACTIONS = {"activate": 0, "close": 1, "minimize": 2, "maximize": 3, "fullscreen": 4}
+
+
+def t_window_action(window, action, *, sess, alive):
+    if action not in ACTIONS:
+        raise ValueError(f"action must be one of {list(ACTIONS)}")
+    w = _find_window(window)
+    _kwin()[0].Run(f"{ACTIONS[action]}_{w['id']}", "")
+    return {"text": f"{action}: {w['title']} (id={w['id']})"}
+
+
+def _shrink(png_bytes, max_w=1280):
+    from PIL import Image
+    im = Image.open(io.BytesIO(png_bytes)).convert("RGB")
+    if im.width > max_w:
+        im = im.resize((max_w, round(im.height * max_w / im.width)))
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=85)
+    return im.size, "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+
+
+def t_screenshot(target="screen", *, sess, alive):
+    from PIL import Image
+    target = (target or "screen").strip()
+    with tempfile.TemporaryDirectory() as td:
+        f = os.path.join(td, "s.png")
+        crop, label, ws = None, "screen", None
+        if target.lower() == "active":
+            flag, label = "-a", "active window"
+        else:
+            flag = "-f"
+            if target.lower() not in ("screen", "full", "desktop", ""):
+                w = _find_window(target)
+                if w["minimized"]:
+                    _kwin()[0].Run(f"0_{w['id']}", "")
+                    time.sleep(0.6)
+                    w = _find_window(w["id"])
+                ws = _windows()
+                crop, label = (w["x"], w["y"], w["x"] + w["w"], w["y"] + w["h"]), f"window '{w['title']}'"
+        r = subprocess.run(["spectacle", "-b", "-n", flag, "-o", f], capture_output=True, timeout=30)
+        if not os.path.exists(f):
+            raise RuntimeError("spectacle failed: " + r.stderr.decode(errors="replace")[-300:])
+        data = open(f, "rb").read()
+        if crop:
+            # The full-desktop image starts at the top-left of the bounding box of all
+            # screens; approximate that origin by the smallest window coordinates.
+            ox = min([0] + [x["x"] for x in ws]); oy = min([0] + [x["y"] for x in ws])
+            im = Image.open(io.BytesIO(data))
+            box = (crop[0] - ox, crop[1] - oy, crop[2] - ox, crop[3] - oy)
+            box = (max(0, box[0]), max(0, box[1]), min(im.width, box[2]), min(im.height, box[3]))
+            buf = io.BytesIO()
+            im.crop(box).save(buf, "PNG")
+            data = buf.getvalue()
+    size, url = _shrink(data)
+    return {"text": f"screenshot of {label} ({size[0]}x{size[1]})", "image": url}
+
+
+
+DOWNLOAD_DIR = os.path.expanduser("~/Downloads/lchat")
+MAX_DOWNLOAD = 25 * 1024 * 1024
+
+
+def t_download(url, max_chars=8000, *, sess, alive):
+    url = url.strip()
+    if not re.match(r"https?://", url):
+        raise ValueError("url must start with http:// or https://")
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0 Safari/537.36",
+        "Accept": "*/*"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        ctype = (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+        data = r.read(MAX_DOWNLOAD + 1)
+        final = r.geturl()
+    if len(data) > MAX_DOWNLOAD:
+        raise ValueError(f"larger than {MAX_DOWNLOAD // 1048576} MB, not downloaded")
+    name = re.sub(r"[^A-Za-z0-9._-]+", "_", urllib.parse.unquote(final.split("?")[0].rstrip("/").split("/")[-1]))[-80:] or "download"
+    os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+    path = os.path.join(DOWNLOAD_DIR, f"{time.strftime('%Y%m%d-%H%M%S')}-{name}")
+    with open(path, "wb") as f:
+        f.write(data)
+    size = f"{len(data) / 1024:.0f} KB"
+    mc = max(500, min(int(max_chars or 8000), 30000))
+    if ctype.startswith("image/") or re.search(r"\.(png|jpe?g|gif|webp|bmp)$", name, re.I):
+        try:
+            from PIL import Image
+            im = Image.open(io.BytesIO(data))
+            dims = f"{im.width}x{im.height}"
+            buf = io.BytesIO()
+            im.convert("RGB").save(buf, "PNG")
+            (w, h), img = _shrink(buf.getvalue())
+            return {"text": f"image {dims} ({size}, {ctype or 'image'}) saved to {path}", "image": img}
+        except Exception as e:
+            return {"text": f"saved {path} ({size}) but could not decode it as an image: {e}"}
+    if ctype == "application/pdf" or name.lower().endswith(".pdf"):
+        r = subprocess.run(["pdftotext", path, "-"], capture_output=True, timeout=60)
+        text = re.sub(r"[ \t]+", " ", r.stdout.decode("utf-8", "replace"))
+        text = re.sub(r"\n\s*\n+", "\n\n", text).strip()
+        return {"text": f"PDF ({size}) saved to {path}\n\n" + (clip(text, mc) if text else "(no extractable text)")}
+    if ctype.startswith("text/") or ctype in ("application/json", "application/xml", "application/javascript") \
+            or b"\0" not in data[:2048]:
+        return {"text": f"{ctype or 'text'} ({size}) saved to {path}\n\n" + clip(data.decode("utf-8", "replace"), mc)}
+    return {"text": f"binary file {ctype or '?'} ({size}) saved to {path}"}
+
+
+# ---------------- chat history (SQLite) + embeddings + rerank ----------------
+import sqlite3, struct
+import numpy as np
+
+DB_PATH = os.path.join(STATE_DIR, "history.db")
+DB_LOCK = threading.Lock()
+EMBED_WAKE = threading.Event()
+CHUNK, OVERLAP, MAX_CHUNKS = 1200, 200, 20
+
+
+def db():
+    con = sqlite3.connect(DB_PATH, timeout=10, check_same_thread=False)
+    con.execute("PRAGMA journal_mode=WAL")
+    return con
+
+
+def db_init():
+    os.makedirs(STATE_DIR, mode=0o700, exist_ok=True)
+    with DB_LOCK, db() as c:
+        c.executescript("""
+        CREATE TABLE IF NOT EXISTS chats(id TEXT PRIMARY KEY, title TEXT, created REAL, updated REAL);
+        CREATE TABLE IF NOT EXISTS messages(chat_id TEXT, seq INTEGER, role TEXT, content TEXT,
+            PRIMARY KEY(chat_id, seq));
+        CREATE TABLE IF NOT EXISTS chunks(id INTEGER PRIMARY KEY, chat_id TEXT, seq INTEGER, role TEXT,
+            text TEXT, vec BLOB);
+        CREATE INDEX IF NOT EXISTS chunks_chat ON chunks(chat_id, seq);
+        CREATE INDEX IF NOT EXISTS chunks_pending ON chunks(id) WHERE vec IS NULL;
+        """)
+    os.chmod(DB_PATH, 0o600)
+
+
+def _strip_images(m):
+    c = m.get("content")
+    if isinstance(c, list):
+        c = [x if x.get("type") != "image_url" else {"type": "text", "text": "[image]"} for x in c]
+    return {k: v for k, v in {**m, "content": c}.items() if k in
+            ("role", "content", "tool_calls", "tool_call_id", "name", "reasoning_content")}
+
+
+def _msg_text(m):
+    c = m.get("content")
+    if isinstance(c, list):
+        c = " ".join(x.get("text", "") for x in c if x.get("type") == "text")
+    t = (c or "").strip()
+    for tc in m.get("tool_calls") or []:
+        f = tc.get("function", {})
+        t += f"\n[called {f.get('name')}: {f.get('arguments', '')[:300]}]"
+    if m.get("role") == "tool":
+        t = f"[result of {m.get('name', 'tool')}] " + t
+    return t.strip()
+
+
+def _chunks(text):
+    out, i = [], 0
+    while i < len(text) and len(out) < MAX_CHUNKS:
+        out.append(text[i:i + CHUNK])
+        i += CHUNK - OVERLAP
+    return out
+
+
+def history_save(chat, messages):
+    cid = str(chat.get("id") or "")[:64]
+    if not re.fullmatch(r"[A-Za-z0-9_-]{6,64}", cid):
+        raise ValueError("bad chat id")
+    title = str(chat.get("title") or "untitled")[:120]
+    msgs = [_strip_images(m) for m in messages if isinstance(m, dict)]
+    now = time.time()
+    with DB_LOCK, db() as c:
+        old = {seq: content for seq, content in c.execute(
+            "SELECT seq, content FROM messages WHERE chat_id=?", (cid,))}
+        c.execute("INSERT INTO chats(id,title,created,updated) VALUES(?,?,?,?) "
+                  "ON CONFLICT(id) DO UPDATE SET title=excluded.title, updated=excluded.updated",
+                  (cid, title, now, now))
+        same = 0
+        for seq, m in enumerate(msgs):   # unchanged prefix keeps its chunks and vectors
+            if old.get(seq) != json.dumps(m, ensure_ascii=False):
+                break
+            same = seq + 1
+        c.execute("DELETE FROM messages WHERE chat_id=? AND seq>=?", (cid, same))
+        c.execute("DELETE FROM chunks WHERE chat_id=? AND seq>=?", (cid, same))
+        for seq in range(same, len(msgs)):
+            m = msgs[seq]
+            c.execute("INSERT INTO messages VALUES(?,?,?,?)",
+                      (cid, seq, m.get("role"), json.dumps(m, ensure_ascii=False)))
+            for ch in _chunks(_msg_text(m)):
+                c.execute("INSERT INTO chunks(chat_id,seq,role,text) VALUES(?,?,?,?)",
+                          (cid, seq, m.get("role"), ch))
+    EMBED_WAKE.set()
+    return {"ok": True, "saved": len(msgs), "new": len(msgs) - same}
+
+
+def _post(url, payload, timeout=60):
+    req = urllib.request.Request(url, json.dumps(payload).encode(), {"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read())
+
+
+def embed(texts):
+    d = _post(a.embed.rstrip("/") + "/v1/embeddings", {"input": texts})
+    return [np.asarray(x["embedding"], dtype=np.float32) for x in sorted(d["data"], key=lambda x: x["index"])]
+
+
+def embed_worker():
+    """Background: give every chunk without a vector one (retries while the server is down)."""
+    while True:
+        EMBED_WAKE.wait(30)
+        EMBED_WAKE.clear()
+        while True:
+            with DB_LOCK, db() as c:
+                rows = c.execute("SELECT k.id, k.text, k.role, IFNULL(ch.title,'none') FROM chunks k "
+                                 "LEFT JOIN chats ch ON ch.id=k.chat_id WHERE k.vec IS NULL LIMIT 16").fetchall()
+            if not rows:
+                break
+            try:
+                vecs = embed([f"title: {t} | text: {r}: {x}" for _, x, r, t in rows])
+            except Exception:
+                break   # server down: try again on the next wake-up
+            with DB_LOCK, db() as c:
+                c.executemany("UPDATE chunks SET vec=? WHERE id=?",
+                              [(v.tobytes(), rid) for v, (rid, *_rest) in zip(vecs, rows)])
+
+
+def recall_search(query, k=6, chat=None, pool=10):
+    """Ranked chunks for a query: (rows, scores, how). Embeddings pick `pool` candidates,
+    the reranker orders them; each falls back (keywords / embedding order) when its server is down."""
+    with DB_LOCK, db() as c:
+        rows = c.execute("SELECT k.id, k.chat_id, k.seq, k.role, k.text, k.vec, ch.title, ch.updated "
+                         "FROM chunks k JOIN chats ch ON ch.id=k.chat_id WHERE k.chat_id IS NOT ?",
+                         (chat,)).fetchall()
+    if not rows:
+        return [], [], "empty"
+    how = "embeddings"
+    try:
+        q = embed([f"task: search result | query: {query}"])[0]
+        have = [r for r in rows if r[5]]
+        M = np.frombuffer(b"".join(r[5] for r in have), dtype=np.float32).reshape(len(have), -1)
+        sims = M @ q / (np.linalg.norm(M, axis=1) * np.linalg.norm(q) + 1e-9)
+        cand = [have[i] for i in np.argsort(-sims)[:pool]]
+    except Exception:
+        how = "keywords (embedding server unreachable)"
+        words = [w.lower() for w in re.findall(r"\w{3,}", query)]
+        cand = sorted(rows, key=lambda r: -sum(r[4].lower().count(w) for w in words))[:pool]
+        cand = [r for r in cand if any(w in r[4].lower() for w in words)]
+    if not cand:
+        return [], [], how
+    try:
+        d = _post(a.rerank.rstrip("/") + "/v1/rerank", {"query": query, "documents": [r[4] for r in cand]})
+        ranked = sorted(d["results"], key=lambda x: -x["relevance_score"])
+        how += " + rerank"
+        return [cand[x["index"]] for x in ranked[:k]], [x["relevance_score"] for x in ranked[:k]], how
+    except Exception:
+        return cand[:k], [None] * min(k, len(cand)), how
+
+
+def t_recall(query, k=6, *, sess, alive, chat=None):
+    k = max(1, min(int(k or 6), 15))
+    hits, scores, how = recall_search(query, k, chat)
+    if how == "empty":
+        return {"text": "no saved conversations yet"}
+    if not hits:
+        return {"text": f"nothing in past conversations matches {query!r}"}
+    out = []
+    for (_id, cid, seq, role, text, _v, title, upd), sc in zip(hits, scores):
+        sc = f" score {sc:.2f}" if sc is not None else ""
+        out.append(f"- chat \"{title}\" ({time.strftime('%Y-%m-%d %H:%M', time.localtime(upd))}), "
+                   f"message {seq} ({role}){sc}:\n  " + text[:700].replace("\n", "\n  "))
+    return {"text": f"{len(out)} matches from past conversations via {how}:\n" + "\n".join(out)}
+
+
+def history_list():
+    with DB_LOCK, db() as c:
+        return [{"id": i, "title": t, "updated": u, "messages": n} for i, t, u, n in c.execute(
+            "SELECT ch.id, ch.title, ch.updated, COUNT(m.seq) FROM chats ch "
+            "LEFT JOIN messages m ON m.chat_id=ch.id GROUP BY ch.id ORDER BY ch.updated DESC LIMIT 200")]
+
+
+def history_get(cid):
+    with DB_LOCK, db() as c:
+        ch = c.execute("SELECT id, title, updated FROM chats WHERE id=?", (cid,)).fetchone()
+        if not ch:
+            raise ValueError("no such chat")
+        msgs = [json.loads(x) for (x,) in c.execute(
+            "SELECT content FROM messages WHERE chat_id=? ORDER BY seq", (cid,))]
+    return {"id": ch[0], "title": ch[1], "updated": ch[2], "messages": msgs}
+
+
+def history_delete(cid):
+    with DB_LOCK, db() as c:
+        for t in ("chunks", "messages"):
+            c.execute(f"DELETE FROM {t} WHERE chat_id=?", (cid,))
+        c.execute("DELETE FROM chats WHERE id=?", (cid,))
+    return {"ok": True}
+
+
+IMPL = {"bash": t_bash, "read_file": t_read_file, "write_file": t_write_file,
+        "web_search": t_web_search, "web_fetch": t_web_fetch, "list_windows": t_list_windows,
+        "window_action": t_window_action, "screenshot": t_screenshot, "recall": t_recall, "download": t_download}
+
+
+def run_tool(name, args, sid, alive, chat=None):
+    if name not in IMPL:
+        return {"text": f"error: unknown tool {name!r}", "error": True}
+    if not isinstance(args, dict):
+        return {"text": "error: arguments must be a JSON object", "error": True}
+    try:
+        extra = {"chat": chat} if name == "recall" else {}
+        return IMPL[name](**args, sess=session(sid), alive=alive, **extra)
+    except Cancelled:
+        return {"text": "cancelled by the user", "error": True}
+    except TypeError as e:
+        return {"text": f"error: bad arguments for {name}: {e}", "error": True}
+    except Exception as e:
+        return {"text": f"error: {type(e).__name__}: {e}", "error": True}
+
+
+# ---------------- HTTP ----------------
+def _allowed_hosts():
+    hosts = {f"127.0.0.1:{a.port}", f"localhost:{a.port}", f"[::1]:{a.port}"}
+    if not LOOPBACK:
+        hosts.add(f"{a.host}:{a.port}")
+    return hosts
+
+
+ALLOWED_HOSTS = _allowed_hosts()
+
+
+class H(http.server.BaseHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"
+
+    def log_message(self, fmt, *args):
+        pass
+
+    def _json(self, code, obj):
+        data = json.dumps(obj).encode()
+        try:
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+
+    def _guard(self):
+        """Reject DNS-rebinding (foreign Host) and cross-site (foreign Origin) requests."""
+        host = (self.headers.get("Host") or "").lower()
+        if host not in ALLOWED_HOSTS and not (a.allow_remote_tools and not LOOPBACK):
+            self._json(403, {"error": {"message": "bad Host header"}})
+            return False
+        origin = self.headers.get("Origin")
+        if origin and origin.lower() != f"http://{host}":
+            self._json(403, {"error": {"message": "cross-origin request refused"}})
+            return False
+        return True
+
+    def _alive(self):
+        """False once the browser has closed the connection (Stop / tab closed)."""
+        sock = self.connection
+        try:
+            r, _, _ = select.select([sock], [], [], 0)
+            if r:
+                return sock.recv(1, socket.MSG_PEEK) != b""
+        except OSError:
+            return False
+        return True
+
+    def _body(self):
+        n = int(self.headers.get("Content-Length") or 0)
+        return self.rfile.read(n) if n else None
+
+    def _proxy(self, method):
+        body = self._body()
+        req = urllib.request.Request(a.llama.rstrip("/") + self.path, body, method=method,
+                                     headers={"Content-Type": "application/json"})
+        try:
+            r = urllib.request.urlopen(req, timeout=600)
+        except urllib.error.HTTPError as e:
+            r = e
+        except OSError as e:
+            return self._json(502, {"error": {"message": f"llama unreachable: {e}"}})
+        try:
+            self.send_response(r.status)
+            self.send_header("Content-Type", r.headers.get("Content-Type", "application/json"))
+            self.send_header("Cache-Control", "no-cache")
+            self.send_header("Transfer-Encoding", "chunked")
+            self.end_headers()
+            while True:
+                chunk = r.read1(65536) if hasattr(r, "read1") else r.read(65536)
+                if not chunk:
+                    break
+                self.wfile.write(b"%x\r\n%s\r\n" % (len(chunk), chunk))
+                self.wfile.flush()
+            self.wfile.write(b"0\r\n\r\n")
+        except (BrokenPipeError, ConnectionResetError):
+            pass  # browser hit Stop -> closing upstream makes llama abort generation
+        except Exception as e:  # upstream died mid-stream: tell the browser, end the response
+            try:
+                msg = json.dumps({"error": {"message": f"upstream error: {e}"}}).encode()
+                line = b"data: " + msg + b"\n\n"
+                self.wfile.write(b"%x\r\n%s\r\n0\r\n\r\n" % (len(line), line))
+            except OSError:
+                pass
+            self.close_connection = True
+        finally:
+            r.close()
+
+    def do_GET(self):
+        if not self._guard():
+            return
+        path = self.path.split("?", 1)[0]
+        if path in ("/", "/index.html"):
+            data = open(HTML, "rb").read()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(data)))
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Referrer-Policy", "no-referrer")
+            self.end_headers()
+            self.wfile.write(data)
+        elif path in ("/api/history", "/api/history/get"):
+            if not secrets.compare_digest(self.headers.get("X-LChat-Token", ""), TOKEN):
+                return self._json(403, {"error": "forbidden"})
+            q = urllib.parse.parse_qs(self.path.split("?", 1)[1] if "?" in self.path else "")
+            try:
+                self._json(200, history_list() if path == "/api/history" else history_get(q.get("id", [""])[0]))
+            except Exception as e:
+                self._json(404, {"error": str(e)})
+        elif path == "/api/tools":
+            self._json(200, {"enabled": TOOLS_ON, "cwd": DEFAULT_CWD,
+                             "tools": tool_schemas() if TOOLS_ON else []})
+        elif path in PROXY_PATHS:
+            self._proxy("GET")
+        else:
+            self._json(404, {"error": {"message": "not found"}})
+
+    def do_POST(self):
+        if not self._guard():
+            return
+        if self.path in ("/api/history/save", "/api/history/delete"):
+            body = self._body()
+            if not secrets.compare_digest(self.headers.get("X-LChat-Token", ""), TOKEN):
+                return self._json(403, {"error": "forbidden"})
+            try:
+                req = json.loads(body or b"{}")
+                if self.path.endswith("save"):
+                    self._json(200, history_save(req.get("chat") or {}, req.get("messages") or []))
+                else:
+                    self._json(200, history_delete(str(req.get("id", ""))))
+            except Exception as e:
+                self._json(400, {"error": f"{type(e).__name__}: {e}"})
+            return
+        if self.path == "/api/tool":
+            body = self._body()
+            if not secrets.compare_digest(self.headers.get("X-LChat-Token", ""), TOKEN):
+                return self._json(403, {"text": "forbidden: missing or wrong token (open the URL printed by lchat-web)", "error": True})
+            if not TOOLS_ON:
+                return self._json(403, {"text": "tools disabled on non-loopback bind", "error": True})
+            try:
+                req = json.loads(body or b"{}")
+            except ValueError:
+                return self._json(400, {"text": "bad json", "error": True})
+            self._json(200, run_tool(req.get("name"), req.get("args") or {}, req.get("session"), self._alive, req.get("chat")))
+        elif self.path in PROXY_PATHS:
+            self._proxy("POST")
+        else:
+            self._json(404, {"error": {"message": "not found"}})
+
+
+class S(socketserver.ThreadingMixIn, http.server.HTTPServer):
+    daemon_threads = True
+    allow_reuse_address = True
+
+
+if __name__ == "__main__":
+    url = f"http://{'127.0.0.1' if LOOPBACK else a.host}:{a.port}/#{TOKEN}"
+    os.makedirs(STATE_DIR, mode=0o700, exist_ok=True)
+    # the default instance writes "url"; others "url-<port>" so test instances never clobber it
+    fd = os.open(os.path.join(STATE_DIR, "url" if a.port == 8088 else f"url-{a.port}"),
+                 os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "w") as f:
+        f.write(url + "\n")
+    db_init()
+    threading.Thread(target=embed_worker, daemon=True).start()
+    EMBED_WAKE.set()
+    print(f"history: {DB_PATH}  (embed {a.embed}, rerank {a.rerank})")
+    print(f"lchat-web -> {a.llama}  (tools {'ON' if TOOLS_ON else 'OFF'}, cwd {DEFAULT_CWD})")
+    print(f"open: {url}")
+    try:
+        S((a.host, a.port), H).serve_forever()
+    except KeyboardInterrupt:
+        pass

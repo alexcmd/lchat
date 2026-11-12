@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+"""lchat-run: start/stop the whole lchat stack in the background.
+
+  chat model   (LFM3-VL-2B + vision)   :9931
+  embeddings   (EmbeddingGemma-2)      :9951
+  reranker     (Qwen3-Reranker-0.6B)   :9952
+  lchat-web    (the chat page + tools) :8088
+
+Usage: lchat-run [start|stop|status|restart] [--ctx N] [--port N] [--no-memory]
+
+A service whose port already answers /health is reused, not started twice.
+`stop` stops only what lchat-run started (pid files in ~/.local/state/lchat/run).
+Logs: ~/.local/state/lchat/run/<name>.log. Env: LLAMA (binary), LCHAT_MODELS (model dir).
+"""
+import argparse, os, shutil, signal, subprocess, sys, time, urllib.request
+
+HERE = os.path.dirname(os.path.realpath(__file__))
+STATE = os.path.expanduser("~/.local/state/lchat")
+RUN = os.path.join(STATE, "run")
+
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument("cmd", nargs="?", default="start", choices=["start", "stop", "status", "restart"])
+ap.add_argument("--ctx", type=int, default=int(os.environ.get("LCHAT_CTX", 128000)),
+                help="chat context (LFM3 KV is ~12 KiB/token: 128k ~ 1.5 GB)")
+ap.add_argument("--port", type=int, default=8088, help="lchat-web port")
+ap.add_argument("--no-memory", action="store_true", help="skip the embedding + reranker servers")
+a = ap.parse_args()
+
+
+def tool(name):
+    """Sibling script from this checkout/install, else PATH."""
+    p = os.path.join(HERE, name)
+    return p if os.path.exists(p) else (shutil.which(name) or sys.exit(f"{name} not found"))
+
+
+def model(role):
+    r = subprocess.run([sys.executable, tool("lchat-models"), "path", role], capture_output=True, text=True)
+    if r.returncode:
+        sys.exit(r.stderr.strip() or f"model {role} missing - run: lchat-models download")
+    return r.stdout.strip()
+
+
+def llama():
+    b = os.environ.get("LLAMA")
+    if b:
+        return [b] + (["serve"] if os.path.basename(b) == "llama" else [])
+    if shutil.which("llama"):
+        return ["llama", "serve"]
+    if shutil.which("llama-server"):
+        return ["llama-server"]
+    sys.exit("llama.cpp not found: run ./install.sh --with-llama, or set LLAMA=/path/to/llama-server")
+
+
+def healthy(port, path="/health"):
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}{path}", timeout=2) as r:
+            return r.status == 200
+    except Exception:
+        return False
+
+
+def services():
+    common = ["-np", "1", "-ngl", "99", "--host", "127.0.0.1", "--no-webui"]
+    out = [("chat", 9931, lambda: llama() + ["-m", model("chat"), "--mmproj", model("mmproj"), "--jinja",
+                                            "-c", str(a.ctx), "--port", "9931"] + common, "/health")]
+    if not a.no_memory:
+        out += [("embed", 9951, lambda: llama() + ["-m", model("embed"), "--embedding", "--pooling", "mean",
+                                                  "-c", "8192", "-ub", "8192", "--port", "9951"] + common, "/health"),
+                ("rerank", 9952, lambda: llama() + ["-m", model("rerank"), "--reranking",
+                                                   "-c", "8192", "-ub", "8192", "--port", "9952"] + common, "/health")]
+    out.append(("web", a.port, lambda: [sys.executable, tool("lchat-web"), "--port", str(a.port)], "/"))
+    return out
+
+
+def pidfile(name):
+    return os.path.join(RUN, name + ".pid")
+
+
+def ours(name):
+    try:
+        pid = int(open(pidfile(name)).read())
+        os.kill(pid, 0)
+        return pid
+    except Exception:
+        return None
+
+
+def url():
+    f = os.path.join(STATE, "url" if a.port == 8088 else f"url-{a.port}")
+    try:
+        return open(f).read().strip()
+    except OSError:
+        return None
+
+
+def start():
+    os.makedirs(RUN, exist_ok=True)
+    for name, port, cmd, path in services():
+        if healthy(port, path):
+            print(f"{name:6} :{port} already up" + (" (started by lchat-run)" if ours(name) else ""))
+            continue
+        log = open(os.path.join(RUN, name + ".log"), "ab")
+        p = subprocess.Popen(cmd(), stdout=log, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL,
+                             start_new_session=True)
+        open(pidfile(name), "w").write(str(p.pid))
+        print(f"{name:6} :{port} starting (pid {p.pid}) ", end="", flush=True)
+        for _ in range(300):  # first start may compile Vulkan shaders
+            if healthy(port, path):
+                print("ok")
+                break
+            if p.poll() is not None:
+                print(f"FAILED - see {log.name}")
+                sys.exit(1)
+            time.sleep(1)
+            print(".", end="", flush=True)
+        else:
+            print(f"timed out - see {log.name}")
+            sys.exit(1)
+    print("\nOpen:", url() or "(url not written yet - see ~/.local/state/lchat/run/web.log)")
+
+
+def stop():
+    for name, port, _, _ in reversed(services()):
+        pid = ours(name)
+        if not pid:
+            continue
+        os.killpg(pid, signal.SIGTERM)
+        for _ in range(50):
+            try:
+                os.kill(pid, 0)
+                time.sleep(0.1)
+            except OSError:
+                break
+        else:
+            os.killpg(pid, signal.SIGKILL)
+        os.remove(pidfile(name))
+        print(f"{name:6} :{port} stopped")
+
+
+if a.cmd == "status":
+    for name, port, _, path in services():
+        print(f"{name:6} :{port} {'up' if healthy(port, path) else 'down'}"
+              + (f" (lchat-run pid {ours(name)})" if ours(name) else ""))
+    print("url:", url() or "-")
+elif a.cmd == "stop":
+    stop()
+else:
+    if a.cmd == "restart":
+        stop()
+    start()
