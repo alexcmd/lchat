@@ -1186,7 +1186,7 @@ class Watcher:
                 "--style",
                 "ndjson",
                 "--predicate",
-                "messageType == error OR messageType == fault",
+                "messageType == fault",   # "error" is routine chatter on macOS: about 20 messages a second
             ],
             self._parser_handler("unified-log", parse_macos_ndjson),
         )
@@ -1572,6 +1572,11 @@ class Watcher:
 
     def _decide(self, row, ts, learning, fp):
         """Return the next status for a group after an event at time ts."""
+        if row.get("source") == "unified-log":
+            # macOS logs faults all the time on a healthy machine (thousands of distinct messages an hour):
+            # they are recorded for system_facts and the Issues list, but never raise a notification.
+            # Crash reports and failed launchd services still notify.
+            return "background"
         st = row["status"]
         if st == "new":
             return "new"

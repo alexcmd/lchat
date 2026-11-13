@@ -1,22 +1,23 @@
 # lchat
 
 A small agentic web chat for a local llama.cpp model, with tools that act on your machine.
-It was built on a Steam Deck (SteamOS, KDE, Vulkan) around **LFM3-VL-2B**.
+It was built on a Steam Deck (SteamOS, KDE, Vulkan) around **LFM3-VL-2B** and runs on Linux and macOS (Apple Silicon or Intel, Metal).
 
 - **Chat page**: streaming, multi-turn tool calls, image input, and approval prompts for risky tools.
 - **System-aware prompt**: `lchat-web` detects the OS/distro, kernel, desktop, native and installed package managers, a read-only root (SteamOS), CPU and RAM at start-up; the page puts that `System:` line into the agent prompt so commands fit this machine.
 - **Help-card auto-retrieval**: before each user turn the page looks the message up in the help cards and adds up to 2 cards whose rerank score is at least 0.5 to that turn's system prompt (a 2B model rarely calls `linux_help` by itself). The model can still call `linux_help` for more.
 - **Turn status and saving**: each reply shows its state (running step N / tool, done, stopped, error) and the tab title gets `●` while a turn runs. The chat is saved to History after the user message and after every step, so a turn cut short by a reload or a server restart is kept.
-- **One browser at a time**: `web_search` and `web_fetch` share a lock (the CloakBrowser binary allows one concurrent session); queries run one after another, a failed one is retried once, and the crawler's whole process group is killed after every call so no browser stays open.
+- **No account needed for the web tools**: `web_search` and `web_fetch` run on Camoufox (open-source stealth Firefox) from lchat's own venv `~/.local/share/lchat/venv`. CloakBrowser (stealth Chromium) is used only when its license key is present (`CLOAKBROWSER_LICENSE_KEY` or `~/.cloakbrowser/license.key`); `LCHAT_ENGINE=cloak|fox` forces one.
+- **One browser at a time**: `web_search` and `web_fetch` share a lock (the free CloakBrowser binary allows one concurrent session); queries run one after another, a failed one is retried once, and the crawler's whole process group is killed after every call so no browser stays open.
 - **Loop guard**: within one turn, a tool call identical to an earlier one (bash commands compared after dropping `2>/dev/null`, `| head -N`, `|| echo …`) is not run again; the model gets `ALREADY RAN` with the earlier result. A near-identical call runs with a note. After 3 blocked repeats the turn stops.
 - **Tools**:
   - `bash`, `read_file`, `write_file`
   - `web_search`: Google in English, several queries in parallel, image links
   - `web_fetch`: a stealth browser
   - `download`: images are shown to the model; PDFs and text are extracted
-  - `list_windows`, `window_action`, `screenshot`: KDE/KWin
+  - `list_windows`, `window_action`, `screenshot`: KDE/KWin on Linux; CoreGraphics, System Events and `screencapture` on macOS
   - `recall`: search past chats
-  - `linux_help`: verified step-by-step help cards for Linux tasks, error messages, pipelines and bash scripts
+  - `linux_help`: verified step-by-step help cards for Linux and macOS tasks, error messages, pipelines and bash scripts (the cards for the system lchat runs on are searched by default)
   - `schedule_task`, `list_tasks`, `manage_task`: scheduled tasks (see below)
 - **Memory**: chat history in SQLite, searched with EmbeddingGemma-2 embeddings and reranked by Qwen3-Reranker-0.6B.
 - **Help cards**: 1,685 cards in `cards/` (1,625 from the [`alexcmd/lnxhelp-cards`](https://huggingface.co/datasets/alexcmd/lnxhelp-cards) dataset, 60 complex-scenario cards), indexed with the same embedding and reranker models. See `cards/README.md`.
@@ -25,14 +26,14 @@ It was built on a Steam Deck (SteamOS, KDE, Vulkan) around **LFM3-VL-2B**.
 
 ```sh
 git clone git@github.com:alexcmd/lchat.git && cd lchat
-./install.sh --with-llama     # scripts, Python deps, llama.cpp (Vulkan x64) if missing, models
+./install.sh --with-llama     # scripts, Python deps, llama.cpp if missing, models
 lchat-run                     # starts the 3 model servers + the web chat, prints the URL to open
 ```
 
 `install.sh` options:
 - `--link`: symlink the scripts to this checkout instead of copying them.
 - `--no-models`: skip the model download.
-- `--with-llama`: fetch prebuilt llama.cpp build `$LLAMA_TAG`, default `b12290`.
+- `--with-llama`: install llama.cpp when it is missing. Linux: the prebuilt Vulkan build `$LLAMA_TAG` (default `b12290`, x64 or arm64). macOS: `brew install llama.cpp`, or the prebuilt macOS build when Homebrew is missing.
 - `--verbose`: print each step's output instead of a spinner.
 - `--plain`: no colours or animation. Also used automatically when output is not a terminal or `NO_COLOR` is set.
 
@@ -53,7 +54,7 @@ You can also run everything straight from the checkout: `./bin/lchat-run`.
 | `bin/lchat_sched.py` | The task scheduler and its unattended agent loop (tests: `python3 -m unittest tests.test_sched`). |
 | `bin/lchat` | A minimal terminal chat client, with `/img` to attach an image. |
 | `web/index.html` | The chat page: the agent loop and context trimming. |
-| `vendor/webcrawler/` | The CloakBrowser crawler used by `web_search` and `web_fetch`. A copy at `~/.agents/skills/webcrawler` takes priority when present. |
+| `vendor/webcrawler/` | The Camoufox / CloakBrowser crawler used by `web_search` and `web_fetch`. With CloakBrowser, a copy at `~/.agents/skills/webcrawler` takes priority when present. |
 | `cards/` | The help cards and their schema (see `cards/README.md`). |
 | `tools/check_cards.py` | Card checker: schema, unique ids, `bash -n` of every command and script. |
 | `eval/` | Retrieval-quality tests for `recall`, and `chat_cards.py`, the end-to-end chat test of `linux_help` (see below). |
@@ -107,6 +108,7 @@ Questions that need facts from two different chats are not solved: a single sear
 
 ## Requirements
 
-- Linux x64 and Python 3.10+, plus `curl`.
-- `pdftotext` for PDFs.
-- KDE Plasma (Wayland) for the `spectacle` and `qdbus` window and screenshot tools.
+- Linux (x64 or arm64) or macOS, Python 3.9+ and `curl`. The web tools also need a Python 3.10+ somewhere on the machine (macOS: `brew install python`). The installer runs on the stock macOS bash 3.2.
+- `pdftotext` for PDFs (macOS: `brew install poppler`).
+- Linux: KDE Plasma (Wayland) for the `spectacle` and `qdbus` window and screenshot tools.
+- macOS: the window and screenshot tools need two permissions for the app that starts lchat (Terminal, iTerm, …), in System Settings > Privacy & Security: **Screen Recording** (window titles and screenshots) and **Accessibility** (`window_action`). Task notifications use `osascript`.

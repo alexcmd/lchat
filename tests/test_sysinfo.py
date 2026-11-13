@@ -3,6 +3,7 @@
 import os
 import sys
 import unittest
+from unittest import mock
 from collections import namedtuple
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -143,7 +144,7 @@ class Alerts(unittest.TestCase):
             _disks=lambda: [("/", DU(100 * GiB, 40 * GiB, 60 * GiB))],
             _mem_state=lambda: (0.5, ""),
             _battery=lambda: (80, True),
-        ):
+        ), mock.patch("os.getloadavg", return_value=(0.5, 0.5, 0.5)):   # not the real load of the test machine
             self.assertEqual(NS["sys_alerts"](), "")
 
     def test_df_style_percent(self):

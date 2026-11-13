@@ -99,7 +99,9 @@ SENSITIVE = re.compile(
     r"|\.local/share/keyrings|\.netrc|\.git-credentials|\.npmrc|\.pypirc|\.docker/config\.json"
     r"|\.bash_history|\.zsh_history|\.local/state/lchat|\.config/gh|\.config/gcloud|\.config/rclone"
     r"|\.cargo/credentials(\.toml)?|\.pgpass|\.my\.cnf|\.var/app/[^/]+/config|\.local/share/Steam/config"
-    r"|\.mysql_history|\.psql_history|\.python_history)(/|\Z)|\.env\Z|\.pem\Z|\.key\Z|id_[a-z0-9]+\Z|token|secret|passw"
+    r"|\.mysql_history|\.psql_history|\.python_history"
+    # macOS: keychains, browser profiles (cookies, saved logins), mail and messages
+    r"|Library/(Keychains|Cookies|Safari|Mail|Messages|Accounts|Application Support/(Google/Chrome[^/]*|Chromium|Firefox|BraveSoftware|Microsoft Edge|Arc|1Password|Bitwarden|com\.apple\.TCC)))(/|\Z)|\.env\Z|\.pem\Z|\.key\Z|id_[a-z0-9]+\Z|token|secret|passw"
     r"|auth\.json\Z|/proc/[^/]+/environ",
     re.IGNORECASE,
 )

@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # lchat installer: scripts -> ~/.local/bin, page + webcrawler + help cards -> ~/.local/share/lchat,
-# Python deps (pip --user), optional llama.cpp Vulkan build, then the models, then the help-card index.
+# Python deps (pip --user), optional llama.cpp build, then the models, then the help-card index.
+# Runs on Linux and macOS (bash 3.2 or newer).
 # Re-run it after `git pull` to update: changed cards are re-indexed, removed cards are dropped.
 #
 #   ./install.sh                 install + download models
 #   ./install.sh --link          symlink scripts to this checkout instead of copying (for development)
-#   ./install.sh --with-llama    also install a prebuilt llama.cpp (Vulkan, x64) if `llama` is missing
+#   ./install.sh --with-llama    also install llama.cpp if missing (Linux: prebuilt Vulkan build; macOS: brew or prebuilt)
 #   ./install.sh --no-models     skip the model download (run `lchat-models` later)
 #   ./install.sh --verbose       show every command's output instead of spinners
 #   ./install.sh --plain         no colours or animation (also when NO_COLOR is set or output is not a terminal)
@@ -19,6 +20,7 @@ SHARE="$HOME/.local/share/lchat"
 STATE="$HOME/.local/state/lchat"
 LOG="$STATE/install.log"
 LLAMA_TAG="${LLAMA_TAG:-b12290}"
+OS="$(uname -s)"   # Linux | Darwin
 LINK=0 WITH_LLAMA=0 MODELS=1 VERBOSE=0 PLAIN=0
 for arg in "$@"; do
   case "$arg" in
@@ -27,7 +29,7 @@ for arg in "$@"; do
     --no-models) MODELS=0 ;;
     --verbose|-v) VERBOSE=1 ;;
     --plain) PLAIN=1 ;;
-    -h|--help) sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help) sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown option: $arg (see --help)" >&2; exit 2 ;;
   esac
 done
@@ -55,7 +57,9 @@ CUR_PID=
 
 cols() { local c; c=$(tput cols 2>/dev/null || echo 80); [ "$c" -gt 20 ] 2>/dev/null || c=80; echo "$c"; }
 dur() { local s=$1; if [ "$s" -ge 60 ]; then printf '%dm%02ds' $((s/60)) $((s%60)); else printf '%ds' "$s"; fi; }
-tidy() { local p=$1; printf '%s' "${p/#$HOME/\~}"; }   # show paths under $HOME as ~/...
+tidy() {   # show paths under $HOME as ~/...
+  case "$1" in "$HOME"*) printf '~%s' "${1#"$HOME"}" ;; *) printf '%s' "$1" ;; esac
+}
 log() { printf '%s\n' "$*" >> "$LOG"; }
 
 # Each step runs in a fresh `bash -euo pipefail` (the step functions are exported). Calling a function from
@@ -67,9 +71,12 @@ step_cmd() {
   command -v setsid >/dev/null && STEP=(setsid -w "${STEP[@]}")
   return 0
 }
-stop_step() {
-  kill -TERM -- "-$1" 2>/dev/null || { pkill -TERM -P "$1" 2>/dev/null; kill -TERM "$1" 2>/dev/null; } || true
+kill_tree() {   # a process and everything under it (macOS has no setsid, so a step has no process group of its own)
+  local c
+  for c in $(pgrep -P "$1" 2>/dev/null || true); do kill_tree "$c"; done
+  kill -TERM "$1" 2>/dev/null || true
 }
+stop_step() { kill -TERM -- "-$1" 2>/dev/null || kill_tree "$1"; }
 FAILED=()   # steps that failed without stopping the install; any of them makes the exit code 1
 fail() { echo "    ${BAD} ${RED}$*${R}"; log "FAILED: $*"; FAILED+=("$*"); }
 
@@ -100,12 +107,13 @@ bar() {   # overall progress: done stages out of all
 banner() {
   local ver os
   ver=$(git -C "$REPO" describe --always --dirty 2>/dev/null || echo "?")
-  os=$( . /etc/os-release 2>/dev/null && echo "${PRETTY_NAME:-$NAME}" || uname -s)
+  if [ "$OS" = Darwin ]; then os="macOS $(sw_vers -productVersion 2>/dev/null || true)"
+  else os=$( . /etc/os-release 2>/dev/null && echo "${PRETTY_NAME:-$NAME}" || uname -s); fi
   if [ "$FANCY" = 1 ]; then
     echo
-    echo "  ${MAG}╭──────────────────────────────────────────╮${R}"
-    echo "  ${MAG}│${R}  ${B}lchat${R} installer  ${D}·  local AI for Linux${R}  ${MAG}│${R}"
-    echo "  ${MAG}╰──────────────────────────────────────────╯${R}"
+    echo "  ${MAG}╭────────────────────────────────────────────────────╮${R}"
+    echo "  ${MAG}│${R}  ${B}lchat${R} installer  ${D}·  local AI for Linux and macOS${R}  ${MAG}│${R}"
+    echo "  ${MAG}╰────────────────────────────────────────────────────╯${R}"
   else
     echo "lchat installer"
   fi
@@ -153,7 +161,7 @@ run() {
     w=$(( c - ${#show} - 16 ))
     while kill -0 "$CUR_PID" 2>/dev/null; do
       last=
-      [ "$w" -gt 4 ] && last=$(tail -c 400 "$STEP_OUT" 2>/dev/null | tr '\r' '\n' | sed 's/\x1b\[[0-9;]*[A-Za-z]//g' | grep -v '^[[:space:]]*$' | tail -n1 | cut -c1-"$w" || true)
+      [ "$w" -gt 4 ] && last=$(tail -c 400 "$STEP_OUT" 2>/dev/null | tr '\r' '\n' | sed $'s/\e\\[[0-9;]*[A-Za-z]//g' | grep -v '^[[:space:]]*$' | tail -n1 | cut -c1-"$w" || true)
       printf '\r\e[K    %s%s%s %s %s%s %s%s' "$CYN" "${FRAMES[i % ${#FRAMES[@]}]}" "$R" "$show" "$D" "$(dur $((SECONDS-t)))" "$last" "$R"
       i=$((i+1)); sleep 0.1
     done
@@ -235,12 +243,38 @@ pip_install() {
   python3 -m pip install --user "$@" 2>/dev/null || python3 -m pip install --user --break-system-packages "$@"
 }
 
+llama_asset() {   # release archive for this system: macOS (Metal) arm64/x64, Linux Vulkan x64/arm64
+  local arch; arch=$(uname -m)
+  case "$arch" in x86_64|amd64) arch=x64 ;; arm64|aarch64) arch=arm64 ;; *) echo "no prebuilt llama.cpp for $arch" >&2; return 1 ;; esac
+  if [ "$(uname -s)" = Darwin ]; then echo "macos-$arch"; else echo "ubuntu-vulkan-$arch"; fi
+}
+
+# Camoufox (open-source stealth Firefox) for web_search / web_fetch, used when there is no CloakBrowser license key.
+# It needs Python 3.10+, so it gets its own venv: the system python3 may be older (macOS ships 3.9).
+fox_python() {
+  local p
+  for p in python3 python3.13 python3.12 python3.11 python3.10 python3.14 /opt/homebrew/bin/python3 /usr/local/bin/python3; do
+    command -v "$p" >/dev/null 2>&1 && "$p" -c 'import sys; sys.exit(not (3, 10) <= sys.version_info[:2])' 2>/dev/null \
+      && { command -v "$p"; return 0; }
+  done
+  return 1
+}
+fox_venv() {   # fox_venv /path/to/python3.1x
+  [ -x "$SHARE/venv/bin/python" ] || "$1" -m venv "$SHARE/venv"
+  "$SHARE/venv/bin/python" -m pip install --quiet --upgrade camoufox httpx
+}
+fox_browser() { "$SHARE/venv/bin/python" -m camoufox fetch; }
+
 fetch_llama() {
-  local dir="$HOME/.local/share/llama.cpp" tmp src
+  local dir="$HOME/.local/share/llama.cpp" tmp src asset
+  if [ "$(uname -s)" = Darwin ] && command -v brew >/dev/null; then
+    brew install llama.cpp; return
+  fi
+  asset=$(llama_asset)
   mkdir -p "$dir"
   tmp="$(mktemp -d)"
   curl -fL --progress-bar -o "$tmp/llama.tgz" \
-    "https://github.com/ggml-org/llama.cpp/releases/download/$LLAMA_TAG/llama-$LLAMA_TAG-bin-ubuntu-vulkan-x64.tar.gz"
+    "https://github.com/ggml-org/llama.cpp/releases/download/$LLAMA_TAG/llama-$LLAMA_TAG-bin-$asset.tar.gz"
   mkdir -p "$tmp/x" && tar -xzf "$tmp/llama.tgz" -C "$tmp/x"
   src="$(find "$tmp/x" -name llama-server -type f | head -1)"
   [ -n "$src" ] || { echo "llama-server not found in the $LLAMA_TAG archive" >&2; rm -rf "$tmp"; return 1; }
@@ -277,38 +311,44 @@ index_cards() { LCHAT_CARDS="$SHARE/cards" python3 "$BIN/lchat-cards" sync; }
 
 # =================================================================== main =====
 export REPO BIN SHARE LINK LLAMA_TAG
-export -f copy_scripts copy_cards ensure_pip pip_install fetch_llama shot_helper index_cards
+export -f copy_scripts copy_cards ensure_pip pip_install llama_asset fetch_llama shot_helper index_cards fox_venv fox_browser
 mkdir -p "$STATE"
 { echo "lchat install $(date '+%Y-%m-%dT%H:%M:%S%z')  args: $*"; echo "repo $REPO"; } > "$LOG"
 banner
 
 stage "${STAGES[0]}"
-command -v python3 >/dev/null || { echo "    ${BAD} python3 not found - install Python 3.10+ first"; exit 1; }
+command -v python3 >/dev/null || { echo "    ${BAD} python3 not found - install Python 3.9+ first"; exit 1; }
 PYV=$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])')
-if python3 -c 'import sys; sys.exit(sys.version_info < (3, 10))'; then ok "python $PYV"; else warn "python $PYV is old - 3.10+ is tested"; fi
+if python3 -c 'import sys; sys.exit(sys.version_info < (3, 9))'; then ok "python $PYV"; else warn "python $PYV is old - 3.9+ is needed"; fi
 command -v curl >/dev/null && ok "curl" || warn "curl not found - downloads (models, llama.cpp, pip bootstrap) will fail"
 FREE_KB=$(df -Pk "$HOME" | awk 'NR==2 {print $4}')
 FREE_GB=$(( FREE_KB / 1024 / 1024 ))
 NEED=1; [ "$MODELS" = 1 ] && NEED=8
 if [ "$FREE_GB" -lt "$NEED" ]; then warn "only ${FREE_GB} GiB free in $HOME (want ~${NEED} GiB)"; else ok "${FREE_GB} GiB free in $(tidy "$HOME")/"; fi
 GPU=$(command -v vulkaninfo >/dev/null && timeout 5 vulkaninfo --summary 2>/dev/null | awk -F= '/deviceName/ {gsub(/^ +/, "", $2); print $2; exit}' || true)
+[ -z "$GPU" ] && [ "$OS" = Darwin ] && GPU="$(sysctl -n machdep.cpu.brand_string 2>/dev/null || true) (Metal)"
 [ -n "$GPU" ] && info "GPU: $GPU"
 stage_done
 
 stage "${STAGES[1]}"
 run "scripts -> $(tidy "$BIN")" copy_scripts
-info "$(wc -l < "$STEP_OUT") files, page + webcrawler -> $(tidy "$SHARE")"
+info "$(( $(wc -l < "$STEP_OUT") )) files, page + webcrawler -> $(tidy "$SHARE")"
 case ":$PATH:" in *":$BIN:"*) ;; *) info "$(tidy "$BIN") is not on PATH - add it to your shell profile";; esac
 stage_done
 
 stage "${STAGES[2]}"
 run "cards -> $(tidy "$SHARE/cards")" copy_cards
-info "$(find "$SHARE/cards/" -name '*.json' ! -name card.schema.json | wc -l) cards"
+info "$(( $(find "$SHARE/cards/" -name '*.json' ! -name card.schema.json | wc -l) )) cards"
 stage_done
 
 stage "${STAGES[3]}"
 PKGS=() HAVE=()
-for m in numpy:numpy PIL:pillow httpx:httpx cloakbrowser:cloakbrowser; do
+# browser engine for web_search / web_fetch: CloakBrowser when its license key is there, else Camoufox (no account)
+ENGINE=fox
+{ [ -n "${CLOAKBROWSER_LICENSE_KEY:-}" ] || [ -f "$HOME/.cloakbrowser/license.key" ] || [ "${LCHAT_ENGINE:-}" = cloak ]; } && ENGINE=cloak
+MODS="numpy:numpy PIL:pillow httpx:httpx"
+[ "$ENGINE" = cloak ] && MODS="$MODS cloakbrowser:cloakbrowser"
+for m in $MODS; do
   if python3 -c "import ${m%%:*}" 2>/dev/null; then HAVE+=("${m#*:}"); else PKGS+=("${m#*:}"); fi
 done
 [ ${#HAVE[@]} -gt 0 ] && ok "present: ${HAVE[*]}"
@@ -316,26 +356,44 @@ if [ ${#PKGS[@]} -gt 0 ]; then
   if run "pip" ensure_pip && run "pip install ${PKGS[*]}" pip_install "${PKGS[@]}"; then :; else
     fail "pip install ${PKGS[*]} - web_search/history need them"; fi
 fi
+if [ "$ENGINE" = cloak ]; then
+  info "web tools: CloakBrowser (license key found)"
+elif FOXPY=$(fox_python); then
+  if run "Camoufox venv ($("$FOXPY" -c 'import sys; print("python %d.%d" % sys.version_info[:2])'))" fox_venv "$FOXPY" \
+     && run "Camoufox browser (first time: a large download)" fox_browser; then
+    info "web tools: Camoufox (open source, no account) in $(tidy "$SHARE/venv")"
+  else
+    fail "Camoufox setup - web_search/web_fetch will not work"
+  fi
+else
+  warn "web_search/web_fetch need Python 3.10+ for Camoufox (macOS: brew install python) - none found"
+fi
 stage_done
 
 stage "${STAGES[4]}"
 if command -v llama >/dev/null || command -v llama-server >/dev/null; then
   ok "found $(command -v llama || command -v llama-server)"
 elif [ "$WITH_LLAMA" = 1 ]; then
-  live "llama.cpp $LLAMA_TAG (Vulkan x64)" fetch_llama || fail "llama.cpp download - rerun with --with-llama"
+  live "llama.cpp ($([ "$OS" = Darwin ] && command -v brew >/dev/null && echo "brew install llama.cpp" || echo "$LLAMA_TAG $(llama_asset 2>/dev/null || uname -m)"))" fetch_llama || fail "llama.cpp download - rerun with --with-llama"
 else
   warn "llama.cpp not found - rerun with --with-llama, or set LLAMA=/path/to/llama-server"
 fi
 stage_done
 
 stage "${STAGES[5]}"
-if command -v kbuildsycoca6 >/dev/null && command -v spectacle >/dev/null; then
-  run "KWin ScreenShot2 helper" shot_helper || fail "window capture helper - lchat will focus windows to capture them"
-else
-  skip "not KDE Plasma 6 with spectacle"
-fi
 MISSING=()
-for t in pdftotext spectacle qdbus; do command -v "$t" >/dev/null || MISSING+=("$t"); done
+if [ "$OS" = Darwin ]; then
+  skip "not needed on macOS (screencapture + System Events)"
+  info "window tools need Screen Recording and Accessibility for your terminal app (System Settings > Privacy & Security)"
+  command -v pdftotext >/dev/null || MISSING+=("pdftotext (brew install poppler)")
+else
+  if command -v kbuildsycoca6 >/dev/null && command -v spectacle >/dev/null; then
+    run "KWin ScreenShot2 helper" shot_helper || fail "window capture helper - lchat will focus windows to capture them"
+  else
+    skip "not KDE Plasma 6 with spectacle"
+  fi
+  for t in pdftotext spectacle qdbus; do command -v "$t" >/dev/null || MISSING+=("$t"); done
+fi
 [ ${#MISSING[@]} -gt 0 ] && info "not found: ${MISSING[*]} - the tools that use them will report an error"
 stage_done
 
@@ -364,12 +422,12 @@ echo
 if [ ${#FAILED[@]} -gt 0 ]; then
   echo "  ${BAD} ${B}lchat installed, but ${#FAILED[@]} step(s) failed${R} in $(dur $((SECONDS-T0)))"
   for w in "${FAILED[@]}"; do echo "     ${RED}•${R} $w"; done
-  for w in "${WARNINGS[@]}"; do echo "     ${YEL}•${R} $w"; done
+  for w in ${WARNINGS[@]+"${WARNINGS[@]}"}; do echo "     ${YEL}•${R} $w"; done
 elif [ ${#WARNINGS[@]} -eq 0 ]; then
   echo "  ${OK} ${B}lchat installed${R} in $(dur $((SECONDS-T0)))"
 else
   echo "  ${WRN} ${B}lchat installed with ${#WARNINGS[@]} warning(s)${R} in $(dur $((SECONDS-T0)))"
-  for w in "${WARNINGS[@]}"; do echo "     ${YEL}•${R} $w"; done
+  for w in ${WARNINGS[@]+"${WARNINGS[@]}"}; do echo "     ${YEL}•${R} $w"; done
 fi
 echo
 echo "  ${B}next${R}"

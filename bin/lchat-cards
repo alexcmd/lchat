@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""lchat-cards: the Linux help-card knowledge base behind the `linux_help` tool.
+"""lchat-cards: the Linux/macOS help-card knowledge base behind the `linux_help` tool.
 
 Usage: lchat-cards sync   [--cards DIR]    load the cards folder into the vector store (new/changed cards get re-embedded)
        lchat-cards status                  cards, vectors, installed version
@@ -23,7 +23,8 @@ CARDS_CANDIDATES = [os.environ.get("LCHAT_CARDS", ""), os.path.join(_HERE, "..",
 EMBED_URL = os.environ.get("LCHAT_EMBED", "http://127.0.0.1:9951")
 RERANK_URL = os.environ.get("LCHAT_RERANK", "http://127.0.0.1:9952")
 LOCK = threading.Lock()
-HOST_PLATFORMS = ("linux", "posix")   # the machine lchat runs on; macOS cards only when asked for
+HOST = "macos" if sys.platform == "darwin" else "linux"   # the machine lchat runs on
+HOST_PLATFORMS = (HOST, "posix")      # the other system's cards only when asked for
 
 
 def cards_dir():
@@ -190,7 +191,7 @@ def search(query, k=3, platform=None, pool=24, embed_url=None, rerank_url=None):
     """Top cards for a query: (cards, scores, how). Literal error-pattern hits first, then embeddings pick `pool`
     candidates and the reranker orders them; keyword fallback when the embedding server is down."""
     import numpy as np
-    plats = HOST_PLATFORMS if platform in (None, "", "linux") else (("macos", "posix") if platform == "macos" else None)
+    plats = HOST_PLATFORMS if not platform else ((platform, "posix") if platform in ("linux", "macos") else None)
     ok = (lambda p: True) if plats is None else (lambda p: p in plats)
     with LOCK, db() as con:
         rows = {cid: (p, t, x, j) for cid, p, t, x, j in
@@ -206,7 +207,8 @@ def search(query, k=3, platform=None, pool=24, embed_url=None, rerank_url=None):
             ids, plat, M = _matrix(con)
             if M is None:
                 raise RuntimeError("no vectors yet")
-            sims = M @ (qv / (np.linalg.norm(qv) + 1e-9))
+            with np.errstate(all="ignore"):   # numpy on Apple's Accelerate warns about overflow here; the result is finite
+                sims = M @ (qv / (np.linalg.norm(qv) + 1e-9))
             cand = [ids[i] for i in np.argsort(-sims) if ok(plat[i])][:pool]
         except Exception:
             how = "keywords (embedding server unreachable or cards not embedded yet)"
@@ -273,7 +275,7 @@ def main(argv):
     ap.add_argument("query", nargs="*")
     ap.add_argument("--cards", help="cards folder (default: cards/ of the checkout, or ~/.local/share/lchat/cards)")
     ap.add_argument("-k", type=int, default=3)
-    ap.add_argument("--platform", default=None, help="linux (default: linux + posix), macos, or any")
+    ap.add_argument("--platform", default=None, help="linux, macos or any (default: this machine's system + posix)")
     a = ap.parse_args(argv)
     if a.cmd == "sync":
         r = sync(a.cards)

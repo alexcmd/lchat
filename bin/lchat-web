@@ -20,7 +20,10 @@ Security model
 - Tools run only on a loopback bind unless --allow-remote-tools is given.
 """
 import argparse, base64, http.server, io, json, os, re, secrets, select, signal, socket
-import socketserver, stat, subprocess, tempfile, threading, time, urllib.error, urllib.parse, urllib.request
+import socketserver, stat, subprocess, sys, tempfile, threading, time, urllib.error, urllib.parse, urllib.request
+
+MACOS = sys.platform == "darwin"
+HOST_OS = "macOS" if MACOS else "Linux"
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--llama", default=os.environ.get("LCHAT_URL", "http://127.0.0.1:9931"))
@@ -49,9 +52,18 @@ def _first(env, *paths):
 
 # works from a repo checkout (bin/ + web/ + vendor/) and from an install (~/.local/...)
 HTML = _first("LCHAT_HTML", os.path.join(_HERE, "..", "web", "index.html"), "~/.local/share/lchat/index.html")
-WEBCRAWLER = _first("LCHAT_WEBCRAWLER", "~/.agents/skills/webcrawler/webcrawler.py",
-                    os.path.join(_HERE, "..", "vendor", "webcrawler", "webcrawler.py"),
-                    "~/.local/share/lchat/webcrawler/webcrawler.py")
+# Browser engine for web_search / web_fetch. CloakBrowser (stealth Chromium) needs a license key tied to an e-mail
+# address; without one lchat uses Camoufox (open-source stealth Firefox, no account), which install.sh puts in its
+# own venv because it needs Python 3.10+. LCHAT_ENGINE=cloak|fox and LCHAT_CRAWLER_PYTHON override the choice.
+_FOX_PY = os.path.expanduser("~/.local/share/lchat/venv/bin/python")
+_CLOAK_KEY = bool(os.environ.get("CLOAKBROWSER_LICENSE_KEY")) or os.path.exists(os.path.expanduser("~/.cloakbrowser/license.key"))
+CRAWLER_ENGINE = os.environ.get("LCHAT_ENGINE") or ("fox" if os.path.exists(_FOX_PY) and not _CLOAK_KEY else "cloak")
+CRAWLER_PY = os.environ.get("LCHAT_CRAWLER_PYTHON") or (_FOX_PY if CRAWLER_ENGINE == "fox" and os.path.exists(_FOX_PY)
+                                                        else sys.executable)
+WEBCRAWLER = _first("LCHAT_WEBCRAWLER",   # the skill copy may predate the Camoufox fixes: lchat's own copy for fox
+                    *((["~/.agents/skills/webcrawler/webcrawler.py"] if CRAWLER_ENGINE != "fox" else [])
+                      + [os.path.join(_HERE, "..", "vendor", "webcrawler", "webcrawler.py"),
+                         "~/.local/share/lchat/webcrawler/webcrawler.py"]))
 STATE_DIR = os.path.expanduser("~/.local/state/lchat")
 TOKEN = secrets.token_urlsafe(24) if a.token else ""   # "" = no token check
 LOOPBACK = a.host in ("127.0.0.1", "localhost", "::1")
@@ -79,7 +91,7 @@ def P(desc, **props):
 
 # name -> (description, parameters, needs_approval)
 TOOLS = {
-    "bash": ("Run a bash command on the user's Linux machine (details in the System line of your instructions). "
+    "bash": (f"Run a bash command on the user's {HOST_OS} machine (details in the System line of your instructions). "
              "Working directory persists between calls. Use for files, processes, packages, system "
              "info. To launch a GUI app, run it in the background ('app &'); it keeps running. "
              "Returns stdout+stderr and exit code.",
@@ -124,14 +136,14 @@ TOOLS = {
                P("", query={"type": "string", "description": "what to look for, in natural language"},
                  k={"type": "integer", "description": "results, default 6, max 15", "optional": True}),
                False),
-    "linux_help": ("Search the Linux help cards: verified step-by-step recipes for Linux/macOS tasks and error "
+    "linux_help": ("Search the help cards: verified step-by-step recipes for Linux/macOS tasks and error "
                    "messages (Arch Wiki, tldr-pages, Fedora docs), with the exact commands, what they print, risks "
                    "and warnings. Call it FIRST for any shell/command-line/system question or error message, before "
                    "writing commands yourself or searching the web. Pass the task or the literal error text.",
                    P("", query={"type": "string", "description": "the task in plain words, or the literal error message"},
                      k={"type": "integer", "description": "cards, default 3, max 6", "optional": True},
                      platform={"type": "string", "enum": ["linux", "macos", "any"],
-                               "description": "default linux (this machine)", "optional": True}),
+                               "description": f"default {HOST_OS.lower()} (this machine)", "optional": True}),
                    False),
     "system_facts": ("Read-only facts about this machine's CURRENT state, no approval needed. Call it FIRST when the "
                      "user asks why the machine is slow, about free disk or memory, battery, network/IP/Wi-Fi/DNS, VPN, "
@@ -150,10 +162,9 @@ TOOLS = {
 }
 
 
-import platform as _platform, shutil as _shutil, glob as _glob, sys
+import platform as _platform, shutil as _shutil, glob as _glob
 from concurrent.futures import ThreadPoolExecutor as _Pool
 
-MACOS = sys.platform == "darwin"
 # native package manager per os-release family (ID, then ID_LIKE)
 _PKG_BY_FAMILY = [("arch", "pacman"), ("debian", "apt"), ("ubuntu", "apt"), ("fedora", "dnf"), ("rhel", "dnf"),
                   ("suse", "zypper"), ("opensuse", "zypper"), ("alpine", "apk"), ("gentoo", "emerge"),
@@ -248,6 +259,9 @@ def _linux_hw():
 
 
 def _vpn_ifaces():
+    if MACOS:   # utun0-3 are the system's own (iCloud Private Relay, Continuity): they are up on every Mac
+        return sorted(n for n in _cmd(["ifconfig", "-lu"]).split()
+                      if re.match(r"(ipsec|ppp|tun|tap|wg)", n) or (re.match(r"utun\d+$", n) and int(n[4:]) > 3))
     return sorted(n for n in os.listdir("/sys/class/net")
                   if re.match(r"(wg|tun|tap|tailscale|ppp|proton|nordlynx|mullvad|utun|ipsec|zt)", n)) \
         if os.path.isdir("/sys/class/net") else []
@@ -676,7 +690,7 @@ _FACTS = {   # topic -> [(title, linux pipeline, macOS pipeline)]; '' = not on t
             ("displays", "for c in /sys/class/drm/card*-*; do [ \"$(cat $c/status 2>/dev/null)\" = connected ] && "
              "echo \"$(basename $c) $(head -1 $c/modes 2>/dev/null)\"; done", "")],
     "errors": [("failed services", "systemctl --failed --no-legend --plain 2>/dev/null; systemctl --user --failed "
-                "--no-legend --plain 2>/dev/null", "launchctl list | awk '$2 != 0 && $2 != \"-\"' | head -15"),
+                "--no-legend --plain 2>/dev/null", "launchctl list | awk 'NR > 1 && $2 != 0 && $2 != \"-\"' | head -15"),
                ("recent errors (this boot)", "journalctl -p err -b -n 15 --no-pager -o short 2>/dev/null",
                 "log show --last 5m --style compact --predicate 'messageType == error' 2>/dev/null | tail -15")],
 }
@@ -828,7 +842,7 @@ def t_write_file(path, content, *, sess, alive):
     return {"text": f"wrote {len(content)} chars to {p}"}
 
 
-CRAWLER_LOCK = threading.Lock()   # one stealth browser at a time: the CloakBrowser binary allows a single
+CRAWLER_LOCK = threading.Lock()   # one stealth browser at a time: the free CloakBrowser binary allows a single
                                   # concurrent session, and a second one fails (Playwright wait_for_url timeout)
 
 
@@ -845,7 +859,8 @@ def _crawler(args, timeout, alive):
     with CRAWLER_LOCK, tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
         if not alive():
             raise Cancelled()
-        p = subprocess.Popen(["python3", WEBCRAWLER] + args, stdout=out, stderr=err,
+        p = subprocess.Popen([CRAWLER_PY, WEBCRAWLER, args[0], "--engine", CRAWLER_ENGINE] + args[1:], stdout=out,
+                             stderr=err,
                              stdin=subprocess.DEVNULL, start_new_session=True,
                              env={**os.environ, "CLOAKBROWSER_SUPPRESS_FONT_WARNING": "1",
                                   "CLOAKBROWSER_AUTO_UPDATE": "false"})
@@ -941,7 +956,105 @@ def _kwin():
     return runner, kwin
 
 
+# macOS: windows come from CoreGraphics (JXA, no extra packages); actions go through System Events.
+# Window titles and screenshots need the Screen Recording permission, actions need Accessibility - both for the
+# app that started lchat (Terminal, iTerm, ...): System Settings > Privacy & Security.
+_MAC_WINDOWS_JXA = """ObjC.import("CoreGraphics");
+function grab(opt) { return ObjC.deepUnwrap(ObjC.castRefToObject($.CGWindowListCopyWindowInfo(opt | $.kCGWindowListExcludeDesktopElements, 0))) || []; }
+var seen = {}, out = [];
+grab($.kCGWindowListOptionOnScreenOnly).concat(grab($.kCGWindowListOptionAll)).forEach(function (w) {
+  if (w.kCGWindowLayer !== 0 || seen[w.kCGWindowNumber]) return;
+  seen[w.kCGWindowNumber] = 1; out.push(w);
+});
+var access = true; try { access = !!$.CGPreflightScreenCaptureAccess(); } catch (e) {}
+JSON.stringify({access: access, windows: out});"""
+_MAC_ACTION_SCRIPT = """on run argv
+  set thePid to (item 1 of argv) as integer
+  set theTitle to item 2 of argv
+  set act to item 3 of argv
+  set wantPos to {(item 4 of argv) as integer, (item 5 of argv) as integer}
+  set wantSize to {(item 6 of argv) as integer, (item 7 of argv) as integer}
+  tell application "System Events"
+    set p to first process whose unix id is thePid
+    -- the exact window only: same title, or (title unknown or shared) same position and size; never "the first one"
+    set ws to {}
+    if theTitle is not "" then set ws to (windows of p whose name is theTitle)
+    if (count of ws) is not 1 then
+      set byFrame to {}
+      repeat with c in (windows of p)
+        if (position of c) is equal to wantPos and (size of c) is equal to wantSize then set end of byFrame to contents of c
+      end repeat
+      if (count of byFrame) is 1 or (count of ws) is 0 then set ws to byFrame
+    end if
+    if (count of ws) is 0 and theTitle is "" and (count of windows of p) is 1 then set ws to windows of p
+    if (count of ws) is 0 then error "the window was not found (it changed or closed): run list_windows again"
+    if (count of ws) > 1 then error "several windows of this app look the same: cannot tell which one is meant"
+    set w to item 1 of ws
+    if act is "activate" then
+      if value of attribute "AXMinimized" of w then set value of attribute "AXMinimized" of w to false
+      set frontmost of p to true
+      perform action "AXRaise" of w
+    else if act is "minimize" then
+      set value of attribute "AXMinimized" of w to true
+    else if act is "fullscreen" then
+      set value of attribute "AXFullScreen" of w to true
+    else if act is "maximize" then
+      set position of w to {0, 25}
+      set size of w to {(item 8 of argv) as integer, ((item 9 of argv) as integer) - 25}
+    else if act is "close" then
+      click (first button of w whose subrole is "AXCloseButton")
+    end if
+  end tell
+end run"""
+_MAC_SCREEN_HINT = ("grant Screen Recording to the app that started lchat (Terminal, iTerm, ...) in System Settings > "
+                    "Privacy & Security, then restart lchat")
+_MAC_AX_HINT = ("grant Accessibility to the app that started lchat (Terminal, iTerm, ...) in System Settings > "
+                "Privacy & Security")
+_MAC_ACCESS = [True]   # False when the last window listing ran without the Screen Recording permission
+
+
+def _mac_windows():
+    r = subprocess.run(["osascript", "-l", "JavaScript", "-e", _MAC_WINDOWS_JXA], capture_output=True, text=True,
+                       timeout=15)
+    if r.returncode:
+        raise RuntimeError("cannot list windows: " + r.stderr.strip()[-300:])
+    d = json.loads(r.stdout)
+    _MAC_ACCESS[0] = bool(d.get("access", True))
+    out = []
+    for w in d["windows"]:
+        b = w.get("kCGWindowBounds") or {}
+        on, title, app = bool(w.get("kCGWindowIsOnscreen")), w.get("kCGWindowName") or "", w.get("kCGWindowOwnerName") or ""
+        wd, ht = int(b.get("Width", 0)), int(b.get("Height", 0))
+        # helper surfaces (tooltips, status items, off-screen buffers) are small, transparent or nameless
+        if wd < 80 or ht < 60 or not w.get("kCGWindowAlpha", 1) or (not on and not title) or not app:
+            continue
+        out.append({"id": str(w["kCGWindowNumber"]), "title": title or app, "app": app, "x": int(b.get("X", 0)),
+                    "y": int(b.get("Y", 0)), "w": wd, "h": ht, "minimized": not on, "pid": w.get("kCGWindowOwnerPID"),
+                    "named": bool(title)})
+    return out
+
+
+def _mac_screen_size():
+    """[width, height] of the main display in points, as strings (for the maximize action)."""
+    out = _cmd(["osascript", "-l", "JavaScript", "-e", 'ObjC.import("CoreGraphics"); var b = $.CGDisplayBounds('
+                '$.CGMainDisplayID()); Math.round(b.size.width) + " " + Math.round(b.size.height)'], timeout=10).split()
+    return out if len(out) == 2 and all(x.isdigit() for x in out) else ["1440", "900"]
+
+
+def _mac_window_action(w, action):
+    r = subprocess.run(["osascript", "-e", _MAC_ACTION_SCRIPT, str(w["pid"]), w["title"] if w.get("named") else "",
+                        action, str(w["x"]), str(w["y"]), str(w["w"]), str(w["h"])] + _mac_screen_size(),
+                       capture_output=True, text=True, timeout=20)
+    if r.returncode:
+        err = r.stderr.strip()[-300:]
+        if re.search(r"assistive|not allowed|-1719|-25211|-1743", err):
+            err += " - " + _MAC_AX_HINT
+        raise RuntimeError(f"{action} failed: {err}")
+
+
 def _windows():
+    if MACOS:
+        return _mac_windows()
     runner, kwin = _kwin()
     seen, out = set(), []
     for m in runner.Match(""):
@@ -1019,8 +1132,12 @@ def t_list_windows(*, sess, alive):
     ws = _windows()
     if not ws:
         return {"text": "no windows"}
+    note = ""
+    if MACOS and not _MAC_ACCESS[0]:
+        note = "\n(window titles are hidden: " + _MAC_SCREEN_HINT + ")"
+    state = ", minimized or on another desktop" if MACOS else ", minimized"
     return {"text": "\n".join(f"- {w['title']}  [app {w['app']}, {w['w']}x{w['h']} at {w['x']},{w['y']}"
-                              f"{', minimized' if w['minimized'] else ''}] id={w['id']}" for w in ws)}
+                              f"{state if w['minimized'] else ''}] id={w['id']}" for w in ws) + note}
 
 
 ACTIONS = {"activate": 0, "close": 1, "minimize": 2, "maximize": 3, "fullscreen": 4}
@@ -1030,7 +1147,10 @@ def t_window_action(window, action, *, sess, alive):
     if action not in ACTIONS:
         raise ValueError(f"action must be one of {list(ACTIONS)}")
     w = _find_window(window)
-    _kwin()[0].Run(f"{ACTIONS[action]}_{w['id']}", "")
+    if MACOS:
+        _mac_window_action(w, action)
+    else:
+        _kwin()[0].Run(f"{ACTIONS[action]}_{w['id']}", "")
     return {"text": f"{action}: {w['title']} (id={w['id']})"}
 
 
@@ -1062,9 +1182,33 @@ def _shot_window(win_id, out):
         return False
 
 
+def _mac_screenshot(target):
+    args, label = ["-x", "-t", "png"], "screen"
+    if target.lower() == "active":
+        front = next((w for w in _mac_windows() if not w["minimized"]), None)
+        if not front:
+            raise ValueError("no window is on screen")
+        args, label = args + ["-o", "-l", front["id"]], f"active window '{front['title']}'"
+    elif target.lower() not in ("screen", "full", "desktop", ""):
+        w = _find_window(target)
+        args, label = args + ["-o", "-l", w["id"]], f"window '{w['title']}'"
+    with tempfile.TemporaryDirectory() as td:
+        f = os.path.join(td, "s.png")
+        r = subprocess.run(["screencapture"] + args + [f], capture_output=True, timeout=30)
+        if not os.path.exists(f) or not os.path.getsize(f):
+            raise RuntimeError("screencapture failed: " + (r.stderr.decode(errors="replace").strip()[-300:] or "no image")
+                               + " - " + _MAC_SCREEN_HINT)
+        data = open(f, "rb").read()
+    size, url = _shrink(data)
+    note = "" if _MAC_ACCESS[0] or label == "screen" else f" (if it shows only the desktop: {_MAC_SCREEN_HINT})"
+    return {"text": f"screenshot of {label} ({size[0]}x{size[1]}){note}. " + SHOT_NOTE, "image": url}
+
+
 def t_screenshot(target="screen", *, sess, alive):
     from PIL import Image
     target = (target or "screen").strip()
+    if MACOS:
+        return _mac_screenshot(target)
     with tempfile.TemporaryDirectory() as td:
         f = os.path.join(td, "s.png")
         label, restore = "screen", None
@@ -1140,7 +1284,10 @@ def t_download(url, max_chars=8000, *, sess, alive):
         except Exception as e:
             return {"text": f"saved {path} ({size}) but could not decode it as an image: {e}"}
     if ctype == "application/pdf" or name.lower().endswith(".pdf"):
-        r = subprocess.run(["pdftotext", path, "-"], capture_output=True, timeout=60)
+        if not _find("pdftotext"):
+            return {"text": f"PDF ({size}) saved to {path}; its text cannot be read because pdftotext is missing "
+                            f"(install poppler: {'brew install poppler' if MACOS else 'the poppler / poppler-utils package'})"}
+        r = subprocess.run([_find("pdftotext"), path, "-"], capture_output=True, timeout=60)
         text = re.sub(r"[ \t]+", " ", r.stdout.decode("utf-8", "replace"))
         text = re.sub(r"\n\s*\n+", "\n\n", text).strip()
         return {"text": f"PDF ({size}) saved to {path}\n\n" + (clip(text, mc) if text else "(no extractable text)")}
@@ -1286,7 +1433,8 @@ def recall_search(query, k=6, chat=None, pool=10):
         q = embed([f"task: search result | query: {query}"])[0]
         have = [r for r in rows if r[5]]
         M = np.frombuffer(b"".join(r[5] for r in have), dtype=np.float32).reshape(len(have), -1)
-        sims = M @ q / (np.linalg.norm(M, axis=1) * np.linalg.norm(q) + 1e-9)
+        with np.errstate(all="ignore"):   # numpy on Apple's Accelerate warns about overflow here; the result is finite
+            sims = M @ q / (np.linalg.norm(M, axis=1) * np.linalg.norm(q) + 1e-9)
         cand = [have[i] for i in np.argsort(-sims)[:pool]]
     except Exception:
         how = "keywords (embedding server unreachable)"
@@ -1890,8 +2038,12 @@ def _sched_llm(messages, tools, timeout=180, alive=lambda: True):
 def _sched_notify(title, body):
     if a.port != 8088:          # test instances stay quiet
         return
+    cmd = ["notify-send", "-a", "lchat", "-i", "alarm-symbolic", title, body[:300]]
+    if MACOS:   # title and body travel as arguments, so nothing in them is read as AppleScript
+        cmd = ["osascript", "-e", "on run a", "-e", "display notification (item 2 of a) with title (item 1 of a)",
+               "-e", "end run", title, body[:300]]
     try:
-        subprocess.Popen(["notify-send", "-a", "lchat", "-i", "alarm-symbolic", title, body[:300]],
+        subprocess.Popen(cmd,
                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
     except OSError:
         pass

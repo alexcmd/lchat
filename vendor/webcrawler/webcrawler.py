@@ -556,22 +556,35 @@ def run_cloak(args):
             work(ctx.new_page(), args)
 
 
+def _fox_size(w, h):
+    """Camoufox options for the window size: older releases take a browserforge Screen, newer ones dropped it."""
+    try:
+        from browserforge.fingerprints import Screen
+        return {"screen": Screen(max_width=w, max_height=h)}
+    except ImportError:
+        return {"window": (w, h)}
+
+
+def _fox_headless(headed):
+    """A "headed" Camoufox runs in a virtual display (Xvfb), which exists only on Linux; elsewhere stay headless
+    so no browser window pops up on the user's desktop."""
+    return "virtual" if headed and sys.platform.startswith("linux") else True
+
+
 def run_camoufox(args):
-    from browserforge.fingerprints import Screen
     from camoufox.sync_api import Camoufox
 
     opts = cloak_opts(args)
     opts.pop("args", None)
     w, h = parse_viewport(args.viewport)
-    opts["screen"] = Screen(max_width=w, max_height=h)
+    opts.update(_fox_size(w, h))
     if args.captcha:
         opts["disable_coop"] = True
         opts["i_know_what_im_doing"] = True
     if args.profile:
         opts["persistent_context"] = True
         opts["user_data_dir"] = args.profile
-    headless = "virtual" if args.headed else True
-    with Camoufox(headless=headless, **opts) as ctx:
+    with Camoufox(headless=_fox_headless(args.headed), **opts) as ctx:
         work(ctx.new_page(), args)
 
 
@@ -843,7 +856,20 @@ def search_google(page, args):
         )
     # Keystrokes stop reaching a minimized Chromium window after ~20 characters,
     # so the query is written into the box directly (fill fires the input events).
-    box.click()
+    # EU exit IPs get a cookie-consent dialog over the page: it swallows the click below. Reject, else accept.
+    for sel in ("#W0wltc", "button:has-text('Reject all')", "#L2AGLb", "button:has-text('Accept all')"):
+        try:
+            btn = page.locator(sel).first
+            if btn.is_visible():
+                btn.click(timeout=3000)
+                time.sleep(0.5)
+                break
+        except Exception:
+            continue
+    try:
+        box.click(timeout=3000)
+    except Exception:
+        pass  # something still covers the box: fill() below focuses it without a pointer click
     box.fill(args.query)
     deadline = time.time() + 3
     while box.input_value() != args.query and time.time() < deadline:
@@ -931,15 +957,14 @@ def stealth_page(args, headed=False):
     # while a headed browser gets results, so search always uses this path.
     w, h = parse_viewport(args.viewport)
     if args.engine == "fox":
-        from browserforge.fingerprints import Screen
         from camoufox.sync_api import Camoufox
 
         opts = cloak_opts(args)
         opts.pop("args", None)
-        opts["screen"] = Screen(max_width=w, max_height=h)
+        opts.update(_fox_size(w, h))
         if getattr(args, "lang", None):
             opts["locale"] = _locale(args)
-        with Camoufox(headless="virtual" if headed else True, **opts) as ctx:
+        with Camoufox(headless=_fox_headless(headed), **opts) as ctx:
             yield ctx.new_page()
     else:
         from cloakbrowser import launch
