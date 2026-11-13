@@ -658,7 +658,7 @@ class _Run:
             try:
                 r = self.s.run_tool(
                     "linux_help",
-                    {"query": q, "k": 2, "min_score": 0.5},
+                    {"query": q, "k": "auto", "min_score": "auto"},   # per-model profile in lchat-web
                     self.sid,
                     self.alive,
                     self.chat_id,

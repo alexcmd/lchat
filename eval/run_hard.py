@@ -20,7 +20,7 @@ for f in (DB, DB + "-wal", DB + "-shm"):
 
 src = open(os.path.join(HERE, "..", "bin", "lchat-web")).read()
 sys.argv = ["lchat-web"]
-ns = {"__name__": "lchat_eval", "__file__": "lchat-web"}
+ns = {"__name__": "lchat_eval", "__file__": os.path.join(HERE, "..", "bin", "lchat-web")}
 exec(compile(src, "lchat-web", "exec"), ns)
 ns["DB_PATH"] = DB
 ns["db_init"]()
@@ -114,8 +114,9 @@ def latest_first(hits):
 K = 6
 MODES = {
     "embed": lambda q: [ALL[i] for i in dense(q, K)],
-    "embed+rerank p10 (live)": lambda q: ns["recall_search"](q, K, pool=10)[0],
-    "embed+rerank p40": lambda q: ns["recall_search"](q, K, pool=40)[0],
+    "embed+rerank p10 (no graph)": lambda q: ns["recall_search"](q, K, pool=10, bridge=False)[0],
+    "embed+rerank p10 + graph (live)": lambda q: ns["recall_search"](q, K, pool=10)[0],
+    "embed+rerank p40": lambda q: ns["recall_search"](q, K, pool=40, bridge=False)[0],
     "hybrid+rerank p10": lambda q: hybrid(q, K, 10),
     "hybrid+rerank p20": lambda q: hybrid(q, K, 20),
 }
@@ -129,6 +130,9 @@ def rank_of(hits, chat, needle):
 
 
 results = {}
+_only = os.environ.get("LCHAT_EVAL_MODES")   # comma-separated substrings of mode names, e.g. "p10"
+if _only:
+    MODES = {n: f for n, f in MODES.items() if any(x.strip() in n for x in _only.split(","))}
 for name, fn in MODES.items():
     rows = []
     for q in DS["queries"]:
@@ -138,7 +142,8 @@ for name, fn in MODES.items():
             "type": q["type"],
             "lang": q["lang"],
             "secs": time.time() - t,
-            "rank": rank_of(hits, q["chat"], q["needle"]),
+            # single-chat questions: only the K plain hits count (linked rows come after them)
+            "rank": rank_of(hits if q["type"] == "two-fact" else hits[:K], q["chat"], q["needle"]),
         }
         if q["type"] == "two-fact":
             r["rank2"] = rank_of(hits, q["chat2"], q["needle2"])
@@ -149,13 +154,13 @@ for name, fn in MODES.items():
                 if h[1] in {cid(s) for s in q["stale"]}
             ]
             r["stale_above"] = bool(r["rank"] and stale and min(stale) < r["rank"])
-            r["rank_recency"] = rank_of(latest_first(hits), q["chat"], q["needle"])
+            r["rank_recency"] = rank_of(latest_first(hits[:K]), q["chat"], q["needle"])
         rows.append(r)
     results[name] = rows
     print(f"mode {name} done", flush=True)
 
 print(
-    f"\n{'mode':24} | detail R@1 R@6 | history R@1 R@6 | latest R@1 R@6 stale>new | two-fact both@6 | ms"
+    f"\n{'mode':24} | detail R@1 R@6 | history R@1 R@6 | latest R@1 R@6 stale>new | two-fact both@6(+2 linked) | ms"
 )
 for name, rows in results.items():
 
