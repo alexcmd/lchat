@@ -167,6 +167,17 @@ CREATE TRIGGER IF NOT EXISTS chunks_graph_au AFTER UPDATE OF text, chat_id ON ch
     DELETE FROM ents WHERE chunk_id=old.id; INSERT OR IGNORE INTO ents_pending VALUES(new.id); END;
 """
 MAX_SEED_ENTS = 48   # strongest seed entities used per expansion (bounds the SQL and the noise)
+LIST_FREE = 3        # a chunk naming up to this many entities of one kind is specific; beyond that it is a list
+
+
+def list_weights(ents) -> dict[str, float]:
+    """Per-entity weight for one chunk: 1.0, or LIST_FREE / n when the chunk names n > LIST_FREE entities of
+    that kind. A port audit (`ss -tlnp`, "what is listening") names many ports, so each port says little about
+    what the chunk is about; a chunk that names one port is about that port. Lowers, never drops."""
+    kinds: dict[str, int] = defaultdict(int)
+    for e in ents:
+        kinds[e.partition(":")[0]] += 1
+    return {e: min(1.0, LIST_FREE / kinds[e.partition(":")[0]]) for e in ents}
 
 
 def init(con) -> int:
@@ -214,15 +225,20 @@ def chunk_entities(con, chunk_ids) -> dict[int, set[str]]:
 
 def turn_entities(con, seeds, window: int = 2) -> dict[int, dict[str, float]]:
     """Entities around each seed chunk: its own (weight 1) and those of the chat's messages within `window`
-    places of it (weight 0.7). A hit is often a bare tool result whose subject (the port, the host) is named in
+    places of it (weight 0.7), each times its list_weights() in its chunk. A hit is often a bare tool result whose subject (the port, the host) is named in
     the user or assistant message next to it. seeds: [(chunk_id, chat_id, seq)]."""
     out: dict[int, dict[str, float]] = {}
     for cid, chat, seq in seeds:
-        d: dict[str, float] = {}
+        per_chunk: dict[int, set[str]] = defaultdict(set)
         for k, e in con.execute(
             "SELECT k.id, e.ent FROM chunks k JOIN ents e ON e.chunk_id=k.id AND e.chat_id=k.chat_id "
             "WHERE k.chat_id=? AND k.seq BETWEEN ? AND ?", (chat, seq - window, seq + window)):
-            d[e] = max(d.get(e, 0.0), 1.0 if k == cid else 0.7)
+            per_chunk[k].add(e)
+        d: dict[str, float] = {}
+        for k, es in per_chunk.items():   # an entity from a list-like chunk (a port audit) seeds weakly
+            lw = list_weights(es)
+            for e in es:
+                d[e] = max(d.get(e, 0.0), (1.0 if k == cid else 0.7) * lw[e])
         out[cid] = d
     return out
 
@@ -239,7 +255,8 @@ def bridge_candidates(
 
     seed_ents: entity -> weight (how much the seed that holds it matters).
     An entity that occurs in more than max_df chats is too common to link anything and is skipped
-    (default: max(3, 5% of all chats), capped at 12). Score = sum over shared entities of weight * idf.
+    (default: max(3, 5% of all chats), capped at 12). Score = sum over shared entities of weight * idf, times the
+    candidate's list weight (list_weights) for the shared entities, so a chunk that lists many ports ranks lower.
     Returns [(chunk_id, score, [shared entities])], best first, at most `limit`, one chunk per (chat, entity set).
     """
     if not seed_ents:
@@ -271,6 +288,15 @@ def bridge_candidates(
         score[cid] += seed_ents[e] * math.log(1 + n_chats / df[e])
         shared[cid].append(e)
         chat_of[cid] = chat
+    if score:   # a list-like candidate (a port audit) shares many entities by chance: score it down
+        cands = list(score)
+        q = ",".join("?" * len(cands))
+        cents: dict[int, set[str]] = defaultdict(set)
+        for cid, e in con.execute(f"SELECT chunk_id, ent FROM ents WHERE chunk_id IN ({q})", cands):
+            cents[cid].add(e)
+        for cid in cands:
+            lw = list_weights(cents[cid])
+            score[cid] *= min((lw.get(e, 1.0) for e in shared[cid]), default=1.0)
     best, seen = [], set()
     for cid in sorted(
         score, key=lambda c: (-score[c], -c)

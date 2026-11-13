@@ -384,6 +384,45 @@ if __name__ == "__main__":
     unittest.main()
 
 
+class ListWeightTest(unittest.TestCase):
+    """A chunk that lists many entities of one kind (a port audit) links weakly; a specific chunk links fully."""
+
+    def test_few_entities_full_weight(self):
+        w = G.list_weights({"port:7777", "port:8888", "unit:a.service"})
+        self.assertEqual(set(w.values()), {1.0})
+
+    def test_many_ports_are_down_weighted_per_kind(self):
+        ents = {f"port:{p}" for p in range(9001, 9013)} | {"unit:a.service"}
+        w = G.list_weights(ents)
+        self.assertAlmostEqual(w["port:9001"], G.LIST_FREE / 12)
+        self.assertEqual(w["unit:a.service"], 1.0)
+
+    def test_empty(self):
+        self.assertEqual(G.list_weights(set()), {})
+
+    def test_specific_chunk_beats_audit_chunk(self):
+        con = _open_db()
+        G.init(con)
+        for i, t in enumerate(UNRELATED):
+            _chunk(con, 100 + i, f"u{i}", 0, t)
+        _chunk(con, 1, "seed", 0, "the reranker answers on port 9013")
+        audit = "show me what is listening right now: " + ", ".join(f"127.0.0.1:{p}" for p in range(9010, 9022))
+        _chunk(con, 2, "audit", 0, audit)
+        _chunk(con, 3, "move", 0, "moved the reranker from port 9013 to port 8206")
+        res = G.bridge_candidates(con, {"port:9013": 1.0}, {"seed"}, set())
+        self.assertEqual([r[0] for r in res][:2], [3, 2])
+        self.assertGreater(res[0][1], res[1][1])
+
+    def test_audit_seed_entities_are_weak(self):
+        con = _open_db()
+        G.init(con)
+        audit = "listening: " + ", ".join(f"127.0.0.1:{p}" for p in range(9010, 9022))
+        _chunk(con, 1, "audit", 0, audit)
+        w = G.turn_entities(con, [(1, "audit", 0)])[1]
+        self.assertTrue(w)
+        self.assertTrue(all(v < 1.0 for k, v in w.items() if k.startswith("port:")))
+
+
 class ReviewRegressionTest(unittest.TestCase):
     def test_dotted_text_is_fast(self):
         import time

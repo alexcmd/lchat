@@ -328,6 +328,7 @@ for si, (en, alias, _) in enumerate(SERVICES):
                 "q": f"what port is the {en} on now?",
                 "lang": "en",
                 "type": "latest",
+                "phrasing": "direct",
                 "chat": cid,
                 "needle": f"port {p}",
                 "stale": [c for c, _ in hist[:-1]],
@@ -339,6 +340,7 @@ for si, (en, alias, _) in enumerate(SERVICES):
                 "q": f"where does the {alias} listen at the moment?",
                 "lang": "en",
                 "type": "latest",
+                "phrasing": "alias",   # the alias never occurs in the chats: a vocabulary gap
                 "chat": cid,
                 "needle": f"port {p}",
                 "stale": [c for c, _ in hist[:-1]],

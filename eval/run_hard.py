@@ -13,7 +13,7 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DS = json.load(open(os.path.join(HERE, "dataset_hard.json")))
-DB = os.path.join(HERE, "eval_hard.db")
+DB = os.environ.get("LCHAT_EVAL_DB") or os.path.join(HERE, "eval_hard.db")
 for f in (DB, DB + "-wal", DB + "-shm"):
     if os.path.exists(f):
         os.remove(f)
@@ -155,6 +155,8 @@ for name, fn in MODES.items():
             ]
             r["stale_above"] = bool(r["rank"] and stale and min(stale) < r["rank"])
             r["rank_recency"] = rank_of(latest_first(hits[:K]), q["chat"], q["needle"])
+            r["rank_linked"] = rank_of(hits, q["chat"], q["needle"])   # also counts graph rows after the K hits
+            r["phrasing"] = q.get("phrasing") or ("alias" if "listen at the moment" in q["q"] else "direct")
         rows.append(r)
     results[name] = rows
     print(f"mode {name} done", flush=True)
@@ -187,9 +189,15 @@ for name, rows in results.items():
     print(
         f"{'':24}   latest R@1 with newest-first re-sort: {lr[0]:.2f};  two-fact port-chat@6 {tf1:.2f}, model-chat@6 {tf2:.2f}"
     )
+    for ph in ("direct", "alias"):   # alias = the service is named by a word the chats never use
+        rs = [r for r in lst if r.get("phrasing") == ph]
+        if rs:
+            a, b = rr(rs)
+            lk = sum(bool(r.get("rank_linked")) for r in rs) / len(rs)
+            print(f"{'':24}   latest {ph}: R@1 {a:.2f} R@6 {b:.2f}, found incl. linked rows {lk:.2f} (n={len(rs)})")
     for lg in sorted({r["lang"] for r in rows}):
         rs = [r for r in rows if r["lang"] == lg and r["type"] in ("detail", "latest")]
         print(
             f"{'':24}   {lg}: detail+latest R@6 {sum(bool(r['rank']) for r in rs) / (len(rs) or 1):.2f} (n={len(rs)})"
         )
-json.dump(results, open(os.path.join(HERE, "results_hard.json"), "w"), indent=1)
+json.dump(results, open(os.environ.get("LCHAT_EVAL_OUT") or os.path.join(HERE, "results_hard.json"), "w"), indent=1)
