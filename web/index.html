@@ -561,12 +561,12 @@ async function go(){
   if(agent&&!smallTalk&&toolOn('linux_help')&&TOOLS.some(t=>t.name==='linux_help')){
     setState('working…');const ph=phase('looking up help cards');
     // pool 8: same top cards on the eval set, ~3x faster than the tool default; give up after 6 s (busy GPU)
-    const lk=new AbortController(),lkT=setTimeout(()=>lk.abort(),6000);ctrl.signal.addEventListener('abort',()=>lk.abort());
+    let cardsOff='';const lk=new AbortController(),lkT=setTimeout(()=>lk.abort(),6000);ctrl.signal.addEventListener('abort',()=>lk.abort());
     try{const r=await (await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json','X-LChat-Token':TOKEN},
-      body:JSON.stringify({name:'linux_help',args:{query:text.slice(0,500),k:2,min_score:0.5,pool:8},session:CHAT_ID,chat:CHAT_ID}),signal:lk.signal})).json();
-      if(r&&r.text&&!r.error)helpCards=r.text;}catch(e){}finally{clearTimeout(lkT)}   // no cards: the turn goes on without them
+      body:JSON.stringify({name:'linux_help',args:{query:text.slice(0,500),k:'auto',min_score:'auto',pool:8},session:CHAT_ID,chat:CHAT_ID}),signal:lk.signal})).json();
+      if(r&&r.text&&!r.error)helpCards=r.text;else if(r&&r.off)cardsOff=r.off;}catch(e){}finally{clearTimeout(lkT)}   // no cards: the turn goes on without them
     const titles=[...helpCards.matchAll(/^## (.+?)  \[/gm)].map(m=>m[1]);
-    ph.end(titles.length?`help cards: ${titles.length} added: ${titles.join('; ')}`:(lk.signal.aborted&&!ctrl.signal.aborted?'help cards: lookup too slow, skipped':'help cards: none match'),titles.length?'ok':'skip');
+    ph.end(titles.length?`help cards: ${titles.length} added: ${titles.join('; ')}`:(lk.signal.aborted&&!ctrl.signal.aborted?'help cards: lookup too slow, skipped':cardsOff?'help cards: '+cardsOff:'help cards: none match'),titles.length?'ok':'skip');
   }
   try{
     for(;;){

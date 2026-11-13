@@ -19,7 +19,8 @@ It was built on a Steam Deck (SteamOS, KDE, Vulkan) around **LFM3-VL-2B** and ru
   - `recall`: search past chats
   - `linux_help`: verified step-by-step help cards for Linux and macOS tasks, error messages, pipelines and bash scripts (the cards for the system lchat runs on are searched by default)
   - `schedule_task`, `list_tasks`, `manage_task`: scheduled tasks (see below)
-- **Memory**: chat history in SQLite, searched with EmbeddingGemma-2 embeddings and reranked by Qwen3-Reranker-0.6B.
+- **Memory**: chat history in SQLite, searched with EmbeddingGemma-2 embeddings and reranked by Qwen3-Reranker-0.6B. An entity graph (`bin/lchat_graph.py`) links chats that share a rare concrete entity (port, IP, host, path, file, systemd unit, versioned name such as a model build), found by rules, with no model calls. `recall` adds up to 2 rows from linked chats after its normal hits, marked `[linked: shares port 9952 …]`, so one search can answer a question that spans two chats.
+- **Per-model retrieval settings**: how many help cards are added before a turn, and how well they must match, depend on the chat model (small models are easily misled by extra context). Defaults are in `MODEL_PROFILES` in `bin/lchat-web`. Override them in `~/.config/lchat/models.json`, a JSON list such as `[{"match": "lfm3", "auto_cards": true, "cards_k": 1, "cards_min_score": 0.6}]`. `match` is a case-insensitive regex on the model id the chat server reports, and the first match wins.
 - **Help cards**: 1,685 cards in `cards/` (1,625 from the [`alexcmd/lnxhelp-cards`](https://huggingface.co/datasets/alexcmd/lnxhelp-cards) dataset, 60 complex-scenario cards), indexed with the same embedding and reranker models. See `cards/README.md`.
 
 ## Install
@@ -104,7 +105,7 @@ To reproduce, start the stack first, then:
 
 The live setup takes the top 10 embedding hits and reranks them. On the hard set it finds the right chat in the top 6 for every detail, history and current-value question. The current value comes first 65% of the time, at about 2 s per search.
 
-Questions that need facts from two different chats are not solved: a single search almost never returns both. The model has to call `recall` twice.
+Questions that need facts from two different chats (`two-fact`) need the entity graph. Without it, one search returns both chats for 10 of 32 questions. With it, 19 of 32 (port links: 0 → 7 of 20). The graph adds about 1.1 s per search and does not change the single-chat numbers. `LCHAT_EVAL_MODES="p10 (no graph),p10 + graph" python3 eval/run_hard.py` runs just that comparison.
 
 ## Requirements
 

@@ -85,12 +85,55 @@ ap.add_argument("--max-tokens", type=int, default=3072, help="per model call (a 
 ap.add_argument("--only", default="", help="comma-separated scenario numbers (1-based)")
 ap.add_argument("--show", action="store_true", help="print the full final answers")
 ap.add_argument("--no-think", action="store_true")
-ap.add_argument("--out", default="eval/out", help="results as <out>/chat_cards-<mode>.jsonl (for a judge)")
+ap.add_argument("--out", default="eval/out", help="results as <out>/chat_cards-<tag><mode>.jsonl (judge: eval/judge_cards.py)")
+ap.add_argument("--llm", default="", help="OpenAI-compatible base URL of the chat model (default: lchat-web's own chat proxy)")
+ap.add_argument("--model", default="", help="model id sent to --llm (and recorded in the results)")
+ap.add_argument("--api-key-env", default="", help="env var holding the API key for --llm (cloud APIs: also switches to "
+                "max_completion_tokens and drops llama.cpp-only fields)")
+ap.add_argument("--reasoning-effort", default="", help="cloud reasoning models: low|medium|high")
+ap.add_argument("--min-score", type=float, default=0.5, help="auto-card injection threshold (the page uses 0.5)")
+ap.add_argument("--tag", default="", help="prefix for the output file, e.g. the model name")
 a = ap.parse_args()
 WEB = a.web.rstrip("/")
 HOST_TOOLS = {"linux_help", "recall", "web_search", "web_fetch", "download"}   # run for real via lchat-web
 SANDBOX_TOOLS = {"bash", "write_file", "read_file"}   # run inside bubblewrap on a throwaway fixture home
 HOME = os.path.expanduser("~")
+CLOUD = bool(a.api_key_env)
+TOOL_MARKUP = re.compile(r"<tool_call>.*?(</tool_call>|$)|<function=.*?(</function>|$)|<\|tool_call_start\|>.*?(<\|tool_call_end\|>|$)", re.S)
+
+
+def clean_answer(text):
+    """A final turn that is only tool-call markup (the model tried to call a tool as text) is not an answer."""
+    return TOOL_MARKUP.sub("", text or "").strip()
+
+
+def chat(req):
+    """One chat completion: through lchat-web's proxy, or straight to --llm (local server or cloud API)."""
+    req = dict(req)
+    if a.model:
+        req["model"] = a.model
+    if CLOUD:
+        req.pop("chat_template_kwargs", None)
+        req["max_completion_tokens"] = req.pop("max_tokens")
+        if a.reasoning_effort:
+            req["reasoning_effort"] = a.reasoning_effort
+        req["messages"] = [{k: v for k, v in m.items() if not (m["role"] == "tool" and k == "name")} for m in req["messages"]]
+        if "tools" not in req:
+            req.pop("tool_choice", None)
+    if not a.llm:
+        return call("/v1/chat/completions", req)
+    hdr = {"Content-Type": "application/json"}
+    if a.api_key_env:
+        hdr["Authorization"] = "Bearer " + os.environ[a.api_key_env]
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(a.llm.rstrip("/") + "/v1/chat/completions",
+                                                               json.dumps(req).encode(), hdr), timeout=900) as r:
+                return json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 502, 503, 504) or attempt == 3:
+                sys.exit(f"chat model error {e.code}: {e.read()[:500]!r}")
+            time.sleep(10 * (attempt + 1))
 
 
 def make_fixture():
@@ -193,11 +236,13 @@ def run(mode, tools):
     global SYSINFO
     global PKGGUIDE
     PKGGUIDE = tools.get("packages") or ""
+    if not cards:   # the package/help guide also points at linux_help ("3) the linux_help tool (...); 4) web_search")
+        PKGGUIDE = re.sub(r" \d\) the linux_help tool[^;]*;", "", PKGGUIDE)
     SYSINFO = tools.get("system") or "unknown"
     SYS = system_prompt(tools["cwd"], cards)
     assert cards or "linux_help" not in SYS
     os.makedirs(a.out, exist_ok=True)
-    out = open(os.path.join(a.out, f"chat_cards-{mode}.jsonl"), "w", encoding="utf-8")
+    out = open(os.path.join(a.out, f"chat_cards-{a.tag + '-' if a.tag else ''}{mode}.jsonl"), "w", encoding="utf-8")
     pick = {int(x) for x in a.only.split(",") if x}
     fails = hits = 0
     print(f"\n===== mode {mode}: {len(schemas)} tools =====")
@@ -210,7 +255,7 @@ def run(mode, tools):
         used, got_ids, bash_cmds, answer, t0 = [], [], [], "", time.time()
         sys_turn = SYS
         if cards:   # the page's auto-retrieval: best 2 cards above 0.5 go into this turn's system prompt
-            r = call("/api/tool", {"name": "linux_help", "args": {"query": q[:500], "k": 2, "min_score": 0.5},
+            r = call("/api/tool", {"name": "linux_help", "args": {"query": q[:500], "k": 2, "min_score": a.min_score},
                                    "session": "eval-cards"})
             if r.get("text"):
                 got_ids += re.findall(r", id ([a-z0-9-]+)[,\]]", r["text"])
@@ -220,13 +265,13 @@ def run(mode, tools):
         for _step in range(a.max_steps):
             req = {"messages": [{"role": "system", "content": sys_turn}] + H, "tools": schemas, "stream": False,
                    "max_tokens": a.max_tokens, "chat_template_kwargs": {"enable_thinking": not a.no_think}}
-            m = call("/v1/chat/completions", req)["choices"][0]["message"]
+            m = chat(req)["choices"][0]["message"]
             am = {"role": "assistant", "content": m.get("content") or ""}
             if m.get("tool_calls"):
                 am["tool_calls"] = m["tool_calls"]
             H.append(am)
             if not m.get("tool_calls"):
-                answer = m.get("content") or ""
+                answer = clean_answer(m.get("content"))
                 break
             for c in m["tool_calls"]:
                 name = c["function"]["name"]
@@ -265,9 +310,9 @@ def run(mode, tools):
                 break
         if not answer:   # step limit or repeat stop: one last turn without tools, so there is an answer to judge
             H.append({"role": "user", "content": "Stop calling tools now and give your final answer."})
-            req = {"messages": [{"role": "system", "content": sys_turn}] + H, "stream": False,
-                   "max_tokens": a.max_tokens, "chat_template_kwargs": {"enable_thinking": not a.no_think}}
-            answer = call("/v1/chat/completions", req)["choices"][0]["message"].get("content") or ""
+            req = {"messages": [{"role": "system", "content": sys_turn}] + H, "tools": schemas, "tool_choice": "none",
+                   "stream": False, "max_tokens": a.max_tokens, "chat_template_kwargs": {"enable_thinking": not a.no_think}}
+            answer = clean_answer(chat(req)["choices"][0]["message"].get("content"))
         hit = not want or any(w in got_ids for w in want)
         ok = bool(answer) and (("linux_help" in used or "auto-cards" in used or not want) if cards else True)
         hits += hit
@@ -276,7 +321,8 @@ def run(mode, tools):
         import shutil
         tree = sandbox(fix, "find . -type f | sort | head -60")
         shutil.rmtree(fix, ignore_errors=True)
-        out.write(json.dumps({"n": n, "mode": mode, "question": q, "tools": used, "cards": list(dict.fromkeys(got_ids)),
+        out.write(json.dumps({"n": n, "mode": mode, "model": a.model or "lchat-web proxy", "min_score": a.min_score if cards else None,
+                              "question": q, "tools": used, "cards": list(dict.fromkeys(got_ids)),
                               "expected": want, "hit": hit, "bash": bash_cmds, "files_after": tree, "answer": answer, "seconds": round(secs)},
                              ensure_ascii=False) + "\n")
         out.flush()

@@ -13,14 +13,14 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DS = json.load(open(os.path.join(HERE, "dataset_hard.json")))
-DB = os.path.join(HERE, "eval_hard.db")
+DB = os.environ.get("LCHAT_EVAL_DB") or os.path.join(HERE, "eval_hard.db")
 for f in (DB, DB + "-wal", DB + "-shm"):
     if os.path.exists(f):
         os.remove(f)
 
 src = open(os.path.join(HERE, "..", "bin", "lchat-web")).read()
 sys.argv = ["lchat-web"]
-ns = {"__name__": "lchat_eval", "__file__": "lchat-web"}
+ns = {"__name__": "lchat_eval", "__file__": os.path.join(HERE, "..", "bin", "lchat-web")}
 exec(compile(src, "lchat-web", "exec"), ns)
 ns["DB_PATH"] = DB
 ns["db_init"]()
@@ -114,8 +114,9 @@ def latest_first(hits):
 K = 6
 MODES = {
     "embed": lambda q: [ALL[i] for i in dense(q, K)],
-    "embed+rerank p10 (live)": lambda q: ns["recall_search"](q, K, pool=10)[0],
-    "embed+rerank p40": lambda q: ns["recall_search"](q, K, pool=40)[0],
+    "embed+rerank p10 (no graph)": lambda q: ns["recall_search"](q, K, pool=10, bridge=False)[0],
+    "embed+rerank p10 + graph (live)": lambda q: ns["recall_search"](q, K, pool=10)[0],
+    "embed+rerank p40": lambda q: ns["recall_search"](q, K, pool=40, bridge=False)[0],
     "hybrid+rerank p10": lambda q: hybrid(q, K, 10),
     "hybrid+rerank p20": lambda q: hybrid(q, K, 20),
 }
@@ -129,6 +130,9 @@ def rank_of(hits, chat, needle):
 
 
 results = {}
+_only = os.environ.get("LCHAT_EVAL_MODES")   # comma-separated substrings of mode names, e.g. "p10"
+if _only:
+    MODES = {n: f for n, f in MODES.items() if any(x.strip() in n for x in _only.split(","))}
 for name, fn in MODES.items():
     rows = []
     for q in DS["queries"]:
@@ -138,7 +142,8 @@ for name, fn in MODES.items():
             "type": q["type"],
             "lang": q["lang"],
             "secs": time.time() - t,
-            "rank": rank_of(hits, q["chat"], q["needle"]),
+            # single-chat questions: only the K plain hits count (linked rows come after them)
+            "rank": rank_of(hits if q["type"] == "two-fact" else hits[:K], q["chat"], q["needle"]),
         }
         if q["type"] == "two-fact":
             r["rank2"] = rank_of(hits, q["chat2"], q["needle2"])
@@ -149,13 +154,15 @@ for name, fn in MODES.items():
                 if h[1] in {cid(s) for s in q["stale"]}
             ]
             r["stale_above"] = bool(r["rank"] and stale and min(stale) < r["rank"])
-            r["rank_recency"] = rank_of(latest_first(hits), q["chat"], q["needle"])
+            r["rank_recency"] = rank_of(latest_first(hits[:K]), q["chat"], q["needle"])
+            r["rank_linked"] = rank_of(hits, q["chat"], q["needle"])   # also counts graph rows after the K hits
+            r["phrasing"] = q.get("phrasing") or ("alias" if "listen at the moment" in q["q"] else "direct")
         rows.append(r)
     results[name] = rows
     print(f"mode {name} done", flush=True)
 
 print(
-    f"\n{'mode':24} | detail R@1 R@6 | history R@1 R@6 | latest R@1 R@6 stale>new | two-fact both@6 | ms"
+    f"\n{'mode':24} | detail R@1 R@6 | history R@1 R@6 | latest R@1 R@6 stale>new | two-fact both@6(+2 linked) | ms"
 )
 for name, rows in results.items():
 
@@ -182,9 +189,15 @@ for name, rows in results.items():
     print(
         f"{'':24}   latest R@1 with newest-first re-sort: {lr[0]:.2f};  two-fact port-chat@6 {tf1:.2f}, model-chat@6 {tf2:.2f}"
     )
+    for ph in ("direct", "alias"):   # alias = the service is named by a word the chats never use
+        rs = [r for r in lst if r.get("phrasing") == ph]
+        if rs:
+            a, b = rr(rs)
+            lk = sum(bool(r.get("rank_linked")) for r in rs) / len(rs)
+            print(f"{'':24}   latest {ph}: R@1 {a:.2f} R@6 {b:.2f}, found incl. linked rows {lk:.2f} (n={len(rs)})")
     for lg in sorted({r["lang"] for r in rows}):
         rs = [r for r in rows if r["lang"] == lg and r["type"] in ("detail", "latest")]
         print(
             f"{'':24}   {lg}: detail+latest R@6 {sum(bool(r['rank']) for r in rs) / (len(rs) or 1):.2f} (n={len(rs)})"
         )
-json.dump(results, open(os.path.join(HERE, "results_hard.json"), "w"), indent=1)
+json.dump(results, open(os.environ.get("LCHAT_EVAL_OUT") or os.path.join(HERE, "results_hard.json"), "w"), indent=1)

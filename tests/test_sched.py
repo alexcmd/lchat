@@ -584,7 +584,7 @@ class Loop(Base):
         self.fire(t)
         self.assertIn("CARD for fix apt", self.llm.calls[0]["messages"][0]["content"])
         args = [a for n, a in self.tools.calls if n == "linux_help"][0]
-        self.assertEqual((args["k"], args["min_score"]), (2, 0.5))
+        self.assertEqual((args["k"], args["min_score"]), ("auto", "auto"))   # resolved per chat model by lchat-web
 
     def test_ask_run_uses_task_access_and_notes_denied(self):
         t = self.task(access="web")

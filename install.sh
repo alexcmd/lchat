@@ -212,8 +212,8 @@ copy_scripts() {
     if [ "$LINK" = 1 ]; then ln -sfn "$REPO/bin/$f" "$BIN/$f"; else install -m 755 "$REPO/bin/$f" "$BIN/$f"; fi
     echo "$f"
   done
-  # modules lchat-web imports from its own folder (scheduler, issue watcher)
-  for f in lchat_sched.py lchat_watch.py; do
+  # modules lchat-web imports from its own folder (scheduler, issue watcher, recall entity graph)
+  for f in lchat_sched.py lchat_watch.py lchat_graph.py; do
     if [ "$LINK" = 1 ]; then ln -sfn "$REPO/bin/$f" "$BIN/$f"; else install -m 644 "$REPO/bin/$f" "$BIN/$f"; fi
     echo "$f"
   done

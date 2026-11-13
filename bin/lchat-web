@@ -1307,6 +1307,24 @@ EMBED_WAKE = threading.Event()
 CHUNK, OVERLAP, MAX_CHUNKS = 1200, 200, 20
 
 
+def _load_graph():
+    """bin/lchat_graph.py: entity links between chats for multi-hop recall. Optional: recall works without it."""
+    import sys
+    sys.path.insert(0, _HERE)
+    try:
+        import lchat_graph
+        return lchat_graph
+    except ImportError as e:
+        print(f"recall: entity graph off ({e})")
+        return None
+
+
+GRAPH = _load_graph()
+BRIDGE_SEEDS = 3     # entities of the top-N hits seed the graph expansion
+BRIDGE_SLOTS = 2     # up to this many linked-chat rows are added after the k plain hits
+BRIDGE_MIN = 0.02    # a linked chunk with a rerank score below this is dropped (clearly off-topic)
+
+
 def db():
     con = sqlite3.connect(DB_PATH, timeout=10, check_same_thread=False)
     con.execute("PRAGMA journal_mode=WAL")
@@ -1325,6 +1343,11 @@ def db_init():
         CREATE INDEX IF NOT EXISTS chunks_chat ON chunks(chat_id, seq);
         CREATE INDEX IF NOT EXISTS chunks_pending ON chunks(id) WHERE vec IS NULL;
         """)
+        if GRAPH:
+            n = GRAPH.init(c)
+            if n:
+                print(f"recall: entity graph: {n} chunks queued for indexing (background)")
+                EMBED_WAKE.set()
     os.chmod(DB_PATH, 0o600)
 
 
@@ -1376,14 +1399,16 @@ def history_save(chat, messages):
                 break
             same = seq + 1
         c.execute("DELETE FROM messages WHERE chat_id=? AND seq>=?", (cid, same))
-        c.execute("DELETE FROM chunks WHERE chat_id=? AND seq>=?", (cid, same))
+        c.execute("DELETE FROM chunks WHERE chat_id=? AND seq>=?", (cid, same))   # triggers drop their entities
         for seq in range(same, len(msgs)):
             m = msgs[seq]
             c.execute("INSERT INTO messages VALUES(?,?,?,?)",
                       (cid, seq, m.get("role"), json.dumps(m, ensure_ascii=False)))
             for ch in _chunks(_msg_text(m)):
-                c.execute("INSERT INTO chunks(chat_id,seq,role,text) VALUES(?,?,?,?)",
-                          (cid, seq, m.get("role"), ch))
+                cur = c.execute("INSERT INTO chunks(chat_id,seq,role,text) VALUES(?,?,?,?)",
+                                (cid, seq, m.get("role"), ch))
+                if GRAPH:
+                    GRAPH.add_chunk(c, cur.lastrowid, cid, ch)
     EMBED_WAKE.set()
     return {"ok": True, "saved": len(msgs), "new": len(msgs) - same}
 
@@ -1404,6 +1429,14 @@ def embed_worker():
     while True:
         EMBED_WAKE.wait(30)
         EMBED_WAKE.clear()
+        while GRAPH:   # entity graph: chunks queued by a rules change or written by an older lchat-web
+            try:
+                with DB_LOCK, db() as c:
+                    if not GRAPH.process_pending(c):
+                        break
+            except Exception as e:
+                print(f"recall: entity graph indexing failed: {e}")
+                break
         while True:
             with DB_LOCK, db() as c:
                 rows = c.execute("SELECT k.id, k.text, k.role, IFNULL(ch.title,'none') FROM chunks k "
@@ -1419,7 +1452,7 @@ def embed_worker():
                               [(v.tobytes(), rid) for v, (rid, *_rest) in zip(vecs, rows)])
 
 
-def recall_search(query, k=6, chat=None, pool=10):
+def recall_search(query, k=6, chat=None, pool=10, bridge=True):
     """Ranked chunks for a query: (rows, scores, how). Embeddings pick `pool` candidates,
     the reranker orders them; each falls back (keywords / embedding order) when its server is down."""
     with DB_LOCK, db() as c:
@@ -1447,9 +1480,63 @@ def recall_search(query, k=6, chat=None, pool=10):
         d = _post(a.rerank.rstrip("/") + "/v1/rerank", {"query": query, "documents": [r[4] for r in cand]})
         ranked = sorted(d["results"], key=lambda x: -x["relevance_score"])
         how += " + rerank"
-        return [cand[x["index"]] for x in ranked[:k]], [x["relevance_score"] for x in ranked[:k]], how
+        hits, scores = [cand[x["index"]] for x in ranked[:k]], [x["relevance_score"] for x in ranked[:k]]
     except Exception:
-        return cand[:k], [None] * min(k, len(cand)), how
+        hits, scores = cand[:k], [None] * min(k, len(cand))
+    if bridge and GRAPH:
+        hits, scores, how = _bridge(query, hits, scores, k, chat, how)
+    return hits, scores, how
+
+
+def _bridge(query, hits, scores, k, chat, how):
+    """Multi-hop: add chunks from OTHER chats that share a rare entity (port, IP, path, model name...) with the
+    top hits or the query. They take at most BRIDGE_SLOTS of the k places; such rows get a 9th field, the
+    shared entities ('via'). Up to BRIDGE_SLOTS such rows come AFTER the k plain hits (so a recall returns at most
+    k + BRIDGE_SLOTS rows). Failures leave the plain result unchanged."""
+    slots = BRIDGE_SLOTS
+    if not hits:
+        return hits, scores, how
+    try:
+        seeds = hits[:BRIDGE_SEEDS]
+        with DB_LOCK, db() as c:
+            se = GRAPH.turn_entities(c, [(h[0], h[1], h[2]) for h in seeds])
+            w = {}
+            for rank, h in enumerate(seeds):
+                for e, we in se.get(h[0], {}).items():
+                    w[e] = max(w.get(e, 0.0), we / (1 + rank))
+            for e in GRAPH.entities(query[:500]):
+                w[e] = 1.0
+            cands = GRAPH.bridge_candidates(c, w, {h[1] for h in hits} | {chat}, {h[0] for h in hits}, limit=6)
+            if not cands:
+                return hits, scores, how
+            via = {cid: ents for cid, _s, ents in cands}
+            q = ",".join("?" * len(via))
+            rows = {r[0]: r for r in c.execute(
+                "SELECT k.id, k.chat_id, k.seq, k.role, k.text, k.vec, ch.title, ch.updated "
+                f"FROM chunks k JOIN chats ch ON ch.id=k.chat_id WHERE k.id IN ({q})", list(via))}
+        brows = [rows[cid] for cid, _s, _e in cands if cid in rows]
+        try:
+            if "rerank" not in how:
+                raise RuntimeError("reranker down")
+            d = _post(a.rerank.rstrip("/") + "/v1/rerank", {"query": query, "documents": [r[4] for r in brows]})
+            ranked = [(brows[x["index"]], x["relevance_score"]) for x in
+                      sorted(d["results"], key=lambda x: -x["relevance_score"]) if x["relevance_score"] >= BRIDGE_MIN]
+        except Exception:
+            ranked = [(r, None) for r in brows]   # reranker down: graph order
+        picked, chats = [], set()
+        for r, sc in ranked:
+            if r[1] not in chats:                 # one chunk per linked chat
+                picked.append((r + (via[r[0]],), sc))
+                chats.add(r[1])
+            if len(picked) >= slots:
+                break
+        if not picked:
+            return hits, scores, how
+        # appended after the k plain hits, never instead of them: single-chat recall cannot get worse
+        return hits + [r for r, _ in picked], scores + [s for _, s in picked], how + " + graph"
+    except Exception as e:
+        print(f"recall: graph expansion failed: {type(e).__name__}: {e}")
+        return hits, scores, how
 
 
 def t_recall(query, k=6, *, sess, alive, chat=None):
@@ -1460,10 +1547,13 @@ def t_recall(query, k=6, *, sess, alive, chat=None):
     if not hits:
         return {"text": f"nothing in past conversations matches {query!r}"}
     out = []
-    for (_id, cid, seq, role, text, _v, title, upd), sc in zip(hits, scores):
+    for row, sc in zip(hits, scores):
+        _id, cid, seq, role, text, _v, title, upd = row[:8]
         sc = f" score {sc:.2f}" if sc is not None else ""
+        via = (f" [linked: shares {', '.join(GRAPH.label(e) for e in row[8][:3])} with a match above]"
+               if len(row) > 8 and GRAPH else "")
         out.append(f"- chat \"{title}\" ({time.strftime('%Y-%m-%d %H:%M', time.localtime(upd))}), "
-                   f"message {seq} ({role}){sc}:\n  " + text[:700].replace("\n", "\n  "))
+                   f"message {seq} ({role}){sc}{via}:\n  " + text[:700].replace("\n", "\n  "))
     return {"text": f"{len(out)} matches from past conversations via {how}:\n" + "\n".join(out)}
 
 
@@ -1486,7 +1576,7 @@ def history_get(cid):
 
 def history_delete(cid):
     with DB_LOCK, db() as c:
-        for t in ("chunks", "messages"):
+        for t in ("chunks", "messages") + (("ents",) if GRAPH else ()):
             c.execute(f"DELETE FROM {t} WHERE chat_id=?", (cid,))
         c.execute("DELETE FROM chats WHERE id=?", (cid,))
     return {"ok": True}
@@ -1534,11 +1624,73 @@ def cards_worker():
 
 AUTO_MIN_SCORE = 0.5   # auto-retrieval (the page, before each user turn) injects cards only above this
 
+# Per-model retrieval settings. Small models often ignore or are misled by injected context, so how many help cards
+# the page adds before a turn (and how sure the match must be) depends on the chat model. The first entry whose
+# "match" (case-insensitive regex) hits the served model id wins; the last entry is the default.
+# Users override or add entries in ~/.config/lchat/models.json (same shape, a JSON list, checked first).
+MODEL_PROFILES = [
+    {"match": ".*", "auto_cards": True, "cards_k": 2, "cards_min_score": AUTO_MIN_SCORE},
+]
+_MODEL_ID = {"id": None, "t": 0.0}
+
+
+def chat_model_id():
+    """The id the chat server reports (/v1/models), cached for 2 minutes; None when it is unreachable."""
+    if time.time() - _MODEL_ID["t"] < 120:
+        return _MODEL_ID["id"]
+    try:
+        with urllib.request.urlopen(a.llama.rstrip("/") + "/v1/models", timeout=3) as r:
+            data = json.loads(r.read()).get("data") or []
+        _MODEL_ID["id"] = (data[0].get("id") if data else None)
+        _MODEL_ID["t"] = time.time()
+    except Exception:
+        _MODEL_ID["id"] = None
+        _MODEL_ID["t"] = time.time() - 110   # unreachable (restart, model switch): ask again in 10 s
+    return _MODEL_ID["id"]
+
+
+def model_profile(model_id=None):
+    model_id = model_id if model_id is not None else (chat_model_id() or "")
+    user = []
+    try:
+        with open(os.path.join(os.environ.get("XDG_CONFIG_HOME") or os.path.expanduser("~/.config"),
+                               "lchat", "models.json")) as f:
+            raw = json.load(f)
+        if not isinstance(raw, list):
+            raise ValueError("expected a JSON list of profiles")
+        for p in raw:
+            bad = [k for k, ok in (("match", lambda v: isinstance(v, str)),
+                                   ("auto_cards", lambda v: isinstance(v, bool)),
+                                   ("cards_k", lambda v: isinstance(v, int) and not isinstance(v, bool) and 1 <= v <= 6),
+                                   ("cards_min_score", lambda v: isinstance(v, (int, float)) and not isinstance(v, bool)))
+                   if k in p and not ok(p[k])] if isinstance(p, dict) else ["entry"]
+            if bad or not isinstance(p, dict) or "match" not in p:
+                print(f"models.json: skipped profile {p!r}: bad or missing {', '.join(bad) or 'match'}")
+                continue
+            user.append(p)
+    except FileNotFoundError:
+        pass
+    except Exception as e:
+        print(f"models.json ignored: {e}")
+    for p in user + MODEL_PROFILES:
+        try:
+            if re.search(p["match"], model_id, re.I):
+                return {**MODEL_PROFILES[-1], **p, "model": model_id}
+        except re.error:
+            continue
+    return {**MODEL_PROFILES[-1], "model": model_id}
+
 
 def t_linux_help(query, k=3, platform=None, min_score=None, pool=12, *, sess, alive):
     """min_score (used by the page's auto-retrieval): return nothing unless the best card's rerank score reaches it."""
     if CARDS is None:
         return {"text": "error: lchat-cards is not installed (run install.sh)", "error": True}
+    if min_score == "auto" or k == "auto":   # auto-retrieval before a turn: settings of the current chat model
+        prof = model_profile()
+        if not prof.get("auto_cards", True):
+            return {"text": "", "cards": 0, "off": f"auto cards are off for {prof['model'] or 'this model'}"}
+        k = prof["cards_k"] if k == "auto" else k
+        min_score = prof["cards_min_score"] if min_score == "auto" else min_score
     k = max(1, min(int(k or 3), 6))
     pool = max(k, min(int(pool or 12), 24))   # rerank cost grows with the pool (~0.3 s per card under load)
     hits, scores, how = CARDS.search(query, k, platform, pool=pool, embed_url=a.embed, rerank_url=a.rerank)
